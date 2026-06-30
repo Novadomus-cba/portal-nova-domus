@@ -559,6 +559,26 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
+<!-- Modal Estado de Obra -->
+<div class="mbg" id="mEstado">
+  <div class="modal" style="width:420px">
+    <div class="mhdr"><h3 id="mEstadoT">Cambiar estado</h3><button class="cx" onclick="closeM('mEstado')">✕</button></div>
+    <div class="mbody">
+      <p id="mEstadoMsg" style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:14px"></p>
+      <div id="mEstadoFechaWrap" style="display:none">
+        <div class="fg">
+          <label>Fecha de finalización real</label>
+          <input type="date" id="mEstadoFecha">
+        </div>
+      </div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mEstado')">Cancelar</button>
+      <button class="btn btn-p" id="mEstadoConfirm" onclick="confirmarCambioEstado()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
 <!-- DOCUMENTOS OFFSCREEN -->
 <div class="dw"><div id="DC"></div><div id="DR"></div></div>
 <div id="toast"></div>
@@ -847,6 +867,21 @@ async function renderObraDetalle(id){
   const totalFact=recs.reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
   const totalCob=recs.filter(r=>r.estado==='PAGADO').reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
 
+  const TRANSITIONS={EN_CURSO:['PAUSADA','FINALIZADA','CANCELADA'],PAUSADA:['EN_CURSO','CANCELADA'],FINALIZADA:[],CANCELADA:[]};
+  const BTN_CFG={
+    PAUSADA:   {label:'Pausar obra',   cls:'btn-warn',sty:''},
+    FINALIZADA:{label:'Finalizar obra',cls:'btn-g',   sty:'color:var(--info);border-color:var(--info)'},
+    CANCELADA: {label:'Cancelar obra', cls:'btn-d',   sty:''},
+    EN_CURSO:  {label:'Reanudar obra', cls:'btn-ok',  sty:''},
+  };
+  const transButtons=(TRANSITIONS[obra.estado]||[]).map(t=>{
+    const c=BTN_CFG[t];
+    return `<button class="btn ${c.cls} btn-sm" style="${c.sty}" onclick="openCambioEstado('${id}','${t}')">${c.label}</button>`;
+  }).join('');
+  const btnWrapper=transButtons
+    ?`<div style="display:flex;gap:7px;flex-wrap:wrap;margin-left:auto">${transButtons}</div>`:'';
+  const fechaFinInfo=obra.estado==='FINALIZADA'&&obra.fecha_fin_real
+    ?`<span style="font-size:11px;color:var(--text2);margin-left:8px">· Finalizada el ${fd(obra.fecha_fin_real)}</span>`:'';
   const el=document.getElementById('obraDetalle');
   el.innerHTML=`
     <div class="sh">
@@ -859,6 +894,16 @@ async function renderObraDetalle(id){
       <div style="display:flex;gap:7px">
         <button class="btn btn-g btn-sm" onclick="openMObra('${id}')">✏ Editar</button>
         <button class="btn btn-d btn-sm" onclick="delObra('${id}')">🗑</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;padding:12px 14px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Estado:</span>
+          ${eBadge(obra.estado)}${fechaFinInfo}
+        </div>
+        ${btnWrapper}
       </div>
     </div>
 
@@ -1817,6 +1862,69 @@ function toast(msg,type='ok'){
   const t=document.getElementById('toast');
   t.textContent=msg;t.className=`show ${type}`;
   setTimeout(()=>t.className='',3500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  OBRA STATE MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+let pendingEstado=null;
+
+const ESTADO_MSGS={
+  PAUSADA:    n=>`¿Pausar la obra <b>${n}</b>? Las jornadas y certificados seguirán accesibles pero la obra no aparecerá en el panel de rentabilidad.`,
+  FINALIZADA: n=>`¿Marcar la obra <b>${n}</b> como finalizada? Ingresá la fecha de finalización real:`,
+  CANCELADA:  n=>`¿Cancelar la obra <b>${n}</b>? Esta acción es irreversible.`,
+  EN_CURSO:   n=>`¿Reanudar la obra <b>${n}</b>?`,
+};
+const ESTADO_MODAL_TITLES={
+  PAUSADA:'Pausar obra',FINALIZADA:'Finalizar obra',CANCELADA:'Cancelar obra',EN_CURSO:'Reanudar obra',
+};
+const ESTADO_CONFIRM_CLS={
+  PAUSADA:'btn btn-warn',FINALIZADA:'btn btn-g',CANCELADA:'btn btn-d',EN_CURSO:'btn btn-ok',
+};
+const ESTADO_CONFIRM_STY={
+  FINALIZADA:'color:var(--info);border-color:var(--info)',
+};
+
+function openCambioEstado(obraId,newEstado){
+  const obra=cache.obras().find(o=>o.id===obraId);
+  if(!obra)return;
+  pendingEstado={obraId,newEstado};
+  document.getElementById('mEstadoT').textContent=ESTADO_MODAL_TITLES[newEstado]||'Cambiar estado';
+  document.getElementById('mEstadoMsg').innerHTML=ESTADO_MSGS[newEstado]?.(obra.nombre)||'';
+  const showFecha=newEstado==='FINALIZADA';
+  document.getElementById('mEstadoFechaWrap').style.display=showFecha?'block':'none';
+  if(showFecha)document.getElementById('mEstadoFecha').value=new Date().toISOString().slice(0,10);
+  const btn=document.getElementById('mEstadoConfirm');
+  btn.className=ESTADO_CONFIRM_CLS[newEstado]||'btn btn-p';
+  btn.style.cssText=ESTADO_CONFIRM_STY[newEstado]||'';
+  btn.disabled=false;btn.textContent='Confirmar';
+  openM('mEstado');
+}
+
+async function confirmarCambioEstado(){
+  if(!pendingEstado)return;
+  const{obraId,newEstado}=pendingEstado;
+  const payload={estado:newEstado};
+  if(newEstado==='FINALIZADA'){
+    const fecha=document.getElementById('mEstadoFecha').value;
+    if(!fecha){toast('Ingresá la fecha de finalización','err');return;}
+    payload.fecha_fin_real=fecha;
+  }
+  if(newEstado==='EN_CURSO')payload.fecha_fin_real=null;
+  const btn=document.getElementById('mEstadoConfirm');
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div>';
+  try{
+    await sbPatch('obras',payload,`?id=eq.${obraId}`);
+    closeM('mEstado');
+    await loadObras();
+    await selObra(obraId);
+    toast('Estado actualizado','ok');
+  }catch(e){
+    toast('Error: '+e.message,'err');
+  }finally{
+    btn.disabled=false;btn.textContent='Confirmar';
+    pendingEstado=null;
+  }
 }
 </script>
 </body>
