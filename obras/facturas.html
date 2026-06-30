@@ -169,6 +169,8 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
             <option value="Factura A">Factura A</option>
             <option value="Factura B">Factura B</option>
             <option value="Ticket">Ticket</option>
+            <option value="Remito">Remito</option>
+            <option value="Otro">Otro</option>
           </select>
         </div>
         <div class="field">
@@ -252,6 +254,8 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
           <option value="Factura A">Factura A</option>
           <option value="Factura B">Factura B</option>
           <option value="Ticket">Ticket</option>
+          <option value="Remito">Remito</option>
+          <option value="Otro">Otro</option>
         </select>
       </div>
       <div class="field">
@@ -317,7 +321,7 @@ const authClient = createClient(AUTH_URL, AUTH_KEY);
 // ── STATE ─────────────────────────────────────────────────────
 let currentUser  = null;
 let selectedObra = null;
-let profiles     = [];
+let tecnicos     = [];
 let facturas     = [];
 let editingId    = null;
 let origenPago   = 'empresa';
@@ -325,14 +329,15 @@ let origenPagoE  = 'empresa';
 const pendingDel = new Set();
 
 // ── FETCH ─────────────────────────────────────────────────────
-async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '') {
+async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '', schema = '') {
+  const headers = {
+    'apikey': apiKey, 'Authorization': `Bearer ${apiKey}`,
+    'Content-Type': 'application/json',
+    'Prefer': method === 'POST' ? 'return=representation' : method === 'PATCH' ? 'return=minimal' : ''
+  };
+  if (schema) { headers['Accept-Profile'] = schema; headers['Content-Profile'] = schema; }
   const res = await fetch(`${baseUrl}/rest/v1/${table}${query}`, {
-    method,
-    headers: {
-      'apikey': apiKey, 'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'Prefer': method === 'POST' ? 'return=representation' : method === 'PATCH' ? 'return=minimal' : ''
-    },
+    method, headers,
     ...(body ? { body: JSON.stringify(body) } : {})
   });
   if (!res.ok) {
@@ -346,11 +351,13 @@ async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '')
   return JSON.parse(text);
 }
 
-const sbGet   = (t, q='') => apiFetch(SB_URL,   SB_KEY,   'GET',    t, null, q);
-const sbPost  = (t, b)    => apiFetch(SB_URL,   SB_KEY,   'POST',   t, b);
-const sbPatch = (t, b, q) => apiFetch(SB_URL,   SB_KEY,   'PATCH',  t, b,    q);
-const sbDel   = (t, q)    => apiFetch(SB_URL,   SB_KEY,   'DELETE', t, null, q);
-const authGet = (t, q='') => apiFetch(AUTH_URL, AUTH_KEY, 'GET',    t, null, q);
+const sbGet       = (t, q='') => apiFetch(SB_URL,   SB_KEY,   'GET',    t, null, q);
+const sbPost      = (t, b)    => apiFetch(SB_URL,   SB_KEY,   'POST',   t, b);
+const sbPatch     = (t, b, q) => apiFetch(SB_URL,   SB_KEY,   'PATCH',  t, b,    q);
+const sbDel       = (t, q)    => apiFetch(SB_URL,   SB_KEY,   'DELETE', t, null, q);
+const authGet     = (t, q='') => apiFetch(AUTH_URL, AUTH_KEY, 'GET',    t, null, q);
+const cuadrillGet = (t, q='') => apiFetch(SB_URL,   SB_KEY,   'GET',    t, null, q, 'cuadrilla');
+const cuadrillPost= (t, b)    => apiFetch(SB_URL,   SB_KEY,   'POST',   t, b,    '',  'cuadrilla');
 
 // ── FORMAT ─────────────────────────────────────────────────────
 const f$ = n => '$ ' + (n || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -377,7 +384,7 @@ window.onload = async () => {
   document.getElementById('userName').textContent = profile.full_name;
   document.getElementById('fFecha').value = new Date().toISOString().slice(0, 10);
 
-  await Promise.all([loadObras(), loadProfiles()]);
+  await Promise.all([loadObras(), loadTecnicos()]);
   await loadFacturas();
   document.getElementById('app-loading').style.display = 'none';
 };
@@ -394,13 +401,11 @@ async function loadObras() {
   }
 }
 
-async function loadProfiles() {
+async function loadTecnicos() {
   try {
-    const rows = await authGet('user_profiles', '?select=id,full_name,role&order=full_name');
-    profiles = rows;
-    const opts = profiles
-      .map(p => `<option value="${p.id}">${p.full_name} (${p.role})</option>`)
-      .join('');
+    const rows = await cuadrillGet('tecnicos', '?activo=eq.true&order=nombre');
+    tecnicos = rows;
+    const opts = tecnicos.map(t => `<option value="${t.id}">${t.nombre}</option>`).join('');
     ['fTecnico', 'eTecnico'].forEach(id => {
       document.getElementById(id).innerHTML =
         '<option value="">— seleccionar técnico —</option>' + opts;
@@ -479,6 +484,8 @@ async function submitFactura() {
   if (!conIva || conIva <= 0) { toast('Ingresá el monto con IVA', 'err'); return; }
   if (origenPago === 'tecnico' && !tecnicoId) { toast('Seleccioná el técnico', 'err'); return; }
 
+  const semanaId = await getSemanaId(fecha).catch(() => null);
+
   const payload = {
     obra_id:            obraId,
     proveedor,
@@ -491,6 +498,7 @@ async function submitFactura() {
     monto_con_iva:      conIva,
     origen_pago:        origenPago,
     tecnico_id:         tecnicoId,
+    semana_id:          semanaId,
     cargado_por:        currentUser.id,
   };
 
@@ -508,6 +516,27 @@ async function submitFactura() {
     btn.disabled = false;
     btn.textContent = 'Cargar factura';
   }
+}
+
+function getWeekBounds(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const dow = d.getDay(); // 0=Sun … 5=Fri … 6=Sat
+  const daysBack = (dow - 5 + 7) % 7;
+  const desde = new Date(d); desde.setDate(d.getDate() - daysBack);
+  const hasta = new Date(desde); hasta.setDate(desde.getDate() + 6);
+  return {
+    desde: desde.toISOString().slice(0, 10),
+    hasta: hasta.toISOString().slice(0, 10)
+  };
+}
+
+async function getSemanaId(fechaCompra) {
+  const rows = await cuadrillGet('semanas_liquidacion',
+    `?fecha_desde=lte.${fechaCompra}&fecha_hasta=gte.${fechaCompra}&limit=1`);
+  if (rows.length) return rows[0].id;
+  const { desde, hasta } = getWeekBounds(fechaCompra);
+  const created = await cuadrillPost('semanas_liquidacion', { fecha_desde: desde, fecha_hasta: hasta });
+  return created[0].id;
 }
 
 function resetForm() {
@@ -530,10 +559,13 @@ function renderList() {
   }
   const isAdmin = currentUser?.role === 'admin';
   el.innerHTML = facturas.map(f => {
-    const tecnico    = f.tecnico_id ? profiles.find(p => p.id === f.tecnico_id) : null;
+    const tecnico    = f.tecnico_id ? tecnicos.find(t => t.id === f.tecnico_id) : null;
     const pagoLabel  = f.origen_pago === 'tecnico'
-      ? `<span class="badge badge-tecnico">Técnico${tecnico ? ': ' + tecnico.full_name : ''}</span>`
+      ? `<span class="badge badge-tecnico">Técnico${tecnico ? ': ' + tecnico.nombre : ''}</span>`
       : '<span class="badge badge-empresa">Empresa</span>';
+    const importadaBadge = f.importada_en_recibo
+      ? '<span class="badge" style="background:#0d2a1a;color:#4ade80">Importada</span>'
+      : '<span class="badge" style="background:#1e1e0d;color:#a3a36b">Pendiente</span>';
     const obraBadge  = !selectedObra && f.obras?.nombre
       ? `<span>${f.obras.nombre}</span>` : '';
     const actions = isAdmin ? `
@@ -553,7 +585,7 @@ function renderList() {
         </div>
         <div class="fc-right">
           <div class="fc-monto">${f$(f.monto_con_iva)}</div>
-          <div style="margin-top:5px">${pagoLabel}</div>
+          <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${pagoLabel}${importadaBadge}</div>
         </div>
       </div>
       ${f.materiales ? `<div class="fc-desc">${f.materiales}</div>` : ''}
