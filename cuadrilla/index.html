@@ -802,7 +802,7 @@ async function cargarTecnicos() {
 
 async function cargarObras() {
   try {
-    const data = await supa('/rest/v1/obras?select=codigo_obra,nombre,estado&estado=in.(EN_CURSO,PAUSADA)&order=nombre');
+    const data = await supa('/rest/v1/obras?select=codigo_obra,nombre&estado=eq.EN_CURSO&order=nombre');
     OBRAS = (data || []).filter(o => o.codigo_obra);
 
     const filObra = document.getElementById('fil-obra');

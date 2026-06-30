@@ -1113,7 +1113,7 @@ async function guardarRubro(){
 let sItems=[],sFacts=[],sObra=null,sMatFacts=[];
 
 function populateSegObras(){
-  const obs=cache.obras();
+  const obs=cache.obras().filter(o=>o.estado==='EN_CURSO');
   const sel=document.getElementById('sObra');
   const prev=sel.value;
   sel.innerHTML='<option value="">— seleccionar —</option>';

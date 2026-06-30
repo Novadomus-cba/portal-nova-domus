@@ -391,8 +391,8 @@ window.onload = async () => {
 
 async function loadObras() {
   try {
-    const rows = await sbGet('obras', '?select=id,nombre,estado&order=nombre');
-    const visible = rows.filter(o => o.estado === 'EN_CURSO' || o.estado === 'PAUSADA');
+    const rows = await sbGet('obras', '?select=id,nombre&estado=eq.EN_CURSO&order=nombre');
+    const visible = rows;
     document.getElementById('fObra').innerHTML =
       '<option value="">— seleccionar obra —</option>' +
       visible.map(o => `<option value="${o.id}">${o.nombre}</option>`).join('');
@@ -403,7 +403,7 @@ async function loadObras() {
 
 async function loadTecnicos() {
   try {
-    const rows = await cuadrillGet('tecnicos', '?activo=eq.true&order=nombre');
+    const rows = await sbGet('cuadrilla_tecnicos', '?activo=eq.true&order=nombre');
     tecnicos = rows;
     const opts = tecnicos.map(t => `<option value="${t.id}">${t.nombre}</option>`).join('');
     ['fTecnico', 'eTecnico'].forEach(id => {
