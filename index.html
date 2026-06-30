@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Domus — Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0f12;
+      --surface:   #151821;
+      --surface2:  #1c1f2b;
+      --border:    #232733;
+      --text:      #e8eaf0;
+      --muted:     #6b7280;
+      --accent:    #c8a96e;
+      --accent-dim:#7a6340;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,169,110,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,15,18,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .logout-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .logout-btn:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    /* MAIN */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+      position: relative;
+    }
+
+    .greeting {
+      margin-bottom: 48px;
+    }
+
+    .greeting-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .greeting-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .greeting-title span {
+      color: var(--accent);
+    }
+
+    /* MODULE GRID */
+    .modules-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .module-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .module-card:hover {
+      border-color: var(--accent-dim);
+      background: var(--surface2);
+      transform: translateY(-2px);
+    }
+
+    .module-card:hover::after {
+      opacity: 1;
+    }
+
+    .module-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .module-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .module-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .module-arrow {
+      position: absolute;
+      top: 24px;
+      right: 20px;
+      color: var(--accent-dim);
+      font-size: 18px;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .module-card:hover .module-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* LOADING */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* NO ACCESS */
+    .no-access {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading">Verificando acceso…</div>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-icon">⌂</div>
+    <div class="logo-text">Nova Domus</div>
+  </div>
+  <div class="header-right">
+    <div class="user-info">
+      <div class="user-name" id="headerName">—</div>
+      <div class="user-role" id="headerRole">—</div>
+    </div>
+    <button class="logout-btn" onclick="handleLogout()">Salir</button>
+  </div>
+</header>
+
+<main id="mainContent" style="display:none;">
+  <div class="greeting">
+    <div class="greeting-label">Portal de gestión</div>
+    <div class="greeting-title">Buen día, <span id="greetingName">—</span></div>
+  </div>
+
+  <div class="modules-label">Módulos disponibles</div>
+  <div class="modules-grid" id="modulesGrid"></div>
+
+  <div class="no-access" id="noAccess">
+    No tenés módulos asignados. Contactá a Agustín.
+  </div>
+</main>
+
+<script>
+  const SUPABASE_URL     = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+
+  const { createClient } = supabase;
+  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Definición de módulos: qué roles tienen acceso a cada uno
+  const ALL_MODULES = [
+    {
+      id: 'cuadrilla',
+      name: 'Cuadrilla',
+      icon: '👷',
+      desc: 'Registro de jornales, asistencia y liquidación del equipo de obra.',
+      url: 'cuadrilla/index.html',
+      roles: ['admin', 'supervisor', 'comercial'],
+    },
+    {
+      id: 'obras',
+      name: 'Sistema de Obras',
+      icon: '🏗️',
+      desc: 'Certificados, tarifarios, materiales y seguimiento de obras.',
+      url: 'obras/index.html',
+      roles: ['admin', 'supervisor'],
+    },
+    {
+      id: 'comercial',
+      name: 'Comercial',
+      icon: '📋',
+      desc: 'Proyectos, presupuestos, inventario y cotizaciones.',
+      url: 'comercial/index.html',
+      roles: ['admin', 'comercial'],
+    },
+    {
+      id: 'liquidacion',
+      name: 'Liquidación',
+      icon: '💰',
+      desc: 'Liquidación de haberes y resumen financiero del equipo.',
+      url: 'liquidacion/index.html',
+      roles: ['admin'],
+    },
+  ];
+
+  const ROLE_LABELS = {
+    admin:        'Administrador',
+    supervisor:   'Supervisor de Obras',
+    comercial:    'Comercial',
+    programacion: 'Programación',
+  };
+
+  async function init() {
+    // Verificar sesión
+    const { data: { session } } = await client.auth.getSession();
+    if (!session) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    // Obtener perfil y rol
+    const { data: profile, error } = await client
+      .from('user_profiles')
+      .select('full_name, role')
+      .eq('id', session.user.id)
+      .single();
+
+    if (error || !profile) {
+      await client.auth.signOut();
+      window.location.href = 'login.html';
+      return;
+    }
+
+    const { full_name, role } = profile;
+    const firstName = full_name.split(' ')[0];
+
+    // Actualizar UI de header
+    document.getElementById('headerName').textContent = full_name;
+    document.getElementById('headerRole').textContent = ROLE_LABELS[role] || role;
+    document.getElementById('greetingName').textContent = firstName;
+
+    // Filtrar módulos según rol
+    const visibleModules = ALL_MODULES.filter(m => m.roles.includes(role));
+
+    const grid = document.getElementById('modulesGrid');
+
+    if (visibleModules.length === 0) {
+      document.getElementById('noAccess').style.display = 'block';
+    } else {
+      visibleModules.forEach(mod => {
+        const card = document.createElement('a');
+        card.href = mod.url;
+        card.className = 'module-card';
+        card.innerHTML = `
+          <span class="module-icon">${mod.icon}</span>
+          <div class="module-name">${mod.name}</div>
+          <div class="module-desc">${mod.desc}</div>
+          <span class="module-arrow">→</span>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Mostrar contenido
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  }
+
+  async function handleLogout() {
+    await client.auth.signOut();
+    window.location.href = 'login.html';
+  }
+
+  init();
+</script>
+</body>
+</html>

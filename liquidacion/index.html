@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liquidación — Nova Domus Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --nd-orange: #E85D26;
+      --bg: #F7F6F4;
+      --surface: #FFFFFF;
+      --border: #E8E6E1;
+      --text: #1A1917;
+      --muted: #6B6966;
+      --ok: #1D8A5C;
+      --danger: #C0392B;
+      --radius: 10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .header-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-box {
+      width: 36px; height: 36px;
+      background: var(--nd-orange);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 13px; letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+    .header-text { flex: 1; }
+    .header-text h1    { font-size: 15px; font-weight: 700; line-height: 1.2; }
+    .header-text small { font-size: 11px; color: var(--muted); }
+
+    /* ── Settings panel ── */
+    .settings-panel {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .settings-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .settings-label { font-size: 12px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
+    .date-range-inputs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; }
+    .date-range-inputs input[type="date"] {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 13px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+    .date-range-inputs input[type="date"]:focus {
+      outline: none;
+      border-color: var(--nd-orange);
+    }
+    .date-range-sep { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+    .btn-apply-dates {
+      font-size: 12px; font-weight: 700;
+      color: #fff;
+      background: var(--nd-orange);
+      border: none;
+      border-radius: 8px;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: opacity 0.12s;
+    }
+    .btn-apply-dates:hover { opacity: 0.85; }
+
+    /* ── Week nav ── */
+    .week-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 107px; /* portal-bar 44px + header ~63px */
+      z-index: 20;
+    }
+    .week-nav-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-btn {
+      width: 34px; height: 34px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; line-height: 1;
+      transition: background 0.12s;
+      font-family: inherit;
+    }
+    .nav-btn:hover { background: var(--border); }
+    .nav-btn.active { border-color: var(--nd-orange); color: var(--nd-orange); background: #FFF0EA; }
+    .nav-btn.cfg    { font-size: 15px; }
+
+    .week-info { flex: 1; text-align: center; }
+    .week-info .wrange { display: block; font-size: 13px; font-weight: 600; }
+    .week-info .wnum   { font-size: 11px; color: var(--muted); }
+
+    .btn-hoy {
+      font-size: 11px; font-weight: 700;
+      color: var(--nd-orange);
+      background: none;
+      border: 1.5px solid var(--nd-orange);
+      border-radius: 6px;
+      padding: 5px 9px;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+      transition: background 0.12s;
+      font-family: inherit;
+    }
+    .btn-hoy:hover { background: #FFF0EA; }
+
+    /* ── Main ── */
+    .main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 16px 16px 48px;
+    }
+
+    /* ── Summary bar ── */
+    .summary-bar {
+      background: var(--nd-orange);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 15px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .summary-bar .s-label { font-size: 11px; opacity: 0.82; margin-bottom: 2px; }
+    .summary-bar .s-value { font-size: 26px; font-weight: 800; line-height: 1; }
+    .summary-bar .s-meta  { font-size: 11px; opacity: 0.72; margin-top: 4px; }
+    .summary-bar .s-right { text-align: right; }
+
+    /* ── Tech card ── */
+    .tech-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .tc-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tc-header:active { background: var(--bg); }
+    .avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--nd-orange);
+      color: #fff; font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .tc-info { flex: 1; min-width: 0; }
+    .tc-info .tc-name { font-size: 15px; font-weight: 600; }
+    .tc-info .tc-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .tc-neto { text-align: right; flex-shrink: 0; }
+    .tc-neto .neto-amt { font-size: 19px; font-weight: 800; color: var(--ok); }
+    .tc-neto .neto-amt.neg { color: var(--danger); }
+    .tc-neto .neto-lbl { font-size: 10px; color: var(--muted); }
+    .chevron { font-size: 10px; color: var(--muted); flex-shrink: 0; transition: transform 0.18s; }
+    .tech-card.open .chevron { transform: rotate(180deg); }
+
+    .tc-chips {
+      padding: 0 16px 12px;
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 12px; color: var(--muted);
+      white-space: nowrap;
+    }
+    .chip b { color: var(--text); }
+    .chip.neg b { color: var(--danger); }
+
+    .tc-detail { border-top: 1.5px solid var(--border); display: none; }
+    .tech-card.open .tc-detail { display: block; }
+
+    /* ── Day rows ── */
+    .day-row { padding: 13px 16px; border-bottom: 1px solid var(--border); }
+    .day-row:last-of-type { border-bottom: none; }
+
+    .dr-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 5px;
+    }
+    .dr-head-left { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; flex-wrap: wrap; }
+    .dr-fecha { font-size: 13px; font-weight: 600; }
+    .dr-obra  { font-size: 11px; color: var(--muted); background: var(--bg); border-radius: 4px; padding: 2px 7px; }
+
+    .btn-edit {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 28px; height: 28px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.12s;
+      font-family: inherit;
+    }
+    .btn-edit:hover { border-color: var(--nd-orange); color: var(--nd-orange); background: #FFF0EA; }
+
+    .dr-horario {
+      font-size: 12px; color: var(--muted);
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .h-badge {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 11px; font-weight: 700; color: var(--text);
+    }
+    .h-badge.warn { border-color: var(--nd-orange); color: var(--nd-orange); }
+
+    .dr-amounts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 4px; }
+    .amt { display: flex; flex-direction: column; }
+    .amt .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.3px; }
+    .amt .val { font-size: 13px; font-weight: 500; }
+    .amt .val.neg { color: var(--danger); }
+
+    .dr-viat    { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+    .dr-detalle { margin-top: 8px; font-size: 12px; color: var(--muted); font-style: italic; line-height: 1.45; }
+
+    .est-badge {
+      display: inline-block;
+      background: #FFF3E0; color: #BF6000;
+      border: 1px solid #F9A825;
+      border-radius: 3px; font-size: 10px; font-weight: 700;
+      padding: 0 5px; vertical-align: middle; margin-left: 4px;
+    }
+
+    /* ── Totals footer inside card ── */
+    .tc-totals {
+      background: var(--bg);
+      border-top: 2px solid var(--border);
+      padding: 14px 16px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .tf-item .tf-lbl { font-size: 10px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.3px; }
+    .tf-item .tf-val { font-size: 15px; font-weight: 700; }
+    .tf-item .tf-val.ok  { color: var(--ok); }
+    .tf-item .tf-val.neg { color: var(--danger); }
+    .tf-neto-row { grid-column: 1 / -1; border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px; }
+    .tf-neto-row .tf-val { font-size: 18px; }
+
+    /* ── Supervisor & Costo ND sections ── */
+    .section-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .section-card-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-card-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #FFF0EA;
+      color: var(--nd-orange);
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-card-title { font-size: 15px; font-weight: 600; flex: 1; }
+    .section-card-total { font-size: 19px; font-weight: 800; color: var(--ok); text-align: right; }
+    .section-card-total.manual-note { font-size: 11px; color: var(--muted); font-weight: 400; }
+
+    .section-card-body { padding: 14px 16px; }
+
+    .sup-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .sup-row:last-child { border-bottom: none; }
+    .sup-row-label { color: var(--muted); }
+    .sup-row-value { font-weight: 600; }
+    .sup-row-value.accent { color: var(--nd-orange); }
+
+    .manual-input-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .manual-input-row:last-of-type { border-bottom: none; }
+    .manual-input-row label { color: var(--muted); flex: 1; }
+    .manual-input-row input[type="number"] {
+      width: 140px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 14px; font-weight: 600;
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      text-align: right;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .manual-input-row input[type="number"]:focus {
+      outline: none;
+      border-color: var(--nd-orange);
+    }
+
+    .nd-cost-bar {
+      background: #1A1917;
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 18px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .nd-cost-bar .s-label { font-size: 11px; opacity: 0.7; margin-bottom: 3px; }
+    .nd-cost-bar .s-value { font-size: 28px; font-weight: 800; line-height: 1; }
+    .nd-cost-breakdown { display: flex; flex-direction: column; gap: 2px; text-align: right; }
+    .nd-cost-breakdown .bd-item { font-size: 11px; opacity: 0.65; }
+
+    /* ── State boxes ── */
+    .state-box { padding: 64px 16px; text-align: center; color: var(--muted); }
+    .state-box .ico { font-size: 44px; margin-bottom: 14px; }
+    .state-box p    { font-size: 14px; line-height: 1.55; }
+    .state-box code { font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.48);
+      z-index: 100;
+      display: flex; align-items: flex-end;
+    }
+    .modal-sheet {
+      background: var(--surface);
+      width: 100%; max-width: 640px;
+      margin: 0 auto;
+      border-radius: 20px 20px 0 0;
+      max-height: 92vh;
+      display: flex; flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .modal-sheet.open { transform: translateY(0); }
+
+    .modal-drag-bar {
+      width: 40px; height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 12px auto 0;
+      flex-shrink: 0;
+    }
+    .modal-hdr {
+      padding: 12px 16px 10px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title    { font-size: 16px; font-weight: 700; }
+    .modal-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      border: none; background: var(--bg);
+      border-radius: 50%; cursor: pointer;
+      font-size: 14px; color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+    }
+    .modal-close:hover { background: var(--border); }
+
+    .modal-body {
+      flex: 1; overflow-y: auto;
+      padding: 14px 16px 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .modal-footer {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-shrink: 0; gap: 8px;
+    }
+
+    /* ── Form ── */
+    .form-section       { margin-bottom: 18px; }
+    .form-section-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+    .form-grid          { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-field         { display: flex; flex-direction: column; gap: 4px; }
+    .form-field.full    { grid-column: 1 / -1; }
+    .form-field label   { font-size: 12px; color: var(--muted); font-weight: 500; }
+    .form-field .fnote  { font-size: 11px; color: var(--nd-orange); font-weight: 600; }
+
+    .form-field input[type="number"],
+    .form-field input[type="time"],
+    .form-field input[type="text"],
+    .form-field textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 10px;
+      font-size: 14px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--nd-orange);
+      box-shadow: 0 0 0 3px rgba(232,93,38,0.1);
+    }
+    .form-field textarea { resize: vertical; min-height: 72px; }
+
+    .form-check         { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .form-check input   { width: 18px; height: 18px; cursor: pointer; accent-color: var(--nd-orange); flex-shrink: 0; }
+    .form-check span    { font-size: 14px; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--nd-orange); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; white-space: nowrap;
+      transition: opacity 0.12s;
+    }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: var(--bg); color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px; cursor: pointer;
+      font-family: inherit; white-space: nowrap;
+    }
+    .btn-danger-outline {
+      background: none; color: var(--danger);
+      border: 1.5px solid currentColor;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13px; cursor: pointer;
+      font-family: inherit; white-space: nowrap;
+    }
+    .btn-danger {
+      background: var(--danger); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; white-space: nowrap;
+    }
+    .btn-danger:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* Confirm delete strip */
+    .confirm-strip { width: 100%; }
+    .confirm-strip p {
+      font-size: 13px; color: var(--danger);
+      margin-bottom: 10px; line-height: 1.4;
+    }
+    .confirm-strip .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: #1A1917; color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 200;
+      white-space: nowrap;
+      pointer-events: none;
+      max-width: calc(100vw - 32px);
+    }
+    .toast.show              { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.ok                { background: var(--ok); }
+    .toast.err               { background: var(--danger); }
+
+    /* ── Portal bar ── */
+    .portal-bar {
+      background: #0d0f12;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      height: 44px;
+      border-bottom: 1px solid #1f2436;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .portal-back {
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none; color: #6b7280;
+      font-size: 12px; font-weight: 700;
+      transition: color .15s;
+    }
+    .portal-back:hover { color: #e2e6f0; }
+    .portal-back-icon {
+      width: 22px; height: 22px;
+      background: linear-gradient(135deg,#7a6340,#c8a96e);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+    }
+    .portal-divider { width:1px; height:16px; background:#2a3049; margin:0 10px; }
+    .portal-module  { font-size:13px; font-weight:700; color:#e85d26; letter-spacing:.3px; }
+    .portal-bar-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    #portal-username { font-size:11px; color:#6b7280; }
+    .portal-logout {
+      background:none; border:1px solid #2a3049; color:#6b7280;
+      padding:3px 9px; border-radius:4px; font-size:10px; font-weight:700;
+      cursor:pointer; font-family:inherit;
+    }
+    .portal-logout:hover { color:#e2e6f0; border-color:#6b7280; }
+
+    /* ── Reembolsos de obra ── */
+    .chip.reemb-chip { border-color: var(--nd-orange); }
+    .chip.reemb-chip b { color: var(--nd-orange); }
+    .reemb-section { border-top: 1px solid var(--border); padding: 11px 16px; background: var(--bg); }
+    .reemb-header {
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+      font-size: 12px; font-weight: 600; user-select: none; -webkit-tap-highlight-color: transparent;
+    }
+    .reemb-badge { margin-left: auto; color: var(--nd-orange); font-weight: 800; font-size: 13px; }
+    .reemb-chevron { font-size: 9px; color: var(--muted); transition: transform .15s; }
+    .reemb-header.open .reemb-chevron { transform: rotate(180deg); }
+    .reemb-list { display: none; margin-top: 8px; }
+    .reemb-list.open { display: block; }
+    .reemb-item {
+      display: flex; align-items: center; gap: 8px; padding: 5px 0;
+      border-bottom: 1px solid var(--border); font-size: 12px; flex-wrap: wrap;
+    }
+    .reemb-item:last-child { border-bottom: none; }
+    .reemb-item-prov { font-weight: 600; flex: 1; min-width: 80px; }
+    .reemb-item-mat { font-size: 10px; color: var(--muted); flex: 2; min-width: 100px; }
+    .reemb-item-monto { font-weight: 700; color: var(--nd-orange); white-space: nowrap; }
+    .reemb-note {
+      font-size: 10px; color: var(--muted); margin-top: 7px;
+      padding-top: 7px; border-top: 1px solid var(--border); font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="app-loading" style="position:fixed;inset:0;background:#0d0f12;display:flex;align-items:center;justify-content:center;z-index:999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#6b7280;letter-spacing:.02em">Verificando acceso…</div>
+
+<!-- PORTAL BAR -->
+<div class="portal-bar">
+  <a href="../index.html" class="portal-back">
+    <span class="portal-back-icon">⌂</span>Portal
+  </a>
+  <div class="portal-divider"></div>
+  <span class="portal-module">Liquidación</span>
+  <div class="portal-bar-right">
+    <span id="portal-username"></span>
+    <button class="portal-logout" onclick="handleLogout()">Salir</button>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-box">ND</div>
+    <div class="header-text">
+      <h1>Liquidación Cuadrilla</h1>
+      <small>Nova Domus · Panel de dirección</small>
+    </div>
+    <button class="nav-btn cfg" id="btn-config" title="Configurar semana">⚙</button>
+  </div>
+</header>
+
+<div id="settings-panel" class="settings-panel" style="display:none;">
+  <div class="settings-inner">
+    <span class="settings-label">Período:</span>
+    <div class="date-range-inputs">
+      <input type="date" id="custom-start" title="Inicio del período" />
+      <span class="date-range-sep">→</span>
+      <input type="date" id="custom-end" title="Fin del período" />
+      <button class="btn-apply-dates" id="btn-apply-dates">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<nav class="week-nav">
+  <div class="week-nav-inner">
+    <button class="nav-btn" id="btn-prev" title="Semana anterior">&#8249;</button>
+    <div class="week-info">
+      <span class="wrange" id="wrange">—</span>
+      <span class="wnum"   id="wnum"></span>
+    </div>
+    <button class="btn-hoy" id="btn-hoy">Hoy</button>
+    <button class="nav-btn" id="btn-next" title="Semana siguiente">&#8250;</button>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- Costo total Nova Domus -->
+  <div id="nd-cost-bar" class="nd-cost-bar" style="display:none;">
+    <div>
+      <div class="s-label">💼 Costo semanal Nova Domus</div>
+      <div class="s-value" id="nd-cost-total">$0</div>
+    </div>
+    <div class="nd-cost-breakdown">
+      <div class="bd-item">Cuadrilla: <span id="nd-bd-cuadrilla">$0</span></div>
+      <div class="bd-item">Supervisor: <span id="nd-bd-supervisor">$0</span></div>
+    </div>
+  </div>
+
+  <!-- Resumen cuadrilla -->
+  <div id="summary-bar" class="summary-bar" style="display:none;">
+    <div>
+      <div class="s-label">Total a pagar cuadrilla</div>
+      <div class="s-value" id="s-total">$0</div>
+      <div class="s-meta"  id="s-meta"></div>
+    </div>
+    <div class="s-right">
+      <div class="s-label">Técnicos</div>
+      <div class="s-value" id="s-tecnicos">0</div>
+    </div>
+  </div>
+
+  <!-- Técnicos -->
+  <div id="content">
+    <div class="state-box">
+      <div class="ico">📋</div>
+      <p>Cargando datos…</p>
+    </div>
+  </div>
+
+  <!-- Sección Supervisor -->
+  <div id="supervisor-section" style="display:none;">
+    <div class="section-card">
+      <div class="section-card-header">
+        <div class="section-card-icon">👷</div>
+        <div class="section-card-title">Supervisor</div>
+        <div>
+          <div class="s-label" style="font-size:10px;color:var(--muted);text-align:right;">Total semana</div>
+          <div class="section-card-total" id="sup-total-display">$0</div>
+        </div>
+      </div>
+      <div class="section-card-body">
+        <!-- Calculado automático -->
+        <div class="sup-row">
+          <span class="sup-row-label">Base jornales (jornal + almuerzos)</span>
+          <span class="sup-row-value" id="sup-base-jornales">$0</span>
+        </div>
+        <div class="sup-row">
+          <span class="sup-row-label">Comisión supervisión (0,3%)</span>
+          <span class="sup-row-value accent" id="sup-comision">$0</span>
+        </div>
+
+        <!-- Carga manual -->
+        <div style="margin-top:12px; margin-bottom:6px; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px;">
+          Carga manual de semana
+        </div>
+        <div class="manual-input-row">
+          <label>Compras / Otros (ARS)</label>
+          <input type="number" id="sup-compras" placeholder="0" min="0" step="1" oninput="recalcSupervisor()" />
+        </div>
+        <div class="manual-input-row">
+          <label>KM + Peajes (ARS)</label>
+          <input type="number" id="sup-km-peajes" placeholder="0" min="0" step="1" oninput="recalcSupervisor()" />
+        </div>
+        <div class="manual-input-row" style="border-top: 2px solid var(--border); margin-top:4px; padding-top:12px;">
+          <label style="font-weight:600; color:var(--text);">Total a pagar supervisor (ARS)</label>
+          <input type="number" id="sup-total-manual" placeholder="0" min="0" step="1" oninput="recalcNDCost()"
+            style="font-size:16px; font-weight:800; border-color: var(--nd-orange);" />
+        </div>
+        <div style="font-size:11px; color:var(--muted); margin-top:6px; padding-left:2px;">
+          El total a pagar es manual — podés ajustarlo libremente. Los valores anteriores son referencia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Edit modal -->
+<div id="modal-overlay" class="modal-overlay" style="display:none;">
+  <div id="modal-sheet" class="modal-sheet">
+    <div class="modal-drag-bar"></div>
+    <div class="modal-hdr">
+      <div>
+        <div class="modal-title">Editar jornada</div>
+        <div class="modal-subtitle" id="modal-subtitle"></div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer">
+      <button id="modal-del"  class="btn-danger-outline">🗑 Eliminar</button>
+      <button id="modal-save" class="btn-primary">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<script>
+  /* ── Auth ── */
+  var AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+  var AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+  var ALLOWED_ROLES = ['admin', 'supervisor'];
+  var authClient    = supabase.createClient(AUTH_URL, AUTH_KEY);
+
+  function handleLogout() {
+    authClient.auth.signOut().then(function() {
+      window.location.href = '../login.html';
+    });
+  }
+
+  /* ══════════════════════════════════════════════
+     Config
+  ══════════════════════════════════════════════ */
+  var SUPA_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+  var MIN_HORAS = 6;
+  var SUPERVISOR_COMMISSION_RATE = 0.03; // 3%
+
+  /* ── State ── */
+  var currentStart   = getWeekStartOf(new Date(), 5); // default: viernes
+  var currentEnd     = addDays(currentStart, 6);
+  var tecnicos       = {};
+  var jornadasMap    = {};
+  var editingJornada = null;
+  var weekTotalJornalesAlmuerzos = 0; // base para comisión supervisor
+  var reembolsosMap = {}; // tecnico_id → {total, facturas: [...]}
+
+  /* ══════════════════════════════════════════════
+     Date helpers
+  ══════════════════════════════════════════════ */
+
+  function getWeekStartOf(d, startDay) {
+    var t   = new Date(d);
+    var dow  = t.getDay();
+    var diff = (dow - startDay + 7) % 7;
+    t.setDate(t.getDate() - diff);
+    t.setHours(0, 0, 0, 0);
+    return t;
+  }
+
+  function addDays(d, n) {
+    var t = new Date(d);
+    t.setDate(t.getDate() + n);
+    return t;
+  }
+
+  function toISO(d) {
+    return [d.getFullYear(), pad(d.getMonth() + 1), pad(d.getDate())].join('-');
+  }
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  var MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var DIA = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+  function fmtRango(start, end) {
+    end = end || addDays(start, 6);
+    var ms = start.getMonth(), ys = start.getFullYear();
+    var me = end.getMonth(),   ye = end.getFullYear();
+    var s  = DIA[start.getDay()] + ' ' + start.getDate() + ' ' + MES[ms] + (ys !== ye ? ' ' + ys : '');
+    var e  = DIA[end.getDay()]   + ' ' + end.getDate()   + ' ' + MES[me] + ' ' + ye;
+    return s + ' — ' + e;
+  }
+
+  function fmtSemNum(d) {
+    var t   = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    var dow = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - dow);
+    var y1 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    var wk = Math.ceil((((t - y1) / 86400000) + 1) / 7);
+    return 'Semana ' + wk + ' de ' + d.getFullYear();
+  }
+
+  function fmtFecha(iso) {
+    var p = iso.split('-');
+    var y = parseInt(p[0], 10), m = parseInt(p[1], 10), d = parseInt(p[2], 10);
+    var t = new Date(y, m - 1, d);
+    return DIA[t.getDay()] + ' ' + d + ' ' + MES[m - 1];
+  }
+
+  /* ══════════════════════════════════════════════
+     Number / string helpers
+  ══════════════════════════════════════════════ */
+
+  function num(v) { return Number(v) || 0; }
+
+  function fmtMoney(v) {
+    var n   = Math.round(num(v));
+    if (n === 0) return '$0';
+    var abs = Math.abs(n);
+    var s   = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return (n < 0 ? '-' : '') + '$' + s;
+  }
+
+  function initials(name) {
+    return name.trim().split(/\s+/).map(function(w){ return w[0]; }).join('').toUpperCase().slice(0, 2);
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ══════════════════════════════════════════════
+     Supabase fetch wrappers
+  ══════════════════════════════════════════════ */
+
+  function sbHeaders(extra) {
+    var h = {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Accept': 'application/json'
+    };
+    if (extra) {
+      Object.keys(extra).forEach(function(k){ h[k] = extra[k]; });
+    }
+    return h;
+  }
+
+  function sbGet(path) {
+    return fetch(SUPA_URL + '/rest/v1/' + path, { headers: sbHeaders() })
+      .then(function(res) {
+        return res.text().then(function(text) {
+          var data = JSON.parse(text);
+          if (!res.ok) throw new Error((data && data.message) || 'HTTP ' + res.status);
+          return data;
+        });
+      });
+  }
+
+  function sbPatch(path, body) {
+    return fetch(SUPA_URL + '/rest/v1/' + path, {
+      method: 'PATCH',
+      headers: sbHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }),
+      body: JSON.stringify(body)
+    }).then(function(res) {
+      return res.text().then(function(text) {
+        if (!res.ok) {
+          var data = text ? JSON.parse(text) : {};
+          throw new Error((data && data.message) || 'HTTP ' + res.status);
+        }
+      });
+    });
+  }
+
+  function sbDelete(path) {
+    return fetch(SUPA_URL + '/rest/v1/' + path, {
+      method: 'DELETE',
+      headers: sbHeaders({ 'Prefer': 'return=minimal' })
+    }).then(function(res) {
+      return res.text().then(function(text) {
+        if (!res.ok) {
+          var data = text ? JSON.parse(text) : {};
+          throw new Error((data && data.message) || 'HTTP ' + res.status);
+        }
+      });
+    });
+  }
+
+  /* ══════════════════════════════════════════════
+     Load
+  ══════════════════════════════════════════════ */
+
+  function loadReembolsos(from, to) {
+    return sbGet(
+      'facturas_obra?select=tecnico_id,proveedor,materiales,monto_con_iva,fecha_compra' +
+      '&origen_pago=eq.tecnico' +
+      '&fecha_compra=gte.' + from +
+      '&fecha_compra=lte.' + to
+    ).then(function(rows) {
+      reembolsosMap = {};
+      rows.forEach(function(f) {
+        if (!f.tecnico_id) return;
+        if (!reembolsosMap[f.tecnico_id]) {
+          reembolsosMap[f.tecnico_id] = { total: 0, facturas: [] };
+        }
+        reembolsosMap[f.tecnico_id].total += Number(f.monto_con_iva) || 0;
+        reembolsosMap[f.tecnico_id].facturas.push(f);
+      });
+    }).catch(function() {
+      reembolsosMap = {};
+    });
+  }
+
+  function loadTecnicos() {
+    return sbGet('cuadrilla_tecnicos?select=id,nombre').then(function(rows) {
+      tecnicos = {};
+      rows.forEach(function(r){ tecnicos[r.id] = r.nombre; });
+    });
+  }
+
+  function loadSemana() {
+    var from = toISO(currentStart);
+    var to   = toISO(currentEnd);
+
+    document.getElementById('wrange').textContent = fmtRango(currentStart, currentEnd);
+    document.getElementById('wnum').textContent   = fmtSemNum(currentStart);
+    document.getElementById('summary-bar').style.display      = 'none';
+    document.getElementById('supervisor-section').style.display = 'none';
+    document.getElementById('nd-cost-bar').style.display      = 'none';
+    document.getElementById('content').innerHTML  = loadingHTML();
+
+    // Reset supervisor inputs
+    document.getElementById('sup-compras').value    = '';
+    document.getElementById('sup-km-peajes').value  = '';
+    document.getElementById('sup-total-manual').value = '';
+    weekTotalJornalesAlmuerzos = 0;
+
+    var jornadasQ = sbGet('cuadrilla_jornadas?fecha=gte.' + from + '&fecha=lte.' + to + '&select=*&order=tecnico_id.asc,fecha.asc');
+    var reembQ    = loadReembolsos(from, to);
+
+    Promise.all([jornadasQ, reembQ])
+      .then(function(results) {
+        var rows = results[0];
+        if (!rows.length) { document.getElementById('content').innerHTML = emptyHTML(); return; }
+        render(rows);
+      })
+      .catch(function(err) {
+        document.getElementById('content').innerHTML = errorHTML(err.message);
+      });
+  }
+
+  /* ══════════════════════════════════════════════
+     Render
+  ══════════════════════════════════════════════ */
+
+  function render(rows) {
+    jornadasMap = {};
+    rows.forEach(function(j){ jornadasMap[j.id] = j; });
+
+    var map = {};
+    rows.forEach(function(j) {
+      if (!map[j.tecnico_id]) map[j.tecnico_id] = [];
+      map[j.tecnico_id].push(j);
+    });
+
+    var totalNeto = 0, totalDias = 0;
+    var baseJornalesAlmuerzos = 0; // para comisión supervisor
+
+    var cards = Object.keys(map).map(function(tid) {
+      var jornadas = map[tid];
+      var nombre   = tecnicos[tid] || 'Técnico #' + tid;
+      var t        = calcTotales(jornadas);
+      totalNeto += t.neto;
+      totalDias += jornadas.length;
+      baseJornalesAlmuerzos += t.jornal + t.almuerzo;
+      return { tid: tid, nombre: nombre, jornadas: jornadas, t: t };
+    });
+    cards.sort(function(a, b){ return a.nombre.localeCompare(b.nombre, 'es'); });
+
+    document.getElementById('s-total').textContent    = fmtMoney(totalNeto);
+    document.getElementById('s-meta').textContent     = totalDias + ' jornada' + (totalDias !== 1 ? 's' : '') + ' · ' + cards.length + ' técnico' + (cards.length !== 1 ? 's' : '');
+    document.getElementById('s-tecnicos').textContent = String(cards.length);
+    document.getElementById('summary-bar').style.display = '';
+
+    document.getElementById('content').innerHTML = cards.map(buildCard).join('');
+
+    // Supervisor section
+    weekTotalJornalesAlmuerzos = baseJornalesAlmuerzos;
+    recalcSupervisor();
+    document.getElementById('supervisor-section').style.display = '';
+    document.getElementById('nd-cost-bar').style.display = '';
+
+    /* Toggle expand */
+    document.querySelectorAll('.tc-header').forEach(function(h) {
+      h.addEventListener('click', function() { h.closest('.tech-card').classList.toggle('open'); });
+    });
+
+    /* Edit buttons */
+    document.querySelectorAll('.btn-edit').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var jid = btn.getAttribute('data-jid');
+        openEditModal(jornadasMap[jid]);
+      });
+    });
+  }
+
+  function calcTotales(jornadas) {
+    var jornal = 0, almuerzo = 0, viaticos = 0, adelantos = 0, compras = 0, otros = 0, horas = 0;
+    jornadas.forEach(function(j) {
+      jornal    += num(j.jornal);
+      almuerzo  += num(j.almuerzo);
+      viaticos  += num(j.almuerzo) + num(j.traslados) + num(j.peaje) + num(j.km);
+      adelantos += num(j.adelantos);
+      compras   += num(j.compras);
+      otros     += num(j.otros);
+      horas     += num(j.horas_trabajadas);
+    });
+    var neto = jornal + viaticos + otros + compras - adelantos;
+    return { jornal: jornal, almuerzo: almuerzo, viaticos: viaticos, adelantos: adelantos, compras: compras, otros: otros, horas: horas, neto: neto };
+  }
+
+  function buildCard(c) {
+    var tid = c.tid, nombre = c.nombre, jornadas = c.jornadas, t = c.t;
+    var dias     = jornadas.length;
+    var negClass = t.neto < 0 ? ' neg' : '';
+    var chips = [
+      '<span class="chip">Jornal <b>'   + fmtMoney(t.jornal)   + '</b></span>',
+      '<span class="chip">Viáticos <b>' + fmtMoney(t.viaticos) + '</b></span>'
+    ];
+    if (t.otros)     chips.push('<span class="chip">Otros <b>'          + fmtMoney(t.otros)     + '</b></span>');
+    if (t.compras)   chips.push('<span class="chip">Compras <b>'          + fmtMoney(t.compras)   + '</b></span>');
+    if (t.adelantos) chips.push('<span class="chip neg">Adelantos <b>−' + fmtMoney(t.adelantos) + '</b></span>');
+
+    var reemb = reembolsosMap[tid];
+    if (reemb && reemb.total > 0) {
+      chips.push('<span class="chip reemb-chip">Reembolso obra <b>' + fmtMoney(Math.round(reemb.total)) + '</b></span>');
+    }
+
+    var reembId  = 'reemb-' + esc(tid);
+    var reembHTML = '';
+    if (reemb && reemb.facturas.length) {
+      reembHTML = '<div class="reemb-section">' +
+        '<div class="reemb-header" onclick="this.classList.toggle(\'open\');document.getElementById(\'' + reembId + '\').classList.toggle(\'open\')">' +
+          '<span>💳 Reembolso de obra</span>' +
+          '<span class="reemb-badge">' + fmtMoney(Math.round(reemb.total)) + '</span>' +
+          '<span class="reemb-chevron">▼</span>' +
+        '</div>' +
+        '<div class="reemb-list" id="' + reembId + '">' +
+          reemb.facturas.map(function(f) {
+            return '<div class="reemb-item">' +
+              '<span class="reemb-item-prov">' + esc(f.proveedor || '') + '</span>' +
+              '<span class="reemb-item-mat">' + esc(f.materiales || '') + '</span>' +
+              '<span style="font-size:10px;color:var(--muted)">' + (f.fecha_compra ? fmtFecha(f.fecha_compra) : '') + '</span>' +
+              '<span class="reemb-item-monto">' + fmtMoney(Math.round(Number(f.monto_con_iva) || 0)) + '</span>' +
+            '</div>';
+          }).join('') +
+          '<div class="reemb-note">Incorporar en el campo Compras al editar (✏) la jornada correspondiente.</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    return '<div class="tech-card" data-tid="' + esc(tid) + '">' +
+      '<div class="tc-header">' +
+        '<div class="avatar">'   + esc(initials(nombre)) + '</div>' +
+        '<div class="tc-info">'  +
+          '<div class="tc-name">' + esc(nombre) + '</div>' +
+          '<div class="tc-meta">' + dias + ' día' + (dias !== 1 ? 's' : '') + ' · ' + t.horas.toFixed(1) + 'h</div>' +
+        '</div>' +
+        '<div class="tc-neto">' +
+          '<div class="neto-amt' + negClass + '">' + fmtMoney(t.neto) + '</div>' +
+          '<div class="neto-lbl">neto a pagar</div>' +
+        '</div>' +
+        '<span class="chevron">▼</span>' +
+      '</div>' +
+      '<div class="tc-chips">' + chips.join('') + '</div>' +
+      '<div class="tc-detail">' +
+        jornadas.map(buildDayRow).join('') +
+        '<div class="tc-totals">' +
+          '<div class="tf-item"><div class="tf-lbl">Jornal</div><div class="tf-val">'   + fmtMoney(t.jornal)   + '</div></div>' +
+          '<div class="tf-item"><div class="tf-lbl">Viáticos</div><div class="tf-val">' + fmtMoney(t.viaticos) + '</div></div>' +
+          (t.compras   ? '<div class="tf-item"><div class="tf-lbl">Compras</div><div class="tf-val">'        + fmtMoney(t.compras)   + '</div></div>' : '') +
+          (t.otros     ? '<div class="tf-item"><div class="tf-lbl">Otros</div><div class="tf-val">'          + fmtMoney(t.otros)     + '</div></div>' : '') +
+          (t.adelantos ? '<div class="tf-item"><div class="tf-lbl">Adelantos</div><div class="tf-val neg">−' + fmtMoney(t.adelantos) + '</div></div>' : '') +
+          '<div class="tf-item tf-neto-row">' +
+            '<div class="tf-lbl">Neto a pagar</div>' +
+            '<div class="tf-val ' + (t.neto < 0 ? 'neg' : 'ok') + '">' + fmtMoney(t.neto) + '</div>' +
+          '</div>' +
+        '</div>' +
+        reembHTML +
+      '</div>' +
+    '</div>';
+  }
+
+  function buildDayRow(j) {
+    var viaticos = num(j.almuerzo) + num(j.traslados) + num(j.peaje) + num(j.km);
+    var horas    = num(j.horas_trabajadas);
+    var bajMin   = horas > 0 && horas < MIN_HORAS;
+    var horasLbl = horas > 0 ? horas.toFixed(1) + 'h' : '—';
+    var horario  = (j.hora_entrada && j.hora_salida) ? j.hora_entrada.slice(0,5) + ' – ' + j.hora_salida.slice(0,5) : '';
+
+    var viatParts = [];
+    if (num(j.almuerzo))  viatParts.push('Alm. '   + fmtMoney(j.almuerzo));
+    if (num(j.traslados)) viatParts.push('Trasl. '  + fmtMoney(j.traslados));
+    if (num(j.peaje))     viatParts.push('Peaje '   + fmtMoney(j.peaje));
+    if (num(j.km))        viatParts.push('KM '      + fmtMoney(j.km));
+
+    var amts = [
+      '<div class="amt"><span class="lbl">Jornal</span><span class="val">'    + fmtMoney(j.jornal)   + '</span></div>',
+      '<div class="amt"><span class="lbl">Viáticos</span><span class="val">'  + fmtMoney(viaticos)   + '</span></div>'
+    ];
+    if (num(j.otros))     amts.push('<div class="amt"><span class="lbl">Otros</span><span class="val">'         + fmtMoney(j.otros)     + '</span></div>');
+    if (num(j.adelantos)) amts.push('<div class="amt"><span class="lbl">Adelanto</span><span class="val neg">−' + fmtMoney(j.adelantos) + '</span></div>');
+    if (num(j.compras))   amts.push('<div class="amt"><span class="lbl">Compras</span><span class="val">'       + fmtMoney(j.compras)   + '</span></div>');
+
+    var h = '<div class="day-row">';
+
+    h += '<div class="dr-head">';
+    h += '<div class="dr-head-left">';
+    h += '<span class="dr-fecha">' + fmtFecha(j.fecha) + (j.es_estimado ? '<span class="est-badge">EST</span>' : '') + '</span>';
+    if (j.obra_codigo) h += '<span class="dr-obra">' + esc(j.obra_codigo) + '</span>';
+    h += '</div>';
+    h += '<button class="btn-edit" data-jid="' + esc(j.id) + '" title="Editar jornada">✏</button>';
+    h += '</div>';
+
+    if (horario) {
+      h += '<div class="dr-horario"><span>' + esc(horario) + '</span>';
+      h += '<span class="h-badge' + (bajMin ? ' warn' : '') + '">' + horasLbl + (bajMin ? ' ⚑ mín (paga ' + MIN_HORAS + 'h)' : '') + '</span>';
+      h += '</div>';
+    }
+
+    if (viatParts.length) h += '<div class="dr-viat">' + viatParts.join(' &middot; ') + '</div>';
+
+    h += '<div class="dr-amounts">' + amts.join('') + '</div>';
+    if (j.detalle) h += '<div class="dr-detalle">' + esc(j.detalle) + '</div>';
+    h += '</div>';
+    return h;
+  }
+
+  /* ══════════════════════════════════════════════
+     Edit modal
+  ══════════════════════════════════════════════ */
+
+  function buildEditForm(j) {
+    function v(x)   { return x == null ? '' : String(x); }
+    function tv(x)  { return x ? x.slice(0, 5) : ''; }
+
+    return '<div class="form-section">' +
+        '<div class="form-section-title">Horario</div>' +
+        '<div class="form-grid">' +
+          '<div class="form-field"><label>Entrada</label><input type="time" id="f-entrada" value="' + tv(j.hora_entrada) + '"></div>' +
+          '<div class="form-field"><label>Salida</label><input type="time" id="f-salida" value="' + tv(j.hora_salida) + '"></div>' +
+          '<div class="form-field full"><label>Horas trabajadas <span class="fnote">(mín. facturado: ' + MIN_HORAS + 'h)</span></label>' +
+            '<input type="number" id="f-horas" value="' + v(j.horas_trabajadas) + '" min="0" step="0.5"></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-section">' +
+        '<div class="form-section-title">Jornada</div>' +
+        '<div class="form-grid">' +
+          '<div class="form-field full"><label>Jornal (ARS)</label>' +
+            '<input type="number" id="f-jornal" value="' + v(j.jornal) + '" min="0" step="1"></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-section">' +
+        '<div class="form-section-title">Viáticos</div>' +
+        '<div class="form-grid">' +
+          '<div class="form-field"><label>Almuerzo (ARS)</label><input type="number" id="f-almuerzo" value="' + v(j.almuerzo) + '" min="0" step="1"></div>' +
+          '<div class="form-field"><label>Traslados (ARS)</label><input type="number" id="f-traslados" value="' + v(j.traslados) + '" min="0" step="1"></div>' +
+          '<div class="form-field"><label>Peaje (ARS)</label><input type="number" id="f-peaje" value="' + v(j.peaje) + '" min="0" step="1"></div>' +
+          '<div class="form-field"><label>KM</label><input type="number" id="f-km" value="' + v(j.km) + '" min="0" step="1"></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-section">' +
+        '<div class="form-section-title">Descuentos y otros</div>' +
+        '<div class="form-grid">' +
+          '<div class="form-field"><label>Adelantos (ARS)</label><input type="number" id="f-adelantos" value="' + v(j.adelantos) + '" min="0" step="1"></div>' +
+          '<div class="form-field"><label>Compras (ARS)</label><input type="number" id="f-compras" value="' + v(j.compras) + '" min="0" step="1"></div>' +
+          '<div class="form-field full"><label>Otros (ARS)</label><input type="number" id="f-otros" value="' + v(j.otros) + '" min="0" step="1"></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="form-section">' +
+        '<div class="form-section-title">Observaciones</div>' +
+        '<div class="form-field" style="margin-bottom:12px;"><label>Detalle</label>' +
+          '<textarea id="f-detalle">' + esc(v(j.detalle)) + '</textarea></div>' +
+        '<label class="form-check"><input type="checkbox" id="f-estimado"' + (j.es_estimado ? ' checked' : '') + '><span>Jornada estimada</span></label>' +
+      '</div>';
+  }
+
+  function openEditModal(j) {
+    editingJornada = j;
+
+    document.getElementById('modal-subtitle').textContent =
+      fmtFecha(j.fecha) + (j.obra_codigo ? ' · ' + j.obra_codigo : '');
+
+    document.getElementById('modal-body').innerHTML = buildEditForm(j);
+    resetModalFooter();
+
+    var overlay = document.getElementById('modal-overlay');
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        document.getElementById('modal-sheet').classList.add('open');
+      });
+    });
+  }
+
+  function closeEditModal() {
+    var sheet = document.getElementById('modal-sheet');
+    sheet.classList.remove('open');
+    setTimeout(function() {
+      document.getElementById('modal-overlay').style.display = 'none';
+      document.body.style.overflow = '';
+      editingJornada = null;
+    }, 290);
+  }
+
+  function resetModalFooter() {
+    var footer = document.getElementById('modal-footer');
+    footer.innerHTML =
+      '<button id="modal-del" class="btn-danger-outline">🗑 Eliminar</button>' +
+      '<button id="modal-save" class="btn-primary">Guardar</button>';
+    document.getElementById('modal-del').addEventListener('click', showDeleteConfirm);
+    document.getElementById('modal-save').addEventListener('click', saveJornada);
+  }
+
+  function showDeleteConfirm() {
+    var footer = document.getElementById('modal-footer');
+    footer.innerHTML =
+      '<div class="confirm-strip">' +
+        '<p>¿Eliminar esta jornada? Esta acción no se puede deshacer.</p>' +
+        '<div class="confirm-actions">' +
+          '<button id="del-cancel" class="btn-secondary">Cancelar</button>' +
+          '<button id="del-ok"     class="btn-danger">Sí, eliminar</button>' +
+        '</div>' +
+      '</div>';
+    document.getElementById('del-cancel').addEventListener('click', resetModalFooter);
+    document.getElementById('del-ok').addEventListener('click', executeDelete);
+  }
+
+  function saveJornada() {
+    var btn = document.getElementById('modal-save');
+    btn.disabled = true;
+    btn.textContent = 'Guardando…';
+
+    function gv(id) {
+      var el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+    function gn(id) {
+      var s = gv(id);
+      return s === '' ? null : parseFloat(s);
+    }
+
+    var body = {
+      hora_entrada:     gv('f-entrada')   || null,
+      hora_salida:      gv('f-salida')    || null,
+      horas_trabajadas: gn('f-horas'),
+      jornal:           gn('f-jornal'),
+      almuerzo:         gn('f-almuerzo'),
+      traslados:        gn('f-traslados'),
+      peaje:            gn('f-peaje'),
+      km:               gn('f-km'),
+      otros:            gn('f-otros'),
+      adelantos:        gn('f-adelantos'),
+      compras:          gn('f-compras'),
+      detalle:          gv('f-detalle')   || null,
+      es_estimado:      document.getElementById('f-estimado').checked
+    };
+
+    sbPatch('cuadrilla_jornadas?id=eq.' + editingJornada.id, body)
+      .then(function() {
+        closeEditModal();
+        showToast('Jornada actualizada', 'ok');
+        loadSemana();
+      })
+      .catch(function(err) {
+        btn.disabled = false;
+        btn.textContent = 'Guardar';
+        showToast('Error: ' + err.message, 'err');
+      });
+  }
+
+  function executeDelete() {
+    var btn = document.getElementById('del-ok');
+    btn.disabled = true;
+    btn.textContent = 'Eliminando…';
+
+    sbDelete('cuadrilla_jornadas?id=eq.' + editingJornada.id)
+      .then(function() {
+        closeEditModal();
+        showToast('Jornada eliminada', 'ok');
+        loadSemana();
+      })
+      .catch(function(err) {
+        showToast('Error: ' + err.message, 'err');
+      });
+  }
+
+  /* ── Close on overlay click ── */
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
+  });
+  document.getElementById('modal-close').addEventListener('click', closeEditModal);
+
+  /* ══════════════════════════════════════════════
+     Toast
+  ══════════════════════════════════════════════ */
+
+  function showToast(msg, type) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className   = 'toast' + (type ? ' ' + type : '');
+    void t.offsetWidth;
+    t.classList.add('show');
+    clearTimeout(t._tid);
+    t._tid = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+  }
+
+  /* ══════════════════════════════════════════════
+     Supervisor & Nova Domus cost calculations
+  ══════════════════════════════════════════════ */
+
+  function recalcSupervisor() {
+    var base     = weekTotalJornalesAlmuerzos;
+    var comision = Math.round(base * SUPERVISOR_COMMISSION_RATE);
+    var compras  = num(document.getElementById('sup-compras').value);
+    var kmPeajes = num(document.getElementById('sup-km-peajes').value);
+    var suggested = comision + compras + kmPeajes;
+
+    document.getElementById('sup-base-jornales').textContent = fmtMoney(base);
+    document.getElementById('sup-comision').textContent      = fmtMoney(comision);
+
+    // Pre-fill total manual only if empty
+    var totalInput = document.getElementById('sup-total-manual');
+    if (totalInput.value === '' || totalInput.getAttribute('data-auto') === 'true') {
+      totalInput.value = suggested;
+      totalInput.setAttribute('data-auto', 'true');
+    }
+    document.getElementById('sup-total-display').textContent = fmtMoney(num(totalInput.value));
+
+    recalcNDCost();
+  }
+
+  function recalcNDCost() {
+    var supTotal     = num(document.getElementById('sup-total-manual').value);
+    var cuadrillaTotal = num(document.getElementById('s-total').textContent.replace(/\./g,'').replace('$','').replace('-','')) || 0;
+
+    // Parse cuadrilla total from DOM
+    var sTotalEl = document.getElementById('s-total');
+    var rawText  = sTotalEl ? sTotalEl.textContent : '0';
+    var parsed   = rawText.replace(/\./g, '').replace('$', '');
+    cuadrillaTotal = Math.abs(parseInt(parsed, 10)) || 0;
+
+    var ndTotal = cuadrillaTotal + supTotal;
+
+    document.getElementById('sup-total-display').textContent = fmtMoney(supTotal);
+    document.getElementById('nd-cost-total').textContent     = fmtMoney(ndTotal);
+    document.getElementById('nd-bd-cuadrilla').textContent   = fmtMoney(cuadrillaTotal);
+    document.getElementById('nd-bd-supervisor').textContent  = fmtMoney(supTotal);
+  }
+
+  // When user manually changes the total, stop auto-filling
+  document.getElementById('sup-total-manual').addEventListener('input', function() {
+    this.setAttribute('data-auto', 'false');
+    recalcNDCost();
+  });
+
+  /* ══════════════════════════════════════════════
+     Settings panel — custom date range
+  ══════════════════════════════════════════════ */
+
+  function toInputDate(d) {
+    return [d.getFullYear(), pad(d.getMonth() + 1), pad(d.getDate())].join('-');
+  }
+
+  // Init date inputs with current range
+  document.getElementById('custom-start').value = toInputDate(currentStart);
+  document.getElementById('custom-end').value   = toInputDate(currentEnd);
+
+  document.getElementById('btn-config').addEventListener('click', function() {
+    var panel = document.getElementById('settings-panel');
+    var shown = panel.style.display !== 'none';
+    panel.style.display = shown ? 'none' : '';
+    this.classList.toggle('active', !shown);
+    if (!shown) {
+      document.getElementById('custom-start').value = toInputDate(currentStart);
+      document.getElementById('custom-end').value   = toInputDate(currentEnd);
+    }
+  });
+
+  document.getElementById('btn-apply-dates').addEventListener('click', function() {
+    var startVal = document.getElementById('custom-start').value;
+    var endVal   = document.getElementById('custom-end').value;
+    if (!startVal || !endVal) { alert('Seleccioná ambas fechas.'); return; }
+
+    var newStart = new Date(startVal + 'T00:00:00');
+    var newEnd   = new Date(endVal   + 'T00:00:00');
+    if (newEnd < newStart) { alert('La fecha de fin debe ser igual o posterior al inicio.'); return; }
+
+    currentStart = newStart;
+    currentEnd   = newEnd;
+
+    document.getElementById('settings-panel').style.display = 'none';
+    document.getElementById('btn-config').classList.remove('active');
+    loadSemana();
+  });
+
+  /* ══════════════════════════════════════════════
+     Navigation
+  ══════════════════════════════════════════════ */
+
+  document.getElementById('btn-prev').addEventListener('click', function() {
+    var span = currentEnd - currentStart; // preserve custom range length
+    currentStart = addDays(currentStart, -7);
+    currentEnd   = new Date(currentStart.getTime() + span);
+    loadSemana();
+  });
+
+  document.getElementById('btn-next').addEventListener('click', function() {
+    var span = currentEnd - currentStart;
+    currentStart = addDays(currentStart, 7);
+    currentEnd   = new Date(currentStart.getTime() + span);
+    loadSemana();
+  });
+
+  document.getElementById('btn-hoy').addEventListener('click', function() {
+    currentStart = getWeekStartOf(new Date(), 5);
+    currentEnd   = addDays(currentStart, 6);
+    loadSemana();
+  });
+
+  /* ══════════════════════════════════════════════
+     State HTML helpers
+  ══════════════════════════════════════════════ */
+
+  function loadingHTML() { return '<div class="state-box"><div class="ico">⏳</div><p>Cargando semana…</p></div>'; }
+  function emptyHTML()   { return '<div class="state-box"><div class="ico">📭</div><p>No hay jornadas registradas para esta semana.</p></div>'; }
+  function errorHTML(m)  { return '<div class="state-box"><div class="ico">⚠️</div><p>Error al cargar datos:<br><code>' + esc(m) + '</code></p></div>'; }
+
+  /* ══════════════════════════════════════════════
+     Init
+  ══════════════════════════════════════════════ */
+
+  authClient.auth.getSession().then(function(res) {
+    var session = res.data.session;
+    if (!session) { window.location.href = '../login.html'; return null; }
+    return authClient.from('user_profiles').select('full_name, role').eq('id', session.user.id).single();
+  }).then(function(res) {
+    if (!res) return;
+    var profile = res.data;
+    if (!profile || ALLOWED_ROLES.indexOf(profile.role) === -1) {
+      window.location.href = '../index.html'; return;
+    }
+    document.getElementById('portal-username').textContent = profile.full_name;
+    document.getElementById('app-loading').style.display = 'none';
+    loadTecnicos()
+      .catch(function(e){ console.warn('No se cargaron técnicos:', e.message); })
+      .then(function()  { loadSemana(); });
+  }).catch(function() {
+    window.location.href = '../login.html';
+  });
+</script>
+</body>
+</html>

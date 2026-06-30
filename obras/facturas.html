@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Domus — Facturas de Obras</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg: #0d0f12; --surface: #151821; --surface2: #1c1f2b;
+  --border: #232733; --text: #e8eaf0; --muted: #6b7280;
+  --accent: #c8a96e; --accent-dim: #7a6340;
+  --error: #e05c5c; --ok: #4ade80;
+  font-family: 'Inter', system-ui, sans-serif; font-size: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: rgba(13,15,18,.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border); padding: 0 16px;
+  height: 50px; display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0; position: sticky; top: 0; z-index: 50;
+}
+.back-link { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.back-link:hover { color: var(--text); }
+.back-icon { width: 22px; height: 22px; background: linear-gradient(135deg,#7a6340,#c8a96e); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+.topbar-sep { width: 1px; height: 16px; background: var(--border); flex-shrink: 0; }
+.topbar-title { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: .3px; flex-shrink: 0; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.user-name { font-size: 11px; color: var(--muted); }
+.logout-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 3px 9px; border-radius: 4px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.logout-btn:hover { color: var(--text); border-color: var(--muted); }
+
+/* ── LAYOUT ── */
+.page { flex: 1; overflow-y: auto; padding: 16px; }
+.container { max-width: 680px; margin: 0 auto; }
+
+/* ── CARD ── */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+.card-title { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+
+/* ── FORM ── */
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+.field-hint { font-size: 10px; color: var(--accent); margin-top: 4px; }
+input, select, textarea {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 9px 12px; color: var(--text);
+  font-size: 13px; font-family: inherit; transition: border-color .15s;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+select option { background: var(--surface2); }
+textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+.row { display: flex; gap: 10px; }
+.row .field { flex: 1; min-width: 0; }
+
+/* ── TOGGLE ── */
+.toggle-wrap { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.toggle-btn { flex: 1; padding: 9px 12px; font-size: 12px; font-weight: 700; border: none; background: var(--surface2); color: var(--muted); cursor: pointer; transition: all .15s; font-family: inherit; }
+.toggle-btn.active { background: var(--accent); color: #0d0f12; }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 5px; padding: 10px 18px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .15s; white-space: nowrap; }
+.btn-primary { background: var(--accent); color: #0d0f12; width: 100%; justify-content: center; margin-top: 4px; }
+.btn-primary:hover { background: #d9ba7e; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-ghost { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+.btn-danger { background: #2e0d0d; border: 1px solid #4a1515; color: var(--error); }
+.btn-sm { padding: 4px 10px; font-size: 10px; }
+
+/* ── SECTION HEADER ── */
+.section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.section-title { font-size: 13px; font-weight: 800; }
+
+/* ── FACTURA CARDS ── */
+.fc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 8px; }
+.fc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.fc-left { flex: 1; min-width: 0; }
+.fc-proveedor { font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fc-meta { font-size: 11px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.fc-right { text-align: right; flex-shrink: 0; }
+.fc-monto { font-weight: 900; color: var(--accent); font-size: 14px; }
+.fc-desc { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+.fc-actions { display: flex; gap: 6px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+.badge { display: inline-flex; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.badge-empresa { background: #0d2035; color: #60a5fa; }
+.badge-tecnico { background: #1e0d35; color: #a78bfa; }
+
+/* ── MODAL (bottom-sheet) ── */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 100; align-items: flex-end; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px 16px 0 0; padding: 20px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; }
+.modal-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.modal-hdr h3 { font-size: 14px; font-weight: 800; }
+.modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 0 4px; line-height: 1; }
+.modal-ftr { display: flex; gap: 8px; margin-top: 16px; }
+.modal-ftr .btn { flex: 1; justify-content: center; }
+.modal-ftr .btn-primary { flex: 2; }
+
+@media (min-width: 640px) {
+  .topbar { padding: 0 24px; }
+  .page { padding: 20px; }
+  .modal-bg { align-items: center; }
+  .modal { border-radius: 12px; }
+}
+
+/* ── MISC ── */
+.empty { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 12px; }
+#app-loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 13px; color: var(--muted); letter-spacing: .02em; }
+.spin { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: sp .6s linear infinite; flex-shrink: 0; }
+@keyframes sp { to { transform: rotate(360deg); } }
+#toast { position: fixed; bottom: 18px; right: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-size: 12px; transform: translateY(60px); opacity: 0; transition: all .2s; z-index: 9999; max-width: 300px; }
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.ok  { border-color: var(--ok);    color: var(--ok);    }
+#toast.err { border-color: var(--error); color: var(--error); }
+</style>
+</head>
+<body>
+
+<div id="app-loading">Verificando acceso…</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">
+    <span class="back-icon">⌂</span>Portal
+  </a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Facturas de Obras</span>
+  <div class="topbar-right">
+    <span class="user-name" id="userName"></span>
+    <button class="logout-btn" onclick="handleLogout()">Salir</button>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+  <div class="container">
+
+    <!-- FORM -->
+    <div class="card">
+      <div class="card-title">Cargar factura</div>
+
+      <div class="field">
+        <label>Obra *</label>
+        <select id="fObra" onchange="onObraChange()">
+          <option value="">— seleccionar obra —</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Proveedor *</label>
+        <input type="text" id="fProveedor" list="dl-proveedores" placeholder="Nombre del proveedor">
+        <datalist id="dl-proveedores">
+          <option value="Dystech">
+          <option value="Masnet">
+          <option value="Seguridad Centro">
+          <option value="Homiq">
+        </datalist>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Tipo de comprobante *</label>
+          <select id="fTipo">
+            <option value="Factura A">Factura A</option>
+            <option value="Factura B">Factura B</option>
+            <option value="Ticket">Ticket</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>N° comprobante</label>
+          <input type="text" id="fNumero" placeholder="0001-00012345">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Fecha de compra *</label>
+        <input type="date" id="fFecha">
+      </div>
+
+      <div class="field">
+        <label>Materiales / Descripción *</label>
+        <textarea id="fMateriales" placeholder="Detallá qué se compró…"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Sin IVA $</label>
+          <input type="number" id="fSinIva" step="0.01" min="0" placeholder="0.00" oninput="calcConIva()">
+        </div>
+        <div class="field" style="max-width:90px">
+          <label>IVA</label>
+          <input type="number" id="fIva" step="0.01" min="0" max="1" value="0.21" oninput="calcConIva()">
+        </div>
+        <div class="field">
+          <label>Con IVA $ *</label>
+          <input type="number" id="fConIva" step="0.01" min="0" placeholder="0.00">
+          <div class="field-hint">Autocalculado, editable</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>¿Quién pagó?</label>
+        <div class="toggle-wrap" style="margin-bottom:10px">
+          <button class="toggle-btn active" id="btnEmpresa" onclick="setPago('empresa')">Empresa</button>
+          <button class="toggle-btn"        id="btnTecnico" onclick="setPago('tecnico')">Técnico</button>
+        </div>
+        <div id="tecnicoWrap" style="display:none">
+          <select id="fTecnico">
+            <option value="">— seleccionar técnico —</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="btnSubmit" onclick="submitFactura()">
+        Cargar factura
+      </button>
+    </div>
+
+    <!-- LIST -->
+    <div class="section-hdr">
+      <span class="section-title" id="listTitle">Últimas facturas</span>
+      <button class="btn btn-ghost btn-sm" onclick="loadFacturas()">↻</button>
+    </div>
+    <div id="facturasList">
+      <div class="empty">Cargando…</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-bg" id="editModal" onclick="onModalBgClick(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>Editar factura</h3>
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+    </div>
+
+    <div class="field">
+      <label>Proveedor *</label>
+      <input type="text" id="eProveedor" list="dl-proveedores">
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Tipo de comprobante *</label>
+        <select id="eTipo">
+          <option value="Factura A">Factura A</option>
+          <option value="Factura B">Factura B</option>
+          <option value="Ticket">Ticket</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>N° comprobante</label>
+        <input type="text" id="eNumero">
+      </div>
+    </div>
+    <div class="field">
+      <label>Fecha de compra *</label>
+      <input type="date" id="eFecha">
+    </div>
+    <div class="field">
+      <label>Materiales / Descripción *</label>
+      <textarea id="eMateriales"></textarea>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Sin IVA $</label>
+        <input type="number" id="eSinIva" step="0.01" oninput="calcConIvaE()">
+      </div>
+      <div class="field" style="max-width:90px">
+        <label>IVA</label>
+        <input type="number" id="eIva" step="0.01" oninput="calcConIvaE()">
+      </div>
+      <div class="field">
+        <label>Con IVA $ *</label>
+        <input type="number" id="eConIva" step="0.01">
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Quién pagó?</label>
+      <div class="toggle-wrap" style="margin-bottom:10px">
+        <button class="toggle-btn" id="eBtnEmpresa" onclick="setPagoE('empresa')">Empresa</button>
+        <button class="toggle-btn" id="eBtnTecnico" onclick="setPagoE('tecnico')">Técnico</button>
+      </div>
+      <div id="eTecnicoWrap" style="display:none">
+        <select id="eTecnico">
+          <option value="">— seleccionar técnico —</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-ftr">
+      <button class="btn btn-ghost" onclick="closeEdit()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────
+const SB_URL   = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+const SB_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+// ── STATE ─────────────────────────────────────────────────────
+let currentUser  = null;
+let selectedObra = null;
+let profiles     = [];
+let facturas     = [];
+let editingId    = null;
+let origenPago   = 'empresa';
+let origenPagoE  = 'empresa';
+const pendingDel = new Set();
+
+// ── FETCH ─────────────────────────────────────────────────────
+async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '') {
+  const res = await fetch(`${baseUrl}/rest/v1/${table}${query}`, {
+    method,
+    headers: {
+      'apikey': apiKey, 'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'return=representation' : method === 'PATCH' ? 'return=minimal' : ''
+    },
+    ...(body ? { body: JSON.stringify(body) } : {})
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    let msg = res.statusText;
+    try { msg = JSON.parse(text).message || msg; } catch {}
+    throw new Error(msg);
+  }
+  if (method === 'DELETE' || res.status === 204) return true;
+  const text = await res.text();
+  return JSON.parse(text);
+}
+
+const sbGet   = (t, q='') => apiFetch(SB_URL,   SB_KEY,   'GET',    t, null, q);
+const sbPost  = (t, b)    => apiFetch(SB_URL,   SB_KEY,   'POST',   t, b);
+const sbPatch = (t, b, q) => apiFetch(SB_URL,   SB_KEY,   'PATCH',  t, b,    q);
+const sbDel   = (t, q)    => apiFetch(SB_URL,   SB_KEY,   'DELETE', t, null, q);
+const authGet = (t, q='') => apiFetch(AUTH_URL, AUTH_KEY, 'GET',    t, null, q);
+
+// ── FORMAT ─────────────────────────────────────────────────────
+const f$ = n => '$ ' + (n || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fd = iso => { if (!iso) return '—'; const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`; };
+
+// ── AUTH ──────────────────────────────────────────────────────
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = '../login.html';
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+window.onload = async () => {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = '../login.html'; return; }
+
+  const { data: profile } = await authClient
+    .from('user_profiles').select('full_name, role').eq('id', session.user.id).single();
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = '../index.html'; return;
+  }
+
+  currentUser = { id: session.user.id, full_name: profile.full_name, role: profile.role };
+  document.getElementById('userName').textContent = profile.full_name;
+  document.getElementById('fFecha').value = new Date().toISOString().slice(0, 10);
+
+  await Promise.all([loadObras(), loadProfiles()]);
+  await loadFacturas();
+  document.getElementById('app-loading').style.display = 'none';
+};
+
+async function loadObras() {
+  try {
+    const rows = await sbGet('obras', '?select=id,nombre,estado&order=nombre');
+    const visible = rows.filter(o => o.estado === 'EN_CURSO' || o.estado === 'PAUSADA');
+    document.getElementById('fObra').innerHTML =
+      '<option value="">— seleccionar obra —</option>' +
+      visible.map(o => `<option value="${o.id}">${o.nombre}</option>`).join('');
+  } catch (e) {
+    toast('Error cargando obras: ' + e.message, 'err');
+  }
+}
+
+async function loadProfiles() {
+  try {
+    const rows = await authGet('user_profiles', '?select=id,full_name,role&order=full_name');
+    profiles = rows;
+    const opts = profiles
+      .map(p => `<option value="${p.id}">${p.full_name} (${p.role})</option>`)
+      .join('');
+    ['fTecnico', 'eTecnico'].forEach(id => {
+      document.getElementById(id).innerHTML =
+        '<option value="">— seleccionar técnico —</option>' + opts;
+    });
+  } catch {
+    // non-critical — tecnico selector stays empty
+  }
+}
+
+async function loadFacturas() {
+  const q = selectedObra
+    ? `?select=*,obras(nombre)&obra_id=eq.${selectedObra.id}&order=created_at.desc&limit=30`
+    : `?select=*,obras(nombre)&order=created_at.desc&limit=30`;
+  try {
+    facturas = await sbGet('facturas_obra', q);
+    renderList();
+  } catch (e) {
+    document.getElementById('facturasList').innerHTML =
+      `<div class="empty">Error al cargar facturas: ${e.message}</div>`;
+  }
+}
+
+// ── FORM ──────────────────────────────────────────────────────
+async function onObraChange() {
+  const id = document.getElementById('fObra').value;
+  if (id) {
+    const rows = await sbGet('obras', `?select=id,nombre&id=eq.${id}&limit=1`).catch(() => []);
+    selectedObra = rows[0] || null;
+  } else {
+    selectedObra = null;
+  }
+  document.getElementById('listTitle').textContent = selectedObra
+    ? `Facturas — ${selectedObra.nombre}` : 'Últimas facturas';
+  await loadFacturas();
+}
+
+function calcConIva() {
+  const sin = parseFloat(document.getElementById('fSinIva').value) || 0;
+  const iva = parseFloat(document.getElementById('fIva').value) || 0;
+  document.getElementById('fConIva').value = (sin * (1 + iva)).toFixed(2);
+}
+
+function calcConIvaE() {
+  const sin = parseFloat(document.getElementById('eSinIva').value) || 0;
+  const iva = parseFloat(document.getElementById('eIva').value) || 0;
+  document.getElementById('eConIva').value = (sin * (1 + iva)).toFixed(2);
+}
+
+function setPago(tipo) {
+  origenPago = tipo;
+  document.getElementById('btnEmpresa').classList.toggle('active', tipo === 'empresa');
+  document.getElementById('btnTecnico').classList.toggle('active', tipo === 'tecnico');
+  document.getElementById('tecnicoWrap').style.display = tipo === 'tecnico' ? 'block' : 'none';
+}
+
+function setPagoE(tipo) {
+  origenPagoE = tipo;
+  document.getElementById('eBtnEmpresa').classList.toggle('active', tipo === 'empresa');
+  document.getElementById('eBtnTecnico').classList.toggle('active', tipo === 'tecnico');
+  document.getElementById('eTecnicoWrap').style.display = tipo === 'tecnico' ? 'block' : 'none';
+}
+
+async function submitFactura() {
+  const obraId     = document.getElementById('fObra').value;
+  const proveedor  = document.getElementById('fProveedor').value.trim();
+  const materiales = document.getElementById('fMateriales').value.trim();
+  const fecha      = document.getElementById('fFecha').value;
+  const conIva     = parseFloat(document.getElementById('fConIva').value);
+  const tecnicoId  = origenPago === 'tecnico'
+    ? (document.getElementById('fTecnico').value || null) : null;
+
+  if (!obraId)             { toast('Seleccioná una obra', 'err'); return; }
+  if (!proveedor)          { toast('Ingresá el proveedor', 'err'); return; }
+  if (!fecha)              { toast('Ingresá la fecha', 'err'); return; }
+  if (!materiales)         { toast('Describí los materiales', 'err'); return; }
+  if (!conIva || conIva <= 0) { toast('Ingresá el monto con IVA', 'err'); return; }
+  if (origenPago === 'tecnico' && !tecnicoId) { toast('Seleccioná el técnico', 'err'); return; }
+
+  const payload = {
+    obra_id:            obraId,
+    proveedor,
+    tipo_comprobante:   document.getElementById('fTipo').value,
+    numero_comprobante: document.getElementById('fNumero').value.trim() || null,
+    fecha_compra:       fecha,
+    materiales,
+    monto_sin_iva:      parseFloat(document.getElementById('fSinIva').value) || 0,
+    iva:                parseFloat(document.getElementById('fIva').value) || 0.21,
+    monto_con_iva:      conIva,
+    origen_pago:        origenPago,
+    tecnico_id:         tecnicoId,
+    cargado_por:        currentUser.id,
+  };
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div> Cargando…';
+  try {
+    await sbPost('facturas_obra', payload);
+    toast('✅ Factura cargada', 'ok');
+    resetForm();
+    await loadFacturas();
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Cargar factura';
+  }
+}
+
+function resetForm() {
+  ['fProveedor','fNumero','fMateriales','fSinIva','fConIva'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('fIva').value   = '0.21';
+  document.getElementById('fTipo').value  = 'Factura A';
+  document.getElementById('fFecha').value = new Date().toISOString().slice(0, 10);
+  setPago('empresa');
+  // obra stays selected so the user can load more facturas for the same obra
+}
+
+// ── LIST ──────────────────────────────────────────────────────
+function renderList() {
+  const el = document.getElementById('facturasList');
+  if (!facturas.length) {
+    el.innerHTML = '<div class="empty">No hay facturas cargadas todavía.</div>';
+    return;
+  }
+  const isAdmin = currentUser?.role === 'admin';
+  el.innerHTML = facturas.map(f => {
+    const tecnico    = f.tecnico_id ? profiles.find(p => p.id === f.tecnico_id) : null;
+    const pagoLabel  = f.origen_pago === 'tecnico'
+      ? `<span class="badge badge-tecnico">Técnico${tecnico ? ': ' + tecnico.full_name : ''}</span>`
+      : '<span class="badge badge-empresa">Empresa</span>';
+    const obraBadge  = !selectedObra && f.obras?.nombre
+      ? `<span>${f.obras.nombre}</span>` : '';
+    const actions = isAdmin ? `
+      <div class="fc-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit(${f.id})">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" id="del-${f.id}" onclick="deleteFactura(${f.id})">🗑 Eliminar</button>
+      </div>` : '';
+    return `<div class="fc" id="fc-${f.id}">
+      <div class="fc-top">
+        <div class="fc-left">
+          <div class="fc-proveedor">${f.proveedor}</div>
+          <div class="fc-meta">
+            <span>${fd(f.fecha_compra)}</span>
+            <span>${f.tipo_comprobante}${f.numero_comprobante ? ' ' + f.numero_comprobante : ''}</span>
+            ${obraBadge}
+          </div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-monto">${f$(f.monto_con_iva)}</div>
+          <div style="margin-top:5px">${pagoLabel}</div>
+        </div>
+      </div>
+      ${f.materiales ? `<div class="fc-desc">${f.materiales}</div>` : ''}
+      ${actions}
+    </div>`;
+  }).join('');
+}
+
+// ── DELETE ────────────────────────────────────────────────────
+async function deleteFactura(id) {
+  const btn = document.getElementById(`del-${id}`);
+  if (!pendingDel.has(id)) {
+    pendingDel.add(id);
+    if (btn) { btn.textContent = '¿Confirmar?'; btn.style.background = '#4a0d0d'; }
+    setTimeout(() => {
+      pendingDel.delete(id);
+      if (document.getElementById(`del-${id}`)) {
+        btn.innerHTML = '🗑 Eliminar'; btn.style.background = '';
+      }
+    }, 3500);
+    return;
+  }
+  pendingDel.delete(id);
+  try {
+    await sbDel('facturas_obra', `?id=eq.${id}`);
+    toast('Factura eliminada', 'ok');
+    await loadFacturas();
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+  }
+}
+
+// ── EDIT MODAL ────────────────────────────────────────────────
+function openEdit(id) {
+  const f = facturas.find(x => x.id === id);
+  if (!f) return;
+  editingId = id;
+  document.getElementById('eProveedor').value  = f.proveedor || '';
+  document.getElementById('eTipo').value        = f.tipo_comprobante || 'Factura A';
+  document.getElementById('eNumero').value      = f.numero_comprobante || '';
+  document.getElementById('eFecha').value       = f.fecha_compra || '';
+  document.getElementById('eMateriales').value  = f.materiales || '';
+  document.getElementById('eSinIva').value      = f.monto_sin_iva ?? '';
+  document.getElementById('eIva').value         = f.iva ?? 0.21;
+  document.getElementById('eConIva').value      = f.monto_con_iva ?? '';
+  setPagoE(f.origen_pago || 'empresa');
+  if (f.tecnico_id) document.getElementById('eTecnico').value = f.tecnico_id;
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeEdit() {
+  editingId = null;
+  document.getElementById('editModal').classList.remove('open');
+}
+
+function onModalBgClick(e) {
+  if (e.target === document.getElementById('editModal')) closeEdit();
+}
+
+async function saveEdit() {
+  if (!editingId) return;
+  const proveedor  = document.getElementById('eProveedor').value.trim();
+  const materiales = document.getElementById('eMateriales').value.trim();
+  const fecha      = document.getElementById('eFecha').value;
+  const conIva     = parseFloat(document.getElementById('eConIva').value);
+  const tecnicoId  = origenPagoE === 'tecnico'
+    ? (document.getElementById('eTecnico').value || null) : null;
+
+  if (!proveedor || !materiales || !fecha || !conIva) {
+    toast('Completá los campos requeridos', 'err'); return;
+  }
+
+  const payload = {
+    proveedor,
+    tipo_comprobante:   document.getElementById('eTipo').value,
+    numero_comprobante: document.getElementById('eNumero').value.trim() || null,
+    fecha_compra:       fecha,
+    materiales,
+    monto_sin_iva:      parseFloat(document.getElementById('eSinIva').value) || 0,
+    iva:                parseFloat(document.getElementById('eIva').value) || 0.21,
+    monto_con_iva:      conIva,
+    origen_pago:        origenPagoE,
+    tecnico_id:         tecnicoId,
+  };
+
+  try {
+    await sbPatch('facturas_obra', payload, `?id=eq.${editingId}`);
+    toast('Factura actualizada', 'ok');
+    closeEdit();
+    await loadFacturas();
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function toast(msg, type = 'ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `show ${type}`;
+  setTimeout(() => t.className = '', 3500);
+}
+</script>
+</body>
+</html>

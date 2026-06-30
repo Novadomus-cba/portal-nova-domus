@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nova Domus — Cuadrilla</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --nd-orange: #E85D26;
+  --nd-orange-light: #FDF0EB;
+  --nd-orange-border: #F5C4A8;
+  --bg: #F7F6F4;
+  --surface: #FFFFFF;
+  --border: #E8E6E1;
+  --border-strong: #D0CEC9;
+  --text: #1A1917;
+  --text-muted: #6B6966;
+  --text-hint: #A09D99;
+  --danger: #C0392B;
+  --danger-bg: #FDF2F0;
+  --danger-border: #F5C6C0;
+  --success: #1D8A5C;
+  --success-bg: #F0FAF5;
+  --warn-bg: #FFFBEB;
+  --warn-border: #FDE68A;
+  --warn-text: #92400E;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  min-height: 100vh;
+}
+
+/* ── LOADING OVERLAY ── */
+#app-loading {
+  position: fixed; inset: 0;
+  background: #0d0f12;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #6b7280;
+  letter-spacing: 0.02em;
+}
+
+/* ── PORTAL HEADER ── */
+#app-header { position: sticky; top: 0; z-index: 100; }
+.portal-bar {
+  background: #0d0f12;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid #232733;
+}
+.portal-bar-left { display: flex; align-items: center; gap: 10px; }
+.portal-back {
+  display: flex; align-items: center; gap: 7px;
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.15s;
+}
+.portal-back:hover { color: #e8eaf0; }
+.portal-back-icon {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, #7a6340, #c8a96e);
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.portal-divider { width: 1px; height: 14px; background: #232733; }
+.portal-module {
+  font-size: 14px; font-weight: 600;
+  color: #e8eaf0;
+  font-family: 'Inter', sans-serif;
+}
+.portal-bar-right { display: flex; align-items: center; gap: 12px; }
+#portal-username {
+  font-size: 12px; color: #6b7280;
+  font-family: 'Inter', sans-serif;
+}
+.portal-logout {
+  background: none;
+  border: 1px solid #232733;
+  color: #6b7280;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.portal-logout:hover { color: #e8eaf0; border-color: #6b7280; }
+
+/* ── MODULE TABS ── */
+.module-tabs {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  height: 46px;
+  display: flex; align-items: center;
+}
+.nav-tabs {
+  display: flex; gap: 2px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
+.nav-tab {
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer; border: none; background: none;
+  transition: all .15s;
+  font-family: inherit;
+}
+.nav-tab.active {
+  background: var(--surface); color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+/* ── FADE IN ── */
+#app-header, #app-content { animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; } }
+
+/* ── PANEL STYLES ── */
+.page { display: none; padding: 1rem; max-width: 600px; margin: 0 auto; }
+.page.active { display: block; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.card-body { padding: 14px; }
+.field { margin-bottom: 13px; }
+.field:last-child { margin-bottom: 0; }
+label.lbl {
+  display: block; font-size: 12px;
+  color: var(--text-muted); margin-bottom: 5px; font-weight: 500;
+}
+select, input[type=text], input[type=number], input[type=date], input[type=time], textarea {
+  width: 100%; padding: 9px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px; color: var(--text);
+  background: var(--surface);
+  appearance: none; -webkit-appearance: none;
+  outline: none; transition: border-color .15s;
+  font-family: inherit;
+}
+select:focus, input:focus, textarea:focus {
+  border-color: var(--nd-orange);
+  box-shadow: 0 0 0 3px rgba(232,93,38,.1);
+}
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.money-wrap { position: relative; }
+.money-wrap .prefix {
+  position: absolute; left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px; color: var(--text-muted); pointer-events: none;
+}
+.money-wrap input { padding-left: 22px; }
+.toggle-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+.toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.tog-slider {
+  position: absolute; inset: 0;
+  background: var(--border-strong);
+  border-radius: 11px; transition: .2s; cursor: pointer;
+}
+.tog-slider:before {
+  content: ""; position: absolute;
+  width: 16px; height: 16px; left: 3px; top: 3px;
+  background: white; border-radius: 50%; transition: .2s;
+}
+.toggle input:checked + .tog-slider { background: var(--success); }
+.toggle input:checked + .tog-slider:before { transform: translateX(18px); }
+.tog-label { font-size: 14px; }
+.tog-badge {
+  font-size: 11px; padding: 2px 7px; border-radius: 20px;
+  background: var(--warn-bg); color: var(--warn-text);
+  border: 1px solid var(--warn-border); display: none;
+}
+.alert {
+  display: none; padding: 9px 12px; border-radius: var(--radius-sm);
+  font-size: 12px; margin-bottom: 12px;
+  gap: 8px; align-items: flex-start; line-height: 1.5;
+}
+.alert.show { display: flex; }
+.alert.warn { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+.alert.info { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+.alert-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+.obras-list { display: flex; flex-direction: column; gap: 8px; }
+.obra-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px 12px;
+}
+.obra-top {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 8px; align-items: center; margin-bottom: 10px;
+}
+.obra-hrs { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+.btn-remove {
+  background: none; border: none; color: var(--text-hint);
+  cursor: pointer; font-size: 18px; line-height: 1; padding: 0 2px;
+}
+.btn-remove:hover { color: var(--danger); }
+.btn-add-obra {
+  font-size: 13px; color: var(--nd-orange);
+  background: none; border: none; cursor: pointer;
+  padding: 8px 0 0; font-weight: 500;
+  display: flex; align-items: center; gap: 4px;
+}
+.resumen {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 12px 14px; margin-bottom: 14px;
+}
+.resumen-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; padding: 4px 0; color: var(--text-muted);
+}
+.resumen-row span:last-child { color: var(--text); font-weight: 500; }
+.resumen-row.desc span:last-child { color: var(--danger); }
+.resumen-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+.resumen-total {
+  display: flex; justify-content: space-between;
+  font-size: 15px; font-weight: 600; padding-top: 4px;
+}
+.resumen-total span:last-child { color: var(--nd-orange); }
+.btn-primary {
+  width: 100%; padding: 13px;
+  background: var(--nd-orange); color: white; border: none;
+  border-radius: var(--radius); font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: opacity .15s, transform .1s;
+  letter-spacing: -0.01em; font-family: inherit;
+}
+.btn-primary:active { opacity: .88; transform: scale(.99); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+.hist-filters { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.hist-filters select { flex: 1; min-width: 120px; font-size: 13px; padding: 8px 10px; }
+.hist-empty { text-align: center; padding: 3rem 1rem; color: var(--text-hint); font-size: 14px; }
+.jornada-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 8px; overflow: hidden;
+}
+.jornada-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.jornada-header:hover { background: var(--bg); }
+.jornada-tec { font-weight: 600; font-size: 14px; }
+.jornada-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.jornada-monto { font-size: 15px; font-weight: 700; color: var(--nd-orange); white-space: nowrap; }
+.jornada-body { padding: 12px 14px; display: none; background: var(--bg); }
+.jornada-body.open { display: block; }
+.jornada-detail-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; padding: 3px 0; color: var(--text-muted);
+}
+.jornada-detail-row span:last-child { color: var(--text); }
+.chevron { font-size: 12px; color: var(--text-hint); transition: transform .2s; }
+.chevron.open { transform: rotate(180deg); }
+.loader {
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem; gap: 10px; color: var(--text-muted); font-size: 14px;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border); border-top-color: var(--nd-orange);
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.45); z-index: 200;
+  align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+  width: 100%; max-width: 600px; padding: 20px;
+  animation: slideUp .2s ease;
+}
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } }
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; white-space: pre-line; }
+.modal-resumen { margin-bottom: 16px; }
+.modal-actions { display: flex; gap: 8px; }
+.btn-cancel {
+  flex: 1; padding: 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: inherit;
+}
+.btn-confirm {
+  flex: 2; padding: 12px;
+  background: var(--nd-orange); color: white;
+  border: none; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.btn-confirm:disabled { opacity: .45; cursor: not-allowed; }
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: white;
+  padding: 10px 18px; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  opacity: 0; transition: all .25s; pointer-events: none;
+  z-index: 300; white-space: nowrap;
+}
+.toast.success { background: var(--success); }
+.toast.error   { background: var(--danger); }
+.toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+.tarifa-info {
+  font-size: 12px; color: var(--text-hint);
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 8px 10px; margin-top: 8px; display: none;
+}
+.tarifa-info.show { display: block; }
+textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height: 1.5; }
+.btn-edit-sm {
+  background: none; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-muted);
+  font-size: 13px; cursor: pointer; padding: 3px 7px; line-height: 1.4;
+}
+.btn-edit-sm:hover { background: var(--bg); color: var(--text); }
+.btn-delete {
+  padding: 0 14px; height: 44px;
+  background: var(--danger-bg); border: 1px solid var(--danger-border);
+  border-radius: var(--radius); font-size: 16px; cursor: pointer;
+  color: var(--danger); flex-shrink: 0;
+}
+.btn-delete:hover { background: var(--danger-border); }
+.btn-danger-confirm {
+  flex: 2; padding: 12px;
+  background: var(--danger); color: white; border: none;
+  border-radius: var(--radius); font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.btn-pin {
+  width: 38px; padding: 0; background: none;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font-size: 16px; cursor: pointer; color: var(--text-muted);
+  flex-shrink: 0; transition: background .15s, border-color .15s;
+}
+.btn-pin.active { background: var(--nd-orange); border-color: var(--nd-orange); }
+#sel-tecnico:disabled {
+  opacity: 1; background: var(--nd-orange-light);
+  border-color: var(--nd-orange-border); color: var(--text);
+}
+</style>
+</head>
+<body>
+
+<!-- Loading overlay — shown until auth resolves -->
+<div id="app-loading">Verificando acceso…</div>
+
+<!-- Portal header — sticky, revealed after auth -->
+<div id="app-header" style="display:none">
+  <div class="portal-bar">
+    <div class="portal-bar-left">
+      <a href="../index.html" class="portal-back">
+        <span class="portal-back-icon">⌂</span>
+        Portal
+      </a>
+      <div class="portal-divider"></div>
+      <span class="portal-module">Cuadrilla</span>
+    </div>
+    <div class="portal-bar-right">
+      <span id="portal-username"></span>
+      <button class="portal-logout" onclick="handleLogout()">Salir</button>
+    </div>
+  </div>
+  <div class="module-tabs">
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('carga', this)">Carga</button>
+      <button class="nav-tab" id="tab-historico" onclick="showPage('historico', this)">Histórico</button>
+    </div>
+  </div>
+</div>
+
+<!-- Panel content — revealed after auth -->
+<div id="app-content" style="display:none">
+
+  <!-- PÁGINA CARGA -->
+  <div class="page active" id="page-carga">
+
+    <div class="card">
+      <div class="card-header">Técnico y fecha</div>
+      <div class="card-body">
+        <div class="row2">
+          <div class="field">
+            <label class="lbl">Técnico</label>
+            <div style="display:flex;gap:6px">
+              <select id="sel-tecnico" onchange="onTecnicoChange()" style="flex:1">
+                <option value="">Cargando...</option>
+              </select>
+              <button class="btn-pin" id="btn-pin" onclick="togglePin()" title="Fijar técnico">📌</button>
+            </div>
+          </div>
+          <div class="field">
+            <label class="lbl">Fecha</label>
+            <input type="date" id="inp-fecha" onchange="recalcular()">
+          </div>
+        </div>
+        <div class="tarifa-info" id="tarifa-info"></div>
+        <div id="alert-solap" class="alert warn">
+          <span class="alert-icon">⚠️</span>
+          <span>Solapamiento de horarios entre obras.</span>
+        </div>
+        <div id="alert-multi" class="alert info">
+          <span class="alert-icon">ℹ️</span>
+          <span>Múltiples obras este día. El almuerzo se paga una sola vez — revisá que no esté duplicado.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Obras del día</div>
+      <div class="card-body">
+        <div class="obras-list" id="obras-list"></div>
+        <button class="btn-add-obra" onclick="addObra()">+ Agregar obra</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Viáticos y descuentos</div>
+      <div class="card-body">
+        <div class="row2">
+          <div class="field">
+            <label class="lbl">KM recorridos</label>
+            <input type="number" id="inp-km" min="0" placeholder="0" oninput="recalcular()">
+          </div>
+          <div class="field">
+            <label class="lbl">Peajes (cantidad)</label>
+            <input type="number" id="inp-peajes" min="0" placeholder="0" oninput="recalcular()">
+          </div>
+        </div>
+        <div class="toggle-row">
+          <label class="toggle">
+            <input type="checkbox" id="chk-almuerzo" onchange="recalcular()">
+            <span class="tog-slider"></span>
+          </label>
+          <span class="tog-label">Almuerzo</span>
+          <span class="tog-badge" id="badge-alm">revisar en múltiples obras</span>
+        </div>
+        <div class="field">
+          <label class="lbl">Otros</label>
+          <div class="money-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="inp-otros" min="0" placeholder="0" oninput="recalcular()">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Adelantos</label>
+          <div class="money-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="inp-adelantos" min="0" placeholder="0" oninput="recalcular()">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Detalle / novedades</label>
+          <input type="text" id="inp-detalle" placeholder="Observaciones opcionales">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Resumen del día</div>
+      <div class="card-body">
+        <div class="resumen">
+          <div class="resumen-row"><span>Horas trabajadas</span><span id="r-horas">—</span></div>
+          <div class="resumen-row"><span>Horas a pagar</span><span id="r-hpago">—</span></div>
+          <div class="resumen-row"><span>Jornal</span><span id="r-jornal">—</span></div>
+          <div class="resumen-row"><span>Almuerzo</span><span id="r-almuerzo">—</span></div>
+          <div class="resumen-row"><span>Traslados</span><span id="r-traslados">—</span></div>
+          <div class="resumen-row"><span>Peajes</span><span id="r-peajes">—</span></div>
+          <div class="resumen-row"><span>Otros</span><span id="r-otros">—</span></div>
+          <hr class="resumen-divider">
+          <div class="resumen-row"><span>Subtotal</span><span id="r-subtotal">—</span></div>
+          <div class="resumen-row desc"><span>Adelantos</span><span id="r-adelantos">—</span></div>
+          <hr class="resumen-divider">
+          <div class="resumen-total"><span>Neto a pagar</span><span id="r-total">—</span></div>
+        </div>
+        <button class="btn-primary" id="btn-confirmar" onclick="abrirModal()" disabled>
+          Confirmar y guardar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA HISTÓRICO -->
+  <div class="page" id="page-historico">
+    <div class="hist-filters">
+      <select id="fil-tecnico" onchange="cargarHistorico()">
+        <option value="">Todos los técnicos</option>
+      </select>
+      <select id="fil-obra" onchange="cargarHistorico()">
+        <option value="">Todas las obras</option>
+      </select>
+    </div>
+    <div id="hist-content">
+      <div class="loader"><div class="spinner"></div> Cargando...</div>
+    </div>
+  </div>
+
+</div><!-- #app-content -->
+
+<!-- MODAL CONFIRMACIÓN -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Confirmar jornada</div>
+    <div class="modal-sub" id="modal-sub"></div>
+    <div class="modal-resumen" id="modal-resumen"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-confirm" id="btn-guardar" onclick="guardar()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR JORNADA -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal" style="max-height:85vh;display:flex;flex-direction:column;padding:20px;padding-bottom:0">
+    <div class="modal-title" id="edit-title">Editar jornada</div>
+    <div class="modal-sub" id="edit-sub" style="margin-bottom:12px"></div>
+
+    <div style="overflow-y:auto;flex:1;min-height:0">
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Entrada</label>
+          <input type="time" id="edit-entrada">
+        </div>
+        <div class="field">
+          <label class="lbl">Salida</label>
+          <input type="time" id="edit-salida">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Horas trabajadas</label>
+          <input type="number" id="edit-horas" min="0" step="0.5" placeholder="0">
+        </div>
+        <div class="field">
+          <label class="lbl">Jornal</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="edit-jornal" min="0" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Almuerzo</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="edit-almuerzo" min="0" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Traslados</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="edit-traslados" min="0" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Peaje</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="edit-peaje" min="0" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">KM</label>
+          <input type="number" id="edit-km" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Otros</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="edit-otros" min="0" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Adelantos</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="edit-adelantos" min="0" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl">Compras (reintegros)</label>
+        <div class="money-wrap"><span class="prefix">$</span>
+          <input type="number" id="edit-compras" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl">Detalle / novedades</label>
+        <textarea id="edit-detalle" rows="2" placeholder="Observaciones opcionales"></textarea>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="checkbox" id="edit-estimado">
+          <span class="tog-slider"></span>
+        </label>
+        <span class="tog-label">Es estimado</span>
+      </div>
+    </div>
+
+    <div id="edit-footer" style="flex-shrink:0;padding:14px 0 20px">
+      <div id="edit-footer-normal" style="display:flex;gap:8px">
+        <button class="btn-delete" onclick="showDeleteConfirm()">🗑</button>
+        <button class="btn-cancel" style="flex:1" onclick="closeEditModal()">Cancelar</button>
+        <button class="btn-confirm" id="btn-edit-save" style="flex:2" onclick="saveJornada()">Guardar</button>
+      </div>
+      <div id="edit-footer-delete" style="display:none;gap:8px">
+        <button class="btn-cancel" style="flex:1" onclick="resetEditFooter()">← Volver</button>
+        <button class="btn-danger-confirm" onclick="executeDelete()">Confirmar eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── AUTH ──────────────────────────────────────────────────────
+const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = '../login.html';
+}
+
+// ── PANEL DATA ────────────────────────────────────────────────
+const SUPA_URL    = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+const SUPA_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+const MIN_HORAS   = 6;
+const VALOR_PEAJE = 3000;
+
+let TECNICOS         = {};
+let OBRAS            = [];
+let jornadasMap      = {};
+let pinnedTechnician = null;
+let obras            = [];
+let tecOrden         = [];
+
+function pad(n)    { return String(n).padStart(2, '0'); }
+function fmt(n)    { return '$' + Math.round(n).toLocaleString('es-AR'); }
+function toMin(t)  { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+
+function buildTimeOpts() {
+  let s = '<option value="">--:--</option>';
+  for (let h = 5; h <= 22; h++)
+    for (let m = 0; m < 60; m += 30)
+      s += `<option value="${pad(h)}:${pad(m)}">${pad(h)}:${pad(m)}</option>`;
+  return s;
+}
+const TIME_OPTS = buildTimeOpts();
+
+async function supa(path, opts = {}) {
+  const res = await fetch(SUPA_URL + path, {
+    ...opts,
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || '',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) { const e = await res.text(); throw new Error(e); }
+  const ct = res.headers.get('content-type') || '';
+  return ct.includes('json') ? res.json() : null;
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+async function init() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = '../login.html'; return; }
+
+  const { data: profile } = await authClient
+    .from('user_profiles')
+    .select('full_name, role')
+    .eq('id', session.user.id)
+    .single();
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = '../index.html';
+    return;
+  }
+
+  // Portal header
+  document.getElementById('portal-username').textContent = profile.full_name;
+
+  // Comercial role: Carga only, no Histórico
+  if (profile.role === 'comercial') {
+    document.getElementById('tab-historico').style.display = 'none';
+  }
+
+  // Reveal UI
+  document.getElementById('app-loading').style.display = 'none';
+  document.getElementById('app-header').style.display  = 'block';
+  document.getElementById('app-content').style.display = 'block';
+
+  // Panel init
+  const d = new Date();
+  document.getElementById('inp-fecha').value =
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  addObra();
+  await Promise.all([cargarTecnicos(), cargarObras()]);
+}
+
+// ── TÉCNICOS ──────────────────────────────────────────────────
+async function cargarTecnicos() {
+  const today = document.getElementById('inp-fecha').value || new Date().toISOString().slice(0, 10);
+  try {
+    const [tecs, tarifas] = await Promise.all([
+      supa('/rest/v1/cuadrilla_tecnicos?select=id,nombre,activo&activo=eq.true&order=nombre'),
+      supa(`/rest/v1/cuadrilla_tarifas?select=tecnico_id,categoria,subcuadrilla,valor_hora_ars,almuerzo_ars,traslados_ars,valor_km_ars,fecha_desde,fecha_hasta&fecha_desde=lte.${today}&or=(fecha_hasta.is.null,fecha_hasta.gte.${today})`)
+    ]);
+
+    const tarifaMap = {};
+    (tarifas || []).forEach(t => {
+      if (!tarifaMap[t.tecnico_id] || t.fecha_desde > tarifaMap[t.tecnico_id].fecha_desde)
+        tarifaMap[t.tecnico_id] = t;
+    });
+
+    TECNICOS = {};
+    tecOrden = [];
+    const sel = document.getElementById('sel-tecnico');
+    sel.innerHTML = '<option value="">Seleccioná...</option>';
+
+    const grupos = {};
+    (tecs || []).forEach(t => {
+      const tar = tarifaMap[t.id] || {};
+      const sub = tar.subcuadrilla || 'SIN CUADRILLA';
+      if (!grupos[sub]) grupos[sub] = [];
+      grupos[sub].push({ ...t, ...tar });
+    });
+
+    const orden = ['CUADRILLA 1', 'CUADRILLA 2', 'CUADRILLA 3', 'CUADRILLA 4', 'SUPERVISIÓN'];
+    const allSubs = [...orden.filter(s => grupos[s]), ...Object.keys(grupos).filter(s => !orden.includes(s))];
+
+    allSubs.forEach(sub => {
+      const og = document.createElement('optgroup');
+      og.label = sub;
+      grupos[sub].forEach(t => {
+        TECNICOS[t.nombre] = {
+          id: t.id,
+          valor_hora: t.valor_hora_ars || 0,
+          almuerzo_ars: t.almuerzo_ars || 0,
+          valor_km: t.valor_km_ars || 0,
+          traslados_base: t.traslados_ars || 0,
+          categoria: t.categoria || '',
+          subcuadrilla: sub,
+        };
+        tecOrden.push(t.nombre);
+        const opt = document.createElement('option');
+        opt.value = t.nombre;
+        opt.textContent = t.nombre;
+        og.appendChild(opt);
+      });
+      sel.appendChild(og);
+    });
+
+    const filTec = document.getElementById('fil-tecnico');
+    filTec.innerHTML = '<option value="">Todos los técnicos</option>';
+    tecOrden.forEach(n => {
+      const o = document.createElement('option');
+      o.value = TECNICOS[n].id;
+      o.textContent = n;
+      filTec.appendChild(o);
+    });
+
+  } catch (e) { console.error('Error cargando técnicos', e); }
+}
+
+async function cargarObras() {
+  try {
+    const data = await supa('/rest/v1/obras?select=codigo_obra,nombre,estado&estado=in.(EN_CURSO,PAUSADA)&order=nombre');
+    OBRAS = (data || []).filter(o => o.codigo_obra);
+
+    const filObra = document.getElementById('fil-obra');
+    filObra.innerHTML = '<option value="">Todas las obras</option>';
+    OBRAS.forEach(o => {
+      const opt = document.createElement('option');
+      opt.value = o.codigo_obra;
+      opt.textContent = `${o.codigo_obra} — ${o.nombre}`;
+      filObra.appendChild(opt);
+    });
+
+    renderObras();
+  } catch (e) { console.error('Error cargando obras', e); }
+}
+
+// ── TÉCNICO ───────────────────────────────────────────────────
+function onTecnicoChange() {
+  const nombre = document.getElementById('sel-tecnico').value;
+  const t = TECNICOS[nombre];
+  const info = document.getElementById('tarifa-info');
+  if (t && t.valor_hora) {
+    info.className = 'tarifa-info show';
+    const parts = [`${t.categoria}`, `${fmt(t.valor_hora)}/hs`];
+    if (t.almuerzo_ars) parts.push(`almuerzo ${fmt(t.almuerzo_ars)}`);
+    if (t.valor_km)     parts.push(`${fmt(t.valor_km)}/km`);
+    info.textContent = parts.join(' · ');
+  } else {
+    info.className = 'tarifa-info';
+  }
+  recalcular();
+}
+
+function togglePin() {
+  const sel = document.getElementById('sel-tecnico');
+  const btn = document.getElementById('btn-pin');
+  if (pinnedTechnician) {
+    pinnedTechnician = null;
+    sel.disabled = false;
+    btn.classList.remove('active');
+  } else {
+    const nombre = sel.value;
+    if (!nombre) return;
+    pinnedTechnician = nombre;
+    sel.disabled = true;
+    btn.classList.add('active');
+  }
+}
+
+// ── OBRAS ─────────────────────────────────────────────────────
+function addObra()       { obras.push({ codigo: '', entrada: '', salida: '', horas: 0 }); renderObras(); }
+function removeObra(i)   { obras.splice(i, 1); renderObras(); }
+
+function renderObras() {
+  const c = document.getElementById('obras-list');
+  c.innerHTML = '';
+  obras.forEach((o, i) => {
+    const div = document.createElement('div');
+    div.className = 'obra-item';
+    const optsObra = OBRAS.map(ob =>
+      `<option value="${ob.codigo_obra}"${o.codigo === ob.codigo_obra ? ' selected' : ''}>${ob.nombre} [${ob.codigo_obra}]</option>`
+    ).join('');
+    const selE = TIME_OPTS.replace(`value="${o.entrada}"`, `value="${o.entrada}" selected`);
+    const selS = TIME_OPTS.replace(`value="${o.salida}"`,  `value="${o.salida}" selected`);
+    div.innerHTML = `
+      <div class="obra-top">
+        <select onchange="obraChange(${i},'codigo',this.value)" style="font-size:13px">
+          <option value="">Seleccioná obra...</option>${optsObra}
+        </select>
+        <div style="display:flex;align-items:center;gap:6px">
+          ${o.horas > 0 ? `<span class="obra-hrs">${o.horas}hs</span>` : ''}
+          ${obras.length > 1 ? `<button class="btn-remove" onclick="removeObra(${i})">×</button>` : ''}
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label class="lbl">Entrada</label>
+          <select onchange="obraChange(${i},'entrada',this.value)" style="font-size:13px">${selE}</select>
+        </div>
+        <div>
+          <label class="lbl">Salida</label>
+          <select onchange="obraChange(${i},'salida',this.value)" style="font-size:13px">${selS}</select>
+        </div>
+      </div>`;
+    c.appendChild(div);
+  });
+  recalcular();
+}
+
+function obraChange(i, field, val) {
+  obras[i][field] = val;
+  if (obras[i].entrada && obras[i].salida) {
+    const mins = toMin(obras[i].salida) - toMin(obras[i].entrada);
+    obras[i].horas = mins > 0 ? mins / 60 : 0;
+  }
+  checkAlertas();
+  renderObras();
+}
+
+function horasTotales() { return obras.reduce((s, o) => s + (o.horas || 0), 0); }
+
+function checkSolapamiento() {
+  for (let i = 0; i < obras.length; i++)
+    for (let j = i + 1; j < obras.length; j++) {
+      const a = obras[i], b = obras[j];
+      if (!a.entrada || !a.salida || !b.entrada || !b.salida) continue;
+      if (toMin(a.entrada) < toMin(b.salida) && toMin(b.entrada) < toMin(a.salida)) return true;
+    }
+  return false;
+}
+
+function checkAlertas() {
+  const multi = obras.filter(o => o.codigo).length > 1;
+  document.getElementById('alert-multi').classList.toggle('show', multi);
+  document.getElementById('alert-solap').classList.toggle('show', checkSolapamiento());
+  document.getElementById('badge-alm').style.display = multi ? 'inline' : 'none';
+}
+
+// ── CÁLCULO ───────────────────────────────────────────────────
+function recalcular() {
+  const nombre = document.getElementById('sel-tecnico').value;
+  const btn    = document.getElementById('btn-confirmar');
+  if (!nombre) { btn.disabled = true; return; }
+  const t = TECNICOS[nombre];
+  if (!t) { btn.disabled = true; return; }
+
+  const htotal   = horasTotales();
+  const hpago    = htotal > 0 ? Math.max(htotal, MIN_HORAS) : 0;
+  const chkAlm   = document.getElementById('chk-almuerzo').checked;
+  const km       = parseFloat(document.getElementById('inp-km').value) || 0;
+  const peajes   = parseInt(document.getElementById('inp-peajes').value) || 0;
+  const otros    = parseFloat(document.getElementById('inp-otros').value) || 0;
+  const adelantos = parseFloat(document.getElementById('inp-adelantos').value) || 0;
+
+  const jornal    = hpago * t.valor_hora;
+  const almuerzo  = chkAlm && htotal > MIN_HORAS ? t.almuerzo_ars : 0;
+  const traslados = km * t.valor_km;
+  const peajeVal  = peajes * VALOR_PEAJE;
+  const subtotal  = jornal + almuerzo + traslados + peajeVal + otros;
+  const neto      = Math.max(subtotal - adelantos, 0);
+
+  document.getElementById('r-horas').textContent    = htotal ? htotal + 'hs' : '—';
+  document.getElementById('r-hpago').textContent    = hpago
+    ? hpago + 'hs' + (hpago > htotal ? ' (mínimo 6hs)' : '') : '—';
+  document.getElementById('r-jornal').textContent   = jornal ? fmt(jornal) : '—';
+  document.getElementById('r-almuerzo').textContent =
+    almuerzo ? fmt(almuerzo) : (chkAlm && htotal <= MIN_HORAS ? 'No aplica (≤6hs)' : '—');
+  document.getElementById('r-traslados').textContent = traslados ? fmt(traslados) + (km ? ` (${km}km)` : '') : '—';
+  document.getElementById('r-peajes').textContent   = peajeVal ? fmt(peajeVal) + (peajes > 1 ? ` (×${peajes})` : '') : '—';
+  document.getElementById('r-otros').textContent    = otros ? fmt(otros) : '—';
+  document.getElementById('r-subtotal').textContent = subtotal ? fmt(subtotal) : '—';
+  document.getElementById('r-adelantos').textContent = adelantos ? '− ' + fmt(adelantos) : '—';
+  document.getElementById('r-total').textContent    = fmt(neto);
+
+  const obrasOk = obras.filter(o => o.codigo && o.entrada && o.salida).length > 0;
+  const fechaOk = !!document.getElementById('inp-fecha').value;
+  btn.disabled  = !obrasOk || !fechaOk;
+
+  checkAlertas();
+}
+
+// ── MODAL CONFIRMACIÓN ────────────────────────────────────────
+function abrirModal() {
+  const nombre = document.getElementById('sel-tecnico').value;
+  const fecha  = document.getElementById('inp-fecha').value;
+  const [y, m, d] = fecha.split('-');
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const dt   = new Date(y, m - 1, d);
+  const obrasValidas = obras.filter(o => o.codigo && o.entrada && o.salida);
+
+  document.getElementById('modal-title').textContent = `${nombre} — ${dias[dt.getDay()]} ${d}/${m}/${y}`;
+  document.getElementById('modal-sub').textContent   =
+    obrasValidas.map(o => {
+      const ob = OBRAS.find(x => x.codigo_obra === o.codigo);
+      return `${ob ? ob.nombre : o.codigo} · ${o.entrada}–${o.salida} (${o.horas}hs)`;
+    }).join('\n');
+
+  const r = {
+    jornal:    document.getElementById('r-jornal').textContent,
+    almuerzo:  document.getElementById('r-almuerzo').textContent,
+    traslados: document.getElementById('r-traslados').textContent,
+    peajes:    document.getElementById('r-peajes').textContent,
+    adelantos: document.getElementById('r-adelantos').textContent,
+    total:     document.getElementById('r-total').textContent,
+  };
+  document.getElementById('modal-resumen').innerHTML = `
+    <div style="background:var(--bg);border-radius:8px;padding:12px;font-size:13px">
+      ${[['Jornal',r.jornal],['Almuerzo',r.almuerzo],['Traslados',r.traslados],
+         ['Peajes',r.peajes],['Adelantos',r.adelantos]]
+        .filter(([, v]) => v !== '—')
+        .map(([k, v]) => `<div style="display:flex;justify-content:space-between;padding:3px 0;color:var(--text-muted)">
+          <span>${k}</span><span style="color:var(--text);font-weight:500">${v}</span></div>`).join('')}
+      <div style="display:flex;justify-content:space-between;padding:8px 0 3px;border-top:1px solid var(--border);margin-top:6px;font-weight:700;font-size:15px">
+        <span>Neto a pagar</span><span style="color:var(--nd-orange)">${r.total}</span>
+      </div>
+    </div>`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function cerrarModal() { document.getElementById('modal').classList.remove('open'); }
+
+// ── GUARDAR ───────────────────────────────────────────────────
+async function guardar() {
+  const btn = document.getElementById('btn-guardar');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+
+  const nombre   = document.getElementById('sel-tecnico').value;
+  const fecha    = document.getElementById('inp-fecha').value;
+  const t        = TECNICOS[nombre];
+  const htotal   = horasTotales();
+  const hpago    = Math.max(htotal, MIN_HORAS);
+  const chkAlm   = document.getElementById('chk-almuerzo').checked;
+  const km       = parseFloat(document.getElementById('inp-km').value) || 0;
+  const peajes   = parseInt(document.getElementById('inp-peajes').value) || 0;
+  const otros    = parseFloat(document.getElementById('inp-otros').value) || 0;
+  const adelantos = parseFloat(document.getElementById('inp-adelantos').value) || 0;
+  const detalle  = document.getElementById('inp-detalle').value;
+
+  const jornal    = hpago * t.valor_hora;
+  const almuerzo  = chkAlm && htotal > MIN_HORAS ? t.almuerzo_ars : 0;
+  const traslados = km * t.valor_km;
+  const peajeVal  = peajes * VALOR_PEAJE;
+  const costoNova = jornal + almuerzo + traslados + peajeVal + otros;
+
+  const obrasValidas = obras.filter(o => o.codigo && o.entrada && o.salida);
+  const registros = obrasValidas.map((o, idx) => ({
+    fecha,
+    tecnico_id:       t.id,
+    obra_codigo:      o.codigo,
+    hora_entrada:     o.entrada + ':00',
+    hora_salida:      o.salida  + ':00',
+    horas_trabajadas: htotal,
+    jornal:     idx === 0 ? jornal    : 0,
+    almuerzo:   idx === 0 ? almuerzo  : 0,
+    traslados:  idx === 0 ? traslados : 0,
+    peaje:      idx === 0 ? peajeVal  : 0,
+    otros:      idx === 0 ? otros     : 0,
+    adelantos:  idx === 0 ? adelantos : 0,
+    compras:    0,
+    detalle:    detalle || null,
+    costo_nova: idx === 0 ? costoNova : 0,
+    es_estimado: false,
+    km:         idx === 0 ? km        : 0,
+  }));
+
+  try {
+    await supa('/rest/v1/cuadrilla_jornadas', {
+      method: 'POST',
+      prefer: 'return=minimal',
+      body:   JSON.stringify(registros),
+    });
+    cerrarModal();
+    showToast('Jornada guardada ✓', 'success');
+    resetForm();
+  } catch (e) {
+    showToast('Error al guardar. Intentá de nuevo.', 'error');
+    console.error(e);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Guardar';
+  }
+}
+
+function resetForm() {
+  const sel = document.getElementById('sel-tecnico');
+  if (pinnedTechnician) {
+    sel.value = pinnedTechnician;
+  } else {
+    sel.value = '';
+    document.getElementById('tarifa-info').className = 'tarifa-info';
+  }
+  document.getElementById('inp-km').value       = '';
+  document.getElementById('inp-peajes').value   = '';
+  document.getElementById('inp-adelantos').value = '';
+  document.getElementById('inp-otros').value    = '';
+  document.getElementById('inp-detalle').value  = '';
+  document.getElementById('chk-almuerzo').checked = false;
+  obras = [];
+  addObra();
+  if (pinnedTechnician) onTecnicoChange();
+}
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+// ── HISTÓRICO ─────────────────────────────────────────────────
+function showPage(p, tab) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  if (tab) tab.classList.add('active');
+  if (p === 'historico') cargarHistorico();
+}
+
+async function cargarHistorico() {
+  const cont = document.getElementById('hist-content');
+  cont.innerHTML = '<div class="loader"><div class="spinner"></div> Cargando...</div>';
+
+  const filTec  = document.getElementById('fil-tecnico').value;
+  const filObra = document.getElementById('fil-obra').value;
+
+  let params = 'select=id,fecha,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,almuerzo,traslados,peaje,otros,adelantos,compras,costo_nova,detalle,tecnico_id,km,es_estimado&order=fecha.desc&limit=80';
+  if (filTec)  params += `&tecnico_id=eq.${filTec}`;
+  if (filObra) params += `&obra_codigo=eq.${filObra}`;
+
+  try {
+    const data = await supa(`/rest/v1/cuadrilla_jornadas?${params}`);
+    const idToNombre = {};
+    Object.keys(TECNICOS).forEach(n => { idToNombre[TECNICOS[n].id] = n; });
+    renderHistorico(data, idToNombre);
+  } catch (e) {
+    cont.innerHTML = '<div class="hist-empty">Error al cargar. Verificá la conexión.</div>';
+    console.error(e);
+  }
+}
+
+function renderHistorico(data, idToNombre) {
+  const cont = document.getElementById('hist-content');
+  if (!data || !data.length) {
+    cont.innerHTML = '<div class="hist-empty">Sin jornadas para mostrar.</div>';
+    return;
+  }
+  jornadasMap = {};
+  const grupos = {};
+  data.forEach(j => {
+    jornadasMap[j.id] = j;
+    if (!grupos[j.fecha]) grupos[j.fecha] = [];
+    grupos[j.fecha].push(j);
+  });
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  let html = '';
+  Object.keys(grupos).sort((a, b) => b.localeCompare(a)).forEach(fecha => {
+    const [y, m, d] = fecha.split('-');
+    const dt = new Date(y, m - 1, d);
+    html += `<div style="font-size:11px;font-weight:600;color:var(--text-hint);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 6px">${dias[dt.getDay()]} ${d}/${m}/${y}</div>`;
+    grupos[fecha].forEach(j => {
+      const nombre     = idToNombre[j.tecnico_id] || '—';
+      const ob         = OBRAS.find(x => x.codigo_obra === j.obra_codigo);
+      const obraNombre = ob ? ob.nombre : (j.obra_codigo || '—');
+      const neto = (j.jornal||0)+(j.almuerzo||0)+(j.traslados||0)+(j.peaje||0)+(j.otros||0)+(j.compras||0)-(j.adelantos||0);
+      const uid  = 'j' + j.id.replace(/-/g, '').slice(0, 8);
+      html += `
+        <div class="jornada-card">
+          <div class="jornada-header" onclick="toggleJornada('${uid}')">
+            <div>
+              <div class="jornada-tec">${nombre}</div>
+              <div class="jornada-meta">${obraNombre} · ${(j.hora_entrada||'').slice(0,5)}–${(j.hora_salida||'').slice(0,5)} · ${j.horas_trabajadas||0}hs</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="jornada-monto">${fmt(neto)}</span>
+              <button class="btn-edit-sm" onclick="event.stopPropagation();openEditModal('${j.id}')">✏</button>
+              <span class="chevron" id="chev-${uid}">▾</span>
+            </div>
+          </div>
+          <div class="jornada-body" id="body-${uid}">
+            ${j.jornal    ? `<div class="jornada-detail-row"><span>Jornal</span><span>${fmt(j.jornal)}</span></div>` : ''}
+            ${j.almuerzo  ? `<div class="jornada-detail-row"><span>Almuerzo</span><span>${fmt(j.almuerzo)}</span></div>` : ''}
+            ${j.traslados ? `<div class="jornada-detail-row"><span>Traslados${j.km?' ('+j.km+'km)':''}</span><span>${fmt(j.traslados)}</span></div>` : ''}
+            ${j.peaje     ? `<div class="jornada-detail-row"><span>Peajes</span><span>${fmt(j.peaje)}</span></div>` : ''}
+            ${j.otros     ? `<div class="jornada-detail-row"><span>Otros</span><span>${fmt(j.otros)}</span></div>` : ''}
+            ${j.adelantos ? `<div class="jornada-detail-row" style="color:var(--danger)"><span>Adelantos</span><span>− ${fmt(j.adelantos)}</span></div>` : ''}
+            ${j.detalle   ? `<div style="font-size:12px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">${j.detalle}</div>` : ''}
+          </div>
+        </div>`;
+    });
+  });
+  cont.innerHTML = html;
+}
+
+function toggleJornada(uid) {
+  document.getElementById('body-' + uid).classList.toggle('open');
+  document.getElementById('chev-' + uid).classList.toggle('open');
+}
+
+// ── EDIT JORNADA ──────────────────────────────────────────────
+let editingJornada = null;
+
+function openEditModal(id) {
+  const j = jornadasMap[id];
+  if (!j) return;
+  editingJornada = j;
+
+  const idToNombre = {};
+  Object.keys(TECNICOS).forEach(n => { idToNombre[TECNICOS[n].id] = n; });
+  const nombre     = idToNombre[j.tecnico_id] || '—';
+  const ob         = OBRAS.find(x => x.codigo_obra === j.obra_codigo);
+  const obraNombre = ob ? ob.nombre : (j.obra_codigo || '—');
+
+  const [y, m, d] = j.fecha.split('-');
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const dt   = new Date(y, m - 1, d);
+
+  document.getElementById('edit-title').textContent = 'Editar jornada';
+  document.getElementById('edit-sub').textContent   =
+    `${nombre} · ${obraNombre}\n${dias[dt.getDay()]} ${d}/${m}/${y}`;
+
+  document.getElementById('edit-entrada').value   = (j.hora_entrada  || '').slice(0, 5);
+  document.getElementById('edit-salida').value    = (j.hora_salida   || '').slice(0, 5);
+  document.getElementById('edit-horas').value     = j.horas_trabajadas ?? '';
+  document.getElementById('edit-jornal').value    = j.jornal    || '';
+  document.getElementById('edit-almuerzo').value  = j.almuerzo  || '';
+  document.getElementById('edit-traslados').value = j.traslados || '';
+  document.getElementById('edit-peaje').value     = j.peaje     || '';
+  document.getElementById('edit-km').value        = j.km        || '';
+  document.getElementById('edit-otros').value     = j.otros     || '';
+  document.getElementById('edit-adelantos').value = j.adelantos || '';
+  document.getElementById('edit-compras').value   = j.compras   || '';
+  document.getElementById('edit-detalle').value   = j.detalle   || '';
+  document.getElementById('edit-estimado').checked = !!j.es_estimado;
+
+  resetEditFooter();
+  document.getElementById('modal-edit').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('modal-edit').classList.remove('open');
+  editingJornada = null;
+}
+
+function resetEditFooter() {
+  document.getElementById('edit-footer-normal').style.display = 'flex';
+  document.getElementById('edit-footer-delete').style.display = 'none';
+}
+
+function showDeleteConfirm() {
+  document.getElementById('edit-footer-normal').style.display = 'none';
+  document.getElementById('edit-footer-delete').style.display = 'flex';
+}
+
+async function saveJornada() {
+  if (!editingJornada) return;
+  const btn = document.getElementById('btn-edit-save');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const num     = id => parseFloat(document.getElementById(id).value) || 0;
+  const timeVal = id => { const v = document.getElementById(id).value; return v ? v + ':00' : null; };
+
+  const body = {
+    hora_entrada:     timeVal('edit-entrada'),
+    hora_salida:      timeVal('edit-salida'),
+    horas_trabajadas: num('edit-horas'),
+    jornal:           num('edit-jornal'),
+    almuerzo:         num('edit-almuerzo'),
+    traslados:        num('edit-traslados'),
+    peaje:            num('edit-peaje'),
+    km:               num('edit-km'),
+    otros:            num('edit-otros'),
+    adelantos:        num('edit-adelantos'),
+    compras:          num('edit-compras'),
+    detalle:          document.getElementById('edit-detalle').value || null,
+    es_estimado:      document.getElementById('edit-estimado').checked,
+  };
+
+  try {
+    await supa(`/rest/v1/cuadrilla_jornadas?id=eq.${editingJornada.id}`, {
+      method: 'PATCH',
+      prefer: 'return=minimal',
+      body:   JSON.stringify(body),
+    });
+    closeEditModal();
+    showToast('Jornada actualizada ✓', 'success');
+    cargarHistorico();
+  } catch (e) {
+    showToast('Error al actualizar', 'error');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Guardar';
+  }
+}
+
+async function executeDelete() {
+  if (!editingJornada) return;
+  try {
+    await supa(`/rest/v1/cuadrilla_jornadas?id=eq.${editingJornada.id}`, {
+      method: 'DELETE',
+      prefer: 'return=minimal',
+    });
+    closeEditModal();
+    showToast('Jornada eliminada', 'success');
+    cargarHistorico();
+  } catch (e) {
+    showToast('Error al eliminar', 'error');
+    console.error(e);
+  }
+}
+
+init();
+</script>
+</body>
+</html>

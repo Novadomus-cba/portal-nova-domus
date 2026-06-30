@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Domus — Obras</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --bg:#0f1117;--bg2:#181c27;--bg3:#1f2436;--border:#2a3049;
+  --accent:#e8a020;--accent2:#c47d0a;--text:#e2e6f0;--text2:#8892aa;--text3:#4a5470;
+  --ok:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--info:#3498db;--r:8px;
+  font-family:'Inter',system-ui,sans-serif;font-size:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+/* TOPBAR */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 20px;display:flex;align-items:center;height:50px;flex-shrink:0;gap:2px}
+.nt{padding:0 14px;height:50px;display:flex;align-items:center;gap:6px;cursor:pointer;
+  font-size:12px;font-weight:700;color:var(--text3);border-bottom:3px solid transparent;
+  transition:all .15s;white-space:nowrap}
+.nt:hover{color:var(--text)}.nt.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tr{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tc-box{display:flex;align-items:center;gap:5px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:4px;padding:3px 8px}
+.tc-box label{font-size:10px;color:var(--text3);white-space:nowrap}
+.tc-box input{background:none;border:none;color:var(--accent);font-weight:800;
+  width:58px;font-size:12px;text-align:right}
+.tc-box input:focus{outline:none}
+.db-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;
+  font-size:11px;font-weight:700;background:var(--bg3);border:1px solid var(--border);cursor:pointer}
+.db-dot{width:7px;height:7px;border-radius:50%;background:var(--danger);flex-shrink:0}
+.db-dot.ok{background:var(--ok)} .db-dot.warn{background:var(--warn)}
+/* PORTAL BAR */
+.portal-back-link{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--text2);font-size:12px;font-weight:700;transition:color .15s;flex-shrink:0;white-space:nowrap;margin-right:4px}
+.portal-back-link:hover{color:var(--text)}
+.portal-back-icon-sm{width:22px;height:22px;background:linear-gradient(135deg,#7a6340,#c8a96e);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.topbar-sep{width:1px;height:16px;background:var(--border);margin:0 8px;flex-shrink:0}
+.topbar-module-name{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.3px;flex-shrink:0;margin-right:10px}
+#portal-username{font-size:11px;color:var(--text2);margin-left:4px}
+.portal-logout-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;margin-left:4px}
+.portal-logout-btn:hover{color:var(--text);border-color:var(--text2)}
+/* PANELS */
+.panel{display:none;flex:1;overflow:hidden;flex-direction:column}
+.panel.active{display:flex}
+/* LAYOUTS */
+.split{display:flex;flex:1;overflow:hidden}
+.sidebar{width:260px;border-right:1px solid var(--border);overflow-y:auto;
+  background:var(--bg2);flex-shrink:0;display:flex;flex-direction:column}
+.main{flex:1;overflow-y:auto;padding:20px}
+.sb-hdr{padding:10px 14px;font-size:10px;font-weight:800;color:var(--text3);
+  letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sb-item{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);
+  transition:background .1s;display:flex;flex-direction:column;gap:2px;flex-shrink:0}
+.sb-item:hover{background:var(--bg3)}.sb-item.active{background:#1a1500;border-left:3px solid var(--accent)}
+.sb-name{font-weight:700;font-size:12px}.sb-sub{font-size:10px;color:var(--text3)}
+/* FORMS */
+.fr{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:110px}
+.fg label{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+input,select,textarea{background:var(--bg3);border:1px solid var(--border);border-radius:4px;
+  padding:7px 9px;color:var(--text);font-size:12px;width:100%;transition:border-color .15s;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:52px}
+select option{background:var(--bg3)}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:4px;
+  border:none;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-p{background:var(--accent);color:#000}.btn-p:hover{background:var(--accent2)}
+.btn-g{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.btn-g:hover{color:var(--text);border-color:var(--text2)}
+.btn-d{background:#2e0d0d;color:var(--danger);border:1px solid #4a1515}
+.btn-ok{background:#0d3320;color:var(--ok);border:1px solid #1a5c35}
+.btn-warn{background:#3a2500;color:var(--warn);border:1px solid #6b4200}
+.btn-sm{padding:4px 8px;font-size:10px}.btn:disabled{opacity:.4;cursor:not-allowed}
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:14px;margin-bottom:12px}
+.ct{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:10px}
+/* TABLE */
+.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:var(--bg3);color:var(--text2);font-weight:700;padding:8px 10px;text-align:left;
+  font-size:10px;letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
+/* BADGES */
+.bd{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:800;white-space:nowrap}
+.b-ok{background:#0d3320;color:var(--ok)}.b-warn{background:#3a2500;color:var(--warn)}
+.b-info{background:#0d2035;color:var(--info)}.b-gray{background:var(--bg3);color:var(--text2)}
+.b-acc{background:#3a2800;color:var(--accent)}.b-pur{background:#1e0d35;color:#a78bfa}
+.b-up{background:#2e0d0d;color:var(--danger)}.b-down{background:#0d3320;color:var(--ok)}
+/* ITEM ROWS */
+.iblk{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:7px}
+/* TOTALES */
+.tbox{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px}
+.tr2{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;color:var(--text2)}
+.tf{border-top:1px solid var(--border);margin-top:7px;padding-top:7px;
+  font-size:15px;font-weight:900;color:var(--accent);display:flex;justify-content:space-between}
+/* MODAL */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;
+  align-items:center;justify-content:center}
+.mbg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  width:680px;max-width:96vw;max-height:92vh;display:flex;flex-direction:column}
+.mhdr{padding:14px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between}
+.mhdr h3{font-size:14px;font-weight:800}
+.mbody{padding:18px;overflow-y:auto;flex:1}
+.mftr{padding:10px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.cx{background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer;padding:2px 6px}
+/* SPIN */
+.spin{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);
+  border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* TOAST */
+#toast{position:fixed;bottom:18px;right:18px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);padding:9px 14px;font-size:11px;transform:translateY(60px);
+  opacity:0;transition:all .2s;z-index:9999;max-width:300px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{border-color:var(--ok);color:var(--ok)}
+#toast.err{border-color:var(--danger);color:var(--danger)}
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sh-t{font-size:14px;font-weight:800}
+/* SEGUIMIENTO STEPS */
+.snav{display:flex;gap:0;padding:0 20px;background:var(--bg2);
+  border-bottom:1px solid var(--border);flex-shrink:0}
+.sn{padding:10px 18px;font-size:11px;font-weight:700;color:var(--text3);
+  border-bottom:3px solid transparent;cursor:pointer;display:flex;align-items:center;gap:5px}
+.sn.active{color:var(--accent);border-bottom-color:var(--accent)}.sn.done{color:var(--ok)}
+.snn{width:16px;height:16px;border-radius:50%;background:var(--bg3);font-size:9px;
+  display:flex;align-items:center;justify-content:center;font-weight:900}
+.sn.active .snn{background:var(--accent);color:#000}.sn.done .snn{background:var(--ok);color:#000}
+/* KPI */
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.kpi-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px}
+.kpi-v{font-size:20px;font-weight:900;margin-top:4px}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:2px}
+/* DELTA COLORS */
+.delta-up{color:var(--danger)}.delta-down{color:var(--ok)}.delta-eq{color:var(--text3)}
+/* DOC */
+.dw{position:fixed;left:-9999px;top:0;pointer-events:none}
+#DC,#DR{width:800px;background:#fff;font-family:Arial,sans-serif;font-size:11px;
+  color:#111;padding:30px;line-height:1.5}
+#DC *,#DR *{font-family:Arial,sans-serif;color:#111}
+.db2{font-size:9px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:2px}
+.dt{font-size:21px;font-weight:900;color:#0f1117}
+.dp{display:inline-block;background:#0f1117;color:#e8a020;font-size:9px;
+  font-weight:800;padding:3px 10px;border-radius:20px;margin-top:3px;letter-spacing:.5px}
+.dg2{display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  padding:11px;background:#f5f7fa;border-radius:4px;margin:12px 0;font-size:11px}
+.dl{font-weight:800;font-size:9px;letter-spacing:.8px;text-transform:uppercase;
+  border-bottom:2px solid #e8a020;padding-bottom:2px;margin-bottom:4px;display:inline-block;color:#333}
+.dst{font-weight:800;font-size:9px;letter-spacing:.8px;text-transform:uppercase;
+  color:#0f1117;border-bottom:1px solid #ddd;padding-bottom:4px;margin:12px 0 5px}
+.di{padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:11px;display:flex;gap:5px}
+.dfg{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:28px;
+  padding-top:12px;border-top:1px solid #eee}
+.dfa{text-align:center;font-size:10px;color:#666}
+.dfl{height:38px;border-bottom:1px solid #333;margin-bottom:5px}
+.dft{margin-top:16px;padding:7px;background:#f5f7fa;border-radius:4px;
+  font-size:9px;color:#999;text-align:center;line-height:1.7}
+.rt{width:100%;border-collapse:collapse;font-size:11px;margin:9px 0}
+.rt th{background:#0f1117;color:#fff;padding:6px 9px;text-align:left;font-size:10px;letter-spacing:.4px}
+.rt td{padding:6px 9px;border-bottom:1px solid #eee}
+.rt .rtot{background:#f5f7fa;font-weight:900;font-size:12px}
+.rt .rtot td{border-top:2px solid #0f1117}
+.rtc{display:inline-block;background:#e8a020;color:#000;font-weight:800;
+  font-size:9px;padding:2px 7px;border-radius:10px;margin-top:3px}
+/* PREVIEW INLINE */
+.pv-wrap{overflow-x:auto;padding:8px}
+.pv-doc{transform-origin:top left;transform:scale(0.78);display:inline-block}
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="app-loading" style="position:fixed;inset:0;background:#0d0f12;display:flex;align-items:center;justify-content:center;z-index:999;font-family:Inter,system-ui,sans-serif;font-size:13px;color:#6b7280;letter-spacing:.02em">Verificando acceso…</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="../index.html" class="portal-back-link">
+    <span class="portal-back-icon-sm">⌂</span>
+    Portal
+  </a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-module-name">Obras</span>
+  <div class="nt active" onclick="showP('tarifario',this)">💱 Tarifario</div>
+  <div class="nt" onclick="showP('obras',this)">🏗 Obras</div>
+  <div class="nt" onclick="showP('seguimiento',this)">📋 Carga Semanal</div>
+  <div class="nt" onclick="showP('icc',this)">📈 Actualización</div>
+  <div class="nt" onclick="showP('supervisor',this)">📊 Supervisor</div>
+  <div class="tr">
+    <div class="tc-box" id="tcOficialBox">
+      <label>Oficial</label>
+      <span id="tcOficialVal" style="color:var(--accent);font-weight:800;font-size:12px;white-space:nowrap">—</span>
+      <span id="tcOficialAge" style="font-size:10px;color:var(--text3);white-space:nowrap"></span>
+      <button onclick="refreshTC()" id="tcOficialBtn" title="Actualizar tipo de cambio"
+        style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:0 2px;line-height:1;font-family:inherit">↻</button>
+    </div>
+    <div class="tc-box">
+      <label>USD $</label>
+      <input type="number" id="tcG" value="1430" onchange="ss('tc',this.value);renderTarifario()">
+    </div>
+    <div class="db-pill" onclick="conectar()" title="Reconectar">
+      <div class="db-dot" id="dbDot"></div>
+      <span id="dbTxt">—</span>
+    </div>
+    <span id="portal-username"></span>
+    <button class="portal-logout-btn" onclick="handleLogout()">Salir</button>
+  </div>
+</div>
+
+<!-- ══ PANEL: TARIFARIO ═══════════════════════════════════════ -->
+<div class="panel active" id="panel-tarifario">
+  <div class="main">
+    <div class="sh">
+      <div class="sh-t">Tarifario Base Nova Domus</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="tc-box" style="border-color:var(--accent)">
+          <label>TC ref $</label>
+          <input type="number" id="tcTar" value="1430" oninput="renderTarifario()" style="width:66px">
+        </div>
+        <button class="btn btn-p" onclick="openMTar()">+ Agregar ítem</button>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:16px">
+      El tarifario base define los precios de referencia Nova Domus. Cada obra hereda estos valores y puede ajustarlos.
+      El sistema indica si el precio de cada obra está por encima ↑ o por debajo ↓ del base.
+    </p>
+    <div id="tarTabla"></div>
+  </div>
+</div>
+
+<!-- ══ PANEL: OBRAS ═══════════════════════════════════════════ -->
+<div class="panel" id="panel-obras">
+  <div class="split">
+    <div class="sidebar">
+      <div class="sb-hdr">Obras
+        <button class="btn btn-p btn-sm" onclick="openMObra()">+ Nueva</button>
+      </div>
+      <div id="listaObras"></div>
+    </div>
+    <div class="main" id="obraDetalle">
+      <div style="text-align:center;padding:60px;color:var(--text3)">
+        <div style="font-size:32px;margin-bottom:10px">🏗</div>
+        Seleccioná una obra o creá una nueva
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL: SEGUIMIENTO ════════════════════════════════════ -->
+<div class="panel" id="panel-seguimiento">
+  <div class="snav">
+    <div class="sn active" id="sn1" onclick="goS(1)"><div class="snn">1</div>Obra y período</div>
+    <div class="sn" id="sn2" onclick="goS(2)"><div class="snn">2</div>Ítems y facturas</div>
+    <div class="sn" id="sn3" onclick="goS(3)"><div class="snn">3</div>Generar documentos</div>
+  </div>
+  <div style="flex:1;overflow-y:auto">
+
+    <!-- S1 -->
+    <div id="ss1" class="main" style="max-width:760px;margin:0 auto">
+      <div class="card">
+        <div class="ct">Obra</div>
+        <div class="fr">
+          <div class="fg" style="flex:2"><label>Obra *</label>
+            <select id="sObra" onchange="onSObraChange()">
+              <option value="">— seleccionar —</option>
+            </select>
+          </div>
+        </div>
+        <div id="sObraInfo" style="display:none;padding:9px;background:var(--bg3);border-radius:4px;font-size:11px;color:var(--text2)"></div>
+      </div>
+      <div class="card">
+        <div class="ct">Período y numeración</div>
+        <div class="fr">
+          <div class="fg"><label>Fecha emisión *</label><input type="date" id="sFecha"></div>
+          <div class="fg"><label>Período desde</label><input type="date" id="sDesde"></div>
+          <div class="fg"><label>Período hasta</label><input type="date" id="sHasta"></div>
+        </div>
+        <div class="fr">
+          <div class="fg" style="max-width:120px"><label>N° Certificado</label>
+            <input type="number" id="sNumC" min="1"></div>
+          <div class="fg" style="max-width:120px"><label>N° Recibo</label>
+            <input type="number" id="sNumR" min="1"></div>
+          <div class="fg" style="max-width:120px"><label>T/C USD $</label>
+            <input type="number" id="sTC" placeholder="1430" oninput="recalcS()"></div>
+          <div class="fg"><label>Detalle del recibo</label>
+            <input type="text" id="sDet" value="RECIBO POR INSTALACIÓN ELECTRICA"></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn btn-p" onclick="goS(2)">Siguiente → Ítems</button>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div id="ss2" class="main" style="display:none;max-width:900px;margin:0 auto">
+      <div class="card">
+        <div class="sh">
+          <div class="sh-t">Ítems del período</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-g btn-sm" onclick="addSI('CERTIFICADO')">+ Certificado</button>
+            <button class="btn btn-g btn-sm" style="color:var(--warn);border-color:var(--warn)"
+              onclick="addSI('EXC_ESPONTANEO')">+ Exc. espontáneo</button>
+            <button class="btn btn-g btn-sm" style="color:#a78bfa;border-color:#a78bfa"
+              onclick="addSI('EXC_SOLICITUD')">+ Exc. por solicitud</button>
+          </div>
+        </div>
+        <div id="sItems"><div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Agregá los trabajos de la semana</div></div>
+      </div>
+      <div class="card">
+        <div class="sh">
+          <div class="sh-t">Facturas / Materiales</div>
+          <button class="btn btn-g btn-sm" onclick="addSF()">+ Factura</button>
+        </div>
+        <div id="sFacts"><div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá facturas de materiales si corresponde</div></div>
+      </div>
+      <div class="card" id="sTotCard" style="display:none">
+        <div class="ct">Resumen</div>
+        <div class="tbox">
+          <div class="tr2"><span>Certificados</span><span id="tC">$ 0</span></div>
+          <div class="tr2"><span>Exc. espontáneos</span><span id="tE">$ 0</span></div>
+          <div class="tr2"><span>Exc. por solicitud</span><span id="tS">$ 0</span></div>
+          <div class="tr2"><span>Facturas/materiales</span><span id="tF">$ 0</span></div>
+          <div class="tf"><span>TOTAL RECIBO</span><span id="tT">$ 0</span></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn btn-g" onclick="goS(1)">← Volver</button>
+        <button class="btn btn-p" onclick="goS(3)">Siguiente → Vista previa</button>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div id="ss3" class="main" style="display:none;max-width:860px;margin:0 auto">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-g" id="pvCB" onclick="showPV('c',this)"
+            style="border-color:var(--accent);color:var(--accent)">📋 Certificado</button>
+          <button class="btn btn-g" id="pvRB" onclick="showPV('r',this)">🧾 Recibo</button>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn btn-g" onclick="goS(2)">← Volver</button>
+          <button class="btn btn-p" id="btnGen" onclick="generar()">⚡ Generar y guardar</button>
+        </div>
+      </div>
+      <div id="pvC" class="pv-wrap"><div class="pv-doc" id="pvCDoc"></div></div>
+      <div id="pvR" style="display:none" class="pv-wrap"><div class="pv-doc" id="pvRDoc"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL: ACTUALIZACIÓN ICC ══════════════════════════════ -->
+<div class="panel" id="panel-icc">
+  <div class="main" style="max-width:800px">
+    <div class="sh">
+      <div class="sh-t">Actualización de Precios</div>
+      <button class="btn btn-g btn-sm" onclick="loadICC()">↻ Refrescar</button>
+    </div>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:16px">
+      Registrá mensualmente el índice ICC de la Cámara Argentina de la Construcción y/o la variación del dólar.
+      El sistema calcula el factor de ajuste y actualiza automáticamente los tarifarios de todas las obras activas.
+    </p>
+    <div class="card">
+      <div class="ct">Nuevo registro de actualización</div>
+      <div class="fr">
+        <div class="fg" style="max-width:140px">
+          <label>Período (MM/AAAA) *</label>
+          <input type="text" id="iccPer" placeholder="06/2025">
+        </div>
+        <div class="fg" style="max-width:130px">
+          <label>Fecha</label>
+          <input type="date" id="iccFecha">
+        </div>
+        <div class="fg" style="max-width:140px">
+          <label>Valor ICC actual</label>
+          <input type="number" id="iccVal" step="0.01" placeholder="2850.4">
+        </div>
+        <div class="fg" style="max-width:140px">
+          <label>Valor ICC anterior</label>
+          <input type="number" id="iccValAnt" step="0.01" placeholder="2720.1"
+            oninput="calcIccFactor()">
+        </div>
+        <div class="fg" style="max-width:130px">
+          <label>T/C USD $</label>
+          <input type="number" id="iccTC" placeholder="1430" oninput="calcIccFactor()">
+        </div>
+      </div>
+      <div id="iccFactorBox" style="display:none;margin:10px 0;padding:10px;
+        background:var(--bg3);border-radius:4px;font-size:12px">
+        <span>Factor ICC: </span><span id="iccFactor" style="color:var(--accent);font-weight:900">—</span>
+        <span style="margin-left:16px">Variación: </span><span id="iccVar" style="font-weight:700">—</span>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Notas</label>
+          <input type="text" id="iccNotas" placeholder="Fuente: CAMARCO Junio 2025"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button class="btn btn-p" onclick="guardarICC()">Guardar registro</button>
+        <button class="btn btn-warn" id="btnAplicarICC" style="display:none" onclick="aplicarICC()">
+          ⚡ Aplicar a todas las obras activas
+        </button>
+      </div>
+    </div>
+
+    <div id="iccPreview" style="display:none" class="card">
+      <div class="ct">Vista previa del ajuste</div>
+      <div id="iccPreviewBody"></div>
+    </div>
+
+    <div class="sh" style="margin-top:20px">
+      <div class="sh-t">Historial de actualizaciones</div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Período</th><th>Fecha</th><th>Valor ICC</th><th>Variación</th>
+          <th>Factor</th><th>T/C USD</th><th>Estado</th><th>Aplicado a</th><th></th></tr></thead>
+        <tbody id="iccTabla"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL: SUPERVISOR ═════════════════════════════════════ -->
+<div class="panel" id="panel-supervisor">
+  <div class="main">
+    <div class="sh">
+      <div class="sh-t">Supervisor General de Obras</div>
+      <button class="btn btn-g btn-sm" onclick="renderSupervisor()">↻ Actualizar</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px" id="supKpis"></div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px">
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;color:var(--text3);
+        text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)">
+        Estado por obra
+      </div>
+      <div class="tw" id="supTabla"></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;color:var(--text3);
+        text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)">
+        Últimos certificados y recibos
+      </div>
+      <div class="tw" id="supMovs"></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;margin-top:14px">
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;color:var(--text3);
+        text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)">
+        Costos de materiales · empresa (acumulado por obra)
+      </div>
+      <div class="tw" id="supMateriales"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODALES ══════════════════════════════════════════════ -->
+<!-- Modal Tarifario Base -->
+<div class="mbg" id="mTar">
+  <div class="modal" style="width:560px">
+    <div class="mhdr"><h3 id="mTarT">Ítem del tarifario</h3><button class="cx" onclick="closeM('mTar')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="tId">
+      <div class="fr">
+        <div class="fg" style="max-width:160px"><label>Grupo *</label>
+          <select id="tGrupo"><option>ARTEFACTOS</option><option>ELECTRICIDAD</option>
+            <option>MANO DE OBRA</option><option>TABLERO</option><option>OTRO</option></select></div>
+        <div class="fg" style="max-width:110px"><label>Código *</label>
+          <input type="text" id="tCod" placeholder="IUG"></div>
+        <div class="fg"><label>Nombre *</label><input type="text" id="tNom"></div>
+      </div>
+      <div class="fr">
+        <div class="fg" style="max-width:140px"><label>Precio USD base</label>
+          <input type="number" id="tUSD" step="0.01" placeholder="26.5"></div>
+        <div class="fg" style="max-width:180px"><label>Usa % de etapa</label>
+          <select id="tPct"><option value="true">Sí (60/30/10%)</option><option value="false">No</option></select></div>
+        <div class="fg" style="max-width:80px"><label>Orden</label>
+          <input type="number" id="tOrd" value="99"></div>
+      </div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mTar')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarTar()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Obra -->
+<div class="mbg" id="mObra">
+  <div class="modal" style="width:700px">
+    <div class="mhdr"><h3 id="mObraT">Nueva obra</h3><button class="cx" onclick="closeM('mObra')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="oId">
+      <div class="fr">
+        <div class="fg" style="flex:2"><label>Nombre *</label>
+          <input type="text" id="oNom" placeholder="Chacras Fanesi-Navarro / Campo Chico"></div>
+        <div class="fg" style="max-width:140px"><label>Tipo</label>
+          <select id="oTipo"><option>ELECTRICA</option><option>REDES</option>
+            <option>DOMOTICA</option><option>SEGURIDAD</option><option>MIXTA</option></select></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Cliente / Razón social *</label><input type="text" id="oCli"></div>
+        <div class="fg" style="max-width:170px"><label>CUIT</label><input type="text" id="oCuit"></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Dirección</label><input type="text" id="oDir"></div>
+        <div class="fg" style="max-width:150px"><label>Teléfono</label><input type="text" id="oTel"></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Presupuesto $ pesos</label><input type="number" id="oPP"></div>
+        <div class="fg"><label>Presupuesto USD</label><input type="number" id="oPU"></div>
+        <div class="fg" style="max-width:140px"><label>Estado</label>
+          <select id="oEst"><option>EN_CURSO</option><option>PAUSADA</option>
+            <option>FINALIZADA</option><option>CANCELADA</option></select></div>
+      </div>
+      <div class="fr">
+        <div class="fg" style="max-width:150px"><label>Fecha inicio</label><input type="date" id="oFI"></div>
+        <div class="fg" style="max-width:150px"><label>Fin estimado</label><input type="date" id="oFF"></div>
+        <div class="fg" style="max-width:140px"><label>Es obra propia</label>
+          <select id="oProp"><option value="true">Sí (Nova Domus)</option><option value="false">Terceros</option></select></div>
+      </div>
+      <div class="fg" style="margin-bottom:14px"><label>Notas</label><textarea id="oNot"></textarea></div>
+      <div style="background:var(--bg3);border-radius:4px;padding:10px;font-size:11px;color:var(--text2)">
+        💡 Al guardar, se crearán automáticamente los rubros del tarifario base para esta obra.
+        Podrás ajustar los precios por obra después.
+      </div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mObra')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarObra()">Guardar obra</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Rubro de obra -->
+<div class="mbg" id="mRubro">
+  <div class="modal" style="width:520px">
+    <div class="mhdr"><h3>Precio del rubro para esta obra</h3><button class="cx" onclick="closeM('mRubro')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="rId">
+      <div id="rInfo" style="padding:10px;background:var(--bg3);border-radius:4px;margin-bottom:12px;font-size:12px"></div>
+      <div class="fr">
+        <div class="fg"><label>Precio USD para esta obra</label>
+          <input type="number" id="rUSD" step="0.01" placeholder="precio acordado en el presupuesto"></div>
+        <div class="fg" style="max-width:140px"><label>Usa % de etapa</label>
+          <select id="rPct"><option value="true">Sí</option><option value="false">No</option></select></div>
+      </div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mRubro')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarRubro()">Guardar precio</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENTOS OFFSCREEN -->
+<div class="dw"><div id="DC"></div><div id="DR"></div></div>
+<div id="toast"></div>
+
+<script>
+// ── AUTH ─────────────────────────────────────────────────────
+const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin', 'supervisor'];
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = '../login.html';
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CONFIG & SUPABASE
+// ═══════════════════════════════════════════════════════════════
+let SB_URL='https://voowjwzlkhdknpapkhxc.supabase.co', SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM', sbOK=false;
+
+const ls  = k=>{ try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null} };
+const lss = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const gs  = k=>{ const s=ls('nd_cfg')||{}; return s[k]; };
+const ss  = (k,v)=>{ const s=ls('nd_cfg')||{}; s[k]=v; lss('nd_cfg',s); };
+const uid = ()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
+const f$  = n=>'$ '+Math.round(n||0).toLocaleString('es-AR');
+const fd  = iso=>{ if(!iso)return''; const[y,m,d]=iso.split('-'); return`${d}/${m}/${y}`; };
+
+// SUPABASE FETCH
+async function sbFetch(method,table,body=null,query=''){
+  if(!SB_URL||!SB_KEY) throw new Error('Sin configuración Supabase');
+  const r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{
+    method,
+    headers:{
+      'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,
+      'Content-Type':'application/json',
+      'Prefer':method==='POST'?'return=representation':''
+    },
+    ...(body?{body:JSON.stringify(body)}:{})
+  });
+  if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||r.statusText); }
+  if(method==='DELETE'||r.status===204) return true;
+  return r.json();
+}
+const sbGet=(t,q='')=>sbFetch('GET',t,null,q);
+const sbPost=(t,b)=>sbFetch('POST',t,b);
+const sbPatch=(t,b,q)=>sbFetch('PATCH',t,b,q);
+const sbDel=(t,q)=>sbFetch('DELETE',t,null,q);
+
+function setDbStatus(ok,txt){
+  sbOK=ok;
+  document.getElementById('dbDot').className='db-dot'+(ok?' ok':'');
+  document.getElementById('dbTxt').textContent=txt||(ok?'Conectado':'Desconectado');
+}
+
+// ─── CACHE (localStorage) para offline fallback ──────────────
+const cache={
+  tarifario: ()=>ls('nd_tar')||[],
+  setTarifario: v=>lss('nd_tar',v),
+  obras: ()=>ls('nd_obras')||[],
+  setObras: v=>lss('nd_obras',v),
+  rubros: ()=>ls('nd_rubros')||[],
+  setRubros: v=>lss('nd_rubros',v),
+  certs: ()=>ls('nd_certs')||[],
+  setCerts: v=>lss('nd_certs',v),
+  recs: ()=>ls('nd_recs')||[],
+  setRecs: v=>lss('nd_recs',v),
+  icc: ()=>ls('nd_icc')||[],
+  setIcc: v=>lss('nd_icc',v),
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+window.onload = async () => {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = '../login.html'; return; }
+  const { data: profile } = await authClient
+    .from('user_profiles').select('full_name, role')
+    .eq('id', session.user.id).single();
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = '../index.html'; return;
+  }
+  document.getElementById('portal-username').textContent = profile.full_name;
+  document.getElementById('app-loading').style.display = 'none';
+
+  const tc=gs('tc')||'1430';
+  document.getElementById('tcG').value=tc;
+  document.getElementById('tcTar').value=tc;
+  const hoy=new Date().toISOString().slice(0,10);
+  ['sFecha','sDesde','sHasta','iccFecha'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=hoy;});
+  await conectar();
+  await loadCachedTC();
+  refreshTC(true);
+  showP('tarifario',document.querySelector('.nt'));
+};
+
+async function conectar(){
+  try{
+    setDbStatus(false,'Conectando...');
+    await sbGet('obras','?select=id&limit=1');
+    setDbStatus(true,'Conectado');
+    toast('✅ Conectado a Supabase','ok');
+    await loadAll();
+  }catch(e){
+    setDbStatus(false,'Sin conexión');
+    toast('Sin conexión: '+e.message,'err');
+    renderFromCache();
+  }
+}
+
+async function loadAll(){
+  await Promise.all([loadTarifario(),loadObras(),loadICC()]);
+}
+
+async function loadTarifario(){
+  try{
+    const data=await sbGet('tarifario_base','?select=*&order=orden,grupo');
+    cache.setTarifario(data);
+    renderTarifario();
+  }catch(e){ renderTarifario(); }
+}
+
+async function loadObras(){
+  try{
+    const obs=await sbGet('obras','?select=*&order=nombre');
+    cache.setObras(obs);
+    const rubs=await sbGet('obras_rubros','?select=*&order=orden,codigo');
+    cache.setRubros(rubs);
+    renderObras();
+    populateSegObras();
+  }catch(e){ renderObras(); populateSegObras(); }
+}
+
+async function loadICC(){
+  try{
+    const data=await sbGet('icc_registros','?select=*&order=periodo.desc');
+    cache.setIcc(data);
+    renderICC();
+  }catch(e){ renderICC(); }
+}
+
+async function loadCerts(){
+  try{
+    const c=await sbGet('certificados','?select=*,certificados_items(*)&order=numero.desc');
+    const r=await sbGet('recibos','?select=*,recibos_lineas(*)&order=numero.desc');
+    cache.setCerts(c); cache.setRecs(r);
+  }catch{}
+}
+
+function renderFromCache(){
+  renderTarifario(); renderObras(); renderICC();
+  populateSegObras(); renderSupervisor();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TARIFARIO BASE
+// ═══════════════════════════════════════════════════════════════
+const GC={'ARTEFACTOS':'#a78bfa','ELECTRICIDAD':'#e8a020','MANO DE OBRA':'#3498db','TABLERO':'#2ecc71','OTRO':'#8892aa'};
+
+function renderTarifario(){
+  const tar=cache.tarifario();
+  if(!tar.length){
+    document.getElementById('tarTabla').innerHTML=
+      `<div style="text-align:center;padding:32px;color:var(--text3)">Sin datos. Verificá la conexión a Supabase.</div>`;
+    return;
+  }
+  const tc=parseFloat(document.getElementById('tcTar').value)||1430;
+  const grupos=[...new Set(tar.map(t=>t.grupo))];
+  let html='';
+  grupos.forEach(g=>{
+    const items=tar.filter(t=>t.grupo===g);
+    const gc=GC[g]||'#8892aa';
+    html+=`<div style="margin-bottom:18px">
+      <div style="font-size:10px;font-weight:900;color:${gc};letter-spacing:1.5px;
+        text-transform:uppercase;padding:7px 12px;background:var(--bg2);
+        border-radius:6px 6px 0 0;border:1px solid var(--border);border-bottom:none">${g}</div>
+      <div class="tw" style="border-radius:0 0 6px 6px">
+        <table><thead><tr><th>Código</th><th>Nombre</th><th>USD Base</th>
+          <th>$ (×TC)</th><th>% Etapa</th><th></th></tr></thead>
+        <tbody>${items.map(t=>{
+          const usd=t.precio_usd||0;
+          const ps=usd?usd*tc:null;
+          return`<tr>
+            <td><b style="color:${gc}">${t.codigo}</b></td>
+            <td>${t.nombre}</td>
+            <td>${usd?`U$D ${usd}`:'<span style="color:var(--text3)">—</span>'}</td>
+            <td>${ps?f$(ps):'<span style="color:var(--text3)">—</span>'}</td>
+            <td>${t.usa_pct?'<span class="bd b-info">60/30/10%</span>':'<span class="bd b-gray">No</span>'}</td>
+            <td><button class="btn btn-g btn-sm" onclick="editTar('${t.id}')">✏</button>
+              <button class="btn btn-d btn-sm" onclick="delTar('${t.id}')">🗑</button></td>
+          </tr>`;
+        }).join('')}</tbody></table>
+      </div>
+    </div>`;
+  });
+  document.getElementById('tarTabla').innerHTML=html;
+}
+
+function openMTar(id=null){
+  const t=id?cache.tarifario().find(x=>x.id===id):null;
+  document.getElementById('tId').value=t?.id||'';
+  document.getElementById('tGrupo').value=t?.grupo||'ELECTRICIDAD';
+  document.getElementById('tCod').value=t?.codigo||'';
+  document.getElementById('tNom').value=t?.nombre||'';
+  document.getElementById('tUSD').value=t?.precio_usd||'';
+  document.getElementById('tPct').value=t?.usa_pct?'true':'false';
+  document.getElementById('tOrd').value=t?.orden||99;
+  document.getElementById('mTarT').textContent=t?'Editar ítem del tarifario':'Nuevo ítem del tarifario';
+  openM('mTar');
+}
+function editTar(id){openMTar(id);}
+
+async function guardarTar(){
+  const cod=document.getElementById('tCod').value.trim().toUpperCase();
+  const nom=document.getElementById('tNom').value.trim();
+  if(!cod||!nom){toast('Completá código y nombre','err');return;}
+  const item={
+    grupo:document.getElementById('tGrupo').value,
+    codigo:cod,nombre:nom,
+    precio_usd:parseFloat(document.getElementById('tUSD').value)||null,
+    usa_pct:document.getElementById('tPct').value==='true',
+    orden:parseInt(document.getElementById('tOrd').value)||99,
+  };
+  const id=document.getElementById('tId').value;
+  try{
+    if(id){ await sbPatch('tarifario_base',item,`?id=eq.${id}`); }
+    else   { await sbPost('tarifario_base',item); }
+    closeM('mTar'); await loadTarifario();
+    toast('Tarifario guardado','ok');
+  }catch(e){
+    const tar=cache.tarifario();
+    const fid=id||uid();
+    const idx=tar.findIndex(x=>x.id===fid);
+    if(idx>=0)tar[idx]={...tar[idx],...item};else tar.push({id:fid,...item});
+    cache.setTarifario(tar);
+    closeM('mTar'); renderTarifario();
+    toast('Guardado localmente (sin Supabase)','ok');
+  }
+}
+
+async function delTar(id){
+  if(!confirm('¿Eliminar este ítem del tarifario base?'))return;
+  try{ await sbDel('tarifario_base',`?id=eq.${id}`); await loadTarifario(); }
+  catch{ cache.setTarifario(cache.tarifario().filter(x=>x.id!==id)); renderTarifario(); }
+  toast('Eliminado','ok');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  OBRAS
+// ═══════════════════════════════════════════════════════════════
+let selObraId=null;
+
+function renderObras(){
+  const obs=cache.obras();
+  const el=document.getElementById('listaObras');
+  el.innerHTML=!obs.length
+    ?'<div style="padding:20px;text-align:center;color:var(--text3);font-size:11px">Sin obras</div>'
+    :obs.map(o=>`<div class="sb-item ${o.id===selObraId?'active':''}" onclick="selObra('${o.id}')">
+      <div class="sb-name">${o.nombre}</div>
+      <div class="sb-sub">${o.cliente_razon_social||''} · ${eBadge(o.estado)}</div>
+    </div>`).join('');
+}
+
+async function selObra(id){
+  selObraId=id;
+  renderObras();
+  await renderObraDetalle(id);
+}
+
+async function renderObraDetalle(id){
+  const obra=cache.obras().find(o=>o.id===id);
+  if(!obra)return;
+  let certs=[],recs=[];
+  try{
+    certs=await sbGet('certificados',`?obra_id=eq.${id}&select=*,certificados_items(*)&order=numero.desc`);
+    recs =await sbGet('recibos',`?obra_id=eq.${id}&select=*,recibos_lineas(*)&order=numero.desc`);
+  }catch{
+    certs=cache.certs().filter(c=>c.obra_id===id);
+    recs=cache.recs().filter(r=>r.obra_id===id);
+  }
+  const rubros=cache.rubros().filter(r=>r.obra_id===id);
+  const tarBase=cache.tarifario();
+  const totalFact=recs.reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
+  const totalCob=recs.filter(r=>r.estado==='PAGADO').reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
+
+  const el=document.getElementById('obraDetalle');
+  el.innerHTML=`
+    <div class="sh">
+      <div>
+        <div style="font-size:17px;font-weight:900">${obra.nombre}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">
+          ${obra.tipo} · ${obra.es_propia?'Obra propia':'Terceros'} · ${eBadge(obra.estado)}
+        </div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-g btn-sm" onclick="openMObra('${id}')">✏ Editar</button>
+        <button class="btn btn-d btn-sm" onclick="delObra('${id}')">🗑</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+      <div class="kpi"><div class="kpi-l">Presupuesto</div>
+        <div class="kpi-v">${f$(obra.presupuesto_total_pesos)}</div>
+        <div class="kpi-s">U$D ${(obra.presupuesto_total_usd||0).toLocaleString()}</div></div>
+      <div class="kpi"><div class="kpi-l">Facturado</div>
+        <div class="kpi-v" style="color:var(--accent)">${f$(totalFact)}</div>
+        <div class="kpi-s">${certs.length} cert. · ${recs.length} recibos</div></div>
+      <div class="kpi"><div class="kpi-l">Cobrado</div>
+        <div class="kpi-v" style="color:var(--ok)">${f$(totalCob)}</div>
+        <div class="kpi-s" style="color:${totalFact-totalCob>0?'var(--warn)':'var(--ok)'}">
+          Pendiente: ${f$(totalFact-totalCob)}</div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Tarifario de esta obra (vs. base Nova Domus)</span>
+      </div>
+      ${rubros.length?`
+      <div class="tw">
+        <table><thead><tr><th>Código</th><th>Descripción</th>
+          <th>USD Base</th><th>USD Obra</th><th>Delta</th><th>%Etapa</th><th></th></tr></thead>
+        <tbody>
+          ${rubros.map(r=>{
+            const tb=tarBase.find(t=>t.id===r.tarifario_base_id||t.codigo===r.codigo);
+            const usdBase=tb?.precio_usd||null;
+            const usdObra=r.precio_usd_obra||r.precio_usd_unitario||null;
+            let deltaTxt='—',deltaClass='delta-eq';
+            if(usdBase&&usdObra){
+              const d=((usdObra-usdBase)/usdBase*100);
+              deltaTxt=(d>0?'↑ +':d<0?'↓ ':'')+d.toFixed(1)+'%';
+              deltaClass=d>0?'delta-up':d<0?'delta-down':'delta-eq';
+            }
+            const gc=GC[tb?.grupo]||GC['OTRO'];
+            return`<tr>
+              <td><b style="color:${gc}">${r.codigo}</b></td>
+              <td style="font-size:10px">${r.descripcion}</td>
+              <td style="color:var(--text3)">${usdBase?'U$D '+usdBase:'—'}</td>
+              <td style="font-weight:700">${usdObra?'U$D '+usdObra:'<span style="color:var(--text3)">sin precio</span>'}</td>
+              <td class="${deltaClass}" style="font-weight:700;font-size:11px">${deltaTxt}</td>
+              <td>${r.usa_porcentaje_etapa?'<span class="bd b-info">Sí</span>':'<span class="bd b-gray">No</span>'}</td>
+              <td><button class="btn btn-g btn-sm" onclick="editRubro('${r.id}','${id}')">✏</button></td>
+            </tr>`;
+          }).join('')}
+        </tbody></table>
+      </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin rubros cargados para esta obra.</div>'}
+    </div>
+
+    ${certs.length?`
+    <div class="tw">
+      <table><thead><tr><th>Cert.</th><th>Período</th><th>Estado</th><th>Total recibo</th><th>Recibo estado</th></tr></thead>
+      <tbody>
+        ${certs.map(c=>{
+          const rec=recs.find(r=>r.certificado_id===c.id);
+          const tot=rec?(rec.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0):0;
+          return`<tr>
+            <td><b>N°${c.numero}</b> <span style="color:var(--text3);font-size:10px">${fd(c.fecha_emision)}</span></td>
+            <td style="font-size:10px;color:var(--text2)">${c.periodo_desde?fd(c.periodo_desde)+' → '+fd(c.periodo_hasta):''}</td>
+            <td>${eBadge(c.estado)}</td>
+            <td>${rec?f$(tot):'—'}</td>
+            <td>${rec?`<select style="font-size:10px;padding:2px 5px;width:auto"
+              onchange="cambiarEstRec('${rec.id}',this.value)">
+              ${['BORRADOR','ENVIADO','PAGADO'].map(e=>`<option ${rec.estado===e?'selected':''}>${e}</option>`).join('')}
+            </select>`:'—'}</td>
+          </tr>`;
+        }).join('')}
+      </tbody></table>
+    </div>`:
+    '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Sin certificados todavía. Usá <b>Carga Semanal</b>.</div>'}
+  `;
+}
+
+function openMObra(id=null){
+  const obs=cache.obras();
+  const o=id?obs.find(x=>x.id===id):null;
+  document.getElementById('oId').value=o?.id||'';
+  document.getElementById('oNom').value=o?.nombre||'';
+  document.getElementById('oTipo').value=o?.tipo||'ELECTRICA';
+  document.getElementById('oCli').value=o?.cliente_razon_social||'';
+  document.getElementById('oCuit').value=o?.cliente_cuit||'';
+  document.getElementById('oDir').value=o?.cliente_direccion||'';
+  document.getElementById('oTel').value=o?.cliente_telefono||'';
+  document.getElementById('oPP').value=o?.presupuesto_total_pesos||'';
+  document.getElementById('oPU').value=o?.presupuesto_total_usd||'';
+  document.getElementById('oEst').value=o?.estado||'EN_CURSO';
+  document.getElementById('oFI').value=o?.fecha_inicio||'';
+  document.getElementById('oFF').value=o?.fecha_fin_estimada||'';
+  document.getElementById('oProp').value=o?.es_propia!==false?'true':'false';
+  document.getElementById('oNot').value=o?.notas||'';
+  document.getElementById('mObraT').textContent=o?'Editar obra':'Nueva obra';
+  openM('mObra');
+}
+
+async function guardarObra(){
+  const nom=document.getElementById('oNom').value.trim();
+  const cli=document.getElementById('oCli').value.trim();
+  if(!nom||!cli){toast('Completá nombre y cliente','err');return;}
+  const obs={
+    nombre:nom,cliente_razon_social:cli,tipo:document.getElementById('oTipo').value,
+    cliente_cuit:document.getElementById('oCuit').value,
+    cliente_direccion:document.getElementById('oDir').value,
+    cliente_telefono:document.getElementById('oTel').value,
+    presupuesto_total_pesos:parseFloat(document.getElementById('oPP').value)||null,
+    presupuesto_total_usd:parseFloat(document.getElementById('oPU').value)||null,
+    estado:document.getElementById('oEst').value,
+    fecha_inicio:document.getElementById('oFI').value||null,
+    fecha_fin_estimada:document.getElementById('oFF').value||null,
+    es_propia:document.getElementById('oProp').value==='true',
+    notas:document.getElementById('oNot').value||null,
+  };
+  const id=document.getElementById('oId').value;
+  try{
+    let obraId=id;
+    if(id){ await sbPatch('obras',obs,`?id=eq.${id}`); }
+    else{
+      const r=await sbPost('obras',obs);
+      obraId=r[0].id;
+      const tarBase=cache.tarifario();
+      for(const t of tarBase){
+        await sbPost('obras_rubros',{
+          obra_id:obraId,codigo:t.codigo,descripcion:t.nombre,
+          precio_usd_unitario:t.precio_usd||0,
+          precio_usd_obra:null,
+          usa_porcentaje_etapa:t.usa_pct,
+          tarifario_base_id:t.id,orden:t.orden||99
+        });
+      }
+    }
+    closeM('mObra');
+    await loadObras();
+    selObra(obraId);
+    populateSegObras();
+    toast('Obra guardada','ok');
+  }catch(e){
+    toast('Error: '+e.message,'err');
+  }
+}
+
+async function delObra(id){
+  if(!confirm('¿Eliminar esta obra y todos sus datos?'))return;
+  try{ await sbDel('obras',`?id=eq.${id}`); }catch{}
+  selObraId=null;
+  await loadObras();
+  document.getElementById('obraDetalle').innerHTML=
+    '<div style="text-align:center;padding:60px;color:var(--text3)"><div style="font-size:32px;margin-bottom:10px">🏗</div>Seleccioná una obra o creá una nueva</div>';
+  toast('Obra eliminada','ok');
+}
+
+async function cambiarEstRec(id,estado){
+  try{ await sbPatch('recibos',{estado},`?id=eq.${id}`); await loadObras(); selObra(selObraId); }
+  catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+function editRubro(rid,obraId){
+  const r=cache.rubros().find(x=>x.id===rid);
+  const tb=cache.tarifario().find(t=>t.id===r?.tarifario_base_id||t.codigo===r?.codigo);
+  document.getElementById('rId').value=rid;
+  document.getElementById('rInfo').innerHTML=
+    `<b>${r?.codigo}</b> — ${r?.descripcion}<br>
+     <span style="color:var(--text3)">USD base: ${tb?.precio_usd?'U$D '+tb.precio_usd:'sin precio base'}</span>`;
+  document.getElementById('rUSD').value=r?.precio_usd_obra||r?.precio_usd_unitario||'';
+  document.getElementById('rPct').value=r?.usa_porcentaje_etapa?'true':'false';
+  openM('mRubro');
+}
+
+async function guardarRubro(){
+  const id=document.getElementById('rId').value;
+  const usd=parseFloat(document.getElementById('rUSD').value)||null;
+  const pct=document.getElementById('rPct').value==='true';
+  try{
+    await sbPatch('obras_rubros',{precio_usd_obra:usd,precio_usd_unitario:usd||0,usa_porcentaje_etapa:pct},`?id=eq.${id}`);
+    closeM('mRubro');
+    await loadObras();
+    selObra(selObraId);
+    toast('Precio actualizado','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SEGUIMIENTO
+// ═══════════════════════════════════════════════════════════════
+let sItems=[],sFacts=[],sObra=null,sMatFacts=[];
+
+function populateSegObras(){
+  const obs=cache.obras();
+  const sel=document.getElementById('sObra');
+  const prev=sel.value;
+  sel.innerHTML='<option value="">— seleccionar —</option>';
+  obs.forEach(o=>sel.innerHTML+=`<option value="${o.id}" ${o.id===prev?'selected':''}>${o.nombre}</option>`);
+  if(prev) onSObraChange();
+}
+
+async function onSObraChange(){
+  const id=document.getElementById('sObra').value;
+  if(!id){sObra=null;document.getElementById('sObraInfo').style.display='none';return;}
+  sObra=cache.obras().find(o=>o.id===id);
+  document.getElementById('sObraInfo').style.display='block';
+  document.getElementById('sObraInfo').innerHTML=
+    `<b>${sObra.nombre}</b> · ${sObra.cliente_razon_social||''} · ${sObra.tipo}`;
+  try{
+    const c=await sbGet('certificados',`?obra_id=eq.${id}&select=numero&order=numero.desc&limit=1`);
+    const r=await sbGet('recibos',`?obra_id=eq.${id}&select=numero&order=numero.desc&limit=1`);
+    document.getElementById('sNumC').value=c.length?c[0].numero+1:1;
+    document.getElementById('sNumR').value=r.length?r[0].numero+1:1;
+  }catch{
+    document.getElementById('sNumC').value=1;
+    document.getElementById('sNumR').value=1;
+  }
+  document.getElementById('sTC').value=gs('tc')||'1430';
+}
+
+async function loadMatFacts(){
+  sMatFacts=[];
+  if(!sObra)return;
+  const desde=document.getElementById('sDesde').value;
+  const hasta=document.getElementById('sHasta').value;
+  if(!desde||!hasta)return;
+  try{
+    const rows=await sbGet('facturas_obra',
+      '?select=proveedor,materiales,monto_con_iva,fecha_compra' +
+      '&obra_id=eq.'+sObra.id+
+      '&fecha_compra=gte.'+desde+
+      '&fecha_compra=lte.'+hasta+
+      '&order=fecha_compra.asc');
+    sMatFacts=Array.isArray(rows)?rows:[];
+  }catch{ sMatFacts=[]; }
+}
+
+function goS(n){
+  if(n===2&&!sObra){toast('Seleccioná una obra','err');return;}
+  [1,2,3].forEach(i=>{
+    document.getElementById(`ss${i}`).style.display=i===n?'block':'none';
+    const sn=document.getElementById(`sn${i}`);
+    sn.className='sn'+(i===n?' active':i<n?' done':'');
+  });
+  if(n===3) buildPreviews();
+}
+
+const CM={
+  CERTIFICADO:   {l:'📋 CERTIFICADO',c:'var(--text2)'},
+  EXC_ESPONTANEO:{l:'⚡ EXC. ESPONTÁNEO',c:'var(--warn)'},
+  EXC_SOLICITUD: {l:'📌 EXC. POR SOLICITUD',c:'#a78bfa'},
+};
+
+function addSI(cls){
+  const id=uid();
+  sItems.push({id,cls,desc:'',tId:'',qty:1,pct:0.6,usd:null,tc:parseFloat(document.getElementById('sTC').value)||1430,sub:0});
+  const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id&&(r.precio_usd_obra||r.precio_usd_unitario));
+  const tarBase=cache.tarifario();
+  const wrap=document.getElementById('sItems');
+  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  const {l,c}=CM[cls];
+  const div=document.createElement('div');
+  div.className='iblk';div.id=`si-${id}`;
+  div.innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <span style="font-size:10px;font-weight:900;color:${c};letter-spacing:.8px">${l}</span>
+      <button class="btn btn-d btn-sm" onclick="rmSI('${id}')">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <div class="fg" style="flex:2;min-width:220px">
+        <label>Descripción cualitativa</label>
+        <textarea rows="2" placeholder="Describí el trabajo realizado..."
+          oninput="updSI('${id}','desc',this.value)"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="fg" style="max-width:200px">
+        <label>Ítem del tarifario</label>
+        <select onchange="onTarSel('${id}',this.value)">
+          <option value="">— sin asignar —</option>
+          ${rubros.length
+            ? rubros.map(r=>`<option value="${r.id}">[${r.codigo}] ${r.descripcion.slice(0,30)}</option>`).join('')
+            : tarBase.map(t=>`<option value="${t.id}" data-usd="${t.precio_usd||''}">[${t.codigo}] ${t.nombre.slice(0,30)}</option>`).join('')
+          }
+        </select>
+      </div>
+      <div class="fg" style="max-width:90px">
+        <label>Cantidad</label>
+        <input type="number" value="1" min="0.1" step="0.1"
+          oninput="updSI('${id}','qty',parseFloat(this.value)||1);calcSI('${id}')">
+      </div>
+      <div class="fg" style="max-width:160px">
+        <label>% Ejecución</label>
+        <select onchange="onPctSel('${id}',this.value)" id="pct-${id}">
+          <option value="0.6">60% — Canalización</option>
+          <option value="0.3">30% — Cableado</option>
+          <option value="0.1">10% — Armado</option>
+          <option value="1">100% — Completo</option>
+          <option value="c">Personalizado...</option>
+        </select>
+      </div>
+      <div class="fg" style="max-width:95px" id="pcc-${id}" style="display:none">
+        <label>% valor</label>
+        <input type="number" placeholder="0.75" step="0.01" max="1" min="0.01"
+          oninput="updSI('${id}','pct',parseFloat(this.value)||0);calcSI('${id}')">
+      </div>
+      <div class="fg" style="max-width:100px">
+        <label>USD Unitario</label>
+        <input type="number" step="0.01" id="usd-${id}" placeholder="auto"
+          oninput="updSI('${id}','usd',parseFloat(this.value)||null);calcSI('${id}')">
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--accent);font-weight:800;margin-top:6px;text-align:right"
+      id="sub-${id}">Subtotal: $ 0</div>`;
+  wrap.appendChild(div);
+  document.getElementById('sTotCard').style.display='block';
+}
+
+function onTarSel(id,tarId){
+  const item=sItems.find(i=>i.id===id);if(!item)return;
+  item.tId=tarId;
+  if(!tarId)return;
+  const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id);
+  let usd=null;
+  const rub=rubros.find(r=>r.id===tarId);
+  if(rub){ usd=rub.precio_usd_obra||rub.precio_usd_unitario||null; }
+  else{
+    const tb=cache.tarifario().find(t=>t.id===tarId);
+    usd=tb?.precio_usd||null;
+    if(tb&&!tb.usa_pct){item.pct=1;const ps=document.getElementById(`pct-${id}`);if(ps)ps.value='1';}
+  }
+  item.usd=usd;
+  const el=document.getElementById(`usd-${id}`);
+  if(el&&usd)el.value=usd;
+  calcSI(id);
+}
+
+function onPctSel(id,val){
+  const el=document.getElementById(`pcc-${id}`);
+  if(val==='c'){el.style.display='flex';}
+  else{el.style.display='none';updSI(id,'pct',parseFloat(val));calcSI(id);}
+}
+
+function updSI(id,f,v){const i=sItems.find(x=>x.id===id);if(i)i[f]=v;}
+
+function calcSI(id){
+  const item=sItems.find(i=>i.id===id);if(!item)return;
+  const tc=parseFloat(document.getElementById('sTC').value)||1430;
+  item.tc=tc;
+  const sub=(item.usd||0)*(item.pct||0)*(item.qty||1)*tc;
+  item.sub=sub;
+  const el=document.getElementById(`sub-${id}`);
+  if(el)el.textContent=sub>0?`Subtotal: ${f$(sub)}`:'Subtotal: sin precio asignado';
+  recalcS();
+}
+
+function rmSI(id){
+  sItems=sItems.filter(i=>i.id!==id);
+  document.getElementById(`si-${id}`)?.remove();
+  if(!sItems.length)document.getElementById('sItems').innerHTML=
+    '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Agregá los trabajos de la semana</div>';
+  recalcS();
+}
+
+function addSF(){
+  const id=uid();
+  sFacts.push({id,razon:'',nro:'',sinIva:0,conIva:0});
+  const wrap=document.getElementById('sFacts');
+  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  const div=document.createElement('div');
+  div.className='iblk';div.id=`sf-${id}`;
+  div.innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-size:10px;font-weight:900;color:var(--info);letter-spacing:.8px">🧾 FACTURA / MATERIAL</span>
+      <button class="btn btn-d btn-sm" onclick="rmSF('${id}')">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="fg" style="flex:2">
+        <label>Razón social emisor</label>
+        <input type="text" placeholder="Ferretería La Ferre"
+          oninput="updSF('${id}','razon',this.value)"></div>
+      <div class="fg" style="max-width:180px">
+        <label>N° Factura</label>
+        <input type="text" placeholder="A 0001-00012345"
+          oninput="updSF('${id}','nro',this.value)"></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <div class="fg"><label>Monto sin impuestos $</label>
+        <input type="number" placeholder="0"
+          oninput="updSF('${id}','sinIva',parseFloat(this.value)||0);recalcS()"></div>
+      <div class="fg"><label>Monto con impuestos $</label>
+        <input type="number" placeholder="0"
+          oninput="updSF('${id}','conIva',parseFloat(this.value)||0);recalcS()"></div>
+    </div>`;
+  wrap.appendChild(div);
+  document.getElementById('sTotCard').style.display='block';
+}
+
+function updSF(id,f,v){const i=sFacts.find(x=>x.id===id);if(i)i[f]=v;}
+function rmSF(id){sFacts=sFacts.filter(i=>i.id!==id);document.getElementById(`sf-${id}`)?.remove();recalcS();}
+
+function recalcS(){
+  const byC=c=>sItems.filter(i=>i.cls===c).reduce((s,i)=>s+(i.sub||0),0);
+  const tC=byC('CERTIFICADO'),tE=byC('EXC_ESPONTANEO'),tS=byC('EXC_SOLICITUD');
+  const tF=sFacts.reduce((s,f)=>s+(f.conIva||0),0);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=f$(v);};
+  set('tC',tC);set('tE',tE);set('tS',tS);set('tF',tF);set('tT',tC+tE+tS+tF);
+}
+
+function showPV(w,el){
+  document.getElementById('pvC').style.display=w==='c'?'block':'none';
+  document.getElementById('pvR').style.display=w==='r'?'block':'none';
+  document.querySelectorAll('#panel-seguimiento .btn-g').forEach(b=>{
+    if(b.id==='pvCB'||b.id==='pvRB'){b.style.borderColor='';b.style.color='';}
+  });
+  el.style.borderColor=el.style.color='var(--accent)';
+}
+
+async function buildPreviews(){
+  await loadMatFacts();
+  buildDC();buildDR();
+  document.getElementById('pvCDoc').innerHTML=document.getElementById('DC').outerHTML
+    .replace('id="DC"','style="background:#fff"');
+  document.getElementById('pvRDoc').innerHTML=document.getElementById('DR').outerHTML
+    .replace('id="DR"','style="background:#fff"');
+}
+
+function buildDC(){
+  const o=sObra;if(!o)return;
+  const num=document.getElementById('sNumC').value;
+  const fecha=fd(document.getElementById('sFecha').value);
+  const desde=fd(document.getElementById('sDesde').value);
+  const hasta=fd(document.getElementById('sHasta').value);
+  const bC=c=>sItems.filter(i=>i.cls===c);
+  const iHTML=(arr,col)=>arr.length
+    ?arr.map(i=>`<div class="di"><span style="color:${col};font-weight:900">▪</span><span>${i.desc||'(sin descripción)'}</span></div>`).join('')
+    :'<div style="color:#aaa;font-size:10px;padding:4px 0">—</div>';
+  document.getElementById('DC').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+      <div>
+        <div class="db2">Habitamos Espacios Inteligentes</div>
+        <div class="dt">CERTIFICADO DE OBRA N° ${num}</div>
+        ${desde&&hasta?`<div><span class="dp">📅 ${desde} → ${hasta}</span></div>`:''}
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:9px;color:#999">Fecha</div>
+        <div style="font-size:14px;font-weight:900">${fecha}</div>
+        <div style="font-size:10px;color:#666;margin-top:2px">${o.nombre}</div>
+      </div>
+    </div>
+    <div class="dg2">
+      <div><div class="dl">Contratista</div><div><b>NDWD S.A.S.</b></div>
+        <div>CUIT: 30-71858914-9</div><div>Av. Colón 3835, Córdoba</div><div>Tel: 3516-747513</div></div>
+      <div><div class="dl">Comitente</div><div><b>${o.cliente_razon_social||''}</b></div>
+        ${o.cliente_cuit?`<div>CUIT: ${o.cliente_cuit}</div>`:''}
+        ${o.cliente_direccion?`<div>${o.cliente_direccion}</div>`:''}
+        ${o.cliente_telefono?`<div>Tel: ${o.cliente_telefono}</div>`:''}
+      </div>
+    </div>
+    <div class="dst">Certificación de obra — Listado</div>
+    ${iHTML(bC('CERTIFICADO'),'#e8a020')}
+    <div class="dst" style="color:#b45309">Excedentes Espontáneos</div>
+    ${iHTML(bC('EXC_ESPONTANEO'),'#b45309')}
+    <div class="dst" style="color:#7c3aed">Excedentes por Solicitud</div>
+    ${iHTML(bC('EXC_SOLICITUD'),'#7c3aed')}
+    <div class="dfg">
+      <div class="dfa"><div class="dfl"></div>Firma Contratista — NDWD S.A.S.</div>
+      <div class="dfa"><div class="dfl"></div>Firma Cliente — ${o.cliente_razon_social||''}</div>
+    </div>
+    <div class="dft">NOVA DOMUS ES MARCA REGISTRADA POR NDWD SAS · CUIT 30-71858914-9<br>
+      Tel: 3516-747513 | Av. Colón 3835, Córdoba | novadomuscba@gmail.com | www.novadomuscba.com.ar | @novadomuscba</div>`;
+}
+
+function buildDR(){
+  const o=sObra;if(!o)return;
+  const num=document.getElementById('sNumR').value;
+  const fecha=fd(document.getElementById('sFecha').value);
+  const tc=parseFloat(document.getElementById('sTC').value)||1430;
+  const det=document.getElementById('sDet').value;
+  const tar=cache.tarifario();
+  const rubs=cache.rubros().filter(r=>r.obra_id===o.id);
+
+  const lineas=[];
+  const push=(cls,label)=>sItems.filter(i=>i.cls===cls&&(i.sub||i.desc)).forEach(i=>{
+    let cod='';
+    if(i.tId){
+      const rb=rubs.find(r=>r.id===i.tId)||tar.find(t=>t.id===i.tId);
+      if(rb)cod=`[${rb.codigo||rb.codigo}] `;
+    }
+    lineas.push({desc:cod+(i.desc||''),usd:i.usd,pct:i.pct,qty:i.qty,monto:i.sub,tipo:label});
+  });
+  push('CERTIFICADO','CERT');push('EXC_ESPONTANEO','EXC');push('EXC_SOLICITUD','EXC');
+  sFacts.forEach(f=>lineas.push({desc:`${f.razon||''}${f.nro?' · '+f.nro:''}`,monto:f.conIva,tipo:'MAT',
+    extra:`Sin IVA: ${f$(f.sinIva)} / Con IVA: ${f$(f.conIva)}`}));
+
+  const total=lineas.reduce((s,l)=>s+(l.monto||0),0);
+  const hasUSD=lineas.some(l=>l.usd);
+
+  document.getElementById('DR').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+      <div>
+        <div class="db2">Habitamos Espacios Inteligentes</div>
+        <div class="dt">RECIBO DE OBRA N° ${num}</div>
+        <div style="font-size:10px;color:#666;margin-top:2px">${o.nombre}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:9px;color:#999">Fecha</div>
+        <div style="font-size:14px;font-weight:900">${fecha}</div>
+        <span class="rtc">USD $ ${tc.toLocaleString('es-AR')}</span>
+      </div>
+    </div>
+    <div class="dg2" style="margin-bottom:12px">
+      <div><div class="dl">Emisor</div><div><b>NDWD SAS</b> · CUIT: 30-71858914-9</div></div>
+      <div><div class="dl">Cliente</div><div><b>${o.cliente_razon_social||''}</b></div>
+        ${o.cliente_cuit?`<div>CUIT: ${o.cliente_cuit}</div>`:''}
+        ${o.cliente_telefono?`<div>Tel: ${o.cliente_telefono}</div>`:''}
+        ${o.cliente_direccion?`<div>${o.cliente_direccion}</div>`:''}
+      </div>
+    </div>
+    ${det?`<div style="font-size:10px;font-weight:800;color:#0f1117;padding:5px;background:#f0f4ff;border-radius:3px;margin-bottom:9px">${det}</div>`:''}
+    <table class="rt">
+      <thead><tr><th style="width:${hasUSD?'52%':'72%'}">CONCEPTO</th>
+        ${hasUSD?'<th>USD</th><th>%</th><th>Cant</th>':''}
+        <th style="text-align:right">$ TOTAL</th></tr></thead>
+      <tbody>
+        ${lineas.map(l=>`<tr>
+          <td>${l.desc||''}${l.extra?`<br><span style="font-size:9px;color:#888">${l.extra}</span>`:''}</td>
+          ${hasUSD?`<td>${l.usd?'U$D '+l.usd:''}</td><td>${l.pct?Math.round(l.pct*100)+'%':''}</td><td>${l.qty&&l.qty!==1?l.qty:''}</td>`:''}
+          <td style="text-align:right;font-weight:700">$ ${Math.round(l.monto||0).toLocaleString('es-AR')}</td>
+        </tr>`).join('')}
+        <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>TOTAL</b></td>
+          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(total).toLocaleString('es-AR')}</b></td></tr>
+      </tbody>
+    </table>
+    ${sMatFacts.length?`
+    <div style="font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#333;
+      border-bottom:1px solid #ddd;padding-bottom:4px;margin:16px 0 5px">Materiales</div>
+    <table class="rt" style="margin-top:4px">
+      <thead><tr>
+        <th style="width:35%">Proveedor</th>
+        <th>Detalle</th>
+        <th style="text-align:right">Total c/IVA</th>
+      </tr></thead>
+      <tbody>
+        ${sMatFacts.map(f=>`<tr>
+          <td>${f.proveedor||''}</td>
+          <td style="font-size:10px;color:#666">${f.materiales||''}</td>
+          <td style="text-align:right;font-weight:700">$ ${Math.round(f.monto_con_iva||0).toLocaleString('es-AR')}</td>
+        </tr>`).join('')}
+        <tr class="rtot"><td colspan="2"><b>TOTAL MATERIALES</b></td>
+          <td style="text-align:right"><b>$ ${Math.round(sMatFacts.reduce((s,f)=>s+(f.monto_con_iva||0),0)).toLocaleString('es-AR')}</b></td>
+        </tr>
+      </tbody>
+    </table>`:''}
+    <div class="dft" style="margin-top:16px">NOVA DOMUS ES MARCA REGISTRADA POR NDWD SAS · CUIT 30-71858914-9<br>
+      Tel: 3516-747513 | Av. Colón 3835, Córdoba | novadomuscba@gmail.com | www.novadomuscba.com.ar</div>`;
+}
+
+async function generar(){
+  const btn=document.getElementById('btnGen');
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Guardando...';
+  await loadMatFacts();
+  buildDC();buildDR();
+  const numC=parseInt(document.getElementById('sNumC').value);
+  const numR=parseInt(document.getElementById('sNumR').value);
+  const tc=parseFloat(document.getElementById('sTC').value)||1430;
+  try{
+    const cr=await sbPost('certificados',{
+      obra_id:sObra.id,numero:numC,
+      fecha_emision:document.getElementById('sFecha').value,
+      periodo_desde:document.getElementById('sDesde').value||null,
+      periodo_hasta:document.getElementById('sHasta').value||null,
+      tipo_cambio_usd:tc,estado:'BORRADOR'
+    });
+    const certId=cr[0].id;
+    for(const i of sItems)
+      await sbPost('certificados_items',{certificado_id:certId,tipo:i.cls,
+        descripcion:i.desc,precio_usd_unitario:i.usd||null,
+        porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||null});
+    const rr=await sbPost('recibos',{
+      obra_id:sObra.id,certificado_id:certId,numero:numR,
+      fecha_emision:document.getElementById('sFecha').value,
+      tipo_cambio_usd:tc,detalle_descripcion:document.getElementById('sDet').value,
+      estado:'BORRADOR'
+    });
+    const recId=rr[0].id;
+    for(const i of sItems)
+      await sbPost('recibos_lineas',{recibo_id:recId,tipo:i.cls==='CERTIFICADO'?'CERTIFICADO':'EXCEDENTE',
+        descripcion:i.desc,monto_pesos:i.sub||0});
+    for(const f of sFacts)
+      await sbPost('recibos_lineas',{recibo_id:recId,tipo:'MATERIAL',
+        descripcion:`${f.razon} · ${f.nro}`,monto_pesos:f.conIva||0,
+        factura_referencia:f.nro,proveedor:f.razon});
+    toast('✅ Guardado en Supabase','ok');
+  }catch(e){
+    toast('Sin Supabase: guardando local. '+e.message,'err');
+    const cid=uid(),rid=uid();
+    const lc=cache.certs();
+    lc.push({id:cid,obra_id:sObra.id,numero:numC,fecha_emision:document.getElementById('sFecha').value,
+      periodo_desde:document.getElementById('sDesde').value,periodo_hasta:document.getElementById('sHasta').value,
+      tipo_cambio_usd:tc,estado:'BORRADOR',certificados_items:sItems.map(i=>({tipo:i.cls,descripcion:i.desc,monto_pesos_calculado:i.sub}))});
+    cache.setCerts(lc);
+    const lr=cache.recs();
+    const lineas=[...sItems.map(i=>({tipo:i.cls==='CERTIFICADO'?'CERTIFICADO':'EXCEDENTE',descripcion:i.desc,monto_pesos:i.sub})),
+      ...sFacts.map(f=>({tipo:'MATERIAL',descripcion:`${f.razon} · ${f.nro}`,monto_pesos:f.conIva}))];
+    lr.push({id:rid,obra_id:sObra.id,certificado_id:cid,numero:numR,
+      fecha_emision:document.getElementById('sFecha').value,tipo_cambio_usd:tc,estado:'BORRADOR',recibos_lineas:lineas});
+    cache.setRecs(lr);
+  }
+  btn.innerHTML='<div class="spin"></div> Generando...';
+  await sleep(200);
+  const on=(sObra.nombre||'obra').slice(0,18).replace(/[^a-z0-9]/gi,'_');
+  await dlDoc('DC',`cert_${on}_N${numC}`);
+  await sleep(500);
+  await dlDoc('DR',`recibo_${on}_N${numR}`);
+  toast('✅ Certificado y recibo descargados','ok');
+  btn.disabled=false;btn.innerHTML='⚡ Generar y guardar';
+  if(selObraId===sObra.id)renderObraDetalle(selObraId);
+}
+
+async function dlDoc(elId,nombre){
+  const el=document.getElementById(elId);
+  const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
+  const a=document.createElement('a');
+  a.download=`${nombre}.jpg`;a.href=c.toDataURL('image/jpeg',0.95);a.click();
+}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+// ═══════════════════════════════════════════════════════════════
+//  ICC / ACTUALIZACIÓN DE PRECIOS
+// ═══════════════════════════════════════════════════════════════
+function calcIccFactor(){
+  const vNew=parseFloat(document.getElementById('iccVal').value)||0;
+  const vOld=parseFloat(document.getElementById('iccValAnt').value)||0;
+  if(!vNew||!vOld){document.getElementById('iccFactorBox').style.display='none';return;}
+  const factor=vNew/vOld;
+  const varPct=((factor-1)*100).toFixed(2);
+  document.getElementById('iccFactor').textContent=factor.toFixed(6);
+  document.getElementById('iccVar').textContent=(varPct>0?'+':'')+varPct+'%';
+  document.getElementById('iccVar').style.color=varPct>0?'var(--warn)':'var(--ok)';
+  document.getElementById('iccFactorBox').style.display='block';
+  showIccPreview(factor);
+  document.getElementById('btnAplicarICC').style.display='inline-flex';
+}
+
+function showIccPreview(factor){
+  const obras=cache.obras().filter(o=>o.estado==='EN_CURSO');
+  const rubros=cache.rubros();
+  if(!obras.length){document.getElementById('iccPreview').style.display='none';return;}
+  document.getElementById('iccPreview').style.display='block';
+  let html=`<p style="font-size:11px;color:var(--text2);margin-bottom:10px">
+    Factor de ajuste: <b style="color:var(--accent)">${factor.toFixed(4)}</b>
+    — Se aplicará a todos los rubros con precio USD de las obras activas.</p>
+    <div class="tw"><table><thead><tr><th>Obra</th><th>Rubro</th>
+      <th>USD actual</th><th>USD nuevo</th><th>Variación</th></tr></thead><tbody>`;
+  obras.forEach(o=>{
+    const or=rubros.filter(r=>r.obra_id===o.id&&(r.precio_usd_obra||r.precio_usd_unitario));
+    or.forEach(r=>{
+      const uAct=r.precio_usd_obra||r.precio_usd_unitario||0;
+      const uNew=uAct*factor;
+      const varP=((factor-1)*100).toFixed(1);
+      html+=`<tr><td style="font-size:10px">${o.nombre.slice(0,30)}</td>
+        <td><b>${r.codigo}</b></td>
+        <td>U$D ${uAct.toFixed(2)}</td>
+        <td style="color:var(--accent)">U$D ${uNew.toFixed(2)}</td>
+        <td style="color:${varP>0?'var(--warn)':'var(--ok)'}">${varP>0?'+':''}${varP}%</td></tr>`;
+    });
+  });
+  html+='</tbody></table></div>';
+  document.getElementById('iccPreviewBody').innerHTML=html;
+}
+
+async function guardarICC(){
+  const per=document.getElementById('iccPer').value.trim();
+  const vNew=parseFloat(document.getElementById('iccVal').value)||null;
+  const vOld=parseFloat(document.getElementById('iccValAnt').value)||null;
+  const tc=parseFloat(document.getElementById('iccTC').value)||null;
+  if(!per){toast('Ingresá el período','err');return;}
+  const factor=vNew&&vOld?vNew/vOld:null;
+  const varPct=factor?(factor-1)*100:null;
+  const [mm,aaaa]=per.split('/');
+  const periodo=`${aaaa}-${mm}`;
+  const reg={
+    periodo,
+    fecha_registro:document.getElementById('iccFecha').value,
+    valor_icc:vNew,variacion_icc_pct:varPct,
+    tipo_cambio_usd:tc,factor_ajuste:factor,
+    notas:document.getElementById('iccNotas').value||null,
+    aplicado:false
+  };
+  try{
+    await sbPost('icc_registros',reg);
+    await loadICC();
+    toast('Registro ICC guardado','ok');
+    if(tc){document.getElementById('tcG').value=tc;ss('tc',tc);}
+  }catch(e){
+    const icc=cache.icc();icc.unshift({id:uid(),...reg,created_at:new Date().toISOString()});
+    cache.setIcc(icc);renderICC();
+    toast('Guardado local (sin Supabase)','ok');
+  }
+}
+
+async function aplicarICC(){
+  const factor=parseFloat(document.getElementById('iccFactor').textContent);
+  const tc=parseFloat(document.getElementById('iccTC').value)||null;
+  if(!factor){toast('Calculá el factor primero','err');return;}
+  if(!confirm(`¿Aplicar factor ${factor.toFixed(4)} a todos los rubros de obras activas?`))return;
+  const obras=cache.obras().filter(o=>o.estado==='EN_CURSO');
+  const rubros=cache.rubros().filter(r=>obras.some(o=>o.id===r.obra_id));
+  let rubrosAf=0;
+  try{
+    for(const r of rubros){
+      const uAct=r.precio_usd_obra||r.precio_usd_unitario||0;
+      if(!uAct)continue;
+      const uNew=parseFloat((uAct*factor).toFixed(4));
+      await sbPatch('obras_rubros',{precio_usd_obra:uNew,precio_usd_unitario:uNew},`?id=eq.${r.id}`);
+      rubrosAf++;
+    }
+    const per=document.getElementById('iccPer').value.trim().split('/');
+    const periodo=`${per[1]}-${per[0]}`;
+    await sbPatch('icc_registros',{aplicado:true,fecha_aplicado:new Date().toISOString().slice(0,10),
+      obras_afectadas:obras.length,rubros_afectados:rubrosAf},`?periodo=eq.${periodo}`);
+    if(tc){document.getElementById('tcG').value=tc;ss('tc',tc);}
+    await loadAll();
+    toast(`✅ Factor aplicado a ${rubrosAf} rubros de ${obras.length} obras`,'ok');
+    document.getElementById('iccPreview').style.display='none';
+    document.getElementById('btnAplicarICC').style.display='none';
+  }catch(e){toast('Error: '+e.message,'err');}
+}
+
+async function loadICC(){
+  try{
+    const data=await sbGet('icc_registros','?select=*&order=periodo.desc');
+    cache.setIcc(data);
+  }catch{}
+  renderICC();
+}
+
+function renderICC(){
+  const icc=cache.icc();
+  const tbody=document.getElementById('iccTabla');
+  if(!tbody)return;
+  if(!icc.length){
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--text3);padding:24px">Sin registros ICC todavía</td></tr>';
+    return;
+  }
+  tbody.innerHTML=icc.map(r=>{
+    const varP=r.variacion_icc_pct;
+    const col=varP>0?'var(--warn)':'var(--ok)';
+    const [y,m]=(r.periodo||'-').split('-');
+    return`<tr>
+      <td><b>${m||''}/${y||''}</b></td>
+      <td style="font-size:10px;color:var(--text2)">${r.fecha_registro?fd(r.fecha_registro):''}</td>
+      <td>${r.valor_icc||'—'}</td>
+      <td style="color:${col};font-weight:700">${varP?(varP>0?'+':'')+varP.toFixed(2)+'%':'—'}</td>
+      <td style="color:var(--accent);font-weight:800">${r.factor_ajuste?r.factor_ajuste.toFixed(4):'—'}</td>
+      <td>${r.tipo_cambio_usd?'$ '+r.tipo_cambio_usd:'—'}</td>
+      <td>${r.aplicado?'<span class="bd b-ok">APLICADO</span>':'<span class="bd b-warn">PENDIENTE</span>'}</td>
+      <td style="font-size:10px;color:var(--text2)">${r.aplicado?`${r.obras_afectadas||0} obras · ${r.rubros_afectados||0} rubros`:'—'}</td>
+      <td>${!r.aplicado&&r.factor_ajuste?`<button class="btn btn-warn btn-sm" onclick="reAplicar('${r.id}',${r.factor_ajuste})">⚡ Aplicar</button>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+
+async function reAplicar(id,factor){
+  if(!confirm(`¿Aplicar factor ${factor} a todas las obras activas?`))return;
+  const obras=cache.obras().filter(o=>o.estado==='EN_CURSO');
+  const rubros=cache.rubros().filter(r=>obras.some(o=>o.id===r.obra_id));
+  let n=0;
+  try{
+    for(const r of rubros){
+      const u=(r.precio_usd_obra||r.precio_usd_unitario||0)*factor;
+      if(!u)continue;
+      await sbPatch('obras_rubros',{precio_usd_obra:parseFloat(u.toFixed(4)),precio_usd_unitario:parseFloat(u.toFixed(4))},`?id=eq.${r.id}`);
+      n++;
+    }
+    await sbPatch('icc_registros',{aplicado:true,fecha_aplicado:new Date().toISOString().slice(0,10),
+      obras_afectadas:obras.length,rubros_afectados:n},`?id=eq.${id}`);
+    await loadAll();
+    toast(`✅ Factor aplicado a ${n} rubros`,'ok');
+  }catch(e){toast('Error: '+e.message,'err');}
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SUPERVISOR
+// ═══════════════════════════════════════════════════════════════
+async function renderSupervisor(){
+  const obras=cache.obras();
+  let allC=[],allR=[];
+  try{
+    allC=await sbGet('certificados','?select=*,certificados_items(*)&order=numero.desc&limit=200');
+    allR=await sbGet('recibos','?select=*,recibos_lineas(*)&order=numero.desc&limit=200');
+  }catch{allC=cache.certs();allR=cache.recs();}
+
+  let matCosts=[];
+  try{ matCosts=await sbGet('facturas_obra','?select=obra_id,monto_con_iva&origen_pago=eq.empresa'); }catch{}
+  const matByObra={};
+  (matCosts||[]).forEach(f=>{
+    matByObra[f.obra_id]=(matByObra[f.obra_id]||0)+Number(f.monto_con_iva||0);
+  });
+
+  const totalFact=allR.reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
+  const totalCob=allR.filter(r=>r.estado==='PAGADO').reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
+
+  document.getElementById('supKpis').innerHTML=`
+    ${kpi('Obras activas',obras.filter(o=>o.estado==='EN_CURSO').length,'')}
+    ${kpi('Total facturado',f$(totalFact),'','var(--accent)')}
+    ${kpi('Total cobrado',f$(totalCob),'','var(--ok)')}
+    ${kpi('Pendiente cobrar',f$(totalFact-totalCob),'',totalFact-totalCob>0?'var(--warn)':'var(--text)')}
+  `;
+
+  document.getElementById('supTabla').innerHTML=!obras.length
+    ?'<div style="padding:24px;text-align:center;color:var(--text3);font-size:11px">Sin obras</div>'
+    :`<table><thead><tr><th>Obra</th><th>Cliente</th><th>Tipo</th><th>Estado</th>
+        <th>Presupuesto</th><th>Facturado</th><th>Cobrado</th><th>Pendiente</th><th>Certs</th></tr></thead>
+      <tbody>${obras.map(o=>{
+        const oc=allC.filter(c=>c.obra_id===o.id);
+        const or=allR.filter(r=>r.obra_id===o.id);
+        const fac=or.reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
+        const cob=or.filter(r=>r.estado==='PAGADO').reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
+        return`<tr>
+          <td><b>${o.nombre}</b></td>
+          <td style="font-size:10px;color:var(--text2)">${o.cliente_razon_social||''}</td>
+          <td><span class="bd b-gray">${o.tipo}</span></td>
+          <td>${eBadge(o.estado)}</td>
+          <td style="font-size:11px">${f$(o.presupuesto_total_pesos)}</td>
+          <td style="color:var(--accent);font-size:11px">${f$(fac)}</td>
+          <td style="color:var(--ok);font-size:11px">${f$(cob)}</td>
+          <td style="color:${fac-cob>0?'var(--warn)':'var(--ok)'};font-size:11px">${f$(fac-cob)}</td>
+          <td style="text-align:center">${oc.length}</td>
+        </tr>`;}).join('')}</tbody></table>`;
+
+  const movs=[...allC.map(c=>({...c,_t:'C'})),...allR.map(r=>({...r,_t:'R'}))]
+    .sort((a,b)=>new Date(b.created_at||b.fecha_emision)-new Date(a.created_at||a.fecha_emision)).slice(0,30);
+  document.getElementById('supMovs').innerHTML=!movs.length
+    ?'<div style="padding:24px;text-align:center;color:var(--text3);font-size:11px">Sin movimientos</div>'
+    :`<table><thead><tr><th>Tipo</th><th>Obra</th><th>N°</th><th>Fecha</th><th>Estado</th><th>Total</th></tr></thead>
+      <tbody>${movs.map(m=>{
+        const o=obras.find(x=>x.id===m.obra_id);
+        const tot=m._t==='R'?(m.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0):null;
+        return`<tr>
+          <td>${m._t==='C'?'<span class="bd b-acc">CERT</span>':'<span class="bd b-info">RECIBO</span>'}</td>
+          <td style="font-size:10px">${o?.nombre?.slice(0,28)||'—'}</td>
+          <td><b>N°${m.numero}</b></td>
+          <td style="font-size:10px;color:var(--text2)">${fd(m.fecha_emision)}</td>
+          <td>${eBadge(m.estado)}</td>
+          <td style="font-size:11px">${tot!==null?f$(tot):'—'}</td>
+        </tr>`;}).join('')}</tbody></table>`;
+
+  const obrasMat=obras.filter(o=>o.estado==='EN_CURSO'||(matByObra[o.id]||0)>0);
+  const matTotal=Object.values(matByObra).reduce((s,v)=>s+(v||0),0);
+  const matEl=document.getElementById('supMateriales');
+  if(matEl) matEl.innerHTML=!obrasMat.length
+    ?'<div style="padding:16px;text-align:center;color:var(--text3);font-size:11px">Sin facturas de empresa registradas</div>'
+    :`<table><thead><tr><th>Obra</th><th>Estado</th><th style="text-align:right">Materiales empresa</th></tr></thead>
+      <tbody>
+        ${obrasMat.map(o=>`<tr>
+          <td><b>${o.nombre}</b></td>
+          <td>${eBadge(o.estado)}</td>
+          <td style="text-align:right;color:var(--warn);font-weight:700">${f$(matByObra[o.id]||0)}</td>
+        </tr>`).join('')}
+        <tr style="background:var(--bg3)">
+          <td colspan="2" style="font-weight:800;color:var(--text2)">TOTAL</td>
+          <td style="text-align:right;font-weight:900;color:var(--accent)">${f$(matTotal)}</td>
+        </tr>
+      </tbody></table>`;
+}
+
+function kpi(l,v,s,c){
+  return`<div class="kpi"><div class="kpi-l">${l}</div>
+    <div class="kpi-v" style="color:${c||'var(--text)'}">${v}</div>
+    ${s?`<div class="kpi-s">${s}</div>`:''}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TIPO DE CAMBIO OFICIAL (Bluelytics + Supabase cache)
+// ═══════════════════════════════════════════════════════════════
+let tcLastRecord = null;
+
+function tcAge(isoDate) {
+  const mins = Math.floor((Date.now() - new Date(isoDate)) / 60000);
+  if (mins < 2)  return 'ahora mismo';
+  if (mins < 60) return `hace ${mins} min`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24)  return `hace ${hrs}h`;
+  return `hace ${Math.floor(hrs / 24)}d`;
+}
+
+function renderTCOficial(valor, updatedAt, stale) {
+  const valEl = document.getElementById('tcOficialVal');
+  const ageEl = document.getElementById('tcOficialAge');
+  const btn   = document.getElementById('tcOficialBtn');
+  const box   = document.getElementById('tcOficialBox');
+  if (!valEl) return;
+  valEl.textContent     = '$ ' + Math.round(valor).toLocaleString('es-AR');
+  ageEl.textContent     = '— ' + tcAge(updatedAt);
+  btn.style.color       = stale ? 'var(--danger)' : 'var(--text3)';
+  box.style.borderColor = stale ? 'var(--danger)'  : '';
+  box.title             = stale ? 'No se pudo actualizar — mostrando último valor disponible' : '';
+}
+
+async function loadCachedTC() {
+  try {
+    const rows = await sbGet('tipo_cambio', '?select=*&order=updated_at.desc&limit=1');
+    if (rows && rows.length) {
+      tcLastRecord = rows[0];
+      renderTCOficial(tcLastRecord.valor, tcLastRecord.updated_at, false);
+    }
+  } catch {}
+}
+
+async function refreshTC(silent = false) {
+  const btn = document.getElementById('tcOficialBtn');
+  if (btn) btn.style.color = 'var(--text2)';
+  try {
+    const res  = await fetch('https://api.bluelytics.com.ar/v2/latest');
+    const text = await res.text();
+    const data = JSON.parse(text);
+    const valor = data.oficial.value_sell;
+    const now   = new Date().toISOString();
+    tcLastRecord = { valor, updated_at: now };
+    renderTCOficial(valor, now, false);
+    sbPost('tipo_cambio', { valor, fuente: 'bluelytics' }).catch(() => {});
+    if (!silent) toast('Dólar oficial actualizado', 'ok');
+  } catch {
+    if (tcLastRecord) renderTCOficial(tcLastRecord.valor, tcLastRecord.updated_at, true);
+    if (!silent) toast('No se pudo actualizar el tipo de cambio', 'err');
+  } finally {
+    if (btn) btn.style.color = 'var(--text3)';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════
+const EB={
+  EN_CURSO:'<span class="bd b-ok">EN CURSO</span>',
+  PAUSADA:'<span class="bd b-warn">PAUSADA</span>',
+  FINALIZADA:'<span class="bd b-gray">FINALIZADA</span>',
+  CANCELADA:'<span class="bd" style="background:#2e0d0d;color:var(--danger)">CANCELADA</span>',
+  BORRADOR:'<span class="bd b-gray">BORRADOR</span>',
+  ENVIADO:'<span class="bd b-info">ENVIADO</span>',
+  PAGADO:'<span class="bd b-ok">PAGADO</span>',
+};
+function eBadge(e){return EB[e]||`<span class="bd b-gray">${e||'—'}</span>`;}
+
+function showP(name,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(name==='supervisor')renderSupervisor();
+  if(name==='seguimiento')populateSegObras();
+  if(name==='icc'){loadICC();}
+}
+
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('click',e=>{if(e.target.classList.contains('mbg'))e.target.classList.remove('open');});
+
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`show ${type}`;
+  setTimeout(()=>t.className='',3500);
+}
+</script>
+</body>
+</html>
