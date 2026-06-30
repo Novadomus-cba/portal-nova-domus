@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Domus — Ajuste ICC / TC</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg:#0f1117;--bg2:#181c27;--bg3:#1f2436;--border:#2a3049;
+  --accent:#e8a020;--text:#e2e6f0;--text2:#8892aa;--text3:#4a5470;
+  --ok:#2ecc71;--warn:#f39c12;--danger:#e74c3c;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,'Inter',sans-serif;font-size:14px;line-height:1.5}
+
+.topbar{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 20px;height:50px}
+.topbar a{color:var(--text2);text-decoration:none;font-size:13px}.topbar a:hover{color:var(--text)}
+.topbar-sep{color:var(--text3);font-size:13px}
+.topbar-title{font-size:14px;font-weight:600;color:var(--text)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.topbar-user{font-size:12px;color:var(--text2)}
+.btn-logout{background:none;border:1px solid var(--border);color:var(--text2);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:inherit}
+.btn-logout:hover{border-color:var(--text3);color:var(--text)}
+
+main{max-width:860px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:20px;font-weight:600;margin-bottom:4px}
+.subtitle{font-size:13px;color:var(--text2);margin-bottom:24px}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px}
+.card-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px}
+
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr 1fr}}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:12px;color:var(--text2);font-weight:500}
+.fg input{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s;width:100%}
+.fg input:focus{border-color:var(--accent)}
+.fg .hint{font-size:11px;color:var(--text3)}
+.form-foot{margin-top:16px;display:flex;align-items:center;gap:12px}
+
+.btn-primary{background:var(--accent);color:#000;border:none;padding:9px 20px;border-radius:6px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.85}
+.btn-primary:disabled{opacity:.4;cursor:default}
+.btn-secondary{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer}
+.btn-secondary:hover{border-color:var(--text3)}
+.btn-ghost-danger{background:none;border:1px solid rgba(231,76,60,.4);color:var(--danger);padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:background .15s}
+.btn-ghost-danger:hover{background:rgba(231,76,60,.08)}
+
+.banner{border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:none}
+.banner-warn{background:rgba(243,156,18,.08);border:1px solid rgba(243,156,18,.3);color:var(--warn)}
+
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.opt-card{border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg3);transition:border-color .15s}
+.opt-card.is-sug{border-color:var(--accent);background:rgba(232,160,32,.05)}
+.opt-label{font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.opt-factor{font-size:24px;font-weight:700;margin-bottom:4px}
+.opt-detail{font-size:12px;color:var(--text2);margin-bottom:8px}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em}
+.badge-sug{background:rgba(232,160,32,.2);color:var(--accent)}
+.badge-alt{background:var(--bg2);color:var(--text3);border:1px solid var(--border)}
+.badge-ok{background:rgba(46,204,113,.15);color:var(--ok)}
+.badge-warn{background:rgba(243,156,18,.15);color:var(--warn)}
+.badge-muted{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--bg3);color:var(--text2);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:9px 12px;text-align:right;border-bottom:1px solid var(--border)}
+thead th:first-child,thead th.left{text-align:left}
+thead th.sug-col{color:var(--accent)}
+tbody td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);text-align:right}
+tbody td:first-child,tbody td.left{text-align:left}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{padding:9px 12px;border-top:1px solid var(--border);font-weight:600;background:var(--bg3);text-align:right}
+tfoot td:first-child{text-align:left;color:var(--text2)}
+.delta{display:block;font-size:11px;margin-top:2px}
+
+.apply-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn-apply{flex:1;min-width:160px;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:2px solid transparent;transition:opacity .15s,border-color .15s}
+.btn-apply.sug{background:var(--accent);color:#000}
+.btn-apply.sug:hover{opacity:.85}
+.btn-apply.alt{background:var(--bg3);border-color:var(--border);color:var(--text)}
+.btn-apply.alt:hover{border-color:var(--text3)}
+.skip-row{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+
+.empty{text-align:center;padding:32px;color:var(--text3);font-size:13px}
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;color:var(--text2);font-size:13px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:500}
+#modal.open{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:420px;width:90%}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:8px}
+.modal-body{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.65}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end}
+
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 18px;font-size:13px;z-index:600;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none;max-width:340px}
+#toast.show{opacity:1;transform:none}
+#toast.ok{border-color:var(--ok);color:var(--ok)}
+#toast.err{border-color:var(--danger);color:var(--danger)}
+.err-txt{font-size:12px;color:var(--danger)}
+</style>
+</head>
+<body>
+
+<div id="loading"><span class="spin"></span>Verificando acceso…</div>
+
+<nav class="topbar">
+  <a href="index.html">← Portal</a>
+  <span class="topbar-sep">/</span>
+  <span class="topbar-title">Ajuste ICC / TC</span>
+  <div class="topbar-right">
+    <span class="topbar-user" id="topbarUser"></span>
+    <button class="btn-logout" onclick="handleLogout()">Salir</button>
+  </div>
+</nav>
+
+<main>
+  <h1>Ajuste de Precios ICC / TC</h1>
+  <p class="subtitle">Ajuste mensual de precios unitarios en obras activas por variación del índice de costos o tipo de cambio.</p>
+
+  <!-- Step 1: Form -->
+  <div class="card">
+    <div class="card-title">Datos del período</div>
+    <div id="warnDup" class="banner banner-warn">Ya existe un registro para este período. Si confirmás, lo reemplazará.</div>
+    <div class="form-grid">
+      <div class="fg">
+        <label>Período</label>
+        <input type="month" id="inPeriodo">
+      </div>
+      <div class="fg">
+        <label>ICC nuevo</label>
+        <input type="number" id="inIccNuevo" min="0" step="0.01" placeholder="ej: 12450.50">
+        <span class="hint">Índice de este mes</span>
+      </div>
+      <div class="fg">
+        <label>ICC anterior</label>
+        <input type="number" id="inIccAnt" min="0" step="0.01" placeholder="ej: 12100.00">
+        <span class="hint" id="hintIccAnt">Último registro disponible</span>
+      </div>
+      <div class="fg">
+        <label>TC BNA nuevo</label>
+        <input type="number" id="inTcNuevo" min="0" step="1" placeholder="ej: 1520">
+        <span class="hint" id="hintTc">Vigente: cargando…</span>
+      </div>
+    </div>
+    <div class="form-foot">
+      <button class="btn-primary" id="btnCalc" onclick="calcular()" disabled>Calcular impacto →</button>
+      <span class="err-txt" id="calcErr"></span>
+    </div>
+  </div>
+
+  <!-- Step 2 & 3: Preview + actions -->
+  <div id="previewSection" style="display:none">
+    <div class="card">
+      <div class="card-title" id="previewTitle">Impacto estimado</div>
+      <div class="opt-grid" id="optGrid"></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="left">Obra</th>
+              <th>Actual USD</th>
+              <th id="thA">Opción A</th>
+              <th id="thB">Opción B</th>
+            </tr>
+          </thead>
+          <tbody id="prevBody"></tbody>
+          <tfoot id="prevFoot"></tfoot>
+        </table>
+      </div>
+      <div class="apply-row" id="applyRow"></div>
+      <div class="skip-row">
+        <button class="btn-ghost-danger" onclick="openModal('SKIP')">No actualizar este mes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="card">
+    <div class="card-title">Historial de ajustes</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Período</th>
+            <th>Factor</th>
+            <th class="left">Opción</th>
+            <th>ICC</th>
+            <th>TC BNA</th>
+            <th>Obras</th>
+            <th>Rubros</th>
+            <th class="left">Estado</th>
+          </tr>
+        </thead>
+        <tbody id="histBody"><tr><td colspan="8" class="empty">Cargando…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div id="modal">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn-primary" id="btnConfirm" onclick="onConfirm()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const SB_URL  = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+const ALLOWED_ROLES = ['admin', 'supervisor'];
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+const HDR = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
+
+async function sbGet(path, qs = '') {
+  const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, { headers: HDR });
+  return JSON.parse(await r.text());
+}
+async function sbPost(path, body, prefer = 'return=representation') {
+  const r = await fetch(`${SB_URL}/rest/v1/${path}`, {
+    method: 'POST', headers: { ...HDR, 'Prefer': prefer }, body: JSON.stringify(body)
+  });
+  const t = await r.text();
+  if (!r.ok) throw new Error(t);
+  return t ? JSON.parse(t) : null;
+}
+async function sbPatch(path, qs, body) {
+  const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, {
+    method: 'PATCH', headers: { ...HDR, 'Prefer': 'return=minimal' }, body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+async function sbRpc(fn, params) {
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {
+    method: 'POST', headers: { ...HDR, 'Prefer': 'return=representation' }, body: JSON.stringify(params)
+  });
+  const t = await r.text();
+  if (!r.ok) throw new Error(t);
+  return t ? JSON.parse(t) : null;
+}
+
+// State
+let obras = [], rubros = [], tcVigente = 0;
+let factorA = null, factorB = null, sugOpt = null, previewRows = [];
+let pendingAction = null, meta = {};
+
+async function init() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = 'login.html'; return; }
+
+  const { data: profile } = await authClient
+    .from('user_profiles').select('full_name, role').eq('id', session.user.id).single();
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = 'index.html'; return;
+  }
+  document.getElementById('topbarUser').textContent = profile.full_name;
+
+  const now = new Date();
+  document.getElementById('inPeriodo').value =
+    `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  const [tcRows, lastIcc, obrasEN, histRows] = await Promise.all([
+    sbGet('tipo_cambio', '?select=valor&order=id.desc&limit=1'),
+    sbGet('icc_registros', '?select=periodo,valor_icc&order=created_at.desc&limit=1'),
+    sbGet('obras', '?estado=eq.EN_CURSO&select=id,nombre&order=nombre.asc'),
+    sbGet('icc_registros', '?select=periodo,valor_icc,variacion_icc_pct,tipo_cambio_usd,factor_ajuste,aplicado,obras_afectadas,rubros_afectados,opcion_elegida&order=created_at.desc')
+  ]);
+
+  tcVigente = tcRows.length ? Number(tcRows[0].valor) : 0;
+  document.getElementById('hintTc').textContent = `Vigente: ${fmtN(tcVigente)}`;
+  if (tcVigente) document.getElementById('inTcNuevo').value = tcVigente;
+
+  if (lastIcc.length) {
+    document.getElementById('inIccAnt').value = lastIcc[0].valor_icc;
+    document.getElementById('hintIccAnt').textContent = `Del período: ${fmtPer(lastIcc[0].periodo)}`;
+  } else {
+    document.getElementById('hintIccAnt').textContent = 'Sin registros previos';
+  }
+
+  obras = obrasEN;
+  if (obras.length) {
+    const ids = obras.map(o => o.id).join(',');
+    rubros = await sbGet('obras_rubros', `?activo=eq.true&obra_id=in.(${ids})&select=id,obra_id,precio_usd_unitario,precio_usd_obra`);
+  }
+
+  renderHistory(histRows);
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('btnCalc').disabled = false;
+}
+
+async function calcular() {
+  const periodo  = document.getElementById('inPeriodo').value.trim();
+  const iccNuevo = Number(document.getElementById('inIccNuevo').value);
+  const iccAnt   = Number(document.getElementById('inIccAnt').value);
+  const tcNuevo  = Number(document.getElementById('inTcNuevo').value);
+  const errEl    = document.getElementById('calcErr');
+  errEl.textContent = '';
+
+  if (!periodo)             { errEl.textContent = 'Seleccioná el período.'; return; }
+  if (!iccNuevo || iccNuevo <= 0) { errEl.textContent = 'ICC nuevo inválido.'; return; }
+  if (!iccAnt   || iccAnt   <= 0) { errEl.textContent = 'ICC anterior inválido.'; return; }
+  if (!tcNuevo  || tcNuevo  <= 0) { errEl.textContent = 'TC BNA inválido.'; return; }
+  if (!tcVigente)                  { errEl.textContent = 'TC vigente no disponible.'; return; }
+
+  const dup = await sbGet('icc_registros', `?periodo=eq.${periodo}&select=id&limit=1`);
+  document.getElementById('warnDup').style.display = dup.length ? 'block' : 'none';
+
+  factorA = iccNuevo / iccAnt;
+  factorB = tcNuevo  / tcVigente;
+  sugOpt  = factorA >= factorB ? 'A' : 'B';
+
+  previewRows = obras.map(o => {
+    const oRub = rubros.filter(r => r.obra_id === o.id);
+    const total = oRub.reduce((s, r) => s + Number(r.precio_usd_obra ?? r.precio_usd_unitario), 0);
+    return { obra: o, total, totalA: total * factorA, totalB: total * factorB, cnt: oRub.length };
+  }).filter(p => p.cnt > 0);
+
+  meta = {
+    periodo, iccNuevo, iccAnt, tcNuevo,
+    nObras: previewRows.length,
+    nRubros: previewRows.reduce((s, p) => s + p.cnt, 0),
+    pctA: ((factorA - 1) * 100).toFixed(2),
+    pctB: ((factorB - 1) * 100).toFixed(2)
+  };
+
+  buildPreview();
+  const sec = document.getElementById('previewSection');
+  sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function buildPreview() {
+  document.getElementById('previewTitle').textContent = `Impacto estimado — ${fmtPer(meta.periodo)}`;
+
+  document.getElementById('optGrid').innerHTML = ['A','B'].map(o => {
+    const isSug = sugOpt === o;
+    const pct   = o === 'A' ? meta.pctA : meta.pctB;
+    const label = o === 'A' ? 'Índice ICC' : 'TC BNA oficial';
+    const from  = o === 'A' ? fmtN(meta.iccAnt) : fmtN(tcVigente);
+    const to    = o === 'A' ? fmtN(meta.iccNuevo) : fmtN(meta.tcNuevo);
+    return `<div class="opt-card ${isSug ? 'is-sug' : ''}">
+      <div class="opt-label">Opción ${o} — ${label}</div>
+      <div class="opt-factor" style="color:${isSug ? 'var(--accent)' : 'var(--text)'}">${Number(pct) >= 0 ? '+' : ''}${pct}%</div>
+      <div class="opt-detail">${from} → ${to}</div>
+      <span class="badge ${isSug ? 'badge-sug' : 'badge-alt'}">${isSug ? '✓ Sugerido' : 'Alternativo'}</span>
+    </div>`;
+  }).join('');
+
+  const setTh = (id, opt) => {
+    const el = document.getElementById(id);
+    const isSug = sugOpt === opt;
+    el.textContent = `Opción ${opt}${isSug ? ' ✓' : ''}`;
+    el.className = isSug ? 'sug-col' : '';
+  };
+  setTh('thA', 'A'); setTh('thB', 'B');
+
+  let bodyHtml = '', sumT = 0, sumA = 0, sumB = 0;
+  for (const p of previewRows) {
+    sumT += p.total; sumA += p.totalA; sumB += p.totalB;
+    bodyHtml += `<tr>
+      <td class="left">${p.obra.nombre}</td>
+      <td>USD ${fmtU(p.total)}</td>
+      <td>USD ${fmtU(p.totalA)}${fmtDelta(p.totalA - p.total)}</td>
+      <td>USD ${fmtU(p.totalB)}${fmtDelta(p.totalB - p.total)}</td>
+    </tr>`;
+  }
+  document.getElementById('prevBody').innerHTML = bodyHtml;
+  document.getElementById('prevFoot').innerHTML = `<tr>
+    <td>TOTAL — ${previewRows.length} obras</td>
+    <td>USD ${fmtU(sumT)}</td>
+    <td>USD ${fmtU(sumA)}${fmtDelta(sumA - sumT)}</td>
+    <td>USD ${fmtU(sumB)}${fmtDelta(sumB - sumT)}</td>
+  </tr>`;
+
+  document.getElementById('applyRow').innerHTML = ['A','B'].map(o => {
+    const isSug = sugOpt === o;
+    const pct   = o === 'A' ? meta.pctA : meta.pctB;
+    const lbl   = o === 'A' ? 'ICC' : 'TC BNA';
+    return `<button class="btn-apply ${isSug ? 'sug' : 'alt'}" onclick="openModal('${o}')">
+      Aplicar Opción ${o} — ${lbl} (${Number(pct) >= 0 ? '+' : ''}${pct}%)
+    </button>`;
+  }).join('');
+}
+
+function openModal(action) {
+  pendingAction = action;
+  let title, body;
+  const f = action === 'A' ? factorA : action === 'B' ? factorB : null;
+  if (action === 'A' || action === 'B') {
+    const pct = action === 'A' ? meta.pctA : meta.pctB;
+    const lbl = action === 'A' ? 'ICC' : 'TC BNA';
+    title = `Confirmar — Aplicar Opción ${action} (${lbl})`;
+    body  = `Se ajustarán los precios USD de <strong>${meta.nRubros} rubros</strong> en <strong>${meta.nObras} obras EN_CURSO</strong> con factor <strong>×${f.toFixed(4)}</strong> (${Number(pct) >= 0 ? '+' : ''}${pct}%).<br><br>TC BNA se actualizará a <strong>${fmtN(meta.tcNuevo)}</strong>.<br><br><em>Esta acción no se puede deshacer automáticamente.</em>`;
+  } else {
+    title = 'Registrar sin ajuste';
+    body  = `Se registrará el período <strong>${fmtPer(meta.periodo)}</strong> sin aplicar ajuste de precios.<br><br>El TC BNA se actualizará a <strong>${fmtN(meta.tcNuevo)}</strong> de todas formas.`;
+  }
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML    = body;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  pendingAction = null;
+}
+
+async function onConfirm() {
+  const btn = document.getElementById('btnConfirm');
+  btn.disabled = true; btn.textContent = 'Aplicando…';
+  closeModal();
+  document.getElementById('btnCalc').disabled = true;
+
+  try {
+    if (pendingAction === 'A' || pendingAction === 'B') {
+      const factor = pendingAction === 'A' ? factorA : factorB;
+      const varPct = (factor - 1) * 100;
+      const opcion = pendingAction === sugOpt ? 'SUGERIDO' : 'ALTERNATIVO';
+
+      const result = await sbRpc('apply_icc_adjustment', {
+        p_factor:            factor,
+        p_tc_nuevo:          meta.tcNuevo,
+        p_periodo:           meta.periodo,
+        p_valor_icc:         meta.iccNuevo,
+        p_variacion_icc_pct: parseFloat(varPct.toFixed(4)),
+        p_opcion_elegida:    opcion
+      });
+
+      const res = Array.isArray(result) ? result[0] : result;
+      tcVigente = meta.tcNuevo;
+      document.getElementById('hintTc').textContent = `Vigente: ${fmtN(tcVigente)}`;
+      toast(`Ajuste aplicado: ${res.obras_afectadas} obras, ${res.rubros_afectados} rubros actualizados.`, true);
+
+    } else {
+      await sbPost('tipo_cambio', { valor: meta.tcNuevo, fuente: 'bna_oficial' }, 'return=minimal');
+
+      const varPct = meta.iccAnt > 0 ? (meta.iccNuevo / meta.iccAnt - 1) * 100 : null;
+      const payload = {
+        valor_icc:         meta.iccNuevo,
+        variacion_icc_pct: varPct !== null ? parseFloat(varPct.toFixed(4)) : null,
+        tipo_cambio_usd:   meta.tcNuevo,
+        factor_ajuste:     null,
+        aplicado:          false,
+        opcion_elegida:    'NO_ACTUALIZAR'
+      };
+      const existing = await sbGet('icc_registros', `?periodo=eq.${meta.periodo}&select=id&limit=1`);
+      if (existing.length) {
+        await sbPatch('icc_registros', `?periodo=eq.${meta.periodo}`, payload);
+      } else {
+        const today = new Date().toISOString().slice(0, 10);
+        await sbPost('icc_registros', { periodo: meta.periodo, fecha_registro: today, ...payload }, 'return=minimal');
+      }
+      tcVigente = meta.tcNuevo;
+      document.getElementById('hintTc').textContent = `Vigente: ${fmtN(tcVigente)}`;
+      toast(`Período ${fmtPer(meta.periodo)} registrado sin ajuste. TC actualizado.`, true);
+    }
+
+    document.getElementById('inIccAnt').value = meta.iccNuevo;
+    document.getElementById('hintIccAnt').textContent = `Del período: ${fmtPer(meta.periodo)}`;
+    document.getElementById('previewSection').style.display = 'none';
+    document.getElementById('warnDup').style.display = 'none';
+    await loadHistory();
+
+  } catch (e) {
+    console.error(e);
+    toast('Error al aplicar. Revisá la consola.', false);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Confirmar';
+    document.getElementById('btnCalc').disabled = false;
+    pendingAction = null;
+  }
+}
+
+async function loadHistory() {
+  const rows = await sbGet('icc_registros', '?select=periodo,valor_icc,variacion_icc_pct,tipo_cambio_usd,factor_ajuste,aplicado,obras_afectadas,rubros_afectados,opcion_elegida&order=created_at.desc');
+  renderHistory(rows);
+}
+
+function renderHistory(rows) {
+  const tbody = document.getElementById('histBody');
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">Sin registros todavía.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(r => {
+    const fa = r.factor_ajuste != null ? Number(r.factor_ajuste) : null;
+    const vp = r.variacion_icc_pct != null ? Number(r.variacion_icc_pct) : null;
+    const factorStr = fa != null
+      ? `×${fa.toFixed(4)} (${vp >= 0 ? '+' : ''}${vp != null ? vp.toFixed(2) : '?'}%)`
+      : '—';
+    const opBadge = r.opcion_elegida === 'SUGERIDO'   ? '<span class="badge badge-ok">Seguida</span>'
+                  : r.opcion_elegida === 'ALTERNATIVO' ? '<span class="badge badge-warn">Alternativa</span>'
+                  : r.opcion_elegida === 'NO_ACTUALIZAR' ? '<span class="badge badge-muted">Sin ajuste</span>'
+                  : '—';
+    const stBadge = r.aplicado
+      ? '<span class="badge badge-ok">Aplicado</span>'
+      : '<span class="badge badge-muted">No aplicado</span>';
+    return `<tr>
+      <td class="left" style="font-weight:500">${fmtPer(r.periodo)}</td>
+      <td>${factorStr}</td>
+      <td class="left">${opBadge}</td>
+      <td>${r.valor_icc ? fmtN(r.valor_icc) : '—'}</td>
+      <td>${r.tipo_cambio_usd ? fmtN(r.tipo_cambio_usd) : '—'}</td>
+      <td>${r.obras_afectadas ?? '—'}</td>
+      <td>${r.rubros_afectados ?? '—'}</td>
+      <td class="left">${stBadge}</td>
+    </tr>`;
+  }).join('');
+}
+
+function fmtU(n) {
+  return Number(n).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtN(n) { return Number(n).toLocaleString('es-AR'); }
+function fmtPer(p) {
+  const [y, m] = p.split('-');
+  return `${'ene feb mar abr may jun jul ago sep oct nov dic'.split(' ')[parseInt(m)-1]} ${y}`;
+}
+function fmtDelta(d) {
+  const color = d >= 0 ? 'var(--ok)' : 'var(--danger)';
+  return `<span class="delta" style="color:${color}">${d >= 0 ? '+' : '-'}USD ${fmtU(Math.abs(d))}</span>`;
+}
+
+let toastT;
+function toast(msg, ok) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show ${ok ? 'ok' : 'err'}`;
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.className = ''; }, 4500);
+}
+
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = 'login.html';
+}
+
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+init();
+</script>
+</body>
+</html>
