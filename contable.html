@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Domus — Contable</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+:root {
+  --bg:#0d0f12;--surface:#151821;--surface2:#1c1f2b;
+  --border:#232733;--text:#e8eaf0;--muted:#6b7280;
+  --accent:#c8a96e;--accent-dim:#7a6340;
+  --ok:#4ade80;--warn:#f59e0b;--danger:#e05c5c;
+  font-family:'Inter',system-ui,sans-serif;font-size:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:rgba(13,15,18,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  padding:0 16px;height:50px;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.back-link{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--muted);font-size:12px;font-weight:700}
+.back-link:hover{color:var(--text)}
+.back-icon{width:22px;height:22px;background:linear-gradient(135deg,var(--accent-dim),var(--accent));border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
+.topbar-sep{width:1px;height:16px;background:var(--border)}
+.topbar-title{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.3px}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.user-name{font-size:11px;color:var(--muted)}
+.logout-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
+.logout-btn:hover{color:var(--text);border-color:var(--muted)}
+.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 16px;background:var(--surface);flex-shrink:0}
+.tab{padding:10px 14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .15s,border-color .15s}
+.tab.active{color:var(--accent);border-color:var(--accent)}
+.tab:hover:not(.active){color:var(--text)}
+.page{flex:1;overflow-y:auto;padding:16px}
+.container{max-width:800px;margin:0 auto}
+.section{display:none}.section.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px}
+.card-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.field-hint{font-size:10px;color:var(--accent);margin-top:3px}
+input,select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:13px;font-family:inherit;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+select option{background:var(--surface2)}
+textarea{resize:vertical;min-height:60px;line-height:1.5}
+.row{display:flex;gap:10px}.row .fg{flex:1;min-width:0}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:6px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#0d0f12;width:100%;justify-content:center;margin-top:4px}
+.btn-primary:hover{background:#d9ba7e}.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn-ok{background:none;border:1px solid #166534;color:var(--ok)}
+.btn-ok:hover{background:#052e16}
+.btn-warn{background:none;border:1px solid #92400e;color:var(--warn)}
+.btn-danger{background:#2e0d0d;border:1px solid #4a1515;color:var(--danger)}
+.btn-sm{padding:4px 10px;font-size:10px}
+.badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.b-ok{background:#052e16;color:var(--ok)}.b-pend{background:#1a1505;color:var(--warn)}.b-danger{background:#2e0d0d;color:var(--danger)}
+.b-info{background:#0d1a2e;color:#60a5fa}.b-gray{background:#1a1a1a;color:var(--muted)}
+.item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px}
+.item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.item-left{flex:1;min-width:0}
+.item-title{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-top:3px}
+.item-right{text-align:right;flex-shrink:0}
+.item-monto{font-weight:900;color:var(--accent);font-size:14px}
+.item-actions{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);flex-wrap:wrap}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.section-title{font-size:13px;font-weight:800}
+.empty{text-align:center;padding:32px;color:var(--muted);font-size:12px}
+.expand-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
+.expand-btn:hover{color:var(--text);border-color:var(--muted)}
+.cuotas-wrap{margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.cuota-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.cuota-row:last-child{border-bottom:none}
+.cuota-num{font-size:10px;font-weight:800;color:var(--muted);width:30px;flex-shrink:0}
+.cuota-fecha{font-size:11px;color:var(--text2);flex:1;min-width:80px}
+.cuota-monto{font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;min-width:80px;text-align:right}
+.cuota-actions{display:flex;gap:4px;flex-shrink:0}
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center}
+.mbg.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
+.mhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mhdr h3{font-size:14px;font-weight:800}
+.cx{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+.mftr{display:flex;gap:8px;margin-top:16px}
+.mftr .btn{flex:1;justify-content:center}
+.filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-end}
+.filter-row .fg{flex:1;min-width:120px;margin-bottom:0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;border-bottom:1px solid var(--border)}
+td{padding:7px 8px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+.tw{overflow-x:auto;border:1px solid var(--border);border-radius:8px}
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px}
+#app-loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-size:13px;color:var(--muted)}
+.spin{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+#toast{position:fixed;bottom:18px;right:18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:12px;transform:translateY(60px);opacity:0;transition:all .2s;z-index:9999;max-width:300px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{border-color:var(--ok);color:var(--ok)}
+#toast.err{border-color:var(--danger);color:var(--danger)}
+@media(min-width:640px){.topbar{padding:0 24px}.page{padding:20px}}
+</style>
+</head>
+<body>
+<div id="app-loading">Verificando acceso…</div>
+
+<div class="topbar">
+  <a href="index.html" class="back-link"><span class="back-icon">⌂</span>Portal</a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Contable</span>
+  <div class="topbar-right">
+    <span class="user-name" id="userName"></span>
+    <button class="logout-btn" onclick="handleLogout()">Salir</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('egresos')">Egresos</div>
+  <div class="tab" onclick="showTab('planes')">Planes de pago</div>
+  <div class="tab" onclick="showTab('cheques')">Cheques</div>
+  <div class="tab" onclick="showTab('reportes')">Reportes</div>
+</div>
+
+<div class="page">
+<div class="container">
+
+<!-- ═══ EGRESOS ═══ -->
+<div class="section active" id="sec-egresos">
+  <div class="card">
+    <div class="card-title">Cargar egreso</div>
+    <div class="row">
+      <div class="fg">
+        <label>Categoría *</label>
+        <select id="eCategoria"></select>
+      </div>
+      <div class="fg">
+        <label>Proveedor / Organismo *</label>
+        <input type="text" id="eProveedor" placeholder="AFIP, ARBA, nombre proveedor…">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>CUIT</label>
+        <input type="text" id="eCuit" placeholder="20-12345678-9">
+      </div>
+      <div class="fg">
+        <label>Tipo comprobante</label>
+        <select id="eTipoComp">
+          <option value="">— sin comprobante —</option>
+          <option value="FACTURA_A">Factura A</option>
+          <option value="FACTURA_B">Factura B</option>
+          <option value="FACTURA_C">Factura C</option>
+          <option value="FACTURA_E">Factura E</option>
+          <option value="RECIBO">Recibo</option>
+          <option value="NOTA_DEBITO">Nota de débito</option>
+          <option value="COMPROBANTE_INTERNO">Comprobante interno</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>N° comprobante</label>
+        <input type="text" id="eNumComp" placeholder="0001-00012345">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Período fiscal</label>
+        <input type="month" id="ePeriodo">
+        <div class="field-hint">Para impuestos (mes al que corresponde)</div>
+      </div>
+      <div class="fg">
+        <label>Fecha emisión *</label>
+        <input type="date" id="eFechaEmision">
+      </div>
+      <div class="fg">
+        <label>Fecha vencimiento</label>
+        <input type="date" id="eFechaVenc">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Monto neto $</label>
+        <input type="number" id="eMontoNeto" step="0.01" min="0" placeholder="0.00" oninput="calcMontoTotal()">
+      </div>
+      <div class="fg" style="max-width:90px">
+        <label>IVA %</label>
+        <input type="number" id="eIva" step="0.01" min="0" max="1" value="0" oninput="calcMontoTotal()">
+      </div>
+      <div class="fg">
+        <label>Monto total $ *</label>
+        <input type="number" id="eMontoTotal" step="0.01" min="0" placeholder="0.00">
+        <div class="field-hint">Autocalculado, editable</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Notas</label>
+      <textarea id="eNotas" rows="2" placeholder="Observaciones…"></textarea>
+    </div>
+    <button class="btn btn-primary" id="btnEgreso" onclick="submitEgreso()">Cargar egreso</button>
+  </div>
+
+  <div class="section-hdr">
+    <span class="section-title" id="egresosTitle">Últimos egresos</span>
+    <div style="display:flex;gap:6px">
+      <select id="eFilterEstado" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto">
+        <option value="">Todos los estados</option>
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="PAGADO">Pagado</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="loadEgresos()">↻</button>
+    </div>
+  </div>
+  <div id="egresosList"><div class="empty">Cargando…</div></div>
+</div>
+
+<!-- ═══ PLANES DE PAGO ═══ -->
+<div class="section" id="sec-planes">
+  <div class="card">
+    <div class="card-title">Nuevo plan de pago</div>
+    <div class="row">
+      <div class="fg">
+        <label>Concepto *</label>
+        <input type="text" id="pConcepto" placeholder="Moratoria IIBB 2026…">
+      </div>
+      <div class="fg">
+        <label>Organismo / Proveedor *</label>
+        <input type="text" id="pOrganismo" placeholder="ARBA, AFIP…">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Monto total $</label>
+        <input type="number" id="pMontoTotal" step="0.01" min="0" placeholder="0.00">
+      </div>
+      <div class="fg">
+        <label>Cantidad de cuotas</label>
+        <input type="number" id="pCuotas" min="1" step="1" placeholder="12">
+      </div>
+      <div class="fg">
+        <label>Fecha 1ª cuota</label>
+        <input type="date" id="pFechaPrimera">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Categoría</label>
+        <select id="pCategoria"><option value="">— sin categoría —</option></select>
+      </div>
+      <div class="fg" style="display:flex;align-items:center;gap:8px;padding-top:20px">
+        <input type="checkbox" id="pVariables" style="width:auto;margin:0">
+        <label for="pVariables" style="font-size:12px;text-transform:none;letter-spacing:0;color:var(--text)">Cuotas con montos variables</label>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Notas</label>
+      <textarea id="pNotas" rows="2" placeholder="Detalles del plan…"></textarea>
+    </div>
+    <button class="btn btn-primary" id="btnPlan" onclick="submitPlan()">Crear plan y generar cuotas</button>
+  </div>
+
+  <div class="section-hdr">
+    <span class="section-title">Planes activos</span>
+    <button class="btn btn-ghost btn-sm" onclick="loadPlanes()">↻</button>
+  </div>
+  <div id="planesList"><div class="empty">Cargando…</div></div>
+</div>
+
+<!-- ═══ CHEQUES ═══ -->
+<div class="section" id="sec-cheques">
+  <div class="card">
+    <div class="card-title">Registrar cheque</div>
+    <div class="fg">
+      <label>Tipo</label>
+      <div style="display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden">
+        <button class="btn" id="cBtnEmitido" style="flex:1;border-radius:0;background:var(--accent);color:#0d0f12" onclick="setChequeTipo('EMITIDO')">EMITIDO</button>
+        <button class="btn" id="cBtnRecibido" style="flex:1;border-radius:0;background:var(--surface2);color:var(--muted)" onclick="setChequeTipo('RECIBIDO')">RECIBIDO</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>N° cheque</label>
+        <input type="text" id="cNumero" placeholder="12345678">
+      </div>
+      <div class="fg">
+        <label>Banco</label>
+        <input type="text" id="cBanco" placeholder="Banco Nación…">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label id="cBenefLabel">Beneficiario *</label>
+        <input type="text" id="cBeneficiario" placeholder="Nombre o empresa">
+      </div>
+      <div class="fg">
+        <label>Monto $</label>
+        <input type="number" id="cMonto" step="0.01" min="0" placeholder="0.00">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Fecha emisión</label>
+        <input type="date" id="cFechaEmision">
+      </div>
+      <div class="fg">
+        <label>Fecha efectivo *</label>
+        <input type="date" id="cFechaEfectivo">
+        <div class="field-hint">Fecha en que se cobra/paga</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Notas</label>
+      <textarea id="cNotas" rows="2" placeholder="Observaciones…"></textarea>
+    </div>
+    <button class="btn btn-primary" id="btnCheque" onclick="submitCheque()">Registrar cheque</button>
+  </div>
+
+  <div class="section-hdr">
+    <span class="section-title">Cheques</span>
+    <div style="display:flex;gap:6px">
+      <select id="cFilterTipo" onchange="renderCheques()" style="font-size:11px;padding:4px 8px;width:auto">
+        <option value="">Emitidos y recibidos</option>
+        <option value="EMITIDO">Emitidos</option>
+        <option value="RECIBIDO">Recibidos</option>
+      </select>
+      <select id="cFilterEstado" onchange="renderCheques()" style="font-size:11px;padding:4px 8px;width:auto">
+        <option value="">Todos</option>
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="VENCIDO_SIN_COBRAR">Vencido sin cobrar</option>
+        <option value="COBRADO">Cobrado</option>
+        <option value="RECHAZADO">Rechazado</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="loadCheques()">↻</button>
+    </div>
+  </div>
+  <div id="chequesList"><div class="empty">Cargando…</div></div>
+</div>
+
+<!-- ═══ REPORTES ═══ -->
+<div class="section" id="sec-reportes">
+  <div class="card">
+    <div class="card-title">Filtro de período</div>
+    <div class="filter-row">
+      <div class="fg"><label>Desde</label><input type="date" id="rDesde"></div>
+      <div class="fg"><label>Hasta</label><input type="date" id="rHasta"></div>
+      <div class="fg">
+        <label>Categoría</label>
+        <select id="rCategoria"><option value="">Todas las categorías</option></select>
+      </div>
+      <button class="btn btn-ghost" style="margin-bottom:0;align-self:flex-end" onclick="loadReporte()">Aplicar</button>
+    </div>
+  </div>
+
+  <div class="chart-wrap" style="display:none" id="chartWrap">
+    <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">Egresos por categoría</div>
+    <canvas id="reporteChart" height="220"></canvas>
+  </div>
+
+  <div class="section-hdr">
+    <span class="section-title" id="reporteTitle">—</span>
+    <button class="btn btn-ghost btn-sm" id="btnCSV" onclick="exportCSV()" style="display:none">⬇ CSV</button>
+  </div>
+  <div id="reporteTable"><div class="empty">Aplicá un filtro para ver los resultados.</div></div>
+</div>
+
+</div><!-- /container -->
+</div><!-- /page -->
+
+<!-- Modal editar egreso -->
+<div class="mbg" id="mEditEgreso" onclick="onBgClick(event,'mEditEgreso')">
+  <div class="modal">
+    <div class="mhdr"><h3>Editar egreso</h3><button class="cx" onclick="closeM('mEditEgreso')">✕</button></div>
+    <div class="fg"><label>Proveedor / Organismo *</label><input type="text" id="meProveedor"></div>
+    <div class="fg"><label>Monto total $ *</label><input type="number" id="meMontoTotal" step="0.01"></div>
+    <div class="fg"><label>Estado</label>
+      <select id="meEstado">
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="PAGADO">Pagado</option>
+      </select>
+    </div>
+    <div class="fg" id="meFechaPagoWrap" style="display:none">
+      <label>Fecha de pago</label><input type="date" id="meFechaPago">
+    </div>
+    <div class="fg"><label>Forma de pago</label>
+      <select id="meFormaPago">
+        <option value="">— sin especificar —</option>
+        <option value="TRANSFERENCIA">Transferencia</option>
+        <option value="EFECTIVO">Efectivo</option>
+        <option value="CHEQUE">Cheque</option>
+        <option value="TARJETA">Tarjeta</option>
+        <option value="OTRO">Otro</option>
+      </select>
+    </div>
+    <div class="fg"><label>Notas</label><textarea id="meNotas" rows="2"></textarea></div>
+    <div class="mftr">
+      <button class="btn btn-ghost" onclick="closeM('mEditEgreso')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEditEgreso()" style="width:auto">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar monto cuota -->
+<div class="mbg" id="mEditCuota" onclick="onBgClick(event,'mEditCuota')">
+  <div class="modal" style="max-width:340px">
+    <div class="mhdr"><h3 id="mEditCuotaT">Editar cuota</h3><button class="cx" onclick="closeM('mEditCuota')">✕</button></div>
+    <div class="fg"><label>Monto $ *</label><input type="number" id="mCuotaMonto" step="0.01" min="0"></div>
+    <div class="mftr">
+      <button class="btn btn-ghost" onclick="closeM('mEditCuota')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEditCuota()" style="width:auto">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────
+const SB_URL   = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+const SB_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin','contable'];
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+// ── FETCH ─────────────────────────────────────────────────────
+async function apiFetch(baseUrl, apiKey, method, table, body=null, query='') {
+  const res = await fetch(`${baseUrl}/rest/v1/${table}${query}`, {
+    method,
+    headers: {
+      'apikey': apiKey, 'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'Prefer': method==='POST'?'return=representation':method==='PATCH'?'return=minimal':''
+    },
+    ...(body?{body:JSON.stringify(body)}:{})
+  });
+  if (!res.ok) {
+    const t = await res.text();
+    let msg = res.statusText;
+    try { msg = JSON.parse(t).message || msg; } catch {}
+    throw new Error(msg);
+  }
+  if (method==='DELETE' || res.status===204) return true;
+  const t = await res.text();
+  return t ? JSON.parse(t) : null;
+}
+const sbGet   = (table, q='') => apiFetch(SB_URL, SB_KEY, 'GET',    table, null, q);
+const sbPost  = (table, b)    => apiFetch(SB_URL, SB_KEY, 'POST',   table, b);
+const sbPatch = (table, b, q) => apiFetch(SB_URL, SB_KEY, 'PATCH',  table, b,    q);
+const sbDel   = (table, q)    => apiFetch(SB_URL, SB_KEY, 'DELETE', table, null, q);
+
+// ── CATEGORIAS ────────────────────────────────────────────────
+const CATEGORIA_LABELS = {
+  IMPUESTO_IVA:'IVA', IMPUESTO_IIBB:'Ingresos Brutos', IMPUESTO_GANANCIAS:'Ganancias',
+  IMPUESTO_MONOTRIBUTO_AUTONOMOS:'Monotributo / Autónomos', IMPUESTO_TASAS_MUNICIPALES:'Tasas municipales',
+  IMPUESTO_CHEQUE:'Impuesto al cheque', IMPUESTO_OTROS:'Otros impuestos',
+  SUELDOS:'Sueldos', CARGAS_SOCIALES:'Cargas sociales', ART:'ART',
+  SINDICATO:'Sindicato', AGUINALDO:'Aguinaldo', INDEMNIZACIONES:'Indemnizaciones',
+  ALQUILER:'Alquiler', SERVICIO_LUZ:'Luz', SERVICIO_GAS:'Gas', SERVICIO_AGUA:'Agua',
+  SERVICIO_INTERNET_TELEFONIA:'Internet / Telefonía', EXPENSAS:'Expensas',
+  HONORARIOS_CONTADOR:'Honor. contador', HONORARIOS_ABOGADO:'Honor. abogado', HONORARIOS_OTROS:'Otros honorarios',
+  SEGURO_RC:'Seguro RC', SEGURO_VEHICULOS:'Seguro vehículos', SEGURO_OTROS:'Otros seguros',
+  GASTO_BANCARIO_COMISION:'Comisión bancaria', GASTO_BANCARIO_INTERES:'Interés bancario',
+  COMBUSTIBLE:'Combustible', PEAJES_ESTACIONAMIENTO:'Peajes / Estacionamiento',
+  MANTENIMIENTO_VEHICULOS:'Mantenimiento vehículos', OTROS_GASTOS_OPERATIVOS:'Otros gastos operativos',
+};
+const CATEGORIA_GROUPS = [
+  {label:'Impuestos',keys:['IMPUESTO_IVA','IMPUESTO_IIBB','IMPUESTO_GANANCIAS','IMPUESTO_MONOTRIBUTO_AUTONOMOS','IMPUESTO_TASAS_MUNICIPALES','IMPUESTO_CHEQUE','IMPUESTO_OTROS']},
+  {label:'Sueldos y cargas sociales',keys:['SUELDOS','CARGAS_SOCIALES','ART','SINDICATO','AGUINALDO','INDEMNIZACIONES']},
+  {label:'Alquileres y servicios',keys:['ALQUILER','SERVICIO_LUZ','SERVICIO_GAS','SERVICIO_AGUA','SERVICIO_INTERNET_TELEFONIA','EXPENSAS']},
+  {label:'Honorarios',keys:['HONORARIOS_CONTADOR','HONORARIOS_ABOGADO','HONORARIOS_OTROS']},
+  {label:'Seguros',keys:['SEGURO_RC','SEGURO_VEHICULOS','SEGURO_OTROS']},
+  {label:'Gastos bancarios',keys:['GASTO_BANCARIO_COMISION','GASTO_BANCARIO_INTERES']},
+  {label:'Combustible y movilidad',keys:['COMBUSTIBLE','PEAJES_ESTACIONAMIENTO','MANTENIMIENTO_VEHICULOS']},
+  {label:'Otros',keys:['OTROS_GASTOS_OPERATIVOS']},
+];
+
+function buildCategoriaSelect(elId, withEmpty=false) {
+  const el = document.getElementById(elId);
+  let html = withEmpty ? '<option value="">— sin categoría —</option>' : '';
+  CATEGORIA_GROUPS.forEach(g => {
+    html += `<optgroup label="${g.label}">`;
+    g.keys.forEach(k => { html += `<option value="${k}">${CATEGORIA_LABELS[k]}</option>`; });
+    html += '</optgroup>';
+  });
+  el.innerHTML = html;
+}
+
+// ── FORMAT ─────────────────────────────────────────────────────
+const f$ = n => '$ ' + (n||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fd = iso => { if(!iso) return '—'; const [y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; };
+const today = () => new Date().toISOString().slice(0,10);
+
+// ── STATE ──────────────────────────────────────────────────────
+let currentUser = null;
+let egresos = [], planes = [], cheques = [], planesExpandidos = new Set();
+let editingEgresoId = null, editingCuotaId = null;
+let chequeTipo = 'EMITIDO';
+const pendingDel = new Set();
+let reporteData = [], reporteChart = null;
+
+// ── AUTH ──────────────────────────────────────────────────────
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = 'login.html';
+}
+
+// ── TABS ──────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names=['egresos','planes','cheques','reportes'];
+    t.classList.toggle('active', names[i]===name);
+  });
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`sec-${name}`).classList.add('active');
+}
+
+// ── MODALS ─────────────────────────────────────────────────────
+function openM(id) { document.getElementById(id).classList.add('open'); }
+function closeM(id) { document.getElementById(id).classList.remove('open'); }
+function onBgClick(e, id) { if (e.target===document.getElementById(id)) closeM(id); }
+
+// ── TOAST ─────────────────────────────────────────────────────
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.className=`show ${type}`;
+  setTimeout(()=>t.className='',3500);
+}
+
+// ── EGRESOS ───────────────────────────────────────────────────
+function calcMontoTotal() {
+  const neto = parseFloat(document.getElementById('eMontoNeto').value)||0;
+  const iva  = parseFloat(document.getElementById('eIva').value)||0;
+  document.getElementById('eMontoTotal').value = (neto*(1+iva)).toFixed(2);
+}
+
+async function loadEgresos() {
+  try {
+    egresos = await sbGet('egresos_generales','?order=fecha_emision.desc&limit=100');
+    renderEgresos();
+  } catch(e) {
+    document.getElementById('egresosList').innerHTML=`<div class="empty">${e.message}</div>`;
+  }
+}
+
+function renderEgresos() {
+  const filtroEstado = document.getElementById('eFilterEstado').value;
+  const list = filtroEstado ? egresos.filter(e=>e.estado===filtroEstado) : egresos;
+  const el = document.getElementById('egresosList');
+  if (!list.length) { el.innerHTML='<div class="empty">No hay egresos registrados.</div>'; return; }
+  el.innerHTML = list.map(e => {
+    const bCls = e.estado==='PAGADO'?'b-ok':'b-pend';
+    return `<div class="item" id="eg-${e.id}">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${e.proveedor_organismo}</div>
+          <div class="item-meta">
+            <span>${fd(e.fecha_emision)}</span>
+            <span>${CATEGORIA_LABELS[e.categoria]||e.categoria}</span>
+            ${e.numero_comprobante?`<span>${e.tipo_comprobante||''} ${e.numero_comprobante}</span>`:''}
+            ${e.periodo_fiscal?`<span>Período ${e.periodo_fiscal}</span>`:''}
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="item-monto">${f$(e.monto_total)}</div>
+          <div style="margin-top:4px"><span class="badge ${bCls}">${e.estado}</span></div>
+        </div>
+      </div>
+      ${e.notas?`<div style="font-size:11px;color:var(--muted);margin-top:8px">${e.notas}</div>`:''}
+      <div class="item-actions">
+        ${e.estado==='PENDIENTE'?`<button class="btn btn-ok btn-sm" onclick="marcarPagadoEgreso('${e.id}')">✓ Marcar pagado</button>`:''}
+        <button class="btn btn-ghost btn-sm" onclick="openEditEgreso('${e.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" id="delEg-${e.id}" onclick="deleteEgreso('${e.id}')">🗑 Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function submitEgreso() {
+  const prov = document.getElementById('eProveedor').value.trim();
+  const cat  = document.getElementById('eCategoria').value;
+  const tot  = parseFloat(document.getElementById('eMontoTotal').value);
+  const fec  = document.getElementById('eFechaEmision').value;
+  if (!prov) { toast('Ingresá proveedor/organismo','err'); return; }
+  if (!cat)  { toast('Seleccioná una categoría','err'); return; }
+  if (!tot || tot<=0) { toast('Ingresá el monto total','err'); return; }
+  if (!fec) { toast('Ingresá la fecha de emisión','err'); return; }
+
+  const payload = {
+    categoria: cat,
+    proveedor_organismo: prov,
+    cuit: document.getElementById('eCuit').value.trim()||null,
+    tipo_comprobante: document.getElementById('eTipoComp').value||null,
+    numero_comprobante: document.getElementById('eNumComp').value.trim()||null,
+    periodo_fiscal: document.getElementById('ePeriodo').value||null,
+    fecha_emision: fec,
+    fecha_vencimiento: document.getElementById('eFechaVenc').value||null,
+    monto_neto: parseFloat(document.getElementById('eMontoNeto').value)||0,
+    iva: parseFloat(document.getElementById('eIva').value)||0,
+    monto_total: tot,
+    notas: document.getElementById('eNotas').value.trim()||null,
+    cargado_por: currentUser?.email||null,
+  };
+
+  const btn = document.getElementById('btnEgreso');
+  btn.disabled=true; btn.innerHTML='<div class="spin"></div> Guardando…';
+  try {
+    await sbPost('egresos_generales', payload);
+    toast('✅ Egreso registrado','ok');
+    resetEgresoForm();
+    await loadEgresos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+  finally { btn.disabled=false; btn.textContent='Cargar egreso'; }
+}
+
+function resetEgresoForm() {
+  ['eProveedor','eCuit','eNumComp','ePeriodo','eFechaVenc','eMontoNeto','eMontoTotal','eNotas']
+    .forEach(id=>document.getElementById(id).value='');
+  document.getElementById('eIva').value='0';
+  document.getElementById('eTipoComp').value='';
+  document.getElementById('eFechaEmision').value=today();
+}
+
+async function marcarPagadoEgreso(id) {
+  try {
+    await sbPatch('egresos_generales',{estado:'PAGADO',fecha_pago:today()},`?id=eq.${id}`);
+    toast('Egreso marcado como pagado','ok');
+    await loadEgresos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+function openEditEgreso(id) {
+  const e = egresos.find(x=>x.id===id);
+  if (!e) return;
+  editingEgresoId=id;
+  document.getElementById('meProveedor').value=e.proveedor_organismo||'';
+  document.getElementById('meMontoTotal').value=e.monto_total||'';
+  document.getElementById('meEstado').value=e.estado||'PENDIENTE';
+  document.getElementById('meFechaPago').value=e.fecha_pago||'';
+  document.getElementById('meFormaPago').value=e.forma_pago||'';
+  document.getElementById('meNotas').value=e.notas||'';
+  document.getElementById('meFechaPagoWrap').style.display=e.estado==='PAGADO'?'block':'none';
+  document.getElementById('meEstado').onchange = function() {
+    document.getElementById('meFechaPagoWrap').style.display=this.value==='PAGADO'?'block':'none';
+  };
+  openM('mEditEgreso');
+}
+
+async function saveEditEgreso() {
+  if (!editingEgresoId) return;
+  const payload = {
+    proveedor_organismo: document.getElementById('meProveedor').value.trim(),
+    monto_total: parseFloat(document.getElementById('meMontoTotal').value)||0,
+    estado: document.getElementById('meEstado').value,
+    fecha_pago: document.getElementById('meFechaPago').value||null,
+    forma_pago: document.getElementById('meFormaPago').value||null,
+    notas: document.getElementById('meNotas').value.trim()||null,
+  };
+  try {
+    await sbPatch('egresos_generales', payload, `?id=eq.${editingEgresoId}`);
+    toast('Egreso actualizado','ok');
+    closeM('mEditEgreso');
+    await loadEgresos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+async function deleteEgreso(id) {
+  const btn = document.getElementById(`delEg-${id}`);
+  if (!pendingDel.has(id)) {
+    pendingDel.add(id);
+    if (btn) { btn.textContent='¿Confirmar?'; btn.style.background='#4a0d0d'; }
+    setTimeout(()=>{ pendingDel.delete(id); if(document.getElementById(`delEg-${id}`)){btn.innerHTML='🗑 Eliminar';btn.style.background='';} },3500);
+    return;
+  }
+  pendingDel.delete(id);
+  try {
+    await sbDel('egresos_generales',`?id=eq.${id}`);
+    toast('Egreso eliminado','ok');
+    await loadEgresos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+// ── PLANES DE PAGO ───────────────────────────────────────────
+async function loadPlanes() {
+  try {
+    planes = await sbGet('planes_pago','?order=created_at.desc&limit=50');
+    await renderPlanes();
+  } catch(e) {
+    document.getElementById('planesList').innerHTML=`<div class="empty">${e.message}</div>`;
+  }
+}
+
+async function renderPlanes() {
+  const el = document.getElementById('planesList');
+  if (!planes.length) { el.innerHTML='<div class="empty">No hay planes de pago.</div>'; return; }
+  const plansHTML = await Promise.all(planes.map(async p => {
+    const expanded = planesExpandidos.has(p.id);
+    let cuotasHTML = '';
+    if (expanded) {
+      try {
+        const cuotas = await sbGet('planes_pago_cuotas_vista',`?plan_id=eq.${p.id}&order=numero_cuota.asc`);
+        const pendientes = cuotas.filter(c=>c.estado_calculado!=='PAGADO').length;
+        const pagadas    = cuotas.filter(c=>c.estado_calculado==='PAGADO').length;
+        cuotasHTML = `<div class="cuotas-wrap">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:8px">${pagadas}/${cuotas.length} pagadas</div>
+          ${cuotas.map(c => {
+            const eCls = c.estado_calculado==='PAGADO'?'b-ok':c.estado_calculado==='VENCIDO'?'b-danger':'b-pend';
+            return `<div class="cuota-row">
+              <span class="cuota-num">C${c.numero_cuota}</span>
+              <span class="cuota-fecha">${fd(c.fecha_vencimiento)}</span>
+              <span class="cuota-monto">${f$(c.monto)}</span>
+              <span class="badge ${eCls}" style="font-size:9px">${c.estado_calculado}</span>
+              <div class="cuota-actions">
+                ${c.estado_calculado!=='PAGADO'?`<button class="btn btn-ok btn-sm" onclick="marcarCuotaPagada('${c.id}','${p.id}')">✓</button>`:''}
+                ${p.cuotas_variables&&c.estado_calculado!=='PAGADO'?`<button class="btn btn-ghost btn-sm" onclick="openEditCuota('${c.id}',${c.monto},${c.numero_cuota})">✏</button>`:''}
+              </div>
+            </div>`;
+          }).join('')}
+        </div>`;
+      } catch(e) { cuotasHTML='<div style="color:var(--danger);font-size:11px;padding:8px">'+e.message+'</div>'; }
+    }
+    const cat = p.categoria ? CATEGORIA_LABELS[p.categoria]||p.categoria : '';
+    return `<div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${p.concepto}</div>
+          <div class="item-meta">
+            <span>${p.organismo_proveedor}</span>
+            <span>${p.cantidad_cuotas} cuotas</span>
+            ${cat?`<span>${cat}</span>`:''}
+            ${p.cuotas_variables?'<span class="badge b-info">Variables</span>':''}
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="item-monto">${f$(p.monto_total)}</div>
+          <div style="margin-top:4px;font-size:10px;color:var(--muted)">Total plan</div>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <button class="expand-btn" onclick="togglePlan('${p.id}')">${expanded?'▲ Ocultar':'▼ Ver cuotas'}</button>
+      </div>
+      ${cuotasHTML}
+    </div>`;
+  }));
+  el.innerHTML = plansHTML.join('');
+}
+
+async function submitPlan() {
+  const concepto  = document.getElementById('pConcepto').value.trim();
+  const organismo = document.getElementById('pOrganismo').value.trim();
+  const monto     = parseFloat(document.getElementById('pMontoTotal').value);
+  const cuotas    = parseInt(document.getElementById('pCuotas').value)||0;
+  const fecha     = document.getElementById('pFechaPrimera').value;
+  if (!concepto || !organismo) { toast('Completá concepto y organismo','err'); return; }
+  if (!monto || monto<=0) { toast('Ingresá el monto total','err'); return; }
+  if (!cuotas || cuotas<1) { toast('Ingresá la cantidad de cuotas','err'); return; }
+  if (!fecha) { toast('Ingresá la fecha de la primera cuota','err'); return; }
+
+  const payload = {
+    concepto, organismo_proveedor: organismo, monto_total: monto,
+    cantidad_cuotas: cuotas, fecha_primera_cuota: fecha,
+    cuotas_variables: document.getElementById('pVariables').checked,
+    categoria: document.getElementById('pCategoria').value||null,
+    notas: document.getElementById('pNotas').value.trim()||null,
+  };
+  const btn = document.getElementById('btnPlan');
+  btn.disabled=true; btn.innerHTML='<div class="spin"></div> Creando…';
+  try {
+    await sbPost('planes_pago', payload);
+    toast('✅ Plan creado con cuotas generadas','ok');
+    ['pConcepto','pOrganismo','pMontoTotal','pCuotas','pFechaPrimera','pNotas']
+      .forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pVariables').checked=false;
+    await loadPlanes();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+  finally { btn.disabled=false; btn.textContent='Crear plan y generar cuotas'; }
+}
+
+async function togglePlan(id) {
+  if (planesExpandidos.has(id)) planesExpandidos.delete(id);
+  else planesExpandidos.add(id);
+  await renderPlanes();
+}
+
+async function marcarCuotaPagada(cuotaId, planId) {
+  try {
+    await sbPatch('planes_pago_cuotas',{estado:'PAGADO',fecha_pago:today()},`?id=eq.${cuotaId}`);
+    toast('Cuota marcada como pagada','ok');
+    if (!planesExpandidos.has(planId)) planesExpandidos.add(planId);
+    await renderPlanes();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+function openEditCuota(cuotaId, monto, numero) {
+  editingCuotaId = cuotaId;
+  document.getElementById('mEditCuotaT').textContent=`Editar cuota ${numero}`;
+  document.getElementById('mCuotaMonto').value=monto;
+  openM('mEditCuota');
+}
+
+async function saveEditCuota() {
+  if (!editingCuotaId) return;
+  const m = parseFloat(document.getElementById('mCuotaMonto').value);
+  if (!m || m<=0) { toast('Ingresá un monto válido','err'); return; }
+  try {
+    await sbPatch('planes_pago_cuotas',{monto:m},`?id=eq.${editingCuotaId}`);
+    toast('Cuota actualizada','ok');
+    closeM('mEditCuota');
+    await renderPlanes();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+// ── CHEQUES ──────────────────────────────────────────────────
+function setChequeTipo(tipo) {
+  chequeTipo = tipo;
+  document.getElementById('cBtnEmitido').style.cssText=`flex:1;border-radius:0;background:${tipo==='EMITIDO'?'var(--accent);color:#0d0f12':'var(--surface2);color:var(--muted)'}`;
+  document.getElementById('cBtnRecibido').style.cssText=`flex:1;border-radius:0;background:${tipo==='RECIBIDO'?'var(--accent);color:#0d0f12':'var(--surface2);color:var(--muted)'}`;
+  document.getElementById('cBenefLabel').textContent=tipo==='EMITIDO'?'Beneficiario *':'Librador *';
+}
+
+async function loadCheques() {
+  try {
+    cheques = await sbGet('cheques_vista','?order=fecha_efectivo.asc&limit=200');
+    renderCheques();
+  } catch(e) {
+    document.getElementById('chequesList').innerHTML=`<div class="empty">${e.message}</div>`;
+  }
+}
+
+function renderCheques() {
+  const tipo   = document.getElementById('cFilterTipo').value;
+  const estado = document.getElementById('cFilterEstado').value;
+  let list = cheques;
+  if (tipo)   list = list.filter(c=>c.tipo===tipo);
+  if (estado) list = list.filter(c=>c.estado_calculado===estado);
+  const el = document.getElementById('chequesList');
+  if (!list.length) { el.innerHTML='<div class="empty">No hay cheques.</div>'; return; }
+  el.innerHTML = list.map(c => {
+    const eCls = c.estado_calculado==='COBRADO'?'b-ok':c.estado_calculado.includes('VENCIDO')?'b-danger':c.estado_calculado==='RECHAZADO'?'b-danger':'b-pend';
+    const tipoCls = c.tipo==='EMITIDO'?'b-danger':'b-ok';
+    return `<div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${c.beneficiario_librador}</div>
+          <div class="item-meta">
+            <span class="badge ${tipoCls}">${c.tipo}</span>
+            ${c.banco?`<span>${c.banco}</span>`:''}
+            ${c.numero_cheque?`<span>#${c.numero_cheque}</span>`:''}
+            <span>Efectivo: ${fd(c.fecha_efectivo)}</span>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="item-monto">${f$(c.monto)}</div>
+          <div style="margin-top:4px"><span class="badge ${eCls}">${c.estado_calculado.replace('_',' ')}</span></div>
+        </div>
+      </div>
+      ${c.notas?`<div style="font-size:11px;color:var(--muted);margin-top:8px">${c.notas}</div>`:''}
+      ${c.estado_calculado==='PENDIENTE'||c.estado_calculado==='VENCIDO_SIN_COBRAR'?`
+      <div class="item-actions">
+        <button class="btn btn-ok btn-sm" onclick="marcarEstadoCheque('${c.id}','COBRADO')">✓ Cobrado</button>
+        <button class="btn btn-danger btn-sm" onclick="marcarEstadoCheque('${c.id}','RECHAZADO')">✕ Rechazado</button>
+      </div>`:``}
+    </div>`;
+  }).join('');
+}
+
+async function submitCheque() {
+  const benef = document.getElementById('cBeneficiario').value.trim();
+  const monto = parseFloat(document.getElementById('cMonto').value);
+  const fechaEf = document.getElementById('cFechaEfectivo').value;
+  const fechaEm = document.getElementById('cFechaEmision').value;
+  if (!benef) { toast('Ingresá beneficiario/librador','err'); return; }
+  if (!monto || monto<=0) { toast('Ingresá el monto','err'); return; }
+  if (!fechaEf) { toast('Ingresá la fecha efectivo','err'); return; }
+
+  const payload = {
+    tipo: chequeTipo,
+    numero_cheque: document.getElementById('cNumero').value.trim()||null,
+    banco: document.getElementById('cBanco').value.trim()||null,
+    beneficiario_librador: benef,
+    monto,
+    fecha_emision: fechaEm || today(),
+    fecha_efectivo: fechaEf,
+    notas: document.getElementById('cNotas').value.trim()||null,
+  };
+  const btn = document.getElementById('btnCheque');
+  btn.disabled=true; btn.innerHTML='<div class="spin"></div> Guardando…';
+  try {
+    await sbPost('cheques', payload);
+    toast('✅ Cheque registrado','ok');
+    ['cNumero','cBanco','cBeneficiario','cMonto','cFechaEmision','cFechaEfectivo','cNotas']
+      .forEach(id=>document.getElementById(id).value='');
+    await loadCheques();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+  finally { btn.disabled=false; btn.textContent='Registrar cheque'; }
+}
+
+async function marcarEstadoCheque(id, estado) {
+  try {
+    const payload = { estado, fecha_cobro_real: today() };
+    await sbPatch('cheques', payload, `?id=eq.${id}`);
+    toast(`Cheque marcado como ${estado.toLowerCase()}`, 'ok');
+    await loadCheques();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+// ── REPORTES ─────────────────────────────────────────────────
+async function loadReporte() {
+  const desde = document.getElementById('rDesde').value;
+  const hasta = document.getElementById('rHasta').value;
+  const cat   = document.getElementById('rCategoria').value;
+  if (!desde || !hasta) { toast('Seleccioná rango de fechas','err'); return; }
+
+  let q = `?fecha_emision=gte.${desde}&fecha_emision=lte.${hasta}&order=fecha_emision.asc`;
+  if (cat) q += `&categoria=eq.${cat}`;
+
+  try {
+    reporteData = await sbGet('egresos_generales', q);
+    renderReporte(desde, hasta);
+  } catch(e) {
+    document.getElementById('reporteTable').innerHTML=`<div class="empty">${e.message}</div>`;
+  }
+}
+
+function renderReporte(desde, hasta) {
+  document.getElementById('reporteTitle').textContent=`Egresos ${fd(desde)} → ${fd(hasta)}`;
+  document.getElementById('btnCSV').style.display='block';
+
+  if (!reporteData.length) {
+    document.getElementById('reporteTable').innerHTML='<div class="empty">Sin egresos en el período.</div>';
+    document.getElementById('chartWrap').style.display='none';
+    return;
+  }
+
+  const byGroup = {};
+  reporteData.forEach(e => {
+    const g = CATEGORIA_GROUPS.find(g=>g.keys.includes(e.categoria));
+    const label = g ? g.label : 'Otros';
+    byGroup[label] = (byGroup[label]||0) + (e.monto_total||0);
+  });
+
+  const total = reporteData.reduce((s,e)=>s+(e.monto_total||0),0);
+
+  // Table
+  const rows = reporteData.map(e=>`<tr>
+    <td>${fd(e.fecha_emision)}</td>
+    <td>${CATEGORIA_LABELS[e.categoria]||e.categoria}</td>
+    <td>${e.proveedor_organismo}</td>
+    <td>${e.numero_comprobante?e.tipo_comprobante+' '+e.numero_comprobante:'—'}</td>
+    <td style="text-align:right;font-weight:700">${f$(e.monto_total)}</td>
+    <td><span class="badge ${e.estado==='PAGADO'?'b-ok':'b-pend'}">${e.estado}</span></td>
+  </tr>`).join('');
+
+  document.getElementById('reporteTable').innerHTML=`
+    <div class="tw"><table>
+      <thead><tr><th>Fecha</th><th>Categoría</th><th>Proveedor</th><th>Comprobante</th><th style="text-align:right">Monto</th><th>Estado</th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr style="font-weight:800"><td colspan="4" style="padding:8px">Total</td><td style="text-align:right;padding:8px;color:var(--accent)">${f$(total)}</td><td></td></tr></tfoot>
+    </table></div>`;
+
+  // Chart
+  document.getElementById('chartWrap').style.display='block';
+  const ctx = document.getElementById('reporteChart').getContext('2d');
+  if (reporteChart) reporteChart.destroy();
+  reporteChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(byGroup),
+      datasets:[{
+        data: Object.values(byGroup),
+        backgroundColor: 'rgba(200,169,110,0.7)',
+        borderColor: 'rgba(200,169,110,1)',
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display:false } },
+      scales: {
+        x: { ticks:{color:'#6b7280',callback:v=>'$'+v.toLocaleString('es-AR')}, grid:{color:'#1c1f2b'} },
+        y: { ticks:{color:'#e8eaf0',font:{size:11}}, grid:{display:false} }
+      }
+    }
+  });
+}
+
+function exportCSV() {
+  if (!reporteData.length) return;
+  const headers = ['fecha_emision','categoria','proveedor_organismo','tipo_comprobante','numero_comprobante','periodo_fiscal','monto_neto','monto_total','estado','fecha_pago','notas'];
+  const rows = reporteData.map(e=>headers.map(h=>`"${(e[h]||'').toString().replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);
+  a.download = `egresos_${document.getElementById('rDesde').value}_${document.getElementById('rHasta').value}.csv`;
+  a.click();
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+window.onload = async () => {
+  const { data:{session} } = await authClient.auth.getSession();
+  if (!session) { window.location.href='login.html'; return; }
+  const { data:profile } = await authClient.from('user_profiles').select('full_name,role').eq('id',session.user.id).single();
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) { window.location.href='index.html'; return; }
+
+  currentUser = { ...profile, email: session.user.email };
+  document.getElementById('userName').textContent = profile.full_name;
+
+  buildCategoriaSelect('eCategoria');
+  buildCategoriaSelect('pCategoria', true);
+  buildCategoriaSelect('rCategoria', true);
+  document.getElementById('rCategoria').innerHTML = '<option value="">Todas las categorías</option>' +
+    CATEGORIA_GROUPS.flatMap(g=>g.keys.map(k=>`<option value="${k}">${CATEGORIA_LABELS[k]}</option>`)).join('');
+
+  document.getElementById('eFechaEmision').value = today();
+  const d = new Date(); d.setDate(1);
+  document.getElementById('rDesde').value = d.toISOString().slice(0,10);
+  document.getElementById('rHasta').value = today();
+
+  await Promise.all([loadEgresos(), loadPlanes(), loadCheques()]);
+  document.getElementById('app-loading').style.display='none';
+};
+</script>
+</body>
+</html>
