@@ -330,7 +330,7 @@ async function loadAlertas() {
   try {
     const [vencidas, cheqVenc] = await Promise.all([
       sbGet('planes_pago_cuotas_vista','?estado_calculado=eq.VENCIDO&select=numero_cuota,fecha_vencimiento,monto,concepto,organismo_proveedor&limit=20'),
-      sbGet('cheques_vista','?estado_calculado=eq.VENCIDO_SIN_COBRAR&select=tipo,beneficiario_librador,monto,fecha_efectivo&limit=20'),
+      sbGet('cheques_vista','?estado_calculado=eq.VENCIDO_SIN_COBRAR&select=tipo,beneficiario_librador,beneficiario_cuit,monto,fecha_efectivo&limit=20'),
     ]);
     const el=document.getElementById('alertas');
     let html='';
@@ -348,7 +348,7 @@ async function loadAlertas() {
         <span class="alert-icon">🗓</span>
         <div class="alert-body">
           <div class="alert-title">${cheqVenc.length} cheque${cheqVenc.length>1?'s':''} vencido${cheqVenc.length>1?'s':''} sin cobrar</div>
-          <div class="alert-items">${cheqVenc.slice(0,5).map(c=>`<span>${c.tipo} · ${c.beneficiario_librador} · ${fd(c.fecha_efectivo)} · $${(c.monto||0).toLocaleString('es-AR',{maximumFractionDigits:0})}</span>`).join('')}${cheqVenc.length>5?`<span>+${cheqVenc.length-5} más…</span>`:''}</div>
+          <div class="alert-items">${cheqVenc.slice(0,5).map(c=>`<span>${c.tipo} · ${c.beneficiario_librador}${c.beneficiario_cuit?` (${c.beneficiario_cuit})`:''} · ${fd(c.fecha_efectivo)} · $${(c.monto||0).toLocaleString('es-AR',{maximumFractionDigits:0})}</span>`).join('')}${cheqVenc.length>5?`<span>+${cheqVenc.length-5} más…</span>`:''}</div>
         </div>
       </div>`;
     }
