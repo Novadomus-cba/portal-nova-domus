@@ -242,7 +242,10 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   <div class="split">
     <div class="sidebar">
       <div class="sb-hdr">Obras
-        <button class="btn btn-p btn-sm" onclick="openMObra()">+ Nueva</button>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-g btn-sm" onclick="openMObraEsp()">+ Espontánea</button>
+          <button class="btn btn-p btn-sm" onclick="openMObra()">+ Nueva</button>
+        </div>
       </div>
       <div id="listaObras"></div>
     </div>
@@ -534,6 +537,47 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
     <div class="mftr">
       <button class="btn btn-g" onclick="closeM('mObra')">Cancelar</button>
       <button class="btn btn-p" onclick="guardarObra()">Guardar obra</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Obra Espontánea (alta rápida) -->
+<div class="mbg" id="mObraEsp">
+  <div class="modal" style="width:480px">
+    <div class="mhdr"><h3>Nuevo trabajo espontáneo</h3><button class="cx" onclick="closeM('mObraEsp')">✕</button></div>
+    <div class="mbody">
+      <div class="fg" style="margin-bottom:10px"><label>Nombre del trabajo *</label>
+        <input type="text" id="eNom" placeholder="Reparación videoportero — Familia Gómez"></div>
+      <div class="fg" style="margin-bottom:10px"><label>Cliente (opcional)</label>
+        <input type="text" id="eCli" placeholder="Dejar en blanco si no aplica"></div>
+      <div class="fr">
+        <div class="fg"><label>Referencia de presupuesto</label>
+          <input type="text" id="eRef" placeholder="PC-2026-034"></div>
+        <div class="fg"><label>Monto presupuestado $ pesos</label>
+          <input type="number" id="eMonto" placeholder="Vacío = solo costo"></div>
+      </div>
+      <div style="background:var(--bg3);border-radius:4px;padding:10px;font-size:11px;color:var(--text2)">
+        💡 Si dejás el monto en blanco, el trabajo queda como "solo costo": se hace seguimiento de los gastos pero no se calcula margen ni ingreso esperado.
+      </div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mObraEsp')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarObraEspontanea()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Marcar como cobrado -->
+<div class="mbg" id="mCobrado">
+  <div class="modal" style="width:380px">
+    <div class="mhdr"><h3>Marcar como cobrado</h3><button class="cx" onclick="closeM('mCobrado')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="cobObraId">
+      <div class="fg"><label>Fecha de cobro</label><input type="date" id="cobFecha"></div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mCobrado')">Cancelar</button>
+      <button class="btn btn-p" onclick="confirmarCobrado()">Confirmar</button>
     </div>
   </div>
 </div>
@@ -856,12 +900,20 @@ let selObraId=null;
 function renderObras(){
   const obs=cache.obras();
   const el=document.getElementById('listaObras');
-  el.innerHTML=!obs.length
-    ?'<div style="padding:20px;text-align:center;color:var(--text3);font-size:11px">Sin obras</div>'
-    :obs.map(o=>`<div class="sb-item ${o.id===selObraId?'active':''}" onclick="selObra('${o.id}')">
+  if(!obs.length){
+    el.innerHTML='<div style="padding:20px;text-align:center;color:var(--text3);font-size:11px">Sin obras</div>';
+    return;
+  }
+  const item=o=>`<div class="sb-item ${o.id===selObraId?'active':''}" onclick="selObra('${o.id}')">
       <div class="sb-name">${o.nombre}</div>
       <div class="sb-sub">${o.cliente_razon_social||''} · ${eBadge(o.estado)}</div>
-    </div>`).join('');
+    </div>`;
+  const header=t=>`<div class="sb-hdr" style="border-top:1px solid var(--border)">${t}</div>`;
+  const formales=obs.filter(o=>o.tipo_obra!=='ESPONTANEA');
+  const espontaneas=obs.filter(o=>o.tipo_obra==='ESPONTANEA');
+  el.innerHTML=
+    (formales.length?header('— Obras —')+formales.map(item).join(''):'')+
+    (espontaneas.length?header('— Trabajos Espontáneos —')+espontaneas.map(item).join(''):'');
 }
 
 async function selObra(id){
@@ -925,6 +977,27 @@ async function renderObraDetalle(id){
         ${btnWrapper}
       </div>
     </div>
+
+    ${obra.tipo_obra==='ESPONTANEA'?`
+    <div class="card" style="margin-bottom:14px;padding:12px 14px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <span style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">⚡ Trabajo espontáneo</span>
+          ${obra.referencia_presupuesto?`<div style="font-size:11px;color:var(--text2);margin-top:2px">Ref: ${obra.referencia_presupuesto}</div>`:''}
+        </div>
+        ${obra.monto_presupuestado_pesos!=null?`
+        <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+          <div style="text-align:right">
+            <div style="font-size:10px;color:var(--text3);text-transform:uppercase">Presupuestado</div>
+            <div style="font-weight:800;color:var(--accent)">${f$(obra.monto_presupuestado_pesos)}</div>
+          </div>
+          ${obra.cobrado
+            ?`<span class="bd b-ok">Cobrado${obra.fecha_cobro_real?' · '+fd(obra.fecha_cobro_real):''}</span>`
+            :`<button class="btn btn-ok btn-sm" onclick="openMarcarCobrado('${id}')">💰 Marcar como cobrado</button>`}
+        </div>`:`
+        <div style="margin-left:auto"><span class="bd b-gray">Solo costo — sin ingreso esperado</span></div>`}
+      </div>
+    </div>`:''}
 
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
       <div class="kpi"><div class="kpi-l">Presupuesto</div>
@@ -1067,6 +1140,61 @@ async function guardarObra(){
   }
 }
 
+function openMObraEsp(){
+  document.getElementById('eNom').value='';
+  document.getElementById('eCli').value='';
+  document.getElementById('eRef').value='';
+  document.getElementById('eMonto').value='';
+  openM('mObraEsp');
+}
+
+async function guardarObraEspontanea(){
+  const nom=document.getElementById('eNom').value.trim();
+  if(!nom){toast('Completá el nombre del trabajo','err');return;}
+  const cli=document.getElementById('eCli').value.trim();
+  const ref=document.getElementById('eRef').value.trim();
+  const montoRaw=document.getElementById('eMonto').value;
+  const obs={
+    nombre:nom,
+    cliente_razon_social:cli||'—',
+    tipo:'MIXTA',
+    tipo_obra:'ESPONTANEA',
+    estado:'EN_CURSO',
+    codigo_obra:'ESP-'+Date.now().toString(36).toUpperCase(),
+    referencia_presupuesto:ref||null,
+    monto_presupuestado_pesos:montoRaw?parseFloat(montoRaw):null,
+  };
+  try{
+    const r=await sbPost('obras',obs);
+    const obraId=r[0].id;
+    closeM('mObraEsp');
+    await loadObras();
+    selObra(obraId);
+    populateSegObras();
+    toast('Trabajo espontáneo creado','ok');
+  }catch(e){
+    toast('Error: '+e.message,'err');
+  }
+}
+
+function openMarcarCobrado(id){
+  document.getElementById('cobObraId').value=id;
+  document.getElementById('cobFecha').value=new Date().toISOString().slice(0,10);
+  openM('mCobrado');
+}
+
+async function confirmarCobrado(){
+  const id=document.getElementById('cobObraId').value;
+  const fecha=document.getElementById('cobFecha').value||new Date().toISOString().slice(0,10);
+  try{
+    await sbPatch('obras',{cobrado:true,fecha_cobro_real:fecha},`?id=eq.${id}`);
+    closeM('mCobrado');
+    await loadObras();
+    selObra(id);
+    toast('Marcado como cobrado','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
 async function delObra(id){
   if(!confirm('¿Eliminar esta obra y todos sus datos?'))return;
   try{ await sbDel('obras',`?id=eq.${id}`); }catch{}
@@ -1116,8 +1244,12 @@ function populateSegObras(){
   const obs=cache.obras().filter(o=>o.estado==='EN_CURSO');
   const sel=document.getElementById('sObra');
   const prev=sel.value;
-  sel.innerHTML='<option value="">— seleccionar —</option>';
-  obs.forEach(o=>sel.innerHTML+=`<option value="${o.id}" ${o.id===prev?'selected':''}>${o.nombre}</option>`);
+  const opt=o=>`<option value="${o.id}" ${o.id===prev?'selected':''}>${o.nombre}</option>`;
+  const formales=obs.filter(o=>o.tipo_obra!=='ESPONTANEA');
+  const espontaneas=obs.filter(o=>o.tipo_obra==='ESPONTANEA');
+  sel.innerHTML='<option value="">— seleccionar —</option>'+
+    (formales.length?`<optgroup label="— Obras —">${formales.map(opt).join('')}</optgroup>`:'')+
+    (espontaneas.length?`<optgroup label="— Trabajos Espontáneos —">${espontaneas.map(opt).join('')}</optgroup>`:'');
   if(prev) onSObraChange();
 }
 

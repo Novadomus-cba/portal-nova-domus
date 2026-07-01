@@ -391,11 +391,14 @@ window.onload = async () => {
 
 async function loadObras() {
   try {
-    const rows = await sbGet('obras', '?select=id,nombre&estado=eq.EN_CURSO&order=nombre');
-    const visible = rows;
+    const rows = await sbGet('obras', '?select=id,nombre,tipo_obra&estado=eq.EN_CURSO&order=nombre');
+    const formales = (rows || []).filter(o => o.tipo_obra !== 'ESPONTANEA');
+    const espontaneas = (rows || []).filter(o => o.tipo_obra === 'ESPONTANEA');
+    const opt = o => `<option value="${o.id}">${o.nombre}</option>`;
     document.getElementById('fObra').innerHTML =
       '<option value="">— seleccionar obra —</option>' +
-      visible.map(o => `<option value="${o.id}">${o.nombre}</option>`).join('');
+      (formales.length ? `<optgroup label="— Obras —">${formales.map(opt).join('')}</optgroup>` : '') +
+      (espontaneas.length ? `<optgroup label="— Trabajos Espontáneos —">${espontaneas.map(opt).join('')}</optgroup>` : '');
   } catch (e) {
     toast('Error cargando obras: ' + e.message, 'err');
   }

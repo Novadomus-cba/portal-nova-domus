@@ -275,7 +275,8 @@ function calcIngresos(raw, desde, hasta) {
     .reduce((s,l)=>s+(l.monto_pesos||0),0);
   const ventas = (raw.ventas||[]).filter(v=>inPeriod(v.fecha_pago,desde,hasta)).reduce((s,v)=>s+(parseFloat(v.total_ars)||0),0);
   const cheqRec = (raw.cheques||[]).filter(c=>c.tipo==='RECIBIDO'&&inPeriod(c.fecha_efectivo,desde,hasta)).reduce((s,c)=>s+(parseFloat(c.monto)||0),0);
-  return { certs, ventas, cheqRec, total: certs+ventas+cheqRec };
+  const espCobrado = (raw.espontaneas||[]).filter(o=>inPeriod(o.fecha_cobro_real,desde,hasta)).reduce((s,o)=>s+(parseFloat(o.monto_presupuestado_pesos)||0),0);
+  return { certs, ventas, cheqRec, espCobrado, total: certs+ventas+cheqRec+espCobrado };
 }
 
 function calcEgresos(raw, desde, hasta) {
@@ -306,7 +307,7 @@ async function loadAll() {
   document.getElementById('egresosDetail').innerHTML='<div style="color:var(--muted);font-size:12px;padding:8px 0">Cargando…</div>';
 
   try {
-    const [recibos, ventas, cheques, jornadas, facturas, egresos, cuotas] = await Promise.all([
+    const [recibos, ventas, cheques, jornadas, facturas, egresos, cuotas, espontaneas] = await Promise.all([
       sbGet('recibos',`?estado=eq.PAGADO&fecha_emision=gte.${desde}&fecha_emision=lte.${hasta}&select=fecha_emision,recibos_lineas(tipo,monto_pesos)`),
       authGet('ventas_comerciales',`?fecha_pago=gte.${desde}&fecha_pago=lte.${hasta}&select=fecha_pago,total_ars`),
       sbGet('cheques_vista',`?fecha_efectivo=gte.${desde}&fecha_efectivo=lte.${hasta}&select=tipo,fecha_efectivo,monto,estado_calculado`),
@@ -314,8 +315,9 @@ async function loadAll() {
       sbGet('facturas_obra',`?origen_pago=eq.empresa&fecha_compra=gte.${desde}&fecha_compra=lte.${hasta}&select=fecha_compra,monto_con_iva`),
       sbGet('egresos_generales',`?fecha_emision=gte.${desde}&fecha_emision=lte.${hasta}&select=categoria,monto_total,fecha_emision,fecha_vencimiento,fecha_pago`),
       sbGet('planes_pago_cuotas_vista',`?fecha_vencimiento=gte.${desde}&fecha_vencimiento=lte.${hasta}&select=fecha_vencimiento,monto,estado_calculado`),
+      sbGet('obras',`?tipo_obra=eq.ESPONTANEA&cobrado=eq.true&fecha_cobro_real=gte.${desde}&fecha_cobro_real=lte.${hasta}&select=fecha_cobro_real,monto_presupuestado_pesos`),
     ]);
-    rawData = { recibos:recibos||[], ventas:ventas||[], cheques:cheques||[], jornadas:jornadas||[], facturas:facturas||[], egresos:egresos||[], cuotas:cuotas||[] };
+    rawData = { recibos:recibos||[], ventas:ventas||[], cheques:cheques||[], jornadas:jornadas||[], facturas:facturas||[], egresos:egresos||[], cuotas:cuotas||[], espontaneas:espontaneas||[] };
     renderChart(periods);
     const cur = getCurrentPeriod();
     renderDetail(cur);
@@ -415,6 +417,7 @@ function renderDetail(period) {
   iHtml+=dr('Certificados / Excedentes',ing.certs,{colorOk:true});
   iHtml+=dr('Ventas comerciales',ing.ventas,{colorOk:true});
   iHtml+=dr('Cheques recibidos',ing.cheqRec,{colorOk:true});
+  iHtml+=dr('Trabajos espontáneos cobrados',ing.espCobrado,{colorOk:true});
   iHtml+=dr('Total ingresos',ing.total,{total:true,colorOk:true});
   document.getElementById('ingresosDetail').innerHTML=iHtml;
 

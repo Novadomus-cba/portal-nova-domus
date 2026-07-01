@@ -802,16 +802,26 @@ async function cargarTecnicos() {
 
 async function cargarObras() {
   try {
-    const data = await supa('/rest/v1/obras?select=codigo_obra,nombre&estado=eq.EN_CURSO&order=nombre');
+    const data = await supa('/rest/v1/obras?select=codigo_obra,nombre,tipo_obra&estado=eq.EN_CURSO&order=nombre');
     OBRAS = (data || []).filter(o => o.codigo_obra);
 
     const filObra = document.getElementById('fil-obra');
     filObra.innerHTML = '<option value="">Todas las obras</option>';
-    OBRAS.forEach(o => {
-      const opt = document.createElement('option');
-      opt.value = o.codigo_obra;
-      opt.textContent = `${o.codigo_obra} — ${o.nombre}`;
-      filObra.appendChild(opt);
+    const grupos = [
+      { label: '— Obras —', items: OBRAS.filter(o => o.tipo_obra !== 'ESPONTANEA') },
+      { label: '— Trabajos Espontáneos —', items: OBRAS.filter(o => o.tipo_obra === 'ESPONTANEA') },
+    ];
+    grupos.forEach(g => {
+      if (!g.items.length) return;
+      const og = document.createElement('optgroup');
+      og.label = g.label;
+      g.items.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o.codigo_obra;
+        opt.textContent = `${o.codigo_obra} — ${o.nombre}`;
+        og.appendChild(opt);
+      });
+      filObra.appendChild(og);
     });
 
     renderObras();
@@ -861,9 +871,12 @@ function renderObras() {
   obras.forEach((o, i) => {
     const div = document.createElement('div');
     div.className = 'obra-item';
-    const optsObra = OBRAS.map(ob =>
-      `<option value="${ob.codigo_obra}"${o.codigo === ob.codigo_obra ? ' selected' : ''}>${ob.nombre} [${ob.codigo_obra}]</option>`
-    ).join('');
+    const optObra = ob => `<option value="${ob.codigo_obra}"${o.codigo === ob.codigo_obra ? ' selected' : ''}>${ob.nombre} [${ob.codigo_obra}]</option>`;
+    const obrasFormales = OBRAS.filter(ob => ob.tipo_obra !== 'ESPONTANEA');
+    const obrasEspontaneas = OBRAS.filter(ob => ob.tipo_obra === 'ESPONTANEA');
+    const optsObra =
+      (obrasFormales.length ? `<optgroup label="— Obras —">${obrasFormales.map(optObra).join('')}</optgroup>` : '') +
+      (obrasEspontaneas.length ? `<optgroup label="— Trabajos Espontáneos —">${obrasEspontaneas.map(optObra).join('')}</optgroup>` : '');
     const selE = TIME_OPTS.replace(`value="${o.entrada}"`, `value="${o.entrada}" selected`);
     const selS = TIME_OPTS.replace(`value="${o.salida}"`,  `value="${o.salida}" selected`);
     div.innerHTML = `

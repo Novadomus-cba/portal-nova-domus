@@ -54,6 +54,7 @@ main{flex:1;max-width:900px;margin:0 auto;width:100%;padding:20px 16px 60px}
 .obra-card.s-rojo        {border-left:4px solid #e74c3c}
 .obra-card.s-incoherencias{border-left:4px solid #e67e22}
 .obra-card.s-sin_datos   {border-left:4px solid var(--text3)}
+.obra-card.s-solo_costo  {border-left:4px solid #3498db}
 
 .card-top{display:flex;align-items:center;gap:14px;padding:14px 16px 10px}
 
@@ -65,6 +66,7 @@ main{flex:1;max-width:900px;margin:0 auto;width:100%;padding:20px 16px 60px}
 .sc-rojo    {background:#e74c3c;box-shadow:0 0 18px rgba(231,76,60,.4)}
 .sc-incoherencias{background:#e67e22;box-shadow:0 0 18px rgba(230,126,34,.4)}
 .sc-sin_datos{background:var(--bg3);border:2px solid var(--border);color:var(--text3);font-size:18px}
+.sc-solo_costo{background:var(--bg3);border:2px solid #3498db;color:#3498db;font-size:18px}
 
 .card-info{flex:1;min-width:0}
 .obra-nombre{font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -201,13 +203,14 @@ const fd = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-'); retur
 
 const SEM_COLOR = {
   VERDE:'#27ae60', AMARILLO:'#f39c12', ROJO:'#e74c3c',
-  SIN_DATOS:'#4a5470', INCOHERENCIAS:'#e67e22'
+  SIN_DATOS:'#4a5470', INCOHERENCIAS:'#e67e22', SOLO_COSTO:'#3498db'
 };
 const SEM_LABEL = {
   VERDE:'VERDE', AMARILLO:'AMARILLO', ROJO:'ROJO',
-  SIN_DATOS:'Sin datos', INCOHERENCIAS:'Revisar datos'
+  SIN_DATOS:'Sin datos', INCOHERENCIAS:'Revisar datos',
+  SOLO_COSTO:'Solo costo — sin ingreso esperado'
 };
-const SEM_ORDER = { ROJO:1, AMARILLO:2, VERDE:3, INCOHERENCIAS:4, SIN_DATOS:5 };
+const SEM_ORDER = { ROJO:1, AMARILLO:2, VERDE:3, SIN_DATOS:4, INCOHERENCIAS:5, SOLO_COSTO:6 };
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -233,7 +236,8 @@ function monthRange() {
 async function fetchObras() {
   try {
     return await sbGet('obras',
-      '?select=id,nombre,cliente_razon_social,presupuesto_total_pesos' +
+      '?select=id,nombre,cliente_razon_social,presupuesto_total_pesos,' +
+      'tipo_obra,monto_presupuestado_pesos,cobrado,fecha_cobro_real' +
       '&estado=eq.EN_CURSO&order=nombre.asc');
   } catch { return []; }
 }
@@ -308,28 +312,9 @@ function renderCards(obras, balMap) {
     const sKey = sem.toLowerCase();
     const col  = SEM_COLOR[sem] || SEM_COLOR.SIN_DATOS;
 
-    // % avance (certificado / presupuesto, excluye excedentes)
-    const ppto = o.presupuesto_total_pesos;
+    const esEspontanea = o.tipo_obra === 'ESPONTANEA';
     const cert = b?.certificado_acumulado_pesos ?? null;
-    const avance = (ppto && ppto > 0 && cert != null)
-      ? ((cert / ppto) * 100).toFixed(1) + '%' : '—';
-
-    // Margen MO %
-    const margen = b?.margen_mo_acumulado_pct ?? null;
-    const margenStr = margen != null ? margen.toFixed(1) + '%' : '—';
-
-    // Desvío MO = cuadrilla_acumulado - certificado_acumulado * 0.75
     const cuad = b?.cuadrilla_acumulado_pesos ?? null;
-    let desvioStr = '—', devCls = 'cm';
-    if (cuad != null && cert != null) {
-      const d = cuad - cert * 0.75;
-      desvioStr = fDesvio(d);
-      devCls = d > 0 ? 'cr' : 'cv';
-    }
-
-    // Excedentes
-    const exc = b?.excedentes_acumulado_pesos ?? null;
-    const excStr = (exc && exc > 0) ? fPesos(exc) : '—';
 
     // Semanas cayendo (solo si AMARILLO y >= 2)
     const cayendo = b?.semanas_cayendo || 0;
@@ -337,22 +322,63 @@ function renderCards(obras, balMap) {
       ? `<span class="cayendo-tag">↓ ${cayendo} sem cayendo</span>` : '';
 
     // Ícono en el círculo (solo para estados especiales)
-    const circleIcon = sem === 'SIN_DATOS' ? '?' : sem === 'INCOHERENCIAS' ? '!' : '';
+    const circleIcon = sem === 'SIN_DATOS' ? '?' : sem === 'INCOHERENCIAS' ? '!' : sem === 'SOLO_COSTO' ? '$' : '';
 
-    return `
-<div class="obra-card s-${sKey}">
-  <div class="card-top">
-    <div class="sem-circle sc-${sKey}">${circleIcon}</div>
-    <div class="card-info">
-      <div class="obra-nombre" title="${o.nombre}">${o.nombre}</div>
-      <div class="obra-cliente">${o.cliente_razon_social || ''}</div>
-      <div class="sem-tag">
-        <span class="sem-label-text" style="color:${col}">${SEM_LABEL[sem] || sem}</span>
-        ${cayendoHtml}
-      </div>
+    let statsHtml;
+    if (esEspontanea && sem === 'SOLO_COSTO') {
+      // Trabajo interno / espontáneo sin presupuesto: sólo tracking de costo, sin margen.
+      statsHtml = `
+    <div class="stat" style="grid-column:span 4">
+      <div class="stat-l">Costo acumulado</div>
+      <div class="stat-v cm">${cuad != null ? fPesos(cuad) : '—'}</div>
+    </div>`;
+    } else if (esEspontanea) {
+      // Espontánea con presupuesto: margen simple presupuesto vs costo, sin % de avance por etapas.
+      const margen = b?.margen_mo_acumulado_pct ?? null;
+      const margenStr = margen != null ? margen.toFixed(1) + '%' : '—';
+      const cobradoHtml = o.cobrado
+        ? `<span class="cv">Sí${o.fecha_cobro_real ? ' · ' + fd(o.fecha_cobro_real) : ''}</span>`
+        : `<span class="ca">No</span>`;
+      statsHtml = `
+    <div class="stat">
+      <div class="stat-l">Presupuesto</div>
+      <div class="stat-v cm">${o.monto_presupuestado_pesos != null ? fPesos(o.monto_presupuestado_pesos) : '—'}</div>
     </div>
-  </div>
-  <div class="card-stats">
+    <div class="stat">
+      <div class="stat-l">Margen</div>
+      <div class="stat-v ${margenCol(margen)}">${margenStr}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-l">Costo acumulado</div>
+      <div class="stat-v cm">${cuad != null ? fPesos(cuad) : '—'}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-l">Cobrado</div>
+      <div class="stat-v">${cobradoHtml}</div>
+    </div>`;
+    } else {
+      // % avance (certificado / presupuesto, excluye excedentes)
+      const ppto = o.presupuesto_total_pesos;
+      const avance = (ppto && ppto > 0 && cert != null)
+        ? ((cert / ppto) * 100).toFixed(1) + '%' : '—';
+
+      // Margen MO %
+      const margen = b?.margen_mo_acumulado_pct ?? null;
+      const margenStr = margen != null ? margen.toFixed(1) + '%' : '—';
+
+      // Desvío MO = cuadrilla_acumulado - certificado_acumulado * 0.75
+      let desvioStr = '—', devCls = 'cm';
+      if (cuad != null && cert != null) {
+        const d = cuad - cert * 0.75;
+        desvioStr = fDesvio(d);
+        devCls = d > 0 ? 'cr' : 'cv';
+      }
+
+      // Excedentes
+      const exc = b?.excedentes_acumulado_pesos ?? null;
+      const excStr = (exc && exc > 0) ? fPesos(exc) : '—';
+
+      statsHtml = `
     <div class="stat">
       <div class="stat-l">Avance cert.</div>
       <div class="stat-v cm">${avance}</div>
@@ -368,7 +394,23 @@ function renderCards(obras, balMap) {
     <div class="stat">
       <div class="stat-l">Excedentes</div>
       <div class="stat-v cm">${excStr}</div>
+    </div>`;
+    }
+
+    return `
+<div class="obra-card s-${sKey}">
+  <div class="card-top">
+    <div class="sem-circle sc-${sKey}">${circleIcon}</div>
+    <div class="card-info">
+      <div class="obra-nombre" title="${o.nombre}">${o.nombre}</div>
+      <div class="obra-cliente">${o.cliente_razon_social || ''}</div>
+      <div class="sem-tag">
+        <span class="sem-label-text" style="color:${col}">${SEM_LABEL[sem] || sem}</span>
+        ${cayendoHtml}
+      </div>
     </div>
+  </div>
+  <div class="card-stats">${statsHtml}
   </div>
   <div class="card-foot">
     <div class="card-fecha">${b ? 'Semana al ' + fd(b.fecha) : 'Sin análisis aún'}</div>
@@ -385,7 +427,7 @@ function renderResumen(obras, balMap, monthly) {
   document.getElementById('resExc').textContent     = fPesos(monthly.exc  || 0);
 
   // Contar por semáforo
-  const counts = { VERDE:0, AMARILLO:0, ROJO:0, INCOHERENCIAS:0, SIN_DATOS:0 };
+  const counts = { VERDE:0, AMARILLO:0, ROJO:0, INCOHERENCIAS:0, SIN_DATOS:0, SOLO_COSTO:0 };
   for (const o of obras) counts[balMap[o.id]?.semaforo || 'SIN_DATOS']++;
 
   const pills = [
@@ -393,6 +435,7 @@ function renderResumen(obras, balMap, monthly) {
     { key:'AMARILLO', dot:'#f39c12', emoji:'🟡' },
     { key:'VERDE',    dot:'#27ae60', emoji:'🟢' },
     { key:'SIN_DATOS',dot:'#4a5470', emoji:'⚪' },
+    { key:'SOLO_COSTO',dot:'#3498db', emoji:'🔵' },
   ];
   document.getElementById('semCounts').innerHTML = pills
     .map(p => `<div class="sem-count-pill">
