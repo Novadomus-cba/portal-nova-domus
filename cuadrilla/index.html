@@ -1025,7 +1025,7 @@ async function guardar() {
   const fecha    = document.getElementById('inp-fecha').value;
   const t        = TECNICOS[nombre];
   const htotal   = horasTotales();
-  const hpago    = Math.max(htotal, MIN_HORAS);
+  const hpago    = htotal > 0 ? Math.max(htotal, MIN_HORAS) : 0;
   const chkAlm   = document.getElementById('chk-almuerzo').checked;
   const km       = parseFloat(document.getElementById('inp-km').value) || 0;
   const peajes   = parseInt(document.getElementById('inp-peajes').value) || 0;
