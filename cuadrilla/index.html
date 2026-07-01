@@ -393,7 +393,8 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
   <div class="module-tabs">
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showPage('carga', this)">Carga</button>
-      <button class="nav-tab" id="tab-historico" onclick="showPage('historico', this)">Histórico</button>
+      <button class="nav-tab" id="tab-historico" onclick="showPage('historico', this)">Historial</button>
+      <button class="nav-tab" id="tab-datos" onclick="showPage('datos', this)">Datos</button>
     </div>
   </div>
 </div>
@@ -518,8 +519,31 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
         <option value="">Todas las obras</option>
       </select>
     </div>
+    <div class="hist-filters">
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label class="lbl">Desde</label>
+        <input type="date" id="fil-desde" onchange="cargarHistorico()">
+      </div>
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label class="lbl">Hasta</label>
+        <input type="date" id="fil-hasta" onchange="cargarHistorico()">
+      </div>
+    </div>
     <div id="hist-content">
       <div class="loader"><div class="spinner"></div> Cargando...</div>
+    </div>
+  </div>
+
+  <!-- PÁGINA DATOS -->
+  <div class="page" id="page-datos">
+    <div class="card">
+      <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Técnicos</span>
+        <button class="btn-add-obra" style="padding:0" onclick="openDatosModal()">+ Agregar técnico</button>
+      </div>
+      <div class="card-body" id="datos-content">
+        <div class="loader"><div class="spinner"></div> Cargando...</div>
+      </div>
     </div>
   </div>
 
@@ -545,6 +569,20 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
     <div class="modal-sub" id="edit-sub" style="margin-bottom:12px"></div>
 
     <div style="overflow-y:auto;flex:1;min-height:0">
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Fecha</label>
+          <input type="date" id="edit-fecha">
+        </div>
+        <div class="field">
+          <label class="lbl">Técnico</label>
+          <select id="edit-tecnico"></select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl">Obra</label>
+        <select id="edit-obra"></select>
+      </div>
       <div class="row2">
         <div class="field">
           <label class="lbl">Entrada</label>
@@ -630,12 +668,103 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
       <div id="edit-footer-normal" style="display:flex;gap:8px">
         <button class="btn-delete" onclick="showDeleteConfirm()">🗑</button>
         <button class="btn-cancel" style="flex:1" onclick="closeEditModal()">Cancelar</button>
-        <button class="btn-confirm" id="btn-edit-save" style="flex:2" onclick="saveJornada()">Guardar</button>
+        <button class="btn-confirm" id="btn-edit-save" style="flex:2" onclick="showSaveConfirm()">Guardar</button>
       </div>
       <div id="edit-footer-delete" style="display:none;gap:8px">
         <button class="btn-cancel" style="flex:1" onclick="resetEditFooter()">← Volver</button>
         <button class="btn-danger-confirm" onclick="executeDelete()">Confirmar eliminar</button>
       </div>
+      <div id="edit-footer-save-confirm" style="display:none;flex-direction:column;gap:10px">
+        <div style="font-size:13px;color:var(--text-muted);text-align:center" id="save-confirm-msg"></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-cancel" style="flex:1" onclick="resetEditFooter()">← Volver</button>
+          <button class="btn-confirm" id="btn-edit-save-confirm" style="flex:2" onclick="saveJornada()">Confirmar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TÉCNICO (DATOS) -->
+<div class="modal-overlay" id="modal-datos">
+  <div class="modal" style="max-height:85vh;display:flex;flex-direction:column;padding:20px;padding-bottom:0">
+    <div class="modal-title" id="datos-title">Nuevo técnico</div>
+    <div class="modal-sub" id="datos-sub" style="margin-bottom:12px"></div>
+
+    <div style="overflow-y:auto;flex:1;min-height:0">
+      <input type="hidden" id="dtId">
+      <div class="field">
+        <label class="lbl">Nombre</label>
+        <input type="text" id="dtNombre" placeholder="Nombre del técnico">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Categoría</label>
+          <input type="text" id="dtCategoria" list="dt-categorias" placeholder="AYUDANTE">
+          <datalist id="dt-categorias">
+            <option value="AYUDANTE"></option>
+            <option value="AYUDANTE OFICIAL"></option>
+            <option value="OFICIAL"></option>
+            <option value="SUPERVISOR"></option>
+            <option value="PROGRAMADOR"></option>
+          </datalist>
+        </div>
+        <div class="field">
+          <label class="lbl">Subcuadrilla</label>
+          <input type="text" id="dtSubcuadrilla" list="dt-subcuadrillas" placeholder="CUADRILLA 1">
+          <datalist id="dt-subcuadrillas">
+            <option value="CUADRILLA 1"></option>
+            <option value="CUADRILLA 2"></option>
+            <option value="CUADRILLA 3"></option>
+            <option value="CUADRILLA 4"></option>
+            <option value="SUPERVISIÓN"></option>
+          </datalist>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Valor hora</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="dtValorHora" min="0" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Almuerzo</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="dtAlmuerzo" min="0" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="lbl">Traslados</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="dtTraslados" min="0" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Valor km</label>
+          <div class="money-wrap"><span class="prefix">$</span>
+            <input type="number" id="dtValorKm" min="0" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="checkbox" id="dtActivo" checked>
+          <span class="tog-slider"></span>
+        </label>
+        <span class="tog-label">Activo</span>
+      </div>
+      <div id="dt-tarifa-warning" class="alert warn" style="display:none;margin-top:2px">
+        <span class="alert-icon">⚠️</span>
+        <span>Cambiar la categoría o los valores de tarifa crea un nuevo registro vigente desde hoy — no altera jornadas ya liquidadas con la tarifa anterior.</span>
+      </div>
+    </div>
+
+    <div id="datos-footer" style="flex-shrink:0;padding:14px 0 20px;display:flex;gap:8px">
+      <button class="btn-cancel" style="flex:1" onclick="closeDatosModal()">Cancelar</button>
+      <button class="btn-confirm" id="btn-datos-save" style="flex:2" onclick="guardarTecnicoDato()">Guardar</button>
     </div>
   </div>
 </div>
@@ -716,11 +845,6 @@ async function init() {
 
   // Portal header
   document.getElementById('portal-username').textContent = profile.full_name;
-
-  // Comercial role: Carga only, no Histórico
-  if (profile.role === 'comercial') {
-    document.getElementById('tab-historico').style.display = 'none';
-  }
 
   // Reveal UI
   document.getElementById('app-loading').style.display = 'none';
@@ -1110,18 +1234,23 @@ function showPage(p, tab) {
   document.getElementById('page-' + p).classList.add('active');
   if (tab) tab.classList.add('active');
   if (p === 'historico') cargarHistorico();
+  if (p === 'datos') cargarDatos();
 }
 
 async function cargarHistorico() {
   const cont = document.getElementById('hist-content');
   cont.innerHTML = '<div class="loader"><div class="spinner"></div> Cargando...</div>';
 
-  const filTec  = document.getElementById('fil-tecnico').value;
-  const filObra = document.getElementById('fil-obra').value;
+  const filTec   = document.getElementById('fil-tecnico').value;
+  const filObra  = document.getElementById('fil-obra').value;
+  const filDesde = document.getElementById('fil-desde').value;
+  const filHasta = document.getElementById('fil-hasta').value;
 
-  let params = 'select=id,fecha,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,almuerzo,traslados,peaje,otros,adelantos,compras,costo_nova,detalle,tecnico_id,km,es_estimado&order=fecha.desc&limit=80';
-  if (filTec)  params += `&tecnico_id=eq.${filTec}`;
-  if (filObra) params += `&obra_codigo=eq.${filObra}`;
+  let params = 'select=id,fecha,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,almuerzo,traslados,peaje,otros,adelantos,compras,costo_nova,detalle,tecnico_id,km,es_estimado&order=fecha.desc&limit=200';
+  if (filTec)   params += `&tecnico_id=eq.${filTec}`;
+  if (filObra)  params += `&obra_codigo=eq.${filObra}`;
+  if (filDesde) params += `&fecha=gte.${filDesde}`;
+  if (filHasta) params += `&fecha=lte.${filHasta}`;
 
   try {
     const data = await supa(`/rest/v1/cuadrilla_jornadas?${params}`);
@@ -1195,6 +1324,39 @@ function toggleJornada(uid) {
 // ── EDIT JORNADA ──────────────────────────────────────────────
 let editingJornada = null;
 
+function populateEditSelects(j) {
+  const idToNombre = {};
+  Object.keys(TECNICOS).forEach(n => { idToNombre[TECNICOS[n].id] = n; });
+
+  const gruposTec = {};
+  tecOrden.forEach(n => {
+    const t = TECNICOS[n];
+    const sub = t.subcuadrilla || 'SIN CUADRILLA';
+    if (!gruposTec[sub]) gruposTec[sub] = [];
+    gruposTec[sub].push({ nombre: n, id: t.id });
+  });
+  let tecHtml = Object.entries(gruposTec).map(([sub, arr]) =>
+    `<optgroup label="${sub}">${arr.map(t =>
+      `<option value="${t.id}"${t.id === j.tecnico_id ? ' selected' : ''}>${t.nombre}</option>`
+    ).join('')}</optgroup>`
+  ).join('');
+  if (!idToNombre[j.tecnico_id]) {
+    tecHtml = `<option value="${j.tecnico_id}" selected>(técnico inactivo)</option>` + tecHtml;
+  }
+  document.getElementById('edit-tecnico').innerHTML = tecHtml;
+
+  const obrasFormales    = OBRAS.filter(ob => ob.tipo_obra !== 'ESPONTANEA');
+  const obrasEspontaneas = OBRAS.filter(ob => ob.tipo_obra === 'ESPONTANEA');
+  const optObra = ob => `<option value="${ob.codigo_obra}"${ob.codigo_obra === j.obra_codigo ? ' selected' : ''}>${ob.nombre} [${ob.codigo_obra}]</option>`;
+  let obraHtml =
+    (obrasFormales.length ? `<optgroup label="— Obras —">${obrasFormales.map(optObra).join('')}</optgroup>` : '') +
+    (obrasEspontaneas.length ? `<optgroup label="— Trabajos Espontáneos —">${obrasEspontaneas.map(optObra).join('')}</optgroup>` : '');
+  if (!OBRAS.some(ob => ob.codigo_obra === j.obra_codigo)) {
+    obraHtml = `<option value="${j.obra_codigo}" selected>${j.obra_codigo} (no EN_CURSO)</option>` + obraHtml;
+  }
+  document.getElementById('edit-obra').innerHTML = obraHtml;
+}
+
 function openEditModal(id) {
   const j = jornadasMap[id];
   if (!j) return;
@@ -1213,6 +1375,9 @@ function openEditModal(id) {
   document.getElementById('edit-title').textContent = 'Editar jornada';
   document.getElementById('edit-sub').textContent   =
     `${nombre} · ${obraNombre}\n${dias[dt.getDay()]} ${d}/${m}/${y}`;
+
+  document.getElementById('edit-fecha').value = j.fecha;
+  populateEditSelects(j);
 
   document.getElementById('edit-entrada').value   = (j.hora_entrada  || '').slice(0, 5);
   document.getElementById('edit-salida').value    = (j.hora_salida   || '').slice(0, 5);
@@ -1240,6 +1405,7 @@ function closeEditModal() {
 function resetEditFooter() {
   document.getElementById('edit-footer-normal').style.display = 'flex';
   document.getElementById('edit-footer-delete').style.display = 'none';
+  document.getElementById('edit-footer-save-confirm').style.display = 'none';
 }
 
 function showDeleteConfirm() {
@@ -1247,9 +1413,22 @@ function showDeleteConfirm() {
   document.getElementById('edit-footer-delete').style.display = 'flex';
 }
 
+function showSaveConfirm() {
+  if (!editingJornada) return;
+  const tecSel = document.getElementById('edit-tecnico');
+  const nombre = tecSel.options[tecSel.selectedIndex]?.textContent || '—';
+  const fecha  = document.getElementById('edit-fecha').value || editingJornada.fecha;
+  const [y, m, d] = fecha.split('-');
+  document.getElementById('save-confirm-msg').textContent =
+    `¿Confirmar cambios en la jornada de ${nombre} del ${d}/${m}/${y}?`;
+  document.getElementById('edit-footer-normal').style.display = 'none';
+  document.getElementById('edit-footer-delete').style.display = 'none';
+  document.getElementById('edit-footer-save-confirm').style.display = 'flex';
+}
+
 async function saveJornada() {
   if (!editingJornada) return;
-  const btn = document.getElementById('btn-edit-save');
+  const btn = document.getElementById('btn-edit-save-confirm');
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
@@ -1257,6 +1436,9 @@ async function saveJornada() {
   const timeVal = id => { const v = document.getElementById(id).value; return v ? v + ':00' : null; };
 
   const body = {
+    fecha:            document.getElementById('edit-fecha').value,
+    tecnico_id:       document.getElementById('edit-tecnico').value,
+    obra_codigo:      document.getElementById('edit-obra').value,
     hora_entrada:     timeVal('edit-entrada'),
     hora_salida:      timeVal('edit-salida'),
     horas_trabajadas: num('edit-horas'),
@@ -1286,7 +1468,7 @@ async function saveJornada() {
     console.error(e);
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Guardar';
+    btn.textContent = 'Confirmar cambios';
   }
 }
 
@@ -1303,6 +1485,156 @@ async function executeDelete() {
   } catch (e) {
     showToast('Error al eliminar', 'error');
     console.error(e);
+  }
+}
+
+// ── DATOS (técnicos y tarifas) ──────────────────────────────────
+let TECNICOS_ALL     = [];
+let editingTecnicoId = null;
+let editingTarifa    = null;
+
+function addDaysStr(iso, days) {
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+async function cargarDatos() {
+  const cont = document.getElementById('datos-content');
+  cont.innerHTML = '<div class="loader"><div class="spinner"></div> Cargando...</div>';
+  try {
+    const [tecs, tarifas] = await Promise.all([
+      supa('/rest/v1/cuadrilla_tecnicos?select=id,nombre,activo&order=nombre'),
+      supa('/rest/v1/cuadrilla_tarifas?select=*&order=fecha_desde.desc'),
+    ]);
+    const tarifaMap = {};
+    (tarifas || []).forEach(t => { if (!tarifaMap[t.tecnico_id]) tarifaMap[t.tecnico_id] = t; });
+    TECNICOS_ALL = (tecs || []).map(t => ({ ...t, tarifa: tarifaMap[t.id] || null }));
+    renderDatos();
+  } catch (e) {
+    cont.innerHTML = '<div class="hist-empty">Error al cargar. Verificá la conexión.</div>';
+    console.error(e);
+  }
+}
+
+function renderDatos() {
+  const cont = document.getElementById('datos-content');
+  if (!TECNICOS_ALL.length) {
+    cont.innerHTML = '<div class="hist-empty">Sin técnicos.</div>';
+    return;
+  }
+  cont.innerHTML = TECNICOS_ALL.map(t => {
+    const tar = t.tarifa;
+    const metaTxt = tar
+      ? `${tar.categoria || '—'} · ${tar.subcuadrilla || '—'} · ${fmt(tar.valor_hora_ars || 0)}/hs`
+      : 'Sin tarifa cargada';
+    return `
+      <div class="jornada-card">
+        <div class="jornada-header" style="cursor:default">
+          <div>
+            <div class="jornada-tec">${t.nombre}${t.activo ? '' : ' <span class="tog-badge" style="display:inline-block">inactivo</span>'}</div>
+            <div class="jornada-meta">${metaTxt}</div>
+          </div>
+          <button class="btn-edit-sm" onclick="openDatosModal('${t.id}')">✏ Editar</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openDatosModal(id = null) {
+  const t = id ? TECNICOS_ALL.find(x => x.id === id) : null;
+  editingTecnicoId = id;
+  editingTarifa    = t ? t.tarifa : null;
+
+  document.getElementById('dtId').value = id || '';
+  document.getElementById('datos-title').textContent = id ? 'Editar técnico' : 'Nuevo técnico';
+  document.getElementById('dtNombre').value       = t?.nombre || '';
+  document.getElementById('dtCategoria').value    = t?.tarifa?.categoria || '';
+  document.getElementById('dtSubcuadrilla').value = t?.tarifa?.subcuadrilla || '';
+  document.getElementById('dtValorHora').value    = t?.tarifa?.valor_hora_ars || '';
+  document.getElementById('dtAlmuerzo').value     = t?.tarifa?.almuerzo_ars || '';
+  document.getElementById('dtTraslados').value    = t?.tarifa?.traslados_ars || '';
+  document.getElementById('dtValorKm').value      = t?.tarifa?.valor_km_ars || '';
+  document.getElementById('dtActivo').checked     = t ? !!t.activo : true;
+  document.getElementById('dt-tarifa-warning').style.display = id ? 'flex' : 'none';
+  document.getElementById('modal-datos').classList.add('open');
+}
+
+function closeDatosModal() {
+  document.getElementById('modal-datos').classList.remove('open');
+  editingTecnicoId = null;
+  editingTarifa    = null;
+}
+
+async function guardarTecnicoDato() {
+  const nombre = document.getElementById('dtNombre').value.trim();
+  if (!nombre) { showToast('Completá el nombre', 'error'); return; }
+
+  const activo       = document.getElementById('dtActivo').checked;
+  const categoria    = document.getElementById('dtCategoria').value.trim().toUpperCase();
+  const subcuadrilla = document.getElementById('dtSubcuadrilla').value.trim().toUpperCase();
+  const valorHora    = parseFloat(document.getElementById('dtValorHora').value) || 0;
+  const almuerzo     = parseFloat(document.getElementById('dtAlmuerzo').value) || 0;
+  const traslados    = parseFloat(document.getElementById('dtTraslados').value) || 0;
+  const valorKm      = parseFloat(document.getElementById('dtValorKm').value) || 0;
+
+  const btn = document.getElementById('btn-datos-save');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+
+  try {
+    let tecnicoId = editingTecnicoId;
+    if (tecnicoId) {
+      await supa(`/rest/v1/cuadrilla_tecnicos?id=eq.${tecnicoId}`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ nombre, activo }),
+      });
+    } else {
+      const created = await supa('/rest/v1/cuadrilla_tecnicos', {
+        method: 'POST', prefer: 'return=representation',
+        body: JSON.stringify([{ nombre, activo }]),
+      });
+      tecnicoId = created[0].id;
+    }
+
+    const cur = editingTarifa;
+    const tarifaChanged = !cur
+      || (cur.categoria    || '') !== categoria
+      || (cur.subcuadrilla || '') !== subcuadrilla
+      || Number(cur.valor_hora_ars  || 0) !== valorHora
+      || Number(cur.almuerzo_ars    || 0) !== almuerzo
+      || Number(cur.traslados_ars   || 0) !== traslados
+      || Number(cur.valor_km_ars    || 0) !== valorKm;
+
+    if (tarifaChanged && (categoria || valorHora || almuerzo || traslados || valorKm)) {
+      const hoy = new Date().toISOString().slice(0, 10);
+      // Cierra la tarifa vigente anterior (si existe) para no alterar el cálculo retroactivo
+      // de jornadas ya liquidadas con esos valores.
+      await supa(`/rest/v1/cuadrilla_tarifas?tecnico_id=eq.${tecnicoId}&fecha_hasta=is.null`, {
+        method: 'PATCH', prefer: 'return=minimal',
+        body: JSON.stringify({ fecha_hasta: addDaysStr(hoy, -1) }),
+      });
+      await supa('/rest/v1/cuadrilla_tarifas', {
+        method: 'POST', prefer: 'return=minimal',
+        body: JSON.stringify([{
+          tecnico_id: tecnicoId, fecha_desde: hoy, fecha_hasta: null,
+          categoria, subcuadrilla,
+          valor_hora_ars: valorHora, almuerzo_ars: almuerzo,
+          traslados_ars: traslados, valor_km_ars: valorKm,
+        }]),
+      });
+    }
+
+    const wasEditing = !!editingTecnicoId;
+    closeDatosModal();
+    showToast(wasEditing ? 'Técnico actualizado ✓' : 'Técnico creado ✓', 'success');
+    await cargarDatos();
+    await cargarTecnicos();
+  } catch (e) {
+    showToast('Error al guardar', 'error');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Guardar';
   }
 }
 
