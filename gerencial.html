@@ -317,8 +317,9 @@ async function loadAll() {
     ]);
     rawData = { recibos:recibos||[], ventas:ventas||[], cheques:cheques||[], jornadas:jornadas||[], facturas:facturas||[], egresos:egresos||[], cuotas:cuotas||[] };
     renderChart(periods);
-    renderDetail(getCurrentPeriod());
-    renderKpis(desde, hasta);
+    const cur = getCurrentPeriod();
+    renderDetail(cur);
+    renderKpis(cur.desde, cur.hasta);
   } catch(e) {
     toast('Error cargando datos: '+e.message,'err');
   } finally {
