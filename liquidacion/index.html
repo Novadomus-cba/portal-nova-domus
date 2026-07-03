@@ -340,6 +340,7 @@
     .sup-row-label { color: var(--muted); }
     .sup-row-value { font-weight: 600; }
     .sup-row-value.accent { color: var(--nd-orange); }
+    .sup-row-value.neg { color: var(--danger); }
 
     .manual-input-row {
       display: flex; align-items: center; gap: 10px;
@@ -607,6 +608,61 @@
       font-size: 10px; color: var(--muted); margin-top: 7px;
       padding-top: 7px; border-top: 1px solid var(--border); font-style: italic;
     }
+
+    /* ── Module tabs ── */
+    .module-tabs {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1rem;
+      height: 46px;
+      display: flex; align-items: center;
+    }
+    .nav-tabs { display: flex; gap: 2px; background: var(--bg); border-radius: 6px; padding: 3px; }
+    .nav-tab {
+      padding: 6px 14px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      cursor: pointer; border: none; background: none;
+      transition: all .15s; font-family: inherit;
+    }
+    .nav-tab.active { background: var(--surface); color: var(--nd-orange); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Pagos por técnico ── */
+    .pagos-field-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+    .pagos-month-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .pagos-month-row input[type="month"] {
+      border: 1.5px solid var(--border); border-radius: 8px; padding: 6px 10px;
+      font-size: 13px; background: var(--surface); color: var(--text); font-family: inherit;
+    }
+    .btn-mini {
+      font-size: 11px; font-weight: 700; color: var(--nd-orange);
+      background: none; border: 1.5px solid var(--nd-orange); border-radius: 8px;
+      padding: 6px 10px; cursor: pointer; font-family: inherit; white-space: nowrap;
+    }
+    .pagos-select-all-row { margin-bottom: 4px; }
+    .pagos-check-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 12px;
+      max-height: 220px; overflow-y: auto; padding: 2px;
+    }
+    .pagos-check-item {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; color: var(--text); cursor: pointer;
+      padding: 4px 0;
+    }
+    .pagos-check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--nd-orange); flex-shrink: 0; }
+    .pagos-check-strong { font-weight: 700; }
+
+    .pagos-table-wrap { overflow-x: auto; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .pagos-table { width: 100%; border-collapse: collapse; font-size: 12.5px; white-space: nowrap; }
+    .pagos-table th, .pagos-table td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }
+    .pagos-table th:first-child, .pagos-table td:first-child { text-align: left; }
+    .pagos-table thead th { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--muted); background: var(--bg); }
+    .pagos-table tbody tr:last-child td { border-bottom: none; }
+    .pagos-table tfoot td { font-weight: 800; background: var(--bg); border-top: 2px solid var(--border); border-bottom: none; }
+    .pagos-table td.neg { color: var(--danger); }
+    .pagos-empty { text-align: center; padding: 2.5rem 1rem; color: var(--muted); font-size: 13px; }
   </style>
 </head>
 <body>
@@ -626,6 +682,15 @@
     <button class="portal-logout" onclick="handleLogout()">Salir</button>
   </div>
 </div>
+
+<div class="module-tabs">
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tab-semana" onclick="showPage('semana', this)">Semana</button>
+    <button class="nav-tab" id="tab-pagos" onclick="showPage('pagos', this)">Pagos por técnico</button>
+  </div>
+</div>
+
+<div class="page active" id="page-semana">
 
 <header>
   <div class="header-inner">
@@ -709,41 +774,99 @@
         </div>
       </div>
       <div class="section-card-body">
-        <!-- Calculado automático -->
+        <!-- Jornadas propias del supervisor — cargadas igual que cualquier técnico -->
         <div class="sup-row">
-          <span class="sup-row-label">Base jornales (jornal + almuerzos)</span>
+          <span class="sup-row-label">Jornal propio</span>
+          <span class="sup-row-value" id="sup-jornal-propio">$0</span>
+        </div>
+        <div class="sup-row">
+          <span class="sup-row-label">Viáticos propios</span>
+          <span class="sup-row-value" id="sup-viaticos-propios">$0</span>
+        </div>
+        <div class="sup-row" id="sup-otros-row" style="display:none;">
+          <span class="sup-row-label">Otros</span>
+          <span class="sup-row-value" id="sup-otros-propios">$0</span>
+        </div>
+        <div class="sup-row" id="sup-compras-row" style="display:none;">
+          <span class="sup-row-label">Compras</span>
+          <span class="sup-row-value" id="sup-compras-propias">$0</span>
+        </div>
+        <div class="sup-row" id="sup-adelantos-row" style="display:none;">
+          <span class="sup-row-label">Adelantos</span>
+          <span class="sup-row-value neg" id="sup-adelantos-propios">$0</span>
+        </div>
+
+        <!-- Comisión — calculado automático -->
+        <div class="sup-row" style="margin-top:8px; padding-top:12px; border-top: 1px solid var(--border);">
+          <span class="sup-row-label">Base jornales cuadrilla (excl. supervisor)</span>
           <span class="sup-row-value" id="sup-base-jornales">$0</span>
         </div>
         <div class="sup-row">
-          <span class="sup-row-label">Comisión supervisión (0,3%)</span>
+          <span class="sup-row-label">Comisión supervisión (3%)</span>
           <span class="sup-row-value accent" id="sup-comision">$0</span>
         </div>
 
-        <!-- Carga manual -->
-        <div style="margin-top:12px; margin-bottom:6px; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.4px;">
-          Carga manual de semana
-        </div>
-        <div class="manual-input-row">
-          <label>Compras / Otros (ARS)</label>
-          <input type="number" id="sup-compras" placeholder="0" min="0" step="1" oninput="recalcSupervisor()" />
-        </div>
-        <div class="manual-input-row">
-          <label>KM + Peajes (ARS)</label>
-          <input type="number" id="sup-km-peajes" placeholder="0" min="0" step="1" oninput="recalcSupervisor()" />
-        </div>
         <div class="manual-input-row" style="border-top: 2px solid var(--border); margin-top:4px; padding-top:12px;">
           <label style="font-weight:600; color:var(--text);">Total a pagar supervisor (ARS)</label>
           <input type="number" id="sup-total-manual" placeholder="0" min="0" step="1" oninput="recalcNDCost()"
             style="font-size:16px; font-weight:800; border-color: var(--nd-orange);" />
         </div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; padding-left:2px;">
-          El total a pagar es manual — podés ajustarlo libremente. Los valores anteriores son referencia.
+          Sugerido = jornal + viáticos propios + comisión. Podés ajustarlo si hace falta.
         </div>
       </div>
     </div>
   </div>
 
 </main>
+
+</div><!-- #page-semana -->
+
+<!-- ═══ PÁGINA: PAGOS POR TÉCNICO ═══ -->
+<div class="page" id="page-pagos">
+  <main class="main">
+
+    <div class="section-card">
+      <div class="section-card-header">
+        <div class="section-card-icon">🔎</div>
+        <div class="section-card-title">Filtro de pagos por técnico</div>
+      </div>
+      <div class="section-card-body">
+
+        <div class="pagos-field-label">Período</div>
+        <div class="date-range-inputs" style="margin-bottom:0;">
+          <input type="date" id="pagos-desde" title="Desde" />
+          <span class="date-range-sep">→</span>
+          <input type="date" id="pagos-hasta" title="Hasta" />
+        </div>
+        <div class="pagos-month-row">
+          <input type="month" id="pagos-mes" title="Mes" />
+          <button type="button" class="btn-mini" id="btn-pagos-usar-mes">Usar mes completo</button>
+        </div>
+
+        <div class="pagos-field-label" style="margin-top:18px;">Técnicos</div>
+        <div class="pagos-select-all-row">
+          <label class="pagos-check-item pagos-check-strong">
+            <input type="checkbox" id="pagos-tec-todos" checked />
+            Todos
+          </label>
+        </div>
+        <div class="pagos-check-grid" id="pagos-tecnicos-grid"></div>
+
+        <div class="pagos-field-label" style="margin-top:18px;">Conceptos</div>
+        <div class="pagos-check-grid" id="pagos-conceptos-grid"></div>
+
+        <button class="btn-apply-dates" id="btn-generar-pagos"
+          style="width:100%; margin-top:18px; padding:11px; font-size:13px;">
+          Generar reporte
+        </button>
+      </div>
+    </div>
+
+    <div id="pagos-resultado"></div>
+
+  </main>
+</div><!-- #page-pagos -->
 
 <!-- Edit modal -->
 <div id="modal-overlay" class="modal-overlay" style="display:none;">
@@ -794,7 +917,9 @@
   var tecnicos       = {};
   var jornadasMap    = {};
   var editingJornada = null;
-  var weekTotalJornalesAlmuerzos = 0; // base para comisión supervisor
+  var weekTotalJornalesAlmuerzos = 0; // base para comisión supervisor (excluye categoría SUPERVISOR)
+  var supervisorTotales = null; // calcTotales() de las jornadas propias del/los técnico(s) categoría SUPERVISOR
+  var categoriaMap = {}; // tecnico_id → { categoria, fecha_desde, ... } (tarifa vigente en la semana)
   var reembolsosMap = {}; // tecnico_id → {total, facturas: [...]}
 
   /* ══════════════════════════════════════════════
@@ -962,6 +1087,24 @@
     });
   }
 
+  // Categoría vigente de cada técnico a la fecha de referencia (fin de semana liquidada).
+  // Se usa para excluir a los técnicos categoría SUPERVISOR de la base de comisión.
+  function loadCategorias(refDate) {
+    return sbGet(
+      'cuadrilla_tarifas?select=tecnico_id,categoria,fecha_desde,fecha_hasta' +
+      '&fecha_desde=lte.' + refDate +
+      '&or=(fecha_hasta.is.null,fecha_hasta.gte.' + refDate + ')'
+    ).then(function(rows) {
+      categoriaMap = {};
+      rows.forEach(function(t) {
+        var cur = categoriaMap[t.tecnico_id];
+        if (!cur || t.fecha_desde > cur.fecha_desde) categoriaMap[t.tecnico_id] = t;
+      });
+    }).catch(function() {
+      categoriaMap = {};
+    });
+  }
+
   function loadSemana() {
     var from = toISO(currentStart);
     var to   = toISO(currentEnd);
@@ -973,16 +1116,16 @@
     document.getElementById('nd-cost-bar').style.display      = 'none';
     document.getElementById('content').innerHTML  = loadingHTML();
 
-    // Reset supervisor inputs
-    document.getElementById('sup-compras').value    = '';
-    document.getElementById('sup-km-peajes').value  = '';
+    // Reset supervisor total (queda auto-sugerido hasta que el usuario lo edite)
     document.getElementById('sup-total-manual').value = '';
     weekTotalJornalesAlmuerzos = 0;
+    supervisorTotales = null;
 
-    var jornadasQ = sbGet('cuadrilla_jornadas?fecha=gte.' + from + '&fecha=lte.' + to + '&select=*&order=tecnico_id.asc,fecha.asc');
-    var reembQ    = loadReembolsos(from, to);
+    var jornadasQ   = sbGet('cuadrilla_jornadas?fecha=gte.' + from + '&fecha=lte.' + to + '&select=*&order=tecnico_id.asc,fecha.asc');
+    var reembQ      = loadReembolsos(from, to);
+    var categoriasQ = loadCategorias(to);
 
-    Promise.all([jornadasQ, reembQ])
+    Promise.all([jornadasQ, reembQ, categoriasQ])
       .then(function(results) {
         var rows = results[0];
         if (!rows.length) { document.getElementById('content').innerHTML = emptyHTML(); return; }
@@ -1001,14 +1144,22 @@
     jornadasMap = {};
     rows.forEach(function(j){ jornadasMap[j.id] = j; });
 
+    // Separar jornadas de técnicos categoría SUPERVISOR (Esteban) del resto de
+    // la cuadrilla — no van en las tarjetas normales ni en la base de comisión.
     var map = {};
+    var supervisorRows = [];
     rows.forEach(function(j) {
+      var cat = categoriaMap[j.tecnico_id] && categoriaMap[j.tecnico_id].categoria;
+      if (cat === 'SUPERVISOR') {
+        supervisorRows.push(j);
+        return;
+      }
       if (!map[j.tecnico_id]) map[j.tecnico_id] = [];
       map[j.tecnico_id].push(j);
     });
 
     var totalNeto = 0, totalDias = 0;
-    var baseJornalesAlmuerzos = 0; // para comisión supervisor
+    var baseJornalesAlmuerzos = 0; // base de comisión supervisor (excluye categoría SUPERVISOR)
 
     var cards = Object.keys(map).map(function(tid) {
       var jornadas = map[tid];
@@ -1028,8 +1179,9 @@
 
     document.getElementById('content').innerHTML = cards.map(buildCard).join('');
 
-    // Supervisor section
+    // Supervisor section — jornal/viáticos propios (de sus propias filas) + comisión
     weekTotalJornalesAlmuerzos = baseJornalesAlmuerzos;
+    supervisorTotales = calcTotales(supervisorRows);
     recalcSupervisor();
     document.getElementById('supervisor-section').style.display = '';
     document.getElementById('nd-cost-bar').style.display = '';
@@ -1370,12 +1522,27 @@
      Supervisor & Nova Domus cost calculations
   ══════════════════════════════════════════════ */
 
+  function toggleSupRow(rowId, valueId, amount, negative) {
+    var row = document.getElementById(rowId);
+    if (amount) {
+      row.style.display = '';
+      document.getElementById(valueId).textContent = (negative ? '−' : '') + fmtMoney(amount);
+    } else {
+      row.style.display = 'none';
+    }
+  }
+
   function recalcSupervisor() {
     var base     = weekTotalJornalesAlmuerzos;
     var comision = Math.round(base * SUPERVISOR_COMMISSION_RATE);
-    var compras  = num(document.getElementById('sup-compras').value);
-    var kmPeajes = num(document.getElementById('sup-km-peajes').value);
-    var suggested = comision + compras + kmPeajes;
+    var st       = supervisorTotales || { jornal: 0, viaticos: 0, otros: 0, compras: 0, adelantos: 0, neto: 0 };
+    var suggested = st.neto + comision;
+
+    document.getElementById('sup-jornal-propio').textContent    = fmtMoney(st.jornal);
+    document.getElementById('sup-viaticos-propios').textContent = fmtMoney(st.viaticos);
+    toggleSupRow('sup-otros-row',     'sup-otros-propios',     st.otros);
+    toggleSupRow('sup-compras-row',   'sup-compras-propias',   st.compras);
+    toggleSupRow('sup-adelantos-row', 'sup-adelantos-propios', st.adelantos, true);
 
     document.getElementById('sup-base-jornales').textContent = fmtMoney(base);
     document.getElementById('sup-comision').textContent      = fmtMoney(comision);
@@ -1486,6 +1653,192 @@
   function loadingHTML() { return '<div class="state-box"><div class="ico">⏳</div><p>Cargando semana…</p></div>'; }
   function emptyHTML()   { return '<div class="state-box"><div class="ico">📭</div><p>No hay jornadas registradas para esta semana.</p></div>'; }
   function errorHTML(m)  { return '<div class="state-box"><div class="ico">⚠️</div><p>Error al cargar datos:<br><code>' + esc(m) + '</code></p></div>'; }
+
+  /* ══════════════════════════════════════════════
+     Tabs (Semana / Pagos por técnico)
+  ══════════════════════════════════════════════ */
+
+  function showPage(name, btn) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
+    document.getElementById('page-' + name).classList.add('active');
+    btn.classList.add('active');
+    if (name === 'pagos' && !pagosInited) initPagosPage();
+  }
+
+  /* ══════════════════════════════════════════════
+     Pagos por técnico (filtro libre por fecha/técnico/concepto)
+  ══════════════════════════════════════════════ */
+
+  var PAGOS_CONCEPTOS = [
+    { key: 'jornal',    label: 'Jornal' },
+    { key: 'almuerzo',  label: 'Almuerzo' },
+    { key: 'traslados', label: 'Traslados' },
+    { key: 'km',        label: 'KM' },
+    { key: 'peaje',     label: 'Peajes' },
+    { key: 'otros',     label: 'Otros' },
+    { key: 'compras',   label: 'Compras' },
+    { key: 'adelantos', label: 'Adelantos' },
+    { key: 'neto',      label: 'Total neto' }
+  ];
+  var pagosInited = false;
+
+  function initPagosPage() {
+    pagosInited = true;
+
+    // Rango por defecto: mes en curso
+    var hoy   = new Date();
+    var inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+    document.getElementById('pagos-desde').value = toISO(inicioMes);
+    document.getElementById('pagos-hasta').value = toISO(hoy);
+    document.getElementById('pagos-mes').value   = hoy.getFullYear() + '-' + pad(hoy.getMonth() + 1);
+
+    document.getElementById('btn-pagos-usar-mes').addEventListener('click', function() {
+      var val = document.getElementById('pagos-mes').value; // "YYYY-MM"
+      if (!val) return;
+      var partes = val.split('-');
+      var y = parseInt(partes[0], 10), m = parseInt(partes[1], 10);
+      var primero = new Date(y, m - 1, 1);
+      var ultimo  = new Date(y, m, 0);
+      document.getElementById('pagos-desde').value = toISO(primero);
+      document.getElementById('pagos-hasta').value = toISO(ultimo);
+    });
+
+    // Técnicos: uno por fila, ordenados por nombre, todos tildados por defecto
+    var tecArr = Object.keys(tecnicos).map(function(id){ return { id: id, nombre: tecnicos[id] }; });
+    tecArr.sort(function(a, b){ return a.nombre.localeCompare(b.nombre, 'es'); });
+    var tecGrid = document.getElementById('pagos-tecnicos-grid');
+    tecGrid.innerHTML = tecArr.map(function(t) {
+      return '<label class="pagos-check-item">' +
+        '<input type="checkbox" class="pagos-tec-chk" value="' + esc(t.id) + '" checked />' +
+        esc(t.nombre) +
+      '</label>';
+    }).join('');
+
+    document.getElementById('pagos-tec-todos').addEventListener('change', function() {
+      var marcado = this.checked;
+      document.querySelectorAll('.pagos-tec-chk').forEach(function(chk){ chk.checked = marcado; });
+    });
+    tecGrid.addEventListener('change', function(e) {
+      if (!e.target.classList.contains('pagos-tec-chk')) return;
+      var todos = document.querySelectorAll('.pagos-tec-chk');
+      var todosMarcados = Array.prototype.every.call(todos, function(c){ return c.checked; });
+      document.getElementById('pagos-tec-todos').checked = todosMarcados;
+    });
+
+    // Conceptos: todos tildados por defecto
+    var concGrid = document.getElementById('pagos-conceptos-grid');
+    concGrid.innerHTML = PAGOS_CONCEPTOS.map(function(c) {
+      return '<label class="pagos-check-item">' +
+        '<input type="checkbox" class="pagos-conc-chk" value="' + c.key + '" checked />' +
+        esc(c.label) +
+      '</label>';
+    }).join('');
+
+    document.getElementById('btn-generar-pagos').addEventListener('click', generarPagos);
+
+    generarPagos();
+  }
+
+  function generarPagos() {
+    var from = document.getElementById('pagos-desde').value;
+    var to   = document.getElementById('pagos-hasta').value;
+    var resultEl = document.getElementById('pagos-resultado');
+
+    if (!from || !to) {
+      resultEl.innerHTML = '<div class="pagos-empty">Elegí un rango de fechas.</div>';
+      return;
+    }
+
+    var tecIds = Array.prototype.map.call(
+      document.querySelectorAll('.pagos-tec-chk:checked'),
+      function(c){ return c.value; }
+    );
+    var conceptos = Array.prototype.map.call(
+      document.querySelectorAll('.pagos-conc-chk:checked'),
+      function(c){ return c.value; }
+    );
+
+    if (!tecIds.length || !conceptos.length) {
+      resultEl.innerHTML = '<div class="pagos-empty">Seleccioná al menos un técnico y un concepto.</div>';
+      return;
+    }
+
+    resultEl.innerHTML = loadingHTML();
+
+    var q = 'cuadrilla_jornadas?select=tecnico_id,jornal,almuerzo,traslados,km,peaje,otros,compras,adelantos' +
+      '&fecha=gte.' + from + '&fecha=lte.' + to +
+      '&tecnico_id=in.(' + tecIds.join(',') + ')';
+
+    sbGet(q).then(function(rows) {
+      var sums = {};
+      tecIds.forEach(function(tid) {
+        sums[tid] = { jornal: 0, almuerzo: 0, traslados: 0, km: 0, peaje: 0, otros: 0, compras: 0, adelantos: 0 };
+      });
+      rows.forEach(function(j) {
+        var s = sums[j.tecnico_id];
+        if (!s) return;
+        s.jornal    += num(j.jornal);
+        s.almuerzo  += num(j.almuerzo);
+        s.traslados += num(j.traslados);
+        s.km        += num(j.km);
+        s.peaje     += num(j.peaje);
+        s.otros     += num(j.otros);
+        s.compras   += num(j.compras);
+        s.adelantos += num(j.adelantos);
+      });
+
+      var tecRows = tecIds.map(function(tid) {
+        var s = sums[tid];
+        s.neto = s.jornal + s.almuerzo + s.traslados + s.km + s.peaje + s.otros + s.compras - s.adelantos;
+        return { tid: tid, nombre: tecnicos[tid] || ('Técnico #' + tid), s: s };
+      });
+      tecRows.sort(function(a, b){ return a.nombre.localeCompare(b.nombre, 'es'); });
+
+      renderPagosTable(tecRows, conceptos);
+    }).catch(function(err) {
+      resultEl.innerHTML = errorHTML(err.message);
+    });
+  }
+
+  function renderPagosTable(tecRows, conceptos) {
+    var resultEl = document.getElementById('pagos-resultado');
+    if (!tecRows.length) {
+      resultEl.innerHTML = '<div class="pagos-empty">Sin datos para el período seleccionado.</div>';
+      return;
+    }
+
+    var conceptDefs = PAGOS_CONCEPTOS.filter(function(c){ return conceptos.indexOf(c.key) !== -1; });
+
+    var totales = {};
+    conceptDefs.forEach(function(c){ totales[c.key] = 0; });
+    tecRows.forEach(function(r) {
+      conceptDefs.forEach(function(c){ totales[c.key] += r.s[c.key]; });
+    });
+
+    function celda(key, valor) {
+      var neg = key === 'adelantos' && valor > 0;
+      return '<td class="' + (neg ? 'neg' : '') + '">' + (neg ? '−' : '') + fmtMoney(valor) + '</td>';
+    }
+
+    var head = '<tr><th>Técnico</th>' + conceptDefs.map(function(c){ return '<th>' + esc(c.label) + '</th>'; }).join('') + '</tr>';
+
+    var body = tecRows.map(function(r) {
+      var cells = conceptDefs.map(function(c){ return celda(c.key, r.s[c.key]); }).join('');
+      return '<tr><td>' + esc(r.nombre) + '</td>' + cells + '</tr>';
+    }).join('');
+
+    var foot = '<tr><td>Total</td>' + conceptDefs.map(function(c){ return celda(c.key, totales[c.key]); }).join('') + '</tr>';
+
+    resultEl.innerHTML =
+      '<div class="pagos-table-wrap">' +
+        '<table class="pagos-table">' +
+          '<thead>' + head + '</thead>' +
+          '<tbody>' + body + '</tbody>' +
+          '<tfoot>' + foot + '</tfoot>' +
+        '</table>' +
+      '</div>';
+  }
 
   /* ══════════════════════════════════════════════
      Init

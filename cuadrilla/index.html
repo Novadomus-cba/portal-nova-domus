@@ -276,6 +276,22 @@ select:focus, input:focus, textarea:focus {
   font-size: 13px; padding: 3px 0; color: var(--text-muted);
 }
 .jornada-detail-row span:last-child { color: var(--text); }
+.jornada-obras-list { margin-bottom: 10px; }
+.jornada-obra-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.jornada-obra-row:last-child { border-bottom: none; }
+.jornada-obra-info { display: flex; flex-direction: column; gap: 1px; }
+.jornada-obra-nombre { font-size: 13px; font-weight: 500; color: var(--text); }
+.jornada-obra-horario { font-size: 12px; color: var(--text-muted); }
+.jornada-obra-nota { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
+.jornada-summary-title {
+  font-size: 11px; font-weight: 600; color: var(--text-hint);
+  text-transform: uppercase; letter-spacing: .04em;
+  padding-top: 8px; margin-top: 2px; border-top: 1px solid var(--border);
+  margin-bottom: 4px;
+}
 .chevron { font-size: 12px; color: var(--text-hint); transition: transform .2s; }
 .chevron.open { transform: rotate(180deg); }
 .loader {
@@ -1157,32 +1173,36 @@ async function guardar() {
   const adelantos = parseFloat(document.getElementById('inp-adelantos').value) || 0;
   const detalle  = document.getElementById('inp-detalle').value;
 
-  const jornal    = hpago * t.valor_hora;
+  const jornalDia = hpago * t.valor_hora;
   const almuerzo  = chkAlm && htotal > MIN_HORAS ? t.almuerzo_ars : 0;
   const traslados = km * t.valor_km;
   const peajeVal  = peajes * VALOR_PEAJE;
-  const costoNova = jornal + almuerzo + traslados + peajeVal + otros;
 
   const obrasValidas = obras.filter(o => o.codigo && o.entrada && o.salida);
-  const registros = obrasValidas.map((o, idx) => ({
-    fecha,
-    tecnico_id:       t.id,
-    obra_codigo:      o.codigo,
-    hora_entrada:     o.entrada + ':00',
-    hora_salida:      o.salida  + ':00',
-    horas_trabajadas: htotal,
-    jornal:     idx === 0 ? jornal    : 0,
-    almuerzo:   idx === 0 ? almuerzo  : 0,
-    traslados:  idx === 0 ? traslados : 0,
-    peaje:      idx === 0 ? peajeVal  : 0,
-    otros:      idx === 0 ? otros     : 0,
-    adelantos:  idx === 0 ? adelantos : 0,
-    compras:    0,
-    detalle:    detalle || null,
-    costo_nova: idx === 0 ? costoNova : 0,
-    es_estimado: false,
-    km:         idx === 0 ? km        : 0,
-  }));
+  const registros = obrasValidas.map((o, idx) => {
+    const horasObra   = o.horas || 0;
+    const jornalObra  = htotal > 0 ? jornalDia * (horasObra / htotal) : 0;
+    const extrasDia   = idx === 0 ? (almuerzo + traslados + peajeVal + otros) : 0;
+    return {
+      fecha,
+      tecnico_id:       t.id,
+      obra_codigo:      o.codigo,
+      hora_entrada:     o.entrada + ':00',
+      hora_salida:      o.salida  + ':00',
+      horas_trabajadas: horasObra,
+      jornal:     jornalObra,
+      almuerzo:   idx === 0 ? almuerzo  : 0,
+      traslados:  idx === 0 ? traslados : 0,
+      peaje:      idx === 0 ? peajeVal  : 0,
+      otros:      idx === 0 ? otros     : 0,
+      adelantos:  idx === 0 ? adelantos : 0,
+      compras:    0,
+      detalle:    detalle || null,
+      costo_nova: jornalObra + extrasDia,
+      es_estimado: false,
+      km:         idx === 0 ? km        : 0,
+    };
+  });
 
   try {
     await supa('/rest/v1/cuadrilla_jornadas', {
@@ -1270,45 +1290,76 @@ function renderHistorico(data, idToNombre) {
     return;
   }
   jornadasMap = {};
-  const grupos = {};
+  data.forEach(j => { jornadasMap[j.id] = j; });
+
+  // Agrupar por fecha, y dentro de cada fecha por técnico (una jornada puede
+  // tener varias filas — una por obra del día).
+  const porFecha = {};
   data.forEach(j => {
-    jornadasMap[j.id] = j;
-    if (!grupos[j.fecha]) grupos[j.fecha] = [];
-    grupos[j.fecha].push(j);
+    if (!porFecha[j.fecha]) porFecha[j.fecha] = {};
+    if (!porFecha[j.fecha][j.tecnico_id]) porFecha[j.fecha][j.tecnico_id] = [];
+    porFecha[j.fecha][j.tecnico_id].push(j);
   });
+
   const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   let html = '';
-  Object.keys(grupos).sort((a, b) => b.localeCompare(a)).forEach(fecha => {
+  Object.keys(porFecha).sort((a, b) => b.localeCompare(a)).forEach(fecha => {
     const [y, m, d] = fecha.split('-');
     const dt = new Date(y, m - 1, d);
     html += `<div style="font-size:11px;font-weight:600;color:var(--text-hint);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 6px">${dias[dt.getDay()]} ${d}/${m}/${y}</div>`;
-    grupos[fecha].forEach(j => {
-      const nombre     = idToNombre[j.tecnico_id] || '—';
-      const ob         = OBRAS.find(x => x.codigo_obra === j.obra_codigo);
-      const obraNombre = ob ? ob.nombre : (j.obra_codigo || '—');
-      const neto = (j.jornal||0)+(j.almuerzo||0)+(j.traslados||0)+(j.peaje||0)+(j.otros||0)+(j.compras||0)-(j.adelantos||0);
-      const uid  = 'j' + j.id.replace(/-/g, '').slice(0, 8);
+
+    Object.keys(porFecha[fecha]).forEach(tecnicoId => {
+      const filas  = porFecha[fecha][tecnicoId];
+      const nombre = idToNombre[tecnicoId] || '—';
+      const uid    = 'j' + fecha.replace(/-/g, '') + '-' + tecnicoId.replace(/-/g, '').slice(0, 8);
+
+      const tot = campo => filas.reduce((s, j) => s + (j[campo] || 0), 0);
+      const totJornal    = tot('jornal');
+      const totAlmuerzo  = tot('almuerzo');
+      const totTraslados = tot('traslados');
+      const totPeaje     = tot('peaje');
+      const totOtros     = tot('otros');
+      const totCompras   = tot('compras');
+      const totAdelantos = tot('adelantos');
+      const totKm        = tot('km');
+      const neto = totJornal + totAlmuerzo + totTraslados + totPeaje + totOtros + totCompras - totAdelantos;
+
+      const obrasHtml = filas.map(j => {
+        const ob         = OBRAS.find(x => x.codigo_obra === j.obra_codigo);
+        const obraNombre = ob ? ob.nombre : (j.obra_codigo || '—');
+        return `
+          <div class="jornada-obra-row">
+            <div class="jornada-obra-info">
+              <span class="jornada-obra-nombre">${obraNombre}</span>
+              <span class="jornada-obra-horario">${(j.hora_entrada||'').slice(0,5)}–${(j.hora_salida||'').slice(0,5)} · ${j.horas_trabajadas||0}hs</span>
+              ${j.detalle ? `<span class="jornada-obra-nota">${j.detalle}</span>` : ''}
+            </div>
+            <button class="btn-edit-sm" onclick="event.stopPropagation();openEditModal('${j.id}')">✏</button>
+          </div>`;
+      }).join('');
+
       html += `
         <div class="jornada-card">
           <div class="jornada-header" onclick="toggleJornada('${uid}')">
             <div>
               <div class="jornada-tec">${nombre}</div>
-              <div class="jornada-meta">${obraNombre} · ${(j.hora_entrada||'').slice(0,5)}–${(j.hora_salida||'').slice(0,5)} · ${j.horas_trabajadas||0}hs</div>
+              <div class="jornada-meta">${filas.length} obra${filas.length > 1 ? 's' : ''}</div>
             </div>
             <div style="display:flex;align-items:center;gap:6px">
               <span class="jornada-monto">${fmt(neto)}</span>
-              <button class="btn-edit-sm" onclick="event.stopPropagation();openEditModal('${j.id}')">✏</button>
               <span class="chevron" id="chev-${uid}">▾</span>
             </div>
           </div>
           <div class="jornada-body" id="body-${uid}">
-            ${j.jornal    ? `<div class="jornada-detail-row"><span>Jornal</span><span>${fmt(j.jornal)}</span></div>` : ''}
-            ${j.almuerzo  ? `<div class="jornada-detail-row"><span>Almuerzo</span><span>${fmt(j.almuerzo)}</span></div>` : ''}
-            ${j.traslados ? `<div class="jornada-detail-row"><span>Traslados${j.km?' ('+j.km+'km)':''}</span><span>${fmt(j.traslados)}</span></div>` : ''}
-            ${j.peaje     ? `<div class="jornada-detail-row"><span>Peajes</span><span>${fmt(j.peaje)}</span></div>` : ''}
-            ${j.otros     ? `<div class="jornada-detail-row"><span>Otros</span><span>${fmt(j.otros)}</span></div>` : ''}
-            ${j.adelantos ? `<div class="jornada-detail-row" style="color:var(--danger)"><span>Adelantos</span><span>− ${fmt(j.adelantos)}</span></div>` : ''}
-            ${j.detalle   ? `<div style="font-size:12px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">${j.detalle}</div>` : ''}
+            <div class="jornada-obras-list">${obrasHtml}</div>
+            <div class="jornada-summary-title">Jornal + viáticos del día</div>
+            ${totJornal    ? `<div class="jornada-detail-row"><span>Jornal</span><span>${fmt(totJornal)}</span></div>` : ''}
+            ${totAlmuerzo  ? `<div class="jornada-detail-row"><span>Almuerzo</span><span>${fmt(totAlmuerzo)}</span></div>` : ''}
+            ${totTraslados ? `<div class="jornada-detail-row"><span>Traslados${totKm?' ('+totKm+'km)':''}</span><span>${fmt(totTraslados)}</span></div>` : ''}
+            ${totPeaje     ? `<div class="jornada-detail-row"><span>Peajes</span><span>${fmt(totPeaje)}</span></div>` : ''}
+            ${totOtros     ? `<div class="jornada-detail-row"><span>Otros</span><span>${fmt(totOtros)}</span></div>` : ''}
+            ${totCompras   ? `<div class="jornada-detail-row"><span>Compras</span><span>${fmt(totCompras)}</span></div>` : ''}
+            ${totAdelantos ? `<div class="jornada-detail-row" style="color:var(--danger)"><span>Adelantos</span><span>− ${fmt(totAdelantos)}</span></div>` : ''}
           </div>
         </div>`;
     });
