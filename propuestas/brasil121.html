@@ -24,7 +24,7 @@
     --navy-950:#0b132b;
     --navy-800:#111a3f;
     --navy-700:#141e61;
-    --slate-400:#9698ad; /* AA sobre navy (marca #787a91 se conserva en la barra de rubros) */
+    --slate-400:#9698ad; /* AA sobre navy, 6.47:1 */
     --slate-300:#a3a5b8;
     --cream-50:#fdfbf0;
     --cyan-400:#5eead4;
@@ -534,7 +534,7 @@
     <div class="exec-stats">
       <div><div class="v"><span class="count" data-to="22">0</span></div><div class="k">Unidades integradas</div></div>
       <div><div class="v"><span class="count" data-to="4">0</span></div><div class="k">Subsistemas · un ecosistema</div></div>
-      <div><div class="v">USD <span class="count" data-to="1005">0</span></div><div class="k">Inversión por unidad</div></div>
+      <div><div class="v">USD <span class="count" data-to="1105">0</span></div><div class="k">Inversión por unidad</div></div>
       <div><div class="v"><span class="count" data-to="15">0</span> días</div><div class="k">Validez del presupuesto</div></div>
     </div>
 
@@ -579,8 +579,8 @@
     <h2 class="title">La capa que sostiene todo lo demás</h2>
     <p class="lede">En un edificio de 21 departamentos la red de datos es tan crítica como la
     instalación eléctrica: sobre ella corren el control de accesos, los videoporteros y las cámaras.
-    Arquitectura TP-Link Omada centralizada, con un switch PoE dedicado por piso para que ningún
-    tramo se sature.</p>
+    Arquitectura TP-Link Omada centralizada, con dos switches core de 24 puertos PoE+ en el
+    rack central para que ningún tramo se sature.</p>
     <div id="devices-redes" class="grid2" style="margin-top:40px;"></div>
   </div>
 </section>
@@ -699,7 +699,7 @@
     <div class="dif-grid">
       <div>
         <div class="stat-big">
-          <div class="v">USD 1.004,53 <small>/ unidad</small></div>
+          <div class="v">USD 1.105 <small>/ unidad</small></div>
           <div class="k">Inversión total del sistema prorrateada en 22 unidades</div>
         </div>
         <ul class="dif-points">
@@ -718,7 +718,7 @@
         <div class="calc-out">
           <div>
             <div class="k">Inversión por unidad</div>
-            <div class="v mono">USD 1.005</div>
+            <div class="v mono">USD 1.105</div>
           </div>
           <div class="hl">
             <div class="k">Equivale al</div>
@@ -744,8 +744,8 @@
     <div class="tiers" id="tiers">
       <div class="tier" data-tier="esencial" role="button" tabindex="0">
         <h3>Esencial</h3>
-        <div class="price mono">USD 5.837,46</div>
-        <div class="per">≈ USD 265 por unidad</div>
+        <div class="price mono">USD 5.996</div>
+        <div class="per">≈ USD 273 por unidad</div>
         <ul>
           <li>Red Omada completa + UPS + rack central</li>
           <li>Videovigilancia con AcuSense + NVR</li>
@@ -757,8 +757,8 @@
       <div class="tier active" data-tier="completo" role="button" tabindex="0">
         <span class="badge">Recomendado</span>
         <h3>Completo</h3>
-        <div class="price mono">USD 22.099,64</div>
-        <div class="per">≈ USD 1.005 por unidad</div>
+        <div class="price mono">USD 24.299</div>
+        <div class="per">≈ USD 1.105 por unidad</div>
         <ul>
           <li>Todo lo de Esencial</li>
           <li>Acceso facial + videoportero en 22 unidades</li>
@@ -789,12 +789,12 @@
     <div class="total-card">
       <div>
         <div class="l1">Total general</div>
-        <div class="l2 mono" id="total-usd">USD 22.099,64</div>
-        <div class="l3" id="total-ars">≈ ARS 32.941.682 · cotización oficial de referencia</div>
+        <div class="l2 mono" id="total-usd">USD 24.299</div>
+        <div class="l3" id="total-ars">≈ ARS 36.323.313 · cotización oficial de referencia</div>
       </div>
       <div style="text-align:right;">
         <div class="l1">Composición</div>
-        <div class="l3" style="margin-top:6px;" id="total-compo">USD 17.695,98 equipos<br>USD 4.403,66 mano de obra</div>
+        <div class="l3" style="margin-top:6px;" id="total-compo">Subtotal Equipo (Precio Neto) USD 15.299<br>IVA equipo (discriminado) USD 3.015<br>Subtotal Equipo (con IVA) USD 18.314<br>Mano de obra especializada USD 5.984</div>
       </div>
     </div>
 
@@ -914,7 +914,7 @@
     <h2>El siguiente paso es<br>una conversación.</h2>
     <p>Aceptá la propuesta con un toque y coordinamos la visita a obra dentro de la semana —
     o escribinos para ajustar alcances antes de avanzar.</p>
-    <div class="tier-echo" id="tier-echo">Configuración elegida: Completo · USD 22.099,64</div>
+    <div class="tier-echo" id="tier-echo">Configuración elegida: Completo · USD 24.299</div>
     <div class="accept-check">
       <input type="checkbox" id="accept-chk" aria-describedby="accept-lbl">
       <label for="accept-chk" id="accept-lbl">Leí la propuesta y las condiciones generales, y quiero avanzar
@@ -956,32 +956,36 @@ const ICONS = {
 
 /* ---------- data ---------- */
 const redes = [
-  {name:"TP-Link ER7206 + OC200", sku:"Router + controlador Omada", cant:1, precio:294.09, detalle:"Puerta de enlace y gestión centralizada de toda la red Omada del edificio, sin necesidad de un PC encendido."},
-  {name:"TL-SG3428MP", sku:"Switch Core 24p PoE", cant:1, precio:357.30, detalle:"Núcleo de la red en el rack central. Distribuye datos y energía PoE al frente facial, terminal biométrico, estación de administración y NVR."},
-  {name:"TL-SG1008P", sku:"Switch de piso 8p PoE ×7", cant:7, precio:50.11, detalle:"Uno por piso: alimenta los monitores interiores de cada departamento sin saturar el tramo troncal."},
-  {name:"GLC Mural 6U", sku:"Gabinete de piso ×7", cant:7, precio:100.30, detalle:"Gabinete de piso para alojar el switch PoE correspondiente."},
-  {name:"Forza FDC-2022R-I", sku:"UPS Online 2000VA", cant:1, precio:546.17, detalle:"Mantiene operativos accesos y cámaras ante un corte de luz."},
-  {name:"RACMATICK 20U", sku:"Rack central + accesorios", cant:1, precio:606.00, detalle:"Rack central con bandejas, canal de tensión y organizadores de cable."}
+  {name:"TP-Link ER7206", sku:"Router Omada", cant:1, precioNeto:102.88, iva:0.105, detalle:"Puerta de enlace de toda la red Omada del edificio."},
+  {name:"TP-Link OC200", sku:"Controlador Omada", cant:1, precioNeto:176.06, iva:0.21, detalle:"Gestión centralizada de toda la red Omada del edificio, sin necesidad de un PC encendido."},
+  {name:"TL-SG3428MP", sku:"Switch 24p PoE+ ×2", cant:2, precioNeto:359.27, iva:0.105, detalle:"Dos switches de 24 puertos PoE+: distribuyen datos y energía al frente facial, terminal biométrico, estación de administración y NVR, con margen de crecimiento."},
+  {name:"Forza FDC-2022R-I", sku:"UPS Online 2000VA", cant:1, precioNeto:548.99, iva:0.105, detalle:"Mantiene operativos accesos y cámaras ante un corte de luz."},
+  {name:"Rack GLC 12U", sku:"Mural + patch panel + accesorios", cant:1, precioNeto:360.64, iva:0.21, detalle:"Mural GLC de 12U con patch panel Cat6, bandejas para router/controlador/NVR, organizador de cable y canal de tensión. Dimensionado a lo que realmente aloja, con margen para crecimiento."}
 ];
 const accesos = [
-  {name:"DS-KD9203-ME6", sku:"Frente de portero con directorio", cant:1, precio:902.36, detalle:"Terminal principal en el hall, con directorio y llamado directo a cada una de las 22 unidades.", icon:"portero", hero:true},
-  {name:"DS-K1T343MWX", sku:"Terminal facial dedicado", cant:1, precio:298.36, detalle:"Acceso diario por reconocimiento facial, con enrolamiento en vivo parado frente al equipo.", icon:"facial", hero:true},
-  {name:"DS-KH6110-WE1", sku:"Monitor interior 4.3\" ×22", cant:22, precio:172.11, detalle:"Pantalla de videoportero en cada departamento y en la oficina, para atender llamadas y abrir la puerta."},
-  {name:"DS-KM9503", sku:"Estación de administración", cant:1, precio:1845.20, detalle:"Punto central: gestiona el flujo de llamadas y accesos de todo el edificio.", icon:"estacion"},
-  {name:"YALE YMC420", sku:"Cerradura digital Mortise + HUB ×21", cant:21, precio:303.49, detalle:"Cerradura digital en cada unidad, lista para integrarse a un sistema domótico central a futuro.", icon:"cerradura", hero:true}
+  {name:"DS-KD9203-ME6", sku:"Frente de portero con directorio", cant:1, precioNeto:799.20, iva:0.21, detalle:"Terminal principal en el hall, con directorio y llamado directo a cada una de las 22 unidades.", icon:"portero", hero:true},
+  {name:"DS-K1T343MWX", sku:"Terminal facial dedicado", cant:1, precioNeto:289.20, iva:0.105, detalle:"Acceso diario por reconocimiento facial, con enrolamiento en vivo parado frente al equipo.", icon:"facial", hero:true},
+  {name:"DS-KH6110-WE1", sku:"Monitor interior 4.3\" ×22", cant:22, precioNeto:152.40, iva:0.21, detalle:"Pantalla de videoportero en cada departamento y en la oficina, para atender llamadas y abrir la puerta."},
+  {name:"DS-KM9503", sku:"Estación de administración", cant:1, precioNeto:1694.40, iva:0.21, detalle:"Punto central: gestiona el flujo de llamadas y accesos de todo el edificio.", icon:"estacion"},
+  {name:"YALE YMC420", sku:"Cerradura digital Mortise + HUB ×21", cant:21, precioNeto:278.69, iva:0.21, detalle:"Cerradura digital en cada unidad, lista para integrarse a un sistema domótico central a futuro.", icon:"cerradura", hero:true}
 ];
 const video = [
-  {name:"DS-2CD1123G2-I", sku:"Cámara 2MP domo", cant:1, precio:101.64, detalle:"Cubre el hall de ingreso interior."},
-  {name:"DS-2CD2343G2-LI2U", sku:"Cámara 4MP AcuSense ×3", cant:3, precio:309.28, detalle:"Acceso principal y fachada sobre calle Brasil, con luz dual y filtrado de falsas alarmas.", icon:"camara", hero:true},
-  {name:"DS-7608NI-Q1/8P", sku:"NVR 8 canales PoE", cant:1, precio:365.90, detalle:"Centraliza y almacena todo el video del edificio."},
-  {name:"Seagate SkyHawk 4TB", sku:"Disco rígido videovigilancia", cant:1, precio:238.54, detalle:"Almacenamiento de escritura intensiva 24/7."}
+  {name:"DS-2CD1123G2-I", sku:"Cámara 2MP domo", cant:1, precioNeto:84.00, iva:0.21, detalle:"Cubre el hall de ingreso interior."},
+  {name:"DS-2CD2343G2-LI2U", sku:"Cámara 4MP AcuSense ×3", cant:3, precioNeto:255.60, iva:0.21, detalle:"Acceso principal y fachada sobre calle Brasil, con luz dual y filtrado de falsas alarmas.", icon:"camara", hero:true},
+  {name:"DS-7608NI-Q1/8P", sku:"NVR 8 canales PoE", cant:1, precioNeto:324.00, iva:0.21, detalle:"Centraliza y almacena todo el video del edificio."},
+  {name:"Seagate SkyHawk 4TB", sku:"Disco rígido videovigilancia", cant:1, precioNeto:228.66, iva:0.105, detalle:"Almacenamiento de escritura intensiva 24/7."}
 ];
 
+function subtot(items){
+  const neto = items.reduce((a,d)=>a+d.precioNeto*d.cant,0);
+  const iva  = items.reduce((a,d)=>a+d.precioNeto*d.cant*d.iva,0);
+  return {neto, iva, con:neto+iva};
+}
 const rubros = [
-  {nombre:"Control de Accesos y Videoportero", color:"#141e61", subtotal:6832.34, items:accesos.slice(0,4)},
-  {nombre:"Cerraduras Digitales", color:"#5eead4", subtotal:6373.29, items:[accesos[4]]},
-  {nombre:"Videovigilancia", color:"#787a91", subtotal:1633.92, items:video},
-  {nombre:"Redes (Omada + UPS + Rack)", color:"#0b132b", subtotal:2856.43, items:redes}
+  {nombre:"Control de Accesos y Videoportero", color:"#141e61", items:accesos.slice(0,4)},
+  {nombre:"Cerraduras Digitales", color:"#5eead4", items:[accesos[4]]},
+  {nombre:"Videovigilancia", color:"#9698ad", items:video},
+  {nombre:"Redes (Omada + UPS + Rack)", color:"#0b132b", items:redes}
 ];
 
 const conditions = [
@@ -1006,19 +1010,23 @@ const faq = [
 ];
 
 /* ---------- render helpers ---------- */
-const fmt = n => "USD " + n.toLocaleString("es-AR", {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmt = n => "USD " + Math.ceil(n).toLocaleString("es-AR");
+const ivaLbl = iva => (Math.round(iva*1000)/10).toString().replace(".", ",");
 
 function renderDeviceCard(d){
   const el = document.createElement("div");
   el.className = "device";
   const thumb = d.icon ? `<div class="thumb">${ICONS[d.icon]}</div>` : "";
+  const precioLine = d.cant > 1
+    ? `${d.sku} · cant. ${d.cant} · Precio Neto ${fmt(d.precioNeto)} c/u + IVA ${ivaLbl(d.iva)}%`
+    : `${d.sku} · Precio Neto ${fmt(d.precioNeto)} + IVA ${ivaLbl(d.iva)}%`;
   el.innerHTML = `
     <div class="row">
       <div class="head">
         ${thumb}
         <div>
           <div class="name">${d.name}</div>
-          <div class="sku">${d.sku} · cant. ${d.cant} · ${fmt(d.precio)} c/u</div>
+          <div class="sku">${precioLine}</div>
         </div>
       </div>
       <div class="plus">+</div>
@@ -1079,7 +1087,7 @@ document.querySelectorAll(".acu-switch button").forEach(btn=>{
 setAcuMode("comun");
 
 /* ---------- valorización calc ---------- */
-const INV_UNIDAD = 22099.64/22;
+const INV_UNIDAD = 24299/22;
 const calcRange = document.getElementById("calc-range");
 const calcVal = document.getElementById("calc-val");
 const calcPct = document.getElementById("calc-pct");
@@ -1134,23 +1142,22 @@ const countObs = new IntersectionObserver(entries=>{
 document.querySelectorAll(".count").forEach(el=>countObs.observe(el));
 
 /* ---------- tiers: recálculo en vivo ---------- */
-const MO_PROG_PCT = 0.30; /* programación e instalación: 30% s/equipos (sin cerraduras) */
-const TC_REF = 32941682/22099.64; /* cotización oficial de referencia del presupuesto */
+const TC_REF = 1495; /* cotización oficial de referencia del presupuesto */
 const TIERS = {
   esencial: {
     label:"Esencial",
     rubros: [rubros[3], rubros[2]], /* Redes, Videovigilancia */
-    mo: [{n:"Programación e instalación (30% s/equipos)", v:+( (rubros[3].subtotal+rubros[2].subtotal)*MO_PROG_PCT ).toFixed(2)}]
+    mo: [{n:"Instalación y puesta en marcha (proporcional al alcance)", v:2156.86}]
   },
   completo: {
     label:"Completo",
     rubros: rubros,
-    mo: [{n:"Programación e instalación (30% s/equipos)", v:3396.81},{n:"Instalación de cerraduras × 21", v:1006.85}]
+    mo: [{n:"Instalación de cerraduras digitales × 21", v:983.28},{n:"Instalación y programación general", v:5000.00}]
   },
   signature: {
     label:"Signature",
     rubros: rubros,
-    mo: [{n:"Programación e instalación (30% s/equipos)", v:3396.81},{n:"Instalación de cerraduras × 21", v:1006.85}],
+    mo: [{n:"Instalación de cerraduras digitales × 21", v:983.28},{n:"Instalación y programación general", v:5000.00}],
     extra:"Domótica de amenities + Wall Displays · a cotizar según relevamiento"
   }
 };
@@ -1158,13 +1165,16 @@ let currentTier = "completo";
 
 function renderInversion(tierKey){
   const T = TIERS[tierKey];
-  const eq = T.rubros.reduce((a,r)=>a+r.subtotal,0);
+  T.rubros.forEach(r=> r.sub = subtot(r.items));
+  const eqNeto = T.rubros.reduce((a,r)=>a+r.sub.neto,0);
+  const eqIva  = T.rubros.reduce((a,r)=>a+r.sub.iva,0);
+  const eqCon  = eqNeto+eqIva;
   const mo = T.mo.reduce((a,m)=>a+m.v,0);
-  const total = eq+mo;
+  const total = eqCon+mo;
 
   bar.innerHTML = ""; legend.innerHTML = "";
   T.rubros.forEach(r=>{
-    const pct = (r.subtotal/eq*100).toFixed(1);
+    const pct = (r.sub.con/eqCon*100).toFixed(1);
     const seg = document.createElement("span");
     seg.style.width = pct+"%"; seg.style.background = r.color; seg.title = r.nombre+" — "+pct+"%";
     bar.appendChild(seg);
@@ -1177,11 +1187,14 @@ function renderInversion(tierKey){
   T.rubros.forEach(r=>{
     const block = document.createElement("div");
     block.className = "rubro-block";
-    block.innerHTML = `<div class="rubro-head"><h3>${r.nombre}</h3><div class="sub">${fmt(r.subtotal)}</div></div>`;
+    block.innerHTML = `<div class="rubro-head"><h3>${r.nombre}</h3><div class="sub">${fmt(r.sub.con)}</div></div>`;
     r.items.forEach(it=>{
       const li = document.createElement("div");
       li.className = "line-item";
-      li.innerHTML = `<span class="li-name">${it.name} × ${it.cant}</span><span class="li-num">${fmt(it.precio*it.cant)}</span>`;
+      const label = it.cant > 1
+        ? `${it.name} × ${it.cant} · Precio Neto ${fmt(it.precioNeto)} c/u + IVA ${ivaLbl(it.iva)}%`
+        : `${it.name} · Precio Neto ${fmt(it.precioNeto)} + IVA ${ivaLbl(it.iva)}%`;
+      li.innerHTML = `<span class="li-name">${label}</span><span class="li-num">${fmt(it.precioNeto*it.cant*(1+it.iva))}</span>`;
       block.appendChild(li);
     });
     invoice.appendChild(block);
@@ -1199,11 +1212,18 @@ function renderInversion(tierKey){
     invoice.appendChild(ex);
   }
 
-  document.getElementById("total-usd").textContent = fmt(total) + (T.extra ? " +" : "");
-  document.getElementById("total-ars").textContent = "≈ ARS " + Math.round(total*TC_REF).toLocaleString("es-AR") + " · cotización oficial de referencia";
-  document.getElementById("total-compo").innerHTML = fmt(eq) + " equipos<br>" + fmt(mo) + " mano de obra";
+  const eqNetoDisplay = Math.ceil(eqNeto);
+  const eqConDisplay = T.rubros.reduce((a,r)=>a+Math.ceil(r.sub.con),0);
+  const eqIvaDisplay = eqConDisplay - eqNetoDisplay;
+  const moDisplay = Math.ceil(mo);
+  const totalDisplay = eqConDisplay + moDisplay;
+  document.getElementById("total-usd").textContent = "USD " + totalDisplay.toLocaleString("es-AR") + (T.extra ? " +" : "");
+  document.getElementById("total-ars").textContent = "≈ ARS " + Math.round(totalDisplay*TC_REF).toLocaleString("es-AR") + " · cotización oficial de referencia";
+  document.getElementById("total-compo").innerHTML =
+    `Subtotal Equipo (Precio Neto) USD ${eqNetoDisplay.toLocaleString("es-AR")}<br>IVA equipo (discriminado) USD ${eqIvaDisplay.toLocaleString("es-AR")}<br>Subtotal Equipo (con IVA) USD ${eqConDisplay.toLocaleString("es-AR")}<br>Mano de obra especializada USD ${moDisplay.toLocaleString("es-AR")}`;
 
-  document.getElementById("tier-echo").textContent = "Configuración elegida: " + T.label + " · " + fmt(total) + (T.extra ? " + ampliación" : "");
+  T.totalDisplay = totalDisplay;
+  document.getElementById("tier-echo").textContent = "Configuración elegida: " + T.label + " · USD " + totalDisplay.toLocaleString("es-AR") + (T.extra ? " + ampliación" : "");
   updateAcceptLink();
 }
 
@@ -1227,9 +1247,7 @@ const acceptChk = document.getElementById("accept-chk");
 const btnAccept = document.getElementById("btn-accept");
 function updateAcceptLink(){
   const T = TIERS[currentTier];
-  const eq = T.rubros.reduce((a,r)=>a+r.subtotal,0);
-  const mo = T.mo.reduce((a,m)=>a+m.v,0);
-  const total = fmt(eq+mo) + (T.extra ? " más ampliación a cotizar" : "");
+  const total = "USD " + T.totalDisplay.toLocaleString("es-AR") + (T.extra ? " más ampliación a cotizar" : "");
   const msg = `Hola Nova Domus, confirmo la propuesta del Edificio Brasil 121 en su configuración ${T.label} por ${total}. Coordinemos la visita a obra y el inicio del plan de ejecución.`;
   btnAccept.href = "https://wa.me/5493516747513?text=" + encodeURIComponent(msg);
   document.getElementById("btn-mail").href = "mailto:novadomuscba@gmail.com?subject=" +
