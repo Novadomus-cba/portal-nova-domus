@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nova Domus — Galería</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+:root {
+  --bg:         #0d0f12;
+  --surface:    #151821;
+  --surface2:   #1c1f2b;
+  --border:     #232733;
+  --text:       #e8eaf0;
+  --muted:      #6b7280;
+  --hint:       #4b5262;
+  --accent:     #c8a96e;
+  --accent-dim: #7a6340;
+  --error:      #e05c5c;
+  --error-bg:   rgba(224,92,92,0.1);
+  --success:    #5fbf7d;
+  --success-bg: rgba(95,191,125,0.1);
+  --input-bg:   #1c1f2b;
+  --radius:     10px;
+  --radius-sm:  6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  min-height: 100vh;
+}
+
+/* ── LOADING OVERLAY ── */
+#app-loading {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* ── PORTAL HEADER ── */
+#app-header { position: sticky; top: 0; z-index: 100; }
+.portal-bar {
+  background: var(--bg);
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+}
+.portal-bar-left { display: flex; align-items: center; gap: 10px; }
+.portal-back {
+  display: flex; align-items: center; gap: 7px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 13px;
+  transition: color 0.15s;
+}
+.portal-back:hover { color: var(--text); }
+.portal-back-icon {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.portal-divider { width: 1px; height: 14px; background: var(--border); }
+.portal-module { font-size: 14px; font-weight: 600; color: var(--text); }
+.portal-bar-right { display: flex; align-items: center; gap: 12px; }
+#portal-username { font-size: 12px; color: var(--muted); }
+.portal-logout {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+.portal-logout:hover { color: var(--text); border-color: var(--muted); }
+
+/* ── MODULE TABS ── */
+.module-tabs {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  height: 46px;
+  display: flex; align-items: center;
+}
+.nav-tabs { display: flex; gap: 2px; background: var(--bg); border-radius: var(--radius-sm); padding: 3px; }
+.nav-tab {
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 13px; font-weight: 500;
+  color: var(--muted);
+  cursor: pointer; border: none; background: none;
+  transition: all .15s;
+  font-family: inherit;
+}
+.nav-tab.active { background: var(--surface2); color: var(--accent); }
+
+#app-header, #app-content { animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; } }
+
+/* ── PANEL ── */
+.page { display: none; padding: 1rem; max-width: 640px; margin: 0 auto; }
+.page.active { display: block; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.card-body { padding: 14px; }
+.field { margin-bottom: 13px; }
+.field:last-child { margin-bottom: 0; }
+label.lbl { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
+select, input[type=text], input[type=file], textarea {
+  width: 100%; padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px; color: var(--text);
+  background: var(--input-bg);
+  appearance: none; -webkit-appearance: none;
+  outline: none; transition: border-color .15s;
+  font-family: inherit;
+}
+select:focus, input:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,169,110,.12);
+}
+select option { background: var(--surface2); color: var(--text); }
+textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height: 1.5; }
+
+/* categoría toggle */
+.toggle-group { display: flex; gap: 6px; }
+.toggle-btn {
+  flex: 1; padding: 9px 6px;
+  border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  background: var(--input-bg); color: var(--muted);
+  transition: all .15s; font-family: inherit;
+}
+.toggle-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,.1); }
+
+/* search / dropdown */
+.search-wrap { position: relative; }
+.search-results {
+  display: none;
+  position: absolute; z-index: 20;
+  top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  max-height: 220px; overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+.search-results.open { display: block; }
+.search-item { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid var(--border); }
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: var(--bg); }
+.search-item-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.search-item-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.search-empty { padding: 12px; font-size: 12px; color: var(--hint); text-align: center; }
+.selected-ref {
+  display: none;
+  align-items: center; justify-content: space-between;
+  margin-top: 8px; padding: 9px 12px;
+  background: rgba(200,169,110,.08); border: 1px solid var(--accent-dim);
+  border-radius: var(--radius-sm);
+}
+.selected-ref.show { display: flex; }
+.selected-ref-text { font-size: 13px; color: var(--text); }
+.selected-ref-clear { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; }
+.selected-ref-clear:hover { color: var(--error); }
+
+/* file / preview */
+.file-drop {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 22px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.file-drop:hover { border-color: var(--accent-dim); background: rgba(200,169,110,.04); }
+.file-drop-icon { font-size: 26px; margin-bottom: 6px; }
+.file-drop-text { font-size: 13px; color: var(--muted); }
+.file-drop-hint { font-size: 11px; color: var(--hint); margin-top: 4px; }
+.preview-wrap { position: relative; margin-top: 10px; display: none; }
+.preview-wrap.show { display: block; }
+.preview-img {
+  width: 100%; max-height: 320px; object-fit: contain;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--bg);
+}
+.preview-remove {
+  position: absolute; top: 8px; right: 8px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(13,15,18,.8); border: 1px solid var(--border);
+  color: var(--text); font-size: 15px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.preview-meta { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+.btn-primary {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+  color: #0d0f12; border: none;
+  border-radius: var(--radius); font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: opacity .15s, transform .1s;
+  letter-spacing: -0.01em; font-family: inherit;
+}
+.btn-primary:active { opacity: .88; transform: scale(.99); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+
+.alert {
+  display: none; padding: 9px 12px; border-radius: var(--radius-sm);
+  font-size: 12px; margin-bottom: 12px;
+  gap: 8px; align-items: flex-start; line-height: 1.5;
+}
+.alert.show { display: flex; }
+.alert.error { background: var(--error-bg); color: var(--error); border: 1px solid rgba(224,92,92,.3); }
+.alert.success { background: var(--success-bg); color: var(--success); border: 1px solid rgba(95,191,125,.3); }
+.alert-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+
+/* ── GALERÍA VIEW ── */
+.gal-filters { display: flex; gap: 8px; margin-bottom: 10px; }
+.gal-filters select { flex: 1; }
+.gal-search { margin-bottom: 12px; }
+.gal-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+@media (max-width: 380px) { .gal-grid { grid-template-columns: repeat(2, 1fr); } }
+.gal-thumb {
+  position: relative; aspect-ratio: 1; border-radius: var(--radius-sm);
+  overflow: hidden; background: var(--surface2); cursor: pointer;
+  border: 1px solid var(--border);
+}
+.gal-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gal-thumb-cat {
+  position: absolute; top: 4px; left: 4px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 10px;
+  background: rgba(13,15,18,.75); color: var(--accent);
+  letter-spacing: .04em;
+}
+.loader {
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem; gap: 10px; color: var(--muted); font-size: 14px;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gal-empty { text-align: center; padding: 3rem 1rem; color: var(--hint); font-size: 14px; }
+
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.85); z-index: 300;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-box { max-width: 100%; max-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.lightbox-img { max-width: 100%; max-height: 60vh; border-radius: var(--radius); object-fit: contain; }
+.lightbox-info { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; width: 100%; max-width: 420px; }
+.lightbox-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.lightbox-sub { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.lightbox-desc { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.lightbox-actions { display: flex; gap: 8px; margin-top: 12px; }
+.btn-sm {
+  flex: 1; padding: 9px; border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface2); color: var(--text);
+  font-family: inherit; transition: border-color .15s;
+}
+.btn-sm:hover { border-color: var(--accent-dim); }
+.btn-sm-danger { background: var(--error-bg); color: var(--error); border-color: rgba(224,92,92,.3); }
+.btn-sm-danger:hover { border-color: var(--error); }
+.lightbox-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,.08); border: none;
+  color: var(--text); font-size: 18px; cursor: pointer;
+}
+
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  opacity: 0; transition: all .25s; pointer-events: none;
+  z-index: 400; white-space: nowrap;
+}
+.toast.success { background: var(--success); color: #0d0f12; border-color: var(--success); }
+.toast.error   { background: var(--error); color: #0d0f12; border-color: var(--error); }
+.toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Loading overlay — shown until auth resolves -->
+<div id="app-loading">Verificando acceso…</div>
+
+<!-- Portal header — sticky, revealed after auth -->
+<div id="app-header" style="display:none">
+  <div class="portal-bar">
+    <div class="portal-bar-left">
+      <a href="../index.html" class="portal-back">
+        <span class="portal-back-icon">⌂</span>
+        Portal
+      </a>
+      <div class="portal-divider"></div>
+      <span class="portal-module">Galería</span>
+    </div>
+    <div class="portal-bar-right">
+      <span id="portal-username"></span>
+      <button class="portal-logout" onclick="handleLogout()">Salir</button>
+    </div>
+  </div>
+  <div class="module-tabs">
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tab-subir" onclick="showPage('subir', this)">Subir foto</button>
+      <button class="nav-tab" id="tab-ver" onclick="showPage('ver', this)">Ver galería</button>
+    </div>
+  </div>
+</div>
+
+<!-- Panel content — revealed after auth -->
+<div id="app-content" style="display:none">
+
+  <!-- ═══ PÁGINA SUBIR FOTO ═══ -->
+  <div class="page active" id="page-subir">
+
+    <div class="alert error" id="upload-error"><span class="alert-icon">⚠️</span><span id="upload-error-text"></span></div>
+    <div class="alert success" id="upload-success"><span class="alert-icon">✅</span><span id="upload-success-text"></span></div>
+
+    <div class="card">
+      <div class="card-header">Categoría</div>
+      <div class="card-body">
+        <div class="toggle-group">
+          <button class="toggle-btn active" id="cat-obra" onclick="setCategoria('obra')">Obra</button>
+          <button class="toggle-btn" id="cat-producto" onclick="setCategoria('producto')">Producto</button>
+          <button class="toggle-btn" id="cat-marca" onclick="setCategoria('marca')">Marca</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="ref-card-title">Obra</div>
+      <div class="card-body">
+
+        <!-- Buscador obra / producto -->
+        <div class="field" id="ref-search-field">
+          <label class="lbl" id="ref-search-label">Buscar obra</label>
+          <div class="search-wrap">
+            <input type="text" id="ref-search-input" placeholder="Nombre de obra o cliente..." oninput="onRefSearchInput()" autocomplete="off">
+            <div class="search-results" id="ref-search-results"></div>
+          </div>
+          <div class="selected-ref" id="selected-ref">
+            <span class="selected-ref-text" id="selected-ref-text"></span>
+            <button class="selected-ref-clear" onclick="clearSelectedRef()">✕</button>
+          </div>
+        </div>
+
+        <!-- Select marca -->
+        <div class="field" id="ref-marca-field" style="display:none">
+          <label class="lbl">Marca</label>
+          <select id="ref-marca-select" onchange="onMarcaSelectChange()">
+            <option value="">Seleccionar marca...</option>
+            <option value="Yale">Yale</option>
+            <option value="Philips Hue">Philips Hue</option>
+            <option value="Shelly">Shelly</option>
+            <option value="WiZ">WiZ</option>
+            <option value="Control4">Control4</option>
+            <option value="Dystech">Dystech</option>
+            <option value="Homiq">Homiq</option>
+            <option value="EZVIZ">EZVIZ</option>
+            <option value="Hikvision">Hikvision</option>
+            <option value="Ubiquiti">Ubiquiti</option>
+            <option value="__otra__">Otra marca...</option>
+          </select>
+          <div class="field" id="ref-marca-otra-field" style="display:none;margin-top:8px">
+            <input type="text" id="ref-marca-otra-input" placeholder="Nombre de la marca" oninput="onMarcaOtraInput()">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Foto</div>
+      <div class="card-body">
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" capture="environment" style="display:none" onchange="onFileSelected(event)">
+        <div class="file-drop" id="file-drop" onclick="document.getElementById('file-input').click()">
+          <div class="file-drop-icon">📷</div>
+          <div class="file-drop-text">Tocar para tomar foto o elegir de galería</div>
+          <div class="file-drop-hint">JPG, PNG, WEBP, HEIC — máx. 15MB</div>
+        </div>
+        <div class="preview-wrap" id="preview-wrap">
+          <button class="preview-remove" onclick="clearFile(event)">✕</button>
+          <img class="preview-img" id="preview-img" alt="Vista previa">
+          <div class="preview-meta" id="preview-meta"></div>
+        </div>
+
+        <div class="field" style="margin-top:14px">
+          <label class="lbl">Título (opcional)</label>
+          <input type="text" id="inp-titulo" placeholder="Ej: Fachada terminada">
+        </div>
+        <div class="field">
+          <label class="lbl">Descripción (opcional)</label>
+          <textarea id="inp-descripcion" placeholder="Detalles adicionales..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btn-upload" onclick="handleUpload()">Subir foto</button>
+  </div>
+
+  <!-- ═══ PÁGINA VER GALERÍA ═══ -->
+  <div class="page" id="page-ver">
+
+    <div class="gal-filters">
+      <select id="gal-filter-cat" onchange="onGalFilterChange()">
+        <option value="">Todas las categorías</option>
+        <option value="obra">Obra</option>
+        <option value="producto">Producto</option>
+        <option value="marca">Marca</option>
+      </select>
+    </div>
+    <div class="field gal-search">
+      <input type="text" id="gal-search-input" placeholder="Buscar por referencia (obra, sku, marca)..." oninput="onGalSearchInput()">
+    </div>
+
+    <div id="gal-loader" class="loader"><div class="spinner"></div>Cargando fotos...</div>
+    <div id="gal-empty" class="gal-empty" style="display:none">No se encontraron fotos.</div>
+    <div class="gal-grid" id="gal-grid"></div>
+  </div>
+
+</div><!-- #app-content -->
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightboxOnOverlay(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-box" onclick="event.stopPropagation()">
+    <img class="lightbox-img" id="lightbox-img" alt="">
+    <div class="lightbox-info">
+      <div class="lightbox-title" id="lightbox-title"></div>
+      <div class="lightbox-sub" id="lightbox-sub"></div>
+      <div class="lightbox-desc" id="lightbox-desc"></div>
+      <div class="lightbox-actions">
+        <button class="btn-sm" onclick="copyLightboxUrl()">📋 Copiar URL</button>
+        <button class="btn-sm btn-sm-danger" id="btn-lightbox-delete" style="display:none" onclick="deleteLightboxPhoto()">🗑 Borrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── AUTH ──────────────────────────────────────────────────────
+const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+let currentProfile = null;
+
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = '../login.html';
+}
+
+// ── OBRAS (read-only client) ─────────────────────────────────
+const OBRAS_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+const OBRAS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+
+async function fetchJson(url, key, path) {
+  const res = await fetch(url + path, {
+    headers: { 'apikey': key, 'Authorization': 'Bearer ' + key }
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(text);
+  return text ? JSON.parse(text) : [];
+}
+
+// ── MAX FILE SIZE ─────────────────────────────────────────────
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
+const KNOWN_BRANDS = ['Yale','Philips Hue','Shelly','WiZ','Control4','Dystech','Homiq','EZVIZ','Hikvision','Ubiquiti'];
+
+// ── STATE ─────────────────────────────────────────────────────
+let categoria = 'obra';
+let selectedRef = null;      // { id (referencia), label }
+let selectedFile = null;
+let refSearchTimer = null;
+
+let galPhotos = [];
+let galLoaded = false;
+let currentLightboxPhoto = null;
+
+// ── INIT ──────────────────────────────────────────────────────
+async function init() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = '../login.html'; return; }
+
+  const { data: profile } = await authClient
+    .from('user_profiles')
+    .select('full_name, role')
+    .eq('id', session.user.id)
+    .single();
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = '../index.html';
+    return;
+  }
+
+  currentProfile = profile;
+  document.getElementById('portal-username').textContent = profile.full_name;
+
+  document.getElementById('app-loading').style.display = 'none';
+  document.getElementById('app-header').style.display  = 'block';
+  document.getElementById('app-content').style.display = 'block';
+}
+
+// ── TABS ──────────────────────────────────────────────────────
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'ver' && !galLoaded) loadGaleria();
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => { t.className = 'toast'; }, 2600);
+}
+
+// ══════════════════════════════════════════════════════════════
+// SUBIR FOTO
+// ══════════════════════════════════════════════════════════════
+
+function setCategoria(cat) {
+  categoria = cat;
+  document.getElementById('cat-obra').classList.toggle('active', cat === 'obra');
+  document.getElementById('cat-producto').classList.toggle('active', cat === 'producto');
+  document.getElementById('cat-marca').classList.toggle('active', cat === 'marca');
+
+  clearSelectedRef();
+  document.getElementById('ref-search-input').value = '';
+  document.getElementById('ref-search-results').classList.remove('open');
+
+  const searchField = document.getElementById('ref-search-field');
+  const marcaField  = document.getElementById('ref-marca-field');
+  const cardTitle   = document.getElementById('ref-card-title');
+  const searchLabel = document.getElementById('ref-search-label');
+  const searchInput = document.getElementById('ref-search-input');
+
+  if (cat === 'marca') {
+    searchField.style.display = 'none';
+    marcaField.style.display = 'block';
+    cardTitle.textContent = 'Marca';
+    document.getElementById('ref-marca-select').value = '';
+    document.getElementById('ref-marca-otra-field').style.display = 'none';
+  } else {
+    searchField.style.display = 'block';
+    marcaField.style.display = 'none';
+    if (cat === 'obra') {
+      cardTitle.textContent = 'Obra';
+      searchLabel.textContent = 'Buscar obra';
+      searchInput.placeholder = 'Nombre de obra o cliente...';
+    } else {
+      cardTitle.textContent = 'Producto';
+      searchLabel.textContent = 'Buscar producto';
+      searchInput.placeholder = 'Nombre, marca o SKU...';
+    }
+  }
+}
+
+function onRefSearchInput() {
+  clearTimeout(refSearchTimer);
+  const q = document.getElementById('ref-search-input').value.trim();
+  const resultsEl = document.getElementById('ref-search-results');
+  if (q.length < 2) {
+    resultsEl.classList.remove('open');
+    return;
+  }
+  refSearchTimer = setTimeout(() => {
+    if (categoria === 'obra') searchObras(q);
+    else searchProductos(q);
+  }, 300);
+}
+
+async function searchObras(q) {
+  const resultsEl = document.getElementById('ref-search-results');
+  try {
+    const enc = encodeURIComponent(q);
+    const rows = await fetchJson(OBRAS_URL, OBRAS_KEY,
+      `/rest/v1/obras?select=id,nombre,codigo_obra,cliente_razon_social&or=(nombre.ilike.%25${enc}%25,cliente_razon_social.ilike.%25${enc}%25)&limit=15`);
+    renderRefResults(rows.map(o => ({
+      id: o.id,
+      title: o.nombre,
+      sub: [o.codigo_obra, o.cliente_razon_social].filter(Boolean).join(' · ')
+    })));
+  } catch (e) {
+    console.error('searchObras', e);
+    resultsEl.innerHTML = '<div class="search-empty">Error al buscar obras</div>';
+    resultsEl.classList.add('open');
+  }
+}
+
+async function searchProductos(q) {
+  const resultsEl = document.getElementById('ref-search-results');
+  try {
+    const enc = encodeURIComponent(q);
+    const rows = await fetchJson(AUTH_URL, AUTH_KEY,
+      `/rest/v1/inventario?select=sku,nombre,marca&or=(nombre.ilike.%25${enc}%25,marca.ilike.%25${enc}%25,sku.ilike.%25${enc}%25)&limit=15`);
+    renderRefResults(rows.map(p => ({
+      id: p.sku,
+      title: p.nombre,
+      sub: [p.marca, p.sku].filter(Boolean).join(' · ')
+    })));
+  } catch (e) {
+    console.error('searchProductos', e);
+    resultsEl.innerHTML = '<div class="search-empty">Error al buscar productos</div>';
+    resultsEl.classList.add('open');
+  }
+}
+
+function renderRefResults(items) {
+  const resultsEl = document.getElementById('ref-search-results');
+  if (!items.length) {
+    resultsEl.innerHTML = '<div class="search-empty">Sin resultados</div>';
+    resultsEl.classList.add('open');
+    return;
+  }
+  resultsEl.innerHTML = items.map((it, i) => `
+    <div class="search-item" onclick="selectRefResult(${i})">
+      <div class="search-item-title">${escapeHtml(it.title)}</div>
+      <div class="search-item-sub">${escapeHtml(it.sub)}</div>
+    </div>
+  `).join('');
+  resultsEl.classList.add('open');
+  window.__refResults = items;
+}
+
+function selectRefResult(i) {
+  const it = window.__refResults[i];
+  selectedRef = { id: String(it.id), label: it.title + (it.sub ? ' — ' + it.sub : '') };
+  document.getElementById('ref-search-results').classList.remove('open');
+  document.getElementById('ref-search-input').value = '';
+  document.getElementById('selected-ref-text').textContent = selectedRef.label;
+  document.getElementById('selected-ref').classList.add('show');
+}
+
+function clearSelectedRef() {
+  selectedRef = null;
+  document.getElementById('selected-ref').classList.remove('show');
+}
+
+function onMarcaSelectChange() {
+  const val = document.getElementById('ref-marca-select').value;
+  const otraField = document.getElementById('ref-marca-otra-field');
+  if (val === '__otra__') {
+    otraField.style.display = 'block';
+    selectedRef = null;
+  } else if (val) {
+    otraField.style.display = 'none';
+    selectedRef = { id: val, label: val };
+  } else {
+    otraField.style.display = 'none';
+    selectedRef = null;
+  }
+}
+
+function onMarcaOtraInput() {
+  const val = document.getElementById('ref-marca-otra-input').value.trim();
+  selectedRef = val ? { id: val, label: val } : null;
+}
+
+function onFileSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    showUploadAlert('error', 'Tipo de archivo no permitido. Usá JPG, PNG, WEBP o HEIC.');
+    event.target.value = '';
+    return;
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    showUploadAlert('error', 'La imagen supera el límite de 15MB.');
+    event.target.value = '';
+    return;
+  }
+  hideUploadAlerts();
+
+  selectedFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('preview-img').src = e.target.result;
+    document.getElementById('preview-meta').textContent =
+      `${file.name} — ${(file.size / 1024 / 1024).toFixed(1)}MB`;
+    document.getElementById('preview-wrap').classList.add('show');
+    document.getElementById('file-drop').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearFile(event) {
+  event.stopPropagation();
+  selectedFile = null;
+  document.getElementById('file-input').value = '';
+  document.getElementById('preview-wrap').classList.remove('show');
+  document.getElementById('file-drop').style.display = 'block';
+}
+
+function showUploadAlert(type, msg) {
+  hideUploadAlerts();
+  const el = document.getElementById(type === 'error' ? 'upload-error' : 'upload-success');
+  const textEl = document.getElementById(type === 'error' ? 'upload-error-text' : 'upload-success-text');
+  textEl.textContent = msg;
+  el.classList.add('show');
+}
+
+function hideUploadAlerts() {
+  document.getElementById('upload-error').classList.remove('show');
+  document.getElementById('upload-success').classList.remove('show');
+}
+
+function sanitizeForPath(s) {
+  return String(s)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase() || 'sin-referencia';
+}
+
+async function handleUpload() {
+  hideUploadAlerts();
+
+  if (!selectedRef) {
+    showUploadAlert('error', categoria === 'marca'
+      ? 'Seleccioná una marca.'
+      : 'Buscá y seleccioná una referencia.');
+    return;
+  }
+  if (!selectedFile) {
+    showUploadAlert('error', 'Elegí o tomá una foto para subir.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-upload');
+  btn.disabled = true;
+  btn.textContent = 'Subiendo...';
+
+  try {
+    const { data: { session } } = await authClient.auth.getSession();
+    if (!session) { window.location.href = '../login.html'; return; }
+
+    const refSanitized = sanitizeForPath(selectedRef.id);
+    const timestamp = Date.now();
+    const safeFileName = selectedFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+    const storagePath = `${categoria}/${refSanitized}/${timestamp}-${safeFileName}`;
+
+    const { error: uploadError } = await authClient.storage
+      .from('galeria')
+      .upload(storagePath, selectedFile, { contentType: selectedFile.type, upsert: false });
+    if (uploadError) throw uploadError;
+
+    const { data: publicUrlData } = authClient.storage.from('galeria').getPublicUrl(storagePath);
+    const urlPublica = publicUrlData.publicUrl;
+
+    const titulo = document.getElementById('inp-titulo').value.trim() || null;
+    const descripcion = document.getElementById('inp-descripcion').value.trim() || null;
+
+    const insertRes = await fetch(AUTH_URL + '/rest/v1/galeria_fotos', {
+      method: 'POST',
+      headers: {
+        'apikey': AUTH_KEY,
+        'Authorization': 'Bearer ' + session.access_token,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        categoria,
+        referencia: selectedRef.id,
+        storage_path: storagePath,
+        url_publica: urlPublica,
+        titulo,
+        descripcion,
+        uploaded_by: session.user.id
+      })
+    });
+
+    if (!insertRes.ok) {
+      const errText = await insertRes.text();
+      throw new Error(errText);
+    }
+
+    showUploadAlert('success', 'Foto subida correctamente.');
+    showToast('Foto subida', 'success');
+    resetUploadForm();
+    galLoaded = false;
+  } catch (e) {
+    console.error('handleUpload', e);
+    showUploadAlert('error', 'No se pudo subir la foto. Intentá de nuevo.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Subir foto';
+  }
+}
+
+function resetUploadForm() {
+  clearFile({ stopPropagation: () => {} });
+  document.getElementById('inp-titulo').value = '';
+  document.getElementById('inp-descripcion').value = '';
+  clearSelectedRef();
+  document.getElementById('ref-search-input').value = '';
+  document.getElementById('ref-marca-select').value = '';
+  document.getElementById('ref-marca-otra-field').style.display = 'none';
+}
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s == null ? '' : String(s);
+  return div.innerHTML;
+}
+
+// ══════════════════════════════════════════════════════════════
+// VER GALERÍA
+// ══════════════════════════════════════════════════════════════
+
+let galSearchTimer = null;
+
+async function loadGaleria() {
+  document.getElementById('gal-loader').style.display = 'flex';
+  document.getElementById('gal-empty').style.display = 'none';
+  document.getElementById('gal-grid').innerHTML = '';
+
+  try {
+    const rows = await fetchJson(AUTH_URL, AUTH_KEY,
+      '/rest/v1/galeria_fotos?select=id,categoria,referencia,storage_path,url_publica,titulo,descripcion,created_at&order=created_at.desc&limit=300');
+    galPhotos = rows;
+    galLoaded = true;
+    renderGaleria();
+  } catch (e) {
+    console.error('loadGaleria', e);
+    showToast('Error al cargar la galería', 'error');
+  } finally {
+    document.getElementById('gal-loader').style.display = 'none';
+  }
+}
+
+function onGalFilterChange() { renderGaleria(); }
+
+function onGalSearchInput() {
+  clearTimeout(galSearchTimer);
+  galSearchTimer = setTimeout(renderGaleria, 250);
+}
+
+function renderGaleria() {
+  const cat = document.getElementById('gal-filter-cat').value;
+  const q = document.getElementById('gal-search-input').value.trim().toLowerCase();
+
+  let filtered = galPhotos;
+  if (cat) filtered = filtered.filter(p => p.categoria === cat);
+  if (q) filtered = filtered.filter(p =>
+    (p.referencia || '').toLowerCase().includes(q) ||
+    (p.titulo || '').toLowerCase().includes(q)
+  );
+
+  const grid = document.getElementById('gal-grid');
+  const emptyEl = document.getElementById('gal-empty');
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  grid.innerHTML = filtered.map((p, i) => `
+    <div class="gal-thumb" onclick="openLightbox(${galPhotos.indexOf(p)})">
+      <span class="gal-thumb-cat">${p.categoria}</span>
+      <img src="${p.url_publica}" alt="${escapeHtml(p.titulo || p.referencia)}" loading="lazy">
+    </div>
+  `).join('');
+}
+
+function openLightbox(idx) {
+  const p = galPhotos[idx];
+  if (!p) return;
+  currentLightboxPhoto = p;
+
+  document.getElementById('lightbox-img').src = p.url_publica;
+  document.getElementById('lightbox-title').textContent = p.titulo || p.referencia || '';
+  document.getElementById('lightbox-sub').textContent =
+    `${p.categoria} · ${p.referencia}` + (p.created_at ? ' · ' + new Date(p.created_at).toLocaleDateString('es-AR') : '');
+  document.getElementById('lightbox-desc').textContent = p.descripcion || '';
+
+  const canDelete = currentProfile && ['admin', 'supervisor'].includes(currentProfile.role);
+  document.getElementById('btn-lightbox-delete').style.display = canDelete ? 'block' : 'none';
+
+  document.getElementById('lightbox-overlay').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox-overlay').classList.remove('open');
+  currentLightboxPhoto = null;
+}
+
+function closeLightboxOnOverlay(event) {
+  if (event.target.id === 'lightbox-overlay') closeLightbox();
+}
+
+async function copyLightboxUrl() {
+  if (!currentLightboxPhoto) return;
+  try {
+    await navigator.clipboard.writeText(currentLightboxPhoto.url_publica);
+    showToast('URL copiada', 'success');
+  } catch (e) {
+    console.error('copyLightboxUrl', e);
+    showToast('No se pudo copiar la URL', 'error');
+  }
+}
+
+async function deleteLightboxPhoto() {
+  if (!currentLightboxPhoto) return;
+  if (!confirm('¿Borrar esta foto? Esta acción no se puede deshacer.')) return;
+
+  const photo = currentLightboxPhoto;
+  try {
+    const { data: { session } } = await authClient.auth.getSession();
+    if (!session) { window.location.href = '../login.html'; return; }
+
+    const delRes = await fetch(AUTH_URL + `/rest/v1/galeria_fotos?id=eq.${photo.id}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': AUTH_KEY,
+        'Authorization': 'Bearer ' + session.access_token,
+        'Prefer': 'return=minimal'
+      }
+    });
+    if (!delRes.ok) {
+      const errText = await delRes.text();
+      throw new Error(errText);
+    }
+
+    const { error: storageError } = await authClient.storage.from('galeria').remove([photo.storage_path]);
+    if (storageError) console.error('storage remove', storageError);
+
+    galPhotos = galPhotos.filter(p => p.id !== photo.id);
+    closeLightbox();
+    renderGaleria();
+    showToast('Foto eliminada', 'success');
+  } catch (e) {
+    console.error('deleteLightboxPhoto', e);
+    showToast('No se pudo eliminar la foto', 'error');
+  }
+}
+
+init();
+</script>
+</body>
+</html>
