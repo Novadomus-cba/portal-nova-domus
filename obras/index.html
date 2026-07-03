@@ -195,6 +195,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   <div class="nt" onclick="showP('seguimiento',this)">📋 Carga Semanal</div>
   <div class="nt" onclick="showP('icc',this)">📈 Actualización</div>
   <div class="nt" onclick="showP('supervisor',this)">📊 Supervisor</div>
+  <div class="nt" onclick="showP('cobros',this)">💰 Cobros</div>
   <div class="tr">
     <div class="tc-box" id="tcOficialBox">
       <label>Oficial</label>
@@ -463,6 +464,25 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
+<!-- ══ PANEL: COBROS ═════════════════════════════════════════ -->
+<div class="panel" id="panel-cobros">
+  <div class="main" style="max-width:820px;margin:0 auto;width:100%">
+    <div class="sh"><div class="sh-t">💰 Cobros de recibos</div></div>
+    <div class="card">
+      <div class="fr">
+        <div class="fg">
+          <label>Obra</label>
+          <select id="cobObraSel" onchange="onCobObraChange()">
+            <option value="">Seleccioná una obra...</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div id="cobRecibosWrap"></div>
+    <div id="cobDetalleWrap"></div>
+  </div>
+</div>
+
 <!-- ══ MODALES ══════════════════════════════════════════════ -->
 <!-- Modal Tarifario Base -->
 <div class="mbg" id="mTar">
@@ -663,6 +683,7 @@ async function handleLogout() {
 //  CONFIG & SUPABASE
 // ═══════════════════════════════════════════════════════════════
 let SB_URL='https://voowjwzlkhdknpapkhxc.supabase.co', SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM', sbOK=false;
+let currentUserId=null, currentUserRole=null;
 
 const ls  = k=>{ try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null} };
 const lss = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -727,6 +748,8 @@ window.onload = async () => {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html'; return;
   }
+  currentUserId = session.user.id;
+  currentUserRole = profile.role;
   document.getElementById('portal-username').textContent = profile.full_name;
   document.getElementById('app-loading').style.display = 'none';
 
@@ -1986,6 +2009,183 @@ async function refreshTC(silent = false) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+//  COBROS
+// ═══════════════════════════════════════════════════════════════
+let cobRecibos=[], cobCurrent=null;
+
+function renderCobros(){
+  const sel=document.getElementById('cobObraSel');
+  const obs=cache.obras().slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+  const prev=sel.value;
+  sel.innerHTML='<option value="">Seleccioná una obra...</option>'+
+    obs.map(o=>`<option value="${o.id}" ${o.id===prev?'selected':''}>${o.nombre}${o.cliente_razon_social?' — '+o.cliente_razon_social:''}</option>`).join('');
+  if(prev) onCobObraChange();
+}
+
+async function onCobObraChange(){
+  const obraId=document.getElementById('cobObraSel').value;
+  cobCurrent=null;
+  document.getElementById('cobDetalleWrap').innerHTML='';
+  const wrap=document.getElementById('cobRecibosWrap');
+  if(!obraId){ wrap.innerHTML=''; return; }
+  wrap.innerHTML='<div style="padding:24px;text-align:center"><div class="spin" style="margin:0 auto"></div></div>';
+  try{
+    cobRecibos=await sbGet('recibos',`?obra_id=eq.${obraId}&select=*,recibos_lineas(*)&order=numero.desc`);
+  }catch(e){
+    wrap.innerHTML=`<div style="padding:16px;color:var(--danger);font-size:12px">Error al cargar recibos: ${e.message}</div>`;
+    return;
+  }
+  renderCobRecibosList();
+}
+
+function renderCobRecibosList(){
+  const wrap=document.getElementById('cobRecibosWrap');
+  if(!cobRecibos.length){
+    wrap.innerHTML='<div class="card" style="text-align:center;color:var(--text3);padding:24px">Esta obra no tiene recibos cargados.</div>';
+    return;
+  }
+  wrap.innerHTML=`
+    <div class="tw" style="margin-bottom:14px">
+      <table><thead><tr><th>N°</th><th>Fecha</th><th>Estado</th><th>Facturado</th><th></th></tr></thead>
+      <tbody>
+        ${cobRecibos.map(r=>{
+          const total=(r.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0);
+          return `<tr>
+            <td><b>N°${r.numero}</b></td>
+            <td style="font-size:10px;color:var(--text2)">${fd(r.fecha_emision)}</td>
+            <td>${eBadge(r.estado)}</td>
+            <td>${f$(total)}</td>
+            <td><button class="btn btn-p btn-sm" onclick="selCobRecibo('${r.id}')">Ver / cargar cobro</button></td>
+          </tr>`;
+        }).join('')}
+      </tbody></table>
+    </div>`;
+}
+
+function bucketFacturado(rec){
+  const lineas=rec.recibos_lineas||[];
+  const sum=tipos=>lineas.filter(l=>tipos.includes(l.tipo)).reduce((s,l)=>s+(l.monto_pesos||0),0);
+  return { mo: sum(['CERTIFICADO','EXCEDENTE']), materiales: sum(['MATERIAL']), otros: sum(['OTRO']) };
+}
+
+async function selCobRecibo(id){
+  const wrap=document.getElementById('cobDetalleWrap');
+  wrap.innerHTML='<div style="padding:24px;text-align:center"><div class="spin" style="margin:0 auto"></div></div>';
+  const rec=cobRecibos.find(r=>r.id===id);
+  if(!rec) return;
+  let cobrosRows=[];
+  try{
+    cobrosRows=await sbGet('recibos_cobros',`?recibo_id=eq.${id}&select=*&order=fecha_cobro.desc`);
+  }catch(e){
+    wrap.innerHTML=`<div style="padding:16px;color:var(--danger);font-size:12px">Error al cargar cobros: ${e.message}</div>`;
+    return;
+  }
+  renderCobDetalle(rec,cobrosRows);
+}
+
+function renderCobDetalle(rec,cobrosRows){
+  const fact=bucketFacturado(rec);
+  const cobradoMO =cobrosRows.reduce((s,c)=>s+(c.monto_cobrado_mo_pesos||0),0);
+  const cobradoMat=cobrosRows.reduce((s,c)=>s+(c.monto_cobrado_materiales_pesos||0),0);
+  const pendMO =fact.mo-cobradoMO;
+  const pendMat=fact.materiales-cobradoMat;
+  cobCurrent={ recId:rec.id, factMO:fact.mo, factMat:fact.materiales, cobradoMO, cobradoMat };
+
+  const puedeCargar=currentUserRole==='admin';
+
+  const wrap=document.getElementById('cobDetalleWrap');
+  wrap.innerHTML=`
+    <div class="card">
+      <div class="ct">Recibo N°${rec.numero} — desglose</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px">
+        <div class="tbox">
+          <div class="tr2"><span>Facturado MO</span><span>${f$(fact.mo)}</span></div>
+          <div class="tr2"><span>Cobrado MO</span><span style="color:var(--ok)">${f$(cobradoMO)}</span></div>
+          <div class="tf"><span>Pendiente MO</span><span style="color:${pendMO>0?'var(--warn)':'var(--ok)'}">${f$(pendMO)}</span></div>
+        </div>
+        <div class="tbox">
+          <div class="tr2"><span>Facturado materiales</span><span>${f$(fact.materiales)}</span></div>
+          <div class="tr2"><span>Cobrado materiales</span><span style="color:var(--ok)">${f$(cobradoMat)}</span></div>
+          <div class="tf"><span>Pendiente materiales</span><span style="color:${pendMat>0?'var(--warn)':'var(--ok)'}">${f$(pendMat)}</span></div>
+        </div>
+      </div>
+      ${fact.otros?`<div style="font-size:10px;color:var(--text3);margin-bottom:12px">Otros ítems facturados: ${f$(fact.otros)} (sin seguimiento de cobro por separado)</div>`:''}
+
+      ${cobrosRows.length?`
+      <div class="ct">Historial de cobros</div>
+      <div class="tw" style="margin-bottom:14px">
+        <table><thead><tr><th>Fecha</th><th>MO</th><th>Materiales</th><th>Notas</th></tr></thead>
+        <tbody>${cobrosRows.map(c=>`
+          <tr>
+            <td style="font-size:10px;color:var(--text2)">${fd(c.fecha_cobro)}</td>
+            <td>${f$(c.monto_cobrado_mo_pesos)}</td>
+            <td>${f$(c.monto_cobrado_materiales_pesos)}</td>
+            <td style="font-size:10px;color:var(--text2)">${c.notas||''}</td>
+          </tr>`).join('')}
+        </tbody></table>
+      </div>`:''}
+
+      ${puedeCargar?`
+      <div class="ct">Registrar nuevo cobro</div>
+      <div class="fr">
+        <div class="fg"><label>Fecha de cobro</label><input type="date" id="cobFecha"></div>
+        <div class="fg"><label>Cobrado MO ($)</label><input type="number" id="cobMontoMO" min="0" step="1" placeholder="0" oninput="checkCobExceso()"></div>
+        <div class="fg"><label>Cobrado materiales ($)</label><input type="number" id="cobMontoMat" min="0" step="1" placeholder="0" oninput="checkCobExceso()"></div>
+      </div>
+      <div class="fg" style="margin-bottom:10px"><label>Notas (opcional)</label><input type="text" id="cobNotas" placeholder="Ej: seña, resto en 15 días"></div>
+      <div id="cobWarn" style="display:none;font-size:11px;color:var(--warn);background:#3a2500;border:1px solid #6b4200;border-radius:6px;padding:8px 10px;margin-bottom:10px"></div>
+      <button class="btn btn-p" id="btnGuardarCobro" onclick="guardarCobro()">Guardar cobro</button>
+      `:'<div style="font-size:11px;color:var(--text3)">Solo un administrador puede registrar cobros.</div>'}
+    </div>`;
+
+  if(puedeCargar) document.getElementById('cobFecha').value=new Date().toISOString().slice(0,10);
+}
+
+function checkCobExceso(){
+  if(!cobCurrent) return;
+  const mo =parseFloat(document.getElementById('cobMontoMO').value)||0;
+  const mat=parseFloat(document.getElementById('cobMontoMat').value)||0;
+  const warnEl=document.getElementById('cobWarn');
+  const excesoMO =cobCurrent.cobradoMO +mo -cobCurrent.factMO;
+  const excesoMat=cobCurrent.cobradoMat+mat-cobCurrent.factMat;
+  const msgs=[];
+  if(excesoMO>0.5)  msgs.push(`el cobro de MO supera lo facturado por ${f$(excesoMO)}`);
+  if(excesoMat>0.5) msgs.push(`el cobro de materiales supera lo facturado por ${f$(excesoMat)}`);
+  if(msgs.length){ warnEl.style.display='block'; warnEl.innerHTML='⚠️ Atención: '+msgs.join(' y ')+'.'; }
+  else warnEl.style.display='none';
+}
+
+async function guardarCobro(){
+  if(!cobCurrent||currentUserRole!=='admin') return;
+  const mo    =parseFloat(document.getElementById('cobMontoMO').value)||0;
+  const mat   =parseFloat(document.getElementById('cobMontoMat').value)||0;
+  const fecha =document.getElementById('cobFecha').value;
+  const notas =document.getElementById('cobNotas').value.trim()||null;
+  if(!fecha){ toast('Elegí una fecha de cobro','err'); return; }
+  if(mo<=0&&mat<=0){ toast('Cargá al menos un monto cobrado','err'); return; }
+
+  const btn=document.getElementById('btnGuardarCobro');
+  btn.disabled=true; btn.textContent='Guardando...';
+  try{
+    await sbPost('recibos_cobros',{
+      recibo_id: cobCurrent.recId,
+      fecha_cobro: fecha,
+      monto_cobrado_mo_pesos: mo,
+      monto_cobrado_materiales_pesos: mat,
+      notas,
+      created_by: currentUserId,
+    });
+    toast('✅ Cobro registrado','ok');
+    await selCobRecibo(cobCurrent.recId);
+  }catch(e){
+    toast('Error: '+e.message,'err');
+  }finally{
+    const b=document.getElementById('btnGuardarCobro');
+    if(b){ b.disabled=false; b.textContent='Guardar cobro'; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════════════════════════
 const EB={
@@ -2007,6 +2207,7 @@ function showP(name,el){
   if(name==='supervisor')renderSupervisor();
   if(name==='seguimiento')populateSegObras();
   if(name==='icc'){loadICC();}
+  if(name==='cobros')renderCobros();
 }
 
 function openM(id){document.getElementById(id).classList.add('open');}

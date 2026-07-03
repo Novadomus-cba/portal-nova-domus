@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nova Domus — Panel Gerencial</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+:root {
+  --bg:         #0d0f12;
+  --surface:    #151821;
+  --surface2:   #1c1f2b;
+  --border:     #232733;
+  --text:       #e8eaf0;
+  --muted:      #6b7280;
+  --hint:       #4b5262;
+  --accent:     #c8a96e;
+  --accent-dim: #7a6340;
+  --ok:         #5fbf7d;
+  --ok-bg:      rgba(95,191,125,.1);
+  --warn:       #e0b85c;
+  --warn-bg:    rgba(224,184,92,.1);
+  --danger:     #e05c5c;
+  --danger-bg:  rgba(224,92,92,.1);
+  --radius:     10px;
+  --radius-sm:  6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  min-height: 100vh;
+}
+
+/* ── LOADING OVERLAY ── */
+#app-loading {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+  font-size: 13px; color: var(--muted); letter-spacing: 0.02em;
+}
+
+/* ── PORTAL BAR ── */
+.portal-bar {
+  background: var(--bg);
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.portal-bar-left { display: flex; align-items: center; gap: 10px; }
+.portal-back {
+  display: flex; align-items: center; gap: 7px;
+  text-decoration: none; color: var(--muted);
+  font-size: 13px; transition: color 0.15s;
+}
+.portal-back:hover { color: var(--text); }
+.portal-back-icon {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.portal-divider { width: 1px; height: 14px; background: var(--border); }
+.portal-module { font-size: 14px; font-weight: 600; color: var(--text); }
+.portal-bar-right { display: flex; align-items: center; gap: 12px; }
+#portal-username { font-size: 12px; color: var(--muted); }
+.portal-logout {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s; font-family: inherit;
+}
+.portal-logout:hover { color: var(--text); border-color: var(--muted); }
+
+#app-content { animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; } }
+
+.page { padding: 1rem; max-width: 640px; margin: 0 auto; }
+
+.page-title-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.page-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); }
+.btn-refresh {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  border-radius: var(--radius-sm); font-size: 12px; padding: 6px 12px;
+  cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s;
+}
+.btn-refresh:hover { color: var(--accent); border-color: var(--accent-dim); }
+
+/* ── HERO SUMMARY ── */
+.hero-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.hero-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.hero-sub { font-size: 11px; color: var(--hint); margin-top: 2px; margin-bottom: 12px; line-height: 1.5; }
+.hero-value-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.hero-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.hero-value { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
+.hero-value.ok { color: var(--ok); }
+.hero-value.danger { color: var(--danger); }
+.hero-breakdown { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--border); padding-top: 12px; }
+.hero-row { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
+.hero-row span:last-child { color: var(--text); font-weight: 500; }
+
+/* ── OBRA CARDS ── */
+.obra-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.obra-card-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+}
+.obra-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.obra-updated { font-size: 10.5px; color: var(--hint); white-space: nowrap; }
+
+.ob-block { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.ob-block:last-child { border-bottom: none; }
+.ob-block-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px;
+}
+.ob-row { display: flex; justify-content: space-between; font-size: 12.5px; padding: 2px 0; color: var(--muted); }
+.ob-row span:last-child { color: var(--text); font-weight: 500; }
+.ob-row.strong { font-weight: 600; padding-top: 6px; margin-top: 2px; border-top: 1px solid var(--border); }
+.ob-row.strong span:last-child { font-weight: 700; }
+.ob-row .pos { color: var(--ok); }
+.ob-row .neg { color: var(--danger); }
+
+.sem-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.sem-verde   { background: var(--ok); }
+.sem-rojo    { background: var(--danger); }
+.sem-amarillo{ background: var(--warn); }
+.sem-sin_datos, .sem-incoherencias, .sem-solo_costo { background: var(--hint); }
+
+.cayendo-tag {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  color: var(--warn); background: var(--warn-bg); border-radius: 20px;
+  padding: 2px 8px; margin-top: 6px;
+}
+
+.materiales-block { background: var(--surface2); }
+
+/* ── STATES ── */
+.loader {
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem; gap: 10px; color: var(--muted); font-size: 14px;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--hint); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- Loading overlay — shown until auth resolves -->
+<div id="app-loading">Verificando acceso…</div>
+
+<!-- Portal header — sticky, revealed after auth -->
+<div id="app-header" style="display:none">
+  <div class="portal-bar">
+    <div class="portal-bar-left">
+      <a href="../index.html" class="portal-back">
+        <span class="portal-back-icon">⌂</span>
+        Portal
+      </a>
+      <div class="portal-divider"></div>
+      <span class="portal-module">Panel Gerencial</span>
+    </div>
+    <div class="portal-bar-right">
+      <span id="portal-username"></span>
+      <button class="portal-logout" onclick="handleLogout()">Salir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Content — revealed after auth -->
+<div id="app-content" style="display:none">
+  <div class="page">
+
+    <div class="page-title-row">
+      <div class="page-title">Rentabilidad y liquidez</div>
+      <button class="btn-refresh" onclick="loadAll()">↻ Actualizar</button>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-label">Liquidez acumulada — obras activas</div>
+      <div class="hero-sub">Cobrado de mano de obra vs. costo real pagado a la cuadrilla, acumulado desde el inicio de cada obra (última actualización semanal).</div>
+      <div class="hero-value-row">
+        <div class="hero-dot" id="heroDot"></div>
+        <div class="hero-value" id="heroValue">—</div>
+      </div>
+      <div class="hero-breakdown">
+        <div class="hero-row"><span>Cobrado MO (total)</span><span id="heroCobrado">—</span></div>
+        <div class="hero-row"><span>Costo cuadrilla (total)</span><span id="heroCuadrilla">—</span></div>
+        <div class="hero-row"><span>Materiales cobrados (total)</span><span id="heroMateriales">—</span></div>
+      </div>
+    </div>
+
+    <div id="obrasList">
+      <div class="loader"><div class="spinner"></div>Cargando obras...</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── AUTH ──────────────────────────────────────────────────────
+const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin', 'supervisor'];
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = '../login.html';
+}
+
+// ── DATA (Cuadrilla/Obras project) ───────────────────────────
+const SB_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+
+async function sbGet(path) {
+  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(text);
+  return text ? JSON.parse(text) : [];
+}
+
+function fmt(n) {
+  const v = Math.round(n || 0);
+  const abs = Math.abs(v).toLocaleString('es-AR');
+  return (v < 0 ? '-$ ' : '$ ') + abs;
+}
+function fd(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+const SEM_LABEL = {
+  VERDE: 'Verde', ROJO: 'Rojo', AMARILLO: 'Amarillo',
+  SIN_DATOS: 'Sin datos', INCOHERENCIAS: 'Revisar datos', SOLO_COSTO: 'Solo costo',
+};
+const SEM_RANK = { ROJO: 0, INCOHERENCIAS: 1, AMARILLO: 2, SOLO_COSTO: 3, VERDE: 4, SIN_DATOS: 5 };
+function semClass(s) { return 'sem-' + (s || 'sin_datos').toLowerCase(); }
+function semLabel(s) { return SEM_LABEL[s] || 'Sin datos'; }
+function semRank(s) { return SEM_RANK[s] ?? 5; }
+
+// ── FETCH ─────────────────────────────────────────────────────
+async function fetchObrasActivas() {
+  return await sbGet('obras?select=id,nombre&estado=eq.EN_CURSO&order=nombre');
+}
+
+async function fetchBalances() {
+  return await sbGet(
+    'analisis_obra?select=obra_id,fecha,semaforo,margen_mo_acumulado_pct,resultado_neto_pesos,' +
+    'semanas_cayendo,cuadrilla_acumulado_pesos,materiales_acumulado_pesos,total_cobrado_pesos,' +
+    'materiales_cobrado_pesos,resultado_liquidez_mo_pesos,semaforo_liquidez' +
+    '&tipo=eq.BALANCE&order=fecha.asc'
+  );
+}
+
+// "Pagado a proveedores" = facturas que la empresa pagó directo (origen_pago=empresa).
+// Las de origen_pago=tecnico las adelanta el técnico y se reembolsan vía Liquidación,
+// no son un pago directo de Nova Domus al proveedor.
+async function fetchPagadoProveedores() {
+  const rows = await sbGet('facturas_obra?select=obra_id,monto_con_iva&origen_pago=eq.empresa');
+  const map = {};
+  rows.forEach(f => { map[f.obra_id] = (map[f.obra_id] || 0) + Number(f.monto_con_iva || 0); });
+  return map;
+}
+
+// ── LOAD ──────────────────────────────────────────────────────
+async function loadAll() {
+  document.getElementById('obrasList').innerHTML = '<div class="loader"><div class="spinner"></div>Cargando obras...</div>';
+  try {
+    const [obras, balances, pagadoMap] = await Promise.all([
+      fetchObrasActivas(), fetchBalances(), fetchPagadoProveedores()
+    ]);
+
+    const balMap = {};
+    balances.forEach(b => {
+      if (!balMap[b.obra_id] || b.fecha > balMap[b.obra_id].fecha) balMap[b.obra_id] = b;
+    });
+
+    renderHero(obras, balMap);
+    renderObras(obras, balMap, pagadoMap);
+  } catch (e) {
+    document.getElementById('obrasList').innerHTML =
+      `<div class="empty-state">Error al cargar datos: ${e.message}</div>`;
+    console.error('loadAll', e);
+  }
+}
+
+function renderHero(obras, balMap) {
+  const activos = obras.map(o => balMap[o.id]).filter(Boolean);
+  const cobradoTotal    = activos.reduce((s, b) => s + (b.total_cobrado_pesos || 0), 0);
+  const cuadrillaTotal  = activos.reduce((s, b) => s + (b.cuadrilla_acumulado_pesos || 0), 0);
+  const materialesTotal = activos.reduce((s, b) => s + (b.materiales_cobrado_pesos || 0), 0);
+  const resultado = cobradoTotal - cuadrillaTotal;
+
+  document.getElementById('heroDot').className = 'hero-dot ' + (resultado >= 0 ? 'sem-verde' : 'sem-rojo');
+  const valueEl = document.getElementById('heroValue');
+  valueEl.textContent = fmt(resultado);
+  valueEl.className = 'hero-value ' + (resultado >= 0 ? 'ok' : 'danger');
+
+  document.getElementById('heroCobrado').textContent    = fmt(cobradoTotal);
+  document.getElementById('heroCuadrilla').textContent  = fmt(cuadrillaTotal);
+  document.getElementById('heroMateriales').textContent = fmt(materialesTotal);
+}
+
+function renderObras(obras, balMap, pagadoMap) {
+  const el = document.getElementById('obrasList');
+  if (!obras.length) {
+    el.innerHTML = '<div class="empty-state">No hay obras activas.</div>';
+    return;
+  }
+
+  const sorted = [...obras].sort((a, b) => {
+    const ba = balMap[a.id], bb = balMap[b.id];
+    const ra = Math.min(semRank(ba?.semaforo), semRank(ba?.semaforo_liquidez));
+    const rb = Math.min(semRank(bb?.semaforo), semRank(bb?.semaforo_liquidez));
+    return ra - rb;
+  });
+
+  el.innerHTML = sorted.map(o => {
+    const b = balMap[o.id];
+    const pagadoProveedores = pagadoMap[o.id] || 0;
+
+    if (!b) {
+      return `
+        <div class="obra-card">
+          <div class="obra-card-header">
+            <div class="obra-name">${esc(o.nombre)}</div>
+          </div>
+          <div class="ob-block">
+            <div class="ob-block-title"><span class="sem-dot sem-sin_datos"></span>Sin datos de análisis todavía</div>
+          </div>
+        </div>`;
+    }
+
+    const cayendo = b.semanas_cayendo || 0;
+    const cayendoHtml = (b.semaforo === 'AMARILLO' && cayendo >= 2)
+      ? `<div class="cayendo-tag">↓ ${cayendo} semanas cayendo</div>` : '';
+
+    const resLiq = b.resultado_liquidez_mo_pesos ?? (b.total_cobrado_pesos != null && b.cuadrilla_acumulado_pesos != null
+      ? b.total_cobrado_pesos - b.cuadrilla_acumulado_pesos : null);
+
+    return `
+      <div class="obra-card">
+        <div class="obra-card-header">
+          <div class="obra-name">${esc(o.nombre)}</div>
+          <div class="obra-updated">Actualizado ${fd(b.fecha)}</div>
+        </div>
+
+        <div class="ob-block">
+          <div class="ob-block-title"><span class="sem-dot ${semClass(b.semaforo)}"></span>Rentabilidad — ${semLabel(b.semaforo)}</div>
+          <div class="ob-row"><span>Margen MO acumulado</span><span>${b.margen_mo_acumulado_pct != null ? b.margen_mo_acumulado_pct.toFixed(1) + '%' : '—'}</span></div>
+          <div class="ob-row"><span>Resultado neto</span><span>${b.resultado_neto_pesos != null ? fmt(b.resultado_neto_pesos) : '—'}</span></div>
+          ${cayendoHtml}
+        </div>
+
+        <div class="ob-block">
+          <div class="ob-block-title"><span class="sem-dot ${semClass(b.semaforo_liquidez)}"></span>Liquidez — ${semLabel(b.semaforo_liquidez)}</div>
+          <div class="ob-row"><span>Cobrado MO</span><span>${fmt(b.total_cobrado_pesos)}</span></div>
+          <div class="ob-row"><span>Costo cuadrilla</span><span>${fmt(b.cuadrilla_acumulado_pesos)}</span></div>
+          <div class="ob-row strong"><span>Resultado liquidez</span><span class="${resLiq >= 0 ? 'pos' : 'neg'}">${resLiq != null ? fmt(resLiq) : '—'}</span></div>
+        </div>
+
+        <div class="ob-block materiales-block">
+          <div class="ob-block-title">Materiales (informativo)</div>
+          <div class="ob-row"><span>Cobrado materiales</span><span>${fmt(b.materiales_cobrado_pesos)}</span></div>
+          <div class="ob-row"><span>Pagado a proveedores</span><span>${fmt(pagadoProveedores)}</span></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function esc(s) {
+  const div = document.createElement('div');
+  div.textContent = s == null ? '' : String(s);
+  return div.innerHTML;
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+async function init() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = '../login.html'; return; }
+
+  const { data: profile } = await authClient
+    .from('user_profiles')
+    .select('full_name, role')
+    .eq('id', session.user.id)
+    .single();
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = '../index.html';
+    return;
+  }
+
+  document.getElementById('portal-username').textContent = profile.full_name;
+
+  document.getElementById('app-loading').style.display = 'none';
+  document.getElementById('app-header').style.display  = 'block';
+  document.getElementById('app-content').style.display = 'block';
+
+  await loadAll();
+}
+
+init();
+</script>
+</body>
+</html>
