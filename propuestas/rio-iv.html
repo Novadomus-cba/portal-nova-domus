@@ -17,67 +17,78 @@
 <title>Nova Domus — Obra Río IV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy-950:#0b132b;
-    --navy-700:#141e61;
-    --slate-400:#9698ad;
-    --cream-50:#fdfbf0;
-    --cyan-400:#5eead4;
-    --text-light-sec:#5d6078;
+    /* ===== NOVA DOMUS — MANUAL DE MARCA v2.0 ===== */
+    --azul-profundo:#0b132b;   /* fondo digital nativo */
+    --azul-nova:#141e61;       /* primario */
+    --gris-azulado:#787a91;    /* secundario — SOLO texto grande/secundario */
+    --blanco-calido:#fdfbf0;   /* fondo claro / impreso */
+    --dorado:#c8a96e;          /* acento premium — max 5% superficie, NUNCA fondo/relleno, NUNCA texto sobre claro */
+    --dorado-dim:rgba(200,169,110,0.22);
+    --filete:rgba(253,251,240,0.14);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    background:var(--navy-950);
+    background:var(--azul-profundo);
     color:#fff;
     font-family:'Inter',sans-serif;
+    font-weight:400;
     line-height:1.6;
     overflow-x:hidden;
   }
-  h1,h2,h3{font-family:'Space Grotesk',sans-serif; font-weight:600;}
-  .eyebrow{
+  /* Michroma: SOLO wordmark, titulos de sección y cifras destacadas. Siempre mayúsculas, tracking amplio. */
+  .mch{
     font-family:'Michroma',sans-serif;
-    font-size:0.7rem;
-    letter-spacing:0.15em;
     text-transform:uppercase;
-    color:var(--cyan-400);
+    letter-spacing:0.06em;
+  }
+  h1,h2{font-family:'Michroma',sans-serif; text-transform:uppercase; letter-spacing:0.04em; font-weight:400;}
+  h3{font-family:'Inter',sans-serif; font-weight:600;}
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.68rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--dorado);
     display:block;
     margin-bottom:0.8rem;
   }
-  .mono{font-family:'JetBrains Mono',monospace;}
+  .section-num.mch{ color:var(--dorado); font-size:0.85rem; display:block; margin-bottom:0.6rem; }
   section{padding:5rem 1.5rem; max-width:1100px; margin:0 auto; position:relative;}
   img{max-width:100%; display:block;}
   a{color:inherit;}
   .btn{
     display:inline-block;
-    background:var(--cyan-400);
-    color:var(--navy-950);
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:600;
+    background:var(--blanco-calido);
+    color:var(--azul-profundo);
+    font-family:'Inter',sans-serif;
+    font-weight:700;
     padding:0.9rem 1.8rem;
-    border-radius:999px;
+    border-radius:4px;
     text-decoration:none;
     border:none;
     cursor:pointer;
-    font-size:1rem;
+    font-size:0.95rem;
     min-height:48px;
     transition:transform .2s ease, box-shadow .2s ease;
   }
-  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(94,234,212,.35);}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(253,251,240,.2);}
   .btn-outline{
     background:transparent;
-    border:1.5px solid var(--cyan-400);
-    color:var(--cyan-400);
+    border:1.5px solid var(--dorado);
+    color:var(--dorado);
   }
 
   /* ===== NAV STICKY ===== */
   #chapter-nav{
     position:sticky; top:0; z-index:50;
-    background:rgba(11,19,43,0.92);
+    background:rgba(11,19,43,0.94);
     backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    border-bottom:1px solid var(--filete);
     display:flex;
     overflow-x:auto;
     scrollbar-width:none;
@@ -87,9 +98,12 @@
   #chapter-nav a{
     flex:0 0 auto;
     padding:0.9rem 1rem;
-    font-family:'Space Grotesk',sans-serif;
-    font-size:0.78rem;
-    color:var(--slate-400);
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:0.75rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--gris-azulado);
     text-decoration:none;
     white-space:nowrap;
     border-bottom:2px solid transparent;
@@ -97,7 +111,7 @@
     display:flex;
     align-items:center;
   }
-  #chapter-nav a.active{color:var(--cyan-400); border-bottom-color:var(--cyan-400);}
+  #chapter-nav a.active{color:var(--dorado); border-bottom-color:var(--dorado);}
 
   /* ===== SCROLL PROGRESS BADGE ===== */
   #progress-badge{
@@ -114,7 +128,7 @@
   #progress-badge svg{width:100%; height:100%; transform:rotate(-90deg);}
   #progress-badge circle{fill:none; stroke-width:3;}
   #progress-badge .bg{stroke:rgba(255,255,255,0.15);}
-  #progress-badge .fg{stroke:var(--cyan-400); stroke-linecap:round; transition:stroke-dashoffset .1s linear;}
+  #progress-badge .fg{stroke:var(--dorado); stroke-linecap:round; transition:stroke-dashoffset .1s linear;}
   #progress-badge .mark{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:24px; height:24px;}
 
   /* ===== HERO ===== */
@@ -123,53 +137,60 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center;
     padding:6rem 1.5rem 3rem;
-    background:radial-gradient(ellipse at 50% 0%, rgba(20,30,97,0.6), var(--navy-950) 70%);
+    background:var(--azul-profundo);
+    position:relative;
+    overflow:hidden;
+  }
+  #tunnel-motif{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:900px; height:900px; opacity:0.14; pointer-events:none;
   }
   .brandmark-card{
-    background:var(--cream-50);
-    border-radius:20px;
+    background:var(--blanco-calido);
+    border-radius:8px;
     padding:1.5rem 2rem;
     box-shadow:0 20px 60px rgba(0,0,0,0.4);
     margin-bottom:2.5rem;
+    position:relative; z-index:1;
   }
-  .brandmark-card img{width:120px; margin:0 auto;}
+  .brandmark-card img{width:110px; margin:0 auto;}
   #hero h1{
-    font-size:clamp(1.8rem, 5vw, 3.2rem);
-    line-height:1.15;
-    max-width:16ch;
-    margin-bottom:1rem;
+    font-size:clamp(1.6rem, 4.6vw, 2.8rem);
+    line-height:1.25;
+    max-width:18ch;
+    margin-bottom:1.2rem;
+    position:relative; z-index:1;
   }
+  #hero .eyebrow{position:relative; z-index:1;}
   #hero p.sub{
-    color:var(--slate-400);
+    font-family:'Inter',sans-serif;
+    color:var(--gris-azulado);
     max-width:42ch;
     margin:0 auto 2.5rem;
     font-size:1.05rem;
+    position:relative; z-index:1;
   }
-  .hero-cta{display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;}
+  .hero-cta{display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:1;}
 
-  /* Diagrama animado hero */
-  #eco-diagram{margin-top:3.5rem; width:100%; max-width:480px;}
+  /* Diagrama de ecosistema */
+  #eco-diagram{margin-top:3.5rem; width:100%; max-width:480px; position:relative; z-index:1;}
   #eco-diagram .node-label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.62rem;
-    fill:var(--slate-400);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.6rem;
     text-transform:uppercase;
-    letter-spacing:0.05em;
+    letter-spacing:0.03em;
+    fill:var(--gris-azulado);
   }
-  #eco-diagram .node-circle{fill:var(--navy-700); stroke:var(--cyan-400); stroke-width:1.5;}
-  #eco-diagram .center-circle{fill:var(--cyan-400);}
-  #eco-diagram .center-label{fill:var(--navy-950); font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.7rem;}
+  #eco-diagram .node-circle{fill:var(--azul-nova); stroke:var(--dorado); stroke-width:1.2;}
+  #eco-diagram .center-circle{fill:var(--dorado);}
+  #eco-diagram .center-label{fill:var(--azul-profundo); font-family:'Inter',sans-serif; font-weight:700; font-size:0.62rem;}
   #eco-diagram .link-line{
-    stroke:var(--cyan-400);
-    stroke-width:1.5;
+    stroke:var(--gris-azulado);
+    stroke-width:1;
     fill:none;
-    stroke-dasharray:6 4;
-    animation:dash 2s linear infinite;
-    opacity:0.6;
-  }
-  @keyframes dash{to{stroke-dashoffset:-20;}}
-  @media (prefers-reduced-motion:reduce){
-    #eco-diagram .link-line{animation:none;}
+    stroke-dasharray:5 4;
+    opacity:0.5;
   }
 
   /* ===== RESUMEN EJECUTIVO ===== */
@@ -180,49 +201,44 @@
     margin:2.5rem 0;
   }
   .counter-card{
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:14px;
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
+    border-radius:6px;
     padding:1.5rem 1rem;
     text-align:center;
+    border-top:2px solid var(--dorado);
   }
   .counter-num{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:2.2rem;
-    font-weight:700;
-    color:var(--cyan-400);
+    font-family:'Michroma',sans-serif;
+    font-size:1.9rem;
+    color:#fff;
     display:block;
   }
-  .counter-label{font-size:0.78rem; color:var(--slate-400);}
+  .counter-label{font-size:0.72rem; color:var(--gris-azulado); text-transform:uppercase; letter-spacing:0.03em;}
 
   .exec-summary-box{
-    background:rgba(255,255,255,0.03);
-    border-left:3px solid var(--cyan-400);
-    border-radius:0 12px 12px 0;
+    background:rgba(253,251,240,0.03);
+    border-left:2px solid var(--dorado);
+    border-radius:0 6px 6px 0;
     padding:1.5rem;
     margin-top:2rem;
   }
-  .exec-summary-box p{margin-bottom:0.8rem; font-size:0.95rem;}
-  .exec-summary-box strong{color:var(--cyan-400);}
+  .exec-summary-box p{margin-bottom:0.8rem; font-size:0.95rem; color:#e8e8ee;}
+  .exec-summary-box strong{color:#fff; font-weight:600;}
 
-  /* ===== SECCIONES NUMERADAS ===== */
-  .section-num{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.85rem;
-    color:var(--cyan-400);
-    display:block;
-    margin-bottom:0.5rem;
-  }
+  /* ===== SECCIONES ===== */
   .section-header{margin-bottom:2.5rem;}
-  .section-header h2{font-size:clamp(1.5rem,4vw,2.2rem);}
-  .section-header p{color:var(--slate-400); margin-top:0.8rem; max-width:60ch;}
+  .section-header h2{font-size:clamp(1.3rem,3.4vw,1.7rem); border-bottom:2px solid var(--dorado); display:inline-block; padding-bottom:0.6rem;}
+  .section-header p{color:var(--gris-azulado); margin-top:1rem; max-width:60ch; font-size:0.95rem;}
+  .subsystem-icon{width:28px; height:28px; margin-bottom:0.8rem;}
+  h3.subhead{font-size:1rem; margin-bottom:1rem; color:#fff; display:flex; align-items:center; gap:0.6rem;}
 
-  /* ===== DEVICE CARDS / ACCORDION ===== */
-  .device-list{display:flex; flex-direction:column; gap:0.7rem;}
+  /* ===== DEVICE CARDS ===== */
+  .device-list{display:flex; flex-direction:column; gap:0.6rem;}
   .device-card{
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:12px;
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
+    border-radius:6px;
     overflow:hidden;
   }
   .device-card summary{
@@ -233,37 +249,41 @@
     align-items:center;
     min-height:48px;
     list-style:none;
-    font-family:'Space Grotesk',sans-serif;
-    font-size:0.95rem;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
     gap:1rem;
   }
   .device-card summary::-webkit-details-marker{display:none;}
   .device-card summary .qty{
-    font-family:'JetBrains Mono',monospace;
-    color:var(--cyan-400);
-    font-size:0.85rem;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    color:var(--dorado);
+    font-size:0.82rem;
     flex:0 0 auto;
   }
-  .device-card summary .chevron{transition:transform .2s ease; flex:0 0 auto; color:var(--slate-400);}
+  .device-card summary .chevron{transition:transform .2s ease; flex:0 0 auto; color:var(--gris-azulado);}
   .device-card[open] summary .chevron{transform:rotate(180deg);}
   .device-card .detail{
     padding:0 1.2rem 1.1rem;
-    color:var(--slate-400);
+    color:var(--gris-azulado);
     font-size:0.85rem;
   }
   .device-card .detail .price-row{
     display:flex; justify-content:space-between;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
     margin-top:0.6rem;
     color:#fff;
+    font-size:0.85rem;
   }
 
   /* ===== SIMULADOR DE ESCENAS ===== */
   #simulador{
-    border-radius:24px;
+    border-radius:8px;
     padding:2.5rem 1.5rem;
-    background:linear-gradient(160deg, rgba(20,30,97,0.5), rgba(11,19,43,0.9));
-    border:1px solid rgba(255,255,255,0.08);
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
     transition:background 1s ease;
   }
   .scene-tabs{
@@ -272,50 +292,54 @@
     justify-content:center;
   }
   .scene-tab{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:0.85rem;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.8rem;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
     padding:0.7rem 1.2rem;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.15);
+    border-radius:4px;
+    border:1px solid var(--filete);
     background:transparent;
-    color:var(--slate-400);
+    color:var(--gris-azulado);
     cursor:pointer;
     min-height:44px;
     transition:all .3s ease;
   }
-  .scene-tab.active{background:var(--cyan-400); color:var(--navy-950); border-color:var(--cyan-400); font-weight:600;}
+  .scene-tab.active{background:var(--dorado); color:var(--azul-profundo); border-color:var(--dorado);}
   .scene-visual{
     height:220px;
-    border-radius:16px;
+    border-radius:6px;
     display:flex; align-items:center; justify-content:center;
-    transition:background 1s ease, box-shadow 1s ease;
+    transition:background 1s ease;
     margin-bottom:1.5rem;
     position:relative;
     overflow:hidden;
+    background:var(--azul-nova);
   }
-  .scene-visual .scene-icon{width:64px; height:64px; opacity:0.9;}
-  .scene-desc{text-align:center; color:var(--slate-400); font-size:0.9rem; max-width:50ch; margin:0 auto;}
-  .scene-desc strong{color:#fff; display:block; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; margin-bottom:0.4rem;}
+  .scene-visual svg{width:56px; height:56px;}
+  .scene-desc{text-align:center; color:var(--gris-azulado); font-size:0.9rem; max-width:50ch; margin:0 auto;}
+  .scene-desc strong{color:#fff; display:block; font-family:'Inter',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:0.4rem;}
 
-  /* ===== CALCULADORA CONFORT ===== */
+  /* ===== CALCULADORA ===== */
   .calc-box{
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:16px;
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
+    border-radius:8px;
     padding:2rem 1.5rem;
     margin-top:2rem;
   }
   .calc-row{margin-bottom:1.8rem;}
   .calc-row label{
     display:flex; justify-content:space-between;
-    font-family:'Space Grotesk',sans-serif;
+    font-family:'Inter',sans-serif; font-weight:500;
     margin-bottom:0.6rem;
     font-size:0.9rem;
   }
-  .calc-row .val{color:var(--cyan-400); font-family:'JetBrains Mono',monospace;}
+  .calc-row .val{color:var(--dorado); font-weight:600;}
   input[type=range]{
     width:100%;
-    accent-color:var(--cyan-400);
+    accent-color:var(--dorado);
     height:6px;
     min-height:44px;
   }
@@ -326,46 +350,45 @@
     margin-top:1.5rem;
   }
   .calc-result-card{
-    background:rgba(94,234,212,0.08);
-    border:1px solid rgba(94,234,212,0.25);
-    border-radius:12px;
+    background:var(--dorado-dim);
+    border:1px solid rgba(200,169,110,0.35);
+    border-radius:6px;
     padding:1.2rem;
     text-align:center;
   }
-  .calc-result-card .num{font-family:'Space Grotesk',sans-serif; font-size:1.5rem; font-weight:700; color:var(--cyan-400); display:block;}
-  .calc-result-card .lbl{font-size:0.72rem; color:var(--slate-400);}
-  .calc-caveat{font-size:0.72rem; color:var(--slate-400); margin-top:1rem; font-style:italic;}
+  .calc-result-card .num{font-family:'Michroma',sans-serif; font-size:1.3rem; color:var(--dorado); display:block;}
+  .calc-result-card .lbl{font-size:0.7rem; color:var(--gris-azulado); text-transform:uppercase;}
+  .calc-caveat{font-size:0.72rem; color:var(--gris-azulado); margin-top:1rem; font-style:italic;}
 
-  /* ===== INVERSION (LIGHT) ===== */
+  /* ===== INVERSION (CLARO) ===== */
   #inversion{
-    background:var(--cream-50);
-    color:var(--navy-950);
-    border-radius:28px 28px 0 0;
+    background:var(--blanco-calido);
+    color:var(--azul-profundo);
     margin-top:2rem;
     max-width:100%;
     padding:5rem 1.5rem;
   }
   #inversion .section-content{max-width:1100px; margin:0 auto;}
-  #inversion p{color:var(--text-light-sec);}
-  #inversion .section-num{color:var(--navy-700);}
-  #inversion h2{color:var(--navy-950);}
+  #inversion p{color:#6b6d7f;}
+  #inversion .section-header h2{color:var(--azul-profundo); border-bottom-color:var(--azul-nova);}
+  #inversion .eyebrow{color:var(--azul-nova);}
 
   .rubro-bar{
-    display:flex; height:36px; border-radius:999px; overflow:hidden; margin:2rem 0 1.5rem;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    display:flex; height:32px; border-radius:4px; overflow:hidden; margin:2rem 0 1.5rem;
+    box-shadow:0 4px 12px rgba(11,19,43,0.08);
+    border:1px solid rgba(11,19,43,0.06);
   }
-  .rubro-bar-seg{height:100%; transition:opacity .2s ease;}
-  .rubro-bar-seg:hover{opacity:0.8;}
+  .rubro-bar-seg{height:100%; border-right:1px solid rgba(253,251,240,0.4);}
   .rubro-legend{display:flex; flex-wrap:wrap; gap:0.8rem 1.2rem; margin-bottom:2.5rem;}
-  .rubro-legend-item{display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--text-light-sec);}
-  .rubro-legend-dot{width:10px; height:10px; border-radius:3px; flex:0 0 auto;}
+  .rubro-legend-item{display:flex; align-items:center; gap:0.5rem; font-size:0.76rem; color:#6b6d7f;}
+  .rubro-legend-dot{width:10px; height:10px; border-radius:2px; flex:0 0 auto;}
 
   .light-card{
     background:#fff;
     border:1px solid rgba(11,19,43,0.08);
-    border-radius:12px;
+    border-radius:6px;
     overflow:hidden;
-    margin-bottom:0.7rem;
+    margin-bottom:0.6rem;
   }
   .light-card summary{
     padding:1rem 1.2rem;
@@ -373,100 +396,119 @@
     display:flex; justify-content:space-between; align-items:center;
     min-height:48px;
     list-style:none;
-    font-family:'Space Grotesk',sans-serif;
-    color:var(--navy-950);
+    font-family:'Inter',sans-serif; font-weight:600;
+    color:var(--azul-profundo);
   }
   .light-card summary::-webkit-details-marker{display:none;}
-  .light-card summary .amount{font-family:'JetBrains Mono',monospace; color:var(--navy-700); font-weight:600;}
+  .light-card summary .amount{font-family:'Inter',sans-serif; color:var(--azul-nova); font-weight:700;}
   .light-card .detail-row{
     display:flex; justify-content:space-between;
     padding:0.5rem 1.2rem;
     font-size:0.85rem;
-    color:var(--text-light-sec);
+    color:#6b6d7f;
     border-top:1px solid rgba(11,19,43,0.06);
   }
-  .light-card .detail-row:first-of-type{border-top:1px solid rgba(11,19,43,0.1);}
 
   .total-box{
-    background:var(--navy-950);
+    background:var(--azul-profundo);
     color:#fff;
-    border-radius:16px;
+    border-radius:8px;
     padding:2rem;
     margin-top:2rem;
   }
-  .total-row{display:flex; justify-content:space-between; padding:0.5rem 0; font-size:0.9rem; color:var(--slate-400);}
+  .total-row{display:flex; justify-content:space-between; padding:0.5rem 0; font-size:0.9rem; color:var(--gris-azulado);}
   .total-row.final{
-    border-top:1px solid rgba(255,255,255,0.15);
+    border-top:1px solid var(--filete);
     margin-top:0.8rem; padding-top:1.2rem;
-    color:#fff; font-size:1.3rem; font-family:'Space Grotesk',sans-serif; font-weight:700;
+    color:#fff; font-size:1.2rem; font-family:'Michroma',sans-serif; font-weight:400;
   }
-  .total-row.final .amount{color:var(--cyan-400);}
-  .total-note{font-size:0.75rem; color:var(--slate-400); margin-top:1rem;}
+  .total-row.final .amount{color:var(--dorado);}
+  .total-note{font-size:0.73rem; color:var(--gris-azulado); margin-top:1rem;}
 
   /* ===== CONDICIONES ===== */
   .cond-card{
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:12px;
-    margin-bottom:0.7rem;
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
+    border-radius:6px;
+    margin-bottom:0.6rem;
     overflow:hidden;
   }
   .cond-card summary{
     padding:1.1rem 1.2rem; cursor:pointer; min-height:48px;
     display:flex; justify-content:space-between; align-items:center;
-    font-family:'Space Grotesk',sans-serif; list-style:none;
+    font-family:'Inter',sans-serif; font-weight:600; list-style:none;
   }
   .cond-card summary::-webkit-details-marker{display:none;}
-  .cond-card .detail{padding:0 1.2rem 1.2rem; color:var(--slate-400); font-size:0.88rem;}
-  .cond-card .detail ul{padding-left:1.2rem; margin-top:0.5rem;}
-  .cond-card .detail li{margin-bottom:0.4rem;}
+  .cond-card .detail{padding:0 1.2rem 1.2rem; color:var(--gris-azulado); font-size:0.87rem;}
 
-  /* ===== RESPALDO ===== */
-  .partner-chips{display:flex; flex-wrap:wrap; gap:0.8rem; margin:2rem 0 3rem;}
-  .partner-chip{
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:999px;
-    padding:0.6rem 1.3rem;
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.78rem;
-    color:var(--slate-400);
+  /* ===== RESPALDO (co-branding: monocromo + filetes) ===== */
+  .partner-wall{
+    display:flex; flex-wrap:wrap; align-items:center;
+    border:1px solid var(--filete);
+    border-radius:6px;
+    overflow:hidden;
+    margin:2rem 0 2.5rem;
+  }
+  .partner-wall .partner-item{
+    padding:1.1rem 1.6rem;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.8rem;
+    letter-spacing:0.03em;
+    color:var(--blanco-calido);
+    border-right:1px solid var(--filete);
+    flex:1 1 auto;
+    text-align:center;
+  }
+  .partner-wall .partner-item.brand{
+    background:rgba(253,251,240,0.06);
+    color:#fff;
+    font-family:'Michroma',sans-serif;
+    font-size:0.75rem;
   }
   .warranty-box{
-    background:rgba(94,234,212,0.06);
-    border:1px solid rgba(94,234,212,0.2);
-    border-radius:14px;
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
+    border-left:2px solid var(--dorado);
+    border-radius:0 6px 6px 0;
     padding:1.5rem;
   }
+  .cedia-note{font-size:0.72rem; color:var(--gris-azulado); margin-top:1.5rem;}
 
   /* ===== FAQ ===== */
-  .faq-item{border-bottom:1px solid rgba(255,255,255,0.1); padding:1.2rem 0;}
+  .faq-item{border-bottom:1px solid var(--filete); padding:1.2rem 0;}
   .faq-item summary{
-    cursor:pointer; list-style:none; font-family:'Space Grotesk',sans-serif;
+    cursor:pointer; list-style:none; font-family:'Inter',sans-serif; font-weight:600;
     display:flex; justify-content:space-between; align-items:center; min-height:44px;
   }
   .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item .detail{color:var(--slate-400); margin-top:0.8rem; font-size:0.9rem;}
+  .faq-item .detail{color:var(--gris-azulado); margin-top:0.8rem; font-size:0.9rem;}
 
   /* ===== CTA FINAL ===== */
   #cta-final{text-align:center; padding-bottom:6rem;}
   .accept-box{
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(94,234,212,0.3);
-    border-radius:20px;
+    background:rgba(253,251,240,0.03);
+    border:1px solid var(--filete);
+    border-top:2px solid var(--dorado);
+    border-radius:8px;
     padding:2.5rem 1.5rem;
     max-width:520px;
     margin:2.5rem auto 0;
   }
-  .accept-checkbox{display:flex; align-items:flex-start; gap:0.7rem; text-align:left; margin-bottom:1.5rem; font-size:0.85rem; color:var(--slate-400);}
-  .accept-checkbox input{margin-top:0.3rem; width:18px; height:18px; accent-color:var(--cyan-400); flex:0 0 auto;}
+  .accept-checkbox{display:flex; align-items:flex-start; gap:0.7rem; text-align:left; margin-bottom:1.5rem; font-size:0.85rem; color:var(--gris-azulado);}
+  .accept-checkbox input{margin-top:0.3rem; width:18px; height:18px; accent-color:var(--dorado); flex:0 0 auto;}
 
-  footer{text-align:center; padding:3rem 1.5rem; color:var(--slate-400); font-size:0.78rem; border-top:1px solid rgba(255,255,255,0.08);}
+  footer{text-align:center; padding:3rem 1.5rem; color:var(--gris-azulado); font-size:0.76rem; border-top:1px solid var(--filete);}
+  footer .cedia-badge{
+    display:inline-block; margin-top:1rem; padding:0.4rem 1rem;
+    border:1px solid var(--filete); border-radius:4px; font-size:0.68rem;
+    letter-spacing:0.05em; color:var(--gris-azulado);
+  }
 
   /* ===== PRINT ===== */
   @media print{
     body{background:#fff; color:#000;}
-    #chapter-nav, #progress-badge, .scene-tabs, input[type=range], #eco-diagram{display:none !important;}
+    #chapter-nav, #progress-badge, .scene-tabs, input[type=range], #eco-diagram, #tunnel-motif{display:none !important;}
     section{padding:1.5rem 0.5rem; page-break-inside:avoid;}
     details{display:block !important;}
     details > summary{list-style:none;}
@@ -504,12 +546,18 @@
 
 <!-- ===== HERO ===== -->
 <section id="hero">
+  <svg id="tunnel-motif" viewBox="0 0 400 400">
+    <rect x="20" y="20" width="360" height="360" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+    <rect x="70" y="70" width="260" height="260" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+    <rect x="120" y="120" width="160" height="160" fill="none" stroke="#fdfbf0" stroke-width="1.5"/>
+    <rect x="165" y="165" width="70" height="70" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+  </svg>
   <div class="brandmark-card">
     <img id="hero-logo" alt="Nova Domus">
   </div>
   <span class="eyebrow">Domótica Completa · Río Cuarto</span>
   <h1>Un Día en tu Espacio Inteligente</h1>
-  <p class="sub">Propuesta de automatización integral para Obra Río IV — iluminación, clima, redes, alarma y videovigilancia orquestados desde un solo lugar.</p>
+  <p class="sub">Propuesta de automatización integral para Obra Río IV — iluminación, clima, redes, alarma, video y accesos orquestados desde un solo lugar.</p>
   <div class="hero-cta">
     <a href="#resumen" class="btn">Ver la propuesta</a>
     <a href="#inversion" class="btn btn-outline">Ir a la inversión</a>
@@ -523,7 +571,7 @@
 
     <circle class="center-circle" cx="200" cy="130" r="34"></circle>
     <text class="center-label" x="200" y="126" text-anchor="middle">CORE</text>
-    <text class="center-label" x="200" y="140" text-anchor="middle" style="font-size:0.55rem">Home Assistant</text>
+    <text class="center-label" x="200" y="140" text-anchor="middle" style="font-size:0.5rem">Home Assistant</text>
 
     <circle class="node-circle" cx="80" cy="50" r="30"></circle>
     <text class="node-label" x="80" y="53" text-anchor="middle">Iluminación</text>
@@ -539,21 +587,21 @@
 <!-- ===== RESUMEN EJECUTIVO ===== -->
 <section id="resumen">
   <div class="section-header">
-    <span class="section-num">00</span>
-    <h2>Resumen ejecutivo</h2>
+    <span class="section-num mch">00</span>
+    <h2>Resumen Ejecutivo</h2>
     <p>Todo lo que necesitás saber en 60 segundos antes de seguir leyendo.</p>
   </div>
 
   <div class="counters-grid">
     <div class="counter-card"><span class="counter-num" data-count="18">0</span><span class="counter-label">Ambientes relevados</span></div>
-    <div class="counter-card"><span class="counter-num" data-count="32">0</span><span class="counter-label">Dispositivos de iluminación</span></div>
+    <div class="counter-card"><span class="counter-num" data-count="32">0</span><span class="counter-label">Disp. de iluminación</span></div>
     <div class="counter-card"><span class="counter-num" data-count="2">0</span><span class="counter-label">Sistemas de alarma</span></div>
     <div class="counter-card"><span class="counter-num" data-count="4">0</span><span class="counter-label">Cámaras perimetrales</span></div>
   </div>
 
   <div class="exec-summary-box">
-    <p><strong>Qué necesita el proyecto:</strong> Obra Río IV es una vivienda de dos plantas con local Agencia integrado en planta baja, con ingresos independientes. Requiere automatización completa de confort (iluminación y climatización), dos sistemas de seguridad autónomos y conectividad robusta en una planta elongada.</p>
-    <p><strong>Qué se propone:</strong> ecosistema Shelly + Home Assistant como cerebro central, redes Omada de grado profesional, alarma Hikvision AXPro inalámbrica por sistema, y videovigilancia perimetral con IA (AcuSense).</p>
+    <p><strong>Qué necesita el proyecto:</strong> Obra Río IV es una vivienda de dos plantas con local Agencia integrado en planta baja, con ingresos independientes. Requiere automatización completa de confort (iluminación y climatización), dos sistemas de seguridad autónomos, control de accesos y conectividad robusta en una planta elongada.</p>
+    <p><strong>Qué se propone:</strong> ecosistema Shelly + Home Assistant como cerebro central, redes Omada de grado profesional, alarma Hikvision AXPro inalámbrica por sistema, videovigilancia perimetral con IA (AcuSense), y accesos con videoportero, cerraduras digitales Yale y automatización de portón.</p>
     <p><strong>Inversión y valor:</strong> equipo + mano de obra especializada + programación, con margen de repuesto del 10% en dispositivos de iluminación para absorber replanteos de obra sin sobrecostos de último momento.</p>
     <p><strong>Próximo paso:</strong> aprobar esta propuesta para coordinar la Visita Técnica y dejar cerrados los puntos pendientes antes del inicio de obra.</p>
   </div>
@@ -562,7 +610,7 @@
 <!-- ===== 01 MAÑANA ===== -->
 <section id="manana">
   <div class="section-header">
-    <span class="section-num">01</span>
+    <span class="section-num mch">01</span>
     <h2>Mañana — Despertar Inteligente</h2>
     <p>El día arranca tocando el Wall Display XL en el ingreso, o simplemente abriendo la persiana: la casa ya sabe que empezaste tu rutina.</p>
   </div>
@@ -572,22 +620,22 @@
 <!-- ===== 02 DIA ===== -->
 <section id="dia">
   <div class="section-header">
-    <span class="section-num">02</span>
+    <span class="section-num mch">02</span>
     <h2>Todo el Día — Conectividad Invisible</h2>
     <p>Redes de grado profesional (Omada) que cubren cada rincón de la vivienda y la Agencia, más climatización que aprende tus horarios.</p>
   </div>
-  <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--cyan-400)">Redes</h3>
+  <h3 class="subhead">Redes</h3>
   <div class="device-list" id="list-redes" style="margin-bottom:2rem"></div>
-  <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--cyan-400)">Infraestructura</h3>
+  <h3 class="subhead">Infraestructura</h3>
   <div class="device-list" id="list-infra" style="margin-bottom:2rem"></div>
-  <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--cyan-400)">Climatización</h3>
+  <h3 class="subhead">Climatización</h3>
   <div class="device-list" id="list-clima"></div>
 </section>
 
 <!-- ===== 03 SIMULADOR DE ESCENAS ===== -->
 <section id="simulador-wrap">
   <div class="section-header">
-    <span class="section-num">03</span>
+    <span class="section-num mch">03</span>
     <h2>Simulador de Escenas</h2>
     <p>Tocá cada momento del día y mirá cómo responde la iluminación de tu casa.</p>
   </div>
@@ -603,38 +651,38 @@
     <div class="scene-desc" id="scene-desc"></div>
   </div>
 
-  <h3 style="font-size:1rem; margin:2.5rem 0 1rem; color:var(--cyan-400)">Dispositivos de iluminación</h3>
+  <h3 class="subhead" style="margin-top:2.5rem">Dispositivos de iluminación</h3>
   <div class="device-list" id="list-iluminacion"></div>
 </section>
 
 <!-- ===== 04 SEGURIDAD ===== -->
 <section id="seguridad">
   <div class="section-header">
-    <span class="section-num">04</span>
+    <span class="section-num mch">04</span>
     <h2>Seguridad, Siempre Activa</h2>
     <p>Dos sistemas de alarma independientes — Vivienda y Agencia — más videovigilancia perimetral con inteligencia artificial que distingue personas de falsas alarmas.</p>
   </div>
-  <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--cyan-400)">Alarma</h3>
+  <h3 class="subhead">Alarma</h3>
   <div class="device-list" id="list-alarma" style="margin-bottom:2rem"></div>
-  <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--cyan-400)">Videovigilancia perimetral (AcuSense)</h3>
+  <h3 class="subhead">Videovigilancia perimetral (AcuSense)</h3>
   <div class="device-list" id="list-video"></div>
 </section>
 
-<!-- ===== ACCESOS Y EXTRAS ===== -->
+<!-- ===== ACCESOS ===== -->
 <section id="accesos">
   <div class="section-header">
-    <span class="section-num">04.1</span>
+    <span class="section-num mch">04.1</span>
     <h2>Accesos y Extras</h2>
     <p>Videoportero, cerraduras digitales y automatización de portón — más la incorporación de pileta sumada al alcance original.</p>
   </div>
   <div class="device-list" id="list-accesos"></div>
-  <p style="color:var(--slate-400); font-size:0.85rem; margin-top:1rem">⚠️ La pileta fue informada después del relevamiento inicial y no cuenta con plano propio — la ubicación de la bomba y el circuito de iluminación se confirman en la Visita Técnica.</p>
+  <p style="color:var(--gris-azulado); font-size:0.85rem; margin-top:1rem">⚠️ La pileta fue informada después del relevamiento inicial y no cuenta con plano propio — la ubicación de la bomba y el circuito de iluminación se confirman en la Visita Técnica.</p>
 </section>
 
 <!-- ===== 05 CALCULADORA CONFORT ===== -->
 <section id="calculadora">
   <div class="section-header">
-    <span class="section-num">05</span>
+    <span class="section-num mch">05</span>
     <h2>Calculadora de Confort y Ahorro</h2>
     <p>Ajustá según tus hábitos y mirá el impacto estimado de automatizar clima e iluminación.</p>
   </div>
@@ -648,8 +696,8 @@
       <input type="range" id="slider-ambientes" min="2" max="14" value="6">
     </div>
     <div class="calc-result">
-      <div class="calc-result-card"><span class="num" id="calc-ahorro-energia">—</span><span class="lbl">Ahorro estimado en climatización/mes</span></div>
-      <div class="calc-result-card"><span class="num" id="calc-ahorro-luz">—</span><span class="lbl">Reducción estimada consumo lumínico</span></div>
+      <div class="calc-result-card"><span class="num" id="calc-ahorro-energia">—</span><span class="lbl">Ahorro estimado climatización/mes</span></div>
+      <div class="calc-result-card"><span class="num" id="calc-ahorro-luz">—</span><span class="lbl">Reducción consumo lumínico</span></div>
     </div>
     <p class="calc-caveat">* Estimaciones referenciales basadas en promedios de eficiencia de sensores Sensibo y relés Shelly reportados por los fabricantes. No constituyen una promesa de ahorro específico para esta vivienda.</p>
   </div>
@@ -659,7 +707,7 @@
 <section id="inversion">
   <div class="section-content">
     <div class="section-header">
-      <span class="section-num">06</span>
+      <span class="section-num mch">06</span>
       <h2>La Inversión</h2>
       <p>Desglose completo por rubro. Sin sorpresas, sin letra chica.</p>
     </div>
@@ -670,12 +718,12 @@
     <div id="rubro-accordions"></div>
 
     <div class="total-box">
-      <div class="total-row"><span>Subtotal equipo (neto)</span><span class="mono" id="total-equipo-row"></span></div>
-      <div class="total-row"><span>IVA equipo (21% / 10.5% según ítem)</span><span class="mono" id="total-iva-row"></span></div>
-      <div class="total-row" style="color:#fff; font-weight:600"><span>Subtotal equipo (con IVA)</span><span class="mono" id="total-equipo-con-iva-row"></span></div>
-      <div class="total-row"><span>Mano de obra especializada (por punto)</span><span class="mono" id="total-mo-row"></span></div>
-      <div class="total-row"><span>Programación y comisionado</span><span class="mono" id="total-prog-row"></span></div>
-      <div class="total-row final"><span>Total proyecto</span><span class="amount mono" id="total-final-row"></span></div>
+      <div class="total-row"><span>Subtotal equipo (neto)</span><span id="total-equipo-row"></span></div>
+      <div class="total-row"><span>IVA equipo (21% / 10.5% según ítem)</span><span id="total-iva-row"></span></div>
+      <div class="total-row" style="color:#fff; font-weight:600"><span>Subtotal equipo (con IVA)</span><span id="total-equipo-con-iva-row"></span></div>
+      <div class="total-row"><span>Mano de obra especializada (por punto)</span><span id="total-mo-row"></span></div>
+      <div class="total-row"><span>Programación y comisionado</span><span id="total-prog-row"></span></div>
+      <div class="total-row final"><span>Total proyecto</span><span class="amount" id="total-final-row"></span></div>
       <p class="total-note" id="total-note-usd"></p>
       <p class="total-note">Presupuesto válido por 15 días. Materiales sujetos a cotización del momento de compra. No incluye Visita Técnica ni obra eléctrica (a cargo del electricista de obra, según indicaciones de Nova Domus).</p>
     </div>
@@ -685,19 +733,19 @@
 <!-- ===== EJECUCION ===== -->
 <section id="ejecucion">
   <div class="section-header">
-    <span class="section-num">07</span>
+    <span class="section-num mch">07</span>
     <h2>Ejecución y Forma de Pago</h2>
     <p>Estructura por etapas, atada a hitos verificables de obra.</p>
   </div>
   <div class="device-list">
     <div class="device-card" style="padding:1.2rem">
-      <strong style="font-family:'Space Grotesk',sans-serif">50%</strong> — Anticipo: reserva y compra de equipos
+      <strong class="mch" style="color:var(--dorado)">50%</strong> — Anticipo: reserva y compra de equipos
     </div>
     <div class="device-card" style="padding:1.2rem">
-      <strong style="font-family:'Space Grotesk',sans-serif">30%</strong> — Al inicio de instalación en obra
+      <strong class="mch" style="color:var(--dorado)">30%</strong> — Al inicio de instalación en obra
     </div>
     <div class="device-card" style="padding:1.2rem">
-      <strong style="font-family:'Space Grotesk',sans-serif">20%</strong> — Contra puesta en marcha y programación final
+      <strong class="mch" style="color:var(--dorado)">20%</strong> — Contra puesta en marcha y programación final
     </div>
   </div>
 </section>
@@ -705,7 +753,7 @@
 <!-- ===== CONDICIONES GENERALES ===== -->
 <section id="condiciones">
   <div class="section-header">
-    <span class="section-num">08</span>
+    <span class="section-num mch">08</span>
     <h2>Condiciones Generales</h2>
   </div>
 
@@ -718,7 +766,7 @@
     <div class="detail">La Visita Técnica (relevamiento y certificación de instalación) se cotiza y factura por separado, según distancia y días requeridos. Se coordina una vez aprobada esta propuesta.</div>
   </details>
   <details class="cond-card">
-    <summary>Formas de pago — 50/30/20 (ver sección Ejecución) <span class="chevron">▾</span></summary>
+    <summary>Formas de pago — 50/30/20 <span class="chevron">▾</span></summary>
     <div class="detail">50% anticipo (equipos) · 30% inicio de instalación · 20% puesta en marcha y programación final.</div>
   </details>
   <details class="cond-card">
@@ -734,28 +782,29 @@
 <!-- ===== RESPALDO ===== -->
 <section id="respaldo">
   <div class="section-header">
-    <span class="section-num">09</span>
+    <span class="section-num mch">09</span>
     <h2>Respaldo</h2>
     <p>Trabajamos con las marcas líderes del sector, integradas bajo un mismo sistema.</p>
   </div>
-  <div class="partner-chips">
-    <span class="partner-chip">SHELLY</span>
-    <span class="partner-chip">HOME ASSISTANT</span>
-    <span class="partner-chip">HIKVISION</span>
-    <span class="partner-chip">TP-LINK OMADA</span>
-    <span class="partner-chip">SENSIBO</span>
-    <span class="partner-chip">CEDIA</span>
+  <div class="partner-wall">
+    <div class="partner-item brand">NOVA DOMUS</div>
+    <div class="partner-item">SHELLY</div>
+    <div class="partner-item">HOME ASSISTANT</div>
+    <div class="partner-item">HIKVISION</div>
+    <div class="partner-item">OMADA</div>
+    <div class="partner-item">SENSIBO</div>
+    <div class="partner-item">YALE</div>
   </div>
   <div class="warranty-box">
-    <strong style="font-family:'Space Grotesk',sans-serif">Post-venta Nova Domus</strong>
-    <p style="margin-top:0.5rem; font-size:0.9rem; color:var(--slate-400)">Soporte técnico directo por WhatsApp, visitas de ajuste post-instalación y acompañamiento en la puesta en marcha de cada sistema.</p>
+    <strong style="font-family:'Inter',sans-serif; font-weight:700">Post-venta Nova Domus</strong>
+    <p style="margin-top:0.5rem; font-size:0.9rem; color:var(--gris-azulado)">Soporte técnico directo por WhatsApp, visitas de ajuste post-instalación y acompañamiento en la puesta en marcha de cada sistema.</p>
   </div>
 </section>
 
 <!-- ===== FAQ ===== -->
 <section id="faq">
   <div class="section-header">
-    <span class="section-num">10</span>
+    <span class="section-num mch">10</span>
     <h2>Preguntas Frecuentes</h2>
   </div>
   <details class="faq-item">
@@ -768,7 +817,7 @@
   </details>
   <details class="faq-item">
     <summary>¿Hay dependencia de un solo proveedor (vendor lock-in)? <span class="chevron">▾</span></summary>
-    <div class="detail">No. Home Assistant es una plataforma abierta que integra Shelly, Hikvision, Sensibo y TP-Link sin atarlos a un ecosistema cerrado. Se puede sumar o reemplazar marcas a futuro sin perder la programación existente.</div>
+    <div class="detail">No. Home Assistant es una plataforma abierta que integra Shelly, Hikvision, Sensibo y Yale sin atarlos a un ecosistema cerrado. Se puede sumar o reemplazar marcas a futuro sin perder la programación existente.</div>
   </details>
   <details class="faq-item">
     <summary>¿Qué pasa si un dispositivo falla? <span class="chevron">▾</span></summary>
@@ -783,7 +832,7 @@
 <!-- ===== CTA FINAL ===== -->
 <section id="cta-final">
   <div class="section-header" style="text-align:center">
-    <span class="section-num">11</span>
+    <span class="section-num mch">11</span>
     <h2>¿Avanzamos?</h2>
     <p style="margin:0 auto">El siguiente paso es coordinar la Visita Técnica y dejar todo listo para el inicio de obra.</p>
   </div>
@@ -797,8 +846,10 @@
 </section>
 
 <footer>
-  <p>NOVA DOMUS — NDWD SAS · Av. Colón 3835, Córdoba, Argentina</p>
+  <p class="mch" style="font-size:0.7rem; color:#fff; margin-bottom:0.6rem">NOVA DOMUS</p>
+  <p>NDWD SAS · Av. Colón 3835, Córdoba, Argentina</p>
   <p style="margin-top:0.4rem">Propuesta generada para Obra Río IV · Río Cuarto</p>
+  <span class="cedia-badge">MIEMBRO CEDIA</span>
 </footer>
 
 <script>
@@ -863,32 +914,33 @@ renderDeviceList('list-video', 'video');
 renderDeviceList('list-clima', 'clima');
 renderDeviceList('list-accesos', 'accesos');
 
-// ===== RUBRO BAR + LEGEND (INVERSION) =====
-const RUBRO_COLORS = {
-  redes:'#141e61', infra:'#5d6078', core:'#5eead4',
-  iluminacion:'#f5c451', alarma:'#e15a5a', video:'#4a86e8', clima:'#43d692', accesos:'#c084fc'
-};
+// ===== RUBRO BAR + LEGEND — monocromía navy, sin arcoíris (regla de marca) =====
+// Escala de azules de marca (azul-nova como base) + un único acento dorado para el rubro de mayor peso.
+const NAVY_SCALE = ['#141e61','#1c2a7a','#243693','#2c42ac','#3450c2','#4a63cc','#6178d4','#7d90dd'];
 
 (function(){
   const bar = document.getElementById('rubro-bar');
   const legend = document.getElementById('rubro-legend');
-  RUBROS.forEach(r => {
+  const sorted = [...RUBROS].sort((a,b)=>b.subtotalConIva-a.subtotalConIva);
+  const maxId = sorted[0].id;
+  RUBROS.forEach((r, idx) => {
     const pct = (r.subtotalConIva / TOTAL_EQUIPO_CON_IVA * 100).toFixed(1);
+    const color = r.id === maxId ? '#c8a96e' : NAVY_SCALE[idx % NAVY_SCALE.length];
     const seg = document.createElement('div');
     seg.className = 'rubro-bar-seg';
     seg.style.width = pct + '%';
-    seg.style.background = RUBRO_COLORS[r.id] || '#999';
+    seg.style.background = color;
     seg.title = r.nombre + ' — ' + pct + '%';
     bar.appendChild(seg);
 
     const item = document.createElement('div');
     item.className = 'rubro-legend-item';
-    item.innerHTML = `<span class="rubro-legend-dot" style="background:${RUBRO_COLORS[r.id]||'#999'}"></span><span>${r.nombre} (${pct}%)</span>`;
+    item.innerHTML = `<span class="rubro-legend-dot" style="background:${color}"></span><span>${r.nombre} (${pct}%)</span>`;
     legend.appendChild(item);
   });
 })();
 
-// ===== RUBRO ACCORDIONS (INVERSION, LIGHT SECTION) =====
+// ===== RUBRO ACCORDIONS (INVERSION) =====
 (function(){
   const wrap = document.getElementById('rubro-accordions');
   RUBROS.forEach(r => {
@@ -961,35 +1013,36 @@ document.getElementById('accept-check').addEventListener('change', function(){
   }
 })();
 
-// ===== SCENE SIMULATOR =====
+// ===== SCENE SIMULATOR — iconos de línea propios (manual de marca, 1.5pt trazo) =====
+const ICON_SUN = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><circle cx="24" cy="24" r="9"/><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.5 9.5l4.2 4.2M34.3 34.3l4.2 4.2M9.5 38.5l4.2-4.2M34.3 13.7l4.2-4.2"/></svg>';
+const ICON_CLOUD_SUN = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><circle cx="18" cy="16" r="6"/><path d="M18 4v3M9 8l2 2M27 8l-2 2" /><path d="M14 34h20a7 7 0 000-14 9 9 0 00-17-3 6 6 0 00-3 17z"/></svg>';
+const ICON_MOON = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><path d="M30 6a18 18 0 100 36 14 14 0 01-14-14 14 14 0 0114-14 14 14 0 010-8z"/></svg>';
+const ICON_BED = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><path d="M6 30v-8a4 4 0 014-4h28a4 4 0 014 4v8M6 30v6M42 30v6M6 22V14M14 22a4 4 0 100-8 4 4 0 000 8z"/></svg>';
+const ICON_LOCK = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><rect x="10" y="21" width="28" height="20" rx="2"/><path d="M16 21v-6a8 8 0 0116 0v6"/></svg>';
+
 const SCENES = {
   manana: {
-    bg: 'linear-gradient(160deg, #f5c451, #e8a33d)',
-    icon: '☀️',
+    icon: ICON_SUN,
     title: 'Mañana',
     desc: 'Las persianas y luces de dormitorio se activan gradualmente. El Wall Display XL saluda con el clima del día y el estado de la Agencia.'
   },
   tarde: {
-    bg: 'linear-gradient(160deg, #4a86e8, #2a5fc7)',
-    icon: '🌤️',
+    icon: ICON_CLOUD_SUN,
     title: 'Tarde',
     desc: 'Sensibo ajusta la climatización según ocupación. Las luces de trabajo en Sala de Estar y Agencia se mantienen en tono neutro para foco.'
   },
   noche: {
-    bg: 'linear-gradient(160deg, #6b4ba3, #3a2966)',
-    icon: '🌙',
+    icon: ICON_MOON,
     title: 'Noche',
     desc: 'Escena de cena: dimmers de Sala de Estar y Comedor bajan intensidad, riel decorativo se enciende, exteriores (Galería) se activan automáticamente al detectar movimiento.'
   },
   reposo: {
-    bg: 'linear-gradient(160deg, #1a2f6b, #0b132b)',
-    icon: '🛏️',
+    icon: ICON_BED,
     title: 'Reposo',
     desc: 'Dimmer Gen4 en Dormitorio Principal y Huéspedes bajan a intensidad mínima. La alarma queda lista para armado nocturno con un toque en el Wall Display.'
   },
   afuera: {
-    bg: 'linear-gradient(160deg, #e15a5a, #8f2d2d)',
-    icon: '🔒',
+    icon: ICON_LOCK,
     title: 'Fuera de casa',
     desc: 'Un solo botón apaga todos los circuitos de iluminación, arma los 2 sistemas de alarma (Vivienda + Agencia) y activa notificaciones de cámaras perimetrales AcuSense.'
   }
@@ -999,11 +1052,8 @@ function setScene(key){
   const scene = SCENES[key];
   const visual = document.getElementById('scene-visual');
   const desc = document.getElementById('scene-desc');
-  const sim = document.getElementById('simulador');
-  visual.style.background = scene.bg;
-  visual.innerHTML = `<span style="font-size:3.5rem">${scene.icon}</span>`;
+  visual.innerHTML = scene.icon;
   desc.innerHTML = `<strong>${scene.title}</strong>${scene.desc}`;
-  sim.style.background = scene.bg.replace(/160deg, (#[0-9a-fA-F]+),.*/, '160deg, rgba(0,0,0,0.75), rgba(0,0,0,0.9))');
   document.querySelectorAll('.scene-tab').forEach(t => t.classList.toggle('active', t.dataset.scene===key));
 }
 document.querySelectorAll('.scene-tab').forEach(tab => {
@@ -1019,9 +1069,8 @@ function updateCalc(){
   const ambientes = parseInt(sliderAmbientes.value, 10);
   document.getElementById('val-horas').textContent = horas + ' hs';
   document.getElementById('val-ambientes').textContent = ambientes;
-  // Estimacion referencial: Sensibo reporta ~15-23% ahorro en climatizacion con uso inteligente
   const ahorroEnergiaPct = 0.18;
-  const costoEstimadoPorHoraUsd = 0.55; // referencial por hora de equipo funcionando
+  const costoEstimadoPorHoraUsd = 0.55;
   const ahorroMes = horas * 30 * costoEstimadoPorHoraUsd * ahorroEnergiaPct;
   document.getElementById('calc-ahorro-energia').textContent = usdFmt(ahorroMes);
   const reduccionLuz = Math.min(35, 12 + ambientes * 1.5);
