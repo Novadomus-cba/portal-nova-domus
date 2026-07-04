@@ -125,7 +125,8 @@
     pointer-events:none;
   }
   #progress-badge.visible{opacity:1; pointer-events:auto;}
-  #progress-badge svg{width:100%; height:100%; transform:rotate(-90deg);}
+  #progress-badge svg.ring-svg{width:100%; height:100%; transform:rotate(-90deg);}
+  #progress-badge .mark svg{width:100%; height:100%; transform:none;}
   #progress-badge circle{fill:none; stroke-width:3;}
   #progress-badge .bg{stroke:rgba(255,255,255,0.15);}
   #progress-badge .fg{stroke:var(--dorado); stroke-linecap:round; transition:stroke-dashoffset .1s linear;}
@@ -587,7 +588,7 @@
 
 <!-- ===== SCROLL PROGRESS BADGE ===== -->
 <div id="progress-badge" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <svg viewBox="0 0 52 52">
+  <svg class="ring-svg" viewBox="0 0 52 52">
     <circle class="bg" cx="26" cy="26" r="23"></circle>
     <circle class="fg" id="progress-circle" cx="26" cy="26" r="23"></circle>
   </svg>
