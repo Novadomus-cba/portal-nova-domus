@@ -535,6 +535,10 @@
     cursor:pointer;
     border:none;
     min-height:48px;
+    background:transparent;
+    color:var(--blanco-calido);
+    -webkit-appearance:none;
+    appearance:none;
     transition:background .2s ease, color .2s ease;
   }
   .partner-wall button.partner-item:hover{background:rgba(200,169,110,0.1);}
@@ -549,7 +553,6 @@
     border-radius:0 6px 6px 0;
   }
   .partner-detail.open{
-    max-height:220px;
     opacity:1;
     margin:0 0 2.5rem;
     padding:1.3rem 1.5rem;
@@ -1229,14 +1232,22 @@ document.querySelectorAll('.partner-wall button.partner-item').forEach(btn => {
     document.querySelectorAll('.partner-wall button.partner-item').forEach(b => b.classList.remove('active'));
     if(isActive){
       partnerDetail.classList.remove('open');
-      partnerDetail.innerHTML = '';
+      partnerDetail.style.maxHeight = '0px';
+      setTimeout(() => { partnerDetail.innerHTML = ''; }, 350);
       return;
     }
     btn.classList.add('active');
     const info = PARTNER_INFO[key];
     partnerDetail.innerHTML = `<strong>${info.name}</strong><p>${info.text}</p>`;
     partnerDetail.classList.add('open');
+    // Altura real del contenido, no un valor fijo -- evita que el texto se corte en pantallas chicas
+    partnerDetail.style.maxHeight = partnerDetail.scrollHeight + 'px';
   });
+});
+window.addEventListener('resize', () => {
+  if(partnerDetail.classList.contains('open')){
+    partnerDetail.style.maxHeight = partnerDetail.scrollHeight + 'px';
+  }
 });
 
 // ===== CALCULADORA CONFORT =====
