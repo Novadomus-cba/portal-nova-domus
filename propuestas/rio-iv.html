@@ -530,6 +530,35 @@
     font-family:'Michroma',sans-serif;
     font-size:0.75rem;
   }
+  .partner-wall button.partner-item{
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+    border:none;
+    min-height:48px;
+    transition:background .2s ease, color .2s ease;
+  }
+  .partner-wall button.partner-item:hover{background:rgba(200,169,110,0.1);}
+  .partner-wall button.partner-item.active{background:var(--dorado); color:var(--azul-profundo); font-weight:700;}
+  .partner-detail{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease, opacity .35s ease, margin .35s ease;
+    opacity:0;
+    background:rgba(253,251,240,0.03);
+    border-left:2px solid var(--dorado);
+    border-radius:0 6px 6px 0;
+  }
+  .partner-detail.open{
+    max-height:220px;
+    opacity:1;
+    margin:0 0 2.5rem;
+    padding:1.3rem 1.5rem;
+  }
+  .partner-detail strong{
+    display:block; font-family:'Inter',sans-serif; font-weight:700; color:#fff;
+    margin-bottom:0.5rem; font-size:0.95rem;
+  }
+  .partner-detail p{color:var(--gris-azulado); font-size:0.88rem; line-height:1.6;}
   .warranty-box{
     background:rgba(253,251,240,0.03);
     border:1px solid var(--filete);
@@ -889,13 +918,14 @@
   </div>
   <div class="partner-wall">
     <div class="partner-item brand">NOVA DOMUS</div>
-    <div class="partner-item">SHELLY</div>
-    <div class="partner-item">HOME ASSISTANT</div>
-    <div class="partner-item">HIKVISION</div>
-    <div class="partner-item">OMADA</div>
-    <div class="partner-item">SENSIBO</div>
-    <div class="partner-item">YALE</div>
+    <button class="partner-item" data-partner="shelly">SHELLY</button>
+    <button class="partner-item" data-partner="homeassistant">HOME ASSISTANT</button>
+    <button class="partner-item" data-partner="hikvision">HIKVISION</button>
+    <button class="partner-item" data-partner="omada">OMADA</button>
+    <button class="partner-item" data-partner="sensibo">SENSIBO</button>
+    <button class="partner-item" data-partner="yale">YALE</button>
   </div>
+  <div id="partner-detail" class="partner-detail"></div>
   <div class="warranty-box">
     <strong style="font-family:'Inter',sans-serif; font-weight:700">Post-venta Nova Domus</strong>
     <p style="margin-top:0.5rem; font-size:0.9rem; color:var(--gris-azulado)">Soporte técnico directo por WhatsApp, visitas de ajuste post-instalación y acompañamiento en la puesta en marcha de cada sistema.</p>
@@ -1162,6 +1192,52 @@ document.querySelectorAll('.scene-tab').forEach(tab => {
   tab.addEventListener('click', () => setScene(tab.dataset.scene));
 });
 setScene('manana');
+
+// ===== RESPALDO — fichas de marca interactivas =====
+const PARTNER_INFO = {
+  shelly: {
+    name: 'Shelly',
+    text: 'Fabricante búlgaro especializado en relés WiFi compactos que se instalan detrás de la llave existente, sin cambiar la estética de la pared. Nova Domus lo elige porque cada dispositivo funciona como interruptor físico local incluso sin internet, y se integra nativo a Home Assistant sin depender de la nube del fabricante.'
+  },
+  homeassistant: {
+    name: 'Home Assistant',
+    text: 'La plataforma de automatización de código abierto más adoptada del mundo, con una comunidad global de desarrolladores que la mantiene activa todos los días. Es el cerebro que elegimos porque no ata al cliente a un solo fabricante: hoy integra Shelly, Hikvision, Sensibo y Yale, y el día de mañana puede sumar o reemplazar marcas sin perder la programación existente.'
+  },
+  hikvision: {
+    name: 'Hikvision',
+    text: 'El mayor fabricante de videovigilancia del mundo por participación de mercado (25,7% global, muy por encima del segundo puesto, según JVSG 2025). Nova Domus lo elige por su tecnología AcuSense — inteligencia artificial que distingue personas y vehículos de falsas alarmas — y por la disponibilidad real de repuestos y soporte técnico en Argentina.'
+  },
+  omada: {
+    name: 'Omada (TP-Link)',
+    text: 'Línea profesional de TP-Link, uno de los mayores fabricantes de equipamiento de redes del mundo. Se elige por el control centralizado (SDN): router, switches y access points se administran desde una sola app, algo clave en obras con muchos equipos distribuidos en varias plantas.'
+  },
+  sensibo: {
+    name: 'Sensibo',
+    text: 'Fabricante israelí especializado en climatización inteligente. Se elige porque convierte cualquier split que el cliente ya tiene en un equipo con sensor de presencia y control remoto, sin necesidad de cambiar el aire acondicionado existente.'
+  },
+  yale: {
+    name: 'Yale',
+    text: 'Marca de cerraduras fundada en 1868 en Connecticut, inventora del cilindro de pines que hoy es la base de la mayoría de las cerraduras del mundo. Hoy es parte de ASSA ABLOY, el mayor grupo de soluciones de acceso del planeta. Se elige por sus kits con HUB WiFi que integran directo a Home Assistant, sin intermediarios ni nube propietaria obligatoria.'
+  }
+};
+
+const partnerDetail = document.getElementById('partner-detail');
+document.querySelectorAll('.partner-wall button.partner-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.partner;
+    const isActive = btn.classList.contains('active');
+    document.querySelectorAll('.partner-wall button.partner-item').forEach(b => b.classList.remove('active'));
+    if(isActive){
+      partnerDetail.classList.remove('open');
+      partnerDetail.innerHTML = '';
+      return;
+    }
+    btn.classList.add('active');
+    const info = PARTNER_INFO[key];
+    partnerDetail.innerHTML = `<strong>${info.name}</strong><p>${info.text}</p>`;
+    partnerDetail.classList.add('open');
+  });
+});
 
 // ===== CALCULADORA CONFORT =====
 const sliderHoras = document.getElementById('slider-horas');
