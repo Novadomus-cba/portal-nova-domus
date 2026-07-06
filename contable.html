@@ -4,25 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nova Domus — Contable</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 :root {
-  --bg:#0d0f12;--surface:#151821;--surface2:#1c1f2b;
-  --border:#232733;--text:#e8eaf0;--muted:#6b7280;
-  --accent:#c8a96e;--accent-dim:#7a6340;
+  --bg:#0B132B;--surface:#131b3d;--surface2:#141E61;
+  --border:#2a3468;--text:#FDFBF0;--muted:#9a9cb8;
+  --accent:#C8A96E;--accent-dim:#7a6340;
+  --primary:#141E61;
   --ok:#4ade80;--warn:#f59e0b;--danger:#e05c5c;
+  --font-display:'Michroma', sans-serif;--font-body:'Inter', Arial, sans-serif;
   font-family:'Inter',system-ui,sans-serif;font-size:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
-.topbar{background:rgba(13,15,18,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+.topbar{background:rgba(11,19,43,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
   padding:0 16px;height:50px;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:50}
 .back-link{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--muted);font-size:12px;font-weight:700}
 .back-link:hover{color:var(--text)}
 .back-icon{width:22px;height:22px;background:linear-gradient(135deg,var(--accent-dim),var(--accent));border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
 .topbar-sep{width:1px;height:16px;background:var(--border)}
-.topbar-title{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.3px}
+.topbar-title{font-family:var(--font-display);font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .user-name{font-size:11px;color:var(--muted)}
 .logout-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
@@ -46,8 +50,8 @@ select option{background:var(--surface2)}
 textarea{resize:vertical;min-height:60px;line-height:1.5}
 .row{display:flex;gap:10px}.row .fg{flex:1;min-width:0}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:6px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
-.btn-primary{background:var(--accent);color:#0d0f12;width:100%;justify-content:center;margin-top:4px}
-.btn-primary:hover{background:#d9ba7e}.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:var(--primary);color:var(--text);border:1px solid var(--accent);width:100%;justify-content:center;margin-top:4px}
+.btn-primary:hover{background:#1e2a7a}.btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .btn-ghost{background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
 .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
 .btn-ok{background:none;border:1px solid #166534;color:var(--ok)}
@@ -108,6 +112,8 @@ tr:last-child td{border-bottom:none}
 <div id="app-loading">Verificando acceso…</div>
 
 <div class="topbar">
+  <img src="assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" style="height:28px;width:auto;flex-shrink:0">
+  <div class="topbar-sep"></div>
   <a href="index.html" class="back-link"><span class="back-icon">⌂</span>Portal</a>
   <div class="topbar-sep"></div>
   <span class="topbar-title">Contable</span>
@@ -274,7 +280,7 @@ tr:last-child td{border-bottom:none}
     <div class="fg">
       <label>Tipo</label>
       <div style="display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden">
-        <button class="btn" id="cBtnEmitido" style="flex:1;border-radius:0;background:var(--accent);color:#0d0f12" onclick="setChequeTipo('EMITIDO')">EMITIDO</button>
+        <button class="btn" id="cBtnEmitido" style="flex:1;border-radius:0;background:var(--primary);color:var(--text);border:1px solid var(--accent)" onclick="setChequeTipo('EMITIDO')">EMITIDO</button>
         <button class="btn" id="cBtnRecibido" style="flex:1;border-radius:0;background:var(--surface2);color:var(--muted)" onclick="setChequeTipo('RECIBIDO')">RECIBIDO</button>
       </div>
     </div>
@@ -818,8 +824,8 @@ async function saveEditCuota() {
 // ── CHEQUES ──────────────────────────────────────────────────
 function setChequeTipo(tipo) {
   chequeTipo = tipo;
-  document.getElementById('cBtnEmitido').style.cssText=`flex:1;border-radius:0;background:${tipo==='EMITIDO'?'var(--accent);color:#0d0f12':'var(--surface2);color:var(--muted)'}`;
-  document.getElementById('cBtnRecibido').style.cssText=`flex:1;border-radius:0;background:${tipo==='RECIBIDO'?'var(--accent);color:#0d0f12':'var(--surface2);color:var(--muted)'}`;
+  document.getElementById('cBtnEmitido').style.cssText=`flex:1;border-radius:0;background:${tipo==='EMITIDO'?'var(--primary);color:var(--text);border:1px solid var(--accent)':'var(--surface2);color:var(--muted)'}`;
+  document.getElementById('cBtnRecibido').style.cssText=`flex:1;border-radius:0;background:${tipo==='RECIBIDO'?'var(--primary);color:var(--text);border:1px solid var(--accent)':'var(--surface2);color:var(--muted)'}`;
   document.getElementById('cBenefLabel').textContent=tipo==='EMITIDO'?'Beneficiario *':'Librador *';
 }
 
@@ -983,8 +989,8 @@ function renderReporte(desde, hasta) {
       indexAxis: 'y',
       plugins: { legend: { display:false } },
       scales: {
-        x: { ticks:{color:'#6b7280',callback:v=>'$'+v.toLocaleString('es-AR')}, grid:{color:'#1c1f2b'} },
-        y: { ticks:{color:'#e8eaf0',font:{size:11}}, grid:{display:false} }
+        x: { ticks:{color:'#9a9cb8',callback:v=>'$'+v.toLocaleString('es-AR')}, grid:{color:'#141E61'} },
+        y: { ticks:{color:'#FDFBF0',font:{size:11}}, grid:{display:false} }
       }
     }
   });

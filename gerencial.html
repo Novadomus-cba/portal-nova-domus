@@ -4,26 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nova Domus — Flujo de Caja</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 :root {
-  --bg:#0d0f12;--surface:#151821;--surface2:#1c1f2b;
-  --border:#232733;--text:#e8eaf0;--muted:#6b7280;
-  --accent:#c8a96e;--accent-dim:#7a6340;
+  --bg:#0B132B;--surface:#131b3d;--surface2:#141E61;
+  --border:#2a3468;--text:#FDFBF0;--muted:#9a9cb8;
+  --accent:#C8A96E;--accent-dim:#7a6340;
+  --primary:#141E61;
+  --font-display:'Michroma', sans-serif;--font-body:'Inter', Arial, sans-serif;
   --ok:#4ade80;--warn:#f59e0b;--danger:#e05c5c;
   --info:#60a5fa;
-  font-family:'Inter',system-ui,sans-serif;font-size:14px;
+  font-family:var(--font-body);font-size:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
-.topbar{background:rgba(13,15,18,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+.topbar{background:rgba(11,19,43,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
   padding:0 16px;height:50px;display:flex;align-items:center;gap:8px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.brand-logo{height:32px;width:auto;flex-shrink:0}
 .back-link{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--muted);font-size:12px;font-weight:700}
 .back-link:hover{color:var(--text)}
 .back-icon{width:22px;height:22px;background:linear-gradient(135deg,var(--accent-dim),var(--accent));border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
 .topbar-sep{width:1px;height:16px;background:var(--border)}
-.topbar-title{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.3px}
+.topbar-title{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:0.03em;font-family:var(--font-display);text-transform:uppercase}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .user-name{font-size:11px;color:var(--muted)}
 .logout-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
@@ -34,7 +39,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 .card-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:1px solid var(--border);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;background:var(--surface2);color:var(--muted)}
 .btn:hover{color:var(--text);border-color:var(--muted)}
-.btn.active{background:var(--accent);color:#0d0f12;border-color:var(--accent)}
+.btn.active{background:var(--primary);color:var(--text);border-color:var(--accent)}
 .btn-nav{padding:5px 12px}
 .badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
 .alert-bar{background:#2e0d0d;border:1px solid #4a1515;border-radius:8px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px}
@@ -46,7 +51,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 .period-label{font-size:15px;font-weight:800;flex:1;text-align:center;min-width:140px}
 .mode-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .mode-btn{padding:6px 12px;font-size:11px;font-weight:700;border:none;background:var(--surface2);color:var(--muted);cursor:pointer;font-family:inherit;transition:all .15s}
-.mode-btn.active{background:var(--accent);color:#0d0f12}
+.mode-btn.active{background:var(--primary);color:var(--text);border:1px solid var(--accent)}
 .chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:640px){.detail-grid{grid-template-columns:1fr}}
@@ -71,7 +76,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 #toast{position:fixed;bottom:18px;right:18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:12px;transform:translateY(60px);opacity:0;transition:all .2s;z-index:9999;max-width:300px}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.err{border-color:var(--danger);color:var(--danger)}
-.loading-overlay{display:none;position:absolute;inset:0;background:rgba(13,15,18,.6);border-radius:10px;align-items:center;justify-content:center;z-index:10}
+.loading-overlay{display:none;position:absolute;inset:0;background:rgba(11,19,43,.6);border-radius:10px;align-items:center;justify-content:center;z-index:10}
 .loading-overlay.show{display:flex}
 @media(min-width:640px){.topbar{padding:0 24px}.page{padding:20px}}
 </style>
@@ -80,6 +85,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 <div id="app-loading"><div class="spin"></div>Cargando datos…</div>
 
 <div class="topbar">
+  <img src="assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" class="brand-logo" />
   <a href="index.html" class="back-link"><span class="back-icon">⌂</span>Portal</a>
   <div class="topbar-sep"></div>
   <span class="topbar-title">Flujo de Caja</span>
@@ -379,8 +385,8 @@ function renderChart(periods) {
     options:{
       plugins:{legend:{display:false}},
       scales:{
-        x:{ticks:{color:'#6b7280',font:{size:10}},grid:{color:'#1c1f2b'}},
-        y:{ticks:{color:'#6b7280',font:{size:10},callback:v=>'$'+v.toLocaleString('es-AR',{maximumFractionDigits:0})},grid:{color:'#1c1f2b'}},
+        x:{ticks:{color:'#9a9cb8',font:{size:10}},grid:{color:'#2a3468'}},
+        y:{ticks:{color:'#9a9cb8',font:{size:10},callback:v=>'$'+v.toLocaleString('es-AR',{maximumFractionDigits:0})},grid:{color:'#2a3468'}},
       },
       responsive:true,
       interaction:{mode:'index',intersect:false},

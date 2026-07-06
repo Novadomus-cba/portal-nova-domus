@@ -4,20 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nova Domus — Panel Gerencial</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 
 :root {
-  --bg:         #0d0f12;
-  --surface:    #151821;
-  --surface2:   #1c1f2b;
-  --border:     #232733;
-  --text:       #e8eaf0;
-  --muted:      #6b7280;
+  --bg:         #0B132B;
+  --surface:    #131b3d;
+  --surface2:   #141E61;
+  --border:     #2a3468;
+  --text:       #FDFBF0;
+  --muted:      #9a9cb8;
   --hint:       #4b5262;
-  --accent:     #c8a96e;
+  --accent:     #C8A96E;
   --accent-dim: #7a6340;
+  --primary:    #141E61;
+  --font-display: 'Michroma', sans-serif;
+  --font-body:  'Inter', Arial, sans-serif;
   --ok:         #5fbf7d;
   --ok-bg:      rgba(95,191,125,.1);
   --warn:       #e0b85c;
@@ -62,11 +66,8 @@ body {
 }
 .portal-back:hover { color: var(--text); }
 .portal-back-icon {
-  width: 24px; height: 24px;
-  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
-  border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; flex-shrink: 0;
+  height: 36px; width: auto;
+  flex-shrink: 0;
 }
 .portal-divider { width: 1px; height: 14px; background: var(--border); }
 .portal-module { font-size: 14px; font-weight: 600; color: var(--text); }
@@ -88,7 +89,7 @@ body {
   display: flex; align-items: baseline; justify-content: space-between;
   margin-bottom: 14px;
 }
-.page-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); }
+.page-title { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; font-size: 22px; color: var(--text); }
 .btn-refresh {
   background: none; border: 1px solid var(--border); color: var(--muted);
   border-radius: var(--radius-sm); font-size: 12px; padding: 6px 12px;
@@ -183,7 +184,7 @@ body {
   <div class="portal-bar">
     <div class="portal-bar-left">
       <a href="../index.html" class="portal-back">
-        <span class="portal-back-icon">⌂</span>
+        <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" class="portal-back-icon" />
         Portal
       </a>
       <div class="portal-divider"></div>

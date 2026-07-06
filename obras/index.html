@@ -4,20 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nova Domus — Obras</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 :root{
-  --bg:#0f1117;--bg2:#181c27;--bg3:#1f2436;--border:#2a3049;
-  --accent:#e8a020;--accent2:#c47d0a;--text:#e2e6f0;--text2:#8892aa;--text3:#4a5470;
+  --bg:#0B132B;--bg2:#131b3d;--bg3:#141E61;--border:#2a3468;
+  --accent:#C8A96E;--accent2:#7a6340;--text:#FDFBF0;--text2:#9a9cb8;--text3:#5a6482;
+  --primary:#141E61;
   --ok:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--info:#3498db;--r:8px;
+  --font-display:'Michroma', sans-serif;--font-body:'Inter', Arial, sans-serif;
   font-family:'Inter',system-ui,sans-serif;font-size:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 /* TOPBAR */
 .topbar{background:var(--bg2);border-bottom:1px solid var(--border);
-  padding:0 20px;display:flex;align-items:center;height:50px;flex-shrink:0;gap:2px}
+  padding:0 20px;display:flex;align-items:center;height:50px;flex-shrink:0;gap:2px;
+  position:sticky;top:0;z-index:50}
 .nt{padding:0 14px;height:50px;display:flex;align-items:center;gap:6px;cursor:pointer;
   font-size:12px;font-weight:700;color:var(--text3);border-bottom:3px solid transparent;
   transition:all .15s;white-space:nowrap}
@@ -38,7 +43,7 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
 .portal-back-link:hover{color:var(--text)}
 .portal-back-icon-sm{width:22px;height:22px;background:linear-gradient(135deg,#7a6340,#c8a96e);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
 .topbar-sep{width:1px;height:16px;background:var(--border);margin:0 8px;flex-shrink:0}
-.topbar-module-name{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.3px;flex-shrink:0;margin-right:10px}
+.topbar-module-name{font-family:var(--font-display);text-transform:uppercase;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.03em;flex-shrink:0;margin-right:10px}
 #portal-username{font-size:11px;color:var(--text2);margin-left:4px}
 .portal-logout-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;margin-left:4px}
 .portal-logout-btn:hover{color:var(--text);border-color:var(--text2)}
@@ -55,7 +60,7 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
   display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .sb-item{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);
   transition:background .1s;display:flex;flex-direction:column;gap:2px;flex-shrink:0}
-.sb-item:hover{background:var(--bg3)}.sb-item.active{background:#1a1500;border-left:3px solid var(--accent)}
+.sb-item:hover{background:var(--bg3)}.sb-item.active{background:var(--primary);border-left:3px solid var(--accent)}
 .sb-name{font-weight:700;font-size:12px}.sb-sub{font-size:10px;color:var(--text3)}
 /* FORMS */
 .fr{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
@@ -69,7 +74,7 @@ select option{background:var(--bg3)}
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:4px;
   border:none;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
-.btn-p{background:var(--accent);color:#000}.btn-p:hover{background:var(--accent2)}
+.btn-p{background:var(--primary);color:var(--text);border:1px solid var(--accent)}.btn-p:hover{filter:brightness(1.2)}
 .btn-g{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
 .btn-g:hover{color:var(--text);border-color:var(--text2)}
 .btn-d{background:#2e0d0d;color:var(--danger);border:1px solid #4a1515}
@@ -135,7 +140,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 .sn.active{color:var(--accent);border-bottom-color:var(--accent)}.sn.done{color:var(--ok)}
 .snn{width:16px;height:16px;border-radius:50%;background:var(--bg3);font-size:9px;
   display:flex;align-items:center;justify-content:center;font-weight:900}
-.sn.active .snn{background:var(--accent);color:#000}.sn.done .snn{background:var(--ok);color:#000}
+.sn.active .snn{background:var(--primary);color:var(--text);border:1px solid var(--accent)}.sn.done .snn{background:var(--ok);color:#000}
 /* KPI */
 .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
 .kpi-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px}
@@ -180,10 +185,11 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 <body>
 
 <!-- LOADING OVERLAY -->
-<div id="app-loading" style="position:fixed;inset:0;background:#0d0f12;display:flex;align-items:center;justify-content:center;z-index:999;font-family:Inter,system-ui,sans-serif;font-size:13px;color:#6b7280;letter-spacing:.02em">Verificando acceso…</div>
+<div id="app-loading" style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-family:Inter,system-ui,sans-serif;font-size:13px;color:var(--text3);letter-spacing:.02em">Verificando acceso…</div>
 
 <!-- TOPBAR -->
 <div class="topbar">
+  <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" style="height:32px;width:auto;" />
   <a href="../index.html" class="portal-back-link">
     <span class="portal-back-icon-sm">⌂</span>
     Portal
@@ -825,7 +831,7 @@ function renderFromCache(){
 // ═══════════════════════════════════════════════════════════════
 //  TARIFARIO BASE
 // ═══════════════════════════════════════════════════════════════
-const GC={'ARTEFACTOS':'#a78bfa','ELECTRICIDAD':'#e8a020','MANO DE OBRA':'#3498db','TABLERO':'#2ecc71','OTRO':'#8892aa'};
+const GC={'ARTEFACTOS':'#a78bfa','ELECTRICIDAD':'var(--accent)','MANO DE OBRA':'#3498db','TABLERO':'#2ecc71','OTRO':'var(--text2)'};
 
 function renderTarifario(){
   const tar=cache.tarifario();
@@ -839,7 +845,7 @@ function renderTarifario(){
   let html='';
   grupos.forEach(g=>{
     const items=tar.filter(t=>t.grupo===g);
-    const gc=GC[g]||'#8892aa';
+    const gc=GC[g]||'var(--text2)';
     html+=`<div style="margin-bottom:18px">
       <div style="font-size:10px;font-weight:900;color:${gc};letter-spacing:1.5px;
         text-transform:uppercase;padding:7px 12px;background:var(--bg2);

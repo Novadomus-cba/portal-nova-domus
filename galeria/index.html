@@ -4,25 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nova Domus — Galería</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 
 :root {
-  --bg:         #0d0f12;
-  --surface:    #151821;
-  --surface2:   #1c1f2b;
-  --border:     #232733;
-  --text:       #e8eaf0;
-  --muted:      #6b7280;
+  --bg:         #0B132B;
+  --surface:    #131b3d;
+  --surface2:   #141E61;
+  --border:     #2a3468;
+  --text:       #FDFBF0;
+  --muted:      #9a9cb8;
   --hint:       #4b5262;
-  --accent:     #c8a96e;
+  --accent:     #C8A96E;
   --accent-dim: #7a6340;
-  --error:      #e05c5c;
-  --error-bg:   rgba(224,92,92,0.1);
-  --success:    #5fbf7d;
-  --success-bg: rgba(95,191,125,0.1);
-  --input-bg:   #1c1f2b;
+  --error:      #e74c3c;
+  --error-bg:   rgba(231,76,60,0.1);
+  --success:    #2ecc71;
+  --success-bg: rgba(46,204,113,0.1);
+  --input-bg:   #131b3d;
+  --primary:    #141E61;
+  --font-display: 'Michroma', sans-serif;
+  --font-body:  'Inter', Arial, sans-serif;
   --radius:     10px;
   --radius-sm:  6px;
 }
@@ -65,11 +69,8 @@ body {
 }
 .portal-back:hover { color: var(--text); }
 .portal-back-icon {
-  width: 24px; height: 24px;
-  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
-  border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; flex-shrink: 0;
+  height: 28px; width: auto;
+  flex-shrink: 0;
 }
 .portal-divider { width: 1px; height: 14px; background: var(--border); }
 .portal-module { font-size: 14px; font-weight: 600; color: var(--text); }
@@ -157,7 +158,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
   background: var(--input-bg); color: var(--muted);
   transition: all .15s; font-family: inherit;
 }
-.toggle-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,.1); }
+.toggle-btn.active { border-color: var(--accent); color: var(--text); background: var(--primary); }
 
 /* search / dropdown */
 .search-wrap { position: relative; }
@@ -212,7 +213,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
 .preview-remove {
   position: absolute; top: 8px; right: 8px;
   width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(13,15,18,.8); border: 1px solid var(--border);
+  background: rgba(11,19,43,.8); border: 1px solid var(--border);
   color: var(--text); font-size: 15px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
@@ -220,8 +221,8 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
 
 .btn-primary {
   width: 100%; padding: 13px;
-  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
-  color: #0d0f12; border: none;
+  background: var(--primary);
+  color: var(--text); border: none;
   border-radius: var(--radius); font-size: 15px; font-weight: 600;
   cursor: pointer; transition: opacity .15s, transform .1s;
   letter-spacing: -0.01em; font-family: inherit;
@@ -235,7 +236,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
   gap: 8px; align-items: flex-start; line-height: 1.5;
 }
 .alert.show { display: flex; }
-.alert.error { background: var(--error-bg); color: var(--error); border: 1px solid rgba(224,92,92,.3); }
+.alert.error { background: var(--error-bg); color: var(--error); border: 1px solid rgba(231,76,60,.3); }
 .alert.success { background: var(--success-bg); color: var(--success); border: 1px solid rgba(95,191,125,.3); }
 .alert-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
 
@@ -257,7 +258,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
   position: absolute; top: 4px; left: 4px;
   font-size: 9px; font-weight: 700; text-transform: uppercase;
   padding: 2px 6px; border-radius: 10px;
-  background: rgba(13,15,18,.75); color: var(--accent);
+  background: rgba(11,19,43,.75); color: var(--accent);
   letter-spacing: .04em;
 }
 .loader {
@@ -294,7 +295,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
   font-family: inherit; transition: border-color .15s;
 }
 .btn-sm:hover { border-color: var(--accent-dim); }
-.btn-sm-danger { background: var(--error-bg); color: var(--error); border-color: rgba(224,92,92,.3); }
+.btn-sm-danger { background: var(--error-bg); color: var(--error); border-color: rgba(231,76,60,.3); }
 .btn-sm-danger:hover { border-color: var(--error); }
 .lightbox-close {
   position: absolute; top: 16px; right: 16px;
@@ -313,8 +314,8 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
   opacity: 0; transition: all .25s; pointer-events: none;
   z-index: 400; white-space: nowrap;
 }
-.toast.success { background: var(--success); color: #0d0f12; border-color: var(--success); }
-.toast.error   { background: var(--error); color: #0d0f12; border-color: var(--error); }
+.toast.success { background: var(--success); color: var(--bg); border-color: var(--success); }
+.toast.error   { background: var(--error); color: var(--bg); border-color: var(--error); }
 .toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -328,7 +329,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
   <div class="portal-bar">
     <div class="portal-bar-left">
       <a href="../index.html" class="portal-back">
-        <span class="portal-back-icon">⌂</span>
+        <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" class="portal-back-icon" />
         Portal
       </a>
       <div class="portal-divider"></div>

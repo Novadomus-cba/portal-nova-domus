@@ -4,24 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Liquidación — Nova Domus Portal</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
+
     :root {
-      --nd-orange: #E85D26;
-      --bg: #F7F6F4;
-      --surface: #FFFFFF;
-      --border: #E8E6E1;
-      --text: #1A1917;
-      --muted: #6B6966;
-      --ok: #1D8A5C;
-      --danger: #C0392B;
+      --nd-orange: #C8A96E;
+      --bg: #0B132B;
+      --surface: #131b3d;
+      --surface2: #141E61;
+      --border: #2a3468;
+      --text: #FDFBF0;
+      --muted: #9a9cb8;
+      --accent: #C8A96E;
+      --accent-dim: #7a6340;
+      --primary: #141E61;
+      --ok: #2ecc71;
+      --danger: #e74c3c;
       --radius: 10px;
+      --font-display: 'Michroma', sans-serif;
+      --font-body: 'Inter', Arial, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: var(--font-body);
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -46,14 +55,14 @@
     }
     .logo-box {
       width: 36px; height: 36px;
-      background: var(--nd-orange);
+      background: var(--primary);
       border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 800; font-size: 13px; letter-spacing: -0.5px;
+      color: var(--text); font-weight: 800; font-size: 13px; letter-spacing: -0.5px;
       flex-shrink: 0;
     }
     .header-text { flex: 1; }
-    .header-text h1    { font-size: 15px; font-weight: 700; line-height: 1.2; }
+    .header-text h1    { font-size: 15px; font-weight: 700; line-height: 1.2; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; }
     .header-text small { font-size: 11px; color: var(--muted); }
 
     /* ── Settings panel ── */
@@ -86,13 +95,13 @@
     }
     .date-range-inputs input[type="date"]:focus {
       outline: none;
-      border-color: var(--nd-orange);
+      border-color: var(--accent);
     }
     .date-range-sep { font-size: 12px; color: var(--muted); flex-shrink: 0; }
     .btn-apply-dates {
       font-size: 12px; font-weight: 700;
-      color: #fff;
-      background: var(--nd-orange);
+      color: var(--text);
+      background: var(--primary);
       border: none;
       border-radius: 8px;
       padding: 7px 14px;
@@ -133,7 +142,7 @@
       font-family: inherit;
     }
     .nav-btn:hover { background: var(--border); }
-    .nav-btn.active { border-color: var(--nd-orange); color: var(--nd-orange); background: #FFF0EA; }
+    .nav-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.08); }
     .nav-btn.cfg    { font-size: 15px; }
 
     .week-info { flex: 1; text-align: center; }
@@ -142,9 +151,9 @@
 
     .btn-hoy {
       font-size: 11px; font-weight: 700;
-      color: var(--nd-orange);
+      color: var(--accent);
       background: none;
-      border: 1.5px solid var(--nd-orange);
+      border: 1.5px solid var(--accent);
       border-radius: 6px;
       padding: 5px 9px;
       cursor: pointer;
@@ -153,7 +162,7 @@
       transition: background 0.12s;
       font-family: inherit;
     }
-    .btn-hoy:hover { background: #FFF0EA; }
+    .btn-hoy:hover { background: rgba(200,169,110,0.08); }
 
     /* ── Main ── */
     .main {
@@ -164,8 +173,8 @@
 
     /* ── Summary bar ── */
     .summary-bar {
-      background: var(--nd-orange);
-      color: #fff;
+      background: var(--primary);
+      color: var(--text);
       border-radius: var(--radius);
       padding: 15px 18px;
       margin-bottom: 16px;
@@ -197,8 +206,8 @@
     .avatar {
       width: 42px; height: 42px;
       border-radius: 50%;
-      background: var(--nd-orange);
-      color: #fff; font-weight: 700; font-size: 15px;
+      background: var(--primary);
+      color: var(--text); font-weight: 700; font-size: 15px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -255,7 +264,7 @@
       transition: all 0.12s;
       font-family: inherit;
     }
-    .btn-edit:hover { border-color: var(--nd-orange); color: var(--nd-orange); background: #FFF0EA; }
+    .btn-edit:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.08); }
 
     .dr-horario {
       font-size: 12px; color: var(--muted);
@@ -269,7 +278,7 @@
       padding: 1px 6px;
       font-size: 11px; font-weight: 700; color: var(--text);
     }
-    .h-badge.warn { border-color: var(--nd-orange); color: var(--nd-orange); }
+    .h-badge.warn { border-color: var(--accent); color: var(--accent); }
 
     .dr-amounts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 4px; }
     .amt { display: flex; flex-direction: column; }
@@ -282,8 +291,8 @@
 
     .est-badge {
       display: inline-block;
-      background: #FFF3E0; color: #BF6000;
-      border: 1px solid #F9A825;
+      background: rgba(241,196,15,0.15); color: #f1c40f;
+      border: 1px solid rgba(241,196,15,0.4);
       border-radius: 3px; font-size: 10px; font-weight: 700;
       padding: 0 5px; vertical-align: middle; margin-left: 4px;
     }
@@ -318,8 +327,8 @@
     .section-card-icon {
       width: 36px; height: 36px;
       border-radius: 50%;
-      background: #FFF0EA;
-      color: var(--nd-orange);
+      background: rgba(200,169,110,0.08);
+      color: var(--accent);
       font-size: 16px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
@@ -339,7 +348,7 @@
     .sup-row:last-child { border-bottom: none; }
     .sup-row-label { color: var(--muted); }
     .sup-row-value { font-weight: 600; }
-    .sup-row-value.accent { color: var(--nd-orange); }
+    .sup-row-value.accent { color: var(--accent); }
     .sup-row-value.neg { color: var(--danger); }
 
     .manual-input-row {
@@ -365,12 +374,12 @@
     }
     .manual-input-row input[type="number"]:focus {
       outline: none;
-      border-color: var(--nd-orange);
+      border-color: var(--accent);
     }
 
     .nd-cost-bar {
-      background: #1A1917;
-      color: #fff;
+      background: var(--surface2);
+      color: var(--text);
       border-radius: var(--radius);
       padding: 18px 18px;
       margin-bottom: 16px;
@@ -453,7 +462,7 @@
     .form-field         { display: flex; flex-direction: column; gap: 4px; }
     .form-field.full    { grid-column: 1 / -1; }
     .form-field label   { font-size: 12px; color: var(--muted); font-weight: 500; }
-    .form-field .fnote  { font-size: 11px; color: var(--nd-orange); font-weight: 600; }
+    .form-field .fnote  { font-size: 11px; color: var(--accent); font-weight: 600; }
 
     .form-field input[type="number"],
     .form-field input[type="time"],
@@ -473,18 +482,18 @@
     .form-field input:focus,
     .form-field textarea:focus {
       outline: none;
-      border-color: var(--nd-orange);
-      box-shadow: 0 0 0 3px rgba(232,93,38,0.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.1);
     }
     .form-field textarea { resize: vertical; min-height: 72px; }
 
     .form-check         { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .form-check input   { width: 18px; height: 18px; cursor: pointer; accent-color: var(--nd-orange); flex-shrink: 0; }
+    .form-check input   { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
     .form-check span    { font-size: 14px; }
 
     /* ── Buttons ── */
     .btn-primary {
-      background: var(--nd-orange); color: #fff;
+      background: var(--primary); color: var(--text);
       border: none; border-radius: 8px;
       padding: 10px 22px;
       font-size: 14px; font-weight: 700; cursor: pointer;
@@ -531,7 +540,7 @@
       position: fixed;
       bottom: 28px; left: 50%;
       transform: translateX(-50%) translateY(12px);
-      background: #1A1917; color: #fff;
+      background: var(--surface2); color: var(--text);
       padding: 10px 18px;
       border-radius: 8px;
       font-size: 13px; font-weight: 500;
@@ -548,50 +557,50 @@
 
     /* ── Portal bar ── */
     .portal-bar {
-      background: #0d0f12;
+      background: var(--bg);
       padding: 0 1rem;
       display: flex;
       align-items: center;
       height: 44px;
-      border-bottom: 1px solid #1f2436;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 40;
     }
     .portal-back {
       display: flex; align-items: center; gap: 6px;
-      text-decoration: none; color: #6b7280;
+      text-decoration: none; color: var(--muted);
       font-size: 12px; font-weight: 700;
       transition: color .15s;
     }
-    .portal-back:hover { color: #e2e6f0; }
+    .portal-back:hover { color: var(--text); }
     .portal-back-icon {
       width: 22px; height: 22px;
-      background: linear-gradient(135deg,#7a6340,#c8a96e);
+      background: linear-gradient(135deg,var(--accent-dim),var(--accent));
       border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
       font-size: 11px;
     }
-    .portal-divider { width:1px; height:16px; background:#2a3049; margin:0 10px; }
-    .portal-module  { font-size:13px; font-weight:700; color:#e85d26; letter-spacing:.3px; }
+    .portal-divider { width:1px; height:16px; background:var(--border); margin:0 10px; }
+    .portal-module  { font-size:13px; font-weight:700; color:var(--accent); letter-spacing:.3px; }
     .portal-bar-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
-    #portal-username { font-size:11px; color:#6b7280; }
+    #portal-username { font-size:11px; color:var(--muted); }
     .portal-logout {
-      background:none; border:1px solid #2a3049; color:#6b7280;
+      background:none; border:1px solid var(--border); color:var(--muted);
       padding:3px 9px; border-radius:4px; font-size:10px; font-weight:700;
       cursor:pointer; font-family:inherit;
     }
-    .portal-logout:hover { color:#e2e6f0; border-color:#6b7280; }
+    .portal-logout:hover { color:var(--text); border-color:var(--muted); }
 
     /* ── Reembolsos de obra ── */
-    .chip.reemb-chip { border-color: var(--nd-orange); }
-    .chip.reemb-chip b { color: var(--nd-orange); }
+    .chip.reemb-chip { border-color: var(--accent); }
+    .chip.reemb-chip b { color: var(--accent); }
     .reemb-section { border-top: 1px solid var(--border); padding: 11px 16px; background: var(--bg); }
     .reemb-header {
       display: flex; align-items: center; gap: 8px; cursor: pointer;
       font-size: 12px; font-weight: 600; user-select: none; -webkit-tap-highlight-color: transparent;
     }
-    .reemb-badge { margin-left: auto; color: var(--nd-orange); font-weight: 800; font-size: 13px; }
+    .reemb-badge { margin-left: auto; color: var(--accent); font-weight: 800; font-size: 13px; }
     .reemb-chevron { font-size: 9px; color: var(--muted); transition: transform .15s; }
     .reemb-header.open .reemb-chevron { transform: rotate(180deg); }
     .reemb-list { display: none; margin-top: 8px; }
@@ -603,7 +612,7 @@
     .reemb-item:last-child { border-bottom: none; }
     .reemb-item-prov { font-weight: 600; flex: 1; min-width: 80px; }
     .reemb-item-mat { font-size: 10px; color: var(--muted); flex: 2; min-width: 100px; }
-    .reemb-item-monto { font-weight: 700; color: var(--nd-orange); white-space: nowrap; }
+    .reemb-item-monto { font-weight: 700; color: var(--accent); white-space: nowrap; }
     .reemb-note {
       font-size: 10px; color: var(--muted); margin-top: 7px;
       padding-top: 7px; border-top: 1px solid var(--border); font-style: italic;
@@ -624,7 +633,7 @@
       cursor: pointer; border: none; background: none;
       transition: all .15s; font-family: inherit;
     }
-    .nav-tab.active { background: var(--surface); color: var(--nd-orange); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .nav-tab.active { background: var(--surface); color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 
     .page { display: none; }
     .page.active { display: block; }
@@ -637,8 +646,8 @@
       font-size: 13px; background: var(--surface); color: var(--text); font-family: inherit;
     }
     .btn-mini {
-      font-size: 11px; font-weight: 700; color: var(--nd-orange);
-      background: none; border: 1.5px solid var(--nd-orange); border-radius: 8px;
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      background: none; border: 1.5px solid var(--accent); border-radius: 8px;
       padding: 6px 10px; cursor: pointer; font-family: inherit; white-space: nowrap;
     }
     .pagos-select-all-row { margin-bottom: 4px; }
@@ -651,7 +660,7 @@
       font-size: 13px; color: var(--text); cursor: pointer;
       padding: 4px 0;
     }
-    .pagos-check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--nd-orange); flex-shrink: 0; }
+    .pagos-check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); flex-shrink: 0; }
     .pagos-check-strong { font-weight: 700; }
 
     .pagos-table-wrap { overflow-x: auto; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--surface); }
@@ -668,7 +677,7 @@
 <body>
 
 <!-- LOADING OVERLAY -->
-<div id="app-loading" style="position:fixed;inset:0;background:#0d0f12;display:flex;align-items:center;justify-content:center;z-index:999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#6b7280;letter-spacing:.02em">Verificando acceso…</div>
+<div id="app-loading" style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:var(--muted);letter-spacing:.02em">Verificando acceso…</div>
 
 <!-- PORTAL BAR -->
 <div class="portal-bar">
@@ -694,6 +703,7 @@
 
 <header>
   <div class="header-inner">
+    <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" style="height:32px;width:auto;" />
     <div class="logo-box">ND</div>
     <div class="header-text">
       <h1>Liquidación Cuadrilla</h1>
@@ -809,7 +819,7 @@
         <div class="manual-input-row" style="border-top: 2px solid var(--border); margin-top:4px; padding-top:12px;">
           <label style="font-weight:600; color:var(--text);">Total a pagar supervisor (ARS)</label>
           <input type="number" id="sup-total-manual" placeholder="0" min="0" step="1" oninput="recalcNDCost()"
-            style="font-size:16px; font-weight:800; border-color: var(--nd-orange);" />
+            style="font-size:16px; font-weight:800; border-color: var(--accent);" />
         </div>
         <div style="font-size:11px; color:var(--muted); margin-top:6px; padding-left:2px;">
           Sugerido = jornal + viáticos propios + comisión. Podés ajustarlo si hace falta.

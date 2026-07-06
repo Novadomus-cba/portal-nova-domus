@@ -4,29 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nova Domus — Cuadrilla</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 
 :root {
-  --nd-orange: #E85D26;
-  --nd-orange-light: #FDF0EB;
-  --nd-orange-border: #F5C4A8;
-  --bg: #F7F6F4;
-  --surface: #FFFFFF;
-  --border: #E8E6E1;
-  --border-strong: #D0CEC9;
-  --text: #1A1917;
-  --text-muted: #6B6966;
-  --text-hint: #A09D99;
-  --danger: #C0392B;
-  --danger-bg: #FDF2F0;
-  --danger-border: #F5C6C0;
-  --success: #1D8A5C;
-  --success-bg: #F0FAF5;
-  --warn-bg: #FFFBEB;
-  --warn-border: #FDE68A;
-  --warn-text: #92400E;
+  --nd-orange: #C8A96E;
+  --nd-orange-light: rgba(200,169,110,0.08);
+  --nd-orange-border: #7a6340;
+  --bg: #0B132B;
+  --surface: #131b3d;
+  --surface2: #141E61;
+  --border: #2a3468;
+  --border-strong: #3d4a7a;
+  --text: #FDFBF0;
+  --text-muted: #9a9cb8;
+  --text-hint: #9a9cb8;
+  --accent: #C8A96E;
+  --accent-dim: #7a6340;
+  --primary: #141E61;
+  --font-display: 'Michroma', sans-serif;
+  --font-body: 'Inter', Arial, sans-serif;
+  --danger: #e74c3c;
+  --danger-bg: rgba(231,76,60,0.12);
+  --danger-border: rgba(231,76,60,0.35);
+  --success: #2ecc71;
+  --success-bg: rgba(46,204,113,0.12);
+  --warn-bg: rgba(241,196,15,0.12);
+  --warn-border: rgba(241,196,15,0.35);
+  --warn-text: #f1c40f;
   --radius: 10px;
   --radius-sm: 6px;
 }
@@ -42,63 +49,68 @@ body {
 /* ── LOADING OVERLAY ── */
 #app-loading {
   position: fixed; inset: 0;
-  background: #0d0f12;
+  background: var(--bg);
   display: flex; align-items: center; justify-content: center;
   z-index: 999;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--text-muted);
   letter-spacing: 0.02em;
 }
 
 /* ── PORTAL HEADER ── */
 #app-header { position: sticky; top: 0; z-index: 100; }
 .portal-bar {
-  background: #0d0f12;
+  background: var(--bg);
   height: 52px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 16px;
-  border-bottom: 1px solid #232733;
+  border-bottom: 1px solid var(--border);
 }
 .portal-bar-left { display: flex; align-items: center; gap: 10px; }
 .portal-back {
   display: flex; align-items: center; gap: 7px;
   text-decoration: none;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 13px;
   font-family: 'Inter', sans-serif;
   transition: color 0.15s;
 }
-.portal-back:hover { color: #e8eaf0; }
+.portal-back:hover { color: var(--text); }
 .portal-back-icon {
   width: 24px; height: 24px;
-  background: linear-gradient(135deg, #7a6340, #c8a96e);
+  background: linear-gradient(135deg, var(--accent-dim, #7a6340), var(--accent, #C8A96E));
   border-radius: 5px;
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; flex-shrink: 0;
 }
-.portal-divider { width: 1px; height: 14px; background: #232733; }
+.portal-divider { width: 1px; height: 14px; background: var(--border); }
 .portal-module {
   font-size: 14px; font-weight: 600;
-  color: #e8eaf0;
-  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.portal-logo {
+  height: 32px; width: auto; display: block;
 }
 .portal-bar-right { display: flex; align-items: center; gap: 12px; }
 #portal-username {
-  font-size: 12px; color: #6b7280;
+  font-size: 12px; color: var(--text-muted);
   font-family: 'Inter', sans-serif;
 }
 .portal-logout {
   background: none;
-  border: 1px solid #232733;
-  color: #6b7280;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
   padding: 5px 12px;
   border-radius: 6px;
   font-family: 'Inter', sans-serif;
   font-size: 12px; cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
 }
-.portal-logout:hover { color: #e8eaf0; border-color: #6b7280; }
+.portal-logout:hover { color: var(--text); border-color: var(--text-muted); }
 
 /* ── MODULE TABS ── */
 .module-tabs {
@@ -167,8 +179,8 @@ select, input[type=text], input[type=number], input[type=date], input[type=time]
   font-family: inherit;
 }
 select:focus, input:focus, textarea:focus {
-  border-color: var(--nd-orange);
-  box-shadow: 0 0 0 3px rgba(232,93,38,.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,169,110,.15);
 }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .money-wrap { position: relative; }
@@ -206,7 +218,7 @@ select:focus, input:focus, textarea:focus {
 }
 .alert.show { display: flex; }
 .alert.warn { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
-.alert.info { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+.alert.info { background: rgba(110,168,254,0.12); color: #6ea8fe; border: 1px solid rgba(110,168,254,0.35); }
 .alert-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
 .obras-list { display: flex; flex-direction: column; gap: 8px; }
 .obra-item {
@@ -224,7 +236,7 @@ select:focus, input:focus, textarea:focus {
 }
 .btn-remove:hover { color: var(--danger); }
 .btn-add-obra {
-  font-size: 13px; color: var(--nd-orange);
+  font-size: 13px; color: var(--accent);
   background: none; border: none; cursor: pointer;
   padding: 8px 0 0; font-weight: 500;
   display: flex; align-items: center; gap: 4px;
@@ -244,10 +256,10 @@ select:focus, input:focus, textarea:focus {
   display: flex; justify-content: space-between;
   font-size: 15px; font-weight: 600; padding-top: 4px;
 }
-.resumen-total span:last-child { color: var(--nd-orange); }
+.resumen-total span:last-child { color: var(--accent); }
 .btn-primary {
   width: 100%; padding: 13px;
-  background: var(--nd-orange); color: white; border: none;
+  background: var(--primary); color: var(--text); border: none;
   border-radius: var(--radius); font-size: 15px; font-weight: 600;
   cursor: pointer; transition: opacity .15s, transform .1s;
   letter-spacing: -0.01em; font-family: inherit;
@@ -268,7 +280,7 @@ select:focus, input:focus, textarea:focus {
 .jornada-header:hover { background: var(--bg); }
 .jornada-tec { font-weight: 600; font-size: 14px; }
 .jornada-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.jornada-monto { font-size: 15px; font-weight: 700; color: var(--nd-orange); white-space: nowrap; }
+.jornada-monto { font-size: 15px; font-weight: 700; color: var(--accent); white-space: nowrap; }
 .jornada-body { padding: 12px 14px; display: none; background: var(--bg); }
 .jornada-body.open { display: block; }
 .jornada-detail-row {
@@ -300,7 +312,7 @@ select:focus, input:focus, textarea:focus {
 }
 .spinner {
   width: 18px; height: 18px;
-  border: 2px solid var(--border); border-top-color: var(--nd-orange);
+  border: 2px solid var(--border); border-top-color: var(--accent);
   border-radius: 50%; animation: spin .7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -329,7 +341,7 @@ select:focus, input:focus, textarea:focus {
 }
 .btn-confirm {
   flex: 2; padding: 12px;
-  background: var(--nd-orange); color: white;
+  background: var(--primary); color: var(--text);
   border: none; border-radius: var(--radius);
   font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
@@ -378,10 +390,10 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
   font-size: 16px; cursor: pointer; color: var(--text-muted);
   flex-shrink: 0; transition: background .15s, border-color .15s;
 }
-.btn-pin.active { background: var(--nd-orange); border-color: var(--nd-orange); }
+.btn-pin.active { background: var(--primary); border-color: var(--accent); color: var(--text); }
 #sel-tecnico:disabled {
-  opacity: 1; background: var(--nd-orange-light);
-  border-color: var(--nd-orange-border); color: var(--text);
+  opacity: 1; background: rgba(200,169,110,0.08);
+  border-color: var(--accent-dim); color: var(--text);
 }
 </style>
 </head>
@@ -399,6 +411,7 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
         Portal
       </a>
       <div class="portal-divider"></div>
+      <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" class="portal-logo" />
       <span class="portal-module">Cuadrilla</span>
     </div>
     <div class="portal-bar-right">
@@ -1148,7 +1161,7 @@ function abrirModal() {
         .map(([k, v]) => `<div style="display:flex;justify-content:space-between;padding:3px 0;color:var(--text-muted)">
           <span>${k}</span><span style="color:var(--text);font-weight:500">${v}</span></div>`).join('')}
       <div style="display:flex;justify-content:space-between;padding:8px 0 3px;border-top:1px solid var(--border);margin-top:6px;font-weight:700;font-size:15px">
-        <span>Neto a pagar</span><span style="color:var(--nd-orange)">${r.total}</span>
+        <span>Neto a pagar</span><span style="color:var(--accent)">${r.total}</span>
       </div>
     </div>`;
   document.getElementById('modal').classList.add('open');

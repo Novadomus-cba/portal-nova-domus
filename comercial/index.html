@@ -5,27 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nova Domus — Comercial</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 :root {
-  --nd: #E85D26; --nd2: #C04A1A; --bg: #F7F6F4; --surface: #FFF;
-  --border: #E8E6E1; --border2: #D0CEC9; --text: #1A1917; --muted: #6B6966;
-  --hint: #A09D99; --ok: #1D8A5C; --ok-bg: #F0FAF5; --warn: #92400E;
-  --warn-bg: #FFFBEB; --warn-border: #FDE68A; --danger: #C0392B; --danger-bg: #FDF2F0;
-  --info: #1E40AF; --info-bg: #EFF6FF; --r: 10px; --r2: 6px;
+  --nd: #C8A96E; --nd2: #7a6340; --bg: #0B132B; --surface: #131b3d;
+  --surface2: #141E61; --border: #2a3468; --border2: #3a4578; --text: #FDFBF0; --muted: #9a9cb8;
+  --hint: #6b7292; --ok: #5fbf7d; --ok-bg: rgba(95,191,125,.1); --warn: #e0b85c;
+  --warn-bg: rgba(224,184,92,.1); --warn-border: rgba(224,184,92,.35); --danger: #e05c5c; --danger-bg: rgba(224,92,92,.1);
+  --info: #6ea8fe; --info-bg: rgba(110,168,254,.1); --r: 10px; --r2: 6px;
+  --accent: #C8A96E; --accent-dim: #7a6340; --primary: #141E61;
+  --font-display: 'Michroma', sans-serif; --font-body: 'Inter', Arial, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;min-height:100vh}
+body{font-family:var(--font-body),-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;min-height:100vh}
 /* PORTAL BAR */
-.portal-bar{background:#0d0f12;padding:0 1rem;display:flex;align-items:center;height:44px;border-bottom:1px solid #1f2436;flex-shrink:0}
-.portal-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:#6b7280;font-size:12px;font-weight:700;transition:color .15s}
-.portal-back:hover{color:#e2e6f0}
-.portal-back-icon{width:22px;height:22px;background:linear-gradient(135deg,#7a6340,#c8a96e);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
-.portal-divider{width:1px;height:16px;background:#2a3049;margin:0 10px}
-.portal-module{font-size:13px;font-weight:700;color:#e85d26;letter-spacing:.3px}
+.portal-bar{background:var(--bg);padding:0 1rem;display:flex;align-items:center;height:44px;border-bottom:1px solid var(--border);flex-shrink:0}
+.portal-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--muted);font-size:12px;font-weight:700;transition:color .15s}
+.portal-back:hover{color:var(--text)}
+.portal-back-icon{width:22px;height:22px;background:linear-gradient(135deg,var(--accent-dim),var(--accent));border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
+.portal-divider{width:1px;height:16px;background:var(--border);margin:0 10px}
+.portal-module{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.3px;font-family:var(--font-display);text-transform:uppercase;letter-spacing:.03em}
 .portal-bar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-#portal-username{font-size:11px;color:#6b7280}
-.portal-logout{background:none;border:1px solid #2a3049;color:#6b7280;padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
-.portal-logout:hover{color:#e2e6f0;border-color:#6b7280}
+#portal-username{font-size:11px;color:var(--muted)}
+.portal-logout{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
+.portal-logout:hover{color:var(--text);border-color:var(--muted)}
 /* MODULE TABS */
 .module-tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1rem;display:flex;align-items:center;height:44px}
 .nav-tabs{display:flex;gap:2px;background:var(--bg);border-radius:var(--r2);padding:3px}
@@ -42,26 +46,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .field{display:flex;flex-direction:column;gap:4px}
 .field label{font-size:11px;color:var(--muted);font-weight:500}
 input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--border2);border-radius:var(--r2);font-size:14px;color:var(--text);background:var(--surface);outline:none;appearance:none;-webkit-appearance:none;transition:border-color .15s;font-family:inherit}
-input:focus,select:focus,textarea:focus{border-color:var(--nd);box-shadow:0 0 0 3px rgba(232,93,38,.1)}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,169,110,.15)}
 textarea{resize:vertical;min-height:60px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:var(--r2);border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
 .btn:active{opacity:.85}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-primary{background:var(--nd);color:#fff}
+.btn-primary{background:var(--primary);color:var(--text)}
 .btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border2)}
-.btn-ok{background:var(--ok-bg);color:var(--ok);border:1px solid #A7F3D0}
+.btn-ok{background:var(--ok-bg);color:var(--ok);border:1px solid rgba(95,191,125,.35)}
 .btn-sm{padding:5px 10px;font-size:11px}
 .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid transparent}
-.pill-ok{background:var(--ok-bg);color:var(--ok);border-color:#A7F3D0}
+.pill-ok{background:var(--ok-bg);color:var(--ok);border-color:rgba(95,191,125,.35)}
 .pill-warn{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-border)}
-.pill-nd{background:#FDF0EB;color:var(--nd);border-color:#F5C4A8}
+.pill-nd{background:rgba(200,169,110,.08);color:var(--accent);border-color:var(--accent-dim)}
 .pill-gray{background:var(--bg);color:var(--muted);border-color:var(--border2)}
-.pill-info{background:var(--info-bg);color:var(--info);border-color:#BFDBFE}
+.pill-info{background:var(--info-bg);color:var(--info);border-color:rgba(110,168,254,.35)}
 .toggle-group{display:flex;gap:6px;flex-wrap:wrap}
 .toggle-btn{padding:7px 14px;border-radius:var(--r2);border:1.5px solid var(--border2);font-size:13px;font-weight:500;cursor:pointer;background:var(--surface);color:var(--muted);transition:all .15s}
-.toggle-btn.active{border-color:var(--nd);color:var(--nd);background:#FDF0EB}
+.toggle-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(200,169,110,.08)}
 .tc-display{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg);border-radius:var(--r2)}
-.tc-val{font-size:18px;font-weight:700;color:var(--nd)}
+.tc-val{font-size:18px;font-weight:700;color:var(--accent)}
 .tc-lbl{font-size:11px;color:var(--muted)}
 .search-wrap{position:relative}
 .search-wrap input{padding-left:34px}
@@ -69,11 +73,11 @@ textarea{resize:vertical;min-height:60px}
 /* BROWSER TABS */
 .browser-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface)}
 .btab{flex:1;padding:10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .15s}
-.btab.active{color:var(--nd);border-bottom-color:var(--nd)}
+.btab.active{color:var(--accent);border-bottom-color:var(--accent)}
 /* BRANDS GRID */
 .brands-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
 .brand-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r2);padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s;font-size:12px;font-weight:600}
-.brand-card:active,.brand-card.active{border-color:var(--nd);background:#FDF0EB;color:var(--nd)}
+.brand-card:active,.brand-card.active{border-color:var(--accent);background:rgba(200,169,110,.08);color:var(--accent)}
 .brand-count{font-size:10px;color:var(--hint);font-weight:400;margin-top:2px}
 /* PRODUCTS LIST */
 .product-item{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;gap:10px}
@@ -81,7 +85,7 @@ textarea{resize:vertical;min-height:60px}
 .product-item:hover{background:var(--bg)}
 .product-name{font-size:13px;font-weight:600}
 .product-meta{font-size:11px;color:var(--muted);margin-top:2px}
-.product-price{font-size:13px;font-weight:700;color:var(--nd);white-space:nowrap;text-align:right}
+.product-price{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;text-align:right}
 .product-sku{font-size:10px;color:var(--hint);margin-top:1px;text-align:right}
 /* CART */
 .cart-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r2);padding:12px;margin-bottom:8px}
@@ -102,10 +106,10 @@ textarea{resize:vertical;min-height:60px}
 .summary-row span:last-child{color:var(--text);font-weight:500}
 .summary-divider{border:none;border-top:1px solid var(--border);margin:6px 0}
 .summary-total{display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding-top:4px}
-.summary-total span:last-child{color:var(--nd)}
-.commission-box{background:var(--info-bg);border:1px solid #BFDBFE;border-radius:var(--r2);padding:10px;margin-top:10px;font-size:12px;color:var(--info)}
+.summary-total span:last-child{color:var(--accent)}
+.commission-box{background:var(--info-bg);border:1px solid rgba(110,168,254,.35);border-radius:var(--r2);padding:10px;margin-top:10px;font-size:12px;color:var(--info)}
 /* WA TEXT */
-.wa-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--r2);padding:12px;font-family:monospace;font-size:12px;white-space:pre-wrap;line-height:1.6;color:#166534;max-height:300px;overflow-y:auto}
+.wa-box{background:var(--ok-bg);border:1px solid rgba(95,191,125,.35);border-radius:var(--r2);padding:12px;font-family:monospace;font-size:12px;white-space:pre-wrap;line-height:1.6;color:var(--ok);max-height:300px;overflow-y:auto}
 /* HIST */
 .hist-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden}
 .hist-hdr{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer}
@@ -121,10 +125,10 @@ textarea{resize:vertical;min-height:60px}
 .pl-table tr:last-child td{border-bottom:none}
 .pl-table tr:hover td{background:var(--bg)}
 .loader{display:flex;align-items:center;justify-content:center;padding:2rem;gap:8px;color:var(--muted);font-size:13px}
-.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--nd);border-radius:50%;animation:spin .7s linear infinite}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:2rem;color:var(--hint);font-size:13px}
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .25s;pointer-events:none;z-index:300;white-space:nowrap}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--primary);color:var(--text);padding:9px 18px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:all .25s;pointer-events:none;z-index:300;white-space:nowrap}
 .toast.ok{background:var(--ok)}
 .toast.err{background:var(--danger)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -140,12 +144,13 @@ textarea{resize:vertical;min-height:60px}
 <body>
 
 <!-- LOADING OVERLAY -->
-<div id="app-loading" style="position:fixed;inset:0;background:#0d0f12;display:flex;align-items:center;justify-content:center;z-index:999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#6b7280;letter-spacing:.02em">Verificando acceso…</div>
+<div id="app-loading" style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-family:var(--font-body),-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:var(--muted);letter-spacing:.02em">Verificando acceso…</div>
 
 <!-- PORTAL HEADER -->
-<div id="app-header" style="display:none">
+<div id="app-header" style="display:none;position:sticky;top:0;z-index:100">
   <div class="portal-bar">
     <div style="display:flex;align-items:center">
+      <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" style="height:32px;width:auto;margin-right:10px" />
       <a href="../index.html" class="portal-back">
         <span class="portal-back-icon">⌂</span>
         Portal
@@ -186,7 +191,7 @@ textarea{resize:vertical;min-height:60px}
           <div style="display:flex;align-items:center;gap:8px">
             <div style="position:relative;flex:1">
               <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none">$</span>
-              <input type="number" id="tc-input" placeholder="1498" style="padding-left:22px;font-size:16px;font-weight:700;color:var(--nd)" oninput="onTCChange(this.value)">
+              <input type="number" id="tc-input" placeholder="1498" style="padding-left:22px;font-size:16px;font-weight:700;color:var(--accent)" oninput="onTCChange(this.value)">
             </div>
             <button class="btn btn-secondary btn-sm" onclick="fetchTC()" title="Recargar desde BD">↻</button>
           </div>
@@ -320,7 +325,7 @@ textarea{resize:vertical;min-height:60px}
   <!-- Acciones -->
   <div id="actions-card" style="display:none;margin-bottom:20px">
     <button class="btn btn-primary" style="width:100%" onclick="guardarPresupuesto()" id="btn-guardar">💾 Guardar presupuesto</button>
-    <div id="save-ok-box" style="display:none;background:var(--ok-bg);border:1px solid #A7F3D0;border-radius:var(--r2);padding:12px;margin-top:8px;text-align:center">
+    <div id="save-ok-box" style="display:none;background:var(--ok-bg);border:1px solid rgba(95,191,125,.35);border-radius:var(--r2);padding:12px;margin-top:8px;text-align:center">
       <div style="color:var(--ok);font-weight:700;font-size:15px;margin-bottom:6px" id="save-ok-num"></div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Presupuesto guardado correctamente</div>
       <button class="btn btn-secondary" style="width:100%" onclick="irAHistorial()">Ver en Historial →</button>
@@ -386,7 +391,7 @@ textarea{resize:vertical;min-height:60px}
     </div>
 
     <!-- Link cliente -->
-    <div style="background:var(--info-bg);border:1px solid #BFDBFE;border-radius:var(--r2);padding:10px 12px;font-size:12px">
+    <div style="background:var(--info-bg);border:1px solid rgba(110,168,254,.35);border-radius:var(--r2);padding:10px 12px;font-size:12px">
       <div style="color:var(--info);font-weight:600;margin-bottom:4px">🔗 Link del cliente</div>
       <a id="mpres-link" href="#" target="_blank" style="color:var(--info);word-break:break-all;font-size:11px"></a>
     </div>
@@ -695,7 +700,7 @@ function renderServicioRow(id){
   const el=document.getElementById('srow-'+id);
   if(!s||!el)return;
   const total=getServicioTotal(s);
-  const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--nd)">${fARS(total)}</b></span>`:'<span style="color:var(--hint);font-size:11px">sin IVA</span>';
+  const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--accent)">${fARS(total)}</b></span>`:'<span style="color:var(--hint);font-size:11px">sin IVA</span>';
   el.querySelector('.svc-iva').innerHTML=ivaLabel;
 }
 
@@ -706,7 +711,7 @@ function renderServicios(){
   container.querySelectorAll('.svc-row').forEach(r=>r.remove());
   servicios.forEach(s=>{
     const total=getServicioTotal(s);
-    const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--nd)">${fARS(total)}</b></span>`:'<span style="color:var(--hint);font-size:11px">sin IVA</span>';
+    const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--accent)">${fARS(total)}</b></span>`:'<span style="color:var(--hint);font-size:11px">sin IVA</span>';
     const div=document.createElement('div');
     div.className='svc-row';div.id='srow-'+s.id;
     div.style='padding:10px 0;border-bottom:1px solid var(--border)';
@@ -780,7 +785,7 @@ function renderCart(){
           <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
         </div>
         <div style="text-align:right">
-          <div style="font-size:15px;font-weight:700;color:var(--nd)">${fUSD(displayPrice*item.qty)}</div>
+          <div style="font-size:15px;font-weight:700;color:var(--accent)">${fUSD(displayPrice*item.qty)}</div>
           <div style="font-size:11px;color:var(--muted)">Lista ${fUSD(pvp)} · ${displayDesc}</div>
         </div>
       </div>
@@ -790,7 +795,7 @@ function renderCart(){
           <input type="number" step="0.01" min="0" placeholder="${ceil(precioFinal)}"
             value="${override?item.precioOverride:''}"
             oninput="setPrecioOverride(${item.id},this.value)"
-            style="font-size:13px;padding:5px 8px;border-color:${override?'var(--nd)':'var(--border2)'}">
+            style="font-size:13px;padding:5px 8px;border-color:${override?'var(--accent)':'var(--border2)'}">
           ${override?`<button class="btn btn-secondary btn-sm" onclick="clearOverride(${item.id})" title="Restaurar precio calculado">↺</button>`:''}
         </div>
       </div>
@@ -817,7 +822,7 @@ function renderCart(){
           <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
         </div>
         <div style="text-align:right">
-          <div style="font-size:15px;font-weight:700;color:var(--nd)">${fARS(sp.precio*item.qty)}</div>
+          <div style="font-size:15px;font-weight:700;color:var(--accent)">${fARS(sp.precio*item.qty)}</div>
           <div style="font-size:11px;color:var(--muted)">Unitario ${fARS(sp.precio)}</div>
         </div>
       </div>
@@ -1015,7 +1020,7 @@ async function cargarHistorial(){
           </div>
           <div style="display:flex;align-items:center;gap:8px">
             <div style="text-align:right">
-              <div style="font-size:13px;font-weight:700;color:var(--nd)">${fUSD(p.total_usd||0)}</div>
+              <div style="font-size:13px;font-weight:700;color:var(--accent)">${fUSD(p.total_usd||0)}</div>
               <span class="pill ${estadoClass[p.estado]||'pill-gray'}" style="margin-top:4px">${p.estado}</span>
             </div>
             <span style="color:var(--hint);font-size:18px">›</span>
@@ -1053,7 +1058,7 @@ async function abrirModalPres(id){
       <div class="summary-row"><span>TC BNA</span><span>${fARS(p.tc_bna_oficial||0)}</span></div>
       <div class="summary-row"><span>Factura A</span><span>${p.cliente_requiere_factura_a?'Sí':'No'}</span></div>
       <hr class="summary-divider">
-      <div class="summary-row"><span>Total USD</span><span style="font-weight:700;color:var(--nd)">${fUSD(p.total_usd||0)}</span></div>
+      <div class="summary-row"><span>Total USD</span><span style="font-weight:700;color:var(--accent)">${fUSD(p.total_usd||0)}</span></div>
       <div class="summary-row"><span>Ref. ARS</span><span>${fARS(p.total_ars||0)}</span></div>
       <div class="summary-row"><span>Comisión est.</span><span style="color:var(--info)">${fUSD(p.comision_comercial_usd||0)}</span></div>`;
 
@@ -1219,7 +1224,7 @@ function renderPL(){
     const b2cOrig=clienteTipo;
     clienteTipo='B2C';const{precioFinal:b2c}=calcPrecio(item);clienteTipo='B2B';
     const{precioFinal:b2b}=calcPrecio(item);clienteTipo=b2cOrig;
-    return`<tr><td><b>${item.nombre}</b><br><span style="font-size:10px;color:var(--hint)">${item.sku||''}</span></td><td>${item.marca}</td><td><span class="pill pill-gray" style="font-size:9px">${item.grupo||''}</span></td><td style="color:var(--muted)">${fUSD(pvp)}</td><td style="color:var(--nd);font-weight:600">${fUSD(b2c)}</td><td style="color:var(--info);font-weight:600">${fUSD(b2b)}</td></tr>`;
+    return`<tr><td><b>${item.nombre}</b><br><span style="font-size:10px;color:var(--hint)">${item.sku||''}</span></td><td>${item.marca}</td><td><span class="pill pill-gray" style="font-size:9px">${item.grupo||''}</span></td><td style="color:var(--muted)">${fUSD(pvp)}</td><td style="color:var(--accent);font-weight:600">${fUSD(b2c)}</td><td style="color:var(--info);font-weight:600">${fUSD(b2b)}</td></tr>`;
   }).join('');
 }
 
