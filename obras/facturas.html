@@ -61,6 +61,13 @@ select option { background: var(--surface2); }
 textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 .row { display: flex; gap: 10px; }
 .row .field { flex: 1; min-width: 0; }
+.ai-low-confidence { border-color: #f1c40f !important; box-shadow: 0 0 0 1px #f1c40f; }
+.ai-hint { font-size: 10px; color: #f1c40f; margin-top: 4px; }
+
+/* ── CARGA POR FOTO ── */
+.imagen-preview-wrap { margin-top: 10px; }
+.imagen-preview-wrap img { max-width: 100%; max-height: 260px; border-radius: 8px; border: 1px solid var(--border); display: block; }
+.imagen-status { margin-top: 8px; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 
 /* ── TOGGLE ── */
 .toggle-wrap { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
@@ -146,6 +153,19 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 <div class="page">
   <div class="container">
 
+    <!-- CARGA POR FOTO -->
+    <div class="card">
+      <div class="card-title">Cargar desde foto (opcional)</div>
+      <div class="field">
+        <label>Foto del comprobante</label>
+        <input type="file" id="fImagenInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="onImagenSelected(event)">
+      </div>
+      <div class="imagen-preview-wrap" id="imagenPreviewWrap" style="display:none">
+        <img id="imagenPreview" alt="Vista previa del comprobante">
+        <div class="imagen-status" id="imagenStatus"></div>
+      </div>
+    </div>
+
     <!-- FORM -->
     <div class="card">
       <div class="card-title">Cargar factura</div>
@@ -159,7 +179,7 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 
       <div class="field">
         <label>Proveedor *</label>
-        <input type="text" id="fProveedor" list="dl-proveedores" placeholder="Nombre del proveedor">
+        <input type="text" id="fProveedor" list="dl-proveedores" placeholder="Nombre del proveedor" oninput="this.classList.remove('ai-low-confidence')">
         <datalist id="dl-proveedores">
           <option value="Dystech">
           <option value="Masnet">
@@ -171,42 +191,45 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
       <div class="row">
         <div class="field">
           <label>Tipo de comprobante *</label>
-          <select id="fTipo">
+          <select id="fTipo" onchange="this.classList.remove('ai-low-confidence')">
             <option value="Factura A">Factura A</option>
             <option value="Factura B">Factura B</option>
+            <option value="Factura C">Factura C</option>
             <option value="Ticket">Ticket</option>
+            <option value="Nota de Crédito">Nota de Crédito</option>
+            <option value="Nota de Débito">Nota de Débito</option>
             <option value="Remito">Remito</option>
             <option value="Otro">Otro</option>
           </select>
         </div>
         <div class="field">
           <label>N° comprobante</label>
-          <input type="text" id="fNumero" placeholder="0001-00012345">
+          <input type="text" id="fNumero" placeholder="0001-00012345" oninput="this.classList.remove('ai-low-confidence')">
         </div>
       </div>
 
       <div class="field">
         <label>Fecha de compra *</label>
-        <input type="date" id="fFecha">
+        <input type="date" id="fFecha" oninput="this.classList.remove('ai-low-confidence')">
       </div>
 
       <div class="field">
         <label>Materiales / Descripción *</label>
-        <textarea id="fMateriales" placeholder="Detallá qué se compró…"></textarea>
+        <textarea id="fMateriales" placeholder="Detallá qué se compró…" oninput="this.classList.remove('ai-low-confidence')"></textarea>
       </div>
 
       <div class="row">
         <div class="field">
           <label>Sin IVA $</label>
-          <input type="number" id="fSinIva" step="0.01" min="0" placeholder="0.00" oninput="calcConIva()">
+          <input type="number" id="fSinIva" step="0.01" min="0" placeholder="0.00" oninput="calcConIva(); this.classList.remove('ai-low-confidence')">
         </div>
         <div class="field" style="max-width:90px">
           <label>IVA</label>
-          <input type="number" id="fIva" step="0.01" min="0" max="1" value="0.21" oninput="calcConIva()">
+          <input type="number" id="fIva" step="0.01" min="0" max="1" value="0.21" oninput="calcConIva(); this.classList.remove('ai-low-confidence')">
         </div>
         <div class="field">
           <label>Con IVA $ *</label>
-          <input type="number" id="fConIva" step="0.01" min="0" placeholder="0.00">
+          <input type="number" id="fConIva" step="0.01" min="0" placeholder="0.00" oninput="this.classList.remove('ai-low-confidence')">
           <div class="field-hint">Autocalculado, editable</div>
         </div>
       </div>
@@ -259,7 +282,10 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
         <select id="eTipo">
           <option value="Factura A">Factura A</option>
           <option value="Factura B">Factura B</option>
+          <option value="Factura C">Factura C</option>
           <option value="Ticket">Ticket</option>
+          <option value="Nota de Crédito">Nota de Crédito</option>
+          <option value="Nota de Débito">Nota de Débito</option>
           <option value="Remito">Remito</option>
           <option value="Otro">Otro</option>
         </select>
@@ -320,6 +346,16 @@ const SB_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
 const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
+const ANALYZE_IMAGE_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co/functions/v1/analyze-image';
+
+const TIPO_COMPROBANTE_IA_A_LABEL = {
+  FACTURA_A:    'Factura A',
+  FACTURA_B:    'Factura B',
+  FACTURA_C:    'Factura C',
+  TICKET:       'Ticket',
+  NOTA_CREDITO: 'Nota de Crédito',
+  NOTA_DEBITO:  'Nota de Débito',
+};
 
 const { createClient } = supabase;
 const authClient = createClient(AUTH_URL, AUTH_KEY);
@@ -477,6 +513,145 @@ function setPagoE(tipo) {
   document.getElementById('eTecnicoWrap').style.display = tipo === 'tecnico' ? 'block' : 'none';
 }
 
+// ── IVA (tasa 0-1, no importe) ───────────────────────────────
+function ivaValueOrDefault(rawValue) {
+  // parseFloat(rawValue) || 0.21 trataría un 0 explícito como "sin valor" (0 es falsy en JS)
+  // y lo pisaría con el default — acá se respeta un 0 explícito (comprobante sin IVA).
+  const trimmed = String(rawValue ?? '').trim();
+  if (trimmed === '') return 0.21;
+  const parsed = parseFloat(trimmed);
+  return isNaN(parsed) ? 0.21 : parsed;
+}
+
+// ── CARGA POR FOTO (IA) ───────────────────────────────────────
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function clearAiConfidenceFlags() {
+  ['fProveedor', 'fTipo', 'fNumero', 'fFecha', 'fMateriales', 'fSinIva', 'fIva', 'fConIva']
+    .forEach(id => document.getElementById(id).classList.remove('ai-low-confidence'));
+}
+
+function flagIfLowConfidence(fieldId, confianza) {
+  if (confianza === 'baja') {
+    document.getElementById(fieldId).classList.add('ai-low-confidence');
+  }
+}
+
+async function onImagenSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  clearAiConfidenceFlags();
+  const previewWrap = document.getElementById('imagenPreviewWrap');
+  const previewImg  = document.getElementById('imagenPreview');
+  const statusEl    = document.getElementById('imagenStatus');
+
+  previewImg.src = URL.createObjectURL(file);
+  previewWrap.style.display = 'block';
+  statusEl.innerHTML = '<div class="spin"></div> Analizando con IA…';
+
+  try {
+    const { data: { session } } = await authClient.auth.getSession();
+    if (!session) {
+      statusEl.textContent = 'Sesión inválida, recargá la página.';
+      return;
+    }
+
+    const imageBase64 = await fileToBase64(file);
+
+    const res = await fetch(ANALYZE_IMAGE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({
+        analysis_type: 'factura',
+        image_base64: imageBase64,
+        mime_type: file.type || 'image/jpeg',
+      }),
+    });
+
+    const rawText = await res.text();
+    let data;
+    try { data = JSON.parse(rawText); } catch { data = null; }
+
+    if (!res.ok || !data) {
+      const errMsg = (data && data.error) || rawText || res.statusText;
+      statusEl.textContent = 'No se pudo analizar: ' + errMsg;
+      toast('No se pudo analizar la imagen', 'err');
+      return;
+    }
+
+    applyAiResult(data.result);
+    statusEl.textContent = '✅ Listo — revisá los campos marcados en amarillo antes de guardar.';
+  } catch (e) {
+    statusEl.textContent = 'Error al analizar la imagen.';
+    toast('Error al analizar la imagen: ' + e.message, 'err');
+  }
+}
+
+function applyAiResult(result) {
+  if (!result) return;
+  const proveedor  = result.proveedor || {};
+  const tipo       = result.tipo_comprobante || {};
+  const numero     = result.numero_comprobante || {};
+  const fecha      = result.fecha_compra || {};
+  const materiales = result.materiales || {};
+  const sinIva     = result.monto_sin_iva || {};
+  const iva        = result.iva || {};
+  const conIva     = result.monto_con_iva || {};
+
+  if (proveedor.valor) document.getElementById('fProveedor').value = proveedor.valor;
+  flagIfLowConfidence('fProveedor', proveedor.confianza);
+
+  const tipoLabel = TIPO_COMPROBANTE_IA_A_LABEL[tipo.valor];
+  if (tipoLabel) document.getElementById('fTipo').value = tipoLabel;
+  flagIfLowConfidence('fTipo', tipo.confianza);
+
+  if (numero.valor) document.getElementById('fNumero').value = numero.valor;
+  flagIfLowConfidence('fNumero', numero.confianza);
+
+  if (fecha.valor) document.getElementById('fFecha').value = fecha.valor;
+  flagIfLowConfidence('fFecha', fecha.confianza);
+
+  if (materiales.valor) document.getElementById('fMateriales').value = materiales.valor;
+  flagIfLowConfidence('fMateriales', materiales.confianza);
+
+  const sinIvaNum = Number(sinIva.valor);
+  const sinIvaOk  = sinIva.valor != null && !isNaN(sinIvaNum);
+  if (sinIvaOk) document.getElementById('fSinIva').value = sinIvaNum.toFixed(2);
+  flagIfLowConfidence('fSinIva', sinIva.confianza);
+
+  // El importe de IVA viene tal como figura impreso (nunca calculado). El campo del
+  // formulario es una TASA (0-1) para autocompletar el total, así que acá se deriva
+  // la tasa a partir del importe real — es un mapeo de UI, no una re-inferencia del
+  // dato que ya extrajo la IA. Si no hay IVA discriminado (no_aplica / no legible),
+  // la tasa queda en 0, tal como pidió Agustín.
+  const ivaNum = Number(iva.valor);
+  if (iva.valor == null || isNaN(ivaNum)) {
+    document.getElementById('fIva').value = '0';
+  } else if (sinIvaOk && sinIvaNum > 0) {
+    document.getElementById('fIva').value = (ivaNum / sinIvaNum).toFixed(4);
+  }
+  flagIfLowConfidence('fIva', iva.confianza); // "no_aplica" no marca advertencia: es esperado, no una duda
+
+  const conIvaNum = Number(conIva.valor);
+  if (conIva.valor != null && !isNaN(conIvaNum)) {
+    document.getElementById('fConIva').value = conIvaNum.toFixed(2);
+  } else {
+    calcConIva();
+  }
+  flagIfLowConfidence('fConIva', conIva.confianza);
+}
+
 async function submitFactura() {
   const obraId     = document.getElementById('fObra').value;
   const proveedor  = document.getElementById('fProveedor').value.trim();
@@ -503,7 +678,7 @@ async function submitFactura() {
     fecha_compra:       fecha,
     materiales,
     monto_sin_iva:      parseFloat(document.getElementById('fSinIva').value) || 0,
-    iva:                parseFloat(document.getElementById('fIva').value) || 0.21,
+    iva:                ivaValueOrDefault(document.getElementById('fIva').value),
     monto_con_iva:      conIva,
     origen_pago:        origenPago,
     tecnico_id:         tecnicoId,
@@ -556,6 +731,10 @@ function resetForm() {
   document.getElementById('fTipo').value  = 'Factura A';
   document.getElementById('fFecha').value = new Date().toISOString().slice(0, 10);
   setPago('empresa');
+  clearAiConfidenceFlags();
+  document.getElementById('fImagenInput').value = '';
+  document.getElementById('imagenPreviewWrap').style.display = 'none';
+  document.getElementById('imagenStatus').textContent = '';
   // obra stays selected so the user can load more facturas for the same obra
 }
 
@@ -674,7 +853,7 @@ async function saveEdit() {
     fecha_compra:       fecha,
     materiales,
     monto_sin_iva:      parseFloat(document.getElementById('eSinIva').value) || 0,
-    iva:                parseFloat(document.getElementById('eIva').value) || 0.21,
+    iva:                ivaValueOrDefault(document.getElementById('eIva').value),
     monto_con_iva:      conIva,
     origen_pago:        origenPagoE,
     tecnico_id:         tecnicoId,

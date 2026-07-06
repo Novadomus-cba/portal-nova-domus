@@ -119,7 +119,6 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   margin-bottom: 12px;
-  overflow: hidden;
 }
 .card-header {
   padding: 12px 14px;
@@ -364,6 +363,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
           <button class="toggle-btn active" id="cat-obra" onclick="setCategoria('obra')">Obra</button>
           <button class="toggle-btn" id="cat-producto" onclick="setCategoria('producto')">Producto</button>
           <button class="toggle-btn" id="cat-marca" onclick="setCategoria('marca')">Marca</button>
+          <button class="toggle-btn" id="cat-otro" onclick="setCategoria('otro')">Otro</button>
         </div>
       </div>
     </div>
@@ -407,6 +407,12 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
           </div>
         </div>
 
+        <!-- Otro (evento, expo, conferencia, nota periodística, etc.) -->
+        <div class="field" id="ref-otro-field" style="display:none">
+          <label class="lbl">¿De qué se trata?</label>
+          <input type="text" id="ref-otro-input" placeholder="Ej: Expo Domótica 2026, conferencia sobre IoT, nota en La Voz del Interior..." oninput="onOtroInput()">
+        </div>
+
       </div>
     </div>
 
@@ -448,6 +454,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
         <option value="obra">Obra</option>
         <option value="producto">Producto</option>
         <option value="marca">Marca</option>
+        <option value="otro">Otro</option>
       </select>
     </div>
     <div class="field gal-search">
@@ -574,6 +581,7 @@ function setCategoria(cat) {
   document.getElementById('cat-obra').classList.toggle('active', cat === 'obra');
   document.getElementById('cat-producto').classList.toggle('active', cat === 'producto');
   document.getElementById('cat-marca').classList.toggle('active', cat === 'marca');
+  document.getElementById('cat-otro').classList.toggle('active', cat === 'otro');
 
   clearSelectedRef();
   document.getElementById('ref-search-input').value = '';
@@ -581,19 +589,26 @@ function setCategoria(cat) {
 
   const searchField = document.getElementById('ref-search-field');
   const marcaField  = document.getElementById('ref-marca-field');
+  const otroField   = document.getElementById('ref-otro-field');
   const cardTitle   = document.getElementById('ref-card-title');
   const searchLabel = document.getElementById('ref-search-label');
   const searchInput = document.getElementById('ref-search-input');
 
+  searchField.style.display = 'none';
+  marcaField.style.display  = 'none';
+  otroField.style.display   = 'none';
+
   if (cat === 'marca') {
-    searchField.style.display = 'none';
     marcaField.style.display = 'block';
     cardTitle.textContent = 'Marca';
     document.getElementById('ref-marca-select').value = '';
     document.getElementById('ref-marca-otra-field').style.display = 'none';
+  } else if (cat === 'otro') {
+    otroField.style.display = 'block';
+    cardTitle.textContent = 'Otro';
+    document.getElementById('ref-otro-input').value = '';
   } else {
     searchField.style.display = 'block';
-    marcaField.style.display = 'none';
     if (cat === 'obra') {
       cardTitle.textContent = 'Obra';
       searchLabel.textContent = 'Buscar obra';
@@ -604,6 +619,11 @@ function setCategoria(cat) {
       searchInput.placeholder = 'Nombre, marca o SKU...';
     }
   }
+}
+
+function onOtroInput() {
+  const val = document.getElementById('ref-otro-input').value.trim();
+  selectedRef = val ? { id: val, label: val } : null;
 }
 
 function onRefSearchInput() {
@@ -768,9 +788,10 @@ async function handleUpload() {
   hideUploadAlerts();
 
   if (!selectedRef) {
-    showUploadAlert('error', categoria === 'marca'
-      ? 'Seleccioná una marca.'
-      : 'Buscá y seleccioná una referencia.');
+    const msg = categoria === 'marca' ? 'Seleccioná una marca.'
+      : categoria === 'otro' ? 'Contá de qué se trata.'
+      : 'Buscá y seleccioná una referencia.';
+    showUploadAlert('error', msg);
     return;
   }
   if (!selectedFile) {
@@ -847,6 +868,7 @@ function resetUploadForm() {
   document.getElementById('ref-search-input').value = '';
   document.getElementById('ref-marca-select').value = '';
   document.getElementById('ref-marca-otra-field').style.display = 'none';
+  document.getElementById('ref-otro-input').value = '';
 }
 
 function escapeHtml(s) {
