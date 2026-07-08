@@ -672,6 +672,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 <div class="dw"><div id="DC"></div><div id="DR"></div></div>
 <div id="toast"></div>
 
+<script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ─────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -688,7 +689,7 @@ async function handleLogout() {
 // ═══════════════════════════════════════════════════════════════
 //  CONFIG & SUPABASE
 // ═══════════════════════════════════════════════════════════════
-let SB_URL='https://voowjwzlkhdknpapkhxc.supabase.co', SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM', sbOK=false;
+let SB_URL='https://voowjwzlkhdknpapkhxc.supabase.co', cuadrillaToken=null, sbOK=false;
 let currentUserId=null, currentUserRole=null;
 
 const ls  = k=>{ try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null} };
@@ -701,11 +702,11 @@ const fd  = iso=>{ if(!iso)return''; const[y,m,d]=iso.split('-'); return`${d}/${
 
 // SUPABASE FETCH
 async function sbFetch(method,table,body=null,query=''){
-  if(!SB_URL||!SB_KEY) throw new Error('Sin configuración Supabase');
+  if(!SB_URL||!cuadrillaToken) throw new Error('Sin configuración Supabase');
   const r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{
     method,
     headers:{
-      'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,
+      'apikey':CUADRILLA_PUBLISHABLE_KEY,'Authorization':`Bearer ${cuadrillaToken}`,
       'Content-Type':'application/json',
       'Prefer':method==='POST'?'return=representation':''
     },
@@ -754,6 +755,7 @@ window.onload = async () => {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html'; return;
   }
+  cuadrillaToken = await getCuadrillaToken(authClient);
   currentUserId = session.user.id;
   currentUserRole = profile.role;
   document.getElementById('portal-username').textContent = profile.full_name;

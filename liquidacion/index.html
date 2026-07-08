@@ -900,6 +900,7 @@
 <!-- Toast -->
 <div id="toast" class="toast"></div>
 
+<script src="../auth-bridge.js"></script>
 <script>
   /* ── Auth ── */
   var AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -917,7 +918,7 @@
      Config
   ══════════════════════════════════════════════ */
   var SUPA_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+  var cuadrillaToken = null;
   var MIN_HORAS = 6;
   var SUPERVISOR_COMMISSION_RATE = 0.03; // 3%
 
@@ -1015,8 +1016,8 @@
 
   function sbHeaders(extra) {
     var h = {
-      'apikey': SUPA_KEY,
-      'Authorization': 'Bearer ' + SUPA_KEY,
+      'apikey': CUADRILLA_PUBLISHABLE_KEY,
+      'Authorization': 'Bearer ' + cuadrillaToken,
       'Accept': 'application/json'
     };
     if (extra) {
@@ -1864,11 +1865,14 @@
     if (!profile || ALLOWED_ROLES.indexOf(profile.role) === -1) {
       window.location.href = '../index.html'; return;
     }
-    document.getElementById('portal-username').textContent = profile.full_name;
-    document.getElementById('app-loading').style.display = 'none';
-    loadTecnicos()
-      .catch(function(e){ console.warn('No se cargaron técnicos:', e.message); })
-      .then(function()  { loadSemana(); });
+    return getCuadrillaToken(authClient).then(function(token) {
+      cuadrillaToken = token;
+      document.getElementById('portal-username').textContent = profile.full_name;
+      document.getElementById('app-loading').style.display = 'none';
+      return loadTecnicos()
+        .catch(function(e){ console.warn('No se cargaron técnicos:', e.message); })
+        .then(function()  { loadSemana(); });
+    });
   }).catch(function() {
     window.location.href = '../login.html';
   });

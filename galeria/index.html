@@ -487,6 +487,7 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
 
 <div class="toast" id="toast"></div>
 
+<script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -505,11 +506,15 @@ async function handleLogout() {
 
 // ── OBRAS (read-only client) ─────────────────────────────────
 const OBRAS_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-const OBRAS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+let cuadrillaToken = null;
 
 async function fetchJson(url, key, path) {
+  const isCuadrilla = url === OBRAS_URL;
   const res = await fetch(url + path, {
-    headers: { 'apikey': key, 'Authorization': 'Bearer ' + key }
+    headers: {
+      'apikey': isCuadrilla ? CUADRILLA_PUBLISHABLE_KEY : key,
+      'Authorization': `Bearer ${isCuadrilla ? cuadrillaToken : key}`
+    }
   });
   const text = await res.text();
   if (!res.ok) throw new Error(text);
@@ -546,6 +551,8 @@ async function init() {
     window.location.href = '../index.html';
     return;
   }
+
+  cuadrillaToken = await getCuadrillaToken(authClient);
 
   currentProfile = profile;
   document.getElementById('portal-username').textContent = profile.full_name;
@@ -644,7 +651,7 @@ async function searchObras(q) {
   const resultsEl = document.getElementById('ref-search-results');
   try {
     const enc = encodeURIComponent(q);
-    const rows = await fetchJson(OBRAS_URL, OBRAS_KEY,
+    const rows = await fetchJson(OBRAS_URL, null,
       `/rest/v1/obras?select=id,nombre,codigo_obra,cliente_razon_social&or=(nombre.ilike.%25${enc}%25,cliente_razon_social.ilike.%25${enc}%25)&limit=15`);
     renderRefResults(rows.map(o => ({
       id: o.id,

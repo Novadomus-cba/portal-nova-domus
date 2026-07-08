@@ -800,6 +800,7 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
 
 <div class="toast" id="toast"></div>
 
+<script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -816,7 +817,7 @@ async function handleLogout() {
 
 // ── PANEL DATA ────────────────────────────────────────────────
 const SUPA_URL    = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-const SUPA_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+let cuadrillaToken = null;
 const MIN_HORAS   = 6;
 const VALOR_PEAJE = 3000;
 
@@ -844,8 +845,8 @@ async function supa(path, opts = {}) {
   const res = await fetch(SUPA_URL + path, {
     ...opts,
     headers: {
-      'apikey': SUPA_KEY,
-      'Authorization': 'Bearer ' + SUPA_KEY,
+      'apikey': CUADRILLA_PUBLISHABLE_KEY,
+      'Authorization': 'Bearer ' + cuadrillaToken,
       'Content-Type': 'application/json',
       'Prefer': opts.prefer || '',
       ...(opts.headers || {})
@@ -871,6 +872,8 @@ async function init() {
     window.location.href = '../index.html';
     return;
   }
+
+  cuadrillaToken = await getCuadrillaToken(authClient);
 
   // Portal header
   document.getElementById('portal-username').textContent = profile.full_name;

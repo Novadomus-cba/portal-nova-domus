@@ -218,24 +218,27 @@ tfoot td:first-child{text-align:left;color:var(--text2)}
 
 <div id="toast"></div>
 
+<script src="auth-bridge.js"></script>
 <script>
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
 const SB_URL  = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin', 'supervisor'];
 
 const { createClient } = supabase;
 const authClient = createClient(AUTH_URL, AUTH_KEY);
-const HDR = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
+function HDR() {
+  return { 'apikey': CUADRILLA_PUBLISHABLE_KEY, 'Authorization': `Bearer ${cuadrillaToken}`, 'Content-Type': 'application/json' };
+}
 
 async function sbGet(path, qs = '') {
-  const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, { headers: HDR });
+  const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, { headers: HDR() });
   return JSON.parse(await r.text());
 }
 async function sbPost(path, body, prefer = 'return=representation') {
   const r = await fetch(`${SB_URL}/rest/v1/${path}`, {
-    method: 'POST', headers: { ...HDR, 'Prefer': prefer }, body: JSON.stringify(body)
+    method: 'POST', headers: { ...HDR(), 'Prefer': prefer }, body: JSON.stringify(body)
   });
   const t = await r.text();
   if (!r.ok) throw new Error(t);
@@ -243,13 +246,13 @@ async function sbPost(path, body, prefer = 'return=representation') {
 }
 async function sbPatch(path, qs, body) {
   const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, {
-    method: 'PATCH', headers: { ...HDR, 'Prefer': 'return=minimal' }, body: JSON.stringify(body)
+    method: 'PATCH', headers: { ...HDR(), 'Prefer': 'return=minimal' }, body: JSON.stringify(body)
   });
   if (!r.ok) throw new Error(await r.text());
 }
 async function sbRpc(fn, params) {
   const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {
-    method: 'POST', headers: { ...HDR, 'Prefer': 'return=representation' }, body: JSON.stringify(params)
+    method: 'POST', headers: { ...HDR(), 'Prefer': 'return=representation' }, body: JSON.stringify(params)
   });
   const t = await r.text();
   if (!r.ok) throw new Error(t);
@@ -271,6 +274,7 @@ async function init() {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = 'index.html'; return;
   }
+  cuadrillaToken = await getCuadrillaToken(authClient);
   document.getElementById('topbarUser').textContent = profile.full_name;
 
   const now = new Date();

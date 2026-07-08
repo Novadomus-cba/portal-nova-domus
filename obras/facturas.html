@@ -339,10 +339,11 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 
 <div id="toast"></div>
 
+<script src="../auth-bridge.js"></script>
 <script>
 // ── CONFIG ────────────────────────────────────────────────────
 const SB_URL   = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-const SB_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+let cuadrillaToken = null;
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
 const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
@@ -372,8 +373,10 @@ const pendingDel = new Set();
 
 // ── FETCH ─────────────────────────────────────────────────────
 async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '', schema = '') {
+  const isCuadrilla = baseUrl === SB_URL;
   const headers = {
-    'apikey': apiKey, 'Authorization': `Bearer ${apiKey}`,
+    'apikey': isCuadrilla ? CUADRILLA_PUBLISHABLE_KEY : apiKey,
+    'Authorization': `Bearer ${isCuadrilla ? cuadrillaToken : apiKey}`,
     'Content-Type': 'application/json',
     'Prefer': method === 'POST' ? 'return=representation' : method === 'PATCH' ? 'return=minimal' : ''
   };
@@ -393,13 +396,13 @@ async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '',
   return JSON.parse(text);
 }
 
-const sbGet       = (t, q='') => apiFetch(SB_URL,   SB_KEY,   'GET',    t, null, q);
-const sbPost      = (t, b)    => apiFetch(SB_URL,   SB_KEY,   'POST',   t, b);
-const sbPatch     = (t, b, q) => apiFetch(SB_URL,   SB_KEY,   'PATCH',  t, b,    q);
-const sbDel       = (t, q)    => apiFetch(SB_URL,   SB_KEY,   'DELETE', t, null, q);
+const sbGet       = (t, q='') => apiFetch(SB_URL,   null,     'GET',    t, null, q);
+const sbPost      = (t, b)    => apiFetch(SB_URL,   null,     'POST',   t, b);
+const sbPatch     = (t, b, q) => apiFetch(SB_URL,   null,     'PATCH',  t, b,    q);
+const sbDel       = (t, q)    => apiFetch(SB_URL,   null,     'DELETE', t, null, q);
 const authGet     = (t, q='') => apiFetch(AUTH_URL, AUTH_KEY, 'GET',    t, null, q);
-const cuadrillGet = (t, q='') => apiFetch(SB_URL,   SB_KEY,   'GET',    t, null, q, 'cuadrilla');
-const cuadrillPost= (t, b)    => apiFetch(SB_URL,   SB_KEY,   'POST',   t, b,    '',  'cuadrilla');
+const cuadrillGet = (t, q='') => apiFetch(SB_URL,   null,     'GET',    t, null, q, 'cuadrilla');
+const cuadrillPost= (t, b)    => apiFetch(SB_URL,   null,     'POST',   t, b,    '',  'cuadrilla');
 
 // ── FORMAT ─────────────────────────────────────────────────────
 const f$ = n => '$ ' + (n || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -421,6 +424,8 @@ window.onload = async () => {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html'; return;
   }
+
+  cuadrillaToken = await getCuadrillaToken(authClient);
 
   currentUser = { id: session.user.id, full_name: profile.full_name, role: profile.role };
   document.getElementById('userName').textContent = profile.full_name;

@@ -227,6 +227,7 @@ body {
   </div>
 </div>
 
+<script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -243,11 +244,11 @@ async function handleLogout() {
 
 // ── DATA (Cuadrilla/Obras project) ───────────────────────────
 const SB_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvb3dqd3psa2hka25wYXBraHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjM1NDIsImV4cCI6MjA5NzY5OTU0Mn0.RnnDcxrQbjM4n3RbLQiT0LZj-tgoID5friXsoyY8GsM';
+let cuadrillaToken = null;
 
 async function sbGet(path) {
   const res = await fetch(SB_URL + '/rest/v1/' + path, {
-    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+    headers: { apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken }
   });
   const text = await res.text();
   if (!res.ok) throw new Error(text);
@@ -425,6 +426,8 @@ async function init() {
     window.location.href = '../index.html';
     return;
   }
+
+  cuadrillaToken = await getCuadrillaToken(authClient);
 
   document.getElementById('portal-username').textContent = profile.full_name;
 
