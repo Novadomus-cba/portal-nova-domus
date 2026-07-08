@@ -150,9 +150,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 .delta-up{color:var(--danger)}.delta-down{color:var(--ok)}.delta-eq{color:var(--text3)}
 /* DOC */
 .dw{position:fixed;left:-9999px;top:0;pointer-events:none}
-#DC,#DR{width:800px;background:#fff;font-family:Arial,sans-serif;font-size:11px;
+#DC,#DR,#cdRawC,#cdRawR{width:800px;background:#fff;font-family:Arial,sans-serif;font-size:11px;
   color:#111;padding:30px;line-height:1.5}
-#DC *,#DR *{font-family:Arial,sans-serif;color:#111}
+#DC *,#DR *,#cdRawC *,#cdRawR *{font-family:Arial,sans-serif;color:#111}
 .db2{font-size:9px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:2px}
 .dt{font-size:21px;font-weight:900;color:#0f1117}
 .dp{display:inline-block;background:#0f1117;color:#e8a020;font-size:9px;
@@ -668,8 +668,31 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
+<!-- Modal Detalle de Certificado -->
+<div class="mbg" id="mCertDetalle">
+  <div class="modal" style="width:900px;max-width:95vw;max-height:90vh;overflow-y:auto">
+    <div class="mhdr"><h3 id="cdTitle">Certificado</h3><button class="cx" onclick="closeM('mCertDetalle')">✕</button></div>
+    <div class="mbody">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-g" id="cdPvCB" onclick="showCdPV('c',this)"
+            style="border-color:var(--accent);color:var(--accent)">📋 Certificado</button>
+          <button class="btn btn-g" id="cdPvRB" onclick="showCdPV('r',this)">🧾 Recibo</button>
+        </div>
+        <div id="cdEstadoBadge" style="margin-left:auto"></div>
+      </div>
+      <div id="cdPvC" class="pv-wrap"><div class="pv-doc" id="cdDocC"></div></div>
+      <div id="cdPvR" style="display:none" class="pv-wrap"><div class="pv-doc" id="cdDocR"></div></div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mCertDetalle')">Cerrar</button>
+      <div id="cdActions" style="display:contents"></div>
+    </div>
+  </div>
+</div>
+
 <!-- DOCUMENTOS OFFSCREEN -->
-<div class="dw"><div id="DC"></div><div id="DR"></div></div>
+<div class="dw"><div id="DC"></div><div id="DR"></div><div id="cdRawC"></div><div id="cdRawR"></div></div>
 <div id="toast"></div>
 
 <script src="../auth-bridge.js"></script>
@@ -1079,7 +1102,7 @@ async function renderObraDetalle(id){
 
     ${certs.length?`
     <div class="tw">
-      <table><thead><tr><th>Cert.</th><th>Período</th><th>Estado</th><th>Total recibo</th><th>Recibo estado</th></tr></thead>
+      <table><thead><tr><th>Cert.</th><th>Período</th><th>Estado</th><th>Total recibo</th><th>Recibo estado</th><th></th></tr></thead>
       <tbody>
         ${certs.map(c=>{
           const rec=recs.find(r=>r.certificado_id===c.id);
@@ -1093,6 +1116,7 @@ async function renderObraDetalle(id){
               onchange="cambiarEstRec('${rec.id}',this.value)">
               ${['BORRADOR','ENVIADO','PAGADO'].map(e=>`<option ${rec.estado===e?'selected':''}>${e}</option>`).join('')}
             </select>`:'—'}</td>
+            <td><button class="btn btn-g btn-sm" onclick="abrirDetalleCert('${c.id}')">👁 Ver</button></td>
           </tr>`;
         }).join('')}
       </tbody></table>
@@ -1241,6 +1265,410 @@ async function cambiarEstRec(id,estado){
   catch(e){ toast('Error: '+e.message,'err'); }
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  DETALLE / EDICIÓN DE CERTIFICADOS
+// ═══════════════════════════════════════════════════════════════
+const mapCertTipo=t=>t==='EXCEDENTE_ESPONTANEO'?'EXC_ESPONTANEO':t==='EXCEDENTE_SOLICITUD'?'EXC_SOLICITUD':'CERTIFICADO';
+const mapRecTipo =t=>t==='EXCEDENTE'?'EXC':t==='MATERIAL'?'MAT':t==='CERTIFICADO'?'CERT':'OTRO';
+const unmapCertTipo=cls=>cls==='EXC_ESPONTANEO'?'EXCEDENTE_ESPONTANEO':cls==='EXC_SOLICITUD'?'EXCEDENTE_SOLICITUD':'CERTIFICADO';
+
+let cdCert=null,cdRec=null,cdObra=null;
+
+function resetCdViewSkeleton(){
+  document.querySelector('#mCertDetalle .mbody').innerHTML=`
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-g" id="cdPvCB" onclick="showCdPV('c',this)"
+          style="border-color:var(--accent);color:var(--accent)">📋 Certificado</button>
+        <button class="btn btn-g" id="cdPvRB" onclick="showCdPV('r',this)">🧾 Recibo</button>
+      </div>
+      <div id="cdEstadoBadge" style="margin-left:auto"></div>
+    </div>
+    <div id="cdPvC" class="pv-wrap"><div class="pv-doc" id="cdDocC"></div></div>
+    <div id="cdPvR" style="display:none" class="pv-wrap"><div class="pv-doc" id="cdDocR"></div></div>`;
+}
+
+async function abrirDetalleCert(certId){
+  let cert,rec;
+  try{
+    const cs=await sbGet('certificados',`?id=eq.${certId}&select=*,certificados_items(*)`);
+    cert=cs[0];
+    const rs=await sbGet('recibos',`?certificado_id=eq.${certId}&select=*,recibos_lineas(*)`);
+    rec=rs[0];
+  }catch(e){ toast('Error al cargar el certificado: '+e.message,'err'); return; }
+  if(!cert){ toast('Certificado no encontrado','err'); return; }
+  const obra=cache.obras().find(o=>o.id===cert.obra_id);
+  if(!obra){ toast('Obra no encontrada','err'); return; }
+  cdCert=cert;cdRec=rec;cdObra=obra;
+
+  resetCdViewSkeleton();
+
+  const items=(cert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+    .map(i=>({cls:mapCertTipo(i.tipo),desc:i.descripcion,usd:i.precio_usd_unitario,
+      pct:i.porcentaje_etapa,qty:i.cantidad,
+      sub:i.monto_pesos_manual!=null?i.monto_pesos_manual:i.monto_pesos_calculado}));
+  buildDC({obra,numC:cert.numero,fecha:cert.fecha_emision,desde:cert.periodo_desde,hasta:cert.periodo_hasta,
+    items,target:'cdRawC'});
+  document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
+    .replace('id="cdRawC"','style="background:#fff"');
+
+  if(rec){
+    const lineas=(rec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo)}));
+    const matFacts=await getMatFacts(obra.id,cert.periodo_desde,cert.periodo_hasta);
+    buildDR({obra,numR:rec.numero,fecha:rec.fecha_emision,tc:rec.tipo_cambio_usd,det:rec.detalle_descripcion,
+      lineas,matFacts,target:'cdRawR'});
+    document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
+      .replace('id="cdRawR"','style="background:#fff"');
+  }else{
+    document.getElementById('cdDocR').innerHTML=
+      '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
+  }
+
+  document.getElementById('cdTitle').textContent=`Certificado N°${cert.numero} — ${obra.nombre}`;
+  document.getElementById('cdEstadoBadge').innerHTML=eBadge(cert.estado);
+
+  const actions=document.getElementById('cdActions');
+  if(cert.estado==='BORRADOR'||cert.estado==='ENVIADO'){
+    actions.innerHTML=`<button class="btn btn-p" onclick="editarCertificado('${cert.id}')">✏ Editar</button>`;
+  }else if(cert.estado==='PAGADO'){
+    actions.innerHTML=`<button class="btn btn-p" onclick="rectificarCertificado('${cert.id}')">📄 Rectificar</button>`;
+  }else{
+    actions.innerHTML='';
+  }
+
+  showCdPV('c',document.getElementById('cdPvCB'));
+  openM('mCertDetalle');
+}
+
+function showCdPV(w,el){
+  document.getElementById('cdPvC').style.display=w==='c'?'block':'none';
+  document.getElementById('cdPvR').style.display=w==='r'?'block':'none';
+  [document.getElementById('cdPvCB'),document.getElementById('cdPvRB')].forEach(b=>{b.style.borderColor='';b.style.color='';});
+  el.style.borderColor=el.style.color='var(--accent)';
+}
+
+// ── Edición de certificado/recibo (BORRADOR / ENVIADO) ──────────
+//    y rectificación (PAGADO) — comparten el mismo formulario de ítems/líneas.
+let edMode='edit',edCert=null,edRec=null,edObra=null,edItems=[],edLineas=[],edTC=1430;
+
+function editarCertificado(id){
+  if(!cdCert||cdCert.id!==id){ toast('Error interno: certificado no cargado','err'); return; }
+  edMode='edit';
+  edCert=cdCert;edRec=cdRec;edObra=cdObra;
+  edTC=edCert.tipo_cambio_usd||1430;
+  edItems=(edCert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+    .map(i=>({_key:i.id,_id:i.id,_new:false,_deleted:false,orden:i.orden||0,
+      cls:mapCertTipo(i.tipo),desc:i.descripcion||'',qty:i.cantidad||1,
+      pct:i.porcentaje_etapa||1,usd:i.precio_usd_unitario||null}));
+  edLineas=(edRec?.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+    .map(l=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
+      tipo:l.tipo,desc:l.descripcion||'',monto:l.monto_pesos||0}));
+  renderEditForm();
+}
+
+function rectificarCertificado(id){
+  if(!cdCert||cdCert.id!==id){ toast('Error interno: certificado no cargado','err'); return; }
+  if(cdCert.estado!=='PAGADO'){ toast('Solo se pueden rectificar certificados PAGADOS','err'); return; }
+  edMode='rectify';
+  edCert=cdCert;edRec=cdRec;edObra=cdObra;
+  edTC=edCert.tipo_cambio_usd||1430;
+  // Los ítems/líneas se copian como nuevos: van a un certificado/recibo nuevo, el original no se toca.
+  edItems=(edCert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+    .map(i=>({_key:uid(),_id:null,_new:true,_deleted:false,orden:i.orden||0,
+      cls:mapCertTipo(i.tipo),desc:i.descripcion||'',qty:i.cantidad||1,
+      pct:i.porcentaje_etapa||1,usd:i.precio_usd_unitario||null}));
+  edLineas=(edRec?.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+    .map(l=>({_key:uid(),_id:null,_new:true,_deleted:false,orden:l.orden||0,
+      tipo:l.tipo,desc:l.descripcion||'',monto:l.monto_pesos||0}));
+  renderEditForm();
+}
+
+function renderEditForm(){
+  const isRect=edMode==='rectify';
+  document.getElementById('cdTitle').textContent=
+    (isRect?`Rectificar Certificado N°${edCert.numero}`:`Editar Certificado N°${edCert.numero}`)+` — ${edObra.nombre}`;
+  document.getElementById('cdEstadoBadge').innerHTML=isRect
+    ?'<span class="bd b-warn">📄 Se creará una versión nueva — el original quedará RECTIFICADO</span>'
+    :eBadge(edCert.estado);
+  const body=document.querySelector('#mCertDetalle .mbody');
+  body.innerHTML=`
+    <div class="ct">Ítems del certificado</div>
+    <div id="edItemsWrap"></div>
+    <div style="display:flex;gap:6px;margin:10px 0 18px;flex-wrap:wrap">
+      <button class="btn btn-g btn-sm" onclick="addEI('CERTIFICADO')">+ Certificado</button>
+      <button class="btn btn-g btn-sm" style="color:var(--warn);border-color:var(--warn)"
+        onclick="addEI('EXC_ESPONTANEO')">+ Exc. espontáneo</button>
+      <button class="btn btn-g btn-sm" style="color:#a78bfa;border-color:#a78bfa"
+        onclick="addEI('EXC_SOLICITUD')">+ Exc. por solicitud</button>
+    </div>
+    ${edRec?`
+    <div class="ct">Líneas del recibo</div>
+    <div id="edLineasWrap"></div>
+    <div style="margin:10px 0 4px">
+      <button class="btn btn-g btn-sm" onclick="addEL()">+ Línea</button>
+    </div>`:`
+    <div class="ct">Líneas del recibo</div>
+    <div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Sin recibo asociado a este certificado.</div>`}
+    <div id="edTotal" style="text-align:right;font-weight:800;color:var(--accent);margin-top:8px"></div>`;
+
+  const iw=document.getElementById('edItemsWrap');
+  const visItems=edItems.filter(i=>!i._deleted);
+  iw.innerHTML=visItems.length?'':
+    '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá ítems al certificado</div>';
+  visItems.forEach(renderEIBlock);
+
+  if(edRec){
+    const lw=document.getElementById('edLineasWrap');
+    const visLineas=edLineas.filter(l=>!l._deleted);
+    lw.innerHTML=visLineas.length?'':
+      '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Sin líneas de recibo</div>';
+    visLineas.forEach(renderELBlock);
+  }
+  recalcEd();
+
+  const actions=document.getElementById('cdActions');
+  actions.innerHTML=`
+    <button class="btn btn-g" onclick="cancelarEdicionCert()">${isRect?'Cancelar rectificación':'Cancelar edición'}</button>
+    <button class="btn btn-p" onclick="previewEdicionCert()">👁 Vista previa y guardar</button>`;
+}
+
+function cancelarEdicionCert(){
+  abrirDetalleCert(edCert.id);
+}
+
+function addEI(cls){
+  const key=uid();
+  edItems.push({_key:key,_id:null,_new:true,_deleted:false,orden:edItems.length,
+    cls,desc:'',qty:1,pct:1,usd:null});
+  renderEIBlock(edItems[edItems.length-1]);
+  recalcEd();
+}
+
+function renderEIBlock(item){
+  const wrap=document.getElementById('edItemsWrap');
+  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  const {l,c}=CM[item.cls];
+  const div=document.createElement('div');
+  div.className='iblk';div.id=`ei-${item._key}`;
+  div.innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <span style="font-size:10px;font-weight:900;color:${c};letter-spacing:.8px">${l}</span>
+      <button class="btn btn-d btn-sm" onclick="rmEI('${item._key}')">✕</button>
+    </div>
+    <div class="fg" style="margin-bottom:8px">
+      <label>Descripción</label>
+      <textarea rows="2" oninput="updEI('${item._key}','desc',this.value)">${item.desc||''}</textarea>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="fg" style="max-width:90px"><label>Cantidad</label>
+        <input type="number" value="${item.qty||1}" min="0.1" step="0.1"
+          oninput="updEI('${item._key}','qty',parseFloat(this.value)||1);calcEI('${item._key}')"></div>
+      <div class="fg" style="max-width:120px"><label>% Etapa (0–1)</label>
+        <input type="number" value="${item.pct||1}" step="0.01" min="0.01" max="1"
+          oninput="updEI('${item._key}','pct',parseFloat(this.value)||0);calcEI('${item._key}')"></div>
+      <div class="fg" style="max-width:120px"><label>USD Unitario</label>
+        <input type="number" step="0.01" value="${item.usd!=null?item.usd:''}" placeholder="auto"
+          oninput="updEI('${item._key}','usd',parseFloat(this.value)||null);calcEI('${item._key}')"></div>
+    </div>
+    <div style="font-size:11px;color:var(--accent);font-weight:800;margin-top:6px;text-align:right"
+      id="eisub-${item._key}"></div>`;
+  wrap.appendChild(div);
+  calcEI(item._key);
+}
+
+function updEI(key,f,v){const i=edItems.find(x=>x._key===key);if(i)i[f]=v;}
+
+function calcEI(key){
+  const i=edItems.find(x=>x._key===key);if(!i)return;
+  const sub=(i.usd||0)*(i.pct||0)*(i.qty||1)*edTC;
+  i.sub=sub;
+  const el=document.getElementById(`eisub-${key}`);
+  if(el)el.textContent=sub>0?`Subtotal: ${f$(sub)}`:'Subtotal: sin precio asignado';
+  recalcEd();
+}
+
+function rmEI(key){
+  const idx=edItems.findIndex(x=>x._key===key);if(idx<0)return;
+  if(edItems[idx]._new) edItems.splice(idx,1);
+  else edItems[idx]._deleted=true;
+  document.getElementById(`ei-${key}`)?.remove();
+  if(!edItems.filter(i=>!i._deleted).length)
+    document.getElementById('edItemsWrap').innerHTML=
+      '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá ítems al certificado</div>';
+  recalcEd();
+}
+
+const RL_LABELS={CERTIFICADO:'📋 Certificado',EXCEDENTE:'📌 Excedente',MATERIAL:'🧾 Material',OTRO:'▪ Otro'};
+
+function addEL(){
+  const key=uid();
+  edLineas.push({_key:key,_id:null,_new:true,_deleted:false,orden:edLineas.length,
+    tipo:'OTRO',desc:'',monto:0});
+  renderELBlock(edLineas[edLineas.length-1]);
+  recalcEd();
+}
+
+function renderELBlock(l){
+  const wrap=document.getElementById('edLineasWrap');
+  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  const div=document.createElement('div');
+  div.className='iblk';div.id=`el-${l._key}`;
+  div.innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <select style="max-width:160px" onchange="updEL('${l._key}','tipo',this.value)">
+        ${Object.keys(RL_LABELS).map(t=>`<option value="${t}" ${l.tipo===t?'selected':''}>${RL_LABELS[t]}</option>`).join('')}
+      </select>
+      <button class="btn btn-d btn-sm" style="margin-left:auto" onclick="rmEL('${l._key}')">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="fg" style="flex:2;min-width:220px"><label>Descripción</label>
+        <input type="text" value="${(l.desc||'').replace(/"/g,'&quot;')}"
+          oninput="updEL('${l._key}','desc',this.value)"></div>
+      <div class="fg" style="max-width:140px"><label>Monto $</label>
+        <input type="number" value="${l.monto||0}" step="1"
+          oninput="updEL('${l._key}','monto',parseFloat(this.value)||0);recalcEd()"></div>
+    </div>`;
+  wrap.appendChild(div);
+}
+
+function updEL(key,f,v){const l=edLineas.find(x=>x._key===key);if(l)l[f]=v;}
+
+function rmEL(key){
+  const idx=edLineas.findIndex(x=>x._key===key);if(idx<0)return;
+  if(edLineas[idx]._new) edLineas.splice(idx,1);
+  else edLineas[idx]._deleted=true;
+  document.getElementById(`el-${key}`)?.remove();
+  if(!edLineas.filter(l=>!l._deleted).length)
+    document.getElementById('edLineasWrap').innerHTML=
+      '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Sin líneas de recibo</div>';
+  recalcEd();
+}
+
+function recalcEd(){
+  const totC=edItems.filter(i=>!i._deleted).reduce((s,i)=>s+(i.sub||0),0);
+  const totL=edLineas.filter(l=>!l._deleted).reduce((s,l)=>s+(l.monto||0),0);
+  const el=document.getElementById('edTotal');
+  if(el)el.textContent=`Total certificado: ${f$(totC)} · Total recibo: ${f$(totL)}`;
+}
+
+async function previewEdicionCert(){
+  const isRect=edMode==='rectify';
+  resetCdViewSkeleton();
+  document.getElementById('cdTitle').textContent=
+    (isRect?`Vista previa — Rectificación de Certificado N°${edCert.numero}`:`Vista previa — Certificado N°${edCert.numero}`)+` — ${edObra.nombre}`;
+  document.getElementById('cdEstadoBadge').innerHTML=isRect
+    ?'<span class="bd b-warn">⚠ Se creará un certificado y recibo nuevos — el original pasará a RECTIFICADO</span>'
+    :'<span class="bd b-warn">⚠ Revisá antes de guardar</span>';
+
+  const items=edItems.filter(i=>!i._deleted).map(i=>({cls:i.cls,desc:i.desc}));
+  buildDC({obra:edObra,numC:edCert.numero,fecha:edCert.fecha_emision,desde:edCert.periodo_desde,hasta:edCert.periodo_hasta,
+    items,target:'cdRawC'});
+  document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
+    .replace('id="cdRawC"','style="background:#fff"');
+
+  if(edRec){
+    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto}));
+    const matFacts=await getMatFacts(edObra.id,edCert.periodo_desde,edCert.periodo_hasta);
+    buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
+      lineas,matFacts,target:'cdRawR'});
+    document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
+      .replace('id="cdRawR"','style="background:#fff"');
+  }else{
+    document.getElementById('cdDocR').innerHTML=
+      '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
+  }
+
+  showCdPV('c',document.getElementById('cdPvCB'));
+
+  const actions=document.getElementById('cdActions');
+  actions.innerHTML=isRect?`
+    <button class="btn btn-g" onclick="renderEditForm()">← Volver a editar</button>
+    <button class="btn btn-p" onclick="confirmarRectificarCert()">✅ Confirmar rectificación</button>`:`
+    <button class="btn btn-g" onclick="renderEditForm()">← Volver a editar</button>
+    <button class="btn btn-p" onclick="confirmarGuardarCert()">✅ Confirmar y guardar</button>`;
+}
+
+async function confirmarGuardarCert(){
+  try{
+    let orden=0;
+    for(const i of edItems){
+      if(i._deleted){
+        if(!i._new) await sbDel('certificados_items',`?id=eq.${i._id}`);
+        continue;
+      }
+      const payload={tipo:unmapCertTipo(i.cls),descripcion:i.desc,precio_usd_unitario:i.usd||null,
+        porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,orden:orden++};
+      if(i._new) await sbPost('certificados_items',{...payload,certificado_id:edCert.id});
+      else await sbPatch('certificados_items',payload,`?id=eq.${i._id}`);
+    }
+    if(edRec){
+      let ordenL=0;
+      for(const l of edLineas){
+        if(l._deleted){
+          if(!l._new) await sbDel('recibos_lineas',`?id=eq.${l._id}`);
+          continue;
+        }
+        const payload={tipo:l.tipo,descripcion:l.desc,monto_pesos:l.monto||0,orden:ordenL++};
+        if(l._new) await sbPost('recibos_lineas',{...payload,recibo_id:edRec.id});
+        else await sbPatch('recibos_lineas',payload,`?id=eq.${l._id}`);
+      }
+    }
+    toast('✅ Certificado actualizado','ok');
+    closeM('mCertDetalle');
+    await loadObras();
+    selObra(selObraId);
+  }catch(e){
+    toast('Error al guardar: '+e.message,'err');
+  }
+}
+
+async function confirmarRectificarCert(){
+  try{
+    const co=await sbGet('certificados',`?obra_id=eq.${edObra.id}&select=numero&order=numero.desc&limit=1`);
+    const numC=co.length?co[0].numero+1:1;
+
+    const cr=await sbPost('certificados',{
+      obra_id:edObra.id,numero:numC,fecha_emision:new Date().toISOString().slice(0,10),
+      periodo_desde:edCert.periodo_desde,periodo_hasta:edCert.periodo_hasta,
+      tipo_cambio_usd:edTC,estado:'BORRADOR',rectifica_id:edCert.id
+    });
+    const newCertId=cr[0].id;
+    let orden=0;
+    for(const i of edItems.filter(x=>!x._deleted)){
+      await sbPost('certificados_items',{certificado_id:newCertId,tipo:unmapCertTipo(i.cls),
+        descripcion:i.desc,precio_usd_unitario:i.usd||null,porcentaje_etapa:i.pct||null,
+        cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,orden:orden++});
+    }
+
+    if(edRec){
+      const ro=await sbGet('recibos',`?obra_id=eq.${edObra.id}&select=numero&order=numero.desc&limit=1`);
+      const numR=ro.length?ro[0].numero+1:1;
+      const rr=await sbPost('recibos',{
+        obra_id:edObra.id,certificado_id:newCertId,numero:numR,
+        fecha_emision:new Date().toISOString().slice(0,10),tipo_cambio_usd:edTC,
+        detalle_descripcion:edRec.detalle_descripcion,estado:'BORRADOR',rectifica_id:edRec.id
+      });
+      const newRecId=rr[0].id;
+      let ordenL=0;
+      for(const l of edLineas.filter(x=>!x._deleted)){
+        await sbPost('recibos_lineas',{recibo_id:newRecId,tipo:l.tipo,descripcion:l.desc,
+          monto_pesos:l.monto||0,orden:ordenL++});
+      }
+      await sbPatch('recibos',{estado:'RECTIFICADO'},`?id=eq.${edRec.id}`);
+    }
+
+    await sbPatch('certificados',{estado:'RECTIFICADO'},`?id=eq.${edCert.id}`);
+
+    toast(`✅ Rectificación creada — Certificado N°${numC}`,'ok');
+    closeM('mCertDetalle');
+    await loadObras();
+    selObra(selObraId);
+  }catch(e){
+    toast('Error al rectificar: '+e.message,'err');
+  }
+}
+
 function editRubro(rid,obraId){
   const r=cache.rubros().find(x=>x.id===rid);
   const tb=cache.tarifario().find(t=>t.id===r?.tarifario_base_id||t.codigo===r?.codigo);
@@ -1303,21 +1731,25 @@ async function onSObraChange(){
   document.getElementById('sTC').value=gs('tc')||'1430';
 }
 
+async function getMatFacts(obraId,desde,hasta){
+  if(!obraId||!desde||!hasta)return[];
+  try{
+    const rows=await sbGet('facturas_obra',
+      '?select=proveedor,materiales,monto_con_iva,fecha_compra' +
+      '&obra_id=eq.'+obraId+
+      '&fecha_compra=gte.'+desde+
+      '&fecha_compra=lte.'+hasta+
+      '&order=fecha_compra.asc');
+    return Array.isArray(rows)?rows:[];
+  }catch{ return[]; }
+}
+
 async function loadMatFacts(){
   sMatFacts=[];
   if(!sObra)return;
   const desde=document.getElementById('sDesde').value;
   const hasta=document.getElementById('sHasta').value;
-  if(!desde||!hasta)return;
-  try{
-    const rows=await sbGet('facturas_obra',
-      '?select=proveedor,materiales,monto_con_iva,fecha_compra' +
-      '&obra_id=eq.'+sObra.id+
-      '&fecha_compra=gte.'+desde+
-      '&fecha_compra=lte.'+hasta+
-      '&order=fecha_compra.asc');
-    sMatFacts=Array.isArray(rows)?rows:[];
-  }catch{ sMatFacts=[]; }
+  sMatFacts=await getMatFacts(sObra.id,desde,hasta);
 }
 
 function goS(n){
@@ -1510,17 +1942,18 @@ async function buildPreviews(){
     .replace('id="DR"','style="background:#fff"');
 }
 
-function buildDC(){
-  const o=sObra;if(!o)return;
-  const num=document.getElementById('sNumC').value;
-  const fecha=fd(document.getElementById('sFecha').value);
-  const desde=fd(document.getElementById('sDesde').value);
-  const hasta=fd(document.getElementById('sHasta').value);
-  const bC=c=>sItems.filter(i=>i.cls===c);
+function buildDC(src){
+  const o=src?src.obra:sObra;if(!o)return;
+  const num=src?src.numC:document.getElementById('sNumC').value;
+  const fecha=fd(src?src.fecha:document.getElementById('sFecha').value);
+  const desde=fd(src?src.desde:document.getElementById('sDesde').value);
+  const hasta=fd(src?src.hasta:document.getElementById('sHasta').value);
+  const items=src?src.items:sItems;
+  const bC=c=>items.filter(i=>i.cls===c);
   const iHTML=(arr,col)=>arr.length
     ?arr.map(i=>`<div class="di"><span style="color:${col};font-weight:900">▪</span><span>${i.desc||'(sin descripción)'}</span></div>`).join('')
     :'<div style="color:#aaa;font-size:10px;padding:4px 0">—</div>';
-  document.getElementById('DC').innerHTML=`
+  document.getElementById(src?.target||'DC').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
       <div>
         <div class="db2">Habitamos Espacios Inteligentes</div>
@@ -1556,32 +1989,38 @@ function buildDC(){
       Tel: 3516-747513 | Av. Colón 3835, Córdoba | novadomuscba@gmail.com | www.novadomuscba.com.ar | @novadomuscba</div>`;
 }
 
-function buildDR(){
-  const o=sObra;if(!o)return;
-  const num=document.getElementById('sNumR').value;
-  const fecha=fd(document.getElementById('sFecha').value);
-  const tc=parseFloat(document.getElementById('sTC').value)||1430;
-  const det=document.getElementById('sDet').value;
-  const tar=cache.tarifario();
-  const rubs=cache.rubros().filter(r=>r.obra_id===o.id);
+function buildDR(src){
+  const o=src?src.obra:sObra;if(!o)return;
+  const num=src?src.numR:document.getElementById('sNumR').value;
+  const fecha=fd(src?src.fecha:document.getElementById('sFecha').value);
+  const tc=src?(src.tc||1430):(parseFloat(document.getElementById('sTC').value)||1430);
+  const det=src?(src.det||''):document.getElementById('sDet').value;
+  const matFacts=src?(src.matFacts||[]):sMatFacts;
 
-  const lineas=[];
-  const push=(cls,label)=>sItems.filter(i=>i.cls===cls&&(i.sub||i.desc)).forEach(i=>{
-    let cod='';
-    if(i.tId){
-      const rb=rubs.find(r=>r.id===i.tId)||tar.find(t=>t.id===i.tId);
-      if(rb)cod=`[${rb.codigo||rb.codigo}] `;
-    }
-    lineas.push({desc:cod+(i.desc||''),usd:i.usd,pct:i.pct,qty:i.qty,monto:i.sub,tipo:label});
-  });
-  push('CERTIFICADO','CERT');push('EXC_ESPONTANEO','EXC');push('EXC_SOLICITUD','EXC');
-  sFacts.forEach(f=>lineas.push({desc:`${f.razon||''}${f.nro?' · '+f.nro:''}`,monto:f.conIva,tipo:'MAT',
-    extra:`Sin IVA: ${f$(f.sinIva)} / Con IVA: ${f$(f.conIva)}`}));
+  let lineas;
+  if(src&&src.lineas){
+    lineas=src.lineas;
+  }else{
+    const tar=cache.tarifario();
+    const rubs=cache.rubros().filter(r=>r.obra_id===o.id);
+    lineas=[];
+    const push=(cls,label)=>sItems.filter(i=>i.cls===cls&&(i.sub||i.desc)).forEach(i=>{
+      let cod='';
+      if(i.tId){
+        const rb=rubs.find(r=>r.id===i.tId)||tar.find(t=>t.id===i.tId);
+        if(rb)cod=`[${rb.codigo||rb.codigo}] `;
+      }
+      lineas.push({desc:cod+(i.desc||''),usd:i.usd,pct:i.pct,qty:i.qty,monto:i.sub,tipo:label});
+    });
+    push('CERTIFICADO','CERT');push('EXC_ESPONTANEO','EXC');push('EXC_SOLICITUD','EXC');
+    sFacts.forEach(f=>lineas.push({desc:`${f.razon||''}${f.nro?' · '+f.nro:''}`,monto:f.conIva,tipo:'MAT',
+      extra:`Sin IVA: ${f$(f.sinIva)} / Con IVA: ${f$(f.conIva)}`}));
+  }
 
   const total=lineas.reduce((s,l)=>s+(l.monto||0),0);
   const hasUSD=lineas.some(l=>l.usd);
 
-  document.getElementById('DR').innerHTML=`
+  document.getElementById(src?.target||'DR').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
       <div>
         <div class="db2">Habitamos Espacios Inteligentes</div>
@@ -1617,7 +2056,7 @@ function buildDR(){
           <td style="text-align:right;font-size:13px"><b>$ ${Math.round(total).toLocaleString('es-AR')}</b></td></tr>
       </tbody>
     </table>
-    ${sMatFacts.length?`
+    ${matFacts.length?`
     <div style="font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#333;
       border-bottom:1px solid #ddd;padding-bottom:4px;margin:16px 0 5px">Materiales</div>
     <table class="rt" style="margin-top:4px">
@@ -1627,13 +2066,13 @@ function buildDR(){
         <th style="text-align:right">Total c/IVA</th>
       </tr></thead>
       <tbody>
-        ${sMatFacts.map(f=>`<tr>
+        ${matFacts.map(f=>`<tr>
           <td>${f.proveedor||''}</td>
           <td style="font-size:10px;color:#666">${f.materiales||''}</td>
           <td style="text-align:right;font-weight:700">$ ${Math.round(f.monto_con_iva||0).toLocaleString('es-AR')}</td>
         </tr>`).join('')}
         <tr class="rtot"><td colspan="2"><b>TOTAL MATERIALES</b></td>
-          <td style="text-align:right"><b>$ ${Math.round(sMatFacts.reduce((s,f)=>s+(f.monto_con_iva||0),0)).toLocaleString('es-AR')}</b></td>
+          <td style="text-align:right"><b>$ ${Math.round(matFacts.reduce((s,f)=>s+(f.monto_con_iva||0),0)).toLocaleString('es-AR')}</b></td>
         </tr>
       </tbody>
     </table>`:''}
