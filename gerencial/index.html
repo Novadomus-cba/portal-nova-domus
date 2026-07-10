@@ -215,6 +215,26 @@ body {
 .seg-total { font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; }
 .seg-link { display: inline-block; margin-top: 8px; font-size: 11.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
 .seg-link:hover { text-decoration: underline; }
+
+/* ── TRABAJOS ESPONTÁNEOS ── */
+.esp-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 8px; }
+.esp-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.esp-meta { font-size: 11px; color: var(--muted); margin-top: 2px; margin-bottom: 8px; }
+.btn-block { display: block; width: 100%; text-align: center; margin-top: 10px; }
+
+/* ── MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; align-items: flex-end; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 640px; max-height: 80vh; overflow-y: auto; padding: 20px; }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.field label { font-size: 11px; color: var(--muted); font-weight: 500; }
+.field input { width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; color: var(--text); background: var(--bg); outline: none; font-family: inherit; }
+.field input:focus { border-color: var(--accent); }
+.modal-error { display: none; background: var(--danger-bg); border: 1px solid rgba(224,92,92,.35); color: var(--danger); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px; font-size: 12px; }
+.btn-primary { width: 100%; padding: 10px; border: none; border-radius: var(--radius-sm); background: var(--primary); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-cancel { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: none; color: var(--muted); font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -305,6 +325,35 @@ body {
       </div>
     </div>
 
+    <!-- Trabajos espontáneos -->
+    <div class="acc-section" id="acc-esp">
+      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
+        <div class="acc-title">Trabajos espontáneos</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div id="espList"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal: Marcar cobro -->
+<div class="modal-overlay" id="modal-cobro">
+  <div class="modal">
+    <div class="modal-title">Marcar cobro</div>
+    <div class="modal-error" id="mc-error"></div>
+    <div class="field">
+      <label>Monto cobrado ($)</label>
+      <input type="number" id="mc-monto" step="1" min="0">
+    </div>
+    <div class="field">
+      <label>Fecha de cobro</label>
+      <input type="date" id="mc-fecha">
+    </div>
+    <button class="btn-primary" id="mc-confirm" onclick="confirmarCobro()">Confirmar</button>
+    <button class="btn-cancel" onclick="cerrarModalCobro()">Cancelar</button>
   </div>
 </div>
 
@@ -313,7 +362,7 @@ body {
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-const ALLOWED_ROLES = ['admin', 'supervisor'];
+const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
 
 const { createClient } = supabase;
 const authClient = createClient(AUTH_URL, AUTH_KEY);
@@ -334,6 +383,18 @@ async function sbGet(path) {
   const text = await res.text();
   if (!res.ok) throw new Error(text);
   return text ? JSON.parse(text) : [];
+}
+
+async function sbPatchCuadrilla(path, body) {
+  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+    method: 'PATCH',
+    headers: {
+      apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken,
+      'Content-Type': 'application/json', Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) { const t = await res.text(); throw new Error(t); }
 }
 
 // ── DATA (Auth/Comercial project) — RLS ahí exige el access_token real ──
@@ -607,6 +668,87 @@ function renderSeg() {
   }).join('');
 }
 
+// ── TRABAJOS ESPONTÁNEOS ────────────────────────────────────────
+let espRows = [];
+
+async function loadEspontaneas() {
+  const cont = document.getElementById('espList');
+  try {
+    const rows = await sbGet('v_espontaneas_seguimiento?order=nombre');
+    const nums = [...new Set(rows.map(r => r.referencia_presupuesto).filter(Boolean))];
+    let presMap = {};
+    if (nums.length) {
+      const inList = nums.map(n => `"${n}"`).join(',');
+      const pres = await sbAuthGet(`presupuestos_comerciales?numero=in.(${inList})&select=numero,margen_dispositivos_usd,subtotal_dispositivos_usd`);
+      pres.forEach(p => { presMap[p.numero] = p; });
+    }
+    espRows = rows.map(r => ({ ...r, _pres: presMap[r.referencia_presupuesto] || null }));
+    renderEsp();
+  } catch (e) {
+    cont.innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
+    console.error('loadEspontaneas', e);
+  }
+}
+
+function margenDispositivoPct(pres) {
+  if (!pres || !pres.subtotal_dispositivos_usd) return null;
+  return (pres.margen_dispositivos_usd / pres.subtotal_dispositivos_usd) * 100;
+}
+
+function renderEsp() {
+  const cont = document.getElementById('espList');
+  if (!espRows.length) { cont.innerHTML = '<div class="empty-state">No hay trabajos espontáneos.</div>'; return; }
+  cont.innerHTML = espRows.map(r => {
+    const margenDisp = margenDispositivoPct(r._pres);
+    return `
+      <div class="esp-card">
+        <div class="esp-name">${esc(r.codigo_obra)} · ${esc(r.nombre)}</div>
+        <div class="esp-meta">${esc(r.cliente_razon_social || '—')}</div>
+        <div class="ob-row"><span>Margen MO</span><span>${r.margen_mo_pct != null ? r.margen_mo_pct.toFixed(1) + '%' : '—'}</span></div>
+        <div class="ob-row"><span>Margen dispositivo</span><span>${margenDisp != null ? margenDisp.toFixed(1) + '%' : '—'}</span></div>
+        <div class="ob-row"><span>Cobrado MO</span><span>${fmt(r.monto_cobrado_pesos)} de ${fmt(r.monto_mo_pesos)}</span></div>
+        <button class="btn-refresh btn-block" onclick="abrirModalCobro('${r.id}', ${r.monto_mo_pesos || 0})">Marcar cobro →</button>
+      </div>`;
+  }).join('');
+}
+
+let mcObraId = null;
+
+function abrirModalCobro(obraId, montoSugerido) {
+  mcObraId = obraId;
+  document.getElementById('mc-error').style.display = 'none';
+  document.getElementById('mc-monto').value = montoSugerido || '';
+  document.getElementById('mc-fecha').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('modal-cobro').classList.add('open');
+}
+function cerrarModalCobro() {
+  document.getElementById('modal-cobro').classList.remove('open');
+}
+
+async function confirmarCobro() {
+  const monto = parseFloat(document.getElementById('mc-monto').value);
+  const fecha = document.getElementById('mc-fecha').value;
+  const errEl = document.getElementById('mc-error');
+  errEl.style.display = 'none';
+  if (!(monto >= 0) || !fecha) {
+    errEl.textContent = 'Completá un monto válido y la fecha.';
+    errEl.style.display = 'block';
+    return;
+  }
+  const btn = document.getElementById('mc-confirm');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  try {
+    await sbPatchCuadrilla(`obras?id=eq.${mcObraId}`, { monto_cobrado_pesos: monto, fecha_cobro_real: fecha });
+    cerrarModalCobro();
+    await loadEspontaneas();
+  } catch (e) {
+    errEl.textContent = 'No se pudo guardar: ' + e.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Confirmar';
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
   const { data: { session } } = await authClient.auth.getSession();
@@ -632,7 +774,16 @@ async function init() {
   document.getElementById('app-header').style.display  = 'block';
   document.getElementById('app-content').style.display = 'block';
 
-  await Promise.all([loadAll(), loadAlertas(), loadSeguimiento()]);
+  if (profile.role === 'comercial') {
+    // Comercial solo entra a marcar cobro — el resto del panel es info gerencial/margenes, no le corresponde.
+    document.querySelector('.alert-strip').style.display = 'none';
+    document.getElementById('acc-seg').style.display = 'none';
+    document.getElementById('acc-rent').style.display = 'none';
+    document.getElementById('acc-esp').classList.add('open');
+    await loadEspontaneas();
+  } else {
+    await Promise.all([loadAll(), loadAlertas(), loadSeguimiento(), loadEspontaneas()]);
+  }
 }
 
 init();
