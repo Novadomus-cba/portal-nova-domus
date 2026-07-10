@@ -172,6 +172,49 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .empty-state { text-align: center; padding: 3rem 1rem; color: var(--hint); font-size: 14px; }
+
+/* ── HEADER (fecha) ── */
+.header-date { font-size: 12px; color: var(--muted); margin-bottom: 16px; text-transform: capitalize; }
+
+/* ── ALERTAS DEL DÍA ── */
+.alert-strip { display: flex; gap: 8px; margin-bottom: 16px; }
+.alert-card {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px 10px; cursor: pointer;
+  transition: border-color .15s;
+}
+.alert-card:hover { border-color: var(--accent-dim); }
+.alert-value { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
+.alert-label { font-size: 10.5px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+
+/* ── ACORDEÓN ── */
+.acc-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+.acc-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; }
+.acc-title { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; font-size: 15px; color: var(--text); }
+.acc-hdr-right { display: flex; align-items: center; gap: 10px; }
+.chevron { font-size: 10px; color: var(--muted); transition: transform .18s; }
+.acc-section.open .chevron { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0 16px 16px; }
+.acc-section.open .acc-body { display: block; }
+
+/* ── CHIPS (filtro comercial) ── */
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.chip {
+  background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 20px; padding: 5px 12px; font-size: 12px; cursor: pointer;
+  font-family: inherit; transition: all .15s;
+}
+.chip.active { border-color: var(--accent-dim); color: var(--accent); background: rgba(200,169,110,.08); }
+
+/* ── SEGUIMIENTO COMERCIAL ── */
+.seg-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 8px; }
+.seg-card.alerta { border-color: var(--accent-dim); }
+.seg-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.seg-num { font-size: 13px; font-weight: 600; color: var(--text); }
+.seg-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.seg-total { font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+.seg-link { display: inline-block; margin-top: 8px; font-size: 11.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.seg-link:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -201,27 +244,65 @@ body {
 <div id="app-content" style="display:none">
   <div class="page">
 
-    <div class="page-title-row">
-      <div class="page-title">Rentabilidad y liquidez</div>
-      <button class="btn-refresh" onclick="loadAll()">↻ Actualizar</button>
+    <div class="page-title" style="margin-bottom:2px">Panel Gerencial</div>
+    <div class="header-date" id="fechaActual"></div>
+
+    <!-- Alertas del día -->
+    <div class="alert-strip">
+      <div class="alert-card" onclick="irASeccion('seg')">
+        <div class="alert-value" id="alertAceptados">—</div>
+        <div class="alert-label">aceptados sin obra</div>
+      </div>
+      <div class="alert-card" onclick="irASeccion('seg')">
+        <div class="alert-value" id="alertSinResp">—</div>
+        <div class="alert-label">sin resp. &gt;<span id="alertUmbral"></span>d</div>
+      </div>
+      <div class="alert-card" onclick="irASeccion('exc')">
+        <div class="alert-value" id="alertExcedentes">—</div>
+        <div class="alert-label">exced. este mes</div>
+      </div>
     </div>
 
-    <div class="hero-card">
-      <div class="hero-label">Liquidez acumulada — obras activas</div>
-      <div class="hero-sub">Cobrado de mano de obra vs. costo real pagado a la cuadrilla, acumulado desde el inicio de cada obra (última actualización semanal).</div>
-      <div class="hero-value-row">
-        <div class="hero-dot" id="heroDot"></div>
-        <div class="hero-value" id="heroValue">—</div>
+    <!-- Seguimiento comercial -->
+    <div class="acc-section open" id="acc-seg">
+      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
+        <div class="acc-title">Seguimiento comercial</div>
+        <span class="chevron">▼</span>
       </div>
-      <div class="hero-breakdown">
-        <div class="hero-row"><span>Cobrado MO (total)</span><span id="heroCobrado">—</span></div>
-        <div class="hero-row"><span>Costo cuadrilla (total)</span><span id="heroCuadrilla">—</span></div>
-        <div class="hero-row"><span>Materiales cobrados (total)</span><span id="heroMateriales">—</span></div>
+      <div class="acc-body">
+        <div class="chip-row" id="segChips"></div>
+        <div id="segList"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
       </div>
     </div>
 
-    <div id="obrasList">
-      <div class="loader"><div class="spinner"></div>Cargando obras...</div>
+    <!-- Rentabilidad y liquidez (módulo existente, sin cambios de lógica) -->
+    <div class="acc-section open" id="acc-rent">
+      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
+        <div class="acc-title">Rentabilidad y liquidez</div>
+        <div class="acc-hdr-right">
+          <button class="btn-refresh" onclick="event.stopPropagation();loadAll()">↻</button>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="acc-body">
+        <div class="hero-card">
+          <div class="hero-label">Liquidez acumulada — obras activas</div>
+          <div class="hero-sub">Cobrado de mano de obra vs. costo real pagado a la cuadrilla, acumulado desde el inicio de cada obra (última actualización semanal).</div>
+          <div class="hero-value-row">
+            <div class="hero-dot" id="heroDot"></div>
+            <div class="hero-value" id="heroValue">—</div>
+          </div>
+          <div class="hero-breakdown">
+            <div class="hero-row"><span>Cobrado MO (total)</span><span id="heroCobrado">—</span></div>
+            <div class="hero-row"><span>Costo cuadrilla (total)</span><span id="heroCuadrilla">—</span></div>
+            <div class="hero-row"><span>Materiales cobrados (total)</span><span id="heroMateriales">—</span></div>
+          </div>
+        </div>
+
+        <div id="obrasList">
+          <div class="loader"><div class="spinner"></div>Cargando obras...</div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -249,6 +330,19 @@ let cuadrillaToken = null;
 async function sbGet(path) {
   const res = await fetch(SB_URL + '/rest/v1/' + path, {
     headers: { apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken }
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(text);
+  return text ? JSON.parse(text) : [];
+}
+
+// ── DATA (Auth/Comercial project) — RLS ahí exige el access_token real ──
+const DIAS_ALERTA_SIN_RESPUESTA = 10; // ajustable, avisame si cambia
+
+async function sbAuthGet(path) {
+  const { data: { session } } = await authClient.auth.getSession();
+  const res = await fetch(AUTH_URL + '/rest/v1/' + path, {
+    headers: { apikey: AUTH_KEY, Authorization: 'Bearer ' + (session?.access_token || AUTH_KEY) }
   });
   const text = await res.text();
   if (!res.ok) throw new Error(text);
@@ -411,6 +505,108 @@ function esc(s) {
   return div.innerHTML;
 }
 
+// ── FECHA / NAVEGACIÓN ENTRE SECCIONES ─────────────────────────
+const DIAS_SEMANA = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MESES_ABR   = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+function fechaHoyLarga() {
+  const d = new Date();
+  return `${DIAS_SEMANA[d.getDay()]} ${d.getDate()} ${MESES_ABR[d.getMonth()]} ${d.getFullYear()}`;
+}
+function primerDiaMesActual() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
+}
+function irASeccion(id) {
+  const el = document.getElementById('acc-' + id);
+  if (!el) return;
+  el.classList.add('open');
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── ALERTAS DEL DÍA ─────────────────────────────────────────────
+async function loadAlertas() {
+  document.getElementById('alertUmbral').textContent = DIAS_ALERTA_SIN_RESPUESTA;
+  try {
+    const [presPend, proyPend, sinResp, excedentes] = await Promise.all([
+      sbAuthGet('v_seguimiento_comercial?origen=eq.PRESUPUESTO&estado=eq.ACEPTADO&requiere_seguimiento_obra=eq.true&obra_codigo_vinculado=is.null&select=origen_id'),
+      sbAuthGet('proyectos?select=id&html_url=not.is.null&obra_codigo_vinculado=is.null&estado=neq.CANCELADO'),
+      sbAuthGet(`v_seguimiento_comercial?estado=in.(ENVIADO,ENTREGADO)&dias_desde_ultimo_cambio=gt.${DIAS_ALERTA_SIN_RESPUESTA}&select=origen_id`),
+      sbGet(`v_excedentes_por_mes?mes=eq.${primerDiaMesActual()}&select=monto_pesos`),
+    ]);
+    document.getElementById('alertAceptados').textContent = (presPend.length + proyPend.length);
+    document.getElementById('alertSinResp').textContent = sinResp.length;
+    const totalExc = excedentes.reduce((s, r) => s + (r.monto_pesos || 0), 0);
+    document.getElementById('alertExcedentes').textContent = fmt(totalExc);
+  } catch (e) {
+    console.error('loadAlertas', e);
+  }
+}
+
+// ── SEGUIMIENTO COMERCIAL ───────────────────────────────────────
+let segRows = [], segHtmlUrlMap = {}, segFiltroComercial = '';
+
+async function loadSeguimiento() {
+  const cont = document.getElementById('segList');
+  try {
+    const [rows, proyectos] = await Promise.all([
+      sbAuthGet('v_seguimiento_comercial?order=dias_desde_ultimo_cambio.desc'),
+      sbAuthGet('proyectos?select=id,html_url'),
+    ]);
+    segRows = rows;
+    segHtmlUrlMap = {};
+    proyectos.forEach(p => { segHtmlUrlMap[String(p.id)] = p.html_url; });
+    renderSegChips();
+    renderSeg();
+  } catch (e) {
+    cont.innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
+    console.error('loadSeguimiento', e);
+  }
+}
+
+function renderSegChips() {
+  const nombres = [...new Set(segRows.map(r => r.comercial).filter(Boolean))].sort();
+  const chips = ['', ...nombres];
+  document.getElementById('segChips').innerHTML = chips.map(c => `
+    <button class="chip ${segFiltroComercial === c ? 'active' : ''}" onclick="setFiltroComercial('${esc(c)}')">${c || 'Todos'}</button>
+  `).join('');
+}
+
+function setFiltroComercial(c) {
+  segFiltroComercial = c;
+  renderSegChips();
+  renderSeg();
+}
+
+// Mismo criterio que "Vincular obra" en comercial/index.html: presupuestos
+// espontáneos por estado ACEPTADO, proyectos por tener propuesta (html_url)
+// generada — no por estado, ver ajuste pedido sobre Feature 1.
+function puedeVincular(r) {
+  if (r.obra_codigo_vinculado) return false;
+  if (r.origen === 'PROYECTO') return !!segHtmlUrlMap[r.origen_id];
+  return r.estado === 'ACEPTADO';
+}
+
+function renderSeg() {
+  const cont = document.getElementById('segList');
+  const rows = segFiltroComercial ? segRows.filter(r => r.comercial === segFiltroComercial) : segRows;
+  if (!rows.length) { cont.innerHTML = '<div class="empty-state">Sin actividad comercial.</div>'; return; }
+  cont.innerHTML = rows.map(r => {
+    const alerta = (r.dias_desde_ultimo_cambio || 0) > DIAS_ALERTA_SIN_RESPUESTA;
+    return `
+      <div class="seg-card ${alerta ? 'alerta' : ''}">
+        <div class="seg-top">
+          <div>
+            <div class="seg-num">${esc(r.numero || 'Sin número')} · ${esc(r.cliente || '—')}</div>
+            <div class="seg-meta">${r.origen === 'PROYECTO' ? 'Proyecto' : 'Presupuesto'} · ${esc(r.comercial || '—')} · ${esc(r.estado)} · ${r.dias_desde_ultimo_cambio}d</div>
+          </div>
+          <div class="seg-total">${fmt(r.total_ars)}</div>
+        </div>
+        ${puedeVincular(r) ? '<a class="seg-link" href="../comercial/index.html?tab=vincular">Vincular obra →</a>' : ''}
+      </div>`;
+  }).join('');
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
   const { data: { session } } = await authClient.auth.getSession();
@@ -430,12 +626,13 @@ async function init() {
   cuadrillaToken = await getCuadrillaToken(authClient);
 
   document.getElementById('portal-username').textContent = profile.full_name;
+  document.getElementById('fechaActual').textContent = fechaHoyLarga();
 
   document.getElementById('app-loading').style.display = 'none';
   document.getElementById('app-header').style.display  = 'block';
   document.getElementById('app-content').style.display = 'block';
 
-  await loadAll();
+  await Promise.all([loadAll(), loadAlertas(), loadSeguimiento()]);
 }
 
 init();
