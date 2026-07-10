@@ -426,7 +426,7 @@ textarea{resize:vertical;min-height:60px}
 <!-- ══ VINCULAR OBRA ═════════════════════════════════════════ -->
 <div class="page" id="page-vincular">
   <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
-    Presupuestos y proyectos ACEPTADOS que requieren seguimiento de obra y todavía no tienen una obra vinculada.
+    Presupuestos aceptados y proyectos generados (con propuesta lista para revisar) que requieren seguimiento de obra y todavía no tienen una obra vinculada.
   </div>
   <div id="vincular-list"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
 </div>
@@ -440,6 +440,8 @@ textarea{resize:vertical;min-height:60px}
     </div>
 
     <div id="mv-error" style="display:none;background:var(--danger-bg);border:1px solid rgba(224,92,92,.35);color:var(--danger);border-radius:var(--r2);padding:10px 12px;margin-bottom:14px;font-size:12px"></div>
+
+    <div id="mv-propuesta" style="display:none;margin-bottom:14px"></div>
 
     <div class="field" style="margin-bottom:10px">
       <label>Nombre de la obra</label>
@@ -1331,12 +1333,12 @@ async function cargarVincular(){
     // PROYECTO: ahora es html_url generado + sin obra vinculada, sin importar el estado (CANCELADO ya queda afuera de la vista/tabla).
     const [presData, proyData] = await Promise.all([
       sb('/rest/v1/v_seguimiento_comercial?origen=eq.PRESUPUESTO&estado=eq.ACEPTADO&requiere_seguimiento_obra=eq.true&obra_codigo_vinculado=is.null&order=dias_desde_ultimo_cambio.desc'),
-      sb('/rest/v1/proyectos?select=id,numero,cliente,comercial_id,total_ars,created_at&html_url=not.is.null&obra_codigo_vinculado=is.null&estado=neq.CANCELADO&order=created_at.desc'),
+      sb('/rest/v1/proyectos?select=id,numero,cliente,comercial_id,total_ars,created_at,html_url&html_url=not.is.null&obra_codigo_vinculado=is.null&estado=neq.CANCELADO&order=created_at.desc'),
     ]);
     const comMap={};comerciales.forEach(c=>comMap[c.id]=c.nombre);
     const rows=[
-      ...(presData||[]).map(r=>({origen:'PRESUPUESTO',origen_id:r.origen_id,numero:r.numero,cliente:r.cliente,comercial:r.comercial,total_ars:r.total_ars,label:`${r.dias_desde_emision} días desde aceptado`})),
-      ...(proyData||[]).map(r=>({origen:'PROYECTO',origen_id:String(r.id),numero:r.numero,cliente:r.cliente,comercial:comMap[r.comercial_id]||'Agustín',total_ars:r.total_ars,label:`generado hace ${diasDesdeFecha(r.created_at)} días`})),
+      ...(presData||[]).map(r=>({origen:'PRESUPUESTO',origen_id:r.origen_id,numero:r.numero,cliente:r.cliente,comercial:r.comercial,total_ars:r.total_ars,label:`${r.dias_desde_emision} días desde aceptado`,html_url:null})),
+      ...(proyData||[]).map(r=>({origen:'PROYECTO',origen_id:String(r.id),numero:r.numero,cliente:r.cliente,comercial:comMap[r.comercial_id]||'Agustín',total_ars:r.total_ars,label:`generado hace ${diasDesdeFecha(r.created_at)} días`,html_url:r.html_url})),
     ];
     if(!rows.length){cont.innerHTML='<div class="empty">No hay presupuestos ni proyectos pendientes de vincular obra.</div>';return}
     cont.innerHTML=rows.map(r=>`
@@ -1350,6 +1352,7 @@ async function cargarVincular(){
             <div style="font-size:13px;font-weight:700;color:var(--accent)">${fARS(r.total_ars||0)}</div>
           </div>
         </div>
+        ${r.origen==='PROYECTO'?`<div style="padding:0 14px 8px">${r.html_url?`<a href="${r.html_url}" target="_blank" rel="noopener" style="color:var(--info);font-size:12px;font-weight:600">Ver propuesta →</a>`:'<span style="color:var(--hint);font-size:12px">Sin propuesta generada</span>'}</div>`:''}
         <div style="padding:0 14px 12px">
           <button class="btn btn-primary btn-sm" style="width:100%" onclick="abrirModalVincular('${r.origen}','${r.origen_id}')">Aceptar y crear obra →</button>
         </div>
@@ -1389,6 +1392,7 @@ async function abrirModalVincular(origen,origenId){
   document.getElementById('mv-cliente').value='';
   document.getElementById('mv-resumen').textContent='';
   document.getElementById('mv-confirm').disabled=true;
+  document.getElementById('mv-propuesta').style.display='none';
   try{
     if(origen==='PROYECTO'){
       const r=await sb(`/rest/v1/proyectos?id=eq.${origenId}&select=*&limit=1`);
@@ -1402,6 +1406,11 @@ async function abrirModalVincular(origen,origenId){
       document.getElementById('mv-codigo').readOnly=false;
       document.getElementById('mv-codigo').placeholder='ej: CH4 (3 letras)';
       document.getElementById('mv-resumen').textContent=`Origen: Proyecto · ${fARS(row.total_ars||0)}`;
+      const mvProp=document.getElementById('mv-propuesta');
+      mvProp.style.display='block';
+      mvProp.innerHTML=row.html_url
+        ?`<a href="${row.html_url}" target="_blank" rel="noopener" style="color:var(--info);font-size:13px;font-weight:600">Ver propuesta →</a>`
+        :'<span style="color:var(--hint);font-size:12px">Sin propuesta generada</span>';
     }else{
       const r=await sb(`/rest/v1/presupuestos_comerciales?id=eq.${origenId}&select=*&limit=1`);
       const row=r&&r[0];
@@ -1470,7 +1479,9 @@ async function confirmarVincular(){
 
   try{
     const tabla=mvOrigen==='PROYECTO'?'proyectos':'presupuestos_comerciales';
-    await sb(`/rest/v1/${tabla}?id=eq.${mvOrigenId}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify({obra_codigo_vinculado:codigo,obra_vinculada_en:new Date().toISOString()})});
+    const patch={obra_codigo_vinculado:codigo,obra_vinculada_en:new Date().toISOString()};
+    if(mvOrigen==='PROYECTO')patch.estado='ACEPTADO'; // este click ES la aceptación del cliente
+    await sb(`/rest/v1/${tabla}?id=eq.${mvOrigenId}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(patch)});
   }catch(e){
     mvBusy=false; btn.disabled=false; btn.textContent='✅ Crear obra y vincular';
     errEl.textContent=`La obra ${codigo} se creó correctamente, pero no se pudo marcar el ${mvOrigen==='PROYECTO'?'proyecto':'presupuesto'} como vinculado: ${e.message}. Avisá para vincularlo a mano.`;
