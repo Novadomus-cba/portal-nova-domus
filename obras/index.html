@@ -150,9 +150,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 .delta-up{color:var(--danger)}.delta-down{color:var(--ok)}.delta-eq{color:var(--text3)}
 /* DOC */
 .dw{position:fixed;left:-9999px;top:0;pointer-events:none}
-#DC,#DR,#cdRawC,#cdRawR{width:800px;background:#fff;font-family:Arial,sans-serif;font-size:11px;
+#DC,#DR,#cdRawC,#cdRawR,.doc-print{width:800px;background:#fff;font-family:Arial,sans-serif;font-size:11px;
   color:#111;padding:30px;line-height:1.5}
-#DC *,#DR *,#cdRawC *,#cdRawR *{font-family:Arial,sans-serif;color:#111}
+#DC *,#DR *,#cdRawC *,#cdRawR *,.doc-print *{font-family:Arial,sans-serif;color:#111}
 .db2{font-size:9px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:2px}
 .dt{font-size:21px;font-weight:900;color:#0f1117}
 .dp{display:inline-block;background:#0f1117;color:#e8a020;font-size:9px;
@@ -1310,7 +1310,7 @@ async function abrirDetalleCert(certId){
   buildDC({obra,numC:cert.numero,fecha:cert.fecha_emision,desde:cert.periodo_desde,hasta:cert.periodo_hasta,
     items,target:'cdRawC'});
   document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
-    .replace('id="cdRawC"','style="background:#fff"');
+    .replace('id="cdRawC"','class="doc-print" style="background:#fff"');
 
   if(rec){
     const lineas=(rec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
@@ -1319,7 +1319,7 @@ async function abrirDetalleCert(certId){
     buildDR({obra,numR:rec.numero,fecha:rec.fecha_emision,tc:rec.tipo_cambio_usd,det:rec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
-      .replace('id="cdRawR"','style="background:#fff"');
+      .replace('id="cdRawR"','class="doc-print" style="background:#fff"');
   }else{
     document.getElementById('cdDocR').innerHTML=
       '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
@@ -1447,7 +1447,7 @@ function addEI(cls){
 
 function renderEIBlock(item){
   const wrap=document.getElementById('edItemsWrap');
-  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
   const {l,c}=CM[item.cls];
   const div=document.createElement('div');
   div.className='iblk';div.id=`ei-${item._key}`;
@@ -1565,7 +1565,7 @@ async function previewEdicionCert(){
   buildDC({obra:edObra,numC:edCert.numero,fecha:edCert.fecha_emision,desde:edCert.periodo_desde,hasta:edCert.periodo_hasta,
     items,target:'cdRawC'});
   document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
-    .replace('id="cdRawC"','style="background:#fff"');
+    .replace('id="cdRawC"','class="doc-print" style="background:#fff"');
 
   if(edRec){
     const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto}));
@@ -1573,7 +1573,7 @@ async function previewEdicionCert(){
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
-      .replace('id="cdRawR"','style="background:#fff"');
+      .replace('id="cdRawR"','class="doc-print" style="background:#fff"');
   }else{
     document.getElementById('cdDocR').innerHTML=
       '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
@@ -1937,9 +1937,9 @@ async function buildPreviews(){
   await loadMatFacts();
   buildDC();buildDR();
   document.getElementById('pvCDoc').innerHTML=document.getElementById('DC').outerHTML
-    .replace('id="DC"','style="background:#fff"');
+    .replace('id="DC"','class="doc-print" style="background:#fff"');
   document.getElementById('pvRDoc').innerHTML=document.getElementById('DR').outerHTML
-    .replace('id="DR"','style="background:#fff"');
+    .replace('id="DR"','class="doc-print" style="background:#fff"');
 }
 
 function buildDC(src){
