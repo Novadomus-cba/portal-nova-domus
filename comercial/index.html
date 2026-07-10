@@ -168,6 +168,7 @@ textarea{resize:vertical;min-height:60px}
       <button class="nav-tab active" onclick="showPage('nuevo',this)">Nuevo</button>
       <button class="nav-tab" onclick="showPage('historial',this)">Historial</button>
       <button class="nav-tab" onclick="showPage('precios',this)">Precios</button>
+      <button class="nav-tab" onclick="showPage('vincular',this)">Vincular obra</button>
     </div>
   </div>
 </div>
@@ -422,10 +423,60 @@ textarea{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<!-- ══ VINCULAR OBRA ═════════════════════════════════════════ -->
+<div class="page" id="page-vincular">
+  <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
+    Presupuestos y proyectos ACEPTADOS que requieren seguimiento de obra y todavía no tienen una obra vinculada.
+  </div>
+  <div id="vincular-list"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
+</div>
+
+<!-- Modal: Aceptar y crear obra -->
+<div class="modal-overlay" id="modal-vincular">
+  <div class="modal" id="modal-vincular-body">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div style="font-size:17px;font-weight:700">Aceptar y crear obra</div>
+      <button onclick="cerrarModalVincular()" style="background:none;border:none;font-size:22px;color:var(--hint);cursor:pointer;padding:0">×</button>
+    </div>
+
+    <div id="mv-error" style="display:none;background:var(--danger-bg);border:1px solid rgba(224,92,92,.35);color:var(--danger);border-radius:var(--r2);padding:10px 12px;margin-bottom:14px;font-size:12px"></div>
+
+    <div class="field" style="margin-bottom:10px">
+      <label>Nombre de la obra</label>
+      <input type="text" id="mv-nombre">
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label>Cliente</label>
+      <input type="text" id="mv-cliente">
+    </div>
+    <div class="row2" style="margin-bottom:10px">
+      <div class="field">
+        <label>Tipo</label>
+        <select id="mv-tipo">
+          <option value="ELECTRICA">Eléctrica</option>
+          <option value="REDES">Redes</option>
+          <option value="DOMOTICA">Domótica</option>
+          <option value="SEGURIDAD">Seguridad</option>
+          <option value="MIXTA">Mixta</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Código de obra</label>
+        <input type="text" id="mv-codigo" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+      </div>
+    </div>
+
+    <div style="background:var(--bg);border-radius:var(--r2);padding:10px 12px;margin-bottom:14px;font-size:12px;color:var(--muted)" id="mv-resumen"></div>
+
+    <button class="btn btn-primary" style="width:100%" id="mv-confirm" onclick="confirmarVincular()">✅ Crear obra y vincular</button>
+  </div>
+</div>
+
 </div><!-- #app-content -->
 
 <div class="toast" id="toast"></div>
 
+<script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ─────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -457,11 +508,26 @@ function addDays(n){const d=new Date();d.setDate(d.getDate()+n);return d.getFull
 function formatDate(iso){if(!iso)return'';const[y,m,d]=iso.split('-');return d+'/'+m+'/'+y}
 
 async function sb(path,opts={}){
-  const r=await fetch(SURL+path,{...opts,headers:{'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  // RLS de vvwnyszcfindtuvojqgs quedó scopeada a "authenticated" (migración
+  // harden_rls_remove_anon_access, 2026-07-08) — hay que mandar el access_token
+  // real de la sesión, la anon key sola ya no alcanza para leer ni escribir.
+  const { data: { session } } = await authClient.auth.getSession();
+  const token = session?.access_token || SKEY;
+  const r=await fetch(SURL+path,{...opts,headers:{'apikey':SKEY,'Authorization':'Bearer '+token,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
   if(!r.ok){const e=await r.text();throw new Error(e)}
   const text=await r.text();
   if(!text)return null;
   return JSON.parse(text);
+}
+
+// ─── PUENTE CUADRILLA/OBRAS (voowjwzlkhdknpapkhxc) vía auth-bridge.js ──
+let cuadrillaToken=null;
+async function sbC(path,opts={}){
+  const r=await fetch(CUADRILLA_URL+path,{...opts,headers:{'apikey':CUADRILLA_PUBLISHABLE_KEY,'Authorization':'Bearer '+cuadrillaToken,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  const text=await r.text();
+  const data=text?JSON.parse(text):null; // regla del proyecto: nunca .json() directo
+  if(!r.ok) throw new Error((data&&data.message)||r.statusText);
+  return data;
 }
 
 function toast(msg,type=''){
@@ -506,7 +572,14 @@ window.onload = async () => {
   document.getElementById('app-loading').style.display = 'none';
   document.getElementById('app-header').style.display  = 'block';
   document.getElementById('app-content').style.display = 'block';
+  try{ cuadrillaToken = await getCuadrillaToken(authClient); }
+  catch(e){ console.error('auth-bridge cuadrilla', e); }
   await Promise.all([fetchTC(), loadComerciales(), loadInventario()]);
+  const tabParam = new URLSearchParams(window.location.search).get('tab');
+  if (tabParam) {
+    const btn = document.querySelector(`.nav-tab[onclick*="showPage('${tabParam}'"]`);
+    if (btn) showPage(tabParam, btn);
+  }
 };
 
 async function loadComerciales(){
@@ -1236,6 +1309,161 @@ function showPage(p,el){
   el.classList.add('active');
   if(p==='historial')cargarHistorial();
   if(p==='precios')renderPL();
+  if(p==='vincular')cargarVincular();
+}
+
+// ─── VINCULAR OBRA (Aceptar y crear obra) ─────────────────────
+let mvOrigen=null, mvOrigenId=null, mvNumero=null, mvBusy=false, mvPrecargaMO=0, mvPrecargaMat=0;
+
+async function cargarVincular(){
+  const cont=document.getElementById('vincular-list');
+  cont.innerHTML='<div class="loader"><div class="spinner"></div>Cargando...</div>';
+  try{
+    const data=await sb('/rest/v1/v_seguimiento_comercial?estado=eq.ACEPTADO&requiere_seguimiento_obra=eq.true&obra_codigo_vinculado=is.null&order=dias_desde_ultimo_cambio.desc');
+    if(!data||!data.length){cont.innerHTML='<div class="empty">No hay presupuestos ni proyectos pendientes de vincular obra.</div>';return}
+    cont.innerHTML=data.map(r=>`
+      <div class="hist-item">
+        <div class="hist-hdr" style="cursor:default">
+          <div>
+            <div class="hist-num">${r.numero||'Sin número'} · ${r.cliente||'—'}</div>
+            <div class="hist-meta">${r.origen==='PROYECTO'?'Proyecto':'Presupuesto'} · ${r.comercial||'—'} · ${r.dias_desde_emision} días desde aceptado</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:13px;font-weight:700;color:var(--accent)">${fARS(r.total_ars||0)}</div>
+          </div>
+        </div>
+        <div style="padding:0 14px 12px">
+          <button class="btn btn-primary btn-sm" style="width:100%" onclick="abrirModalVincular('${r.origen}','${r.origen_id}')">Aceptar y crear obra →</button>
+        </div>
+      </div>`).join('');
+  }catch(e){cont.innerHTML='<div class="empty">Error al cargar</div>';console.error(e);}
+}
+
+function inferirTipoObra(alcance,perfil){
+  const a=(alcance||[]).map(x=>String(x).toUpperCase());
+  const p=String(perfil||'').toUpperCase();
+  const hasSeg=a.some(x=>x.includes('ALARMA')||x.includes('VIDEO'));
+  const hasRedes=a.some(x=>x.includes('RED')||x.includes('RACK')||x.includes('CORE'));
+  const hasDomo=a.some(x=>x.includes('ILUMINACION')||x.includes('CLIMA')||x.includes('SONIDO'))||p.includes('DOMOTICA');
+  const count=[hasSeg,hasRedes,hasDomo].filter(Boolean).length;
+  if(count>1)return'MIXTA';
+  if(hasSeg)return'SEGURIDAD';
+  if(hasRedes)return'REDES';
+  if(hasDomo)return'DOMOTICA';
+  return'MIXTA';
+}
+
+async function siguienteCodigoEsp(){
+  const rows=await sbC('/rest/v1/obras?codigo_obra=like.ESP-*&select=codigo_obra');
+  let max=0;
+  (rows||[]).forEach(r=>{
+    const m=/^ESP-(\d+)$/.exec(r.codigo_obra||'');
+    if(m){const n=parseInt(m[1],10); if(n>max)max=n;}
+  });
+  return 'ESP-'+String(max+1).padStart(3,'0');
+}
+
+async function abrirModalVincular(origen,origenId){
+  mvOrigen=origen; mvOrigenId=origenId; mvPrecargaMO=0; mvPrecargaMat=0;
+  document.getElementById('mv-error').style.display='none';
+  document.getElementById('modal-vincular').classList.add('open');
+  document.getElementById('mv-nombre').value='Cargando...';
+  document.getElementById('mv-cliente').value='';
+  document.getElementById('mv-resumen').textContent='';
+  document.getElementById('mv-confirm').disabled=true;
+  try{
+    if(origen==='PROYECTO'){
+      const r=await sb(`/rest/v1/proyectos?id=eq.${origenId}&select=*&limit=1`);
+      const row=r&&r[0];
+      if(!row)throw new Error('Proyecto no encontrado');
+      mvNumero=row.numero;
+      document.getElementById('mv-nombre').value=row.nombre||'';
+      document.getElementById('mv-cliente').value=row.cliente||row.nombre||'';
+      document.getElementById('mv-tipo').value=inferirTipoObra(row.alcance,row.perfil);
+      document.getElementById('mv-codigo').value='';
+      document.getElementById('mv-codigo').readOnly=false;
+      document.getElementById('mv-codigo').placeholder='ej: CH4 (3 letras)';
+      document.getElementById('mv-resumen').textContent=`Origen: Proyecto · ${fARS(row.total_ars||0)}`;
+    }else{
+      const r=await sb(`/rest/v1/presupuestos_comerciales?id=eq.${origenId}&select=*&limit=1`);
+      const row=r&&r[0];
+      if(!row)throw new Error('Presupuesto no encontrado');
+      mvNumero=row.numero;
+      document.getElementById('mv-nombre').value=row.cliente_empresa||row.cliente_nombre||'';
+      document.getElementById('mv-cliente').value=row.cliente_nombre||'';
+      document.getElementById('mv-tipo').value='MIXTA';
+      const codigo=await siguienteCodigoEsp();
+      document.getElementById('mv-codigo').value=codigo;
+      document.getElementById('mv-codigo').readOnly=true;
+      document.getElementById('mv-codigo').placeholder='';
+      const tc=row.tc_bna_oficial||0;
+      mvPrecargaMO=(row.subtotal_mo_usd||0)*tc;
+      mvPrecargaMat=(row.subtotal_dispositivos_usd||0)*tc;
+      document.getElementById('mv-resumen').textContent=`Origen: Presupuesto (espontánea) · MO estimada ${fARS(mvPrecargaMO)} · Materiales estimados ${fARS(mvPrecargaMat)}`;
+    }
+    document.getElementById('mv-confirm').disabled=false;
+  }catch(e){
+    document.getElementById('mv-error').textContent='Error al cargar: '+e.message;
+    document.getElementById('mv-error').style.display='block';
+  }
+}
+
+function cerrarModalVincular(){
+  document.getElementById('modal-vincular').classList.remove('open');
+}
+
+async function confirmarVincular(){
+  if(mvBusy)return;
+  const nombre=document.getElementById('mv-nombre').value.trim();
+  const cliente=document.getElementById('mv-cliente').value.trim();
+  const tipo=document.getElementById('mv-tipo').value;
+  const codigo=document.getElementById('mv-codigo').value.trim().toUpperCase();
+  const errEl=document.getElementById('mv-error');
+  errEl.style.display='none';
+  if(!nombre||!cliente||!codigo){
+    errEl.textContent='Completá nombre, cliente y código de obra.';
+    errEl.style.display='block';
+    return;
+  }
+  mvBusy=true;
+  const btn=document.getElementById('mv-confirm');
+  btn.disabled=true; btn.textContent='Creando obra...';
+
+  const obraPayload={
+    nombre, cliente_razon_social:cliente, tipo,
+    tipo_obra: mvOrigen==='PROYECTO'?'FORMAL':'ESPONTANEA',
+    codigo_obra: codigo,
+    referencia_presupuesto: mvNumero,
+    estado:'EN_CURSO',
+  };
+  if(mvOrigen==='PRESUPUESTO'){
+    obraPayload.monto_mo_pesos=mvPrecargaMO||0;
+    obraPayload.monto_materiales_pesos=mvPrecargaMat||0;
+  }
+
+  try{
+    await sbC('/rest/v1/obras',{method:'POST',prefer:'return=minimal',body:JSON.stringify(obraPayload)});
+  }catch(e){
+    mvBusy=false; btn.disabled=false; btn.textContent='✅ Crear obra y vincular';
+    errEl.textContent='No se pudo crear la obra: '+e.message+'. No se vinculó nada — no se modificó '+(mvOrigen==='PROYECTO'?'el proyecto':'el presupuesto')+'.';
+    errEl.style.display='block';
+    return;
+  }
+
+  try{
+    const tabla=mvOrigen==='PROYECTO'?'proyectos':'presupuestos_comerciales';
+    await sb(`/rest/v1/${tabla}?id=eq.${mvOrigenId}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify({obra_codigo_vinculado:codigo,obra_vinculada_en:new Date().toISOString()})});
+  }catch(e){
+    mvBusy=false; btn.disabled=false; btn.textContent='✅ Crear obra y vincular';
+    errEl.textContent=`La obra ${codigo} se creó correctamente, pero no se pudo marcar el ${mvOrigen==='PROYECTO'?'proyecto':'presupuesto'} como vinculado: ${e.message}. Avisá para vincularlo a mano.`;
+    errEl.style.display='block';
+    return;
+  }
+
+  mvBusy=false;
+  cerrarModalVincular();
+  toast(`Obra ${codigo} creada y vinculada ✅`,'ok');
+  cargarVincular();
 }
 
 function setTipo(t){
