@@ -1315,18 +1315,36 @@ function showPage(p,el){
 // ─── VINCULAR OBRA (Aceptar y crear obra) ─────────────────────
 let mvOrigen=null, mvOrigenId=null, mvNumero=null, mvBusy=false, mvPrecargaMO=0, mvPrecargaMat=0;
 
+function diasDesdeFecha(dateStr){
+  const d0=new Date(dateStr);
+  const d1=Date.UTC(d0.getUTCFullYear(),d0.getUTCMonth(),d0.getUTCDate());
+  const n=new Date();
+  const d2=Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate());
+  return Math.round((d2-d1)/86400000);
+}
+
 async function cargarVincular(){
   const cont=document.getElementById('vincular-list');
   cont.innerHTML='<div class="loader"><div class="spinner"></div>Cargando...</div>';
   try{
-    const data=await sb('/rest/v1/v_seguimiento_comercial?estado=eq.ACEPTADO&requiere_seguimiento_obra=eq.true&obra_codigo_vinculado=is.null&order=dias_desde_ultimo_cambio.desc');
-    if(!data||!data.length){cont.innerHTML='<div class="empty">No hay presupuestos ni proyectos pendientes de vincular obra.</div>';return}
-    cont.innerHTML=data.map(r=>`
+    // PRESUPUESTO (espontáneas): sigue siendo ACEPTADO + sin obra vinculada — no tienen paso de deploy/html.
+    // PROYECTO: ahora es html_url generado + sin obra vinculada, sin importar el estado (CANCELADO ya queda afuera de la vista/tabla).
+    const [presData, proyData] = await Promise.all([
+      sb('/rest/v1/v_seguimiento_comercial?origen=eq.PRESUPUESTO&estado=eq.ACEPTADO&requiere_seguimiento_obra=eq.true&obra_codigo_vinculado=is.null&order=dias_desde_ultimo_cambio.desc'),
+      sb('/rest/v1/proyectos?select=id,numero,cliente,comercial_id,total_ars,created_at&html_url=not.is.null&obra_codigo_vinculado=is.null&estado=neq.CANCELADO&order=created_at.desc'),
+    ]);
+    const comMap={};comerciales.forEach(c=>comMap[c.id]=c.nombre);
+    const rows=[
+      ...(presData||[]).map(r=>({origen:'PRESUPUESTO',origen_id:r.origen_id,numero:r.numero,cliente:r.cliente,comercial:r.comercial,total_ars:r.total_ars,label:`${r.dias_desde_emision} días desde aceptado`})),
+      ...(proyData||[]).map(r=>({origen:'PROYECTO',origen_id:String(r.id),numero:r.numero,cliente:r.cliente,comercial:comMap[r.comercial_id]||'Agustín',total_ars:r.total_ars,label:`generado hace ${diasDesdeFecha(r.created_at)} días`})),
+    ];
+    if(!rows.length){cont.innerHTML='<div class="empty">No hay presupuestos ni proyectos pendientes de vincular obra.</div>';return}
+    cont.innerHTML=rows.map(r=>`
       <div class="hist-item">
         <div class="hist-hdr" style="cursor:default">
           <div>
             <div class="hist-num">${r.numero||'Sin número'} · ${r.cliente||'—'}</div>
-            <div class="hist-meta">${r.origen==='PROYECTO'?'Proyecto':'Presupuesto'} · ${r.comercial||'—'} · ${r.dias_desde_emision} días desde aceptado</div>
+            <div class="hist-meta">${r.origen==='PROYECTO'?'Proyecto':'Presupuesto'} · ${r.comercial||'—'} · ${r.label}</div>
           </div>
           <div style="text-align:right">
             <div style="font-size:13px;font-weight:700;color:var(--accent)">${fARS(r.total_ars||0)}</div>
