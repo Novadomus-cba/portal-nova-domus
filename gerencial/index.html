@@ -336,6 +336,24 @@ body {
       </div>
     </div>
 
+    <!-- Excedentes del mes -->
+    <div class="acc-section open" id="acc-exc">
+      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
+        <div class="acc-title">Excedentes del mes</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div id="excTotal" style="font-size:20px;font-weight:700;color:var(--accent);margin-bottom:12px">—</div>
+        <div id="excList"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
+      </div>
+    </div>
+
+    <!-- Obras en curso (placeholder — semáforo pendiente de diseño aparte) -->
+    <div class="acc-section" id="acc-obras" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div class="acc-title" style="font-size:15px">Obras en curso</div>
+      <a href="../obras/index.html" class="btn-refresh" style="text-decoration:none;display:inline-block">Ver en panel Obras →</a>
+    </div>
+
   </div>
 </div>
 
@@ -749,6 +767,37 @@ async function confirmarCobro() {
   }
 }
 
+// ── EXCEDENTES DEL MES ──────────────────────────────────────────
+const TIPO_EXC_LABEL = { EXCEDENTE_ESPONTANEO: 'Excedente espontáneo', EXCEDENTE_SOLICITUD: 'Excedente por solicitud' };
+
+async function loadExcedentes() {
+  const cont = document.getElementById('excList');
+  try {
+    const rows = await sbGet(`v_excedentes_por_mes?mes=eq.${primerDiaMesActual()}&order=obra`);
+    const totalMes = rows.reduce((s, r) => s + (r.monto_pesos || 0), 0);
+    document.getElementById('excTotal').textContent = fmt(totalMes);
+
+    if (!rows.length) { cont.innerHTML = '<div class="empty-state">Sin excedentes este mes.</div>'; return; }
+
+    const porObra = {};
+    rows.forEach(r => {
+      if (!porObra[r.obra_id]) porObra[r.obra_id] = { obra: r.obra, codigo_obra: r.codigo_obra, items: [], sinMonto: 0 };
+      porObra[r.obra_id].items.push(r);
+      porObra[r.obra_id].sinMonto += r.items_sin_monto || 0;
+    });
+
+    cont.innerHTML = Object.values(porObra).map(o => `
+      <div class="esp-card">
+        <div class="esp-name">${esc(o.codigo_obra)} · ${esc(o.obra)}</div>
+        ${o.items.map(i => `<div class="ob-row"><span>${TIPO_EXC_LABEL[i.tipo] || esc(i.tipo)}</span><span>${fmt(i.monto_pesos)}</span></div>`).join('')}
+        ${o.sinMonto > 0 ? `<div class="esp-meta" style="margin-top:6px;margin-bottom:0">${o.sinMonto} ítem${o.sinMonto > 1 ? 's' : ''} sin monto cargado, en revisión</div>` : ''}
+      </div>`).join('');
+  } catch (e) {
+    cont.innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
+    console.error('loadExcedentes', e);
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
   const { data: { session } } = await authClient.auth.getSession();
@@ -779,10 +828,12 @@ async function init() {
     document.querySelector('.alert-strip').style.display = 'none';
     document.getElementById('acc-seg').style.display = 'none';
     document.getElementById('acc-rent').style.display = 'none';
+    document.getElementById('acc-exc').style.display = 'none';
+    document.getElementById('acc-obras').style.display = 'none';
     document.getElementById('acc-esp').classList.add('open');
     await loadEspontaneas();
   } else {
-    await Promise.all([loadAll(), loadAlertas(), loadSeguimiento(), loadEspontaneas()]);
+    await Promise.all([loadAll(), loadAlertas(), loadSeguimiento(), loadEspontaneas(), loadExcedentes()]);
   }
 }
 
