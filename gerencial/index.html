@@ -540,16 +540,15 @@ function renderKpis(d) {
 }
 
 // ── NIVEL 2 — OBRAS ────────────────────────────────────────────
-let obrasData = [], analisisMap = {}, excedentesMap = {};
+let obrasData = [], analisisMap = {};
 let soloConfiables = false, openObraId = null;
 
 async function loadObras() {
   document.getElementById('obrasList').innerHTML = '<div class="loader"><div class="spinner"></div>Cargando obras...</div>';
   try {
-    const [obras, analisis, excItems] = await Promise.all([
+    const [obras, analisis] = await Promise.all([
       sbObras('obras?select=id,nombre,datos_confiables&estado=eq.EN_CURSO&order=nombre'),
       sbObras('analisis_obra?select=obra_id,fecha,semaforo,semaforo_liquidez,certificado_acumulado_pesos,excedentes_acumulado_pesos,cuadrilla_acumulado_pesos&order=fecha.desc'),
-      sbObras('certificados_items?select=tipo,monto_pesos_manual,monto_pesos_calculado,certificados!inner(obra_id)&tipo=in.(EXCEDENTE_ESPONTANEO,EXCEDENTE_SOLICITUD)'),
     ]);
 
     obrasData = obras;
@@ -557,15 +556,6 @@ async function loadObras() {
     analisisMap = {};
     analisis.forEach(a => {
       if (!analisisMap[a.obra_id] || a.fecha > analisisMap[a.obra_id].fecha) analisisMap[a.obra_id] = a;
-    });
-
-    excedentesMap = {};
-    excItems.forEach(it => {
-      const obraId = it.certificados?.obra_id;
-      if (!obraId) return;
-      const monto = it.monto_pesos_manual != null ? it.monto_pesos_manual : (it.monto_pesos_calculado || 0);
-      if (!excedentesMap[obraId]) excedentesMap[obraId] = { EXCEDENTE_ESPONTANEO: 0, EXCEDENTE_SOLICITUD: 0 };
-      excedentesMap[obraId][it.tipo] = (excedentesMap[obraId][it.tipo] || 0) + monto;
     });
 
     renderObrasCount();
@@ -640,16 +630,13 @@ function renderObraDetail(o, a) {
   if (!a) {
     return '<div class="empty-state" style="padding:12px 0">Sin datos de análisis todavía.</div>';
   }
-  const exc = excedentesMap[o.id] || { EXCEDENTE_ESPONTANEO: 0, EXCEDENTE_SOLICITUD: 0 };
   const confiable = o.datos_confiables !== false;
   return `
     <div class="kpi-row"><span><span class="sem-dot ${semClass(a.semaforo)}"></span> Rentabilidad</span><span>${semLabel(a.semaforo)}</span></div>
     <div class="kpi-row"><span><span class="sem-dot ${semClass(a.semaforo_liquidez)}"></span> Liquidez</span><span>${semLabel(a.semaforo_liquidez)}</span></div>
     <div class="kpi-row strong"><span>Certificado acumulado</span><span>${fmt(a.certificado_acumulado_pesos)}</span></div>
-    <div class="kpi-row"><span>Excedente espontáneo</span><span>${fmt(exc.EXCEDENTE_ESPONTANEO)}</span></div>
-    <div class="kpi-row"><span>Excedente por solicitud</span><span>${fmt(exc.EXCEDENTE_SOLICITUD)}</span></div>
     <div class="kpi-row strong"><span>Excedentes acumulados</span><span>${fmt(a.excedentes_acumulado_pesos)}</span></div>
-    <div class="kpi-row"><span>Cuadrilla acumulada</span><span>${fmt(a.cuadrilla_acumulado_pesos)}</span></div>
+    <div class="kpi-row"><span>Cuadrilla real acumulada</span><span>${fmt(a.cuadrilla_acumulado_pesos)}</span></div>
     <div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
       <button class="confiable-toggle ${confiable ? 'ok' : 'warn'}" onclick="event.stopPropagation();toggleConfiable('${o.id}', ${confiable})">
         ${confiable ? '✓ Confiable' : '⚠ No confiable'}
