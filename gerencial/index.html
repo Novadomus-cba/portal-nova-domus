@@ -85,80 +85,74 @@ body {
 
 .page { padding: 1rem; max-width: 640px; margin: 0 auto; }
 
-.page-title-row {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 14px;
-}
-.page-title { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; font-size: 22px; color: var(--text); }
-.btn-refresh {
-  background: none; border: 1px solid var(--border); color: var(--muted);
-  border-radius: var(--radius-sm); font-size: 12px; padding: 6px 12px;
-  cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s;
-}
-.btn-refresh:hover { color: var(--accent); border-color: var(--accent-dim); }
+.page-title { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; font-size: 22px; color: var(--text); margin-bottom: 14px; }
 
-/* ── HERO SUMMARY ── */
-.hero-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-  margin-bottom: 16px;
+/* ── SELECTOR DE MES ── */
+.mes-selector { display: flex; gap: 8px; margin-bottom: 10px; }
+.mes-btn {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 6px; text-align: center;
+  cursor: pointer; transition: border-color .15s, background .15s;
 }
-.hero-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-.hero-sub { font-size: 11px; color: var(--hint); margin-top: 2px; margin-bottom: 12px; line-height: 1.5; }
-.hero-value-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.hero-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-.hero-value { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
-.hero-value.ok { color: var(--ok); }
-.hero-value.danger { color: var(--danger); }
-.hero-breakdown { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--border); padding-top: 12px; }
-.hero-row { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
-.hero-row span:last-child { color: var(--text); font-weight: 500; }
+.mes-btn.active { border-color: var(--accent-dim); background: rgba(200,169,110,.08); }
+.mes-btn-label { font-size: 12.5px; font-weight: 600; color: var(--text); text-transform: capitalize; }
+.mes-btn-tag { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 3px; }
+.mes-btn.active .mes-btn-tag { color: var(--accent); }
 
-/* ── OBRA CARDS ── */
-.obra-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 12px;
-  overflow: hidden;
-}
-.obra-card-header {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
-}
-.obra-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.obra-updated { font-size: 10.5px; color: var(--hint); white-space: nowrap; }
+.updated-line { font-size: 11.5px; color: var(--hint); margin-bottom: 18px; }
 
-.ob-block { padding: 12px 14px; border-bottom: 1px solid var(--border); }
-.ob-block:last-child { border-bottom: none; }
-.ob-block-title {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 11px; font-weight: 600; color: var(--muted);
-  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px;
-}
-.ob-row { display: flex; justify-content: space-between; font-size: 12.5px; padding: 2px 0; color: var(--muted); }
-.ob-row span:last-child { color: var(--text); font-weight: 500; }
-.ob-row.strong { font-weight: 600; padding-top: 6px; margin-top: 2px; border-top: 1px solid var(--border); }
-.ob-row.strong span:last-child { font-weight: 700; }
-.ob-row .pos { color: var(--ok); }
-.ob-row .neg { color: var(--danger); }
+/* ── KPI GRID ── */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .15s; }
+.kpi-card.open { grid-column: 1 / -1; border-color: var(--accent-dim); }
+.kpi-hdr { padding: 14px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+.kpi-hdr-top { display: flex; justify-content: space-between; align-items: center; }
+.kpi-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.kpi-chevron { font-size: 10px; color: var(--muted); transition: transform .18s; flex-shrink: 0; }
+.kpi-card.open .kpi-chevron { transform: rotate(180deg); }
+.kpi-value { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.kpi-value.accent  { color: var(--accent); }
+.kpi-value.ok      { color: var(--ok); }
+.kpi-value.danger  { color: var(--danger); }
+.kpi-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); }
+.kpi-card.open .kpi-body { display: block; padding-top: 12px; }
+.kpi-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; padding: 4px 0; color: var(--muted); }
+.kpi-row span:last-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+.kpi-row.strong { font-weight: 600; padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--border); }
+.kpi-row.strong span:last-child { font-weight: 700; }
+.kpi-row .pos { color: var(--ok) !important; }
+.kpi-row .neg { color: var(--danger) !important; }
+.kpi-tag-proy { font-size: 9.5px; font-weight: 600; color: var(--warn); background: var(--warn-bg); border-radius: 10px; padding: 1px 6px; margin-left: 6px; white-space: nowrap; }
 
-.sem-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.sem-verde   { background: var(--ok); }
-.sem-rojo    { background: var(--danger); }
-.sem-amarillo{ background: var(--warn); }
+/* ── SEMÁFOROS ── */
+.sem-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.sem-verde    { background: var(--ok); }
+.sem-rojo     { background: var(--danger); }
+.sem-amarillo { background: var(--warn); }
 .sem-sin_datos, .sem-incoherencias, .sem-solo_costo { background: var(--hint); }
 
-.cayendo-tag {
-  display: inline-block; font-size: 10px; font-weight: 600;
-  color: var(--warn); background: var(--warn-bg); border-radius: 20px;
-  padding: 2px 8px; margin-top: 6px;
-}
+/* ── FILTRO / CONTADOR OBRAS ── */
+.filter-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.check-confiables { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); cursor: pointer; }
+.check-confiables input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+.obras-count { font-size: 11.5px; color: var(--hint); }
 
-.materiales-block { background: var(--surface2); }
+/* ── LISTA DE OBRAS ── */
+.obra-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; transition: border-color .15s; }
+.obra-row.open { border-color: var(--accent-dim); }
+.obra-row-hdr { padding: 12px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.obra-row-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.obra-row-dots { display: flex; gap: 4px; flex-shrink: 0; }
+.obra-row-name { font-size: 13.5px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.obra-noconfiable-tag { font-size: 9.5px; font-weight: 600; color: var(--warn); background: var(--warn-bg); border-radius: 10px; padding: 1px 6px; white-space: nowrap; flex-shrink: 0; }
+.obra-row-chevron { font-size: 10px; color: var(--muted); transition: transform .18s; flex-shrink: 0; }
+.obra-row.open .obra-row-chevron { transform: rotate(180deg); }
+.obra-row-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); }
+.obra-row.open .obra-row-body { display: block; padding-top: 12px; }
+
+.confiable-toggle { border: none; cursor: pointer; font-family: inherit; border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 600; }
+.confiable-toggle.ok   { background: var(--ok-bg);   color: var(--ok);   border: 1px solid rgba(95,191,125,.35); }
+.confiable-toggle.warn { background: var(--warn-bg); color: var(--warn); border: 1px solid rgba(224,184,92,.35); }
 
 /* ── STATES ── */
 .loader {
@@ -171,70 +165,12 @@ body {
   border-radius: 50%; animation: spin .7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty-state { text-align: center; padding: 3rem 1rem; color: var(--hint); font-size: 14px; }
+.empty-state { text-align: center; padding: 2rem 1rem; color: var(--hint); font-size: 13px; }
 
-/* ── HEADER (fecha) ── */
-.header-date { font-size: 12px; color: var(--muted); margin-bottom: 16px; text-transform: capitalize; }
-
-/* ── ALERTAS DEL DÍA ── */
-.alert-strip { display: flex; gap: 8px; margin-bottom: 16px; }
-.alert-card {
-  flex: 1; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 12px 10px; cursor: pointer;
-  transition: border-color .15s;
-}
-.alert-card:hover { border-color: var(--accent-dim); }
-.alert-value { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
-.alert-label { font-size: 10.5px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
-
-/* ── ACORDEÓN ── */
-.acc-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
-.acc-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; }
-.acc-title { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; font-size: 15px; color: var(--text); }
-.acc-hdr-right { display: flex; align-items: center; gap: 10px; }
-.chevron { font-size: 10px; color: var(--muted); transition: transform .18s; }
-.acc-section.open .chevron { transform: rotate(180deg); }
-.acc-body { display: none; padding: 0 16px 16px; }
-.acc-section.open .acc-body { display: block; }
-
-/* ── CHIPS (filtro comercial) ── */
-.chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.chip {
-  background: var(--bg); border: 1px solid var(--border); color: var(--muted);
-  border-radius: 20px; padding: 5px 12px; font-size: 12px; cursor: pointer;
-  font-family: inherit; transition: all .15s;
-}
-.chip.active { border-color: var(--accent-dim); color: var(--accent); background: rgba(200,169,110,.08); }
-
-/* ── SEGUIMIENTO COMERCIAL ── */
-.seg-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 8px; }
-.seg-card.alerta { border-color: var(--accent-dim); }
-.seg-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
-.seg-num { font-size: 13px; font-weight: 600; color: var(--text); }
-.seg-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
-.seg-total { font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; }
-.seg-link { display: inline-block; margin-top: 8px; font-size: 11.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
-.seg-link:hover { text-decoration: underline; }
-
-/* ── TRABAJOS ESPONTÁNEOS ── */
-.esp-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 8px; }
-.esp-name { font-size: 13px; font-weight: 600; color: var(--text); }
-.esp-meta { font-size: 11px; color: var(--muted); margin-top: 2px; margin-bottom: 8px; }
-.btn-block { display: block; width: 100%; text-align: center; margin-top: 10px; }
-
-/* ── MODAL ── */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; align-items: flex-end; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 640px; max-height: 80vh; overflow-y: auto; padding: 20px; }
-.modal-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
-.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
-.field label { font-size: 11px; color: var(--muted); font-weight: 500; }
-.field input { width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; color: var(--text); background: var(--bg); outline: none; font-family: inherit; }
-.field input:focus { border-color: var(--accent); }
-.modal-error { display: none; background: var(--danger-bg); border: 1px solid rgba(224,92,92,.35); color: var(--danger); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px; font-size: 12px; }
-.btn-primary { width: 100%; padding: 10px; border: none; border-radius: var(--radius-sm); background: var(--primary); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
-.btn-cancel { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: none; color: var(--muted); font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 8px; }
+.toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: var(--text); padding: 9px 18px; border-radius: 20px; font-size: 13px; font-weight: 500; opacity: 0; transition: all .25s; pointer-events: none; z-index: 300; white-space: nowrap; }
+.toast.ok  { background: var(--ok); color: #0B132B; }
+.toast.err { background: var(--danger); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -264,123 +200,83 @@ body {
 <div id="app-content" style="display:none">
   <div class="page">
 
-    <div class="page-title" style="margin-bottom:2px">Panel Gerencial</div>
-    <div class="header-date" id="fechaActual"></div>
+    <div class="page-title">Panel Gerencial</div>
 
-    <!-- Alertas del día -->
-    <div class="alert-strip">
-      <div class="alert-card" onclick="irASeccion('seg')">
-        <div class="alert-value" id="alertAceptados">—</div>
-        <div class="alert-label">aceptados sin obra</div>
-      </div>
-      <div class="alert-card" onclick="irASeccion('seg')">
-        <div class="alert-value" id="alertSinResp">—</div>
-        <div class="alert-label">sin resp. &gt;<span id="alertUmbral"></span>d</div>
-      </div>
-      <div class="alert-card" onclick="irASeccion('exc')">
-        <div class="alert-value" id="alertExcedentes">—</div>
-        <div class="alert-label">exced. este mes</div>
-      </div>
-    </div>
+    <!-- NIVEL 0 — Selector de mes -->
+    <div class="mes-selector" id="mesSelector"></div>
+    <div class="updated-line" id="updatedLine">Actualizado —</div>
 
-    <!-- Seguimiento comercial -->
-    <div class="acc-section open" id="acc-seg">
-      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
-        <div class="acc-title">Seguimiento comercial</div>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="acc-body">
-        <div class="chip-row" id="segChips"></div>
-        <div id="segList"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
-      </div>
-    </div>
+    <!-- NIVEL 1 — KPIs -->
+    <div class="kpi-grid" id="kpiGrid">
 
-    <!-- Rentabilidad y liquidez (módulo existente, sin cambios de lógica) -->
-    <div class="acc-section open" id="acc-rent">
-      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
-        <div class="acc-title">Rentabilidad y liquidez</div>
-        <div class="acc-hdr-right">
-          <button class="btn-refresh" onclick="event.stopPropagation();loadAll()">↻</button>
-          <span class="chevron">▼</span>
-        </div>
-      </div>
-      <div class="acc-body">
-        <div class="hero-card">
-          <div class="hero-label">Liquidez acumulada — obras activas</div>
-          <div class="hero-sub">Cobrado de mano de obra vs. costo real pagado a la cuadrilla, acumulado desde el inicio de cada obra (última actualización semanal).</div>
-          <div class="hero-value-row">
-            <div class="hero-dot" id="heroDot"></div>
-            <div class="hero-value" id="heroValue">—</div>
+      <div class="kpi-card" id="kpi-ingresos">
+        <div class="kpi-hdr" onclick="toggleKpi('ingresos')">
+          <div class="kpi-hdr-top">
+            <span class="kpi-label">Ingresos</span>
+            <span class="kpi-chevron">▼</span>
           </div>
-          <div class="hero-breakdown">
-            <div class="hero-row"><span>Cobrado MO (total)</span><span id="heroCobrado">—</span></div>
-            <div class="hero-row"><span>Costo cuadrilla (total)</span><span id="heroCuadrilla">—</span></div>
-            <div class="hero-row"><span>Materiales cobrados (total)</span><span id="heroMateriales">—</span></div>
+          <div class="kpi-value accent" id="kpiIngresosValue">—</div>
+        </div>
+        <div class="kpi-body" id="kpiIngresosBody"></div>
+      </div>
+
+      <div class="kpi-card" id="kpi-fijos">
+        <div class="kpi-hdr" onclick="toggleKpi('fijos')">
+          <div class="kpi-hdr-top">
+            <span class="kpi-label">Costos fijos</span>
+            <span class="kpi-chevron">▼</span>
           </div>
+          <div class="kpi-value" id="kpiFijosValue">—</div>
         </div>
+        <div class="kpi-body" id="kpiFijosBody"></div>
+      </div>
 
-        <div id="obrasList">
-          <div class="loader"><div class="spinner"></div>Cargando obras...</div>
+      <div class="kpi-card" id="kpi-variables">
+        <div class="kpi-hdr" onclick="toggleKpi('variables')">
+          <div class="kpi-hdr-top">
+            <span class="kpi-label">Costos variables</span>
+            <span class="kpi-chevron">▼</span>
+          </div>
+          <div class="kpi-value" id="kpiVariablesValue">—</div>
         </div>
+        <div class="kpi-body" id="kpiVariablesBody"></div>
       </div>
+
+      <div class="kpi-card" id="kpi-neto">
+        <div class="kpi-hdr" onclick="toggleKpi('neto')">
+          <div class="kpi-hdr-top">
+            <span class="kpi-label">Resultado neto</span>
+            <span class="kpi-chevron">▼</span>
+          </div>
+          <div class="kpi-value" id="kpiNetoValue">—</div>
+        </div>
+        <div class="kpi-body" id="kpiNetoBody"></div>
+      </div>
+
     </div>
 
-    <!-- Trabajos espontáneos -->
-    <div class="acc-section" id="acc-esp">
-      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
-        <div class="acc-title">Trabajos espontáneos</div>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="acc-body">
-        <div id="espList"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
-      </div>
+    <!-- NIVEL 2 — Obras -->
+    <div class="filter-row">
+      <label class="check-confiables">
+        <input type="checkbox" id="chkConfiables" onchange="toggleSoloConfiables()">
+        Solo confiables
+      </label>
+      <span class="obras-count" id="obrasCount">—</span>
     </div>
 
-    <!-- Excedentes del mes -->
-    <div class="acc-section open" id="acc-exc">
-      <div class="acc-hdr" onclick="this.closest('.acc-section').classList.toggle('open')">
-        <div class="acc-title">Excedentes del mes</div>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="acc-body">
-        <div id="excTotal" style="font-size:20px;font-weight:700;color:var(--accent);margin-bottom:12px">—</div>
-        <div id="excList"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
-      </div>
-    </div>
-
-    <!-- Obras en curso (placeholder — semáforo pendiente de diseño aparte) -->
-    <div class="acc-section" id="acc-obras" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
-      <div class="acc-title" style="font-size:15px">Obras en curso</div>
-      <a href="../obras/index.html" class="btn-refresh" style="text-decoration:none;display:inline-block">Ver en panel Obras →</a>
-    </div>
+    <div id="obrasList"><div class="loader"><div class="spinner"></div>Cargando obras...</div></div>
 
   </div>
 </div>
 
-<!-- Modal: Marcar cobro -->
-<div class="modal-overlay" id="modal-cobro">
-  <div class="modal">
-    <div class="modal-title">Marcar cobro</div>
-    <div class="modal-error" id="mc-error"></div>
-    <div class="field">
-      <label>Monto cobrado ($)</label>
-      <input type="number" id="mc-monto" step="1" min="0">
-    </div>
-    <div class="field">
-      <label>Fecha de cobro</label>
-      <input type="date" id="mc-fecha">
-    </div>
-    <button class="btn-primary" id="mc-confirm" onclick="confirmarCobro()">Confirmar</button>
-    <button class="btn-cancel" onclick="cerrarModalCobro()">Cancelar</button>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
 
 <script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
+const ALLOWED_ROLES = ['admin', 'supervisor'];
 
 const { createClient } = supabase;
 const authClient = createClient(AUTH_URL, AUTH_KEY);
@@ -390,21 +286,21 @@ async function handleLogout() {
   window.location.href = '../login.html';
 }
 
-// ── DATA (Cuadrilla/Obras project) ───────────────────────────
-const SB_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+// ── DATA (Cuadrilla/Obras project, via auth-bridge) ────────────
 let cuadrillaToken = null;
 
-async function sbGet(path) {
-  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+async function sbObras(path) {
+  const res = await fetch(CUADRILLA_URL + '/rest/v1/' + path, {
     headers: { apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken }
   });
   const text = await res.text();
-  if (!res.ok) throw new Error(text);
-  return text ? JSON.parse(text) : [];
+  const data = text ? JSON.parse(text) : [];
+  if (!res.ok) throw new Error((data && data.message) || res.statusText);
+  return data;
 }
 
-async function sbPatchCuadrilla(path, body) {
-  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+async function sbObrasPatch(path, body) {
+  const res = await fetch(CUADRILLA_URL + '/rest/v1/' + path, {
     method: 'PATCH',
     headers: {
       apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken,
@@ -415,19 +311,20 @@ async function sbPatchCuadrilla(path, body) {
   if (!res.ok) { const t = await res.text(); throw new Error(t); }
 }
 
-// ── DATA (Auth/Comercial project) — RLS ahí exige el access_token real ──
-const DIAS_ALERTA_SIN_RESPUESTA = 10; // ajustable, avisame si cambia
-
-async function sbAuthGet(path) {
+// ── DATA (Auth/Comercial project) — RLS exige el access_token real ──
+async function sbAuth(path) {
   const { data: { session } } = await authClient.auth.getSession();
   const res = await fetch(AUTH_URL + '/rest/v1/' + path, {
     headers: { apikey: AUTH_KEY, Authorization: 'Bearer ' + (session?.access_token || AUTH_KEY) }
   });
   const text = await res.text();
-  if (!res.ok) throw new Error(text);
-  return text ? JSON.parse(text) : [];
+  const data = text ? JSON.parse(text) : [];
+  if (!res.ok) throw new Error((data && data.message) || res.statusText);
+  return data;
 }
 
+// ── HELPERS ──────────────────────────────────────────────────
+function pad(n) { return String(n).padStart(2, '0'); }
 function fmt(n) {
   const v = Math.round(n || 0);
   const abs = Math.abs(v).toLocaleString('es-AR');
@@ -437,6 +334,16 @@ function fd(iso) {
   if (!iso) return '—';
   const [y, m, d] = iso.split('-');
   return `${d}/${m}/${y}`;
+}
+function esc(s) {
+  const div = document.createElement('div');
+  div.textContent = s == null ? '' : String(s);
+  return div.innerHTML;
+}
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
 }
 
 const SEM_LABEL = {
@@ -448,353 +355,319 @@ function semClass(s) { return 'sem-' + (s || 'sin_datos').toLowerCase(); }
 function semLabel(s) { return SEM_LABEL[s] || 'Sin datos'; }
 function semRank(s) { return SEM_RANK[s] ?? 5; }
 
-// ── FETCH ─────────────────────────────────────────────────────
-async function fetchObrasActivas() {
-  return await sbGet('obras?select=id,nombre&estado=eq.EN_CURSO&order=nombre');
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+// ── NIVEL 0 — SELECTOR DE MES ──────────────────────────────────
+let mesOffset = 0; // -1 anterior · 0 actual · +1 siguiente
+
+function monthInfo(offset) {
+  const now = new Date();
+  const base = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  const year = base.getFullYear(), month = base.getMonth(); // month 0-indexed
+  const start = `${year}-${pad(month + 1)}-01`;
+  const endBase = new Date(year, month + 1, 1);
+  const end = `${endBase.getFullYear()}-${pad(endBase.getMonth() + 1)}-01`;
+  const periodoFiscal = `${year}-${pad(month + 1)}`;
+  const tag = offset < 0 ? 'cerrado' : (offset === 0 ? 'vigente' : 'pronóstico');
+  return { year, month, start, end, periodoFiscal, label: MESES[month], tag, incluyePlantilla: offset >= 0 };
 }
 
-async function fetchBalances() {
-  return await sbGet(
-    'analisis_obra?select=obra_id,fecha,semaforo,margen_mo_acumulado_pct,resultado_neto_pesos,' +
-    'semanas_cayendo,cuadrilla_acumulado_pesos,materiales_acumulado_pesos,total_cobrado_pesos,' +
-    'materiales_cobrado_pesos,resultado_liquidez_mo_pesos,semaforo_liquidez' +
-    '&tipo=eq.BALANCE&order=fecha.asc'
-  );
+function renderMesSelector() {
+  const el = document.getElementById('mesSelector');
+  el.innerHTML = [-1, 0, 1].map(off => {
+    const mi = monthInfo(off);
+    return `<div class="mes-btn ${off === mesOffset ? 'active' : ''}" onclick="setMes(${off})">
+      <div class="mes-btn-label">${mi.label} ${mi.year}</div>
+      <div class="mes-btn-tag">${mi.tag}</div>
+    </div>`;
+  }).join('');
 }
 
-// "Pagado a proveedores" = facturas que la empresa pagó directo (origen_pago=empresa).
-// Las de origen_pago=tecnico las adelanta el técnico y se reembolsan vía Liquidación,
-// no son un pago directo de Nova Domus al proveedor.
-async function fetchPagadoProveedores() {
-  const rows = await sbGet('facturas_obra?select=obra_id,monto_con_iva&origen_pago=eq.empresa');
-  const map = {};
-  rows.forEach(f => { map[f.obra_id] = (map[f.obra_id] || 0) + Number(f.monto_con_iva || 0); });
-  return map;
+function setMes(off) {
+  if (off === mesOffset) return;
+  mesOffset = off;
+  renderMesSelector();
+  loadKPIs();
 }
 
-// ── LOAD ──────────────────────────────────────────────────────
-async function loadAll() {
-  document.getElementById('obrasList').innerHTML = '<div class="loader"><div class="spinner"></div>Cargando obras...</div>';
+async function loadUpdated() {
+  const el = document.getElementById('updatedLine');
   try {
-    const [obras, balances, pagadoMap] = await Promise.all([
-      fetchObrasActivas(), fetchBalances(), fetchPagadoProveedores()
-    ]);
-
-    const balMap = {};
-    balances.forEach(b => {
-      if (!balMap[b.obra_id] || b.fecha > balMap[b.obra_id].fecha) balMap[b.obra_id] = b;
-    });
-
-    renderHero(obras, balMap);
-    renderObras(obras, balMap, pagadoMap);
+    const rows = await sbObras('analisis_obra?select=created_at&order=created_at.desc&limit=1');
+    if (rows[0]?.created_at) {
+      const d = new Date(rows[0].created_at);
+      const fechaStr = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+      const horaStr = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      el.textContent = `Actualizado ${fechaStr} ${horaStr}`;
+    } else {
+      el.textContent = 'Actualizado — sin corridas registradas';
+    }
   } catch (e) {
-    document.getElementById('obrasList').innerHTML =
-      `<div class="empty-state">Error al cargar datos: ${e.message}</div>`;
-    console.error('loadAll', e);
+    el.textContent = 'Actualizado —';
+    console.error('loadUpdated', e);
   }
 }
 
-function renderHero(obras, balMap) {
-  const activos = obras.map(o => balMap[o.id]).filter(Boolean);
-  const cobradoTotal    = activos.reduce((s, b) => s + (b.total_cobrado_pesos || 0), 0);
-  const cuadrillaTotal  = activos.reduce((s, b) => s + (b.cuadrilla_acumulado_pesos || 0), 0);
-  const materialesTotal = activos.reduce((s, b) => s + (b.materiales_cobrado_pesos || 0), 0);
-  const resultado = cobradoTotal - cuadrillaTotal;
+// ── NIVEL 1 — KPIs ───────────────────────────────────────────
+let openKpi = null;
+let categoriasCache = null;
 
-  document.getElementById('heroDot').className = 'hero-dot ' + (resultado >= 0 ? 'sem-verde' : 'sem-rojo');
-  const valueEl = document.getElementById('heroValue');
-  valueEl.textContent = fmt(resultado);
-  valueEl.className = 'hero-value ' + (resultado >= 0 ? 'ok' : 'danger');
-
-  document.getElementById('heroCobrado').textContent    = fmt(cobradoTotal);
-  document.getElementById('heroCuadrilla').textContent  = fmt(cuadrillaTotal);
-  document.getElementById('heroMateriales').textContent = fmt(materialesTotal);
+function toggleKpi(key) {
+  openKpi = (openKpi === key) ? null : key;
+  ['ingresos', 'fijos', 'variables', 'neto'].forEach(k => {
+    document.getElementById('kpi-' + k).classList.toggle('open', k === openKpi);
+  });
 }
 
-function renderObras(obras, balMap, pagadoMap) {
+function groupCostosByCategoria(rows) {
+  const map = {};
+  rows.forEach(r => {
+    if (!map[r.nombre]) map[r.nombre] = { nombre: r.nombre, monto: 0, proyectado: false };
+    map[r.nombre].monto += r.monto;
+    if (r.proyectado) map[r.nombre].proyectado = true;
+  });
+  return Object.values(map).sort((a, b) => b.monto - a.monto);
+}
+
+async function loadKPIs() {
+  const mi = monthInfo(mesOffset);
+  ['kpiIngresosBody', 'kpiFijosBody', 'kpiVariablesBody', 'kpiNetoBody'].forEach(id => {
+    document.getElementById(id).innerHTML = '<div class="loader" style="padding:1.2rem"><div class="spinner"></div>Cargando...</div>';
+  });
+
+  try {
+    const [recibos, ventasAll, espontaneas, egresos, categorias, plantilla] = await Promise.all([
+      sbObras(`recibos_cobros?select=monto_cobrado_mo_pesos,monto_cobrado_materiales_pesos&fecha_cobro=gte.${mi.start}&fecha_cobro=lt.${mi.end}`),
+      sbAuth('ventas_comerciales?select=total_ars,fecha_pago,periodo_mes,periodo_anio'),
+      sbObras(`obras?select=monto_cobrado_pesos&tipo_obra=eq.ESPONTANEA&cobrado=eq.true&fecha_cobro_real=gte.${mi.start}&fecha_cobro_real=lt.${mi.end}`),
+      sbObras(`egresos_generales?select=categoria,monto_total,tipo_costo&periodo_fiscal=eq.${mi.periodoFiscal}`),
+      categoriasCache || sbObras('categorias_egresos?select=codigo,nombre_display,tipo_costo'),
+      mi.incluyePlantilla ? sbObras('plantilla_costos_fijos?select=categoria_codigo,monto_esperado&activo=eq.true') : Promise.resolve([]),
+    ]);
+    categoriasCache = categorias;
+
+    // ── Ingresos ──
+    const cobradoMO  = recibos.reduce((s, r) => s + (r.monto_cobrado_mo_pesos || 0), 0);
+    const cobradoMat = recibos.reduce((s, r) => s + (r.monto_cobrado_materiales_pesos || 0), 0);
+    const ventasMes = ventasAll.filter(v => {
+      if (v.fecha_pago) return v.fecha_pago >= mi.start && v.fecha_pago < mi.end;
+      return v.periodo_mes === mi.month + 1 && v.periodo_anio === mi.year;
+    });
+    const ventasTotal = ventasMes.reduce((s, v) => s + (v.total_ars || 0), 0);
+    const espTotal = espontaneas.reduce((s, o) => s + (o.monto_cobrado_pesos || 0), 0);
+    const ingresosTotal = cobradoMO + cobradoMat + ventasTotal + espTotal;
+
+    // ── Costos fijos / variables ──
+    const catMap = {};
+    categorias.forEach(c => catMap[c.codigo] = c);
+    const catCubiertas = new Set(egresos.map(e => e.categoria));
+
+    const rows = egresos.map(e => ({
+      nombre: catMap[e.categoria]?.nombre_display || e.categoria,
+      tipo_costo: e.tipo_costo || catMap[e.categoria]?.tipo_costo,
+      monto: e.monto_total || 0,
+      proyectado: false,
+    }));
+    if (mi.incluyePlantilla) {
+      plantilla.forEach(p => {
+        if (catCubiertas.has(p.categoria_codigo)) return; // ya hay un real cargado ese periodo
+        rows.push({
+          nombre: catMap[p.categoria_codigo]?.nombre_display || p.categoria_codigo,
+          tipo_costo: catMap[p.categoria_codigo]?.tipo_costo,
+          monto: p.monto_esperado || 0,
+          proyectado: true,
+        });
+      });
+    }
+    const fijosRows      = groupCostosByCategoria(rows.filter(r => r.tipo_costo === 'FIJO'));
+    const variablesRows  = groupCostosByCategoria(rows.filter(r => r.tipo_costo === 'VARIABLE'));
+    const totalFijos     = fijosRows.reduce((s, r) => s + r.monto, 0);
+    const totalVariables = variablesRows.reduce((s, r) => s + r.monto, 0);
+    const resultadoNeto   = ingresosTotal - totalFijos - totalVariables;
+
+    renderKpis({
+      cobradoMO, cobradoMat, ventasTotal, espTotal, ingresosTotal,
+      fijosRows, totalFijos, variablesRows, totalVariables, resultadoNeto,
+    });
+  } catch (e) {
+    ['kpiIngresosBody', 'kpiFijosBody', 'kpiVariablesBody', 'kpiNetoBody'].forEach(id => {
+      document.getElementById(id).innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
+    });
+    console.error('loadKPIs', e);
+  }
+}
+
+function costosRowsHtml(rows) {
+  if (!rows.length) return '<div class="kpi-row"><span>Sin registros este mes</span><span></span></div>';
+  return rows.map(r => `
+    <div class="kpi-row">
+      <span>${esc(r.nombre)}${r.proyectado ? '<span class="kpi-tag-proy">proyectado</span>' : ''}</span>
+      <span>${fmt(r.monto)}</span>
+    </div>`).join('');
+}
+
+function renderKpis(d) {
+  // Ingresos
+  document.getElementById('kpiIngresosValue').textContent = fmt(d.ingresosTotal);
+  document.getElementById('kpiIngresosBody').innerHTML = `
+    <div class="kpi-row"><span>Cobrado mano de obra</span><span>${fmt(d.cobradoMO)}</span></div>
+    <div class="kpi-row"><span>Cobrado materiales</span><span>${fmt(d.cobradoMat)}</span></div>
+    <div class="kpi-row"><span>Ventas comerciales</span><span>${fmt(d.ventasTotal)}</span></div>
+    <div class="kpi-row"><span>Trabajos espontáneos cobrados</span><span>${fmt(d.espTotal)}</span></div>
+    <div class="kpi-row strong"><span>Total ingresos</span><span>${fmt(d.ingresosTotal)}</span></div>`;
+
+  // Costos fijos
+  document.getElementById('kpiFijosValue').textContent = fmt(d.totalFijos);
+  document.getElementById('kpiFijosBody').innerHTML = `
+    ${costosRowsHtml(d.fijosRows)}
+    <div class="kpi-row strong"><span>Total costos fijos</span><span>${fmt(d.totalFijos)}</span></div>`;
+
+  // Costos variables
+  document.getElementById('kpiVariablesValue').textContent = fmt(d.totalVariables);
+  document.getElementById('kpiVariablesBody').innerHTML = `
+    ${costosRowsHtml(d.variablesRows)}
+    <div class="kpi-row strong"><span>Total costos variables</span><span>${fmt(d.totalVariables)}</span></div>`;
+
+  // Resultado neto
+  const netoEl = document.getElementById('kpiNetoValue');
+  netoEl.textContent = fmt(d.resultadoNeto);
+  netoEl.className = 'kpi-value ' + (d.resultadoNeto >= 0 ? 'ok' : 'danger');
+  document.getElementById('kpiNetoBody').innerHTML = `
+    <div class="kpi-row"><span>Ingresos</span><span>${fmt(d.ingresosTotal)}</span></div>
+    <div class="kpi-row"><span>Costos fijos</span><span>${fmt(-d.totalFijos)}</span></div>
+    <div class="kpi-row"><span>Costos variables</span><span>${fmt(-d.totalVariables)}</span></div>
+    <div class="kpi-row strong"><span>Resultado neto</span><span class="${d.resultadoNeto >= 0 ? 'pos' : 'neg'}">${fmt(d.resultadoNeto)}</span></div>`;
+}
+
+// ── NIVEL 2 — OBRAS ────────────────────────────────────────────
+let obrasData = [], analisisMap = {}, excedentesMap = {};
+let soloConfiables = false, openObraId = null;
+
+async function loadObras() {
+  document.getElementById('obrasList').innerHTML = '<div class="loader"><div class="spinner"></div>Cargando obras...</div>';
+  try {
+    const [obras, analisis, excItems] = await Promise.all([
+      sbObras('obras?select=id,nombre,datos_confiables&estado=eq.EN_CURSO&order=nombre'),
+      sbObras('analisis_obra?select=obra_id,fecha,semaforo,semaforo_liquidez,certificado_acumulado_pesos,excedentes_acumulado_pesos,cuadrilla_acumulado_pesos&order=fecha.desc'),
+      sbObras('certificados_items?select=tipo,monto_pesos_manual,monto_pesos_calculado,certificados!inner(obra_id)&tipo=in.(EXCEDENTE_ESPONTANEO,EXCEDENTE_SOLICITUD)'),
+    ]);
+
+    obrasData = obras;
+
+    analisisMap = {};
+    analisis.forEach(a => {
+      if (!analisisMap[a.obra_id] || a.fecha > analisisMap[a.obra_id].fecha) analisisMap[a.obra_id] = a;
+    });
+
+    excedentesMap = {};
+    excItems.forEach(it => {
+      const obraId = it.certificados?.obra_id;
+      if (!obraId) return;
+      const monto = it.monto_pesos_manual != null ? it.monto_pesos_manual : (it.monto_pesos_calculado || 0);
+      if (!excedentesMap[obraId]) excedentesMap[obraId] = { EXCEDENTE_ESPONTANEO: 0, EXCEDENTE_SOLICITUD: 0 };
+      excedentesMap[obraId][it.tipo] = (excedentesMap[obraId][it.tipo] || 0) + monto;
+    });
+
+    renderObrasCount();
+    renderObrasList();
+  } catch (e) {
+    document.getElementById('obrasList').innerHTML = `<div class="empty-state">Error al cargar obras: ${esc(e.message)}</div>`;
+    console.error('loadObras', e);
+  }
+}
+
+function renderObrasCount() {
+  const total = obrasData.length;
+  const sinClasificar = obrasData.filter(o => o.datos_confiables == null).length;
+  document.getElementById('obrasCount').textContent =
+    `${total} obra${total !== 1 ? 's' : ''} activa${total !== 1 ? 's' : ''} · ${sinClasificar} sin clasificar como confiables`;
+}
+
+function toggleSoloConfiables() {
+  soloConfiables = document.getElementById('chkConfiables').checked;
+  renderObrasList();
+}
+
+function renderObrasList() {
   const el = document.getElementById('obrasList');
-  if (!obras.length) {
-    el.innerHTML = '<div class="empty-state">No hay obras activas.</div>';
+  let list = obrasData;
+  if (soloConfiables) list = list.filter(o => o.datos_confiables === true);
+
+  if (!list.length) {
+    el.innerHTML = '<div class="empty-state">No hay obras para mostrar.</div>';
     return;
   }
 
-  const sorted = [...obras].sort((a, b) => {
-    const ba = balMap[a.id], bb = balMap[b.id];
-    const ra = Math.min(semRank(ba?.semaforo), semRank(ba?.semaforo_liquidez));
+  const sorted = [...list].sort((a, b) => {
+    const aa = analisisMap[a.id], bb = analisisMap[b.id];
+    const ra = Math.min(semRank(aa?.semaforo), semRank(aa?.semaforo_liquidez));
     const rb = Math.min(semRank(bb?.semaforo), semRank(bb?.semaforo_liquidez));
     return ra - rb;
   });
 
-  el.innerHTML = sorted.map(o => {
-    const b = balMap[o.id];
-    const pagadoProveedores = pagadoMap[o.id] || 0;
+  el.innerHTML = sorted.map(o => renderObraRow(o)).join('');
+}
 
-    if (!b) {
-      return `
-        <div class="obra-card">
-          <div class="obra-card-header">
-            <div class="obra-name">${esc(o.nombre)}</div>
-          </div>
-          <div class="ob-block">
-            <div class="ob-block-title"><span class="sem-dot sem-sin_datos"></span>Sin datos de análisis todavía</div>
-          </div>
-        </div>`;
-    }
-
-    const cayendo = b.semanas_cayendo || 0;
-    const cayendoHtml = (b.semaforo === 'AMARILLO' && cayendo >= 2)
-      ? `<div class="cayendo-tag">↓ ${cayendo} semanas cayendo</div>` : '';
-
-    const resLiq = b.resultado_liquidez_mo_pesos ?? (b.total_cobrado_pesos != null && b.cuadrilla_acumulado_pesos != null
-      ? b.total_cobrado_pesos - b.cuadrilla_acumulado_pesos : null);
-
-    return `
-      <div class="obra-card">
-        <div class="obra-card-header">
-          <div class="obra-name">${esc(o.nombre)}</div>
-          <div class="obra-updated">Actualizado ${fd(b.fecha)}</div>
+function renderObraRow(o) {
+  const a = analisisMap[o.id];
+  const isOpen = openObraId === o.id;
+  const noConfiableTag = o.datos_confiables === false ? '<span class="obra-noconfiable-tag">⚠ No confiable</span>' : '';
+  return `
+    <div class="obra-row ${isOpen ? 'open' : ''}" id="obra-${o.id}">
+      <div class="obra-row-hdr" onclick="toggleObra('${o.id}')">
+        <div class="obra-row-left">
+          <span class="obra-row-dots">
+            <span class="sem-dot ${semClass(a?.semaforo)}" title="Rentabilidad: ${semLabel(a?.semaforo)}"></span>
+            <span class="sem-dot ${semClass(a?.semaforo_liquidez)}" title="Liquidez: ${semLabel(a?.semaforo_liquidez)}"></span>
+          </span>
+          <span class="obra-row-name">${esc(o.nombre)}</span>
         </div>
-
-        <div class="ob-block">
-          <div class="ob-block-title"><span class="sem-dot ${semClass(b.semaforo)}"></span>Rentabilidad — ${semLabel(b.semaforo)}</div>
-          <div class="ob-row"><span>Margen MO acumulado</span><span>${b.margen_mo_acumulado_pct != null ? b.margen_mo_acumulado_pct.toFixed(1) + '%' : '—'}</span></div>
-          <div class="ob-row"><span>Resultado neto</span><span>${b.resultado_neto_pesos != null ? fmt(b.resultado_neto_pesos) : '—'}</span></div>
-          ${cayendoHtml}
+        <div style="display:flex;align-items:center;gap:8px">
+          ${noConfiableTag}
+          <span class="obra-row-chevron">▼</span>
         </div>
-
-        <div class="ob-block">
-          <div class="ob-block-title"><span class="sem-dot ${semClass(b.semaforo_liquidez)}"></span>Liquidez — ${semLabel(b.semaforo_liquidez)}</div>
-          <div class="ob-row"><span>Cobrado MO</span><span>${fmt(b.total_cobrado_pesos)}</span></div>
-          <div class="ob-row"><span>Costo cuadrilla</span><span>${fmt(b.cuadrilla_acumulado_pesos)}</span></div>
-          <div class="ob-row strong"><span>Resultado liquidez</span><span class="${resLiq >= 0 ? 'pos' : 'neg'}">${resLiq != null ? fmt(resLiq) : '—'}</span></div>
-        </div>
-
-        <div class="ob-block materiales-block">
-          <div class="ob-block-title">Materiales (informativo)</div>
-          <div class="ob-row"><span>Cobrado materiales</span><span>${fmt(b.materiales_cobrado_pesos)}</span></div>
-          <div class="ob-row"><span>Pagado a proveedores</span><span>${fmt(pagadoProveedores)}</span></div>
-        </div>
-      </div>`;
-  }).join('');
+      </div>
+      <div class="obra-row-body">${isOpen ? renderObraDetail(o, a) : ''}</div>
+    </div>`;
 }
 
-function esc(s) {
-  const div = document.createElement('div');
-  div.textContent = s == null ? '' : String(s);
-  return div.innerHTML;
+function toggleObra(id) {
+  openObraId = (openObraId === id) ? null : id;
+  renderObrasList();
 }
 
-// ── FECHA / NAVEGACIÓN ENTRE SECCIONES ─────────────────────────
-const DIAS_SEMANA = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-const MESES_ABR   = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-
-function fechaHoyLarga() {
-  const d = new Date();
-  return `${DIAS_SEMANA[d.getDay()]} ${d.getDate()} ${MESES_ABR[d.getMonth()]} ${d.getFullYear()}`;
-}
-function primerDiaMesActual() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
-}
-function irASeccion(id) {
-  const el = document.getElementById('acc-' + id);
-  if (!el) return;
-  el.classList.add('open');
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ── ALERTAS DEL DÍA ─────────────────────────────────────────────
-async function loadAlertas() {
-  document.getElementById('alertUmbral').textContent = DIAS_ALERTA_SIN_RESPUESTA;
-  try {
-    const [presPend, proyPend, sinResp, excedentes] = await Promise.all([
-      sbAuthGet('v_seguimiento_comercial?origen=eq.PRESUPUESTO&estado=eq.ACEPTADO&requiere_seguimiento_obra=eq.true&obra_codigo_vinculado=is.null&select=origen_id'),
-      sbAuthGet('proyectos?select=id&html_url=not.is.null&obra_codigo_vinculado=is.null&estado=neq.CANCELADO'),
-      sbAuthGet(`v_seguimiento_comercial?estado=in.(ENVIADO,ENTREGADO)&dias_desde_ultimo_cambio=gt.${DIAS_ALERTA_SIN_RESPUESTA}&select=origen_id`),
-      sbGet(`v_excedentes_por_mes?mes=eq.${primerDiaMesActual()}&select=monto_pesos`),
-    ]);
-    document.getElementById('alertAceptados').textContent = (presPend.length + proyPend.length);
-    document.getElementById('alertSinResp').textContent = sinResp.length;
-    const totalExc = excedentes.reduce((s, r) => s + (r.monto_pesos || 0), 0);
-    document.getElementById('alertExcedentes').textContent = fmt(totalExc);
-  } catch (e) {
-    console.error('loadAlertas', e);
+function renderObraDetail(o, a) {
+  if (!a) {
+    return '<div class="empty-state" style="padding:12px 0">Sin datos de análisis todavía.</div>';
   }
+  const exc = excedentesMap[o.id] || { EXCEDENTE_ESPONTANEO: 0, EXCEDENTE_SOLICITUD: 0 };
+  const confiable = o.datos_confiables !== false;
+  return `
+    <div class="kpi-row"><span><span class="sem-dot ${semClass(a.semaforo)}"></span> Rentabilidad</span><span>${semLabel(a.semaforo)}</span></div>
+    <div class="kpi-row"><span><span class="sem-dot ${semClass(a.semaforo_liquidez)}"></span> Liquidez</span><span>${semLabel(a.semaforo_liquidez)}</span></div>
+    <div class="kpi-row strong"><span>Certificado acumulado</span><span>${fmt(a.certificado_acumulado_pesos)}</span></div>
+    <div class="kpi-row"><span>Excedente espontáneo</span><span>${fmt(exc.EXCEDENTE_ESPONTANEO)}</span></div>
+    <div class="kpi-row"><span>Excedente por solicitud</span><span>${fmt(exc.EXCEDENTE_SOLICITUD)}</span></div>
+    <div class="kpi-row strong"><span>Excedentes acumulados</span><span>${fmt(a.excedentes_acumulado_pesos)}</span></div>
+    <div class="kpi-row"><span>Cuadrilla acumulada</span><span>${fmt(a.cuadrilla_acumulado_pesos)}</span></div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <button class="confiable-toggle ${confiable ? 'ok' : 'warn'}" onclick="event.stopPropagation();toggleConfiable('${o.id}', ${confiable})">
+        ${confiable ? '✓ Confiable' : '⚠ No confiable'}
+      </button>
+      <span style="font-size:11px;color:var(--hint)">Click para marcar como ${confiable ? 'no confiable' : 'confiable'}</span>
+    </div>`;
 }
 
-// ── SEGUIMIENTO COMERCIAL ───────────────────────────────────────
-let segRows = [], segHtmlUrlMap = {}, segFiltroComercial = '';
-
-async function loadSeguimiento() {
-  const cont = document.getElementById('segList');
+async function toggleConfiable(id, current) {
   try {
-    const [rows, proyectos] = await Promise.all([
-      sbAuthGet('v_seguimiento_comercial?order=dias_desde_ultimo_cambio.desc'),
-      sbAuthGet('proyectos?select=id,html_url'),
-    ]);
-    segRows = rows;
-    segHtmlUrlMap = {};
-    proyectos.forEach(p => { segHtmlUrlMap[String(p.id)] = p.html_url; });
-    renderSegChips();
-    renderSeg();
+    await sbObrasPatch(`obras?id=eq.${id}`, { datos_confiables: !current });
+    const o = obrasData.find(x => x.id === id);
+    if (o) o.datos_confiables = !current;
+    renderObrasCount();
+    renderObrasList();
+    toast('Guardado', 'ok');
   } catch (e) {
-    cont.innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
-    console.error('loadSeguimiento', e);
-  }
-}
-
-function renderSegChips() {
-  const nombres = [...new Set(segRows.map(r => r.comercial).filter(Boolean))].sort();
-  const chips = ['', ...nombres];
-  document.getElementById('segChips').innerHTML = chips.map(c => `
-    <button class="chip ${segFiltroComercial === c ? 'active' : ''}" onclick="setFiltroComercial('${esc(c)}')">${c || 'Todos'}</button>
-  `).join('');
-}
-
-function setFiltroComercial(c) {
-  segFiltroComercial = c;
-  renderSegChips();
-  renderSeg();
-}
-
-// Mismo criterio que "Vincular obra" en comercial/index.html: presupuestos
-// espontáneos por estado ACEPTADO, proyectos por tener propuesta (html_url)
-// generada — no por estado, ver ajuste pedido sobre Feature 1.
-function puedeVincular(r) {
-  if (r.obra_codigo_vinculado) return false;
-  if (r.origen === 'PROYECTO') return !!segHtmlUrlMap[r.origen_id];
-  return r.estado === 'ACEPTADO';
-}
-
-function renderSeg() {
-  const cont = document.getElementById('segList');
-  const rows = segFiltroComercial ? segRows.filter(r => r.comercial === segFiltroComercial) : segRows;
-  if (!rows.length) { cont.innerHTML = '<div class="empty-state">Sin actividad comercial.</div>'; return; }
-  cont.innerHTML = rows.map(r => {
-    const alerta = (r.dias_desde_ultimo_cambio || 0) > DIAS_ALERTA_SIN_RESPUESTA;
-    return `
-      <div class="seg-card ${alerta ? 'alerta' : ''}">
-        <div class="seg-top">
-          <div>
-            <div class="seg-num">${esc(r.numero || 'Sin número')} · ${esc(r.cliente || '—')}</div>
-            <div class="seg-meta">${r.origen === 'PROYECTO' ? 'Proyecto' : 'Presupuesto'} · ${esc(r.comercial || '—')} · ${esc(r.estado)} · ${r.dias_desde_ultimo_cambio}d</div>
-          </div>
-          <div class="seg-total">${fmt(r.total_ars)}</div>
-        </div>
-        ${puedeVincular(r) ? '<a class="seg-link" href="../comercial/index.html?tab=vincular">Vincular obra →</a>' : ''}
-      </div>`;
-  }).join('');
-}
-
-// ── TRABAJOS ESPONTÁNEOS ────────────────────────────────────────
-let espRows = [];
-
-async function loadEspontaneas() {
-  const cont = document.getElementById('espList');
-  try {
-    const rows = await sbGet('v_espontaneas_seguimiento?order=nombre');
-    const nums = [...new Set(rows.map(r => r.referencia_presupuesto).filter(Boolean))];
-    let presMap = {};
-    if (nums.length) {
-      const inList = nums.map(n => `"${n}"`).join(',');
-      const pres = await sbAuthGet(`presupuestos_comerciales?numero=in.(${inList})&select=numero,margen_dispositivos_usd,subtotal_dispositivos_usd`);
-      pres.forEach(p => { presMap[p.numero] = p; });
-    }
-    espRows = rows.map(r => ({ ...r, _pres: presMap[r.referencia_presupuesto] || null }));
-    renderEsp();
-  } catch (e) {
-    cont.innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
-    console.error('loadEspontaneas', e);
-  }
-}
-
-function margenDispositivoPct(pres) {
-  if (!pres || !pres.subtotal_dispositivos_usd) return null;
-  return (pres.margen_dispositivos_usd / pres.subtotal_dispositivos_usd) * 100;
-}
-
-function renderEsp() {
-  const cont = document.getElementById('espList');
-  if (!espRows.length) { cont.innerHTML = '<div class="empty-state">No hay trabajos espontáneos.</div>'; return; }
-  cont.innerHTML = espRows.map(r => {
-    const margenDisp = margenDispositivoPct(r._pres);
-    return `
-      <div class="esp-card">
-        <div class="esp-name">${esc(r.codigo_obra)} · ${esc(r.nombre)}</div>
-        <div class="esp-meta">${esc(r.cliente_razon_social || '—')}</div>
-        <div class="ob-row"><span>Margen MO</span><span>${r.margen_mo_pct != null ? r.margen_mo_pct.toFixed(1) + '%' : '—'}</span></div>
-        <div class="ob-row"><span>Margen dispositivo</span><span>${margenDisp != null ? margenDisp.toFixed(1) + '%' : '—'}</span></div>
-        <div class="ob-row"><span>Cobrado MO</span><span>${fmt(r.monto_cobrado_pesos)} de ${fmt(r.monto_mo_pesos)}</span></div>
-        <button class="btn-refresh btn-block" onclick="abrirModalCobro('${r.id}', ${r.monto_mo_pesos || 0})">Marcar cobro →</button>
-      </div>`;
-  }).join('');
-}
-
-let mcObraId = null;
-
-function abrirModalCobro(obraId, montoSugerido) {
-  mcObraId = obraId;
-  document.getElementById('mc-error').style.display = 'none';
-  document.getElementById('mc-monto').value = montoSugerido || '';
-  document.getElementById('mc-fecha').value = new Date().toISOString().slice(0, 10);
-  document.getElementById('modal-cobro').classList.add('open');
-}
-function cerrarModalCobro() {
-  document.getElementById('modal-cobro').classList.remove('open');
-}
-
-async function confirmarCobro() {
-  const monto = parseFloat(document.getElementById('mc-monto').value);
-  const fecha = document.getElementById('mc-fecha').value;
-  const errEl = document.getElementById('mc-error');
-  errEl.style.display = 'none';
-  if (!(monto >= 0) || !fecha) {
-    errEl.textContent = 'Completá un monto válido y la fecha.';
-    errEl.style.display = 'block';
-    return;
-  }
-  const btn = document.getElementById('mc-confirm');
-  btn.disabled = true; btn.textContent = 'Guardando...';
-  try {
-    await sbPatchCuadrilla(`obras?id=eq.${mcObraId}`, { monto_cobrado_pesos: monto, fecha_cobro_real: fecha });
-    cerrarModalCobro();
-    await loadEspontaneas();
-  } catch (e) {
-    errEl.textContent = 'No se pudo guardar: ' + e.message;
-    errEl.style.display = 'block';
-  } finally {
-    btn.disabled = false; btn.textContent = 'Confirmar';
-  }
-}
-
-// ── EXCEDENTES DEL MES ──────────────────────────────────────────
-const TIPO_EXC_LABEL = { EXCEDENTE_ESPONTANEO: 'Excedente espontáneo', EXCEDENTE_SOLICITUD: 'Excedente por solicitud' };
-
-async function loadExcedentes() {
-  const cont = document.getElementById('excList');
-  try {
-    const rows = await sbGet(`v_excedentes_por_mes?mes=eq.${primerDiaMesActual()}&order=obra`);
-    const totalMes = rows.reduce((s, r) => s + (r.monto_pesos || 0), 0);
-    document.getElementById('excTotal').textContent = fmt(totalMes);
-
-    if (!rows.length) { cont.innerHTML = '<div class="empty-state">Sin excedentes este mes.</div>'; return; }
-
-    const porObra = {};
-    rows.forEach(r => {
-      if (!porObra[r.obra_id]) porObra[r.obra_id] = { obra: r.obra, codigo_obra: r.codigo_obra, items: [], sinMonto: 0 };
-      porObra[r.obra_id].items.push(r);
-      porObra[r.obra_id].sinMonto += r.items_sin_monto || 0;
-    });
-
-    cont.innerHTML = Object.values(porObra).map(o => `
-      <div class="esp-card">
-        <div class="esp-name">${esc(o.codigo_obra)} · ${esc(o.obra)}</div>
-        ${o.items.map(i => `<div class="ob-row"><span>${TIPO_EXC_LABEL[i.tipo] || esc(i.tipo)}</span><span>${fmt(i.monto_pesos)}</span></div>`).join('')}
-        ${o.sinMonto > 0 ? `<div class="esp-meta" style="margin-top:6px;margin-bottom:0">${o.sinMonto} ítem${o.sinMonto > 1 ? 's' : ''} sin monto cargado, en revisión</div>` : ''}
-      </div>`).join('');
-  } catch (e) {
-    cont.innerHTML = `<div class="empty-state">Error al cargar: ${esc(e.message)}</div>`;
-    console.error('loadExcedentes', e);
+    toast('Error al guardar: ' + e.message, 'err');
   }
 }
 
@@ -817,24 +690,12 @@ async function init() {
   cuadrillaToken = await getCuadrillaToken(authClient);
 
   document.getElementById('portal-username').textContent = profile.full_name;
-  document.getElementById('fechaActual').textContent = fechaHoyLarga();
-
   document.getElementById('app-loading').style.display = 'none';
   document.getElementById('app-header').style.display  = 'block';
   document.getElementById('app-content').style.display = 'block';
 
-  if (profile.role === 'comercial') {
-    // Comercial solo entra a marcar cobro — el resto del panel es info gerencial/margenes, no le corresponde.
-    document.querySelector('.alert-strip').style.display = 'none';
-    document.getElementById('acc-seg').style.display = 'none';
-    document.getElementById('acc-rent').style.display = 'none';
-    document.getElementById('acc-exc').style.display = 'none';
-    document.getElementById('acc-obras').style.display = 'none';
-    document.getElementById('acc-esp').classList.add('open');
-    await loadEspontaneas();
-  } else {
-    await Promise.all([loadAll(), loadAlertas(), loadSeguimiento(), loadEspontaneas(), loadExcedentes()]);
-  }
+  renderMesSelector();
+  await Promise.all([loadUpdated(), loadKPIs(), loadObras()]);
 }
 
 init();
