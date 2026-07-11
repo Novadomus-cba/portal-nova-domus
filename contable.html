@@ -125,6 +125,7 @@ tr:last-child td{border-bottom:none}
 
 <div class="tabs">
   <div class="tab active" onclick="showTab('egresos')">Egresos</div>
+  <div class="tab" onclick="showTab('costosfijos')">Costos fijos</div>
   <div class="tab" onclick="showTab('planes')">Planes de pago</div>
   <div class="tab" onclick="showTab('cheques')">Cheques</div>
   <div class="tab" onclick="showTab('reportes')">Reportes</div>
@@ -140,7 +141,19 @@ tr:last-child td{border-bottom:none}
     <div class="row">
       <div class="fg">
         <label>Categoría *</label>
-        <select id="eCategoria"></select>
+        <div style="display:flex;gap:6px">
+          <select id="eCategoria" onchange="onCategoriaChange()" style="flex:1"></select>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="openCategoriasModal()" title="Gestionar categorías">⚙</button>
+        </div>
+      </div>
+      <div class="fg" style="max-width:150px">
+        <label>Tipo costo</label>
+        <select id="eTipoCosto" onchange="updateTipoCostoHint()">
+          <option value="">Automático</option>
+          <option value="FIJO">Fijo</option>
+          <option value="VARIABLE">Variable</option>
+        </select>
+        <div class="field-hint" id="eTipoCostoHint">—</div>
       </div>
       <div class="fg">
         <label>Proveedor / Organismo *</label>
@@ -219,6 +232,45 @@ tr:last-child td{border-bottom:none}
     </div>
   </div>
   <div id="egresosList"><div class="empty">Cargando…</div></div>
+</div>
+
+<!-- ═══ COSTOS FIJOS ═══ -->
+<div class="section" id="sec-costosfijos">
+  <div class="card">
+    <div class="card-title">Nueva plantilla de costo fijo</div>
+    <div class="row">
+      <div class="fg">
+        <label>Categoría *</label>
+        <select id="fcCategoria"></select>
+      </div>
+      <div class="fg">
+        <label>Concepto *</label>
+        <input type="text" id="fcConcepto" placeholder="Ej: Alquiler oficina">
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg">
+        <label>Monto esperado $ *</label>
+        <input type="number" id="fcMonto" step="0.01" min="0" placeholder="0.00">
+      </div>
+      <div class="fg" style="max-width:160px">
+        <label>Día de vencimiento</label>
+        <input type="number" id="fcDiaVenc" min="1" max="31" placeholder="10">
+        <div class="field-hint">Opcional, estimado</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Notas</label>
+      <textarea id="fcNotas" rows="2" placeholder="Observaciones…"></textarea>
+    </div>
+    <button class="btn btn-primary" id="btnCostoFijo" onclick="submitCostoFijo()">Guardar plantilla</button>
+  </div>
+
+  <div class="section-hdr">
+    <span class="section-title">Costos fijos activos</span>
+    <button class="btn btn-ghost btn-sm" onclick="loadCostosFijos()">↻</button>
+  </div>
+  <div id="costosFijosList"><div class="empty">Cargando…</div></div>
 </div>
 
 <!-- ═══ PLANES DE PAGO ═══ -->
@@ -410,6 +462,58 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
+<!-- Modal gestionar categorías -->
+<div class="mbg" id="mCategorias" onclick="onBgClick(event,'mCategorias')">
+  <div class="modal" style="max-width:560px">
+    <div class="mhdr"><h3>Categorías de egresos</h3><button class="cx" onclick="closeM('mCategorias')">✕</button></div>
+    <div class="row">
+      <div class="fg">
+        <label>Nombre *</label>
+        <input type="text" id="catNombre" placeholder="Ej: Alquiler depósito">
+      </div>
+      <div class="fg">
+        <label>Grupo *</label>
+        <input type="text" id="catGrupo" list="gruposDatalist" placeholder="Ej: Alquileres y servicios">
+        <datalist id="gruposDatalist"></datalist>
+      </div>
+    </div>
+    <div class="row">
+      <div class="fg" style="max-width:160px">
+        <label>Tipo costo *</label>
+        <select id="catTipoCosto">
+          <option value="VARIABLE">Variable</option>
+          <option value="FIJO">Fijo</option>
+        </select>
+      </div>
+      <div class="fg" style="align-self:flex-end">
+        <button class="btn btn-primary" style="margin-top:0" onclick="submitCategoria()">+ Agregar categoría</button>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);margin:14px 0 10px;padding-top:10px">
+      <div id="categoriasList"><div class="empty">Cargando…</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar categoría -->
+<div class="mbg" id="mEditCategoria" onclick="onBgClick(event,'mEditCategoria')">
+  <div class="modal" style="max-width:400px">
+    <div class="mhdr"><h3>Editar categoría</h3><button class="cx" onclick="closeM('mEditCategoria')">✕</button></div>
+    <div class="fg"><label>Nombre *</label><input type="text" id="mecNombre"></div>
+    <div class="fg"><label>Grupo *</label><input type="text" id="mecGrupo" list="gruposDatalist"></div>
+    <div class="fg"><label>Tipo costo *</label>
+      <select id="mecTipoCosto">
+        <option value="VARIABLE">Variable</option>
+        <option value="FIJO">Fijo</option>
+      </select>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-ghost" onclick="closeM('mEditCategoria')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEditCategoria()" style="width:auto">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal editar monto cuota -->
 <div class="mbg" id="mEditCuota" onclick="onBgClick(event,'mEditCuota')">
   <div class="modal" style="max-width:340px">
@@ -418,6 +522,22 @@ tr:last-child td{border-bottom:none}
     <div class="mftr">
       <button class="btn btn-ghost" onclick="closeM('mEditCuota')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveEditCuota()" style="width:auto">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar costo fijo -->
+<div class="mbg" id="mEditCostoFijo" onclick="onBgClick(event,'mEditCostoFijo')">
+  <div class="modal">
+    <div class="mhdr"><h3>Editar costo fijo</h3><button class="cx" onclick="closeM('mEditCostoFijo')">✕</button></div>
+    <div class="fg"><label>Categoría *</label><select id="mcfCategoria"></select></div>
+    <div class="fg"><label>Concepto *</label><input type="text" id="mcfConcepto"></div>
+    <div class="fg"><label>Monto esperado $ *</label><input type="number" id="mcfMonto" step="0.01" min="0"></div>
+    <div class="fg"><label>Día de vencimiento</label><input type="number" id="mcfDiaVenc" min="1" max="31"></div>
+    <div class="fg"><label>Notas</label><textarea id="mcfNotas" rows="2"></textarea></div>
+    <div class="mftr">
+      <button class="btn btn-ghost" onclick="closeM('mEditCostoFijo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEditCostoFijo()" style="width:auto">Guardar</button>
     </div>
   </div>
 </div>
@@ -462,40 +582,166 @@ const sbPatch = (table, b, q) => apiFetch(SB_URL, null, 'PATCH',  table, b,    q
 const sbDel   = (table, q)    => apiFetch(SB_URL, null, 'DELETE', table, null, q);
 
 // ── CATEGORIAS ────────────────────────────────────────────────
-const CATEGORIA_LABELS = {
-  IMPUESTO_IVA:'IVA', IMPUESTO_IIBB:'Ingresos Brutos', IMPUESTO_GANANCIAS:'Ganancias',
-  IMPUESTO_MONOTRIBUTO_AUTONOMOS:'Monotributo / Autónomos', IMPUESTO_TASAS_MUNICIPALES:'Tasas municipales',
-  IMPUESTO_CHEQUE:'Impuesto al cheque', IMPUESTO_OTROS:'Otros impuestos',
-  SUELDOS:'Sueldos', CARGAS_SOCIALES:'Cargas sociales', ART:'ART',
-  SINDICATO:'Sindicato', AGUINALDO:'Aguinaldo', INDEMNIZACIONES:'Indemnizaciones',
-  ALQUILER:'Alquiler', SERVICIO_LUZ:'Luz', SERVICIO_GAS:'Gas', SERVICIO_AGUA:'Agua',
-  SERVICIO_INTERNET_TELEFONIA:'Internet / Telefonía', EXPENSAS:'Expensas',
-  HONORARIOS_CONTADOR:'Honor. contador', HONORARIOS_ABOGADO:'Honor. abogado', HONORARIOS_OTROS:'Otros honorarios',
-  SEGURO_RC:'Seguro RC', SEGURO_VEHICULOS:'Seguro vehículos', SEGURO_OTROS:'Otros seguros',
-  GASTO_BANCARIO_COMISION:'Comisión bancaria', GASTO_BANCARIO_INTERES:'Interés bancario',
-  COMBUSTIBLE:'Combustible', PEAJES_ESTACIONAMIENTO:'Peajes / Estacionamiento',
-  MANTENIMIENTO_VEHICULOS:'Mantenimiento vehículos', OTROS_GASTOS_OPERATIVOS:'Otros gastos operativos',
-};
-const CATEGORIA_GROUPS = [
-  {label:'Impuestos',keys:['IMPUESTO_IVA','IMPUESTO_IIBB','IMPUESTO_GANANCIAS','IMPUESTO_MONOTRIBUTO_AUTONOMOS','IMPUESTO_TASAS_MUNICIPALES','IMPUESTO_CHEQUE','IMPUESTO_OTROS']},
-  {label:'Sueldos y cargas sociales',keys:['SUELDOS','CARGAS_SOCIALES','ART','SINDICATO','AGUINALDO','INDEMNIZACIONES']},
-  {label:'Alquileres y servicios',keys:['ALQUILER','SERVICIO_LUZ','SERVICIO_GAS','SERVICIO_AGUA','SERVICIO_INTERNET_TELEFONIA','EXPENSAS']},
-  {label:'Honorarios',keys:['HONORARIOS_CONTADOR','HONORARIOS_ABOGADO','HONORARIOS_OTROS']},
-  {label:'Seguros',keys:['SEGURO_RC','SEGURO_VEHICULOS','SEGURO_OTROS']},
-  {label:'Gastos bancarios',keys:['GASTO_BANCARIO_COMISION','GASTO_BANCARIO_INTERES']},
-  {label:'Combustible y movilidad',keys:['COMBUSTIBLE','PEAJES_ESTACIONAMIENTO','MANTENIMIENTO_VEHICULOS']},
-  {label:'Otros',keys:['OTROS_GASTOS_OPERATIVOS']},
-];
+let categorias = [];    // active only — feeds all data-entry selects
+let categoriasAll = []; // active + inactive — feeds the management modal
+
+async function loadCategorias() {
+  categorias = await sbGet('categorias_egresos','?activo=eq.true&order=grupo.asc,nombre_display.asc');
+}
+async function loadCategoriasAll() {
+  categoriasAll = await sbGet('categorias_egresos','?order=grupo.asc,nombre_display.asc');
+}
+async function refreshCategorias() {
+  await Promise.all([loadCategorias(), loadCategoriasAll()]);
+  buildCategoriaSelect('eCategoria');
+  buildCategoriaSelect('pCategoria', true);
+  buildCategoriaSelect('fcCategoria');
+  buildCategoriaSelect('mcfCategoria');
+  document.getElementById('rCategoria').innerHTML = '<option value="">Todas las categorías</option>' +
+    categorias.map(c=>`<option value="${c.codigo}">${c.nombre_display}</option>`).join('');
+}
+
+function categoriaLabel(codigo) {
+  const c = categoriasAll.find(x=>x.codigo===codigo) || categorias.find(x=>x.codigo===codigo);
+  return c ? c.nombre_display : (codigo||'—');
+}
+function categoriaGrupo(codigo) {
+  const c = categoriasAll.find(x=>x.codigo===codigo) || categorias.find(x=>x.codigo===codigo);
+  return c ? c.grupo : 'Otros';
+}
+function categoriaTipoCosto(codigo) {
+  const c = categorias.find(x=>x.codigo===codigo);
+  return c ? c.tipo_costo : null;
+}
 
 function buildCategoriaSelect(elId, withEmpty=false) {
   const el = document.getElementById(elId);
   let html = withEmpty ? '<option value="">— sin categoría —</option>' : '';
-  CATEGORIA_GROUPS.forEach(g => {
-    html += `<optgroup label="${g.label}">`;
-    g.keys.forEach(k => { html += `<option value="${k}">${CATEGORIA_LABELS[k]}</option>`; });
-    html += '</optgroup>';
+  let currentGrupo = null;
+  categorias.forEach(c => {
+    if (c.grupo !== currentGrupo) {
+      if (currentGrupo !== null) html += '</optgroup>';
+      html += `<optgroup label="${c.grupo}">`;
+      currentGrupo = c.grupo;
+    }
+    html += `<option value="${c.codigo}">${c.nombre_display}</option>`;
   });
+  if (currentGrupo !== null) html += '</optgroup>';
   el.innerHTML = html;
+}
+
+function slugifyCodigo(text) {
+  return text.normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .toUpperCase().replace(/[^A-Z0-9]+/g,'_').replace(/^_+|_+$/g,'');
+}
+
+// ── CATEGORIAS: CRUD modal ──────────────────────────────────────
+function openCategoriasModal() {
+  document.getElementById('catNombre').value='';
+  document.getElementById('catGrupo').value='';
+  document.getElementById('catTipoCosto').value='VARIABLE';
+  renderCategoriasModal();
+  openM('mCategorias');
+}
+
+function renderCategoriasModal() {
+  const datalist = document.getElementById('gruposDatalist');
+  const grupos = [...new Set(categoriasAll.map(c=>c.grupo))];
+  datalist.innerHTML = grupos.map(g=>`<option value="${g}">`).join('');
+
+  const el = document.getElementById('categoriasList');
+  if (!categoriasAll.length) { el.innerHTML='<div class="empty">No hay categorías.</div>'; return; }
+  el.innerHTML = categoriasAll.map(c => `
+    <div class="item" style="padding:8px 12px">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title" style="${c.activo?'':'opacity:.5;text-decoration:line-through'}">${c.nombre_display}</div>
+          <div class="item-meta">
+            <span>${c.grupo}</span>
+            <span class="badge ${c.tipo_costo==='FIJO'?'b-info':'b-gray'}">${c.tipo_costo}</span>
+            ${!c.activo?'<span class="badge b-danger">Inactiva</span>':''}
+          </div>
+        </div>
+        <div class="item-actions" style="margin-top:0;padding-top:0;border-top:none">
+          <button class="btn btn-ghost btn-sm" onclick="openEditCategoria('${c.id}')">✏</button>
+          <button class="btn btn-sm ${c.activo?'btn-danger':'btn-ok'}" onclick="toggleCategoriaActivo('${c.id}',${c.activo})">${c.activo?'Desactivar':'Reactivar'}</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+async function submitCategoria() {
+  const nombre = document.getElementById('catNombre').value.trim();
+  const grupo  = document.getElementById('catGrupo').value.trim();
+  const tipoCosto = document.getElementById('catTipoCosto').value;
+  if (!nombre) { toast('Ingresá el nombre de la categoría','err'); return; }
+  if (!grupo)  { toast('Ingresá el grupo','err'); return; }
+
+  let codigo = slugifyCodigo(nombre);
+  if (categoriasAll.some(c=>c.codigo===codigo)) {
+    let n=2;
+    while (categoriasAll.some(c=>c.codigo===`${codigo}_${n}`)) n++;
+    codigo = `${codigo}_${n}`;
+  }
+  try {
+    await sbPost('categorias_egresos', {codigo, nombre_display:nombre, grupo, tipo_costo:tipoCosto, activo:true});
+    toast('✅ Categoría creada','ok');
+    document.getElementById('catNombre').value='';
+    document.getElementById('catGrupo').value='';
+    await refreshCategorias();
+    renderCategoriasModal();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+let editingCategoriaId = null;
+function openEditCategoria(id) {
+  const c = categoriasAll.find(x=>x.id===id);
+  if (!c) return;
+  editingCategoriaId = id;
+  document.getElementById('mecNombre').value = c.nombre_display;
+  document.getElementById('mecGrupo').value = c.grupo;
+  document.getElementById('mecTipoCosto').value = c.tipo_costo;
+  openM('mEditCategoria');
+}
+
+async function saveEditCategoria() {
+  if (!editingCategoriaId) return;
+  const nombre = document.getElementById('mecNombre').value.trim();
+  const grupo  = document.getElementById('mecGrupo').value.trim();
+  const tipoCosto = document.getElementById('mecTipoCosto').value;
+  if (!nombre || !grupo) { toast('Completá nombre y grupo','err'); return; }
+  try {
+    await sbPatch('categorias_egresos', {nombre_display:nombre, grupo, tipo_costo:tipoCosto}, `?id=eq.${editingCategoriaId}`);
+    toast('Categoría actualizada','ok');
+    closeM('mEditCategoria');
+    await refreshCategorias();
+    renderCategoriasModal();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+async function toggleCategoriaActivo(id, current) {
+  try {
+    await sbPatch('categorias_egresos', {activo: !current}, `?id=eq.${id}`);
+    toast(current?'Categoría desactivada':'Categoría reactivada','ok');
+    await refreshCategorias();
+    renderCategoriasModal();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+function onCategoriaChange() { updateTipoCostoHint(); }
+
+function resolveTipoCosto() {
+  const override = document.getElementById('eTipoCosto').value;
+  if (override) return override;
+  return categoriaTipoCosto(document.getElementById('eCategoria').value);
+}
+
+function updateTipoCostoHint() {
+  const hintEl = document.getElementById('eTipoCostoHint');
+  const override = document.getElementById('eTipoCosto').value;
+  const defaultVal = categoriaTipoCosto(document.getElementById('eCategoria').value);
+  if (override) { hintEl.textContent = `Forzado: ${override==='FIJO'?'Fijo':'Variable'}`; return; }
+  hintEl.textContent = defaultVal ? `Por defecto: ${defaultVal==='FIJO'?'Fijo':'Variable'}` : '—';
 }
 
 // ── FORMAT ─────────────────────────────────────────────────────
@@ -520,7 +766,7 @@ async function handleLogout() {
 // ── TABS ──────────────────────────────────────────────────────
 function showTab(name) {
   document.querySelectorAll('.tab').forEach((t,i) => {
-    const names=['egresos','planes','cheques','reportes'];
+    const names=['egresos','costosfijos','planes','cheques','reportes'];
     t.classList.toggle('active', names[i]===name);
   });
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -568,7 +814,8 @@ function renderEgresos() {
           <div class="item-title">${e.proveedor_organismo}</div>
           <div class="item-meta">
             <span>${fd(e.fecha_emision)}</span>
-            <span>${CATEGORIA_LABELS[e.categoria]||e.categoria}</span>
+            <span>${categoriaLabel(e.categoria)}</span>
+            ${e.tipo_costo?`<span class="badge ${e.tipo_costo==='FIJO'?'b-info':'b-gray'}" style="font-size:9px">${e.tipo_costo}</span>`:''}
             ${e.numero_comprobante?`<span>${e.tipo_comprobante||''} ${e.numero_comprobante}</span>`:''}
             ${e.periodo_fiscal?`<span>Período ${e.periodo_fiscal}</span>`:''}
           </div>
@@ -600,6 +847,7 @@ async function submitEgreso() {
 
   const payload = {
     categoria: cat,
+    tipo_costo: resolveTipoCosto(),
     proveedor_organismo: prov,
     cuit: document.getElementById('eCuit').value.trim()||null,
     tipo_comprobante: document.getElementById('eTipoComp').value||null,
@@ -630,7 +878,9 @@ function resetEgresoForm() {
     .forEach(id=>document.getElementById(id).value='');
   document.getElementById('eIva').value='0';
   document.getElementById('eTipoComp').value='';
+  document.getElementById('eTipoCosto').value='';
   document.getElementById('eFechaEmision').value=today();
+  updateTipoCostoHint();
 }
 
 async function marcarPagadoEgreso(id) {
@@ -731,7 +981,7 @@ async function renderPlanes() {
         </div>`;
       } catch(e) { cuotasHTML='<div style="color:var(--danger);font-size:11px;padding:8px">'+e.message+'</div>'; }
     }
-    const cat = p.categoria ? CATEGORIA_LABELS[p.categoria]||p.categoria : '';
+    const cat = p.categoria ? categoriaLabel(p.categoria) : '';
     return `<div class="item">
       <div class="item-top">
         <div class="item-left">
@@ -917,6 +1167,119 @@ async function marcarEstadoCheque(id, estado) {
   } catch(e) { toast('Error: '+e.message,'err'); }
 }
 
+// ── COSTOS FIJOS ─────────────────────────────────────────────
+let costosFijos = [];
+let editingCostoFijoId = null;
+const pendingCF = new Set();
+
+async function loadCostosFijos() {
+  try {
+    costosFijos = await sbGet('plantilla_costos_fijos','?activo=eq.true&order=created_at.desc');
+    renderCostosFijos();
+  } catch(e) {
+    document.getElementById('costosFijosList').innerHTML = `<div class="empty">${e.message}</div>`;
+  }
+}
+
+function renderCostosFijos() {
+  const el = document.getElementById('costosFijosList');
+  if (!costosFijos.length) { el.innerHTML='<div class="empty">No hay costos fijos definidos.</div>'; return; }
+  el.innerHTML = costosFijos.map(f => `
+    <div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${f.concepto}</div>
+          <div class="item-meta">
+            <span>${categoriaLabel(f.categoria_codigo)}</span>
+            ${f.dia_vencimiento_estimado?`<span>Vence día ${f.dia_vencimiento_estimado}</span>`:''}
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="item-monto">${f$(f.monto_esperado)}</div>
+          <div style="margin-top:4px;font-size:10px;color:var(--muted)">Estimado mensual</div>
+        </div>
+      </div>
+      ${f.notas?`<div style="font-size:11px;color:var(--muted);margin-top:8px">${f.notas}</div>`:''}
+      <div class="item-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openEditCostoFijo('${f.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" id="delCF-${f.id}" onclick="deactivateCostoFijo('${f.id}')">🗑 Desactivar</button>
+      </div>
+    </div>`).join('');
+}
+
+async function submitCostoFijo() {
+  const cat = document.getElementById('fcCategoria').value;
+  const concepto = document.getElementById('fcConcepto').value.trim();
+  const monto = parseFloat(document.getElementById('fcMonto').value);
+  if (!cat) { toast('Seleccioná una categoría','err'); return; }
+  if (!concepto) { toast('Ingresá el concepto','err'); return; }
+  if (!monto || monto<=0) { toast('Ingresá el monto esperado','err'); return; }
+
+  const payload = {
+    categoria_codigo: cat,
+    concepto,
+    monto_esperado: monto,
+    dia_vencimiento_estimado: parseInt(document.getElementById('fcDiaVenc').value)||null,
+    notas: document.getElementById('fcNotas').value.trim()||null,
+    activo: true,
+  };
+  const btn = document.getElementById('btnCostoFijo');
+  btn.disabled=true; btn.innerHTML='<div class="spin"></div> Guardando…';
+  try {
+    await sbPost('plantilla_costos_fijos', payload);
+    toast('✅ Costo fijo guardado','ok');
+    document.getElementById('fcCategoria').value='';
+    ['fcConcepto','fcMonto','fcDiaVenc','fcNotas'].forEach(id=>document.getElementById(id).value='');
+    await loadCostosFijos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+  finally { btn.disabled=false; btn.textContent='Guardar plantilla'; }
+}
+
+function openEditCostoFijo(id) {
+  const f = costosFijos.find(x=>x.id===id);
+  if (!f) return;
+  editingCostoFijoId = id;
+  document.getElementById('mcfCategoria').value = f.categoria_codigo;
+  document.getElementById('mcfConcepto').value = f.concepto;
+  document.getElementById('mcfMonto').value = f.monto_esperado;
+  document.getElementById('mcfDiaVenc').value = f.dia_vencimiento_estimado||'';
+  document.getElementById('mcfNotas').value = f.notas||'';
+  openM('mEditCostoFijo');
+}
+
+async function saveEditCostoFijo() {
+  if (!editingCostoFijoId) return;
+  const payload = {
+    categoria_codigo: document.getElementById('mcfCategoria').value,
+    concepto: document.getElementById('mcfConcepto').value.trim(),
+    monto_esperado: parseFloat(document.getElementById('mcfMonto').value)||0,
+    dia_vencimiento_estimado: parseInt(document.getElementById('mcfDiaVenc').value)||null,
+    notas: document.getElementById('mcfNotas').value.trim()||null,
+  };
+  try {
+    await sbPatch('plantilla_costos_fijos', payload, `?id=eq.${editingCostoFijoId}`);
+    toast('Costo fijo actualizado','ok');
+    closeM('mEditCostoFijo');
+    await loadCostosFijos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+async function deactivateCostoFijo(id) {
+  const btn = document.getElementById(`delCF-${id}`);
+  if (!pendingCF.has(id)) {
+    pendingCF.add(id);
+    if (btn) { btn.textContent='¿Confirmar?'; btn.style.background='#4a0d0d'; }
+    setTimeout(()=>{ pendingCF.delete(id); const b=document.getElementById(`delCF-${id}`); if(b){b.innerHTML='🗑 Desactivar';b.style.background='';} },3500);
+    return;
+  }
+  pendingCF.delete(id);
+  try {
+    await sbPatch('plantilla_costos_fijos', {activo:false}, `?id=eq.${id}`);
+    toast('Costo fijo desactivado','ok');
+    await loadCostosFijos();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
 // ── REPORTES ─────────────────────────────────────────────────
 async function loadReporte() {
   const desde = document.getElementById('rDesde').value;
@@ -947,8 +1310,7 @@ function renderReporte(desde, hasta) {
 
   const byGroup = {};
   reporteData.forEach(e => {
-    const g = CATEGORIA_GROUPS.find(g=>g.keys.includes(e.categoria));
-    const label = g ? g.label : 'Otros';
+    const label = categoriaGrupo(e.categoria);
     byGroup[label] = (byGroup[label]||0) + (e.monto_total||0);
   });
 
@@ -957,7 +1319,7 @@ function renderReporte(desde, hasta) {
   // Table
   const rows = reporteData.map(e=>`<tr>
     <td>${fd(e.fecha_emision)}</td>
-    <td>${CATEGORIA_LABELS[e.categoria]||e.categoria}</td>
+    <td>${categoriaLabel(e.categoria)}</td>
     <td>${e.proveedor_organismo}</td>
     <td>${e.numero_comprobante?e.tipo_comprobante+' '+e.numero_comprobante:'—'}</td>
     <td style="text-align:right;font-weight:700">${f$(e.monto_total)}</td>
@@ -999,7 +1361,7 @@ function renderReporte(desde, hasta) {
 
 function exportCSV() {
   if (!reporteData.length) return;
-  const headers = ['fecha_emision','categoria','proveedor_organismo','tipo_comprobante','numero_comprobante','periodo_fiscal','monto_neto','monto_total','estado','fecha_pago','notas'];
+  const headers = ['fecha_emision','categoria','tipo_costo','proveedor_organismo','tipo_comprobante','numero_comprobante','periodo_fiscal','monto_neto','monto_total','estado','fecha_pago','notas'];
   const rows = reporteData.map(e=>headers.map(h=>`"${(e[h]||'').toString().replace(/"/g,'""')}"`).join(','));
   const csv = [headers.join(','), ...rows].join('\n');
   const a = document.createElement('a');
@@ -1020,18 +1382,15 @@ window.onload = async () => {
   currentUser = { ...profile, email: session.user.email };
   document.getElementById('userName').textContent = profile.full_name;
 
-  buildCategoriaSelect('eCategoria');
-  buildCategoriaSelect('pCategoria', true);
-  buildCategoriaSelect('rCategoria', true);
-  document.getElementById('rCategoria').innerHTML = '<option value="">Todas las categorías</option>' +
-    CATEGORIA_GROUPS.flatMap(g=>g.keys.map(k=>`<option value="${k}">${CATEGORIA_LABELS[k]}</option>`)).join('');
+  await refreshCategorias();
+  updateTipoCostoHint();
 
   document.getElementById('eFechaEmision').value = today();
   const d = new Date(); d.setDate(1);
   document.getElementById('rDesde').value = d.toISOString().slice(0,10);
   document.getElementById('rHasta').value = today();
 
-  await Promise.all([loadEgresos(), loadPlanes(), loadCheques()]);
+  await Promise.all([loadEgresos(), loadPlanes(), loadCheques(), loadCostosFijos()]);
   document.getElementById('app-loading').style.display='none';
 };
 </script>
