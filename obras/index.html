@@ -959,7 +959,7 @@ function renderObras(){
     return;
   }
   const item=o=>`<div class="sb-item ${o.id===selObraId?'active':''}" onclick="selObra('${o.id}')">
-      <div class="sb-name">${o.nombre}</div>
+      <div class="sb-name">${o.datos_confiables===false?'<span title="Datos no confiables">⚠</span> ':''}${o.nombre}</div>
       <div class="sb-sub">${o.cliente_razon_social||''} · ${eBadge(o.estado)}</div>
     </div>`;
   const header=t=>`<div class="sb-hdr" style="border-top:1px solid var(--border)">${t}</div>`;
@@ -1028,6 +1028,10 @@ async function renderObraDetalle(id){
           <span style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Estado:</span>
           ${eBadge(obra.estado)}${fechaFinInfo}
         </div>
+        <button class="bd ${obra.datos_confiables===false?'b-warn':'b-ok'}" style="border:none;cursor:pointer;font-family:inherit"
+          onclick="toggleDatosConfiables('${id}',${obra.datos_confiables!==false})" title="Click para marcar como ${obra.datos_confiables===false?'confiable':'no confiable'}">
+          ${obra.datos_confiables===false?'⚠ No confiable':'✓ Confiable'}
+        </button>
         ${btnWrapper}
       </div>
     </div>
@@ -1127,6 +1131,14 @@ async function renderObraDetalle(id){
       <button class="btn btn-g btn-sm" onclick="openImportarFacturas('${id}')">📦 Importar facturas de materiales</button>
     </div>
   `;
+}
+
+async function toggleDatosConfiables(id, current){
+  try{
+    await sbPatch('obras',{datos_confiables:!current},`?id=eq.${id}`);
+    await loadObras();
+    if(selObraId===id) await renderObraDetalle(id);
+  }catch(e){ toast('Error: '+e.message,'err'); }
 }
 
 function openMObra(id=null){
@@ -2098,7 +2110,7 @@ async function generar(){
     });
     const certId=cr[0].id;
     for(const i of sItems)
-      await sbPost('certificados_items',{certificado_id:certId,tipo:i.cls,
+      await sbPost('certificados_items',{certificado_id:certId,tipo:unmapCertTipo(i.cls),
         descripcion:i.desc,precio_usd_unitario:i.usd||null,
         porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||null});
     const rr=await sbPost('recibos',{
@@ -2122,7 +2134,7 @@ async function generar(){
     const lc=cache.certs();
     lc.push({id:cid,obra_id:sObra.id,numero:numC,fecha_emision:document.getElementById('sFecha').value,
       periodo_desde:document.getElementById('sDesde').value,periodo_hasta:document.getElementById('sHasta').value,
-      tipo_cambio_usd:tc,estado:'BORRADOR',certificados_items:sItems.map(i=>({tipo:i.cls,descripcion:i.desc,monto_pesos_calculado:i.sub}))});
+      tipo_cambio_usd:tc,estado:'BORRADOR',certificados_items:sItems.map(i=>({tipo:unmapCertTipo(i.cls),descripcion:i.desc,monto_pesos_calculado:i.sub}))});
     cache.setCerts(lc);
     const lr=cache.recs();
     const lineas=[...sItems.map(i=>({tipo:i.cls==='CERTIFICADO'?'CERTIFICADO':'EXCEDENTE',descripcion:i.desc,monto_pesos:i.sub})),
