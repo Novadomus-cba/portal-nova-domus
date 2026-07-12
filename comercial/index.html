@@ -289,14 +289,24 @@ textarea{resize:vertical;min-height:60px}
     </div>
   </div>
 
-  <!-- Servicios manuales -->
+  <!-- Servicios (mano de obra automática + del tarifario + manuales) -->
   <div class="card">
     <div class="card-hdr">
-      <span>Servicios manuales</span>
-      <button class="btn btn-secondary btn-sm" onclick="addServicio()">+ Agregar</button>
+      <span>Servicios</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-secondary btn-sm" onclick="toggleMoPicker()" id="btn-mo-picker">📋 Del tarifario</button>
+        <button class="btn btn-secondary btn-sm" onclick="addServicio()">+ Manual</button>
+      </div>
+    </div>
+    <div id="mo-picker" style="display:none;padding:10px 14px;border-bottom:1px solid var(--border)">
+      <div class="search-wrap" style="margin-bottom:8px">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="mo-picker-search" placeholder="Buscar por categoría o nombre..." oninput="renderMoPicker()">
+      </div>
+      <div id="mo-picker-results" style="max-height:260px;overflow-y:auto"></div>
     </div>
     <div id="servicios-list" style="padding:0 14px 6px">
-      <div class="empty" id="servicios-empty" style="padding:14px 0;font-size:12px">Sin servicios — tocá + Agregar</div>
+      <div class="empty" id="servicios-empty" style="padding:14px 0;font-size:12px">Sin servicios — se agregan automáticamente al sumar dispositivos, o elegí del tarifario / agregá manual</div>
     </div>
   </div>
 
@@ -309,7 +319,7 @@ textarea{resize:vertical;min-height:60px}
     <div class="card-body">
       <div class="section-sep" id="cart-devices-label" style="display:none">Dispositivos</div>
       <div id="cart-devices"></div>
-      <div class="section-sep" id="cart-services-label" style="display:none">Servicios</div>
+      <div class="section-sep" id="cart-services-label" style="display:none">Servicios de catálogo</div>
       <div id="cart-services"></div>
     </div>
   </div>
@@ -499,6 +509,7 @@ const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 // State
 let TC=0, inventario=[], comerciales=[], cart=[], servicios=[], clienteTipo='B2C', facturaA=false;
 let currentBrand='', savedId=null;
+let manoObraMap={};
 
 // Helpers
 function pad(n){return String(n).padStart(2,'0')}
@@ -576,7 +587,7 @@ window.onload = async () => {
   document.getElementById('app-content').style.display = 'block';
   try{ cuadrillaToken = await getCuadrillaToken(authClient); }
   catch(e){ console.error('auth-bridge cuadrilla', e); }
-  await Promise.all([fetchTC(), loadComerciales(), loadInventario()]);
+  await Promise.all([fetchTC(), loadComerciales(), loadInventario(), loadManoObra()]);
   const tabParam = new URLSearchParams(window.location.search).get('tab');
   if (tabParam) {
     const btn = document.querySelector(`.nav-tab[onclick*="showPage('${tabParam}'"]`);
@@ -599,13 +610,21 @@ async function loadComerciales(){
 
 async function loadInventario(){
   try{
-    const d=await sb('/rest/v1/inventario?select=id,marca,grupo,nombre,sku,precio_sin_iva,iva,remarque,precio_sugerido_manual&order=marca,nombre');
+    const d=await sb('/rest/v1/inventario?select=id,marca,grupo,nombre,sku,precio_sin_iva,iva,remarque,precio_sugerido_manual,sku_mo&order=marca,nombre');
     inventario=d||[];
     buildBrands();
     buildCats();
     buildPLFilters();
     renderPL();
   }catch(e){console.error('inventario',e)}
+}
+
+async function loadManoObra(){
+  try{
+    const d=await sb('/rest/v1/mano_obra_tarifario?select=sku_mo,categoria,subcategoria,nombre,tarifa_usd,metodo');
+    manoObraMap={};
+    (d||[]).forEach(m=>manoObraMap[m.sku_mo]=m);
+  }catch(e){console.error('mano_obra',e)}
 }
 
 // ─── PRICING ─────────────────────────────────────────────────
@@ -653,6 +672,106 @@ function calcServicePrice(item){
   const iva=parseFloat(item.iva)||0.21;
   if(facturaA)return{precio:sinIva*(1+iva),label:'con IVA'};
   return{precio:sinIva,label:'sin IVA'};
+}
+
+function getInvServicePrice(item){
+  if(item.precioOverride!=null)return item.precioOverride;
+  return calcServicePrice(item).precio;
+}
+
+// Mano de obra automática vinculada a dispositivos (item.sku_mo → mano_obra_tarifario).
+// Todo en USD — se materializa como línea editable en `servicios[]` al agregar el
+// dispositivo al carrito (ver addAutoServicioForDevice). Devuelve null si no hay tarifa fija.
+function calcMoPrice(item){
+  const mo=manoObraMap[item.sku_mo];
+  if(!mo||mo.tarifa_usd==null)return null;
+
+  const tarifaSinIva=parseFloat(mo.tarifa_usd)||0;
+  const descuento=clienteTipo==='B2B'?0.20:0;
+  const precioUsdSinIva=tarifaSinIva*(1-descuento);
+
+  return{
+    tarifaSinIva,descuento,precioUsdSinIva,
+    categoria:mo.categoria,nombreCat:mo.nombre
+  };
+}
+
+function addAutoServicioForDevice(item){
+  const mo=calcMoPrice(item);
+  if(!mo)return;
+  servicios.push({
+    id:'mo-'+item.id,
+    descripcion:'Instalación — '+item.nombre,
+    precioUsd:mo.precioUsdSinIva,
+    cantidad:item.qty,
+    auto:true,
+    deviceCartId:item.id,
+    deviceNombre:item.nombre,
+    skuMo:item.sku_mo
+  });
+}
+
+function syncAutoServicioQty(deviceId,qty){
+  const s=servicios.find(x=>x.deviceCartId===deviceId);
+  if(s)s.cantidad=qty;
+}
+
+function removeAutoServiciosForDevice(deviceId){
+  servicios=servicios.filter(s=>s.deviceCartId!==deviceId);
+}
+
+// ─── MANO DE OBRA DEL TARIFARIO (elegir manualmente un servicio con precio fijo) ──
+function toggleMoPicker(){
+  const el=document.getElementById('mo-picker');
+  const opening=el.style.display==='none';
+  el.style.display=opening?'':'none';
+  if(opening){
+    document.getElementById('mo-picker-search').value='';
+    renderMoPicker();
+    document.getElementById('mo-picker-search').focus();
+  }
+}
+
+function renderMoPicker(){
+  const q=(document.getElementById('mo-picker-search').value||'').toLowerCase().trim();
+  const entries=Object.values(manoObraMap).filter(m=>m.tarifa_usd!=null);
+  const words=q.split(/\s+/).filter(Boolean);
+  const filtered=words.length?entries.filter(m=>{
+    const haystack=[m.nombre,m.categoria,m.subcategoria].filter(Boolean).join(' ').toLowerCase();
+    return words.every(w=>haystack.includes(w));
+  }):entries;
+  const cont=document.getElementById('mo-picker-results');
+  if(!filtered.length){cont.innerHTML='<div class="empty" style="padding:10px 0">Sin resultados</div>';return}
+  const descuento=clienteTipo==='B2B'?0.20:0;
+  cont.innerHTML=filtered
+    .sort((a,b)=>(a.categoria||'').localeCompare(b.categoria||'')||(a.nombre||'').localeCompare(b.nombre||''))
+    .map(m=>{
+      const precioUsd=(parseFloat(m.tarifa_usd)||0)*(1-descuento);
+      return`<div class="product-item" onclick="addServicioFromTarifario('${m.sku_mo}')">
+        <div><div class="product-name">🔧 ${m.nombre}</div><div class="product-meta">${m.categoria}${m.subcategoria?' · '+m.subcategoria:''}</div></div>
+        <div><div class="product-price">${fUSD(precioUsd)}</div><div class="product-sku">${descuento?'B2B −20%':'sin desc.'}</div></div>
+      </div>`;
+    }).join('');
+}
+
+function addServicioFromTarifario(skuMo){
+  const mo=manoObraMap[skuMo];
+  if(!mo)return;
+  const descuento=clienteTipo==='B2B'?0.20:0;
+  const precioUsd=(parseFloat(mo.tarifa_usd)||0)*(1-descuento);
+  servicios.push({
+    id:'cat-'+skuMo+'-'+servicios.length+'-'+Math.random().toString(36).slice(2,7),
+    descripcion:mo.nombre,
+    precioUsd,
+    cantidad:1,
+    auto:false,
+    deviceCartId:null,
+    deviceNombre:null,
+    skuMo
+  });
+  renderServicios();
+  document.getElementById('mo-picker').style.display='none';
+  toast(mo.nombre+' agregado a Servicios','ok');
 }
 
 // ─── BROWSER ─────────────────────────────────────────────────
@@ -716,12 +835,11 @@ function onCatChange(){
 function onSearch(){
   const q=document.getElementById('search-inp').value.toLowerCase().trim();
   if(!q){document.getElementById('search-results').innerHTML='<div class="empty">Escribí para buscar...</div>';return}
-  const items=inventario.filter(i=>
-    i.nombre?.toLowerCase().includes(q)||
-    i.marca?.toLowerCase().includes(q)||
-    i.sku?.toLowerCase().includes(q)||
-    i.grupo?.toLowerCase().includes(q)
-  );
+  const words=q.split(/\s+/).filter(Boolean);
+  const items=inventario.filter(i=>{
+    const haystack=[i.nombre,i.marca,i.sku,i.grupo].filter(Boolean).join(' ').toLowerCase();
+    return words.every(w=>haystack.includes(w));
+  });
   document.getElementById('search-results').innerHTML=items.length?renderProductList(items):'<div class="empty">Sin resultados</div>';
 }
 
@@ -732,7 +850,7 @@ function renderProductList(items){
       const sp=calcServicePrice(item);
       return`<div class="product-item" onclick="addToCart(${item.id})">
         <div><div class="product-name">🔧 ${item.nombre}</div><div class="product-meta">${item.marca} · ${item.grupo||''}</div></div>
-        <div><div class="product-price">${fARS(sp.precio)}</div><div class="product-sku">${sp.label}</div></div>
+        <div><div class="product-price">${fUSD(sp.precio)}</div><div class="product-sku">${sp.label}</div></div>
       </div>`;
     }
     const {pvp,precioFinal,descuento}=calcPrecio(item);
@@ -743,10 +861,10 @@ function renderProductList(items){
   }).join('');
 }
 
-// ─── SERVICIOS MANUALES ──────────────────────────────────────
+// ─── SERVICIOS (mano de obra automática + manuales, todo en USD) ─────
 function addServicio(){
   const id='s'+Date.now();
-  servicios.push({id, descripcion:'', precioBase:0});
+  servicios.push({id, descripcion:'', precioUsd:0, cantidad:1, auto:false, deviceCartId:null, deviceNombre:null, skuMo:null});
   renderServicios();
   setTimeout(()=>{const el=document.getElementById('sdesc-'+id);if(el)el.focus();},50);
 }
@@ -754,20 +872,30 @@ function addServicio(){
 function removeServicio(id){
   servicios=servicios.filter(s=>s.id!==id);
   renderServicios();
-  renderCart();
 }
 
 function updateServicio(id,field,val){
   const s=servicios.find(x=>x.id===id);
   if(!s)return;
-  s[field]=field==='precioBase'?parseFloat(val)||0:val;
+  if(field==='precioUsd')s.precioUsd=parseFloat(val)||0;
+  else if(field==='cantidad')s.cantidad=Math.max(1,parseFloat(val)||1);
+  else s[field]=val;
+  renderServicioRow(id);
+  renderCart();
+}
+
+function changeServicioQty(id,delta){
+  const s=servicios.find(x=>x.id===id);
+  if(!s)return;
+  s.cantidad=Math.max(1,(s.cantidad||1)+delta);
   renderServicioRow(id);
   renderCart();
 }
 
 function getServicioTotal(s){
-  if(facturaA)return s.precioBase*1.21;
-  return s.precioBase;
+  const base=(s.precioUsd||0)*(s.cantidad||1);
+  if(facturaA)return base*1.21;
+  return base;
 }
 
 function renderServicioRow(id){
@@ -775,8 +903,10 @@ function renderServicioRow(id){
   const el=document.getElementById('srow-'+id);
   if(!s||!el)return;
   const total=getServicioTotal(s);
-  const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--accent)">${fARS(total)}</b></span>`:'<span style="color:var(--hint);font-size:11px">sin IVA</span>';
+  const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--accent)">${fUSD(total)}</b></span>`:`<span style="color:var(--hint);font-size:11px">sin IVA · ${fUSD(total)}</span>`;
   el.querySelector('.svc-iva').innerHTML=ivaLabel;
+  const qtyEl=document.getElementById('sqty-'+id);
+  if(qtyEl)qtyEl.textContent=s.cantidad||1;
 }
 
 function renderServicios(){
@@ -786,19 +916,29 @@ function renderServicios(){
   container.querySelectorAll('.svc-row').forEach(r=>r.remove());
   servicios.forEach(s=>{
     const total=getServicioTotal(s);
-    const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--accent)">${fARS(total)}</b></span>`:'<span style="color:var(--hint);font-size:11px">sin IVA</span>';
+    const ivaLabel=facturaA?`<span style="color:var(--muted);font-size:11px">+ IVA 21% = <b style="color:var(--accent)">${fUSD(total)}</b></span>`:`<span style="color:var(--hint);font-size:11px">sin IVA · ${fUSD(total)}</span>`;
     const div=document.createElement('div');
     div.className='svc-row';div.id='srow-'+s.id;
     div.style='padding:10px 0;border-bottom:1px solid var(--border)';
     div.innerHTML=`
       <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:6px">
-        <input type="text" id="sdesc-${s.id}" placeholder="Descripción del servicio" value="${s.descripcion}" oninput="updateServicio('${s.id}','descripcion',this.value)" style="flex:1;font-size:13px">
+        <div style="flex:1">
+          <input type="text" id="sdesc-${s.id}" placeholder="Descripción del servicio" value="${s.descripcion}" oninput="updateServicio('${s.id}','descripcion',this.value)" style="width:100%;font-size:13px">
+          ${s.auto?`<div style="font-size:10px;color:var(--hint);margin-top:3px">🔗 Vinculado a: ${s.deviceNombre}</div>`
+            :s.skuMo?`<div style="font-size:10px;color:var(--hint);margin-top:3px">📋 Del tarifario${manoObraMap[s.skuMo]?' — '+manoObraMap[s.skuMo].categoria:''}</div>`
+            :''}
+        </div>
         <button class="btn-remove" onclick="removeServicio('${s.id}')" style="font-size:20px;padding:4px;flex-shrink:0">×</button>
       </div>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="cart-controls">
+          <button class="qty-btn" onclick="changeServicioQty('${s.id}',-1)">−</button>
+          <span class="qty-val" id="sqty-${s.id}">${s.cantidad||1}</span>
+          <button class="qty-btn" onclick="changeServicioQty('${s.id}',1)">+</button>
+        </div>
         <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:150px">
-          <span style="font-size:13px;color:var(--muted)">$</span>
-          <input type="number" id="sprice-${s.id}" placeholder="0" value="${s.precioBase||''}" min="0" oninput="updateServicio('${s.id}','precioBase',this.value)" style="font-size:14px;font-weight:600">
+          <span style="font-size:13px;color:var(--muted)">U$S</span>
+          <input type="number" id="sprice-${s.id}" placeholder="0" value="${s.precioUsd||''}" min="0" step="0.01" oninput="updateServicio('${s.id}','precioUsd',this.value)" style="font-size:14px;font-weight:600">
         </div>
         <div class="svc-iva">${ivaLabel}</div>
       </div>`;
@@ -816,18 +956,33 @@ function addToCart(id){
   const item=inventario.find(i=>i.id===id);
   if(!item)return;
   const existing=cart.find(c=>c.id===id);
-  if(existing){existing.qty++;renderCart();toast('Cantidad actualizada');}
-  else{cart.push({...item,qty:1});renderCart();toast(item.nombre+' agregado','ok');}
+  if(existing){
+    existing.qty++;
+    syncAutoServicioQty(id,existing.qty);
+    renderServicios();
+    toast('Cantidad actualizada');
+  }else{
+    const newItem={...item,qty:1};
+    cart.push(newItem);
+    if(!isService(newItem))addAutoServicioForDevice(newItem);
+    renderServicios();
+    toast(item.nombre+' agregado','ok');
+  }
 }
 
 function changeQty(id,delta){
   const item=cart.find(c=>c.id===id);
   if(!item)return;
   item.qty=Math.max(1,item.qty+delta);
-  renderCart();
+  syncAutoServicioQty(id,item.qty);
+  renderServicios();
 }
 
-function removeFromCart(id){cart=cart.filter(c=>c.id!==id);renderCart();}
+function removeFromCart(id){
+  cart=cart.filter(c=>c.id!==id);
+  removeAutoServiciosForDevice(id);
+  renderServicios();
+}
 
 function renderCart(){
   const devices=cart.filter(i=>!isService(i));
@@ -876,12 +1031,15 @@ function renderCart(){
       </div>
       <div class="cart-margin">Margen: <span>${Math.round(margenVenta*100)}%</span> · Markup: <span>${Math.round(markup*100)}%</span> · Comisión: <span>${fUSD(comision*item.qty)}</span></div>
       ${alertaB2B&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':''}
+      ${!calcMoPrice(item)?'<div class="cart-alert">⚠️ Sin tarifa MO fija — agregá el servicio de instalación manualmente en Servicios si corresponde</div>':''}
     </div>`;
   }).join('');
 
-  document.getElementById('cart-services-label').style.display=(services.length||servicios.length)?'':'none';
+  document.getElementById('cart-services-label').style.display=services.length?'':'none';
   document.getElementById('cart-services').innerHTML=services.map(item=>{
     const sp=calcServicePrice(item);
+    const override=item.precioOverride!=null;
+    const displayPrice=getInvServicePrice(item);
     return`<div class="cart-item">
       <div class="cart-item-top">
         <div>
@@ -897,17 +1055,22 @@ function renderCart(){
           <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
         </div>
         <div style="text-align:right">
-          <div style="font-size:15px;font-weight:700;color:var(--accent)">${fARS(sp.precio*item.qty)}</div>
-          <div style="font-size:11px;color:var(--muted)">Unitario ${fARS(sp.precio)}</div>
+          <div style="font-size:15px;font-weight:700;color:var(--accent)">${fUSD(displayPrice*item.qty)}</div>
+          <div style="font-size:11px;color:var(--muted)">Unitario ${fUSD(displayPrice)}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:5px;flex:1;min-width:160px">
+          <span style="font-size:11px;color:var(--muted)">U$S</span>
+          <input type="number" step="0.01" min="0" placeholder="${ceil(sp.precio)}"
+            value="${override?item.precioOverride:''}"
+            oninput="setPrecioOverride(${item.id},this.value)"
+            style="font-size:13px;padding:5px 8px;border-color:${override?'var(--accent)':'var(--border2)'}">
+          ${override?`<button class="btn btn-secondary btn-sm" onclick="clearOverride(${item.id})" title="Restaurar precio calculado">↺</button>`:''}
         </div>
       </div>
     </div>`;
   }).join('');
-
-  if(servicios.length){
-    const totalSvc=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
-    document.getElementById('cart-services').innerHTML+=`<div style="padding:10px 14px;font-size:12px;color:var(--muted);border-top:1px dashed var(--border)">+ ${servicios.length} servicio${servicios.length>1?'s':''} manual${servicios.length>1?'es':''} — ${fARS(totalSvc)} total</div>`;
-  }
 
   renderSummary();
 }
@@ -935,20 +1098,21 @@ function renderSummary(){
   const devices=cart.filter(i=>!isService(i));
   const services=cart.filter(i=>isService(i));
   const totalDevUSD=devices.reduce((s,i)=>s+getItemPrice(i)*i.qty,0);
-  const totalInvSvcARS=services.reduce((s,i)=>{const sp=calcServicePrice(i);return s+sp.precio*i.qty},0);
-  const totalManSvcARS=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
-  const totalMoARS=totalInvSvcARS+totalManSvcARS;
+  const totalInvSvcUSD=services.reduce((s,i)=>s+getInvServicePrice(i)*i.qty,0);
+  const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
+  const totalSvcUSD=totalInvSvcUSD+totalManSvcUSD;
+  const totalUSD=totalDevUSD+totalSvcUSD;
   const totalComision=devices.reduce((s,i)=>{
     if(i.precioOverride!=null)return s;
     return s+calcPrecio(i).comision*i.qty;
   },0);
-  const totalARS=totalDevUSD*TC+totalMoARS;
+  const totalARS=totalUSD*TC;
 
   let rows=`
     <div class="summary-row"><span>Dispositivos</span><span>${fUSD(totalDevUSD)}</span></div>
-    ${totalMoARS?`<div class="summary-row"><span>Servicios</span><span>${fARS(totalMoARS)}</span></div>`:''}
+    ${totalSvcUSD?`<div class="summary-row"><span>Servicios</span><span>${fUSD(totalSvcUSD)}</span></div>`:''}
     <hr class="summary-divider">
-    <div class="summary-total"><span>Total USD</span><span>${fUSD(totalDevUSD)}</span></div>
+    <div class="summary-total"><span>Total USD</span><span>${fUSD(totalUSD)}</span></div>
     <div class="summary-row" style="margin-top:4px"><span>Ref. ARS (TC ${fARS(TC)})</span><span>${fARS(totalARS)}</span></div>`;
 
   document.getElementById('summary-rows').innerHTML=rows;
@@ -979,9 +1143,10 @@ async function guardarPresupuesto(){
     const devices=cart.filter(i=>!isService(i));
     const invServices=cart.filter(i=>isService(i));
     const totalDevUSD=devices.reduce((s,i)=>s+getItemPrice(i)*i.qty,0);
-    const totalInvSvcARS=invServices.reduce((s,i)=>{const sp=calcServicePrice(i);return s+sp.precio*i.qty},0);
-    const totalManSvcARS=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
-    const totalMoARS=totalInvSvcARS+totalManSvcARS;
+    const totalInvSvcUSD=invServices.reduce((s,i)=>s+getInvServicePrice(i)*i.qty,0);
+    const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
+    const totalSvcUSD=totalInvSvcUSD+totalManSvcUSD;
+    const totalUSD=totalDevUSD+totalSvcUSD;
     const margenTotal=devices.filter(i=>i.precioOverride==null).reduce((s,i)=>s+calcPrecio(i).comision*i.qty,0);
 
     const cabecera={
@@ -994,9 +1159,9 @@ async function guardarPresupuesto(){
       cliente_requiere_factura_a:facturaA,
       tc_bna_oficial:TC||0,
       subtotal_dispositivos_usd:totalDevUSD,
-      subtotal_mo_usd:TC>0?totalMoARS/TC:0,
-      total_usd:totalDevUSD,
-      total_ars:totalDevUSD*(TC||0)+totalMoARS,
+      subtotal_mo_usd:totalSvcUSD,
+      total_usd:totalUSD,
+      total_ars:totalUSD*(TC||0),
       margen_dispositivos_usd:margenTotal,
       comision_comercial_usd:margenTotal,
       estado:'BORRADOR',
@@ -1043,14 +1208,26 @@ async function guardarPresupuesto(){
       }),
       ...invServices.map(item=>{
         const sp=calcServicePrice(item);
+        const finalPrice=getInvServicePrice(item);
         const iva=facturaA?0.21:0;
-        const pUsd=TC>0?sp.precio/TC:0;
-        return buildLinea({inventario_id:item.id,tipo_linea:'SERVICIO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:parseFloat(item.precio_sin_iva)||0,iva_rate:iva,precio_costo_con_iva_usd:(parseFloat(item.precio_sin_iva)||0)*(1+iva),precio_sugerido_usd:pUsd,precio_final_unitario_usd:pUsd,subtotal_usd:pUsd*item.qty,notas:facturaA?'con IVA':'sin IVA'});
+        const pUsd=parseFloat(item.precio_sin_iva)||0;
+        return buildLinea({inventario_id:item.id,tipo_linea:'SERVICIO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:pUsd,iva_rate:iva,precio_costo_con_iva_usd:pUsd*(1+iva),precio_sugerido_usd:sp.precio,precio_final_unitario_usd:finalPrice,subtotal_usd:finalPrice*item.qty,notas:(item.precioOverride!=null?'precio editado manualmente — ':'')+(facturaA?'con IVA':'sin IVA')});
       }),
-      ...servicios.filter(s=>s.descripcion||s.precioBase>0).map(s=>{
-        const tot=getServicioTotal(s);
-        const pUsd=TC>0?tot/TC:0;
-        return buildLinea({tipo_linea:'SERVICIO',marca:'NOVA DOMUS',nombre:s.descripcion||'Servicio manual',iva_rate:facturaA?0.21:0,precio_sugerido_usd:pUsd,precio_final_unitario_usd:pUsd,subtotal_usd:pUsd,notas:facturaA?'con IVA':'sin IVA'});
+      ...servicios.filter(s=>s.descripcion||s.precioUsd>0).map(s=>{
+        const unitConIva=facturaA?s.precioUsd*1.21:s.precioUsd;
+        return buildLinea({
+          inventario_id:s.deviceCartId||null,
+          tipo_linea:'SERVICIO',
+          marca:'NOVA DOMUS',
+          nombre:s.descripcion||'Servicio manual',
+          sku:s.skuMo||null,
+          cantidad:s.cantidad||1,
+          precio_sugerido_usd:s.precioUsd,
+          precio_final_unitario_usd:unitConIva,
+          subtotal_usd:unitConIva*(s.cantidad||1),
+          iva_rate:facturaA?0.21:0,
+          notas:(s.auto?'MO automática':s.skuMo?'Del tarifario':'Servicio manual')+(facturaA?' — con IVA':' — sin IVA')
+        });
       })
     ];
 
@@ -1293,7 +1470,7 @@ function renderPL(){
   tbody.innerHTML=items.map(item=>{
     if(isService(item)){
       const sp=calcServicePrice(item);
-      return`<tr><td>${item.nombre}<br><span style="font-size:10px;color:var(--hint)">${item.sku||''}</span></td><td>${item.marca}</td><td>${item.grupo||''}</td><td colspan="3" style="color:var(--muted)">${fARS(sp.precio)} ARS</td></tr>`;
+      return`<tr><td>${item.nombre}<br><span style="font-size:10px;color:var(--hint)">${item.sku||''}</span></td><td>${item.marca}</td><td>${item.grupo||''}</td><td colspan="3" style="color:var(--muted)">${fUSD(sp.precio)}</td></tr>`;
     }
     const{pvp}=calcPrecio(item);
     const b2cOrig=clienteTipo;
@@ -1502,6 +1679,7 @@ function setTipo(t){
   renderCart();renderPL();
   onSearch();onCatChange();
   if(currentBrand)selectBrand(currentBrand);
+  if(document.getElementById('mo-picker').style.display!=='none')renderMoPicker();
 }
 
 function setFactura(v){
