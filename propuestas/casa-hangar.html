@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="Nova Domus — Casa Hangar | Propuesta de Domótica">
+<meta property="og:description" content="Del cable a la app — propuesta de integración tecnológica completa para Casa Hangar, Villa General Belgrano.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/casa-hangar.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/casa-hangar-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nova Domus — Casa Hangar">
+<meta name="twitter:description" content="Del cable a la app — propuesta de integración tecnológica completa.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/casa-hangar-og.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Domus — Casa Hangar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul-profundo:#0b132b; --azul-nova:#141e61; --gris-azulado:#787a91;
+    --gris-safe:#9698ad; --blanco-calido:#fdfbf0; --dorado:#c8a96e;
+    --dorado-dim:rgba(200,169,110,0.22); --filete:rgba(253,251,240,0.14);
+    --rojo:#B5453A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--azul-profundo); color:#fff; font-family:'Inter',sans-serif; font-weight:400; line-height:1.6; overflow-x:hidden;}
+  .mch{font-family:'Michroma',sans-serif; text-transform:uppercase; letter-spacing:0.06em;}
+  h1,h2{font-family:'Michroma',sans-serif; text-transform:uppercase; letter-spacing:0.04em; font-weight:400;}
+  h3{font-family:'Inter',sans-serif; font-weight:600;}
+  .eyebrow{font-family:'Inter',sans-serif; font-weight:600; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dorado); display:block; margin-bottom:0.8rem;}
+  .section-num.mch{color:var(--dorado); font-size:0.85rem; display:block; margin-bottom:0.6rem;}
+  section{padding:5rem 1.5rem; max-width:1100px; margin:0 auto; position:relative;}
+  img,svg{max-width:100%;}
+  a{color:inherit;}
+  p{color:var(--gris-safe);}
+  button{font-family:'Inter',sans-serif; cursor:pointer; background:transparent; appearance:none; border:none;}
+  .btn{display:inline-block; background:var(--blanco-calido); color:var(--azul-profundo); font-family:'Inter',sans-serif; font-weight:700; padding:0.9rem 1.8rem; border-radius:4px; text-decoration:none; border:none; cursor:pointer; font-size:0.95rem; min-height:48px; transition:transform .2s ease, box-shadow .2s ease;}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(253,251,240,.2);}
+  .btn-outline{background:transparent; border:1.5px solid var(--dorado); color:var(--dorado);}
+  #chapter-nav{position:sticky; top:0; z-index:50; background:rgba(11,19,43,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--filete); display:flex; overflow-x:auto; scrollbar-width:none; padding:0 0.5rem;}
+  #chapter-nav::-webkit-scrollbar{display:none;}
+  #chapter-nav a{flex:0 0 auto; padding:0.9rem 1rem; font-family:'Inter',sans-serif; font-weight:500; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--gris-safe); text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; min-height:44px; display:flex; align-items:center;}
+  #chapter-nav a.active{color:var(--dorado); border-bottom-color:var(--dorado);}
+  #progress-badge{position:fixed; top:70px; right:16px; width:52px; height:52px; z-index:60; cursor:pointer; opacity:0; transition:opacity .3s ease; pointer-events:none;}
+  #progress-badge.visible{opacity:1; pointer-events:auto;}
+  #progress-badge svg.ring-svg{width:100%; height:100%; transform:rotate(-90deg);}
+  #progress-badge .mark svg{width:100%; height:100%; transform:none;}
+  #progress-badge circle{fill:none; stroke-width:3;}
+  #progress-badge .bg{stroke:rgba(255,255,255,0.15);}
+  #progress-badge .fg{stroke:var(--dorado); stroke-linecap:round; transition:stroke-dashoffset .1s linear;}
+  #progress-badge .mark{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:24px; height:24px;}
+  #hero{min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 1.5rem 3rem; background:var(--azul-profundo); position:relative; overflow:hidden;}
+  #tunnel-motif{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:900px; height:900px; opacity:0.14; pointer-events:none;}
+  .brandmark-card{background:var(--blanco-calido); border-radius:8px; padding:1.5rem 2rem; box-shadow:0 20px 60px rgba(0,0,0,0.4); margin-bottom:2.5rem; position:relative; z-index:1;}
+  #hero-logo{width:110px; margin:0 auto;}
+  #hero-logo svg{width:100%; height:auto; display:block;}
+  #hero h1{font-size:clamp(1.6rem,4.6vw,2.8rem); line-height:1.25; max-width:18ch; margin-bottom:1.2rem; position:relative; z-index:1;}
+  #hero .eyebrow{position:relative; z-index:1;}
+  #hero p.sub{font-family:'Inter',sans-serif; color:var(--gris-safe); max-width:44ch; margin:0 auto 2.5rem; font-size:1.05rem; position:relative; z-index:1;}
+  #hero p.tagline{font-family:'Inter',sans-serif; font-weight:500; color:var(--dorado); font-size:1.1rem; margin-bottom:0.6rem; position:relative; z-index:1;}
+  .hero-cta{display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:1;}
+  #eco-diagram{margin-top:3.5rem; width:100%; max-width:480px; position:relative; z-index:1;}
+  #eco-diagram .node-label{font-family:'Inter',sans-serif; font-weight:600; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.03em; fill:var(--gris-safe);}
+  #eco-diagram .node-circle{fill:var(--azul-nova); stroke:var(--dorado); stroke-width:1.2;}
+  #eco-diagram .center-circle{fill:var(--dorado);}
+  #eco-diagram .center-label{fill:var(--azul-profundo); font-family:'Inter',sans-serif; font-weight:700; font-size:0.62rem;}
+  #eco-diagram .link-line{stroke:var(--gris-safe); stroke-width:1; fill:none; stroke-dasharray:5 4; opacity:0.5;}
+  .section-header{margin-bottom:2.5rem;}
+  .section-header h2{font-size:clamp(1.3rem,3.4vw,1.7rem); border-bottom:2px solid var(--dorado); display:inline-block; padding-bottom:0.6rem;}
+  .section-header p{color:var(--gris-safe); margin-top:1rem; max-width:60ch; font-size:0.95rem;}
+  .section-light{background:var(--blanco-calido); color:var(--azul-profundo);}
+  .section-light p{color:#3a3d4a;}
+  .section-light h2,.section-light h3{color:var(--azul-nova);}
+  .section-light .eyebrow{color:var(--azul-nova); opacity:.75;}
+  .stack-cards{display:grid; grid-template-columns:1fr; gap:1.2rem; margin-top:1.8rem;}
+  @media(min-width:800px){.stack-cards{grid-template-columns:1fr 1fr;}}
+  .stack-card{border:2px solid var(--filete); border-radius:12px; padding:1.7rem 1.5rem; cursor:pointer; transition:all .25s ease; background:rgba(255,255,255,.02); position:relative;}
+  .stack-card:hover{border-color:var(--dorado-dim);}
+  .stack-card.active{border-color:var(--dorado); background:rgba(200,169,110,.07); box-shadow:0 0 0 1px var(--dorado) inset;}
+  .stack-card .stack-badge{font-size:0.62rem; letter-spacing:0.1em; color:var(--dorado); text-transform:uppercase; font-weight:600;}
+  .stack-card h3.mch{font-size:1.15rem; margin:0.6rem 0 0.2rem; letter-spacing:0.03em;}
+  .stack-card .stack-sub{color:var(--gris-safe); font-size:0.8rem; margin-bottom:0.9rem;}
+  .stack-card ul{list-style:none; margin:0.9rem 0;}
+  .stack-card ul li{font-size:0.86rem; color:#e8e8ee; padding:0.25rem 0 0.25rem 1.1rem; position:relative;}
+  .stack-card ul li::before{content:"—"; position:absolute; left:0; color:var(--dorado);}
+  .stack-card .stack-price.mch{font-size:1.6rem; color:var(--dorado); margin-top:0.9rem;}
+  .stack-card .stack-price small{font-family:'Inter',sans-serif; font-size:0.65rem; color:var(--gris-safe); display:block; letter-spacing:0.05em; margin-top:0.15rem; text-transform:none; font-weight:500;}
+  .radio-dot{position:absolute; top:1.5rem; right:1.5rem; width:18px; height:18px; border-radius:50%; border:2px solid var(--filete);}
+  .stack-card.active .radio-dot{border-color:var(--dorado); background:var(--dorado);}
+  .stack-note{margin-top:1.2rem; padding:1rem 1.2rem; border-left:3px solid var(--dorado); background:rgba(200,169,110,.05); font-size:0.85rem; color:#e8e8ee; border-radius:0 8px 8px 0;}
+  .diagram-5{display:grid; grid-template-columns:repeat(2,1fr); gap:0.9rem; margin:1.6rem 0;}
+  @media(min-width:800px){.diagram-5{grid-template-columns:repeat(5,1fr);}}
+  .diagram-step{background:rgba(255,255,255,.03); border:1px solid var(--filete); border-radius:10px; padding:1rem 0.9rem; text-align:center;}
+  .diagram-step .step-num.mch{color:var(--dorado); font-size:1.2rem;}
+  .diagram-step .step-label{font-size:0.78rem; margin-top:0.5rem; color:#e8e8ee;}
+  table.comparativo{width:100%; border-collapse:collapse; margin-top:1rem; font-size:0.88rem;}
+  table.comparativo th, table.comparativo td{padding:0.9rem 1rem; text-align:left; border-bottom:1px solid var(--filete);}
+  table.comparativo th{font-family:'Inter',sans-serif; font-weight:700; color:var(--gris-safe); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.03em;}
+  table.comparativo th.highlight{color:var(--dorado);}
+  table.comparativo td{color:#e8e8ee;}
+  table.comparativo td.highlight{color:var(--dorado); font-weight:600;}
+  table.comparativo tr td:first-child{color:var(--gris-safe); font-size:0.82rem;}
+  @media(max-width:640px){
+    table.comparativo thead{display:none;}
+    table.comparativo, table.comparativo tbody, table.comparativo tr, table.comparativo td{display:block; width:100%;}
+    table.comparativo tr{border-bottom:1px solid var(--dorado-dim); padding:0.9rem 0; margin-bottom:0.4rem;}
+    table.comparativo td{border-bottom:none; padding:0.35rem 0; display:flex; justify-content:space-between; gap:1rem; align-items:baseline;}
+    table.comparativo td:first-child{color:var(--gris-safe); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.03em; font-weight:600; display:block; margin-bottom:0.3rem;}
+    table.comparativo td:not(:first-child)::before{content:attr(data-label); color:var(--gris-safe); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.02em;}
+  }
+  #scene-sim{border-radius:14px; overflow:hidden; margin-top:1.5rem; border:1px solid var(--filete);}
+  #scene-visual{height:210px; display:flex; align-items:center; justify-content:center; transition:background 1.2s ease; position:relative;}
+  #scene-visual .scene-icon{font-size:3.2rem;}
+  #scene-visual .scene-text{position:absolute; bottom:0.9rem; left:1.1rem; right:1.1rem; font-size:0.8rem; color:#fff; background:rgba(0,0,0,.28); padding:0.6rem 0.85rem; border-radius:8px;}
+  .scene-tabs{display:flex; overflow-x:auto; background:rgba(0,0,0,.2);}
+  .scene-tab{flex:1; min-width:78px; padding:0.9rem 0.5rem; text-align:center; font-size:0.72rem; letter-spacing:0.02em; color:var(--gris-safe); border-bottom:3px solid transparent; min-height:44px;}
+  .scene-tab.active{color:var(--dorado); border-bottom-color:var(--dorado);}
+  .scene-controls{padding:1.2rem; background:rgba(255,255,255,.02);}
+  .slider-row{margin-bottom:1rem;}
+  .slider-row label{font-size:0.75rem; color:var(--gris-safe); display:flex; justify-content:space-between; margin-bottom:0.4rem;}
+  .slider-row input[type=range]{width:100%; accent-color:var(--dorado); height:36px;}
+  .switch2{display:flex; border-radius:10px; overflow:hidden; margin:1.2rem 0; border:1px solid var(--dorado-dim);}
+  .switch2 button{flex:1; padding:0.9rem; font-size:0.8rem; font-weight:600; min-height:48px; letter-spacing:0.02em;}
+  .switch2 button.state-a{background:rgba(181,69,58,.15); color:#e8a49c;}
+  .switch2 button.state-b{background:rgba(200,169,110,.15); color:var(--dorado);}
+  .switch2 button.active.state-a{background:var(--rojo); color:#fff;}
+  .switch2 button.active.state-b{background:var(--dorado); color:var(--azul-profundo);}
+  .compare-panel{padding:1.2rem; border:1px solid var(--filete); border-radius:0 0 10px 10px; margin-top:-1.2rem;}
+  .compare-panel ul{list-style:none;}
+  .compare-panel li{padding:0.4rem 0; font-size:0.88rem; color:#e8e8ee;}
+  .compare-panel li.bad::before{content:"✕ "; color:var(--rojo);}
+  .compare-panel li.good::before{content:"✓ "; color:var(--dorado);}
+  .value-box{border:1px solid var(--dorado); border-radius:10px; padding:1.1rem 1.2rem; margin-top:1rem; font-size:0.85rem; color:#e8e8ee;}
+  .checkbox-card{display:flex; align-items:flex-start; gap:0.8rem; padding:1rem; border:1px solid var(--dorado-dim); border-radius:10px; margin-bottom:0.8rem; cursor:pointer;}
+  .checkbox-card input{width:20px; height:20px; margin-top:2px; accent-color:var(--dorado); flex-shrink:0;}
+  .checkbox-card .cc-title{font-weight:600; color:#fff; font-size:0.9rem;}
+  .checkbox-card .cc-desc{font-size:0.78rem; color:var(--gris-safe); margin-top:0.2rem;}
+  .checkbox-card .cc-price{color:var(--dorado); font-weight:600; font-size:0.86rem; white-space:nowrap;}
+  .rubro-bar{display:flex; height:2.1rem; border-radius:6px; overflow:hidden; margin:1.2rem 0; font-size:0;}
+  .rubro-legend{display:grid; grid-template-columns:repeat(2,1fr); gap:0.5rem 1rem; font-size:0.78rem; margin-bottom:1.2rem;}
+  @media(min-width:700px){.rubro-legend{grid-template-columns:repeat(3,1fr);}}
+  .rubro-legend .dot{display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:0.4rem;}
+  .accordion-item{border-bottom:1px solid var(--filete);}
+  .section-light .accordion-item{border-bottom:1px solid rgba(20,30,97,.12);}
+  .accordion-head{display:flex; justify-content:space-between; align-items:center; padding:1rem 0.25rem; cursor:pointer; min-height:44px;}
+  .accordion-head .ah-price{font-weight:600;}
+  .accordion-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .accordion-body-inner{padding:0 0.25rem 1rem; font-size:0.84rem; color:#e8e8ee;}
+  .section-light .accordion-body-inner{color:#3a3d4a;}
+  .acc-arrow{transition:transform .3s ease;}
+  .accordion-item.open .acc-arrow{transform:rotate(180deg);}
+  .totalrow{display:flex; justify-content:space-between; padding:1.1rem 0.25rem; font-family:'Michroma',sans-serif; text-transform:uppercase; letter-spacing:0.03em; font-size:1.1rem; border-top:2px solid var(--azul-nova); margin-top:0.6rem;}
+  .pay-stage{display:flex; justify-content:space-between; align-items:center; padding:0.9rem 1rem; background:rgba(255,255,255,.03); border-radius:8px; margin-bottom:0.6rem;}
+  .section-light .pay-stage{background:rgba(20,30,97,.04);}
+  .pay-stage .pay-pct{font-size:0.75rem; color:var(--gris-safe);}
+  .pay-stage .pay-amt.mch{font-size:1rem; color:var(--dorado);}
+  .section-light .pay-amt{color:var(--azul-nova);}
+  .pills{display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1.2rem;}
+  .pill{padding:0.55rem 1rem; border-radius:20px; border:1px solid var(--dorado-dim); font-size:0.78rem; min-height:38px; display:flex; align-items:center;}
+  .pill.fixed{background:var(--dorado); color:var(--azul-profundo); font-weight:600; cursor:default;}
+  .pill:not(.fixed):hover{border-color:var(--dorado);}
+  .brand-detail{margin-top:1rem; padding:1rem; border-left:3px solid var(--dorado); background:rgba(200,169,110,.05); border-radius:0 8px 8px 0; font-size:0.84rem; display:none; color:#e8e8ee;}
+  .brand-detail.show{display:block;}
+  .faq-item{border-bottom:1px solid var(--filete);}
+  .section-light .faq-item{border-bottom:1px solid rgba(20,30,97,.12);}
+  .usecase-grid{display:grid; grid-template-columns:1fr; gap:0.9rem; margin:1.2rem 0;}
+  @media(min-width:700px){.usecase-grid{grid-template-columns:repeat(2,1fr);}}
+  .usecase{padding:1rem; background:rgba(255,255,255,.03); border-radius:10px; font-size:0.85rem; color:#e8e8ee;}
+  .usecase .uc-icon{font-size:1.4rem; margin-bottom:0.5rem;}
+  .status-block{background:linear-gradient(135deg, rgba(200,169,110,.08), rgba(20,30,97,.3)); border:1px solid var(--dorado-dim); border-radius:14px; padding:1.8rem; margin-top:1.5rem;}
+  .status-block .status-eyebrow{color:var(--dorado); font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; font-weight:700; margin-bottom:0.6rem; display:block;}
+  .cedia-tiers{display:grid; grid-template-columns:1fr; gap:0.8rem; margin-top:1.2rem;}
+  @media(min-width:700px){.cedia-tiers{grid-template-columns:repeat(3,1fr);}}
+  .cedia-tier{border:1px solid var(--filete); border-radius:10px; padding:1rem; text-align:center;}
+  .cedia-tier .ct-name{font-family:'Inter',sans-serif; font-weight:700; color:var(--dorado); font-size:0.82rem; text-transform:uppercase; letter-spacing:0.04em;}
+  .cedia-tier .ct-desc{font-size:0.76rem; color:var(--gris-safe); margin-top:0.4rem;}
+  #cta{background:linear-gradient(180deg,var(--azul-nova),var(--azul-profundo)); text-align:center;}
+  .btn-accept{background:var(--dorado); color:var(--azul-profundo); font-weight:700; padding:1rem 2rem; border-radius:8px; font-size:0.95rem; margin-top:1.2rem; letter-spacing:0.02em; min-height:48px;}
+  .btn-accept:disabled{opacity:.4; cursor:not-allowed;}
+  .accept-check{display:flex; align-items:flex-start; gap:0.6rem; margin-top:1.2rem; font-size:0.8rem; color:var(--gris-safe); text-align:left; max-width:500px; margin-left:auto; margin-right:auto;}
+  .accept-check input{width:20px; height:20px; margin-top:2px; accent-color:var(--dorado); flex-shrink:0;}
+  footer{text-align:center; padding:2.5rem 1.5rem; font-size:0.7rem; color:var(--gris-safe); border-top:1px solid var(--filete);}
+  footer .py-foot{color:var(--dorado); font-weight:600; letter-spacing:0.05em;}
+  @media print{
+    #chapter-nav,#progress-badge,.scene-controls,.switch2,input[type=checkbox],input[type=range],.btn-accept,#tunnel-motif,#eco-diagram{display:none !important;}
+    .accordion-body{max-height:none !important;}
+    body{background:#fff; color:#000;}
+    * {print-color-adjust:exact; -webkit-print-color-adjust:exact;}
+    section{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<nav id="chapter-nav">
+  <a href="#hero" class="nav-link">Inicio</a>
+  <a href="#stack-selector" class="nav-link">Comparativa</a>
+  <a href="#responsable" class="nav-link">Responsable</a>
+  <a href="#iluminacion" class="nav-link">Iluminación</a>
+  <a href="#seguridad" class="nav-link">Seguridad</a>
+  <a href="#porque-c4" class="nav-link">Categoría</a>
+  <a href="#inversion" class="nav-link">Inversión</a>
+  <a href="#cta" class="nav-link">Aceptar</a>
+</nav>
+
+<div id="progress-badge">
+  <svg class="ring-svg" viewBox="0 0 52 52">
+    <circle class="bg" cx="26" cy="26" r="23"/>
+    <circle class="fg" id="ring-progress" cx="26" cy="26" r="23" stroke-dasharray="144.5" stroke-dashoffset="144.5"/>
+  </svg>
+  <div class="mark" id="badgelogo"></div>
+</div>
+
+<section id="hero">
+  <svg id="tunnel-motif" viewBox="0 0 400 400">
+    <rect x="20" y="20" width="360" height="360" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+    <rect x="70" y="70" width="260" height="260" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+    <rect x="120" y="120" width="160" height="160" fill="none" stroke="#fdfbf0" stroke-width="1.5"/>
+    <rect x="165" y="165" width="70" height="70" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+  </svg>
+  <div class="brandmark-card"><div id="hero-logo"></div></div>
+  <span class="eyebrow">Integración Tecnológica · Villa General Belgrano</span>
+  <p style="font-family:'Inter',sans-serif; font-weight:600; font-size:0.7rem; letter-spacing:0.06em; color:var(--gris-safe); margin-bottom:0.8rem; position:relative; z-index:1">PY-2026-009</p>
+  <h1>La Casa Que Responde</h1>
+  <p class="tagline">Del cable a la app.</p>
+  <p class="sub">Propuesta de integración tecnológica completa para Casa Hangar — iluminación, redes, seguridad, climatización, audio y automatización orquestados desde un solo lugar. Dos caminos posibles, un mismo resultado.</p>
+  <div class="hero-cta">
+    <a href="#stack-selector" class="btn">Ver la propuesta</a>
+    <a href="#inversion" class="btn btn-outline">Ir a la inversión</a>
+  </div>
+  <svg id="eco-diagram" viewBox="0 0 400 260">
+    <line class="link-line" x1="200" y1="130" x2="80" y2="50"></line>
+    <line class="link-line" x1="200" y1="130" x2="320" y2="50"></line>
+    <line class="link-line" x1="200" y1="130" x2="80" y2="210"></line>
+    <line class="link-line" x1="200" y1="130" x2="320" y2="210"></line>
+    <circle class="center-circle" cx="200" cy="130" r="34"></circle>
+    <text class="center-label" id="eco-center-1" x="200" y="126" text-anchor="middle">CORE</text>
+    <text class="center-label" id="eco-center-2" x="200" y="140" text-anchor="middle" style="font-size:0.5rem">Control4</text>
+    <circle class="node-circle" cx="80" cy="50" r="30"></circle>
+    <text class="node-label" x="80" y="53" text-anchor="middle">Iluminación</text>
+    <circle class="node-circle" cx="320" cy="50" r="30"></circle>
+    <text class="node-label" x="320" y="53" text-anchor="middle">Climatización</text>
+    <circle class="node-circle" cx="80" cy="210" r="30"></circle>
+    <text class="node-label" x="80" y="213" text-anchor="middle">Seguridad</text>
+    <circle class="node-circle" cx="320" cy="210" r="30"></circle>
+    <text class="node-label" x="320" y="213" text-anchor="middle">Redes</text>
+  </svg>
+</section>
+
+<section id="stack-selector">
+  <div class="section-header">
+    <span class="section-num mch">00</span>
+    <h2>Elegí tu ecosistema</h2>
+    <p>Para una obra de esta envergadura evaluamos dos caminos técnicos igual de sólidos. No hay una opción "incorrecta" — hay dos filosofías distintas de resolver lo mismo. Tocá cada tarjeta para ver cómo cambia la propuesta completa.</p>
+  </div>
+  <div class="stack-cards">
+    <div class="stack-card active" data-stack="c4" onclick="selectStack('c4')">
+      <div class="radio-dot"></div>
+      <div class="stack-badge">Ecosistema cerrado premium</div>
+      <h3 class="mch">Control4 + Araknis</h3>
+      <div class="stack-sub">Certificado CEDIA · Un solo fabricante de punta a punta</div>
+      <ul>
+        <li>Un solo firmware, una sola app, un solo soporte técnico</li>
+        <li>Pantalla táctil y control remoto Halo de fábrica</li>
+        <li>Procesamiento local en el CORE — no depende de la nube</li>
+        <li>Red Araknis dimensionada como infraestructura profesional</li>
+      </ul>
+      <div class="stack-price mch" id="price-tag-c4">USD —<small>Inversión total estimada</small></div>
+    </div>
+    <div class="stack-card" data-stack="ha" onclick="selectStack('ha')">
+      <div class="radio-dot"></div>
+      <div class="stack-badge">Ecosistema abierto flexible</div>
+      <h3 class="mch">Home Assistant + Omada</h3>
+      <div class="stack-sub">Sistema abierto · Sin ataduras a un fabricante</div>
+      <ul>
+        <li>Mismo resultado funcional, con hardware multi-marca</li>
+        <li>Total libertad para sumar cualquier dispositivo a futuro</li>
+        <li>Excelente relación prestación/inversión</li>
+        <li>Programación 100% a medida, sin licencias de por vida</li>
+      </ul>
+      <div class="stack-price mch" id="price-tag-ha">USD —<small>Inversión total estimada</small></div>
+    </div>
+  </div>
+  <div class="stack-note">
+    <strong>Que quede claro:</strong> Home Assistant es un sistema excelente y perfectamente válido para esta vivienda — no es una opción "de menor categoría", es una filosofía distinta. La diferencia de inversión entre caminos es real y la vas a ver rubro por rubro más abajo. Elegir Control4 es elegir una experiencia de ecosistema cerrado, status de marca y un único responsable de hardware — no es que uno "funcione mejor" que el otro.
+  </div>
+</section>
+
+<section id="responsable">
+  <div class="section-header">
+    <span class="section-num mch">00.1</span>
+    <h2>Un Solo Responsable</h2>
+    <p>En una obra con tecnología normalmente coordinás varios proveedores: el de redes, el de cámaras, el programador. Cuando algo falla, cada uno señala al otro y el problema queda en el medio.</p>
+  </div>
+  <p style="color:#e8e8ee;">Nosotros ejecutamos con equipo propio todo lo que ves en esta propuesta: redes, iluminación, seguridad, climatización, audio y programación. <strong>La obra eléctrica en esta vivienda ya está resuelta por terceros</strong> — nosotros especificamos y certificamos esa parte, pero el resto (de la caja de luz a la app) es 100% nuestro.</p>
+  <div class="diagram-5">
+    <div class="diagram-step"><div class="step-num mch">01</div><div class="step-label">Relevamiento y especificación</div></div>
+    <div class="diagram-step"><div class="step-num mch">02</div><div class="step-label">Redes e iluminación</div></div>
+    <div class="diagram-step"><div class="step-num mch">03</div><div class="step-label">Seguridad y accesos</div></div>
+    <div class="diagram-step"><div class="step-num mch">04</div><div class="step-label">Automatización</div></div>
+    <div class="diagram-step"><div class="step-num mch">05</div><div class="step-label">Entrega documentada + 12 meses de garantía</div></div>
+  </div>
+  <table class="comparativo">
+    <thead><tr><th></th><th class="highlight">Con Nova Domus</th><th>Con integradores tradicionales</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td><td class="highlight" data-label="Con Nova Domus">1</td><td data-label="Tradicionales">3 o más</td></tr>
+      <tr><td>Responsable ante una falla</td><td class="highlight" data-label="Con Nova Domus">Nova Domus, directo</td><td data-label="Tradicionales">"No fui yo" entre proveedores</td></tr>
+      <tr><td>Equipo de instalación</td><td class="highlight" data-label="Con Nova Domus">Propio</td><td data-label="Tradicionales">Terceros subcontratados</td></tr>
+      <tr><td>Garantía</td><td class="highlight" data-label="Con Nova Domus">12 meses, un solo interlocutor</td><td data-label="Tradicionales">Varía por proveedor</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="iluminacion">
+  <div class="section-header">
+    <span class="section-num mch">01</span>
+    <h2>La casa que responde</h2>
+    <p>52 puntos de comando, 90 efectos de iluminación entre interior, exterior y ventiladores de techo. Probá el simulador: así se siente controlar la casa según el momento del día.</p>
+  </div>
+  <div id="scene-sim">
+    <div id="scene-visual" style="background:linear-gradient(135deg,#FFDCA8,#FFF3D6);">
+      <div class="scene-icon">🌅</div>
+      <div class="scene-text" id="scene-desc">Mañana: luces cálidas al 70%, cortinas suben solas con el despertador.</div>
+    </div>
+    <div class="scene-tabs">
+      <div class="scene-tab active" data-scene="manana" onclick="setScene('manana')">Mañana</div>
+      <div class="scene-tab" data-scene="dia" onclick="setScene('dia')">Día</div>
+      <div class="scene-tab" data-scene="noche" onclick="setScene('noche')">Noche</div>
+      <div class="scene-tab" data-scene="cine" onclick="setScene('cine')">Cine</div>
+      <div class="scene-tab" data-scene="fiesta" onclick="setScene('fiesta')">Fiesta</div>
+    </div>
+    <div class="scene-controls">
+      <div class="slider-row"><label><span>Brillo</span><span id="brightness-val">70%</span></label><input type="range" min="0" max="100" value="70" id="brightness-slider" oninput="updateBrightness(this.value)"></div>
+      <div class="slider-row"><label><span>Temperatura de color</span><span id="temp-val">2700K</span></label><input type="range" min="2700" max="6500" value="2700" step="100" id="temp-slider" oninput="updateTemp(this.value)"></div>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem; font-size:0.85rem; color:var(--gris-safe);">
+  <strong id="ilum-stack-label" style="color:#e8e8ee;">Con Control4:</strong> ambientes principales (living, cocina, comedor, dormitorios, foyer) con keypads Square dual-load de fábrica Control4 — dimmer y puck oculto donde conviene por diseño. Ambientes secundarios (baños, pasillos, vestidores, cochera) con Shelly Gen3 integrado vía driver de conectividad nativo. Exterior y ventiladores en panel DIN centralizado.
+  </p>
+</section>
+
+<section class="section-light" id="redes">
+  <div class="section-header">
+    <span class="section-num mch">02</span>
+    <h2>La base de todo lo demás</h2>
+    <p>6 access points WiFi6, switch PoE+ dimensionado para cámaras y automatización, router con VPN. Sin una red sólida, nada de lo que sigue funciona bien.</p>
+  </div>
+  <div class="switch2">
+    <button class="active state-b" onclick="setRedesView('actual')">Lo que proponemos</button>
+    <button class="state-a" onclick="setRedesView('generico')">WiFi doméstico común</button>
+  </div>
+  <div class="compare-panel" id="redes-panel"></div>
+</section>
+
+<section id="seguridad">
+  <div class="section-header">
+    <span class="section-num mch">03</span>
+    <h2>AXPro + AcuSense</h2>
+    <p>Panel de alarma inalámbrico Hikvision AXPro (96 zonas), 14 cámaras IP con inteligencia AcuSense, NVR dedicado, videoportero IP y cerradura digital Yale en el ingreso principal — común a ambos caminos tecnológicos, no cambia si elegís Control4 o Home Assistant.</p>
+  </div>
+  <div class="switch2">
+    <button class="active state-a" onclick="setSegView('comun')">Alarma / cámara común</button>
+    <button class="state-b" onclick="setSegView('nd')">Con Nova Domus</button>
+  </div>
+  <div class="compare-panel" id="seg-panel"></div>
+</section>
+
+<section class="section-light" id="clima">
+  <div class="section-header">
+    <span class="section-num mch">04</span>
+    <h2>6 splits, control real</h2>
+    <p>Sensibo en cada equipo de aire acondicionado — sensor de presencia y temperatura ambiente real, no la del equipo.</p>
+  </div>
+  <div class="slider-row"><label><span>Temperatura objetivo</span><span id="clima-temp-val">24°C</span></label><input type="range" min="18" max="28" value="24" id="clima-slider" oninput="updateClima(this.value)"></div>
+  <div class="value-box" id="clima-ahorro">Con climatización inteligente en los 6 equipos, el ahorro estimado ronda un <strong>15-20%</strong> del consumo de climatización anual. <em>Valor referencial, no es una promesa de retorno.</em></div>
+</section>
+
+<section id="audio">
+  <div class="section-header">
+    <span class="section-num mch">05</span>
+    <h2>3 zonas, música en toda la casa</h2>
+    <p>Living, cocina y galería con parlantes Episode empotrados en cielorraso. La diferencia entre caminos está en cómo se administra la potencia.</p>
+  </div>
+  <div class="usecase-grid">
+    <div class="usecase"><div class="uc-icon">🍳</div>Desayuno en la cocina con la playlist de la mañana sonando desde que se enciende la cafetera.</div>
+    <div class="usecase"><div class="uc-icon">🥂</div>Recibís gente en la galería y el sistema autobalancea el volumen exterior sin molestar a los dormitorios.</div>
+    <div class="usecase"><div class="uc-icon">🎬</div>Noche de cine en el living con el audio ajustado a modo "noche" automáticamente.</div>
+    <div class="usecase"><div class="uc-icon">📱</div>Control de música desde el teléfono en cualquier zona, sin acercarte a un equipo.</div>
+  </div>
+  <div class="value-box" id="audio-value"></div>
+</section>
+
+<section class="section-light" id="core">
+  <div class="section-header">
+    <span class="section-num mch">06</span>
+    <h2 id="core-title">CORE 3 + Pantalla táctil</h2>
+    <p id="core-desc"></p>
+  </div>
+  <div class="checkbox-card" id="halo-card">
+    <input type="checkbox" id="halo-check" onclick="toggleHalo(event)">
+    <div style="flex:1"><div class="cc-title">Sumar Control Remoto Halo</div><div class="cc-desc">Remoto físico premium Control4 — control total sin necesidad del teléfono. Opcional, no incluido en el total base.</div></div>
+    <div class="cc-price" id="halo-price">+USD —</div>
+  </div>
+</section>
+
+<section id="porque-c4">
+  <div class="section-header">
+    <span class="section-num mch">07</span>
+    <h2>Control4: la categoría de esta casa</h2>
+    <p>No es que Home Assistant "funcione peor" — funciona muy bien. Esto es lo que Control4 pone sobre la mesa, y por qué tiene sentido específicamente acá.</p>
+  </div>
+  <div class="status-block">
+    <span class="status-eyebrow">Status de marca</span>
+    <p style="color:#e8e8ee; font-size:0.95rem;">Control4 no compite en el mercado masivo de la domótica — ocupa la misma franja que Crestron y Savant: la automatización que eligen las viviendas que ya son, por sí mismas, de una categoría distinta. <strong style="color:#fff;">Un hangar privado integrado a la casa no es un proyecto para cualquier presupuesto ni cualquier sistema</strong> — es exactamente el tipo de obra para la que Control4 fue diseñado.</p>
+    <p style="color:#e8e8ee; font-size:0.95rem; margin-top:0.9rem;">Elegir Control4 acá no es solo una decisión técnica: es la misma lógica por la que esta vivienda tiene su propio hangar en el patio en lugar de compartir uno comunitario. La categoría del proyecto pide el mismo nivel en cada sistema que lo compone. No es para cualquiera — y esa es exactamente la razón por la que existe.</p>
+    <span class="status-eyebrow" style="margin-top:1.5rem; display:block;">Respaldo profesional mundial</span>
+    <p style="color:#e8e8ee; font-size:0.95rem;">Control4 sostiene su posición a través de <strong style="color:#fff;">CEDIA</strong>, la asociación mundial de integradores de tecnología residencial (30.000+ miembros en más de 80 países). Desde 2025, CEDIA organiza a sus integradores en tres niveles de membresía profesional:</p>
+    <div class="cedia-tiers">
+      <div class="cedia-tier"><div class="ct-name">Starter</div><div class="ct-desc">Ingreso a la industria — formación introductoria</div></div>
+      <div class="cedia-tier"><div class="ct-name">Professional</div><div class="ct-desc">Inteligencia de mercado, herramientas de diseño</div></div>
+      <div class="cedia-tier"><div class="ct-name">Premium</div><div class="ct-desc">Educación ilimitada, prioridad en el buscador de profesionales</div></div>
+    </div>
+    <p style="color:#e8e8ee; font-size:0.85rem; margin-top:0.9rem;">Nova Domus opera dentro de ese marco profesional — no es una certificación que garantice un resultado puntual, es la evidencia de que la marca detrás de Control4 sostiene un ecosistema de formación e integradores serio a nivel mundial.</p>
+  </div>
+  <p class="lead" style="margin-top:1.5rem; color:var(--gris-safe); font-size:0.9rem;">Home Assistant, en cambio, te da libertad total (cualquier dispositivo compatible, sin licencias, sin vendor lock-in) a cambio de renunciar a esa marca y ese status. Para esta vivienda, ambos caminos llegan a un resultado técnico excelente — la decisión es de categoría y de qué querés que la tecnología de tu casa comunique, no de calidad.</p>
+</section>
+
+<section class="section-light" id="inversion">
+  <div class="section-header">
+    <span class="section-num mch">08</span>
+    <h2>La Inversión</h2>
+    <p>Mostrando: <strong id="inv-stack-name">Control4 + Araknis</strong>. Cambiá de camino arriba en "Elegí tu ecosistema" para recalcular todo lo que sigue.</p>
+  </div>
+  <div class="rubro-bar" id="rubro-bar"></div>
+  <div class="rubro-legend" id="rubro-legend"></div>
+  <div id="accordion-rubros"></div>
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD —</span></div>
+  <p style="font-size:0.75rem; color:#5d6078; margin-top:0.6rem;">Presupuesto válido por 15 días. Precios en USD, redondeados, IVA de equipos discriminado por ítem según alícuota real (10,5% o 21%). Mano de obra sin discriminar IVA. TC referencia BNA oficial del día de emisión. No incluye obra eléctrica ni Visita Técnica.</p>
+</section>
+
+<section id="pago">
+  <div class="section-header">
+    <span class="section-num mch">09</span>
+    <h2>Ejecución y forma de pago</h2>
+    <p>Los equipos se abonan por anticipado para asegurar la compra e importación. La mano de obra se divide en dos hitos ligados a la obra.</p>
+  </div>
+  <div class="pay-stage"><div><strong>Equipos</strong><div class="pay-pct">100% anticipado — antes de instalar</div></div><div class="pay-amt mch" id="pay-equipo">USD —</div></div>
+  <div class="pay-stage"><div><strong>Mano de obra — inicio de obra</strong><div class="pay-pct">30% antes de arrancar</div></div><div class="pay-amt mch" id="pay-mo30">USD —</div></div>
+  <div class="pay-stage"><div><strong>Mano de obra — entrega</strong><div class="pay-pct">70% al terminar, contra documentación</div></div><div class="pay-amt mch" id="pay-mo70">USD —</div></div>
+  <div class="checkbox-card" style="margin-top:1rem;">
+    <input type="checkbox" id="facturaA-check" onclick="toggleFacturaA()">
+    <div style="flex:1"><div class="cc-title">Necesito Factura A</div><div class="cc-desc">Suma 21% de IVA sobre las etapas de mano de obra (los equipos ya llevan IVA discriminado por ítem).</div></div>
+    <div class="cc-price" id="facturaA-price">+USD —</div>
+  </div>
+  <div class="pay-stage" id="pay-iva-row" style="display:none;"><div><strong>IVA sobre mano de obra (Factura A)</strong></div><div class="pay-amt mch" id="pay-iva-amt">USD —</div></div>
+</section>
+
+<section class="section-light" id="condiciones">
+  <div class="section-header">
+    <span class="section-num mch">10</span>
+    <h2>Condiciones generales</h2>
+  </div>
+  <ul style="list-style:none; font-size:0.9rem;">
+    <li style="padding:0.6rem 0; border-bottom:1px solid rgba(20,30,97,.1);">Validez de esta propuesta: <strong>15 días corridos</strong> desde la fecha de emisión.</li>
+    <li style="padding:0.6rem 0; border-bottom:1px solid rgba(20,30,97,.1);">Precios en USD referenciados a TC BNA oficial del día — materiales sujetos a cotización vigente al momento de la compra.</li>
+    <li style="padding:0.6rem 0; border-bottom:1px solid rgba(20,30,97,.1);">Este proyecto <strong>no incluye obra eléctrica</strong> — ya está resuelta por terceros. Nova Domus especifica y certifica esa parte, no la ejecuta.</li>
+    <li style="padding:0.6rem 0; border-bottom:1px solid rgba(20,30,97,.1);">Visitas técnicas de relevamiento y puesta en marcha incluidas en el valor de mano de obra.</li>
+    <li style="padding:0.6rem 0; border-bottom:1px solid rgba(20,30,97,.1);">Cualquier rubro adicional no contemplado se cotiza como ampliación aparte.</li>
+    <li style="padding:0.6rem 0;">12 meses de garantía sobre instalación y programación desde la entrega documentada.</li>
+  </ul>
+</section>
+
+<section id="respaldo">
+  <div class="section-header">
+    <span class="section-num mch">11</span>
+    <h2>Con quién trabajamos</h2>
+    <p>Tocá cada marca para ver por qué es relevante a nivel mundial y por qué la elegimos.</p>
+  </div>
+  <div class="pills" id="brand-pills"></div>
+  <div class="brand-detail" id="brand-detail"></div>
+</section>
+
+<section class="section-light" id="faq">
+  <div class="section-header">
+    <span class="section-num mch">12</span>
+    <h2>Preguntas frecuentes</h2>
+  </div>
+  <div id="faq-list"></div>
+</section>
+
+<section id="cta">
+  <div class="section-header" style="text-align:center; margin:0 auto;">
+    <span class="section-num mch">13</span>
+    <h2>¿Avanzamos?</h2>
+    <p style="margin:0 auto;">Con un mensaje confirmás el camino elegido y arrancamos el cronograma de obra.</p>
+  </div>
+  <div class="accept-check">
+    <input type="checkbox" id="accept-check" onchange="document.getElementById('btn-accept').disabled=!this.checked">
+    <span>Entiendo que esta propuesta tiene validez de 15 días y que el precio final se ajusta a la cotización del TC oficial al momento del pago.</span>
+  </div>
+  <button class="btn-accept" id="btn-accept" disabled onclick="sendWhatsapp()">Aceptar propuesta — enviar por WhatsApp</button>
+</section>
+
+<footer>
+  <p>Un teléfono, una empresa que responde. <span class="py-foot">DEL CABLE A LA APP</span></p>
+  <p style="margin-top:0.5rem; font-family:'Michroma',sans-serif; letter-spacing:0.06em;">NOVA DOMUS</p>
+  <p style="margin-top:0.3rem;">NDWD SAS · Av. Colón 3835, Córdoba, Argentina</p>
+  <p style="margin-top:0.3rem;">Propuesta generada para Casa Hangar · Villa General Belgrano</p>
+  <p class="py-foot" style="margin-top:0.3rem;">PY-2026-009</p>
+  <p style="margin-top:0.3rem;">MIEMBRO CEDIA</p>
+</footer>
+<script>
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1021 1024"><path d="M0 0 C64.68 0 129.36 0 196 0 C196 0.66 196 1.32 196 2 C196.99 2 197.98 2 199 2 C201.063 5.912 202.837 9.48 204.164 13.715 C206.932 22.217 210.938 30.298 214.605 38.44 C215.617 40.69 216.623 42.943 217.629 45.195 C217.937 45.875 218.246 46.554 218.563 47.254 C219.914 50.282 221.047 53.166 221.961 56.363 C223.302 61.055 225.133 65.496 227 70 C141.664 70.302 56.325 69.296 -29 68 C-28.34 64.431 -27.48 61.697 -25.75 58.5 C-23.805 54.732 -22.168 50.974 -20.688 47 C-18.616 41.475 -16.335 36.076 -13.938 30.688 C-13.773 30.317 -13.773 30.317 -12.942 28.443 C-11.332 24.849 -9.666 21.299 -7.887 17.785 C-6.389 14.824 -5.065 11.851 -3.875 8.75 C-2.705 5.713 -1.463 2.927 0 0 Z " fill="#0D152C" transform="translate(420,771)"/><path d="M0 0 C20.219 -0.187 40.437 -0.328 60.657 -0.414 C70.045 -0.456 79.433 -0.512 88.822 -0.604 C97.005 -0.683 105.188 -0.735 113.372 -0.753 C117.705 -0.763 122.037 -0.788 126.369 -0.846 C130.45 -0.9 134.529 -0.917 138.61 -0.905 C140.105 -0.907 141.6 -0.923 143.095 -0.954 C154.358 -1.174 154.358 -1.174 158.267 1.62 C160.049 3.654 161.513 5.745 163 8 C163.998 9.093 165.025 10.16 166.082 11.195 C166.588 11.701 167.094 12.207 167.615 12.728 C168.142 13.25 168.668 13.771 169.211 14.308 C169.787 14.883 170.364 15.458 170.958 16.051 C172.193 17.282 173.429 18.513 174.667 19.742 C176.623 21.685 178.576 23.632 180.528 25.579 C184.662 29.701 188.799 33.82 192.938 37.938 C197.759 42.735 202.578 47.534 207.394 52.338 C209.322 54.259 211.253 56.178 213.184 58.096 C214.355 59.263 215.525 60.43 216.695 61.597 C216.965 61.865 216.965 61.865 218.334 63.22 C219.575 64.461 220.791 65.728 222 67 C222 67.33 222 67.66 222 68 C192.846 68.912 163.696 69.284 134.529 69.532 C129.933 69.572 125.336 69.617 120.74 69.661 C90.492 69.949 60.248 70.061 30 70 C29.737 69.332 29.473 68.665 29.202 67.977 C28.85 67.091 28.499 66.205 28.136 65.292 C27.791 64.418 27.445 63.544 27.088 62.644 C25.414 58.576 23.489 54.64 21.562 50.688 C19.055 45.479 16.647 40.32 14.688 34.875 C11.746 26.808 7.819 19.179 4.012 11.492 C3.755 10.966 3.755 10.966 2.449 8.305 C2.214 7.83 2.214 7.83 1.022 5.429 C0 3 0 3 0 0 Z " fill="#0D152C" transform="translate(655,771)"/><path d="M0 0 C51.81 0 103.62 0 157 0 C156.208 3.959 155.677 5.953 153.875 9.312 C148.924 18.944 144.707 28.891 141 39.062 C137.359 49.047 132.752 58.496 128 68 C64.31 68 0.62 68 -65 68 C-65 67.34 -65 66.68 -65 66 C-63.531 64.555 -63.531 64.555 -61.5 62.875 C-57.095 59.133 -53.048 55.12 -49 51 C-48.221 50.23 -47.443 49.461 -46.641 48.668 C-44.793 46.801 -42.991 44.928 -41.215 42.996 C-31.216 32.125 -20.779 21.712 -10.285 11.322 C-9.68 10.722 -9.076 10.122 -8.453 9.503 C-7.304 8.362 -6.153 7.223 -4.999 6.087 C-1.113 2.225 -1.113 2.225 0 0 Z " fill="#0D152D" transform="translate(225,771)"/><path d="M0 0 C7.87 6.746 7.87 6.746 10.719 9.84 C11.341 10.511 11.964 11.182 12.605 11.873 C13.231 12.554 13.856 13.236 14.5 13.938 C26.584 27.031 26.584 27.031 32.75 32.188 C36.573 35.486 39.908 39.116 43.28 42.869 C47.731 47.785 52.378 52.495 57.062 57.188 C57.813 57.943 58.564 58.698 59.338 59.476 C60.042 60.179 60.747 60.881 61.473 61.605 C61.789 61.921 61.789 61.921 63.387 63.516 C65 65 65 65 67 66 C67 113.85 67 161.7 67 211 C44.365 204.827 22.285 197.428 0 190 C0 127.3 0 64.6 0 0 Z " fill="#4F6380" transform="translate(138,176)"/><path d="M0 0 C1.955 22.642 3.262 45.286 4 68 C4.028 68.829 4.055 69.658 4.084 70.511 C6.508 145.215 6.508 145.215 -18.414 172.584 C-22.668 177.005 -27.182 181.054 -31.875 185 C-32.636 185.642 -33.397 186.284 -34.182 186.946 C-59.474 208 -59.474 208 -66 208 C-66.223 183.828 -66.444 159.656 -66.631 135.484 C-66.637 134.801 -66.642 134.119 -66.647 133.416 C-66.7 126.567 -66.753 119.717 -66.804 112.868 C-66.903 99.669 -67.008 86.47 -67.159 73.271 C-67.23 66.956 -67.287 60.641 -67.328 54.325 C-67.351 50.937 -67.382 47.548 -67.434 44.16 C-67.487 40.537 -67.509 36.916 -67.523 33.293 C-67.546 32.268 -67.569 31.242 -67.592 30.186 C-67.584 27.694 -67.528 25.434 -67 23 C-64.939 21.024 -64.939 21.024 -62 20 C-60.843 19.561 -59.685 19.122 -58.493 18.669 C-57.146 18.216 -55.796 17.769 -54.445 17.328 C-53.715 17.085 -52.984 16.841 -52.231 16.59 C-49.865 15.804 -47.495 15.027 -45.125 14.25 C-43.498 13.712 -41.871 13.174 -40.245 12.635 C-28.476 8.754 -16.662 5.043 -4.767 1.566 C-3.147 1.047 -1.691 0 0 0 Z " fill="#222E48" transform="translate(205,601)"/><path d="M0 0 C5.217 0.745 9.308 1.597 14.219 3.215 C14.55 3.323 14.55 3.323 16.224 3.869 C18.317 4.553 20.409 5.245 22.5 5.938 C24.592 6.625 26.684 7.311 28.776 7.995 C30.676 8.618 32.573 9.244 34.471 9.871 C37.958 10.987 41.479 11.994 45 13 C52.26 15.31 59.52 17.62 67 20 C67 65.21 67 110.42 67 157 C45.673 164.464 45.673 164.464 37.133 167.025 C33.58 168.131 30.07 169.34 26.562 170.578 C25.319 171.016 24.075 171.455 22.793 171.906 C20.878 172.583 18.965 173.263 17.053 173.947 C15.163 174.623 13.269 175.288 11.375 175.953 C10.822 176.15 10.822 176.15 8.023 177.146 C5 178 5 178 0 178 C0 119.26 0 60.52 0 0 Z " fill="#32415C" transform="translate(138,405)"/><path d="M0 0 C53.46 0 106.92 0 162 0 C160.185 6.049 158.653 11.148 156.125 16.75 C154.08 21.287 152.33 25.841 150.684 30.539 C147.819 38.651 144.511 46.553 141.154 54.474 C140.379 56.306 139.609 58.141 138.84 59.977 C138.39 61.04 137.94 62.103 137.476 63.198 C135.459 68.395 133.763 73.711 132 79 C98.34 79 64.68 79 30 79 C28.35 74.38 26.7 69.76 25 65 C23.212 60.529 21.406 56.073 19.562 51.625 C16.06 43.107 12.654 34.579 9.48 25.934 C7.302 20.061 4.912 14.267 2.538 8.471 C2.209 7.658 1.879 6.845 1.539 6.008 C1.242 5.282 0.945 4.557 0.639 3.809 C0 2 0 2 0 0 Z " fill="#7089A9" transform="translate(438,252)"/><path d="M0 0 C43.89 0 87.78 0 133 0 C124.78 9.59 116.37 18.759 107.375 27.625 C97.346 37.511 97.346 37.511 93.602 41.898 C88.249 48.146 82.248 53.806 76.397 59.582 C70.371 65.538 64.479 71.528 59 78 C57.155 79.845 54.555 79.12 52.101 79.124 C51.253 79.121 50.406 79.117 49.533 79.114 C48.645 79.114 47.758 79.114 46.843 79.114 C43.894 79.113 40.945 79.105 37.996 79.098 C35.957 79.096 33.918 79.094 31.88 79.093 C26.502 79.09 21.125 79.08 15.747 79.069 C10.264 79.058 4.782 79.054 -0.701 79.049 C-11.467 79.038 -22.234 79.021 -33 79 C-32.536 77.583 -32.07 76.166 -31.603 74.75 C-31.344 73.961 -31.084 73.172 -30.817 72.359 C-29.606 68.862 -28.139 65.5 -26.625 62.125 C-26.472 61.778 -26.472 61.778 -25.696 60.024 C-23.976 56.146 -22.216 52.288 -20.438 48.438 C-18.227 43.611 -16.254 38.701 -14.303 33.766 C-10.48 24.123 -6.341 14.619 -1.98 5.207 C-1 3 -1 3 0 0 Z " fill="#7189A9" transform="translate(640,252)"/><path d="M0 0 C43.56 0 87.12 0 132 0 C133.65 4.29 135.3 8.58 137 13 C138.19 15.411 139.38 17.822 140.613 20.211 C144.536 28.1 148.106 36.24 151 44.562 C153.468 51.607 156.792 58.271 160 65 C160.986 67.08 161.966 69.163 162.938 71.25 C163.338 72.101 163.739 72.952 164.152 73.828 C165 76 165 76 165 79 C153.534 79.186 142.069 79.328 130.602 79.414 C125.277 79.456 119.953 79.513 114.628 79.604 C109.487 79.691 104.346 79.738 99.203 79.759 C97.245 79.774 95.286 79.803 93.328 79.846 C77.977 80.172 77.977 80.172 73.065 77.261 C71.059 75.275 69.542 73.353 68 71 C65.519 68.516 63.036 66.035 60.535 63.57 C56.251 59.333 52.139 55.076 48.289 50.441 C47 49 47 49 44.562 47.062 C42.323 45.26 40.706 43.572 38.861 41.394 C34.993 36.927 30.869 32.776 26.66 28.633 C25.088 27.073 23.516 25.513 21.943 23.953 C19.487 21.522 17.029 19.092 14.569 16.665 C12.178 14.304 9.794 11.938 7.41 9.57 C6.667 8.84 5.923 8.11 5.157 7.358 C4.479 6.683 3.8 6.008 3.102 5.313 C2.501 4.72 1.9 4.127 1.282 3.515 C0 2 0 2 0 0 Z " fill="#7189A9" transform="translate(265,252)"/><path d="M0 0 C0 38.28 0 76.56 0 116 C-14.748 121.53 -29.601 126.902 -44.768 131.176 C-51.638 133.129 -58.386 135.435 -65.136 137.766 C-65.986 138.056 -66.835 138.346 -67.711 138.645 C-68.089 138.775 -68.089 138.775 -70.001 139.437 C-72 140 -72 140 -75 140 C-75.186 131.255 -75.328 122.511 -75.414 113.764 C-75.456 109.702 -75.513 105.642 -75.604 101.581 C-75.691 97.658 -75.738 93.736 -75.759 89.813 C-75.774 88.319 -75.803 86.826 -75.846 85.333 C-76.168 73.778 -76.168 73.778 -73.691 70.006 C-71.884 68.459 -71.884 68.459 -69.675 66.931 C-66.13 64.372 -63.213 61.353 -60.157 58.239 C-58.85 56.924 -57.542 55.61 -56.235 54.297 C-55.895 53.954 -55.895 53.954 -54.178 52.222 C-52.037 50.064 -49.892 47.909 -47.747 45.756 C-41.654 39.638 -35.566 33.514 -29.482 27.386 C-25.749 23.627 -22.011 19.871 -18.27 16.119 C-16.846 14.689 -15.425 13.258 -14.005 11.824 C-12.03 9.83 -10.049 7.842 -8.067 5.856 C-7.479 5.259 -6.891 4.662 -6.285 4.047 C-2.228 0 -2.228 0 0 0 Z " fill="#34425C" transform="translate(797,282)"/><path d="M0 0 C4.125 0.993 7.99 2.459 11.953 3.965 C14.872 4.956 17.798 5.685 20.792 6.408 C24.963 7.526 29.002 9.037 33.062 10.5 C34.782 11.117 36.502 11.731 38.223 12.344 C38.598 12.479 38.598 12.479 40.496 13.162 C43.632 14.211 46.821 15.092 50 16 C57.59 18.64 65.18 21.28 73 24 C73 62.94 73 101.88 73 142 C72.34 142 71.68 142 71 142 C69.681 140.66 69.681 140.66 68.1 138.729 C63.678 133.534 58.868 128.754 54.029 123.954 C52.369 122.307 50.712 120.656 49.056 119.005 C45.54 115.501 42.02 112 38.5 108.5 C34.415 104.439 30.332 100.376 26.253 96.309 C24.634 94.696 23.012 93.086 21.389 91.477 C16.571 86.681 11.847 81.868 7.505 76.627 C5.85 74.838 4.063 73.493 2.094 72.062 C-1.403 68.589 -1.636 65.038 -1.719 60.312 C-1.71 57.205 -1.609 54.105 -1.5 51 C-1.468 49.357 -1.438 47.714 -1.412 46.072 C-1.335 41.871 -1.215 37.673 -1.079 33.475 C-1.002 31.062 -0.935 28.649 -0.871 26.236 C-0.64 17.488 -0.355 8.744 0 0 Z " fill="#212C45" transform="translate(724,564)"/><path d="M0 0 C0.66 0 1.32 0 2 0 C2 37.62 2 75.24 2 114 C-3.301 113.243 -7.078 112.432 -11.973 110.637 C-12.618 110.403 -13.263 110.17 -13.927 109.93 C-15.975 109.189 -18.019 108.439 -20.062 107.688 C-28.877 104.456 -37.643 101.46 -46.698 98.954 C-51.823 97.473 -56.812 95.665 -61.812 93.812 C-62.79 93.457 -63.768 93.102 -64.775 92.736 C-71.863 90.137 -71.863 90.137 -73 89 C-73.094 86.975 -73.117 84.947 -73.114 82.92 C-73.113 81.618 -73.113 80.317 -73.113 78.976 C-73.108 77.545 -73.103 76.115 -73.098 74.684 C-73.096 73.228 -73.094 71.772 -73.093 70.316 C-73.09 66.477 -73.08 62.639 -73.069 58.8 C-73.058 54.885 -73.054 50.971 -73.049 47.057 C-73.038 39.371 -73.021 31.686 -73 24 C-71.743 23.52 -70.486 23.041 -69.228 22.564 C-68.527 22.298 -67.827 22.031 -67.106 21.757 C-64.036 20.654 -60.911 19.86 -57.75 19.062 C-51.917 17.57 -46.244 15.795 -40.586 13.734 C-38 13 -38 13 -35.727 13.141 C-32.182 12.958 -29.697 11.625 -26.511 10.127 C-22.164 8.176 -17.647 6.738 -13.125 5.25 C-12.657 5.092 -12.657 5.092 -10.289 4.293 C-9.84 4.144 -9.84 4.144 -7.57 3.391 C-6.764 3.123 -5.957 2.855 -5.125 2.579 C-3 2 -3 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#2C3953" transform="translate(795,437)"/></svg>`;
+document.getElementById('hero-logo').innerHTML = LOGO_SVG;
+document.getElementById('badgelogo').innerHTML = LOGO_SVG;
+
+const DATA = {
+  c4: { label:"CONTROL4 + ARAKNIS",
+    rubros:{
+      iluminacion:{label:"Iluminación",equipo:13917.29,mo:3847.29,prog:1776.46,total:19541.04,detail:"Keypads Square dual-load Control4 en ambientes principales, puck+keypad configurable en cocina, Shelly Gen3 vía driver en secundarios, panel DIN 8 canales para exterior y ventiladores."},
+      redes:{label:"Redes",equipo:6644.87,mo:292.58,prog:693.75,total:7631.20,detail:"Router Araknis AN-220-RT, switch 420 Series 24p PoE+ completo, 6 access points WiFi6 AN-520-AP-I."},
+      seguridad:{label:"Seguridad",equipo:5055.43,mo:1796.21,prog:685.16,total:7536.80,detail:"Panel AXPro 96 zonas, 8 detectores de movimiento, 2 sensores de apertura, 2 teclados, sirena exterior, NVR AcuSense 16ch, 14 cámaras, videoportero IP, cerradura Yale, relés de portón."},
+      climatizacion:{label:"Climatización",equipo:1522.33,mo:180.60,prog:170.29,total:1873.23,detail:"6x Sensibo Air Smart AC Controller B2B, uno por split."},
+      audio:{label:"Audio",equipo:5301.30,mo:435.00,prog:573.63,total:6309.93,detail:"6 parlantes Episode in-ceiling en 3 zonas, 3 amplificadores Triad TS-SA1-200 (uno por zona)."},
+      core:{label:"CORE",equipo:3693.28,mo:154.70,prog:384.80,total:4232.78,detail:"Controlador Control4 CORE 3 + pantalla táctil T4 8\" en el ingreso principal."},
+    }},
+  ha:{ label:"HOME ASSISTANT + OMADA",
+    rubros:{
+      iluminacion:{label:"Iluminación",equipo:5364.47,mo:4597.86,prog:996.23,total:10958.57,detail:"Shelly Dimmer Gen4 en zonas de escena/reposo, Shelly 2PM/i4/1PM Mini Gen4 en el resto, panel DIN Shelly Pro 4PM para exterior y ventiladores."},
+      redes:{label:"Redes",equipo:1428.87,mo:292.58,prog:172.15,total:1893.60,detail:"Router TP-Link ER7212PC (8 PoE + controller), switch TL-SG3428MP 24p PoE+, 6 access points EAP650 WiFi6."},
+      seguridad:{label:"Seguridad",equipo:5055.43,mo:1796.21,prog:685.16,total:7536.80,detail:"Idéntico al camino Control4 — la seguridad no cambia entre ecosistemas."},
+      climatizacion:{label:"Climatización",equipo:1522.33,mo:180.60,prog:170.29,total:1873.23,detail:"6x Sensibo Air Smart AC Controller B2B, uno por split — idéntico en ambos caminos."},
+      audio:{label:"Audio",equipo:2510.36,mo:305.00,prog:281.54,total:3096.90,detail:"6 parlantes Episode in-ceiling en 3 zonas, 1 amplificador VSSL A.3x multi-zona (3 zonas en una sola caja)."},
+      core:{label:"CORE",equipo:1256.30,mo:182.68,prog:143.90,total:1582.87,detail:"Home Assistant Green + antena SkyConnect Zigbee/Thread + Shelly Wall Display XL en el ingreso principal."},
+    }},
+  halo:{equipo:656.09,mo:30.00,prog:68.61,total:754.69}
+};
+const RUBRO_ORDER=['iluminacion','redes','seguridad','climatizacion','audio','core'];
+const RUBRO_COLORS={iluminacion:'#C8A96E',redes:'#7089A9',seguridad:'#B5453A',climatizacion:'#4F6380',audio:'#8698AE',core:'#34425C'};
+let currentStack='c4', haloActive=false, facturaAActive=false;
+function fmt(n){return 'USD '+Math.ceil(n).toLocaleString('es-AR');}
+function stackTotal(k,inclHalo){let t=0;RUBRO_ORDER.forEach(r=>t+=DATA[k].rubros[r].total);if(inclHalo&&k==='c4'&&haloActive)t+=DATA.halo.total;return t;}
+function stackEquipoMO(k,inclHalo){let equipo=0,mo=0;RUBRO_ORDER.forEach(r=>{equipo+=DATA[k].rubros[r].equipo;mo+=DATA[k].rubros[r].mo+DATA[k].rubros[r].prog;});if(inclHalo&&k==='c4'&&haloActive){equipo+=DATA.halo.equipo;mo+=DATA.halo.mo+DATA.halo.prog;}return{equipo,mo};}
+
+function selectStack(stack){
+  currentStack=stack;
+  document.querySelectorAll('.stack-card').forEach(c=>c.classList.toggle('active',c.dataset.stack===stack));
+  document.getElementById('halo-card').style.display=(stack==='c4')?'flex':'none';
+  if(stack!=='c4'){haloActive=false;document.getElementById('halo-check').checked=false;}
+  document.getElementById('ilum-stack-label').textContent=stack==='c4'?'Con Control4:':'Con Home Assistant:';
+  document.getElementById('inv-stack-name').textContent=DATA[stack].label;
+  document.getElementById('core-title').textContent=stack==='c4'?'CORE 3 + Pantalla táctil':'Home Assistant Green + SkyConnect';
+  document.getElementById('core-desc').textContent=DATA[stack].rubros.core.detail;
+  document.getElementById('eco-center-2').textContent=stack==='c4'?'Control4':'Home Assistant';
+  document.getElementById('audio-value').textContent=stack==='c4'
+    ?'Con Triad, cada zona tiene su propio amplificador dedicado — máxima independencia, a un costo mayor por unidad extra.'
+    :'Con VSSL, un solo amplificador resuelve las 3 zonas en una caja — más eficiente en espacio y costo, misma calidad de audio distribuido.';
+  renderAll();
+}
+function renderAll(){renderPriceTags();renderInversion();renderPago();renderRedes();}
+function renderPriceTags(){
+  document.getElementById('price-tag-c4').innerHTML=fmt(stackTotal('c4',true))+'<small>Inversión total estimada</small>';
+  document.getElementById('price-tag-ha').innerHTML=fmt(stackTotal('ha',false))+'<small>Inversión total estimada</small>';
+}
+function renderInversion(){
+  const stack=DATA[currentStack]; const total=stackTotal(currentStack,true);
+  let barHTML='',legendHTML='',accHTML='';
+  RUBRO_ORDER.forEach(r=>{
+    const row=stack.rubros[r]; const pct=(row.total/total*100).toFixed(1);
+    barHTML+=`<div style="width:${pct}%;background:${RUBRO_COLORS[r]};"></div>`;
+    legendHTML+=`<div><span class="dot" style="background:${RUBRO_COLORS[r]};"></span>${row.label} — ${fmt(row.total)}</div>`;
+    accHTML+=`<div class="accordion-item" id="acc-${r}"><div class="accordion-head" onclick="toggleAccordion('${r}')"><span>${row.label}</span><span class="ah-price">${fmt(row.total)} <span class="acc-arrow">▾</span></span></div><div class="accordion-body" id="accbody-${r}"><div class="accordion-body-inner">${row.detail}</div></div></div>`;
+  });
+  if(currentStack==='c4'&&haloActive){
+    barHTML+=`<div style="width:${(DATA.halo.total/total*100).toFixed(1)}%;background:#fff;"></div>`;
+    legendHTML+=`<div><span class="dot" style="background:#fff;"></span>Halo Remote (opcional) — ${fmt(DATA.halo.total)}</div>`;
+  }
+  document.getElementById('rubro-bar').innerHTML=barHTML;
+  document.getElementById('rubro-legend').innerHTML=legendHTML;
+  document.getElementById('accordion-rubros').innerHTML=accHTML;
+  document.getElementById('total-final').textContent=fmt(total);
+}
+function toggleAccordion(r){
+  const item=document.getElementById('acc-'+r),body=document.getElementById('accbody-'+r);
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.accordion-body').forEach(b=>b.style.maxHeight=null);
+  document.querySelectorAll('.accordion-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}
+}
+window.addEventListener('resize',()=>{document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>{b.style.maxHeight=b.scrollHeight+'px';});});
+function toggleHalo(e){haloActive=document.getElementById('halo-check').checked;document.getElementById('halo-price').textContent='+'+fmt(DATA.halo.total);renderAll();}
+document.getElementById('halo-price').textContent='+'+fmt(DATA.halo.total);
+function renderPago(){
+  const em=stackEquipoMO(currentStack,true);
+  document.getElementById('pay-equipo').textContent=fmt(em.equipo);
+  document.getElementById('pay-mo30').textContent=fmt(em.mo*0.30);
+  document.getElementById('pay-mo70').textContent=fmt(em.mo*0.70);
+  if(facturaAActive){const iva=em.mo*0.21;document.getElementById('pay-iva-row').style.display='flex';document.getElementById('pay-iva-amt').textContent=fmt(iva);document.getElementById('facturaA-price').textContent='+'+fmt(iva);}
+  else{document.getElementById('pay-iva-row').style.display='none';document.getElementById('facturaA-price').textContent='+'+fmt(em.mo*0.21);}
+}
+function toggleFacturaA(){facturaAActive=document.getElementById('facturaA-check').checked;renderPago();}
+function setRedesView(view){
+  document.querySelectorAll('#redes .switch2 button').forEach((b,i)=>b.classList.toggle('active',(i===0&&view==='actual')||(i===1&&view==='generico')));
+  const panel=document.getElementById('redes-panel');
+  if(view==='generico'){panel.innerHTML=`<ul><li class="bad">Un solo router doméstico sin segmentar tráfico</li><li class="bad">Se satura con muchos dispositivos conectados a la vez</li><li class="bad">Sin QoS — las cámaras compiten por ancho de banda</li><li class="bad">Cobertura débil en ambientes lejanos (hangar, exteriores)</li></ul>`;}
+  else{const brand=currentStack==='c4'?'Araknis':'Omada';panel.innerHTML=`<ul><li class="good">Red profesional ${brand} con 6 access points WiFi6</li><li class="good">Tráfico de seguridad/domótica separado del de invitados</li><li class="good">Ancho de banda garantizado para las 14 cámaras</li><li class="good">Mesh real con roaming — la señal no se corta al moverte</li></ul>`;}
+}
+function setSegView(view){
+  document.querySelectorAll('#seguridad .switch2 button').forEach((b,i)=>b.classList.toggle('active',(i===0&&view==='comun')||(i===1&&view==='nd')));
+  const panel=document.getElementById('seg-panel');
+  if(view==='comun'){panel.innerHTML=`<ul><li class="bad">Alarma cableada tradicional, sin monitoreo inteligente</li><li class="bad">Cámaras que graban movimiento de ramas y mascotas por igual</li><li class="bad">Sin distinción entre persona, vehículo o animal</li></ul>`;}
+  else{panel.innerHTML=`<ul><li class="good">Panel AXPro inalámbrico — sin cableado adicional</li><li class="good">Cámaras AcuSense: distinguen personas y vehículos</li><li class="good">Videoportero IP + cerradura Yale integrados al mismo sistema</li></ul>`;}
+}
+setRedesView('actual'); setSegView('nd');
+
+const SCENES={
+  manana:{bg:'linear-gradient(135deg,#FFDCA8,#FFF3D6)',icon:'🌅',text:'Mañana: luces cálidas al 70%, cortinas suben solas con el despertador.',bright:70,temp:2700},
+  dia:{bg:'linear-gradient(135deg,#BEE3F8,#EAF6FF)',icon:'☀️',text:'Día: luz natural máxima, iluminación artificial casi apagada.',bright:40,temp:5000},
+  noche:{bg:'linear-gradient(135deg,#2C3953,#0B132B)',icon:'🌙',text:'Noche: escenas bajas cálidas, cortinas bajan solas, exterior con sensor de movimiento.',bright:25,temp:2700},
+  cine:{bg:'linear-gradient(135deg,#141E61,#0B132B)',icon:'🎬',text:'Cine: luces al mínimo, guía de piso encendida, audio en modo Home Theater.',bright:8,temp:2700},
+  fiesta:{bg:'linear-gradient(135deg,#C8A96E,#8698AE)',icon:'🎉',text:'Fiesta: iluminación exterior + galería al máximo, música sincronizada en zonas sociales.',bright:100,temp:4000},
+};
+function setScene(key){
+  document.querySelectorAll('.scene-tab').forEach(t=>t.classList.toggle('active',t.dataset.scene===key));
+  const s=SCENES[key];
+  document.getElementById('scene-visual').style.background=s.bg;
+  document.querySelector('#scene-visual .scene-icon').textContent=s.icon;
+  document.getElementById('scene-desc').textContent=s.text;
+  document.getElementById('brightness-slider').value=s.bright;
+  document.getElementById('temp-slider').value=s.temp;
+  document.getElementById('brightness-val').textContent=s.bright+'%';
+  document.getElementById('temp-val').textContent=s.temp+'K';
+}
+function updateBrightness(v){document.getElementById('brightness-val').textContent=v+'%';}
+function updateTemp(v){document.getElementById('temp-val').textContent=v+'K';}
+function updateClima(v){
+  document.getElementById('clima-temp-val').textContent=v+'°C';
+  const diff=Math.abs(24-v); const ahorro=Math.max(5,18-diff*1.5).toFixed(0);
+  document.getElementById('clima-ahorro').innerHTML=`Con climatización inteligente ajustada a ${v}°C, el ahorro estimado ronda un <strong>${ahorro}%</strong> del consumo de climatización anual. <em>Valor referencial, no es una promesa de retorno.</em>`;
+}
+
+const BRANDS=[
+  {name:'Nova Domus',fixed:true},{name:'CEDIA Member',fixed:true},
+  {name:'Control4',text:'Líder mundial en automatización residencial premium, con red de integradores certificados en más de 100 países. Lo elegimos por su ecosistema cerrado confiable y soporte de fábrica de largo plazo.'},
+  {name:'Araknis',text:'Redes diseñadas específicamente para integración residencial de alta gama, misma casa matriz que Control4 (SnapOne). La elegimos por su compatibilidad garantizada con todo el ecosistema.'},
+  {name:'Home Assistant',text:'El sistema de automatización de código abierto más grande del mundo, con comunidad activa y sin ataduras a un fabricante. Lo elegimos por su flexibilidad total y ausencia de licencias.'},
+  {name:'TP-Link Omada',text:'Infraestructura de red profesional a precio accesible, gestión centralizada por controlador. La elegimos por su relación prestación/inversión en proyectos Home Assistant.'},
+  {name:'Hikvision',text:'Uno de los mayores fabricantes de videovigilancia del mundo. Lo elegimos por su tecnología AcuSense de detección inteligente y su probada confiabilidad de hardware.'},
+  {name:'Shelly',text:'Referente europeo en dispositivos de domótica WiFi/Zigbee de bajo perfil. Los elegimos por su compatibilidad dual (Home Assistant nativo + driver para Control4).'},
+  {name:'Yale',text:'Marca centenaria en cerraduras de seguridad, hoy con línea digital conectada. La elegimos por su integración directa a Home Assistant vía hub WiFi propio.'},
+  {name:'Sensibo',text:'Especialista israelí en climatización inteligente para equipos split existentes. Lo elegimos porque no requiere cambiar el aire acondicionado ya instalado.'},
+  {name:'Triad / VSSL',text:'Dos líneas de audio distribuido premium — Triad nativo del ecosistema Control4, VSSL como streaming multi-zona independiente. Elegimos una u otra según el camino tecnológico del proyecto.'},
+];
+document.getElementById('brand-pills').innerHTML=BRANDS.map((b,i)=>`<div class="pill ${b.fixed?'fixed':''}" ${!b.fixed?`onclick="showBrand(${i})"`:''}>${b.name}</div>`).join('');
+function showBrand(i){const b=BRANDS[i];const el=document.getElementById('brand-detail');el.innerHTML=`<strong>${b.name}</strong><br>${b.text}`;el.classList.add('show');}
+
+const FAQS=[
+  {q:'¿Qué pasa si en unos años quiero cambiar de proveedor?',a:'Con Home Assistant, el sistema es abierto — cualquier integrador con conocimiento de HA puede tomar el proyecto. Con Control4, dependés de la red de integradores certificados CEDIA (amplia, pero cerrada). Es una diferencia real que pesa en la decisión.'},
+  {q:'¿Quién administra el sistema día a día?',a:'Nosotros dejamos todo documentado y con acceso completo del cliente. Cualquier ajuste menor se puede hacer desde la app sin depender de nosotros.'},
+  {q:'¿Qué pasa si se cae Internet?',a:'Con Control4, el CORE procesa localmente. Con Home Assistant también corre local — pero el control remoto vía app sí necesita conexión en ambos casos.'},
+  {q:'¿Hay costos recurrentes?',a:'No hay suscripciones obligatorias en ninguno de los dos caminos para el funcionamiento básico.'},
+  {q:'¿Puedo empezar con un camino y cambiar al otro después?',a:'Migrar implica reemplazar hardware de control (no cableado ni sensores/cámaras). Es una ampliación importante — mejor definir el camino antes de avanzar.'},
+];
+document.getElementById('faq-list').innerHTML=FAQS.map((f,i)=>`<div class="faq-item"><div class="accordion-head" onclick="toggleFaq(${i})"><span>${f.q}</span><span class="acc-arrow">▾</span></div><div class="accordion-body" id="faqbody-${i}"><div class="accordion-body-inner">${f.a}</div></div></div>`).join('');
+function toggleFaq(i){const body=document.getElementById('faqbody-'+i);const isOpen=body.style.maxHeight&&body.style.maxHeight!=='0px';document.querySelectorAll('[id^=faqbody-]').forEach(b=>b.style.maxHeight=null);if(!isOpen)body.style.maxHeight=body.scrollHeight+'px';}
+
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('#chapter-nav a');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=Math.min(1,window.scrollY/Math.max(1,h));
+  const circ=144.5;
+  document.getElementById('ring-progress').style.strokeDashoffset=circ-(circ*pct);
+  document.getElementById('progress-badge').classList.toggle('visible', window.scrollY>400);
+  let current='';
+  sections.forEach(s=>{ if(window.scrollY>=s.offsetTop-120) current=s.id; });
+  navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+current));
+});
+document.getElementById('progress-badge').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+function sendWhatsapp(){
+  const stack=DATA[currentStack].label; const total=fmt(stackTotal(currentStack,true));
+  const msg=`Hola! Quiero avanzar con la propuesta PY-2026-009 (Casa Hangar), camino ${stack}, inversión ${total}. Confirmo aceptación.`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+selectStack('c4');
+</script>
+</body>
+</html>
