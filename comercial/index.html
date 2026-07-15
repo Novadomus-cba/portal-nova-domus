@@ -623,54 +623,85 @@ async function loadManoObra(){
 }
 
 // ─── PRICING ─────────────────────────────────────────────────
-function getPVP(item){
-  if(item.precio_sugerido_manual&&TC>0)return parseFloat(item.precio_sugerido_manual)/TC;
-  const s=parseFloat(item.precio_sin_iva)||0;
+// Definiciones (fuente: auditoría de precios 2026-07-14):
+//   costo = precio_sin_iva (lo que NDWD paga, sin IVA)
+//   markup = (precio_final_sin_iva - costo) / costo   ← denominador SIEMPRE costo, nunca costo_con_iva
+//   IVA se calcula al final, nunca se mezcla con costo/markup
+//   comisión = markup_bruto_usd (sin IVA) × 0.30, nunca sobre servicios/MO
+// precio_sugerido_manual ya viene en ARS CON IVA incluido: se pasa a USD (÷TC) y
+// recién ahí se le saca el IVA (÷(1+iva)) para tener la base sin_iva.
+function getSugeridoSinIva(item){
+  const costo=parseFloat(item.precio_sin_iva)||0;
   const iva=parseFloat(item.iva)||0.21;
   const rem=parseFloat(item.remarque)||0.35;
-  return s*(1+rem)*(1+iva);
+  if(item.precio_sugerido_manual&&TC>0){
+    const sugeridoConIvaUsd=parseFloat(item.precio_sugerido_manual)/TC;
+    return sugeridoConIvaUsd/(1+iva);
+  }
+  return costo*(1+rem);
+}
+
+function getPVP(item){
+  // "Precio de lista" que ve el vendedor — con IVA incluido.
+  const iva=parseFloat(item.iva)||0.21;
+  return getSugeridoSinIva(item)*(1+iva);
 }
 
 function calcPrecio(item){
-  const sinIva=parseFloat(item.precio_sin_iva)||0;
+  const costo=parseFloat(item.precio_sin_iva)||0;
   const iva=parseFloat(item.iva)||0.21;
-  const pvp=getPVP(item);
-  const costoConIvaUsd=sinIva*(1+iva);
-  let precioFinal,descuento,alertaB2B=false;
+  const sugeridoSinIva=getSugeridoSinIva(item);
+  const pvp=sugeridoSinIva*(1+iva);
 
+  let precioFinalSinIva,descuento,alertaB2B=false;
   if(clienteTipo==='B2C'){
-    precioFinal=pvp*0.95; descuento=5;
+    precioFinalSinIva=sugeridoSinIva*0.95; descuento=5;
   }else{
-    const t25=pvp*0.75;
-    const min20=sinIva*1.20*(1+iva);
-    const max30=sinIva*1.30*(1+iva);
-    if(t25<min20){precioFinal=min20;descuento=Math.round((1-min20/pvp)*100);alertaB2B=true;}
-    else if(t25>max30){precioFinal=max30;descuento=Math.round((1-max30/pvp)*100);}
-    else{precioFinal=t25;descuento=25;}
+    const objetivo=sugeridoSinIva*0.75;
+    const markupObjetivo=costo>0?(objetivo-costo)/costo:0;
+    const piso=costo*1.20;
+    const techo=costo*1.30;
+    if(markupObjetivo<0.20){
+      // Nunca se cae a precio B2C: se sube al piso exacto de 20% de markup.
+      precioFinalSinIva=piso;
+      descuento=Math.round((1-piso/sugeridoSinIva)*100);
+      alertaB2B=true;
+    }else if(markupObjetivo>0.30){
+      precioFinalSinIva=techo;
+      descuento=Math.round((1-techo/sugeridoSinIva)*100);
+    }else{
+      precioFinalSinIva=objetivo;
+      descuento=25;
+    }
   }
 
-  const finalSinIva=precioFinal/(1+iva);
-  const margenBruto=finalSinIva-sinIva;
-  const comision=margenBruto*0.30;
-  const costoArs=costoConIvaUsd*TC;
-  const finalArs=precioFinal*TC;
-  const margenVenta=costoArs>0?(finalArs-costoArs)/finalArs:0;
-  const markup=costoConIvaUsd>0?(precioFinal/costoConIvaUsd)-1:0;
+  const precioFinalConIva=precioFinalSinIva*(1+iva);
+  const markupBrutoUsd=precioFinalSinIva-costo;
+  const markup=costo>0?markupBrutoUsd/costo:0;
+  const comision=markupBrutoUsd*0.30;
 
-  return{pvp,precioFinal,descuento,alertaB2B,margenVenta,markup,comision,costoArs,finalSinIva};
+  return{pvp,precioFinal:precioFinalConIva,precioFinalSinIva,descuento,alertaB2B,markup,markupBrutoUsd,comision};
 }
 
 function isService(item){return item.marca==='NOVA DOMUS'}
 
+// Siempre neto — el IVA (si corresponde por Factura A) se discrimina aparte al mostrar/guardar.
 function calcServicePrice(item){
   const sinIva=parseFloat(item.precio_sin_iva)||0;
-  const iva=parseFloat(item.iva)||0.21;
-  if(facturaA)return{precio:sinIva*(1+iva),label:'con IVA'};
-  return{precio:sinIva,label:'sin IVA'};
+  return{precio:sinIva,label:facturaA?'+ IVA 21%':'sin IVA'};
 }
 
 function getInvServicePrice(item){
+  // GROSS (lo que paga el cliente) — para mostrar en el carrito.
+  const iva=facturaA?0.21:0;
   if(item.precioOverride!=null)return item.precioOverride;
+  return calcServicePrice(item).precio*(1+iva);
+}
+
+function getInvServicePriceSinIva(item){
+  // NETO — para persistir en subtotal_usd/precio_final_unitario_usd.
+  const iva=facturaA?0.21:0;
+  if(item.precioOverride!=null)return item.precioOverride/(1+iva);
   return calcServicePrice(item).precio;
 }
 
@@ -888,9 +919,15 @@ function changeServicioQty(id,delta){
 }
 
 function getServicioTotal(s){
+  // GROSS (lo que paga el cliente) — para mostrar en la UI.
   const base=(s.precioUsd||0)*(s.cantidad||1);
   if(facturaA)return base*1.21;
   return base;
+}
+
+function getServicioTotalSinIva(s){
+  // NETO — para persistir. s.precioUsd ya viene sin IVA (de calcMoPrice).
+  return(s.precioUsd||0)*(s.cantidad||1);
 }
 
 function renderServicioRow(id){
@@ -991,7 +1028,7 @@ function renderCart(){
 
   document.getElementById('cart-devices-label').style.display=devices.length?'':'none';
   document.getElementById('cart-devices').innerHTML=devices.map(item=>{
-    const{pvp,precioFinal,descuento,alertaB2B,margenVenta,markup,comision}=calcPrecio(item);
+    const{pvp,precioFinal,descuento,alertaB2B,markup,comision}=calcPrecio(item);
     const override=item.precioOverride!=null;
     const displayPrice=override?item.precioOverride:precioFinal;
     const displayDesc=override?'precio editado manualmente':`${descuento}% off lista`;
@@ -1024,7 +1061,7 @@ function renderCart(){
           ${override?`<button class="btn btn-secondary btn-sm" onclick="clearOverride(${item.id})" title="Restaurar precio calculado">↺</button>`:''}
         </div>
       </div>
-      <div class="cart-margin">Margen: <span>${Math.round(margenVenta*100)}%</span> · Markup: <span>${Math.round(markup*100)}%</span> · Comisión: <span>${fUSD(comision*item.qty)}</span></div>
+      <div class="cart-margin">Markup: <span>${Math.round(markup*100)}%</span> · Comisión: <span>${fUSD(comision*item.qty)}</span></div>
       ${alertaB2B&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':''}
       ${!calcMoPrice(item)?'<div class="cart-alert">⚠️ Sin tarifa MO fija — agregá el servicio de instalación manualmente en Servicios si corresponde</div>':''}
     </div>`;
@@ -1085,30 +1122,47 @@ function clearOverride(id){
 }
 
 function getItemPrice(item){
+  // GROSS (lo que paga el cliente) — para mostrar en el carrito.
   if(item.precioOverride!=null)return item.precioOverride;
   return calcPrecio(item).precioFinal;
+}
+
+function getItemPriceSinIva(item){
+  // NETO — para persistir en subtotal_usd/precio_final_unitario_usd.
+  const iva=parseFloat(item.iva)||0.21;
+  if(item.precioOverride!=null)return item.precioOverride/(1+iva);
+  return calcPrecio(item).precioFinalSinIva;
 }
 
 function renderSummary(){
   const devices=cart.filter(i=>!isService(i));
   const services=cart.filter(i=>isService(i));
-  const totalDevUSD=devices.reduce((s,i)=>s+getItemPrice(i)*i.qty,0);
-  const totalInvSvcUSD=services.reduce((s,i)=>s+getInvServicePrice(i)*i.qty,0);
-  const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
+  // Neto — mismo valor que se va a guardar como subtotal_dispositivos_usd/subtotal_mo_usd/total_usd.
+  const totalDevUSD=devices.reduce((s,i)=>s+getItemPriceSinIva(i)*i.qty,0);
+  const totalInvSvcUSD=services.reduce((s,i)=>s+getInvServicePriceSinIva(i)*i.qty,0);
+  const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotalSinIva(x),0);
   const totalSvcUSD=totalInvSvcUSD+totalManSvcUSD;
   const totalUSD=totalDevUSD+totalSvcUSD;
   const totalComision=devices.reduce((s,i)=>{
     if(i.precioOverride!=null)return s;
     return s+calcPrecio(i).comision*i.qty;
   },0);
-  const totalARS=totalUSD*TC;
+
+  // IVA discriminado: dispositivos siempre 21%; servicios solo con Factura A.
+  const devIva=totalDevUSD*0.21;
+  const svcIva=facturaA?totalSvcUSD*0.21:0;
+  const totalConIva=totalDevUSD+devIva+totalSvcUSD+svcIva;
+  const totalARS=totalConIva*TC;
 
   let rows=`
-    <div class="summary-row"><span>Dispositivos</span><span>${fUSD(totalDevUSD)}</span></div>
-    ${totalSvcUSD?`<div class="summary-row"><span>Servicios</span><span>${fUSD(totalSvcUSD)}</span></div>`:''}
+    <div class="summary-row"><span>Dispositivos · neto</span><span>${fUSD(totalDevUSD)}</span></div>
+    <div class="summary-row"><span>Dispositivos · IVA 21%</span><span>${fUSD(devIva)}</span></div>
+    ${totalSvcUSD?`<div class="summary-row" style="margin-top:4px"><span>Servicios · neto</span><span>${fUSD(totalSvcUSD)}</span></div>
+    <div class="summary-row"><span>Servicios · IVA 21%${facturaA?'':' (sin Factura A)'}</span><span>${fUSD(svcIva)}</span></div>`:''}
     <hr class="summary-divider">
-    <div class="summary-total"><span>Total USD</span><span>${fUSD(totalUSD)}</span></div>
-    <div class="summary-row" style="margin-top:4px"><span>Ref. ARS (TC ${fARS(TC)})</span><span>${fARS(totalARS)}</span></div>`;
+    <div class="summary-total"><span>Total c/IVA</span><span>${fUSD(totalConIva)}</span></div>
+    <div class="summary-row" style="margin-top:4px"><span>Ref. ARS (TC ${fARS(TC)})</span><span>${fARS(totalARS)}</span></div>
+    <div class="summary-row" style="margin-top:4px;font-size:11px;color:var(--muted)"><span>Neto (base de comisión)</span><span>${fUSD(totalUSD)}</span></div>`;
 
   document.getElementById('summary-rows').innerHTML=rows;
   const comTxt=cart.some(i=>i.precioOverride!=null)?'(excluye ítems con precio manual)':'';
@@ -1137,12 +1191,17 @@ async function guardarPresupuesto(){
 
     const devices=cart.filter(i=>!isService(i));
     const invServices=cart.filter(i=>isService(i));
-    const totalDevUSD=devices.reduce((s,i)=>s+getItemPrice(i)*i.qty,0);
-    const totalInvSvcUSD=invServices.reduce((s,i)=>s+getInvServicePrice(i)*i.qty,0);
-    const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotal(x),0);
+    // Neto (sin IVA) — es lo que se persiste. El IVA se discrimina aparte al mostrar
+    // (index.html/WhatsApp), nunca se mezcla acá.
+    const totalDevUSD=devices.reduce((s,i)=>s+getItemPriceSinIva(i)*i.qty,0);
+    const totalInvSvcUSD=invServices.reduce((s,i)=>s+getInvServicePriceSinIva(i)*i.qty,0);
+    const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotalSinIva(x),0);
     const totalSvcUSD=totalInvSvcUSD+totalManSvcUSD;
     const totalUSD=totalDevUSD+totalSvcUSD;
-    const margenTotal=devices.filter(i=>i.precioOverride==null).reduce((s,i)=>s+calcPrecio(i).comision*i.qty,0);
+    // markup bruto real primero, la comisión se deriva de ahí (nunca al revés — ver bug
+    // "margen_dispositivos_usd guardaba lo mismo que comision_comercial_usd").
+    const markupBrutoTotal=devices.filter(i=>i.precioOverride==null).reduce((s,i)=>s+calcPrecio(i).markupBrutoUsd*i.qty,0);
+    const comisionTotal=markupBrutoTotal*0.30;
 
     const cabecera={
       numero, comercial_id:parseInt(comId),
@@ -1156,8 +1215,8 @@ async function guardarPresupuesto(){
       subtotal_dispositivos_usd:totalDevUSD,
       subtotal_mo_usd:totalSvcUSD,
       total_usd:totalUSD,
-      margen_dispositivos_usd:margenTotal,
-      comision_comercial_usd:margenTotal,
+      margen_dispositivos_usd:markupBrutoTotal,
+      comision_comercial_usd:comisionTotal,
       estado:'BORRADOR',
       fecha_emision:today(),
       fecha_vencimiento:addDays(30),
@@ -1195,20 +1254,21 @@ async function guardarPresupuesto(){
 
     const lineas=[
       ...devices.map(item=>{
-        const{pvp,precioFinal,descuento,margenVenta,alertaB2B}=calcPrecio(item);
-        const finalPrice=getItemPrice(item);
+        const{pvp,descuento,markup,alertaB2B}=calcPrecio(item);
+        const finalPriceSinIva=getItemPriceSinIva(item);
         const iva=parseFloat(item.iva)||0.21;
-        return buildLinea({inventario_id:item.id,tipo_linea:'DISPOSITIVO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:parseFloat(item.precio_sin_iva)||0,iva_rate:iva,precio_costo_con_iva_usd:(parseFloat(item.precio_sin_iva)||0)*(1+iva),precio_sugerido_usd:pvp,descuento_aplicado:item.precioOverride!=null?0:descuento,precio_final_unitario_usd:finalPrice,subtotal_usd:finalPrice*item.qty,margen_porcentaje:item.precioOverride!=null?0:margenVenta*100,alerta_b2b_imposible:alertaB2B||false,tipo_dolar:item.tipo_dolar||'oficial'});
+        return buildLinea({inventario_id:item.id,tipo_linea:'DISPOSITIVO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:parseFloat(item.precio_sin_iva)||0,iva_rate:iva,precio_costo_con_iva_usd:(parseFloat(item.precio_sin_iva)||0)*(1+iva),precio_sugerido_usd:pvp,descuento_aplicado:item.precioOverride!=null?0:descuento,precio_final_unitario_usd:finalPriceSinIva,subtotal_usd:finalPriceSinIva*item.qty,margen_porcentaje:item.precioOverride!=null?0:markup*100,alerta_b2b_imposible:alertaB2B||false,tipo_dolar:item.tipo_dolar||'oficial'});
       }),
       ...invServices.map(item=>{
         const sp=calcServicePrice(item);
-        const finalPrice=getInvServicePrice(item);
+        const finalPriceSinIva=getInvServicePriceSinIva(item);
         const iva=facturaA?0.21:0;
         const pUsd=parseFloat(item.precio_sin_iva)||0;
-        return buildLinea({inventario_id:item.id,tipo_linea:'SERVICIO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:pUsd,iva_rate:iva,precio_costo_con_iva_usd:pUsd*(1+iva),precio_sugerido_usd:sp.precio,precio_final_unitario_usd:finalPrice,subtotal_usd:finalPrice*item.qty,notas:(item.precioOverride!=null?'precio editado manualmente — ':'')+(facturaA?'con IVA':'sin IVA')});
+        return buildLinea({inventario_id:item.id,tipo_linea:'SERVICIO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:pUsd,iva_rate:iva,precio_costo_con_iva_usd:pUsd*(1+iva),precio_sugerido_usd:sp.precio,precio_final_unitario_usd:finalPriceSinIva,subtotal_usd:finalPriceSinIva*item.qty,notas:(item.precioOverride!=null?'precio editado manualmente — ':'')+(facturaA?'con IVA':'sin IVA')});
       }),
       ...servicios.filter(s=>s.descripcion||s.precioUsd>0).map(s=>{
-        const unitConIva=facturaA?s.precioUsd*1.21:s.precioUsd;
+        // s.precioUsd ya es neto (de calcMoPrice) — se persiste tal cual, el IVA se
+        // discrimina aparte (nunca se mezcla con el precio guardado).
         return buildLinea({
           inventario_id:s.deviceCartId||null,
           tipo_linea:'SERVICIO',
@@ -1217,8 +1277,8 @@ async function guardarPresupuesto(){
           sku:s.skuMo||null,
           cantidad:s.cantidad||1,
           precio_sugerido_usd:s.precioUsd,
-          precio_final_unitario_usd:unitConIva,
-          subtotal_usd:unitConIva*(s.cantidad||1),
+          precio_final_unitario_usd:s.precioUsd,
+          subtotal_usd:s.precioUsd*(s.cantidad||1),
           iva_rate:facturaA?0.21:0,
           notas:(s.auto?'MO automática':s.skuMo?'Del tarifario':'Servicio manual')+(facturaA?' — con IVA':' — sin IVA')
         });
