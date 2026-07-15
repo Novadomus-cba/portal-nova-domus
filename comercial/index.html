@@ -1373,10 +1373,12 @@ function genWAModal(){
   const tc=p.tc_bna_oficial||TC||1;
   const devices=currentPresItems.filter(i=>i.tipo_linea==='DISPOSITIVO');
   const svcs=currentPresItems.filter(i=>i.tipo_linea!=='DISPOSITIVO');
-  const totalDevUSD=devices.reduce((s,i)=>s+(i.subtotal_usd||0),0);
-  const totalSvcARS=svcs.reduce((s,i)=>s+(i.subtotal_usd||0)*tc,0);
-  const totalARS=ceil(totalDevUSD)*tc+totalSvcARS;
   const factA=p.cliente_requiere_factura_a;
+
+  // Mismo esquema de IVA discriminado que presupuestos/index.html:
+  // dispositivos siempre 21%; servicios/MO solo si el cliente requiere Factura A.
+  let sumDevNeto=0, sumDevIva=0, sumDevTotal=0;
+  let sumSvcNeto=0, sumSvcIva=0, sumSvcTotal=0;
 
   let txt=`*NOVA DOMUS* — Presupuesto *${p.numero||'—'}*
 _Domótica e Integración Tecnológica_
@@ -1395,15 +1397,20 @@ _Domótica e Integración Tecnológica_
 
   if(devices.length){
     txt+=`➖➖➖➖➖➖➖➖➖➖
-*DISPOSITIVOS*
+*DISPOSITIVOS* _(IVA 21%)_
 ➖➖➖➖➖➖➖➖➖➖
 
 `;
     devices.forEach(i=>{
       const em=getEmoji(i.grupo||'');
+      const neto=i.subtotal_usd||0, iva=neto*0.21, total=neto+iva;
+      const unitNeto=neto/(i.cantidad||1);
+      sumDevNeto+=neto; sumDevIva+=iva; sumDevTotal+=total;
       txt+=`- ${em} *${i.marca} — ${i.nombre}*
 `;
-      txt+=`  \`U$S ${ceil(i.precio_final_unitario_usd||0).toLocaleString('es-AR')}\` × ${i.cantidad} unidad${i.cantidad>1?'es':''}
+      txt+=`  P. unit. neto: \`U$S ${ceil(unitNeto).toLocaleString('es-AR')}\` × ${i.cantidad} unidad${i.cantidad>1?'es':''} = \`U$S ${ceil(neto).toLocaleString('es-AR')}\`
+`;
+      txt+=`  + IVA 21%: \`U$S ${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: U$S ${ceil(total).toLocaleString('es-AR')}*
 `;
       txt+=`  _Precio lista: U$S ${ceil(i.precio_sugerido_usd||0).toLocaleString('es-AR')} | ${i.descuento_aplicado||0}% off lista_
 
@@ -1412,30 +1419,39 @@ _Domótica e Integración Tecnológica_
   }
   if(svcs.length){
     txt+=`➖➖➖➖➖➖➖➖➖➖
-*SERVICIOS*
+*SERVICIOS* _(${factA?'con Factura A · IVA 21%':'sin Factura A · sin IVA'})_
 ➖➖➖➖➖➖➖➖➖➖
 
 `;
     svcs.forEach(i=>{
-      const montoARS=(i.subtotal_usd||0)*tc;
+      const neto=(i.subtotal_usd||0)*tc, iva=factA?neto*0.21:0, total=neto+iva;
+      sumSvcNeto+=neto; sumSvcIva+=iva; sumSvcTotal+=total;
       txt+=`- 🔧 *${i.nombre}*
-  $${ceil(montoARS).toLocaleString('es-AR')} ARS _(${factA?'incluye IVA 21%':'sin IVA'})_
+`;
+      txt+=`  Subtotal neto: \`$${ceil(neto).toLocaleString('es-AR')}\`
+`;
+      txt+=iva>0
+        ?`  + IVA 21%: \`$${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: $${ceil(total).toLocaleString('es-AR')}*
+
+`
+        :`  _Sin IVA (no requiere Factura A)_ → *Total: $${ceil(total).toLocaleString('es-AR')}*
 
 `;
     });
   }
   txt+=`➖➖➖➖➖➖➖➖➖➖
 `;
-  txt+=`💰 *TOTAL DISPOSITIVOS:* \`U$S ${ceil(totalDevUSD).toLocaleString('es-AR')}\`
+  if(devices.length)txt+=`💰 *DISPOSITIVOS* — Neto \`U$S ${ceil(sumDevNeto).toLocaleString('es-AR')}\` + IVA \`U$S ${ceil(sumDevIva).toLocaleString('es-AR')}\` = *Total U$S ${ceil(sumDevTotal).toLocaleString('es-AR')}*
 `;
-  if(totalSvcARS)txt+=`🏠 *TOTAL SERVICIOS:* \`$${ceil(totalSvcARS).toLocaleString('es-AR')} ARS\`
+  if(svcs.length)txt+=`🔧 *SERVICIOS* — Neto \`$${ceil(sumSvcNeto).toLocaleString('es-AR')}\` + IVA \`$${ceil(sumSvcIva).toLocaleString('es-AR')}\` = *Total $${ceil(sumSvcTotal).toLocaleString('es-AR')}*
 `;
-  txt+=`📊 *Total referencial ARS:* \`~$${ceil(totalARS).toLocaleString('es-AR')}\`
+  const totalARS=sumDevTotal*tc+sumSvcTotal;
+  txt+=`📊 *Total referencial ARS (c/IVA):* \`~$${ceil(totalARS).toLocaleString('es-AR')}\`
 `;
   txt+=`➖➖➖➖➖➖➖➖➖➖
 
 `;
-  txt+=`> Precios en USD son los reales. El monto en ARS es referencial al TC BNA Oficial de la emisión. Todos los precios incluyen IVA.
+  txt+=`> Precios en USD son los reales. El IVA se discrimina según corresponda (dispositivos siempre 21%, servicios solo con Factura A). El monto en ARS es referencial al TC BNA Oficial de la emisión.
 
 `;
   txt+=`📩 admin@nova-domus.com.ar
