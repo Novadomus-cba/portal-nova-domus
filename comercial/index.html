@@ -139,6 +139,10 @@ textarea{resize:vertical;min-height:60px}
 @keyframes slideUp{from{transform:translateY(30px);opacity:0}}
 .chevron{font-size:11px;color:var(--hint);transition:transform .2s}
 .chevron.open{transform:rotate(180deg)}
+.novedad-item+.novedad-item{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.novedad-fecha{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.04em;margin-bottom:6px}
+.novedad-item ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.novedad-item li{font-size:12px;color:var(--muted);line-height:1.4}
 
 /* ── Hoja de impresión: lista de precios (identidad Nova Domus, modo claro) ── */
 #pdf-lista-precios{display:none}
@@ -204,7 +208,7 @@ textarea{resize:vertical;min-height:60px}
 <div class="page active" id="page-nuevo">
 
   <!-- Editando presupuesto existente -->
-  <div id="editing-banner" style="display:none;background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:var(--r2);padding:10px 12px;margin-bottom:10px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+  <div id="editing-banner" style="display:none;background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:var(--r2);padding:10px 12px;margin-bottom:10px;font-size:12px;justify-content:space-between;align-items:center;gap:8px">
     <span>✏️ Editando <b id="editing-numero"></b> — el precio manual recalcula la comisión al guardar</span>
     <button class="btn btn-secondary btn-sm" onclick="cancelarEdicion()">Cancelar</button>
   </div>
@@ -517,6 +521,26 @@ textarea{resize:vertical;min-height:60px}
     <div style="background:var(--bg);border-radius:var(--r2);padding:10px 12px;margin-bottom:14px;font-size:12px;color:var(--muted)" id="mv-resumen"></div>
 
     <button class="btn btn-primary" style="width:100%" id="mv-confirm" onclick="confirmarVincular()">✅ Crear obra y vincular</button>
+  </div>
+</div>
+
+<!-- ══ NOVEDADES DEL PANEL (visible en cualquier pestaña) ═══════ -->
+<div class="card" id="novedades-card" style="margin-top:8px">
+  <div class="card-hdr" onclick="toggleNovedades()" style="cursor:pointer">
+    <span>📋 Novedades del panel</span>
+    <span class="chevron" id="novedades-chev">▾</span>
+  </div>
+  <div id="novedades-body" style="display:none;padding:4px 14px 12px">
+    <div class="novedad-item">
+      <div class="novedad-fecha">16/07/2026</div>
+      <ul>
+        <li>Al fijar un precio manual en un dispositivo, la comisión del comercial ahora se recalcula bien (antes quedaba en cero).</li>
+        <li><b>Nuevo:</b> ahora se puede editar un presupuesto ya guardado — botón "✏️ Editar precios / ítems" en el detalle de Historial.</li>
+        <li><b>Nuevo:</b> la pestaña Precios permite generar un PDF de lista de precios (PVP / B2C / B2B).</li>
+        <li>Los servicios en presupuestos B2B ahora se muestran en dólares (antes aparecían mezclados con pesos).</li>
+        <li>El tipo de cambio (dólar BNA oficial) se actualiza solo al abrir el panel, sin depender de otra pantalla.</li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -2039,6 +2063,14 @@ function irAHistorial(){
 function toggleCliente(){
   const body=document.getElementById('cli-body');
   const chev=document.getElementById('cli-chev');
+  const hidden=body.style.display==='none';
+  body.style.display=hidden?'':'none';
+  chev.classList.toggle('open',!hidden);
+}
+
+function toggleNovedades(){
+  const body=document.getElementById('novedades-body');
+  const chev=document.getElementById('novedades-chev');
   const hidden=body.style.display==='none';
   body.style.display=hidden?'':'none';
   chev.classList.toggle('open',!hidden);
