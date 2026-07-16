@@ -1401,10 +1401,9 @@ async function abrirModalPres(id){
     });
     if(svcs.length){
       svcs.forEach(i=>{
-        const tc=p.tc_bna_oficial||1;
         itHtml+=`<div style="padding:7px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px">
           <div>🔧 <b>${i.nombre}</b><br><span style="color:var(--muted)">Servicio</span></div>
-          <div style="text-align:right;white-space:nowrap"><b>${fARS((i.subtotal_usd||0)*tc)}</b></div>
+          <div style="text-align:right;white-space:nowrap"><b>${fUSD(i.subtotal_usd||0)}</b></div>
         </div>`;
       });
     }
@@ -1505,17 +1504,17 @@ _Domótica e Integración Tecnológica_
 
 `;
     svcs.forEach(i=>{
-      const neto=(i.subtotal_usd||0)*tc, iva=factA?neto*0.21:0, total=neto+iva;
+      const neto=i.subtotal_usd||0, iva=factA?neto*0.21:0, total=neto+iva;
       sumSvcNeto+=neto; sumSvcIva+=iva; sumSvcTotal+=total;
       txt+=`- 🔧 *${i.nombre}*
 `;
-      txt+=`  Subtotal neto: \`$${ceil(neto).toLocaleString('es-AR')}\`
+      txt+=`  Subtotal neto: \`U$S ${ceil(neto).toLocaleString('es-AR')}\`
 `;
       txt+=iva>0
-        ?`  + IVA 21%: \`$${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: $${ceil(total).toLocaleString('es-AR')}*
+        ?`  + IVA 21%: \`U$S ${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: U$S ${ceil(total).toLocaleString('es-AR')}*
 
 `
-        :`  _Sin IVA (no requiere Factura A)_ → *Total: $${ceil(total).toLocaleString('es-AR')}*
+        :`  _Sin IVA (no requiere Factura A)_ → *Total: U$S ${ceil(total).toLocaleString('es-AR')}*
 
 `;
     });
@@ -1524,10 +1523,13 @@ _Domótica e Integración Tecnológica_
 `;
   if(devices.length)txt+=`💰 *DISPOSITIVOS* — Neto \`U$S ${ceil(sumDevNeto).toLocaleString('es-AR')}\` + IVA \`U$S ${ceil(sumDevIva).toLocaleString('es-AR')}\` = *Total U$S ${ceil(sumDevTotal).toLocaleString('es-AR')}*
 `;
-  if(svcs.length)txt+=`🔧 *SERVICIOS* — Neto \`$${ceil(sumSvcNeto).toLocaleString('es-AR')}\` + IVA \`$${ceil(sumSvcIva).toLocaleString('es-AR')}\` = *Total $${ceil(sumSvcTotal).toLocaleString('es-AR')}*
+  if(svcs.length)txt+=`🔧 *SERVICIOS* — Neto \`U$S ${ceil(sumSvcNeto).toLocaleString('es-AR')}\` + IVA \`U$S ${ceil(sumSvcIva).toLocaleString('es-AR')}\` = *Total U$S ${ceil(sumSvcTotal).toLocaleString('es-AR')}*
 `;
-  const totalARS=sumDevTotal*tc+sumSvcTotal;
-  txt+=`📊 *Total referencial ARS (c/IVA):* \`~$${ceil(totalARS).toLocaleString('es-AR')}\`
+  const totalUSD=sumDevTotal+sumSvcTotal;
+  const totalARS=totalUSD*tc;
+  txt+=`➖➖➖➖➖➖➖➖➖➖
+`;
+  txt+=`💎 *TOTAL: U$S ${ceil(totalUSD).toLocaleString('es-AR')} · $${ceil(totalARS).toLocaleString('es-AR')} ARS*
 `;
   txt+=`➖➖➖➖➖➖➖➖➖➖
 
