@@ -194,7 +194,7 @@ textarea{resize:vertical;min-height:60px}
               <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none">$</span>
               <input type="number" id="tc-input" placeholder="1498" style="padding-left:22px;font-size:16px;font-weight:700;color:var(--accent)" oninput="onTCChange(this.value)">
             </div>
-            <button class="btn btn-secondary btn-sm" onclick="fetchTC()" title="Recargar desde BD">↻</button>
+            <button class="btn btn-secondary btn-sm" onclick="fetchTC()" title="Actualizar dólar BNA oficial">↻</button>
           </div>
           <div style="font-size:10px;color:var(--hint);margin-top:4px" id="tc-src">Cargando...</div>
         </div>
@@ -550,7 +550,26 @@ function onTCChange(val){
 }
 
 async function fetchTC(){
-  document.getElementById('tc-src').textContent='Cargando...';
+  document.getElementById('tc-src').textContent='Actualizando...';
+  try{
+    const res=await fetch('https://api.bluelytics.com.ar/v2/latest');
+    const text=await res.text();
+    const data=JSON.parse(text);
+    const valor=parseFloat(data.oficial.value_sell);
+    if(!(valor>0))throw new Error('Respuesta de bluelytics sin valor válido');
+    await sb('/rest/v1/cotizaciones?tipo=eq.oficial',{method:'PATCH',prefer:'return=minimal',body:JSON.stringify({valor,fuente:'bluelytics',updated_at:new Date().toISOString()})});
+    TC=valor;
+    document.getElementById('tc-input').value=TC;
+    document.getElementById('tc-src').textContent='BNA Oficial · actualizado ahora mismo';
+    renderCart();renderPL();
+  }catch(e){
+    console.error('fetchTC: no se pudo actualizar desde bluelytics',e);
+    toast('No se pudo actualizar el dólar BNA — usando el último valor guardado','err');
+    await fetchTCFallback();
+  }
+}
+
+async function fetchTCFallback(){
   try{
     const d=await sb('/rest/v1/cotizaciones?tipo=eq.oficial&select=valor,updated_at&limit=1');
     if(d&&d[0]){
@@ -558,11 +577,14 @@ async function fetchTC(){
       document.getElementById('tc-input').value=TC;
       const upd=new Date(d[0].updated_at);
       const ago=formatDate(upd.toISOString().slice(0,10));
-      document.getElementById('tc-src').textContent=`BNA Oficial · actualizado ${ago}`;
+      document.getElementById('tc-src').textContent=`⚠️ Sin conexión al dólar oficial — último valor guardado (${ago})`;
       renderCart();renderPL();
+    }else{
+      document.getElementById('tc-src').textContent='⚠️ Error — ingresá el TC manualmente';
     }
   }catch(e){
-    document.getElementById('tc-src').textContent='Error — ingresá el TC manualmente';
+    console.error('fetchTCFallback',e);
+    document.getElementById('tc-src').textContent='⚠️ Error — ingresá el TC manualmente';
   }
 }
 
