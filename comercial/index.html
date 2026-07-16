@@ -203,6 +203,12 @@ textarea{resize:vertical;min-height:60px}
 <!-- ══ NUEVO PRESUPUESTO ══════════════════════════════════════ -->
 <div class="page active" id="page-nuevo">
 
+  <!-- Editando presupuesto existente -->
+  <div id="editing-banner" style="display:none;background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:var(--r2);padding:10px 12px;margin-bottom:10px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span>✏️ Editando <b id="editing-numero"></b> — el precio manual recalcula la comisión al guardar</span>
+    <button class="btn btn-secondary btn-sm" onclick="cancelarEdicion()">Cancelar</button>
+  </div>
+
   <!-- TC + Comercial -->
   <div class="card">
     <div class="card-body">
@@ -408,6 +414,9 @@ textarea{resize:vertical;min-height:60px}
     <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Ítems</div>
     <div id="mpres-items" style="margin-bottom:14px;font-size:12px"></div>
 
+    <!-- Editar -->
+    <button class="btn btn-secondary" style="width:100%;margin-bottom:8px" onclick="cargarParaEditar(currentPres.id)">✏️ Editar precios / ítems</button>
+
     <!-- WhatsApp -->
     <div style="margin-bottom:10px">
       <button class="btn btn-ok" style="width:100%;margin-bottom:8px" onclick="genWAModal()">📱 Generar texto WhatsApp</button>
@@ -555,6 +564,8 @@ const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 
 // State
 let TC=0, inventario=[], comerciales=[], cart=[], servicios=[], clienteTipo='B2C', facturaA=false;
+let editingPresupuestoId=null, editingNumero=null;
+const MARGEN_MINIMO=0.20;
 let currentBrand='', savedId=null;
 let manoObraMap={};
 
@@ -1104,8 +1115,14 @@ function renderCart(){
   document.getElementById('cart-devices').innerHTML=devices.map(item=>{
     const{pvp,precioFinal,descuento,alertaB2B,markup,comision}=calcPrecio(item);
     const override=item.precioOverride!=null;
+    const costo=parseFloat(item.precio_sin_iva)||0;
     const displayPrice=override?item.precioOverride:precioFinal;
     const displayDesc=override?'precio editado manualmente':`${descuento}% off lista`;
+    // Con precio manual, el markup/comisión mostrados acá tienen que reflejar el precio
+    // realmente cobrado, no el que hubiera calculado el algoritmo (ver bug Situación 5).
+    const displayMarkup=override&&costo>0?(getItemPriceSinIva(item)-costo)/costo:markup;
+    const displayComision=override?Math.max(0,(getItemPriceSinIva(item)-costo)*0.30):comision;
+    const overrideBajoMinimo=override&&costo>0&&((getItemPriceSinIva(item)-costo)/costo)<MARGEN_MINIMO;
     return`<div class="cart-item">
       <div class="cart-item-top">
         <div>
@@ -1135,8 +1152,8 @@ function renderCart(){
           ${override?`<button class="btn btn-secondary btn-sm" onclick="clearOverride(${item.id})" title="Restaurar precio calculado">↺</button>`:''}
         </div>
       </div>
-      <div class="cart-margin">Markup: <span>${Math.round(markup*100)}%</span> · Comisión: <span>${fUSD(comision*item.qty)}</span></div>
-      ${alertaB2B&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':''}
+      <div class="cart-margin">Markup: <span>${Math.round(displayMarkup*100)}%</span> · Comisión: <span>${fUSD(displayComision*item.qty)}</span></div>
+      ${overrideBajoMinimo?'<div class="cart-alert">⚠️ Precio manual bajo el margen mínimo (20%)</div>':(alertaB2B&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':'')}
       ${!calcMoPrice(item)?'<div class="cart-alert">⚠️ Sin tarifa MO fija — agregá el servicio de instalación manualmente en Servicios si corresponde</div>':''}
     </div>`;
   }).join('');
@@ -1217,9 +1234,12 @@ function renderSummary(){
   const totalManSvcUSD=servicios.reduce((s,x)=>s+getServicioTotalSinIva(x),0);
   const totalSvcUSD=totalInvSvcUSD+totalManSvcUSD;
   const totalUSD=totalDevUSD+totalSvcUSD;
+  // Margen bruto real de TODOS los dispositivos, incluidos los de precio manual
+  // (antes se excluían del todo de la comisión — bug Situación 5).
   const totalComision=devices.reduce((s,i)=>{
-    if(i.precioOverride!=null)return s;
-    return s+calcPrecio(i).comision*i.qty;
+    const costo=parseFloat(i.precio_sin_iva)||0;
+    const margenUnit=i.precioOverride!=null?(getItemPriceSinIva(i)-costo):calcPrecio(i).markupBrutoUsd;
+    return s+margenUnit*0.30*i.qty;
   },0);
 
   // IVA discriminado: dispositivos siempre 21%; servicios solo con Factura A.
@@ -1239,9 +1259,107 @@ function renderSummary(){
     <div class="summary-row" style="margin-top:4px;font-size:11px;color:var(--muted)"><span>Neto (base de comisión)</span><span>${fUSD(totalUSD)}</span></div>`;
 
   document.getElementById('summary-rows').innerHTML=rows;
-  const comTxt=cart.some(i=>i.precioOverride!=null)?'(excluye ítems con precio manual)':'';
+  const bajoMinimo=devices.some(i=>{
+    if(i.precioOverride==null)return false;
+    const costo=parseFloat(i.precio_sin_iva)||0;
+    return costo>0&&((getItemPriceSinIva(i)-costo)/costo)<MARGEN_MINIMO;
+  });
+  const comTxt=bajoMinimo?'<br><span style="color:var(--warn)">⚠️ Un precio manual queda bajo el margen mínimo (20%)</span>':'';
   document.getElementById('commission-box').innerHTML=
     `💼 <b>Comisión estimada:</b> ${fUSD(totalComision)} ${comTxt}`;
+}
+
+// ─── EDITAR PRESUPUESTO EXISTENTE ─────────────────────────────
+// Recarga un presupuesto ya guardado en el armador (cart/servicios) para poder
+// tocar el precio manual de un ítem y volver a guardar disparando el mismo
+// recálculo de márgen/comisión que un presupuesto nuevo. Los servicios (sean
+// de mano de obra automática, del tarifario o manuales) se recargan todos como
+// filas manuales en `servicios[]` — se pierde el vínculo cosmético "🔗 vinculado
+// a X"/"📋 del tarifario", pero los montos y el recálculo quedan correctos.
+async function cargarParaEditar(id){
+  try{
+    const[presArr,items]=await Promise.all([
+      sb(`/rest/v1/presupuestos_comerciales?id=eq.${id}&select=*&limit=1`),
+      sb(`/rest/v1/presupuestos_items?presupuesto_id=eq.${id}&select=*&order=tipo_linea`)
+    ]);
+    const p=presArr&&presArr[0];
+    if(!p){toast('No se pudo cargar el presupuesto','err');return}
+
+    editingPresupuestoId=p.id;
+    editingNumero=p.numero;
+    cart=[];servicios=[];
+
+    clienteTipo=p.cliente_tipo||'B2C';
+    facturaA=!!p.cliente_requiere_factura_a;
+    TC=parseFloat(p.tc_bna_oficial)||TC;
+
+    document.getElementById('cli-nombre').value=p.cliente_nombre||'';
+    document.getElementById('cli-empresa').value=p.cliente_empresa||'';
+    document.getElementById('cli-email').value=p.cliente_email||'';
+    document.getElementById('cli-tel').value=p.cliente_telefono||'';
+    document.getElementById('sel-comercial').value=p.comercial_id||'';
+    document.getElementById('tc-input').value=TC;
+
+    (items||[]).filter(i=>i.tipo_linea==='DISPOSITIVO').forEach(i=>{
+      const inv=inventario.find(x=>x.id===i.inventario_id);
+      const qty=parseFloat(i.cantidad)||1;
+      if(inv){
+        cart.push({...inv,qty,precioOverride:null});
+      }else{
+        // Ya no está en inventario (descontinuado/renombrado) — se reconstruye lo
+        // mínimo con el snapshot guardado para no perder la línea, fijada como
+        // precio manual porque no hay forma de recalcularla con calcPrecio().
+        cart.push({
+          id:i.inventario_id||('legacy-'+i.id),marca:i.marca,nombre:i.nombre,sku:i.sku,grupo:null,
+          precio_sin_iva:i.precio_costo_sin_iva_usd,iva:i.iva_rate,remarque:0.35,
+          precio_sugerido_manual:null,sku_mo:null,qty,
+          precioOverride:parseFloat(i.precio_final_unitario_usd)||0,
+        });
+      }
+    });
+
+    (items||[]).filter(i=>i.tipo_linea==='SERVICIO').forEach(i=>{
+      servicios.push({
+        id:'edit-'+i.id,descripcion:i.nombre,precioUsd:parseFloat(i.precio_final_unitario_usd)||0,
+        cantidad:parseFloat(i.cantidad)||1,auto:false,deviceCartId:null,deviceNombre:null,skuMo:i.sku||null,
+      });
+    });
+
+    setTipo(clienteTipo);
+    setFactura(facturaA);
+
+    document.getElementById('editing-numero').textContent=p.numero;
+    document.getElementById('editing-banner').style.display='flex';
+    document.getElementById('cart-card').style.display=cart.length?'':'none';
+    document.getElementById('summary-card').style.display=(cart.length||servicios.length)?'':'none';
+    document.getElementById('actions-card').style.display='';
+    document.getElementById('btn-guardar').textContent='💾 Guardar cambios en '+p.numero;
+    document.getElementById('save-ok-box').style.display='none';
+
+    renderServicios();
+    renderSummary();
+
+    cerrarModalPres();
+    showPage('nuevo',document.querySelector(`.nav-tab[onclick*="showPage('nuevo'"]`));
+    toast('Editando '+p.numero,'ok');
+  }catch(e){
+    console.error('cargarParaEditar',e);
+    toast('Error al cargar para editar','err');
+  }
+}
+
+function cancelarEdicion(){
+  editingPresupuestoId=null;editingNumero=null;
+  cart=[];servicios=[];
+  document.getElementById('editing-banner').style.display='none';
+  document.getElementById('btn-guardar').textContent='💾 Guardar presupuesto';
+  document.getElementById('cli-nombre').value='';
+  document.getElementById('cli-empresa').value='';
+  document.getElementById('cli-email').value='';
+  document.getElementById('cli-tel').value='';
+  renderServicios();
+  renderSummary();
+  toast('Edición cancelada','ok');
 }
 
 // ─── GUARDAR ─────────────────────────────────────────────────
@@ -1254,14 +1372,19 @@ async function guardarPresupuesto(){
   if(!cart.length&&!servicios.length){toast('Agregá al menos un ítem','err');return}
 
   const btn=document.getElementById('btn-guardar');
-  btn.disabled=true;btn.textContent='Guardando...';
+  btn.disabled=true;btn.textContent=editingPresupuestoId?'Guardando cambios...':'Guardando...';
 
   try{
-    const existing=await sb('/rest/v1/presupuestos_comerciales?select=numero&order=id.desc&limit=50');
-    const year=new Date().getFullYear();
-    const nums=(existing||[]).filter(p=>p.numero?.startsWith('PC-'+year+'-')).map(p=>parseInt(p.numero.split('-')[2])||0);
-    const next=(nums.length?Math.max(...nums):0)+1;
-    const numero=`PC-${year}-${String(next).padStart(3,'0')}`;
+    let numero;
+    if(editingPresupuestoId){
+      numero=editingNumero;
+    }else{
+      const existing=await sb('/rest/v1/presupuestos_comerciales?select=numero&order=id.desc&limit=50');
+      const year=new Date().getFullYear();
+      const nums=(existing||[]).filter(p=>p.numero?.startsWith('PC-'+year+'-')).map(p=>parseInt(p.numero.split('-')[2])||0);
+      const next=(nums.length?Math.max(...nums):0)+1;
+      numero=`PC-${year}-${String(next).padStart(3,'0')}`;
+    }
 
     const devices=cart.filter(i=>!isService(i));
     const invServices=cart.filter(i=>isService(i));
@@ -1273,8 +1396,14 @@ async function guardarPresupuesto(){
     const totalSvcUSD=totalInvSvcUSD+totalManSvcUSD;
     const totalUSD=totalDevUSD+totalSvcUSD;
     // markup bruto real primero, la comisión se deriva de ahí (nunca al revés — ver bug
-    // "margen_dispositivos_usd guardaba lo mismo que comision_comercial_usd").
-    const markupBrutoTotal=devices.filter(i=>i.precioOverride==null).reduce((s,i)=>s+calcPrecio(i).markupBrutoUsd*i.qty,0);
+    // "margen_dispositivos_usd guardaba lo mismo que comision_comercial_usd"). Los ítems
+    // con precio manual SÍ aportan su margen real (precio override − costo) — antes se
+    // excluían del todo y la comisión de ese ítem quedaba en cero (bug Situación 5).
+    const markupBrutoTotal=devices.reduce((s,i)=>{
+      const costo=parseFloat(i.precio_sin_iva)||0;
+      const margenUnit=i.precioOverride!=null?(getItemPriceSinIva(i)-costo):calcPrecio(i).markupBrutoUsd;
+      return s+margenUnit*i.qty;
+    },0);
     const comisionTotal=markupBrutoTotal*0.30;
 
     const cabecera={
@@ -1291,16 +1420,22 @@ async function guardarPresupuesto(){
       total_usd:totalUSD,
       margen_dispositivos_usd:markupBrutoTotal,
       comision_comercial_usd:comisionTotal,
-      estado:'BORRADOR',
-      fecha_emision:today(),
-      fecha_vencimiento:addDays(30),
     };
 
-    await sb('/rest/v1/presupuestos_comerciales',{method:'POST',prefer:'return=minimal',body:JSON.stringify(cabecera)});
-
-    const inserted=await sb(`/rest/v1/presupuestos_comerciales?numero=eq.${encodeURIComponent(numero)}&select=id&limit=1`);
-    if(!inserted||!inserted[0])throw new Error('No se pudo recuperar el presupuesto guardado');
-    const pid=inserted[0].id;
+    let pid;
+    if(editingPresupuestoId){
+      pid=editingPresupuestoId;
+      await sb(`/rest/v1/presupuestos_comerciales?id=eq.${pid}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(cabecera)});
+      await sb(`/rest/v1/presupuestos_items?presupuesto_id=eq.${pid}`,{method:'DELETE',prefer:'return=minimal'});
+    }else{
+      cabecera.estado='BORRADOR';
+      cabecera.fecha_emision=today();
+      cabecera.fecha_vencimiento=addDays(30);
+      await sb('/rest/v1/presupuestos_comerciales',{method:'POST',prefer:'return=minimal',body:JSON.stringify(cabecera)});
+      const inserted=await sb(`/rest/v1/presupuestos_comerciales?numero=eq.${encodeURIComponent(numero)}&select=id&limit=1`);
+      if(!inserted||!inserted[0])throw new Error('No se pudo recuperar el presupuesto guardado');
+      pid=inserted[0].id;
+    }
 
     function buildLinea(overrides){
       return {
@@ -1331,7 +1466,18 @@ async function guardarPresupuesto(){
         const{pvp,descuento,markup,alertaB2B}=calcPrecio(item);
         const finalPriceSinIva=getItemPriceSinIva(item);
         const iva=parseFloat(item.iva)||0.21;
-        return buildLinea({inventario_id:item.id,tipo_linea:'DISPOSITIVO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:parseFloat(item.precio_sin_iva)||0,iva_rate:iva,precio_costo_con_iva_usd:(parseFloat(item.precio_sin_iva)||0)*(1+iva),precio_sugerido_usd:pvp,descuento_aplicado:item.precioOverride!=null?0:descuento,precio_final_unitario_usd:finalPriceSinIva,subtotal_usd:finalPriceSinIva*item.qty,margen_porcentaje:item.precioOverride!=null?0:markup*100,alerta_b2b_imposible:alertaB2B||false,tipo_dolar:item.tipo_dolar||'oficial'});
+        const costo=parseFloat(item.precio_sin_iva)||0;
+        let lineaDescuento=descuento, lineaMargenPct=markup*100, lineaAlerta=alertaB2B||false;
+        if(item.precioOverride!=null){
+          // Precio manual (prerrogativa de Agustín): el margen/alerta se recalculan
+          // contra el precio realmente cobrado, no contra el que hubiera calculado el
+          // algoritmo — antes quedaban en 0/false sin importar el precio manual.
+          const sugeridoSinIva=getSugeridoSinIva(item);
+          lineaDescuento=sugeridoSinIva>0?Math.round((1-finalPriceSinIva/sugeridoSinIva)*100):0;
+          lineaMargenPct=costo>0?((finalPriceSinIva-costo)/costo)*100:0;
+          lineaAlerta=costo>0?((finalPriceSinIva-costo)/costo)<MARGEN_MINIMO:false;
+        }
+        return buildLinea({inventario_id:item.id,tipo_linea:'DISPOSITIVO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:costo,iva_rate:iva,precio_costo_con_iva_usd:costo*(1+iva),precio_sugerido_usd:pvp,descuento_aplicado:lineaDescuento,precio_final_unitario_usd:finalPriceSinIva,subtotal_usd:finalPriceSinIva*item.qty,margen_porcentaje:lineaMargenPct,alerta_b2b_imposible:lineaAlerta,tipo_dolar:item.tipo_dolar||'oficial',notas:item.precioOverride!=null?'precio manual (director-aprobado)':null});
       }),
       ...invServices.map(item=>{
         const sp=calcServicePrice(item);
@@ -1364,14 +1510,17 @@ async function guardarPresupuesto(){
     }
 
     savedId=pid;
+    const wasEditing=editingPresupuestoId!=null;
     document.getElementById('save-ok-num').textContent='✓ ' + numero;
     document.getElementById('save-ok-box').style.display='';
-    toast(`${numero} guardado`,'ok');
+    document.getElementById('editing-banner').style.display='none';
+    editingPresupuestoId=null;editingNumero=null;
+    toast(wasEditing?`${numero} actualizado`:`${numero} guardado`,'ok');
   }catch(e){
     toast('Error: '+e.message,'err');
     console.error(e);
   }finally{
-    btn.disabled=false;btn.textContent='💾 Guardar presupuesto';
+    btn.disabled=false;btn.textContent=editingPresupuestoId?'💾 Guardar cambios en '+editingNumero:'💾 Guardar presupuesto';
   }
 }
 
