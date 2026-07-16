@@ -139,6 +139,30 @@ textarea{resize:vertical;min-height:60px}
 @keyframes slideUp{from{transform:translateY(30px);opacity:0}}
 .chevron{font-size:11px;color:var(--hint);transition:transform .2s}
 .chevron.open{transform:rotate(180deg)}
+
+/* ── Hoja de impresión: lista de precios (identidad Nova Domus, modo claro) ── */
+#pdf-lista-precios{display:none}
+@media print{
+  html,body{background:#fff!important}
+  #app-loading,#app-header,#app-content,.toast{display:none!important}
+  #pdf-lista-precios{
+    display:block;position:absolute;top:0;left:0;width:100%;
+    background:#FDFBF0;color:#0B132B;padding:28px;font-family:'Inter',Arial,sans-serif;
+  }
+  @page{size:A4;margin:14mm}
+}
+.pdf-header{display:flex;align-items:center;gap:14px;border-bottom:2px solid #141E61;padding-bottom:14px;margin-bottom:14px}
+.pdf-header img{width:40px;height:40px;flex-shrink:0}
+.pdf-title{font-family:'Michroma',sans-serif;font-size:16px;color:#0B132B;letter-spacing:.5px}
+.pdf-sub{font-size:11px;color:#141E61;margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
+.pdf-meta{display:flex;gap:24px;font-size:11px;color:#141E61;margin-bottom:14px}
+.pdf-table{width:100%;border-collapse:collapse;font-size:12px}
+.pdf-table thead th{text-align:left;background:#141E61;color:#FDFBF0;padding:8px;font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.pdf-table thead th.num{text-align:right}
+.pdf-table tbody td{padding:7px 8px;border-bottom:1px solid #E6E1CC}
+.pdf-table tbody td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.pdf-table tbody tr:nth-child(even){background:#F7F4E6}
+.pdf-footer{margin-top:16px;font-size:10px;color:#787A91;text-align:center}
 </style>
 </head>
 <body>
@@ -415,6 +439,14 @@ textarea{resize:vertical;min-height:60px}
     </select>
     <input type="text" id="pl-search" placeholder="Filtrar..." oninput="renderPL()" style="flex:1;min-width:120px;font-size:13px;padding:8px">
   </div>
+  <div style="display:flex;gap:10px;margin-bottom:10px;align-items:center;flex-wrap:wrap">
+    <div class="toggle-group" id="pl-tipo-lista">
+      <button class="toggle-btn active" onclick="setTipoLista('PVP',this)">PVP</button>
+      <button class="toggle-btn" onclick="setTipoLista('B2C',this)">B2C</button>
+      <button class="toggle-btn" onclick="setTipoLista('B2B',this)">B2B</button>
+    </div>
+    <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="generarPDFPrecios()">📄 Generar PDF</button>
+  </div>
   <div class="card" style="padding:0;overflow:hidden">
     <div style="overflow-x:auto">
       <table class="pl-table">
@@ -482,6 +514,26 @@ textarea{resize:vertical;min-height:60px}
 </div><!-- #app-content -->
 
 <div class="toast" id="toast"></div>
+
+<!-- ══ HOJA DE IMPRESIÓN — Lista de precios (solo visible al imprimir) ══ -->
+<div id="pdf-lista-precios">
+  <div class="pdf-header">
+    <img src="../assets/logo/nova-domus-isologo-color.svg" alt="Nova Domus">
+    <div class="pdf-header-text">
+      <div class="pdf-title">Lista de precios</div>
+      <div class="pdf-sub">Tipo <b id="pdf-tipo-label">PVP</b></div>
+    </div>
+  </div>
+  <div class="pdf-meta">
+    <span>Generado: <b id="pdf-fecha"></b></span>
+    <span>TC BNA Oficial: <b id="pdf-tc"></b></span>
+  </div>
+  <table class="pdf-table">
+    <thead><tr><th>Marca</th><th>Producto</th><th>SKU</th><th class="num">Precio USD</th></tr></thead>
+    <tbody id="pdf-tbody"></tbody>
+  </table>
+  <div class="pdf-footer">Nova Domus — Integración Tecnológica &middot; admin@nova-domus.com.ar &middot; 351 864-3455</div>
+</div>
 
 <script src="../auth-bridge.js"></script>
 <script>
@@ -1553,6 +1605,49 @@ function copyWAModal(){
 }
 
 // ─── LISTA DE PRECIOS ────────────────────────────────────────
+let tipoLista='PVP';
+function setTipoLista(t,el){
+  tipoLista=t;
+  document.querySelectorAll('#pl-tipo-lista .toggle-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function filtrarInventarioPL(){
+  const marca=document.getElementById('pl-marca')?.value||'';
+  const grupo=document.getElementById('pl-grupo')?.value||'';
+  const q=(document.getElementById('pl-search')?.value||'').toLowerCase();
+  let items=inventario;
+  if(marca)items=items.filter(i=>i.marca===marca);
+  if(grupo)items=items.filter(i=>i.grupo===grupo);
+  if(q)items=items.filter(i=>(i.nombre||'').toLowerCase().includes(q)||(i.sku||'').toLowerCase().includes(q));
+  return items;
+}
+
+function getPrecioListaTipo(item,tipo){
+  if(isService(item))return calcServicePrice(item).precio;
+  if(tipo==='PVP')return calcPrecio(item).pvp;
+  const orig=clienteTipo;
+  clienteTipo=tipo;
+  const{precioFinal}=calcPrecio(item);
+  clienteTipo=orig;
+  return precioFinal;
+}
+
+function generarPDFPrecios(){
+  const items=filtrarInventarioPL();
+  if(!items.length){toast('No hay productos para exportar con estos filtros','err');return}
+
+  document.getElementById('pdf-tipo-label').textContent=tipoLista;
+  document.getElementById('pdf-fecha').textContent=new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
+  document.getElementById('pdf-tc').textContent=fARS(TC)+' / USD';
+  document.getElementById('pdf-tbody').innerHTML=items.map(item=>{
+    const precio=getPrecioListaTipo(item,tipoLista);
+    return`<tr><td>${item.marca}</td><td>${item.nombre}</td><td>${item.sku||'—'}</td><td class="num">${fUSD(precio)}</td></tr>`;
+  }).join('');
+
+  window.print();
+}
+
 function renderPL(){
   const marca=document.getElementById('pl-marca')?.value||'';
   const grupo=document.getElementById('pl-grupo')?.value||'';
