@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Domus — Sistema de audio ambiente — PY-2026-014</title>
+<meta property="og:title" content="Nova Domus — Sonido ambiente para la nave — PY-2026-014">
+<meta property="og:description" content="Propuesta técnica de sistema de audio 70V para nave de exhibición. Del cable a la app.">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/audio-nave-olive.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/audio-nave-olive.html">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#141E61;
+  --navy-deep:#0B132B;
+  --grey:#787A91;
+  --cream:#FDFBF0;
+  --gold:#C8A96E;
+  --red:#B5453A;
+  --font-display:'Michroma',Arial,sans-serif;
+  --font-body:'Inter',Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--navy-deep);color:#EDEAE0;font-family:var(--font-body);line-height:1.65;}
+h1,h2,.eyebrow,.figure{font-family:var(--font-display);text-transform:uppercase;letter-spacing:2px;}
+h1{font-size:clamp(26px,6vw,42px);line-height:1.2;color:var(--cream);margin:0 0 12px;}
+h2{font-size:clamp(18px,3.2vw,22px);letter-spacing:2.5px;color:var(--cream);margin:0 0 8px;}
+h3{font-family:var(--font-body);font-weight:600;font-size:16px;color:var(--cream);margin:0 0 10px;}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin-bottom:10px;}
+.lead{color:var(--grey);font-size:15px;max-width:640px;}
+p{color:#EDEAE0;font-size:15px;}
+a{color:var(--gold);text-decoration:none;}
+.section{padding:56px 20px;max-width:960px;margin:0 auto;}
+.section-light{background:var(--cream);color:var(--navy-deep);}
+.section-light p{color:#3a3d4a;}
+.section-light h2,.section-light h3{color:var(--navy);}
+.section-light .eyebrow{color:var(--navy);opacity:.7;}
+.section-light .lead{color:#5d6078;}
+.card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px 24px;margin:14px 0;}
+.section-light .card{background:#fff;border:1px solid #E3E1D6;}
+.formula{background:var(--navy);color:var(--cream);border-radius:8px;padding:16px 20px;font-family:var(--font-body);font-size:15px;margin:12px 0;border-left:4px solid var(--gold);}
+.formula code{color:var(--gold);font-weight:600;}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0;}
+th,td{border:1px solid rgba(255,255,255,0.15);padding:9px 12px;text-align:left;}
+.section-light th,.section-light td{border-color:#E3E1D6;}
+th{background:var(--navy);color:var(--cream);font-weight:600;font-size:13px;}
+tr:nth-child(even) td{background:rgba(255,255,255,0.03);}
+.section-light tr:nth-child(even) td{background:#F7F5EC;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media (max-width:640px){.grid2{grid-template-columns:1fr;}}
+.badge{display:inline-block;background:rgba(200,169,110,0.15);color:var(--gold);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:8px;}
+.compare{display:flex;gap:16px;margin:16px 0;}
+@media (max-width:640px){.compare{flex-direction:column;}}
+.compare .col{flex:1;border-radius:10px;padding:18px;}
+.compare .fondo{background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.3);}
+.compare .presencia{background:rgba(181,69,58,0.08);border:1px solid rgba(181,69,58,0.3);}
+.compare h4{margin:0 0 10px;font-size:14px;font-weight:600;color:var(--cream);}
+.compare .presencia h4{color:#E08A7D;}
+.compare .fondo h4{color:var(--gold);}
+.compare ul{margin:0;padding-left:18px;font-size:14px;}
+.upgrade-card{background:rgba(255,255,255,0.04);border:1px solid var(--gold);border-radius:12px;padding:20px;margin:20px 0;}
+.upgrade-card label{display:flex;align-items:flex-start;gap:12px;cursor:pointer;}
+.upgrade-card input[type=checkbox]{width:20px;height:20px;margin-top:2px;flex-shrink:0;accent-color:var(--gold);}
+.upgrade-price{color:var(--gold);font-weight:600;font-size:15px;}
+.inv-item{border:1px solid rgba(255,255,255,0.1);border-radius:8px;margin-bottom:8px;overflow:hidden;}
+.section-light .inv-item{border-color:#E3E1D6;}
+.inv-head{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;width:100%;cursor:pointer;color:inherit;font-family:var(--font-body);appearance:none;text-align:left;font-size:15px;font-weight:600;}
+.inv-head:after{content:'+';color:var(--gold);font-size:20px;}
+.inv-head.open:after{content:'−';}
+.inv-body{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+.inv-body table{margin:0;}
+.totals{margin-top:20px;}
+.totals-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:14px;}
+.section-light .totals-row{border-color:#E3E1D6;}
+.totals-row.final{font-weight:700;font-size:18px;color:var(--gold);border-bottom:none;padding-top:14px;}
+.section-light .totals-row.final{color:var(--navy);}
+.pay-stage{display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:8px;font-size:14px;}
+.section-light .pay-stage{background:#F7F5EC;}
+.resp-table td:first-child{font-weight:600;width:32%;}
+footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
+.logo-svg path{fill:var(--gold);}
+.hero-logo{width:52px;height:52px;margin-bottom:20px;}
+.py-num{color:var(--gold);font-weight:600;letter-spacing:1px;}
+@media print{
+  body{background:#fff;color:#000;}
+  .upgrade-card,input{display:none;}
+  .inv-body{max-height:none !important;}
+}
+</style>
+</head>
+<body>
+
+<section class="section" style="padding-top:70px;">
+  <svg class="hero-logo" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0,500) scale(0.02,-0.02)" fill="var(--gold)">
+      <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+    </g>
+  </svg>
+  <div class="eyebrow">Nova Domus · Integración tecnológica · <span class="py-num">PY-2026-014</span></div>
+  <h1>Sonido ambiente<br>para la nave de exhibición</h1>
+  <p class="lead">Del cable a la app. Una propuesta técnica pensada para que se entienda cada decisión de diseño — no solo el resultado.</p>
+</section>
+
+<section class="section">
+  <div class="eyebrow">00 — Resumen ejecutivo</div>
+  <h2>Qué se propone</h2>
+  <div class="card">
+    <p><strong>Alcance:</strong> sonido ambiente distribuido en toda la nave (80×25m, dos alturas de cielorraso: 2,5m y 6m), con una sola fuente de audio en red (WiFi/streaming) controlable desde cualquier punto del predio.</p>
+    <p><strong>Cómo se resuelve:</strong> línea de distribución 70V con 18 parlantes de embutir, un streamer de red y un amplificador de un canal — arquitectura estándar de audio comercial para grandes superficies, no un sistema residencial escalado.</p>
+    <p><strong>Nivel de diseño:</strong> pensado para <em>fondo</em> (presencia sutil, no protagonismo). Más abajo detallamos qué cambia técnicamente si en el futuro se busca <em>presencia</em> (nivel de foreground/evento).</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">01 — Fundamento técnico</div>
+  <h2>Por qué 70V y no ohms</h2>
+  <p class="lead">Esta sección es la base de todas las decisiones de producto que siguen. La incluimos completa porque el diseño solo se entiende si se entiende esta diferencia.</p>
+
+  <h3 style="margin-top:24px;">El problema del sistema de 8 ohms tradicional</h3>
+  <p>Un parlante "de audio" convencional (los que se usan en un living, por ejemplo) se conecta directo al amplificador en baja impedancia — típicamente 8 ohms (Ω), a veces 4Ω. La potencia que entrega el amplificador a ese parlante sigue la ley de Ohm:</p>
+  <div class="formula"><code>P = V² / R</code> — Potencia (W) = Tensión² (V) ÷ Resistencia (Ω)</div>
+  <p>El problema aparece cuando se quieren conectar <strong>muchos</strong> parlantes al mismo canal de amplificador. Conectar parlantes de 8Ω en paralelo reduce la impedancia total del conjunto (dos en paralelo dan 4Ω, cuatro dan 2Ω), y la mayoría de los amplificadores comerciales no soportan bajar de 4Ω sin arriesgar el circuito de salida. Esto pone un techo muy bajo: con un canal típico, en la práctica no se pueden colgar más de 2 a 4 parlantes de 8Ω sin agregar más canales de amplificador — inviable para un proyecto de 18 puntos.</p>
+
+  <h3 style="margin-top:24px;">La solución: distribución a tensión constante (70V)</h3>
+  <p>En un sistema 70V, el amplificador no entrega la señal en baja impedancia — primero la eleva a una tensión constante de línea (70V, a veces 100V) mediante un transformador de salida integrado en el amplificador. Cada parlante, a su vez, tiene su <strong>propio transformador reductor</strong> en la parte trasera, con varias posiciones de potencia (los "taps"): en nuestro caso, 0,5W / 1W / 2W / 4W.</p>
+  <div class="formula">Potencia consumida por parlante = <code>tap elegido</code> (fijo, independiente de la impedancia nominal del woofer)</div>
+  <p>Como cada parlante "toma" una porción fija de potencia de la línea (no depende de un cálculo de impedancia combinada), se pueden colgar decenas de parlantes del mismo par de cables, todos en paralelo, limitados únicamente por la potencia total del amplificador — no por la cantidad de unidades.</p>
+
+  <h3 style="margin-top:24px;">Por qué la distancia no es un problema en 70V</h3>
+  <p>A mayor tensión, para la misma potencia, circula menos corriente (<code>I = P / V</code>). Las pérdidas resistivas en el cable son proporcionales al cuadrado de la corriente (<code>P_pérdida = I² × R_cable</code>), así que con menos corriente, un cable de calibre estándar puede recorrer decenas de metros sin caída de tensión relevante — algo que en un sistema de 8Ω de baja potencia sí sería un problema real en tiradas largas.</p>
+
+  <h3 style="margin-top:24px;">El cálculo real de este proyecto</h3>
+  <table>
+    <thead><tr><th>Concepto</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Amplificador</td><td>Episode ECA-70MIXAMP-1-120D — 120W, 1 canal, línea 70V</td></tr>
+      <tr><td>Parlantes en la línea</td><td>18 unidades, tap configurable 0,5W / 1W / 2W / 4W</td></tr>
+      <tr><td>Consumo total — todos al tap mínimo (0,5W)</td><td>9W (7,5% de la capacidad del ampli)</td></tr>
+      <tr><td>Consumo total — todos al tap máximo (4W)</td><td>72W (60% de la capacidad del ampli)</td></tr>
+    </tbody>
+  </table>
+  <p>Con cualquier combinación de taps dentro de este proyecto, el amplificador nunca supera el 60% de su capacidad — hay margen real, no un sistema al límite.</p>
+</section>
+
+<section class="section section-light">
+  <div class="eyebrow">02 — Topología del sistema</div>
+  <h2>Cómo se conecta todo</h2>
+  <div class="card">
+<svg viewBox="0 0 680 460" role="img" style="width:100%;height:auto;" aria-label="Diagrama de topología: fuente de audio por WiFi hacia el streamer VSSL MS.1, que envía la señal por RCA al amplificador 70V, el cual alimenta una única línea de dos hilos dividida en dos zonas de parlantes con distinto tap.">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#141E61" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g>
+<rect x="250" y="40" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#787A91" stroke-width="0.5"/>
+<text x="340" y="60" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#2C2C2A">Fuente de audio</text>
+<text x="340" y="78" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#5F5E5A">Celu, notebook, tablet</text>
+</g>
+<line x1="340" y1="96" x2="340" y2="138" stroke="#141E61" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="352" y="120" font-size="12" fill="#5F5E5A">WiFi</text>
+<g>
+<rect x="250" y="140" width="180" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="160" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#04342C">VSSL MS.1</text>
+<text x="340" y="178" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Streamer de red (rack)</text>
+</g>
+<line x1="340" y1="196" x2="340" y2="238" stroke="#141E61" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="352" y="220" font-size="12" fill="#5F5E5A">RCA</text>
+<g>
+<rect x="260" y="240" width="160" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="260" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#04342C">Amplificador 70V</text>
+<text x="340" y="278" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">1 canal, 120W (rack)</text>
+</g>
+<path d="M340 296 L340 328 L235 328 L235 358" fill="none" stroke="#141E61" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M340 296 L340 328 L440 328 L440 358" fill="none" stroke="#141E61" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="340" y="322" text-anchor="middle" font-size="12" fill="#5F5E5A">línea 70V, 2 hilos (paralelo)</text>
+<g>
+<rect x="145" y="360" width="180" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="235" y="380" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#412402">Zona 2,5m</text>
+<text x="235" y="398" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#633806">6 parlantes, tap 0,5-1W</text>
+</g>
+<g>
+<rect x="345" y="360" width="190" height="56" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="440" y="380" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#4A1B0C">Zona 6m</text>
+<text x="440" y="398" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">12 parlantes, tap 2-4W</text>
+</g>
+</svg>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">03 — Alcance real del proyecto</div>
+  <h2>Fondo, no presencia</h2>
+  <p class="lead">Es importante ser precisos con esto: el diseño de esta propuesta está calibrado para sonido de fondo — perceptible pero no protagonista. No es el mismo diseño que si el objetivo fuera que el sonido "se sienta" en toda la nave.</p>
+  <div class="compare">
+    <div class="col fondo">
+      <h4>Este proyecto — fondo</h4>
+      <ul>
+        <li>Taps bajos: 0,5W a 4W por parlante</li>
+        <li>Nivel objetivo: ambiente, sin exigir volumen</li>
+        <li>18 puntos, distribución no uniforme (zonas de circulación)</li>
+        <li>Parlante Episode ECS-250-IC-6 (50W RMS de driver, usado muy por debajo de su capacidad)</li>
+      </ul>
+    </div>
+    <div class="col presencia">
+      <h4>Si se busca presencia</h4>
+      <ul>
+        <li>Taps altos: 7,5W a 60W por parlante</li>
+        <li>Nivel objetivo: foreground, apto para eventos</li>
+        <li>Requiere revisar cobertura para evitar zonas sin señal directa</li>
+        <li>Parlante de mayor potencia (ver opción abajo)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="upgrade-card">
+    <label>
+      <input type="checkbox" id="opt-presencia" onchange="recalcular()">
+      <div>
+        <h4 style="margin:0 0 6px;color:var(--cream);font-size:15px;">Upgrade: sonido con presencia</h4>
+        <p style="margin:0 0 8px;font-size:14px;">Reemplaza los 18 parlantes Episode ECS-250-IC-6 (taps 0,5-4W) por Episode ECS-800-IC-6 (6", taps 7,5W / 15W / 30W / 60W) — mismo cableado y misma cantidad de puntos, con un techo de potencia real para volumen de evento, no solo de fondo.</p>
+        <span class="upgrade-price" id="upgrade-price-label">+ USD 6.736</span>
+      </div>
+    </label>
+  </div>
+  <p style="font-size:13px;color:var(--grey);">Si además de más potencia por punto se quiere eliminar zonas sin cobertura directa (para un nivel de presencia realmente uniforme en toda la superficie), el número de puntos también sube — de 18 a un rango de 30-40 parlantes según la zona. Ese rediseño de cobertura no está incluido en este upgrade y se cotiza aparte si se confirma el interés.</p>
+</section>
+
+<section class="section section-light">
+  <div class="eyebrow">04 — Producto seleccionado</div>
+  <h2>Parlante Episode 250 Commercial Series</h2>
+  <div class="card">
+    <p>Diseñado específicamente para <em>background music and paging</em> — exactamente el uso de este proyecto, no un parlante residencial adaptado a la fuerza.</p>
+  </div>
+  <table>
+    <thead><tr><th>Especificación</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Respuesta en frecuencia</td><td>58 Hz – 20 kHz</td></tr>
+      <tr><td>Woofer</td><td>6-1/2" cono de papel tratado</td></tr>
+      <tr><td>Tweeter</td><td>1/2" cúpula de tela, motor neodimio, ferrofluido</td></tr>
+      <tr><td>Ángulo de dispersión</td><td>110° (reduce puntos calientes, mayor flexibilidad de espaciado)</td></tr>
+      <tr><td>Potencia RMS / pico</td><td>50W / 125W</td></tr>
+      <tr><td>Sensibilidad</td><td>87 dB (2,83V / 1m)</td></tr>
+      <tr><td>Tap settings (70V)</td><td>0,5W / 1W / 2W / 4W</td></tr>
+      <tr><td>Impedancia nominal</td><td>8Ω (irrelevante en uso 70V — ver Sección 01)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <div class="eyebrow">05 — Responsabilidad del proyecto</div>
+  <h2>Qué hace Nova Domus, qué hace el instalador</h2>
+  <p class="lead">En este proyecto puntual Nova Domus no ejecuta la instalación física — la realiza el electricista/instalador del cliente, con la guía técnica que Nova Domus provee. Preferimos ser honestos con esto en vez de dar a entender un alcance que no es real.</p>
+  <table class="resp-table">
+    <tbody>
+      <tr><td>Especificación técnica</td><td>Nova Domus — selección de producto, topología, cálculo de taps por zona</td></tr>
+      <tr><td>Cableado y montaje físico</td><td>Instalador del cliente — según guía técnica entregada por Nova Domus</td></tr>
+      <tr><td>Configuración de taps</td><td>Instalador del cliente, con valores definidos por Nova Domus</td></tr>
+      <tr><td>Programación y comisionado</td><td>Nova Domus — configuración de red del streamer, verificación de balance entre zonas</td></tr>
+      <tr><td>Documentación final</td><td>Nova Domus — entrega plano con parlantes, taps configurados y credenciales de app</td></tr>
+      <tr><td>Garantía de equipo</td><td>Nova Domus certifica la configuración; garantía de fábrica según cada producto</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section section-light" id="inversion">
+  <div class="eyebrow">06 — Inversión</div>
+  <h2>Desglose completo</h2>
+
+  <div class="inv-item">
+    <button class="inv-head" onclick="toggleAcc(this)">Equipo <span id="equipo-total-label">USD 4.079</span></button>
+    <div class="inv-body">
+      <table>
+        <thead><tr><th>Ítem</th><th>Cant.</th><th>Precio unit. (c/IVA)</th><th>Subtotal</th></tr></thead>
+        <tbody id="equipo-rows">
+          <tr><td>Episode ECS-250-IC-6 — parlante embutido 25/70V, 6,5"</td><td>18</td><td>USD 119,22</td><td>USD 2.145,96</td></tr>
+          <tr><td>VSSL MS.1 — streamer de red</td><td>1</td><td>USD 629,20</td><td>USD 629,20</td></tr>
+          <tr><td>Episode ECA-70MIXAMP-1-120D — amplificador 70V, 1 canal</td><td>1</td><td>USD 1.303,83</td><td>USD 1.303,83</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="totals">
+    <div class="totals-row"><span>Subtotal equipo (neto)</span><span id="t-neto">USD 3.371,08</span></div>
+    <div class="totals-row"><span>IVA equipo (21%)</span><span id="t-iva">USD 707,93</span></div>
+    <div class="totals-row"><span>Subtotal equipo (con IVA)</span><span id="t-con-iva">USD 4.079,01</span></div>
+    <div class="totals-row"><span>Programación y comisionado (10%)</span><span id="t-prog">USD 407,90</span></div>
+    <div class="totals-row final"><span>Total proyecto</span><span id="t-total">USD 4.487</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">07 — Forma de pago</div>
+  <h2>Etapas</h2>
+  <div class="pay-stage"><span>Equipos — 100% anticipado</span><span id="pay-equipo">USD 4.079</span></div>
+  <div class="pay-stage"><span>Programación y comisionado — 30% al arrancar</span><span id="pay-30">USD 122</span></div>
+  <div class="pay-stage"><span>Programación y comisionado — 70% al entregar documentación</span><span id="pay-70">USD 286</span></div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">08 — Condiciones generales</div>
+  <ul style="font-size:14px;">
+    <li>Presupuesto válido por 15 días. Precios en USD, tipo de cambio BNA oficial de referencia.</li>
+    <li>La instalación física (cableado, montaje, configuración de taps) es responsabilidad del instalador designado por el cliente — ver Sección 05.</li>
+    <li>Nova Domus certifica la configuración de red y el balance de zonas al finalizar el comisionado, no la ejecución de obra física.</li>
+    <li>Todo excedente no presupuestado se comunica antes de ejecutar, con autorización previa del cliente.</li>
+    <li>Facturación: se puede emitir Factura A sobre el ítem de programación y comisionado.</li>
+  </ul>
+</section>
+
+<footer>
+  Nova Domus — Integración tecnológica · <span class="py-num">PY-2026-014</span> · Del cable a la app
+</footer>
+
+<script>
+function toggleAcc(btn){
+  var body = btn.nextElementSibling;
+  var isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.inv-head').forEach(function(h){h.classList.remove('open');h.nextElementSibling.style.maxHeight=null;});
+  if(!isOpen){btn.classList.add('open');body.style.maxHeight = body.scrollHeight + 'px';}
+}
+window.addEventListener('resize', function(){
+  document.querySelectorAll('.inv-head.open').forEach(function(h){h.nextElementSibling.style.maxHeight = h.nextElementSibling.scrollHeight + 'px';});
+});
+
+var BASE = {
+  speakerBase: 2145.96,
+  speakerUpgrade: 8881.56,
+  ms1: 629.20,
+  amp: 1303.83
+};
+
+function fmt(n){
+  return 'USD ' + n.toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function fmtRound(n){
+  return 'USD ' + Math.ceil(n).toLocaleString('es-AR');
+}
+
+function recalcular(){
+  var upgrade = document.getElementById('opt-presencia').checked;
+  var speakerCost = upgrade ? BASE.speakerUpgrade : BASE.speakerBase;
+  var speakerLabel = upgrade ? 'Episode ECS-800-IC-6 — parlante embutido 25/70V, 6" (upgrade presencia)' : 'Episode ECS-250-IC-6 — parlante embutido 25/70V, 6,5"';
+  var speakerUnit = upgrade ? 493.42 : 119.22;
+
+  document.getElementById('equipo-rows').innerHTML =
+    '<tr><td>'+speakerLabel+'</td><td>18</td><td>'+fmt(speakerUnit)+'</td><td>'+fmt(speakerCost)+'</td></tr>' +
+    '<tr><td>VSSL MS.1 — streamer de red</td><td>1</td><td>'+fmt(BASE.ms1)+'</td><td>'+fmt(BASE.ms1)+'</td></tr>' +
+    '<tr><td>Episode ECA-70MIXAMP-1-120D — amplificador 70V, 1 canal</td><td>1</td><td>'+fmt(BASE.amp)+'</td><td>'+fmt(BASE.amp)+'</td></tr>';
+
+  var conIva = speakerCost + BASE.ms1 + BASE.amp;
+  var neto = conIva / 1.21;
+  var iva = conIva - neto;
+  var prog = conIva * 0.10;
+  var total = conIva + prog;
+
+  document.getElementById('equipo-total-label').textContent = fmt(conIva);
+  document.getElementById('t-neto').textContent = fmt(neto);
+  document.getElementById('t-iva').textContent = fmt(iva);
+  document.getElementById('t-con-iva').textContent = fmt(conIva);
+  document.getElementById('t-prog').textContent = fmt(prog);
+  document.getElementById('t-total').textContent = fmtRound(total);
+
+  document.getElementById('pay-equipo').textContent = fmt(conIva);
+  document.getElementById('pay-30').textContent = fmt(prog*0.3);
+  document.getElementById('pay-70').textContent = fmt(prog*0.7);
+
+  document.getElementById('upgrade-price-label').textContent = '+ ' + fmt(BASE.speakerUpgrade - BASE.speakerBase);
+
+  var openAcc = document.querySelector('.inv-head.open');
+  if(openAcc){openAcc.nextElementSibling.style.maxHeight = openAcc.nextElementSibling.scrollHeight + 'px';}
+}
+recalcular();
+</script>
+
+</body>
+</html>
