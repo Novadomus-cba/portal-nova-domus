@@ -193,6 +193,10 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 </g>
 </svg>
   </div>
+
+  <h3 style="margin-top:28px;">Distribución física real (plano relevado)</h3>
+  <p style="font-size:14px;color:#5d6078;">Este es el plano final, con las 4 sub-áreas reales del predio. Las dos áreas de 2,50m (franja + ala) comparten el mismo grupo eléctrico de 6 parlantes a tap bajo; las dos áreas de 6,00m (ingreso + nave) comparten el grupo de 12 parlantes a tap alto — la lógica de 2 zonas de la Sección 01 no cambia, solo se reparte en más lugares físicos.</p>
+  <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/planos/audio-nave-olive-plano.png" alt="Plano de distribución de 18 parlantes" style="width:100%;border-radius:8px;border:1px solid #E3E1D6;margin-top:10px;">
 </section>
 
 <section class="section">
@@ -300,13 +304,54 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 </section>
 
 <section class="section">
-  <div class="eyebrow">05 — Responsabilidad del proyecto</div>
+  <div class="eyebrow">05 — Instalación física</div>
+  <h2>Cómo se ejecuta la obra</h2>
+  <p class="lead">El amplificador y el VSSL MS.1 van juntos, dentro del mismo rack. Todo lo demás es cableado de dos hilos hasta cada parlante — no hay electrónica adicional en el trayecto.</p>
+
+  <h3 style="margin-top:20px;">Rack</h3>
+  <ul style="font-size:14px;">
+    <li>El VSSL MS.1 y el Episode ECA-70MIXAMP-1-120D se montan en el mismo rack (1RU cada uno, 19").</li>
+    <li>Del VSSL sale un cable RCA estéreo hacia la entrada de línea del amplificador — es la única conexión entre ambos equipos.</li>
+    <li>Requisitos del lugar del rack: 220V y conexión de red (Ethernet al switch, o WiFi si el MS.1 la sostiene establemente).</li>
+    <li>El rack puede ubicarse en cualquier punto del predio — al ir todo a 70V después del amplificador, la distancia hasta los parlantes más lejanos no es una limitación (ver Sección 01).</li>
+  </ul>
+
+  <h3 style="margin-top:20px;">Cableado — línea 70V en paralelo</h3>
+  <ul style="font-size:14px;">
+    <li>Del amplificador sale un único par de cables (2 hilos, sin blindaje, calibre estándar de parlante).</li>
+    <li>Ese par recorre cada una de las 4 sub-áreas del plano y se deriva en paralelo en cada uno de los 18 puntos — no es una conexión en serie: todos los parlantes cuelgan de los mismos 2 hilos.</li>
+    <li>En cada punto: cortar el cielorraso al diámetro de la plantilla de montaje del parlante (7,7" según ficha técnica, Sección 04), pasar el cable, derivar con conectores/borneras, fijar el parlante.</li>
+  </ul>
+
+  <h3 style="margin-top:20px;">Configuración de tap — antes de cerrar cada parlante</h3>
+  <table>
+    <thead><tr><th>Sub-área (plano)</th><th>Altura</th><th>Parlantes</th><th>Tap a configurar</th></tr></thead>
+    <tbody>
+      <tr><td>Ingreso</td><td>6,00 m</td><td>4</td><td>2 W</td></tr>
+      <tr><td>Franja central</td><td>2,50 m</td><td>2</td><td>0,5 W</td></tr>
+      <tr><td>Ala derecha</td><td>2,50 m</td><td>4</td><td>0,5 - 1 W</td></tr>
+      <tr><td>Nave</td><td>6,00 m</td><td>8</td><td>2 - 4 W</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px;color:var(--grey);">El tap se ajusta con destornillador plano, en la parte trasera del parlante — es mecánico, no requiere ningún software ni reconfiguración posterior si se hace bien la primera vez.</p>
+
+  <h3 style="margin-top:20px;">Puesta en marcha (a cargo de Nova Domus)</h3>
+  <ul style="font-size:14px;">
+    <li>Vinculación del VSSL MS.1 a la red WiFi del predio y a la app VSSL CNCT.</li>
+    <li>Verificación de balance entre las 4 sub-áreas — si algo suena desparejo, se corrige cambiando el tap del parlante puntual, sin volver a cablear nada.</li>
+    <li>Prueba de streaming de red desde distintos puntos del predio.</li>
+    <li>Entrega de documentación final: este mismo plano con los taps configurados, y credenciales de acceso a la app.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <div class="eyebrow">06 — Responsabilidad del proyecto</div>
   <h2>Qué hace Nova Domus, qué hace el instalador</h2>
   <p class="lead">En este proyecto puntual Nova Domus no ejecuta la instalación física — la realiza el electricista/instalador del cliente, con la guía técnica que Nova Domus provee. Preferimos ser honestos con esto en vez de dar a entender un alcance que no es real.</p>
   <table class="resp-table">
     <tbody>
       <tr><td>Especificación técnica</td><td>Nova Domus — selección de producto, topología, cálculo de taps por zona</td></tr>
-      <tr><td>Cableado y montaje físico</td><td>Instalador del cliente — según guía técnica entregada por Nova Domus</td></tr>
+      <tr><td>Cableado y montaje físico</td><td>Instalador del cliente — según guía técnica entregada por Nova Domus (Sección 05)</td></tr>
       <tr><td>Configuración de taps</td><td>Instalador del cliente, con valores definidos por Nova Domus</td></tr>
       <tr><td>Programación y comisionado</td><td>Nova Domus — configuración de red del streamer, verificación de balance entre zonas</td></tr>
       <tr><td>Documentación final</td><td>Nova Domus — entrega plano con parlantes, taps configurados y credenciales de app</td></tr>
@@ -316,7 +361,7 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 </section>
 
 <section class="section section-light" id="inversion">
-  <div class="eyebrow">06 — Inversión</div>
+  <div class="eyebrow">07 — Inversión</div>
   <h2>Desglose completo</h2>
 
   <div class="inv-item">
@@ -343,7 +388,7 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 </section>
 
 <section class="section">
-  <div class="eyebrow">07 — Forma de pago</div>
+  <div class="eyebrow">08 — Forma de pago</div>
   <h2>Etapas</h2>
   <div class="pay-stage"><span>Equipos — 100% anticipado</span><span id="pay-equipo">USD 4.079</span></div>
   <div class="pay-stage"><span>Programación y comisionado — 30% al arrancar</span><span id="pay-30">USD 122</span></div>
@@ -351,7 +396,7 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 </section>
 
 <section class="section">
-  <div class="eyebrow">08 — Condiciones generales</div>
+  <div class="eyebrow">09 — Condiciones generales</div>
   <ul style="font-size:14px;">
     <li>Presupuesto válido por 15 días. Precios en USD, tipo de cambio BNA oficial de referencia.</li>
     <li>La instalación física (cableado, montaje, configuración de taps) es responsabilidad del instalador designado por el cliente — ver Sección 05.</li>
