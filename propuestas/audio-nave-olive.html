@@ -81,6 +81,13 @@ tr:nth-child(even) td{background:rgba(255,255,255,0.03);}
 .pay-stage{display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:8px;font-size:14px;}
 .section-light .pay-stage{background:#F7F5EC;}
 .resp-table td:first-child{font-weight:600;width:32%;}
+.device-card{display:flex;gap:20px;background:#fff;border:1px solid #E3E1D6;border-radius:12px;padding:20px;margin-bottom:18px;flex-wrap:wrap;}
+.device-photo{width:140px;height:140px;flex-shrink:0;background:#F7F5EC;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:14px;}
+.device-photo img{max-width:100%;max-height:100%;object-fit:contain;}
+.device-info{flex:1;min-width:240px;}
+.device-info table{font-size:13px;}
+.device-info td:first-child{color:#5d6078;width:45%;}
+@media (max-width:520px){.device-card{flex-direction:column;}.device-photo{width:100%;height:120px;}}
 footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 .logo-svg path{fill:var(--gold);}
 .hero-logo{width:52px;height:52px;margin-bottom:20px;}
@@ -227,24 +234,80 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 </section>
 
 <section class="section section-light">
-  <div class="eyebrow">04 — Producto seleccionado</div>
-  <h2>Parlante Episode 250 Commercial Series</h2>
-  <div class="card">
-    <p>Diseñado específicamente para <em>background music and paging</em> — exactamente el uso de este proyecto, no un parlante residencial adaptado a la fuerza.</p>
+  <div class="eyebrow">04 — Ficha técnica de equipos</div>
+  <h2>Los 3 productos del sistema</h2>
+  <p class="lead">Especificaciones tal como las publica el fabricante — sin resumir ni redondear, para que se pueda auditar cada número.</p>
+
+  <div class="device-card">
+    <div class="device-photo device-icon-speaker" aria-hidden="true">
+      <svg viewBox="0 0 120 120" width="100%" height="100%"><circle cx="60" cy="60" r="52" fill="none" stroke="#141E61" stroke-width="2"/><circle cx="60" cy="60" r="36" fill="none" stroke="#141E61" stroke-width="1.5"/><circle cx="60" cy="60" r="20" fill="none" stroke="#141E61" stroke-width="1.5"/><circle cx="60" cy="60" r="6" fill="#141E61"/></svg>
+    </div>
+    <div class="device-info">
+      <h3>Episode ECS-250-IC-6</h3>
+      <p style="font-size:13px;color:#5d6078;margin:0 0 10px;">250 Commercial Series — 25/70V, embutido de techo, 6,5"</p>
+      <table>
+        <tbody>
+          <tr><td>Respuesta en frecuencia</td><td>58 Hz – 20 kHz</td></tr>
+          <tr><td>Woofer</td><td>6-1/2" cono de papel tratado</td></tr>
+          <tr><td>Tweeter</td><td>1/2" cúpula de tela, motor neodimio, ferrofluido</td></tr>
+          <tr><td>Ángulo de dispersión</td><td>110°</td></tr>
+          <tr><td>Potencia RMS / pico</td><td>50W / 125W</td></tr>
+          <tr><td>Sensibilidad</td><td>87 dB (2,83V / 1m)</td></tr>
+          <tr><td>Tap settings (70V)</td><td>0,5W / 1W / 2W / 4W</td></tr>
+          <tr><td>Impedancia nominal</td><td>8Ω (bypass — irrelevante en uso 70V, ver Sección 01)</td></tr>
+          <tr><td>Diámetro corte / grilla</td><td>7,7" corte / 8,5" grilla</td></tr>
+          <tr><td>Garantía</td><td>Lifetime Limited Warranty (fabricante)</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <table>
-    <thead><tr><th>Especificación</th><th>Valor</th></tr></thead>
-    <tbody>
-      <tr><td>Respuesta en frecuencia</td><td>58 Hz – 20 kHz</td></tr>
-      <tr><td>Woofer</td><td>6-1/2" cono de papel tratado</td></tr>
-      <tr><td>Tweeter</td><td>1/2" cúpula de tela, motor neodimio, ferrofluido</td></tr>
-      <tr><td>Ángulo de dispersión</td><td>110° (reduce puntos calientes, mayor flexibilidad de espaciado)</td></tr>
-      <tr><td>Potencia RMS / pico</td><td>50W / 125W</td></tr>
-      <tr><td>Sensibilidad</td><td>87 dB (2,83V / 1m)</td></tr>
-      <tr><td>Tap settings (70V)</td><td>0,5W / 1W / 2W / 4W</td></tr>
-      <tr><td>Impedancia nominal</td><td>8Ω (irrelevante en uso 70V — ver Sección 01)</td></tr>
-    </tbody>
-  </table>
+
+  <div class="device-card">
+    <div class="device-photo">
+      <img src="https://cdn.prod.website-files.com/692e29d6c6aa23d456cb4819/69b1b51b3db99765ac9e8853_MS.1-FRONT_Web.png" alt="VSSL MS.1" loading="lazy">
+    </div>
+    <div class="device-info">
+      <h3>VSSL MS.1</h3>
+      <p style="font-size:13px;color:#5d6078;margin:0 0 10px;">Streamer de red — fuente única para todo el sistema</p>
+      <table>
+        <tbody>
+          <tr><td>Zonas / canales</td><td>1 zona, 2 canales (salida estéreo)</td></tr>
+          <tr><td>Entradas</td><td>Analógica, óptica, coax digital, HDMI eARC, IR, red, USB</td></tr>
+          <tr><td>Streaming inalámbrico</td><td>AirPlay, Google Cast, Spotify Connect, Bluetooth 5.3 LE Audio (Auracast)</td></tr>
+          <tr><td>Salidas</td><td>Óptica, coax digital, RCA analógica, 12V trigger</td></tr>
+          <tr><td>Red</td><td>WiFi + Ethernet (PoE)</td></tr>
+          <tr><td>DAC</td><td>Multi-core DSP, hasta 24 bit / 192 kHz</td></tr>
+          <tr><td>Alimentación</td><td>100–240V 50/60Hz, 100W</td></tr>
+          <tr><td>Dimensiones</td><td>171,5 × 44,5 × 171,5 mm (An×Al×Prof)</td></tr>
+          <tr><td>Peso</td><td>0,54 kg</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="device-card">
+    <div class="device-photo device-icon-amp" aria-hidden="true">
+      <svg viewBox="0 0 160 90" width="100%" height="100%"><rect x="8" y="8" width="144" height="74" rx="4" fill="none" stroke="#141E61" stroke-width="2"/><circle cx="30" cy="45" r="10" fill="none" stroke="#141E61" stroke-width="1.5"/><circle cx="58" cy="45" r="10" fill="none" stroke="#141E61" stroke-width="1.5"/><circle cx="86" cy="45" r="10" fill="none" stroke="#141E61" stroke-width="1.5"/><circle cx="114" cy="45" r="10" fill="none" stroke="#141E61" stroke-width="1.5"/><rect x="130" y="20" width="14" height="10" fill="none" stroke="#141E61" stroke-width="1.5"/></svg>
+    </div>
+    <div class="device-info">
+      <h3>Episode ECA-70MIXAMP-1-120D</h3>
+      <p style="font-size:13px;color:#5d6078;margin:0 0 10px;">Amplificador-mixer 70V, 1 canal, con Bluetooth</p>
+      <table>
+        <tbody>
+          <tr><td>Potencia</td><td>120W RMS, 1 canal</td></tr>
+          <tr><td>Salidas de línea</td><td>70V / 100V / 50V / 4-16Ω seleccionable</td></tr>
+          <tr><td>Entradas</td><td>4 mic (XLR, con prioridad/ducking) + 2 aux/estéreo</td></tr>
+          <tr><td>Streaming</td><td>Bluetooth integrado</td></tr>
+          <tr><td>Tono</td><td>Control de graves y agudos</td></tr>
+          <tr><td>Pre out / Amp in</td><td>Sí — permite insertar un procesador externo si en el futuro se necesita EQ activa por zona</td></tr>
+          <tr><td>Formato</td><td>1 RU, montable en rack de 19"</td></tr>
+          <tr><td>Dimensiones</td><td>484 × 44 × 315 mm (An×Al×Prof)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p style="font-size:12.5px;color:var(--grey);margin-top:8px;">Nota de imágenes: para el VSSL MS.1 usamos la foto real del fabricante. Para el parlante y el amplificador todavía no tenemos foto real cargada en nuestra base — mientras tanto usamos un ícono técnico de línea. Se reemplaza por la foto real apenas se complete esa carga.</p>
 </section>
 
 <section class="section">
