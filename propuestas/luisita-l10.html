@@ -2,256 +2,458 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
-<meta property="og:title" content="Nova Domus — Propuesta La Luisita L10">
-<meta property="og:description" content="Integración tecnológica para La Luisita L10. Del cable a la app.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/luisita-l10.html">
+<meta property="og:title" content="La Luisita L10 — Propuesta Nova Domus">
+<meta property="og:description" content="Redes, Seguridad y Sonido para La Luisita L10. Del cable a la app.">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/luisita-l10.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="Nova Domus">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nova Domus — Propuesta La Luisita L10">
-<meta name="twitter:description" content="Integración tecnológica para La Luisita L10. Del cable a la app.">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/luisita-l10.png">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/luisita-l10.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Domus · La Luisita L10 · Integración Tecnológica</title>
+<title>La Luisita L10 — Nova Domus | Integración Tecnológica</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#141E61;
-  --navy-deep:#0B132B;
-  --grey:#787A91;
-  --cream:#FDFBF0;
-  --gold:#C8A96E;
-  --red:#B5453A;
-  --font-display:'Michroma',Arial,sans-serif;
-  --font-body:'Inter',Arial,sans-serif;
+  --navy:#141E61; --navy-deep:#0B132B; --grey:#787A91; --cream:#FDFBF0;
+  --gold:#C8A96E; --red:#B5453A; --body:#EDEAE0;
+  --font-display:'Michroma',Arial,sans-serif; --font-body:'Inter',Arial,sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box; margin:0; padding:0;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:var(--font-body);
-  background:var(--navy-deep);
-  color:var(--cream);
-  line-height:1.5;
-  overflow-x:hidden;
-}
-h1,h2,.eyebrow,.figure{font-family:var(--font-display);text-transform:uppercase;letter-spacing:2px;}
-h1{font-size:clamp(28px,6vw,44px);line-height:1.15;}
-h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin-bottom:6px;}
-h3{font-family:var(--font-body);font-weight:600;font-size:16px;}
-p{color:#EDEAE0;}
-a{color:var(--gold);text-decoration:none;}
-.section{padding:64px 20px;max-width:900px;margin:0 auto;}
-.section-light{background:var(--cream);color:var(--navy-deep);}
+body{font-family:var(--font-body); background:var(--navy-deep); color:var(--body); line-height:1.5; overflow-x:hidden;}
+h1,h2,.eyebrow,.figure{font-family:var(--font-display); text-transform:uppercase; letter-spacing:2px;}
+h1{font-size:clamp(28px,6vw,44px); line-height:1.15; color:var(--cream);}
+h2{font-size:clamp(18px,3.2vw,24px); letter-spacing:2.5px; margin-bottom:10px; color:var(--cream);}
+h3{font-family:var(--font-body); font-weight:600; font-size:16px; color:var(--cream);}
+.eyebrow{color:var(--gold); font-size:11px; letter-spacing:2px; margin-bottom:8px; display:block;}
+.lead{color:var(--grey); font-size:15px; max-width:640px;}
+p{color:var(--body);}
+a{color:var(--gold); text-decoration:none;}
+.section{padding:70px 20px; max-width:1100px; margin:0 auto;}
+.section-light{background:var(--cream); color:var(--navy-deep);}
 .section-light p{color:#3a3d4a;}
 .section-light h2,.section-light h3{color:var(--navy);}
-.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;display:block;margin-bottom:10px;}
-.section-light .eyebrow{color:var(--navy);opacity:.65;}
-.lead{color:var(--grey);font-size:15px;max-width:640px;}
+.section-light .eyebrow{color:var(--navy); opacity:.65;}
 .section-light .lead{color:#5d6078;}
+button{font-family:var(--font-body); cursor:pointer; background:transparent; appearance:none; border:none;}
+img,svg{max-width:100%;}
 
-/* ===== logo (símbolo único, reutilizado con <use>) ===== */
-.logo-defs{position:absolute;width:0;height:0;overflow:hidden;}
-.mark{display:inline-flex;align-items:center;justify-content:center;background:var(--cream);}
-.mark svg{display:block;transform:none;}
-.mark-hero{width:96px;height:96px;padding:18px;border-radius:22px;}
-.mark-nav{width:28px;height:28px;padding:6px;border-radius:10px;}
-.mark-ring{width:22px;height:22px;padding:6px;border-radius:50%;}
-.mark-footer{width:40px;height:40px;padding:10px;border-radius:14px;}
+#topnav{position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(11,19,43,.92); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,169,110,.15);}
+#topnav .inner{max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:10px 20px;}
+#topnav .mark{display:flex; align-items:center; gap:10px;}
+#topnav .mark svg{width:28px; height:28px; transform:none; display:block;}
+#topnav .navlinks{display:none; gap:16px; font-size:11.5px; letter-spacing:.5px;}
+@media(min-width:900px){#topnav .navlinks{display:flex;}}
+#topnav .navlinks a{color:var(--grey);}
+#topnav .navlinks a.active{color:var(--gold);}
+#progress-badge{position:fixed; bottom:20px; right:20px; z-index:100; width:52px; height:52px; cursor:pointer;}
+#progress-badge svg.ring-svg{transform:rotate(-90deg); width:52px; height:52px; position:absolute; top:0; left:0;}
+#progress-badge .mark{position:absolute; top:0; left:0; width:52px; height:52px; display:flex; align-items:center; justify-content:center;}
+#progress-badge .mark svg{width:26px; height:26px; transform:none; display:block;}
 
-/* ===== progress ring ===== */
-#progress-badge{
-  position:fixed;top:16px;right:16px;z-index:60;width:52px;height:52px;
-  border-radius:999px;background:rgba(11,19,43,.85);backdrop-filter:blur(6px);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  border:1px solid rgba(200,169,110,.35);
-}
-#progress-badge svg.ring-svg{transform:rotate(-90deg);}
-#progress-badge .ring-bg{fill:none;stroke:rgba(253,251,240,.15);stroke-width:3;}
-#progress-badge .ring-fg{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset .1s linear;}
-#progress-badge .mark{position:absolute;}
+.logo-plate{background:var(--cream); border-radius:16px; padding:14px 18px; display:inline-flex; align-items:center; gap:12px; margin-bottom:28px;}
+.logo-plate svg{width:40px; height:40px; display:block; transform:none;}
+.logo-plate .lp-word{font-family:var(--font-display); color:var(--navy-deep); font-size:15px; letter-spacing:2px; line-height:1.3;}
+.logo-plate .lp-word small{display:block; font-family:var(--font-body); font-size:9px; letter-spacing:1.5px; color:var(--gold); font-weight:600; margin-top:2px;}
 
-/* ===== nav ===== */
-nav.chapters{
-  position:sticky;top:0;z-index:50;background:rgba(11,19,43,.92);backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(120,122,145,.25);overflow-x:auto;white-space:nowrap;
-  padding:12px 16px;display:flex;gap:22px;-ms-overflow-style:none;scrollbar-width:none;
-}
-nav.chapters::-webkit-scrollbar{display:none;}
-nav.chapters a{
-  font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--grey);
-  min-height:44px;display:flex;align-items:center;flex-shrink:0;
-}
-nav.chapters a.active{color:var(--gold);}
+#hero{min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px 20px 60px; max-width:1100px; margin:0 auto; position:relative;}
+#hero .py-tag{color:var(--gold); font-size:12px; letter-spacing:2px; font-family:var(--font-body); font-weight:600; margin-bottom:16px;}
+#hero .tagline{color:var(--grey); font-size:16px; margin-top:18px;}
+#hero .descriptor{color:var(--gold); font-size:12px; letter-spacing:3px; margin-top:6px;}
 
-/* ===== hero ===== */
-.hero{
-  min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:100px 20px 60px;position:relative;
-  background:radial-gradient(ellipse at 50% -10%, rgba(20,30,97,.55), transparent 60%),var(--navy-deep);
-}
-.hero .wordmark{font-family:var(--font-display);font-size:15px;letter-spacing:4px;margin-top:18px;}
-.hero .descriptor{color:var(--gold);font-size:11px;letter-spacing:3px;margin-top:4px;}
-.hero .proj-num{color:var(--gold);font-size:10px;letter-spacing:1.5px;margin-top:10px;opacity:.75;font-family:var(--font-body);font-weight:600;}
-.hero h1{margin-top:28px;}
-.hero .slogan{font-family:var(--font-body);font-style:normal;color:var(--grey);font-size:17px;margin-top:14px;}
-.hero .scroll-cue{margin-top:48px;font-size:11px;letter-spacing:2px;color:var(--grey);}
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:30px;}
+@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr);}}
+.stat .figure{font-size:clamp(24px,4vw,34px); color:var(--gold);}
+.stat .stat-label{font-size:10.5px; color:var(--grey); letter-spacing:1px; text-transform:uppercase; margin-top:4px;}
 
-/* ===== resumen ejecutivo ===== */
-.resumen-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px;}
-.resumen-item{background:rgba(20,30,97,.35);border:1px solid rgba(120,122,145,.25);border-radius:10px;padding:16px;}
-.resumen-item .n{font-family:var(--font-display);font-size:26px;color:var(--gold);}
-.resumen-item .l{font-size:11px;letter-spacing:1px;color:var(--grey);text-transform:uppercase;margin-top:4px;}
-.next-step{margin-top:24px;border-left:3px solid var(--gold);padding-left:14px;}
+#resumen{background:linear-gradient(180deg,rgba(200,169,110,.06),transparent);}
+.resumen-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:24px;}
+@media(min-width:800px){.resumen-grid{grid-template-columns:repeat(4,1fr);}}
+.resumen-card{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:12px; padding:20px;}
+.resumen-card .rc-label{font-size:10.5px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;}
+.resumen-card .rc-value{font-family:var(--font-display); font-size:20px; color:var(--cream);}
+.resumen-card .rc-sub{font-size:12px; color:var(--grey); margin-top:6px;}
 
-/* ===== toggle comparativo (redes / alarma-video) ===== */
-.toggle-wrap{margin-top:22px;}
-.toggle-btns{display:flex;gap:8px;margin-bottom:16px;}
-.toggle-btns button{
-  flex:1;min-height:48px;border-radius:8px;border:1px solid rgba(120,122,145,.35);
-  background:transparent;appearance:none;color:var(--cream);font-family:var(--font-body);
-  font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;
-}
-.toggle-btns button.state-problema.is-active{background:rgba(181,69,58,.18);border-color:var(--red);color:#f2b8b2;}
-.toggle-btns button.state-solucion.is-active{background:rgba(200,169,110,.14);border-color:var(--gold);color:var(--gold);}
-.compare-panel{border-radius:12px;padding:18px;border:1px solid rgba(120,122,145,.25);background:rgba(11,19,43,.4);}
-.compare-panel.is-problema{border-color:rgba(181,69,58,.4);}
-.compare-panel.is-solucion{border-color:rgba(200,169,110,.4);}
-.compare-panel ul{list-style:none;margin-top:10px;}
-.compare-panel li{padding:6px 0;font-size:14px;display:flex;gap:8px;}
-.compare-panel.is-problema li::before{content:"✕";color:var(--red);}
-.compare-panel.is-solucion li::before{content:"✓";color:var(--gold);}
+.diagram-5{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:26px 0;}
+@media(min-width:800px){.diagram-5{grid-template-columns:repeat(5,1fr);}}
+.diagram-step{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:10px; padding:16px 14px; text-align:center;}
+.diagram-step .step-num{font-family:var(--font-display); color:var(--gold); font-size:20px;}
+.diagram-step .step-label{font-size:12.5px; margin-top:8px; color:var(--body);}
 
-/* ===== simulador de escenas ===== */
-.scene-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px;}
-.scene-tabs button{
-  min-height:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(120,122,145,.35);
-  background:transparent;appearance:none;color:var(--grey);font-size:13px;cursor:pointer;
-}
-.scene-tabs button.is-active{background:var(--navy);border-color:var(--navy);color:var(--cream);}
-.scene-render{
-  margin-top:18px;border-radius:14px;padding:32px 20px;min-height:180px;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  background:linear-gradient(160deg,var(--scene-c1,#1a2550),var(--scene-c2,#0b132b));
-  filter:brightness(var(--brightness,1));transition:background 0.5s,filter .2s;
-  border:1px solid rgba(200,169,110,.25);
-}
-.scene-render .scene-label{font-family:var(--font-display);font-size:13px;letter-spacing:2px;color:var(--gold);}
-.scene-render p{margin-top:6px;font-size:14px;color:#EDEAE0;}
-.sliders{margin-top:18px;display:flex;flex-direction:column;gap:14px;}
-.slider-row label{display:flex;justify-content:space-between;font-size:12px;color:var(--grey);margin-bottom:6px;}
-input[type=range]{width:100%;accent-color:var(--gold);height:32px;}
+.switch2{display:flex; border-radius:10px; overflow:hidden; margin:20px 0; border:1px solid rgba(200,169,110,.3);}
+.switch2 button{flex:1; padding:14px; font-size:13px; font-weight:600; min-height:48px; letter-spacing:.5px;}
+.switch2 button.state-a{background:rgba(181,69,58,.15); color:#e8a49c;}
+.switch2 button.state-b{background:rgba(200,169,110,.15); color:var(--gold);}
+.switch2 button.active.state-a{background:var(--red); color:#fff;}
+.switch2 button.active.state-b{background:var(--gold); color:var(--navy-deep);}
+.compare-panel{padding:20px; border:1px solid rgba(255,255,255,.1); border-radius:0 0 10px 10px; margin-top:-20px;}
+.compare-panel ul{list-style:none;}
+.compare-panel li{padding:6px 0 6px 26px; position:relative; font-size:13.5px;}
+.compare-panel li.no::before{content:"✕"; position:absolute; left:0; color:var(--red);}
+.compare-panel li.yes::before{content:"✓"; position:absolute; left:0; color:var(--gold);}
 
-/* ===== climatizacion ===== */
-.clim-result{margin-top:18px;background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.3);border-radius:10px;padding:16px;}
-.clim-result .big{font-family:var(--font-display);font-size:28px;color:var(--gold);}
-.disclaimer{font-size:11px;color:var(--grey);margin-top:8px;}
+.device-grid{display:grid; grid-template-columns:1fr; gap:12px; margin:20px 0;}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr);}}
+.device-card{background:rgba(255,255,255,.03); border-radius:10px; overflow:hidden;}
+.section-light .device-card{background:rgba(20,30,97,.05);}
+.dc-head{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer; min-height:48px; gap:10px;}
+.dc-name{font-weight:600; color:var(--cream); font-size:13.5px;}
+.section-light .dc-name{color:var(--navy-deep);}
+.dc-qty{color:var(--gold); font-size:12px; font-weight:600; margin-top:2px;}
+.section-light .dc-qty{color:var(--navy);}
+.dc-arrow{color:var(--gold); transition:transform .3s ease; flex-shrink:0; font-size:14px;}
+.device-card.open .dc-arrow{transform:rotate(180deg);}
+.dc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+.dc-body-inner{padding:0 16px 16px; display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap;}
+.dc-photo{width:100px; height:100px; object-fit:contain; background:#fff; border-radius:8px; flex-shrink:0; padding:6px;}
+.dc-photo-placeholder{width:100px; height:100px; border-radius:8px; background:rgba(200,169,110,.1); border:1px dashed rgba(200,169,110,.4); display:flex; align-items:center; justify-content:center; text-align:center; font-size:10.5px; color:var(--grey); flex-shrink:0; padding:6px;}
+.dc-desc{color:var(--grey); font-size:12.5px; flex:1; min-width:160px;}
+.section-light .dc-desc{color:#5d6078;}
 
-/* ===== sonido ===== */
-.usecases{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
-.usecase{display:flex;gap:12px;background:rgba(20,30,97,.3);border-radius:10px;padding:12px 14px;}
-.usecase .ic{font-size:20px;}
-.value-box{margin-top:18px;border:1px solid var(--gold);border-radius:10px;padding:16px;background:rgba(200,169,110,.06);}
+.usecase-tabs{display:flex; gap:8px; overflow-x:auto; margin-top:20px;}
+.usecase-tab{padding:10px 16px; border-radius:20px; border:1px solid rgba(200,169,110,.3); font-size:12.5px; color:var(--grey); white-space:nowrap; min-height:40px;}
+.usecase-tab.active{background:var(--gold); color:var(--navy-deep); font-weight:600;}
+.usecase-panel{margin-top:16px; padding:18px; background:rgba(255,255,255,.03); border-radius:10px; font-size:13.5px; display:flex; gap:14px; align-items:flex-start;}
+.usecase-panel .uc-icon{font-size:26px;}
+.value-box{margin-top:18px; border:1px solid var(--gold); border-radius:10px; padding:16px; background:rgba(200,169,110,.06); font-size:13.5px;}
 
-/* ===== inversion ===== */
-.seg-bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin-top:20px;}
-.seg-bar span{height:100%;}
-.seg-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-size:11px;color:var(--grey);}
-.seg-legend .dot{width:8px;height:8px;border-radius:999px;display:inline-block;margin-right:4px;}
-.rubro{border-bottom:1px solid rgba(120,122,145,.25);}
-.rubro-head{
-  width:100%;min-height:52px;display:flex;justify-content:space-between;align-items:center;
-  background:transparent;appearance:none;border:none;color:var(--cream);cursor:pointer;
-  font-family:var(--font-body);font-weight:600;font-size:14px;padding:10px 4px;text-align:left;
-}
-.rubro-head .amt{font-family:var(--font-display);font-size:13px;color:var(--gold);}
-.rubro-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
-.device-card{padding:10px 4px 14px;border-top:1px dashed rgba(120,122,145,.2);}
-.device-card .dn{font-size:13.5px;font-weight:600;}
-.device-card .dd{font-size:12.5px;color:var(--grey);margin-top:2px;}
-.device-card .dp{font-size:12px;color:var(--gold);margin-top:4px;font-family:var(--font-body);}
-.mo-line{padding:10px 4px;border-top:1px dashed rgba(120,122,145,.2);font-size:13px;color:var(--grey);display:flex;justify-content:space-between;}
-.totales-tabla{margin-top:26px;width:100%;border-collapse:collapse;font-size:14px;}
-.totales-tabla td{padding:8px 4px;border-bottom:1px solid rgba(120,122,145,.2);}
-.totales-tabla td:last-child{text-align:right;font-family:var(--font-body);font-weight:600;}
-.totales-tabla tr.total td{font-family:var(--font-display);font-size:15px;color:var(--gold);border-bottom:none;padding-top:14px;}
+.opt-card{display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.25); border-radius:12px; padding:18px; margin-bottom:14px;}
+.opt-card input[type=checkbox]{width:22px; height:22px; margin-top:2px; accent-color:var(--gold); flex-shrink:0;}
+.opt-card .opt-body{flex:1;}
+.opt-card .opt-title{font-weight:600; color:var(--cream); font-size:14.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+.opt-card .opt-price{font-family:var(--font-display); color:var(--gold); font-size:15px;}
+.opt-card .opt-desc{color:var(--grey); font-size:13px; margin-top:6px;}
+.opt-card .opt-utility{margin-top:10px; padding:10px 12px; border-left:3px solid var(--gold); background:rgba(200,169,110,.05); font-size:12.5px; border-radius:0 8px 8px 0;}
 
-/* ===== section-light: override de textos que en fondo claro quedaban ilegibles
-   (crema sobre crema) o violaban la regla de marca "dorado nunca sobre blanco" ===== */
-.section-light .rubro-head{color:var(--navy-deep);}
-.section-light .rubro-head .amt{color:var(--navy);}
-.section-light .rubro{border-bottom-color:rgba(20,30,97,.15);}
-.section-light .device-card{border-top-color:rgba(20,30,97,.12);}
-.section-light .device-card .dn{color:var(--navy-deep);}
-.section-light .device-card .dd{color:#5d6078;}
-.section-light .device-card .dp{color:var(--navy);font-weight:600;}
-.section-light .mo-line{color:#5d6078;border-top-color:rgba(20,30,97,.12);}
-.section-light .mo-line span:last-child{color:var(--navy);font-weight:600;}
-.section-light .totales-tabla td{color:var(--navy-deep);border-bottom-color:rgba(20,30,97,.15);}
-.section-light .totales-tabla tr.total td{color:var(--navy);}
-.section-light .seg-legend{color:#5d6078;}
+.barra-segmentada{display:flex; height:14px; border-radius:7px; overflow:hidden; margin:20px 0 24px;}
+.accordion-item{border-bottom:1px solid rgba(255,255,255,.1);}
+.section-light .accordion-item{border-bottom:1px solid rgba(20,30,97,.12);}
+.accordion-head{display:flex; justify-content:space-between; align-items:center; padding:16px 4px; cursor:pointer; min-height:44px;}
+.accordion-head .ah-price{font-weight:600;}
+.accordion-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+.accordion-body-inner{padding:0 4px 16px; font-size:13.5px;}
+.acc-arrow{transition:transform .3s ease;}
+.accordion-item.open .acc-arrow{transform:rotate(180deg);}
+.totalrow{display:flex; justify-content:space-between; padding:18px 4px; font-family:var(--font-display); font-size:18px; border-top:2px solid var(--navy); margin-top:10px;}
+.opt-line{display:flex; justify-content:space-between; padding:8px 4px; font-size:13.5px; color:var(--grey);}
 
-/* ===== forma de pago ===== */
-.pago-tabla{margin-top:16px;width:100%;border-collapse:collapse;font-size:14px;}
-.pago-tabla td{padding:10px 4px;border-bottom:1px solid rgba(120,122,145,.2);}
-.pago-tabla td:last-child{text-align:right;font-weight:600;}
-.factura-toggle{display:flex;align-items:center;gap:10px;margin-top:18px;min-height:44px;}
-.factura-toggle input{width:20px;height:20px;accent-color:var(--gold);}
+table.detalle{width:100%; border-collapse:collapse; margin-top:10px; font-size:12.5px;}
+table.detalle th{text-align:left; padding:6px 8px; font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); border-bottom:1px solid rgba(200,169,110,.3);}
+.section-light table.detalle th{color:var(--navy);}
+table.detalle td{padding:7px 8px; border-bottom:1px solid rgba(255,255,255,.06);}
+.section-light table.detalle td{border-bottom:1px solid rgba(20,30,97,.08);}
+table.detalle td.num, table.detalle th.num{text-align:right;}
+table.detalle tr.subtotal td{font-weight:700; border-top:1px solid rgba(200,169,110,.4); border-bottom:none; padding-top:10px;}
 
-/* ===== respaldo ===== */
-.pill-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
-.pill{
-  min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(120,122,145,.35);
-  background:transparent;appearance:none;color:var(--cream);font-size:12.5px;cursor:pointer;display:flex;align-items:center;
-}
-.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;font-weight:600;}
-.pill-info{display:none;margin-top:12px;background:rgba(20,30,97,.35);border-radius:10px;padding:14px;font-size:13px;}
-.pill-info.is-open{display:block;}
-.warranty-box{margin-top:24px;border:1px solid rgba(120,122,145,.3);border-radius:10px;padding:16px;}
+.pay-stage{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; background:rgba(255,255,255,.03); border-radius:8px; margin-bottom:10px;}
+.section-light .pay-stage{background:rgba(20,30,97,.04);}
+.pay-stage .pay-amt{font-family:var(--font-display); color:var(--gold); font-size:16px;}
+.section-light .pay-amt{color:var(--navy);}
+.iva-toggle{display:flex; align-items:center; gap:10px; margin:16px 0; font-size:13px;}
+.iva-toggle input{width:20px; height:20px; accent-color:var(--gold);}
 
-/* ===== condiciones / faq ===== */
-.cond-list{margin-top:14px;}
-.cond-list li{margin-bottom:10px;font-size:14px;color:#EDEAE0;padding-left:16px;position:relative;}
-.cond-list li::before{content:"—";position:absolute;left:0;color:var(--gold);}
-.faq-item{border-bottom:1px solid rgba(120,122,145,.25);}
-.faq-q{width:100%;min-height:52px;background:transparent;appearance:none;border:none;color:var(--cream);
-  text-align:left;font-size:14.5px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:13.5px;color:var(--grey);}
-.faq-a p{padding-bottom:14px;}
+.pills{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.pill{padding:9px 16px; border-radius:20px; border:1px solid rgba(200,169,110,.35); font-size:12.5px; min-height:38px; display:flex; align-items:center;}
+.pill.fixed{background:var(--gold); color:var(--navy-deep); font-weight:600; cursor:default;}
+.pill:not(.fixed):hover{border-color:var(--gold);}
+.brand-detail{margin-top:16px; padding:16px; border-left:3px solid var(--gold); background:rgba(200,169,110,.05); border-radius:0 8px 8px 0; font-size:13.5px; display:none;}
+.brand-detail.show{display:block;}
 
-/* ===== cta ===== */
-.cta-box{background:var(--navy);border-radius:16px;padding:28px 22px;text-align:center;margin-top:10px;}
-.cta-box .price{font-family:var(--font-display);font-size:30px;color:var(--gold);margin:14px 0;}
-.accept-row{display:flex;align-items:flex-start;gap:10px;text-align:left;margin:18px 0;font-size:13px;}
-.accept-row input{margin-top:3px;width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;}
-.btn-cta{
-  display:block;width:100%;min-height:52px;border-radius:10px;border:none;appearance:none;
-  background:var(--gold);color:var(--navy-deep);font-family:var(--font-body);font-weight:700;
-  font-size:15px;cursor:pointer;opacity:.4;pointer-events:none;transition:opacity .2s;text-decoration:none;
-  display:flex;align-items:center;justify-content:center;
-}
-.btn-cta.enabled{opacity:1;pointer-events:auto;}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.1);}
+.section-light .faq-item{border-bottom:1px solid rgba(20,30,97,.12);}
 
-footer{padding:40px 20px;text-align:center;border-top:1px solid rgba(120,122,145,.25);}
-footer .mark{margin-bottom:10px;}
-footer p{font-size:12px;color:var(--grey);}
+#cta{background:linear-gradient(180deg,var(--navy),var(--navy-deep)); text-align:center;}
+.btn-accept{background:var(--gold); color:var(--navy-deep); font-weight:700; padding:16px 32px; border-radius:8px; font-size:15px; margin-top:20px; letter-spacing:.5px; min-height:48px;}
+.btn-accept:disabled{opacity:.4; cursor:not-allowed;}
+.accept-check{display:flex; align-items:flex-start; gap:10px; margin-top:20px; font-size:13px; color:var(--grey); text-align:left; max-width:500px; margin-left:auto; margin-right:auto;}
+.accept-check input{width:20px; height:20px; margin-top:2px; accent-color:var(--gold); flex-shrink:0;}
+
+footer{text-align:center; padding:40px 20px; font-size:11px; color:var(--grey); border-top:1px solid rgba(200,169,110,.1);}
+footer .py-foot{color:var(--gold); font-weight:600; letter-spacing:1px;}
+footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; transform:none;}
 
 @media print{
-  nav.chapters,#progress-badge,.scene-tabs,.toggle-btns,.factura-toggle,.btn-cta{display:none;}
-  body{background:#fff;color:#111;}
-  .section-light,.section{background:#fff !important;color:#111 !important;}
-  .rubro-body{max-height:none !important;}
-  .device-card,.rubro{break-inside:avoid;}
+  #topnav,#progress-badge,.switch2,input[type=checkbox],input[type=range],.btn-accept{display:none !important;}
+  .accordion-body,.dc-body{max-height:none !important;}
+  body{background:#fff; color:#000;}
+  * {print-color-adjust:exact; -webkit-print-color-adjust:exact;}
+  .section{break-inside:avoid;}
 }
 </style>
 </head>
 <body>
 
-<svg class="logo-defs" xmlns="http://www.w3.org/2000/svg"><symbol id="nd-logo" viewBox="0 0 1021 1024">
+<nav id="topnav">
+  <div class="inner">
+    <div class="mark" id="navlogo"></div>
+    <div class="navlinks">
+      <a href="#responsable">Responsable</a>
+      <a href="#redes">Redes</a>
+      <a href="#alarma">Alarma</a>
+      <a href="#videovigilancia">Video</a>
+      <a href="#sonido">Sonido</a>
+      <a href="#opcionales">Opcionales</a>
+      <a href="#inversion">Inversión</a>
+      <a href="#cta">Aceptar</a>
+    </div>
+  </div>
+</nav>
+
+<div id="progress-badge">
+  <svg class="ring-svg" viewBox="0 0 52 52">
+    <circle cx="26" cy="26" r="23" fill="none" stroke="rgba(200,169,110,.2)" stroke-width="3"/>
+    <circle id="ring-progress" cx="26" cy="26" r="23" fill="none" stroke="#C8A96E" stroke-width="3" stroke-dasharray="144.5" stroke-dashoffset="144.5" stroke-linecap="round"/>
+  </svg>
+  <div class="mark" id="badgelogo"></div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="logo-plate">
+    <div id="heroLogo"></div>
+    <div class="lp-word">NOVA DOMUS<small>INTEGRACIÓN TECNOLÓGICA</small></div>
+  </div>
+  <div class="py-tag">PY-2026-002 · PROPUESTA COMERCIAL (revisión de alcance)</div>
+  <h1>LA LUISITA L10</h1>
+  <div class="descriptor">INTEGRACIÓN TECNOLÓGICA</div>
+  <p class="tagline">Del cable a la app</p>
+  <p class="lead" style="margin-top:20px;">Vivienda del lote L10, Nuevas Casas Luisita, Córdoba. Redes profesionales, seguridad AXPro/AcuSense y sonido ambiental — con la obra eléctrica ya resuelta por terceros. Alcance confirmado tras revisión: Redes, Seguridad y Sonido.</p>
+  <div class="stats">
+    <div class="stat"><div class="figure" data-count="19">0</div><div class="stat-label">Dispositivos incluidos</div></div>
+    <div class="stat"><div class="figure" data-count="3">0</div><div class="stat-label">Cámaras AcuSense</div></div>
+    <div class="stat"><div class="figure" data-count="3">0</div><div class="stat-label">Subsistemas confirmados</div></div>
+    <div class="stat"><div class="figure" data-count="1">0</div><div class="stat-label">Responsable de punta a punta</div></div>
+  </div>
+</section>
+
+<!-- RESUMEN EJECUTIVO -->
+<section class="section" id="resumen">
+  <span class="eyebrow">00 — Resumen ejecutivo</span>
+  <h2>La propuesta en 60 segundos</h2>
+  <p class="lead">Red Omada profesional, alarma AXPro con videovigilancia AcuSense, y sonido ambiental en Living-Comedor — todo instalado y programado por Nova Domus, con opción de upgrade a Home Theater 5.1 Sonos.</p>
+  <div class="resumen-grid">
+    <div class="resumen-card">
+      <div class="rc-label">Qué necesita</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Red confiable, seguridad física real y sonido ambiental en el living</div>
+    </div>
+    <div class="resumen-card">
+      <div class="rc-label">Qué proponemos</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Omada + AXPro/AcuSense + VSSL/Episode, con Nova Domus como único responsable</div>
+    </div>
+    <div class="resumen-card">
+      <div class="rc-label">Inversión base</div>
+      <div class="rc-value" id="resumen-total">USD 7.964</div>
+      <div class="rc-sub">Equipo + mano de obra + programación</div>
+    </div>
+    <div class="resumen-card">
+      <div class="rc-label">Próximo paso</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Confirmar si se suma el upgrade 5.1 Sonos y coordinar Visita Técnica</div>
+    </div>
+  </div>
+</section>
+
+<!-- UN SOLO RESPONSABLE -->
+<section class="section" id="responsable">
+  <span class="eyebrow">01 — Nuestro compromiso</span>
+  <h2>Un solo responsable</h2>
+  <p class="lead">En una obra con tecnología normalmente coordinás varios proveedores: el de redes, el de cámaras, el de sonido. Cuando algo falla, cada uno señala al otro y el problema queda en el medio.</p>
+  <p style="margin-top:14px;">Nosotros ejecutamos con equipo propio todo lo que ves en esta propuesta: redes, alarma, videovigilancia y sonido. <strong>La obra eléctrica en esta vivienda ya está resuelta por terceros</strong> — nosotros especificamos y certificamos esa parte, pero el resto es 100% nuestro. La Alarma y la Videovigilancia se administran desde la app oficial Hik-Connect de Hikvision, no desde un panel centralizado de domótica — ese subsistema quedó fuera de este alcance.</p>
+
+  <div class="diagram-5">
+    <div class="diagram-step"><div class="step-num">01</div><div class="step-label">Relevamiento y especificación</div></div>
+    <div class="diagram-step"><div class="step-num">02</div><div class="step-label">Redes</div></div>
+    <div class="diagram-step"><div class="step-num">03</div><div class="step-label">Seguridad y videovigilancia</div></div>
+    <div class="diagram-step"><div class="step-num">04</div><div class="step-label">Configuración y puesta en marcha</div></div>
+    <div class="diagram-step"><div class="step-num">05</div><div class="step-label">Entrega documentada + 12 meses de garantía</div></div>
+  </div>
+</section>
+
+<!-- REDES (+ RACK/INFRA) -->
+<section class="section" id="redes">
+  <span class="eyebrow">02 — Redes</span>
+  <h2>La base de todo lo demás</h2>
+  <p class="lead">Router y access point TP-Link Omada — cobertura mesh real en las dos plantas, sin saturarse con el uso diario de la casa.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setRedesView('generico')">WiFi doméstico común</button>
+    <button class="state-b" onclick="setRedesView('actual')">Lo que proponemos</button>
+  </div>
+  <div class="compare-panel" id="redes-panel"></div>
+
+  <div class="device-grid" id="grid-redes"></div>
+
+  <h3 style="margin-top:32px; margin-bottom:6px;">La base física</h3>
+  <p class="lead" style="font-size:13.5px;">El rack donde viven ordenados el router, el NVR y el UPS que los protege ante cortes de luz — obligatorio en todo proyecto con Seguridad.</p>
+  <div class="device-grid" id="grid-rack"></div>
+</section>
+
+<!-- ALARMA -->
+<section class="section" id="alarma">
+  <span class="eyebrow">03 — Alarma</span>
+  <h2>Detección antes que reacción</h2>
+  <p class="lead">Panel Hikvision AXPro de 96 zonas, 100% inalámbrico — la línea mandataria de Nova Domus para todo proyecto salvo indicación contraria.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setAlarmaView('comun')">Alarma común</button>
+    <button class="state-b" onclick="setAlarmaView('axpro')">Con AXPro</button>
+  </div>
+  <div class="compare-panel" id="alarma-panel"></div>
+
+  <div class="device-grid" id="grid-alarma"></div>
+</section>
+
+<!-- VIDEOVIGILANCIA -->
+<section class="section section-light" id="videovigilancia">
+  <span class="eyebrow">04 — Videovigilancia</span>
+  <h2>Ver de verdad, no solo grabar</h2>
+  <p class="lead">3 cámaras Hikvision con IA AcuSense — distinguen personas y vehículos de otros movimientos, así las alertas son reales, no ruido.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setVideoView('comun')">Cámara común</button>
+    <button class="state-b" onclick="setVideoView('acusense')">Con AcuSense</button>
+  </div>
+  <div class="compare-panel" id="video-panel"></div>
+
+  <div class="device-grid" id="grid-video"></div>
+</section>
+
+<!-- SONIDO -->
+<section class="section" id="sonido">
+  <span class="eyebrow">05 — Sonido</span>
+  <h2>Audio ambiental — Living-Comedor</h2>
+  <p class="lead" id="sonido-lead">VSSL MA.1 + par de parlantes Episode Core 3 embutidos en cielorraso, invisibles a la vista.</p>
+
+  <div class="device-grid" id="grid-sonido"></div>
+
+  <div class="usecase-tabs" id="uc-tabs"></div>
+  <div class="usecase-panel" id="uc-panel"></div>
+</section>
+
+<!-- OPCIONALES -->
+<section class="section" id="opcionales">
+  <span class="eyebrow">06 — Opcionales</span>
+  <h2>A tu criterio</h2>
+  <p class="lead">Este upgrade reemplaza al Sonido base (VSSL + Episode) — no se suman los dos, es una alternativa superadora para la misma zona.</p>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-sonos51" onchange="toggleSonos()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade a Home Theater 5.1 Sonos (Arc + Sub + 2x Era 100)</span><span class="opt-price">+USD 2.098</span></div>
+      <div class="opt-desc">Reemplaza el 2.0 VSSL/Episode por un 5.1 real: canal central, subwoofer dedicado y traseros surround en el Living-Comedor.</div>
+      <div class="opt-utility">El VSSL+Episode es sonido ambiental de living — bueno para música de fondo, no pensado para ver películas. El 5.1 Sonos separa diálogo, grave real y traseros: ahí se nota en una noche de cine, no antes. Ecosistema Sonos con su propia app, sin depender de un panel centralizado — encaja con que este proyecto no incluye domótica. Sin este opcional, el Sonido base funciona igual, simplemente queda en 2.0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVERSION -->
+<section class="section section-light" id="inversion">
+  <span class="eyebrow">07 — Inversión</span>
+  <h2>Desglose completo</h2>
+  <p class="lead">Por subsistema, con el detalle cuantitativo de cada dispositivo e IVA real por ítem. Tocá cada rubro para ver la tabla completa.</p>
+
+  <div class="barra-segmentada" id="barra-segmentada"></div>
+  <div id="accordion-rubros"></div>
+
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 7.964</span></div>
+  <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.513. Puntos estimados sin plano eléctrico — a confirmar en Visita Técnica. Materiales sujetos a cotización del proveedor al momento de la compra.</p>
+</section>
+
+<!-- FORMA DE PAGO -->
+<section class="section" id="pago">
+  <span class="eyebrow">08 — Forma de pago</span>
+  <h2>Simple y por etapas</h2>
+  <p class="lead">Equipos 100% por anticipado (asegura la compra e importación). Mano de obra en dos partes: 30% al arrancar la obra, 70% al terminar, contra entrega de documentación.</p>
+
+  <div class="pay-stage"><span>Equipos — 100% anticipado</span><span class="pay-amt" id="pay-equipo">USD —</span></div>
+  <div class="pay-stage"><span>Mano de obra — 30% al arrancar</span><span class="pay-amt" id="pay-mo-30">USD —</span></div>
+  <div class="pay-stage"><span>Mano de obra — 70% al terminar</span><span class="pay-amt" id="pay-mo-70">USD —</span></div>
+
+  <div class="iva-toggle">
+    <input type="checkbox" id="factura-a" onchange="recalcular()">
+    <label for="factura-a">Necesito Factura A (suma 21% IVA sobre mano de obra)</label>
+  </div>
+  <div class="pay-stage" id="pay-iva-row" style="display:none;"><span>IVA Factura A (21% s/ mano de obra)</span><span class="pay-amt" id="pay-iva">USD —</span></div>
+</section>
+
+<!-- RESPALDO -->
+<section class="section section-light" id="respaldo">
+  <span class="eyebrow">09 — Respaldo</span>
+  <h2>Las marcas detrás de la propuesta</h2>
+  <p class="lead">Tocá cada una para ver por qué la elegimos.</p>
+  <div class="pills">
+    <div class="pill fixed">Nova Domus</div>
+    <div class="pill fixed">CEDIA Member</div>
+    <div class="pill" onclick="showBrand('omada')">TP-Link Omada</div>
+    <div class="pill" onclick="showBrand('hikvision')">Hikvision</div>
+    <div class="pill" onclick="showBrand('glc')">GLC</div>
+    <div class="pill" onclick="showBrand('seagate')">Seagate</div>
+    <div class="pill" onclick="showBrand('vssl')">VSSL / Episode</div>
+    <div class="pill" onclick="showBrand('sonos')">Sonos</div>
+  </div>
+  <div class="brand-detail" id="brand-detail"></div>
+  <div style="margin-top:24px; border:1px solid rgba(20,30,97,.15); border-radius:10px; padding:16px;">
+    <h3>Garantía y post-venta</h3>
+    <p style="margin-top:6px;">12 meses de garantía sobre instalación. Si algo falla, lo resolvemos nosotros — un solo responsable de la obra a la app.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta">
+  <span class="eyebrow">10 — Siguiente paso</span>
+  <h2>¿Avanzamos?</h2>
+  <p class="lead" style="margin:0 auto;">Confirmá el alcance (con o sin el upgrade 5.1) y coordinamos la Visita Técnica.</p>
+  <div class="accept-check">
+    <input type="checkbox" id="accept-terms" onchange="document.getElementById('btn-accept').disabled=!this.checked">
+    <label for="accept-terms">Entiendo que este presupuesto es válido por 15 días, que los materiales están sujetos a cotización del momento, y que la forma de pago es la detallada más arriba.</label>
+  </div>
+  <button class="btn-accept" id="btn-accept" disabled onclick="aceptarPropuesta()">Aceptar propuesta — PY-2026-002</button>
+</section>
+
+<!-- FAQ (después del CTA) -->
+<section class="section" id="faq">
+  <span class="eyebrow">11 — Preguntas frecuentes</span>
+  <h2>Antes de que preguntes</h2>
+  <div id="faq-list"></div>
+</section>
+
+<!-- CONDICIONES GENERALES (al final de todo) -->
+<section class="section" id="condiciones">
+  <span class="eyebrow">12 — Condiciones generales</span>
+  <h2>Cómo trabajamos</h2>
+  <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
+  <div id="condiciones-list"></div>
+</section>
+
+<footer>
+  <div class="foot-logo" id="footlogo"></div>
+  <div>Nova Domus — NDWD SAS · Córdoba, Argentina</div>
+  <div class="py-foot">PY-2026-002</div>
+</footer>
+
+<script>
+const CONDICIONES = [
+  {t:"Cancelación de dispositivos", d:"El 100% de los dispositivos debe estar cancelado un mes antes de la instalación (fecha a definir junto al responsable de obra)."},
+  {t:"Forma de pago — instalación y programación", d:"Instalación y programación se certifican de la misma manera: 30% antes de arrancar la obra, 70% al terminar, contra entrega de documentación del sistema."},
+  {t:"Visitas técnicas (electricidad de terceros)", d:"Como la instalación eléctrica no fue realizada por Nova Domus, se hacen dos visitas técnicas de control completo antes de instalar los dispositivos — al finalizar la canalización y al finalizar el cableado — para certificar que la obra está apta. Cada visita: USD 100."},
+  {t:"Certificación de la obra", d:"Toda la obra queda certificada por el Lic. Agustín Dávila, director de la firma, o por el supervisor de obra designado al comenzar."},
+  {t:"Responsable de obra", d:"El cliente designa un responsable de obra, con quien armamos un grupo junto a nuestros supervisores y oficiales asignados para el seguimiento."},
+  {t:"Excedentes", d:"Todo lo no presupuestado que se realiza en obra. Espontáneos: los comunicamos nosotros al detectarlos, con autorización previa del cliente. Por petición: precio según el ítem del presupuesto relacionado; si no hay ítem relacionado, se presupuesta y no se ejecuta hasta la conformidad."},
+  {t:"Actualización del presupuesto", d:"El presupuesto queda fechado, con el valor de dólar a la fecha para el cálculo en pesos. Si el dólar no se actualiza respecto al peso en los mismos porcentajes que el ICC, se usa este índice como factor de actualización mensual."},
+  {t:"Tipo de cambio de referencia", d:"Todos los precios en dólares utilizan la cotización BNA oficial (tipo de cambio unificado — ya no se distingue oficial/blue)."},
+  {t:"Formas de cobro", d:"Se reciben pesos en efectivo, transferencia o dólares. E-cheq: consultar factibilidad y financiación, siempre con e-cheqs propios."},
+  {t:"Facturación", d:"Se puede facturar Factura A. En mano de obra, a los precios indicados se le suma IVA e IIBB."},
+  {t:"Boca Completa / obra eléctrica", d:"La base de cotización de Boca Completa de la Asociación Argentina de Instaladores Electricistas (canalización, cableado, conexión de módulos) no aplica a este proyecto puntual — la obra eléctrica ya está resuelta por un tercero, no por Nova Domus."},
+];
+document.getElementById('condiciones-list').innerHTML = CONDICIONES.map(c=>`
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner"><p>${c.d}</p></div></div>
+  </div>`).join('');
+</script>
+
+<script>
+const LOGO_SVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1021" height="1024" viewBox="0 0 1021 1024">
 <path d="M0 0 C64.68 0 129.36 0 196 0 C196 0.66 196 1.32 196 2 C196.99 2 197.98 2 199 2 C201.063 5.912 202.837 9.48 204.164 13.715 C206.932 22.217 210.938 30.298 214.605 38.44 C215.617 40.69 216.623 42.943 217.629 45.195 C217.937 45.875 218.246 46.554 218.563 47.254 C219.914 50.282 221.047 53.166 221.961 56.363 C223.302 61.055 225.133 65.496 227 70 C141.664 70.302 56.325 69.296 -29 68 C-28.34 64.431 -27.48 61.697 -25.75 58.5 C-23.805 54.732 -22.168 50.974 -20.688 47 C-18.616 41.475 -16.335 36.076 -13.938 30.688 C-13.773 30.317 -13.773 30.317 -12.942 28.443 C-11.332 24.849 -9.666 21.299 -7.887 17.785 C-6.389 14.824 -5.065 11.851 -3.875 8.75 C-2.705 5.713 -1.463 2.927 0 0 Z " fill="#0D152C" transform="translate(420,771)"/>
 <path d="M0 0 C20.219 -0.187 40.437 -0.328 60.657 -0.414 C70.045 -0.456 79.433 -0.512 88.822 -0.604 C97.005 -0.683 105.188 -0.735 113.372 -0.753 C117.705 -0.763 122.037 -0.788 126.369 -0.846 C130.45 -0.9 134.529 -0.917 138.61 -0.905 C140.105 -0.907 141.6 -0.923 143.095 -0.954 C154.358 -1.174 154.358 -1.174 158.267 1.62 C160.049 3.654 161.513 5.745 163 8 C163.998 9.093 165.025 10.16 166.082 11.195 C166.588 11.701 167.094 12.207 167.615 12.728 C168.142 13.25 168.668 13.771 169.211 14.308 C169.787 14.883 170.364 15.458 170.958 16.051 C172.193 17.282 173.429 18.513 174.667 19.742 C176.623 21.685 178.576 23.632 180.528 25.579 C184.662 29.701 188.799 33.82 192.938 37.938 C197.759 42.735 202.578 47.534 207.394 52.338 C209.322 54.259 211.253 56.178 213.184 58.096 C214.355 59.263 215.525 60.43 216.695 61.597 C216.965 61.865 216.965 61.865 218.334 63.22 C219.575 64.461 220.791 65.728 222 67 C222 67.33 222 67.66 222 68 C192.846 68.912 163.696 69.284 134.529 69.532 C129.933 69.572 125.336 69.617 120.74 69.661 C90.492 69.949 60.248 70.061 30 70 C29.737 69.332 29.473 68.665 29.202 67.977 C28.85 67.091 28.499 66.205 28.136 65.292 C27.791 64.418 27.445 63.544 27.088 62.644 C25.414 58.576 23.489 54.64 21.562 50.688 C19.055 45.479 16.647 40.32 14.688 34.875 C11.746 26.808 7.819 19.179 4.012 11.492 C3.755 10.966 3.755 10.966 2.449 8.305 C2.214 7.83 2.214 7.83 1.022 5.429 C0 3 0 3 0 0 Z " fill="#0D152C" transform="translate(655,771)"/>
 <path d="M0 0 C51.81 0 103.62 0 157 0 C156.208 3.959 155.677 5.953 153.875 9.312 C148.924 18.944 144.707 28.891 141 39.062 C137.359 49.047 132.752 58.496 128 68 C64.31 68 0.62 68 -65 68 C-65 67.34 -65 66.68 -65 66 C-63.531 64.555 -63.531 64.555 -61.5 62.875 C-57.095 59.133 -53.048 55.12 -49 51 C-48.221 50.23 -47.443 49.461 -46.641 48.668 C-44.793 46.801 -42.991 44.928 -41.215 42.996 C-31.216 32.125 -20.779 21.712 -10.285 11.322 C-9.68 10.722 -9.076 10.122 -8.453 9.503 C-7.304 8.362 -6.153 7.223 -4.999 6.087 C-1.113 2.225 -1.113 2.225 0 0 Z " fill="#0D152D" transform="translate(225,771)"/>
@@ -316,598 +518,369 @@ footer p{font-size:12px;color:var(--grey);}
 <path d="M0 0 C2.31 0 4.62 0 7 0 C7 0.99 7 1.98 7 3 C5.02 3 3.04 3 1 3 C0.67 3.99 0.34 4.98 0 6 C0 4.02 0 2.04 0 0 Z " fill="#4A5B77" transform="translate(543,542)"/>
 <path d="M0 0 C3.3 0 6.6 0 10 0 C10 0.99 10 1.98 10 3 C6.7 2.67 3.4 2.34 0 2 C0 1.34 0 0.68 0 0 Z " fill="#435471" transform="translate(433,559)"/>
 <path d="M0 0 C1.98 0 3.96 0 6 0 C6 0.66 6 1.32 6 2 C5.216 2.309 4.433 2.619 3.625 2.938 C1 4 1 4 -1 5 C-0.67 3.35 -0.34 1.7 0 0 Z " fill="#2E3B55" transform="translate(545,502)"/>
-</symbol></svg>
+</svg>
+`;
+document.getElementById('navlogo').innerHTML = LOGO_SVG;
+document.getElementById('badgelogo').innerHTML = LOGO_SVG;
+document.getElementById('heroLogo').innerHTML = LOGO_SVG;
+document.getElementById('footlogo').innerHTML = LOGO_SVG;
 
-<div id="progress-badge" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <svg class="ring-svg" width="52" height="52" viewBox="0 0 52 52">
-    <circle class="ring-bg" cx="26" cy="26" r="22"></circle>
-    <circle class="ring-fg" id="ring-fg" cx="26" cy="26" r="22" stroke-dasharray="138.2" stroke-dashoffset="138.2"></circle>
-  </svg>
-  <span class="mark mark-ring"><svg viewBox="0 0 1021 1024"><use href="#nd-logo"></use></svg></span>
-</div>
-
-<nav class="chapters" id="chapters">
-  <a href="#resumen" data-sec="resumen">Resumen</a>
-  <a href="#escenas" data-sec="escenas">Iluminación</a>
-  <a href="#redes" data-sec="redes">Redes</a>
-  <a href="#clima" data-sec="clima">Clima</a>
-  <a href="#seguridad" data-sec="seguridad">Seguridad</a>
-  <a href="#sonido" data-sec="sonido">Sonido</a>
-  <a href="#inversion" data-sec="inversion">Inversión</a>
-  <a href="#pago" data-sec="pago">Forma de pago</a>
-  <a href="#respaldo" data-sec="respaldo">Respaldo</a>
-  <a href="#faq" data-sec="faq">FAQ</a>
-</nav>
-
-<section class="hero">
-  <span class="mark mark-hero"><svg viewBox="0 0 1021 1024"><use href="#nd-logo"></use></svg></span>
-  <div class="wordmark">NOVA DOMUS</div>
-  <div class="descriptor">INTEGRACIÓN TECNOLÓGICA</div>
-  <div class="proj-num">N° PY-2026-002</div>
-  <h1>La Luisita L10</h1>
-  <p class="slogan">Del cable a la app</p>
-  <p class="lead" style="margin-top:20px;">Obra eléctrica + integración tecnológica para la vivienda del lote L10 — Nuevas Casas Luisita, Córdoba.</p>
-  <div class="scroll-cue">▾ RESUMEN EN 60 SEGUNDOS</div>
-</section>
-
-<section class="section" id="resumen">
-  <span class="eyebrow">01 · Resumen ejecutivo</span>
-  <h2>Qué se propone</h2>
-  <p class="lead">Redes profesionales, domótica con Home Assistant, climatización, alarma y videovigilancia Hikvision, y audio multiroom para una zona — todo bajo un único responsable, con instalación certificada y programación incluida.</p>
-  <div class="resumen-grid">
-    <div class="resumen-item"><div class="n" data-count="28">0</div><div class="l">Puntos inteligentes</div></div>
-    <div class="resumen-item"><div class="n" data-count="4">0</div><div class="l">Splits automatizados</div></div>
-    <div class="resumen-item"><div class="n" data-count="3">0</div><div class="l">Cámaras AcuSense</div></div>
-    <div class="resumen-item"><div class="n" data-count="12">0</div><div class="l">Meses de garantía</div></div>
-  </div>
-  <div class="next-step">
-    <p><strong>Inversión total:</strong> <span id="resumen-total">USD 15.004</span> · equipo 100% anticipado, mano de obra 30/70.</p>
-    <p style="margin-top:6px;">Próximo paso: firmar aceptación y coordinar Visita Técnica para relevar el plano eléctrico definitivo de obra.</p>
-  </div>
-</section>
-
-<section class="section" id="escenas">
-  <span class="eyebrow">02 · Iluminación</span>
-  <h2>El sistema, en acción</h2>
-  <p class="lead">14 Shelly 1PM Mini, 5 Plus 2PM, 1 Plus i4 y 7 Dimmer Gen4 conviven detrás de tus llaves de siempre. Elegí un momento del día y jugá con el control real.</p>
-  <div class="scene-tabs" id="scene-tabs">
-    <button data-scene="manana" class="is-active">Mañana</button>
-    <button data-scene="dia">Día</button>
-    <button data-scene="noche">Noche</button>
-    <button data-scene="cine">Cine</button>
-    <button data-scene="dormir">Dormir</button>
-  </div>
-  <div class="scene-render" id="scene-render">
-    <div class="scene-label" id="scene-label">MODO MAÑANA</div>
-    <p id="scene-text">Las cortinas del living suben solas con el despertador y la luz general enciende suave, sin golpe de claridad.</p>
-  </div>
-  <div class="sliders">
-    <div class="slider-row">
-      <label><span>Brillo</span><span id="bright-val">70%</span></label>
-      <input type="range" id="bright-slider" min="10" max="100" value="70">
-    </div>
-    <div class="slider-row">
-      <label><span>Temperatura de color</span><span id="temp-val">4000K</span></label>
-      <input type="range" id="temp-slider" min="2700" max="6500" value="4000" step="100">
-    </div>
-  </div>
-</section>
-
-<section class="section" id="redes">
-  <span class="eyebrow">03 · Redes</span>
-  <h2>La base que no se ve</h2>
-  <p class="lead">Router y APs TP-Link Omada. Tocá para comparar contra una red doméstica común.</p>
-  <div class="toggle-wrap">
-    <div class="toggle-btns" id="redes-toggle">
-      <button class="state-problema is-active" data-state="problema">WiFi doméstico común</button>
-      <button class="state-solucion" data-state="solucion">Red profesional Omada</button>
-    </div>
-    <div class="compare-panel is-problema" id="redes-panel">
-      <ul id="redes-list"></ul>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="clima">
-  <span class="eyebrow">04 · Climatización</span>
-  <h2>Confort medido, no adivinado</h2>
-  <p class="lead">4 Sensibo integrados a Home Assistant en Living, Suite, Dormitorio 1 y Dormitorio 2.</p>
-  <div class="sliders">
-    <div class="slider-row">
-      <label><span>Temperatura objetivo</span><span id="clim-val">23°C</span></label>
-      <input type="range" id="clim-slider" min="18" max="28" value="23">
-    </div>
-  </div>
-  <div class="clim-result">
-    <div class="big" id="clim-ahorro">~14%</div>
-    <p>de uso estimado menos por evitar equipos encendidos sin nadie en el ambiente.</p>
-    <p class="disclaimer">Cifra referencial de mercado, no es una promesa de retorno — depende de hábitos de uso reales.</p>
-  </div>
-  <div class="toggle-wrap">
-    <div class="toggle-btns" id="clima-toggle">
-      <button class="state-problema is-active" data-state="problema">Sin Sensibo</button>
-      <button class="state-solucion" data-state="solucion">Con Sensibo</button>
-    </div>
-    <div class="compare-panel is-problema" id="clima-panel">
-      <ul id="clima-list"></ul>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="seguridad">
-  <span class="eyebrow">05 · Seguridad</span>
-  <h2>Alarma y videovigilancia</h2>
-  <p class="lead">Hikvision AXPro + AcuSense. Kit inalámbrico, 2 sensores magnéticos, 3 PIR, sirena interior y exterior, y 3 cámaras con NVR dedicado.</p>
-  <div class="toggle-wrap">
-    <div class="toggle-btns" id="seg-toggle">
-      <button class="state-problema is-active" data-state="problema">Alarma / cámara común</button>
-      <button class="state-solucion" data-state="solucion">AXPro / AcuSense</button>
-    </div>
-    <div class="compare-panel is-problema" id="seg-panel">
-      <ul id="seg-list"></ul>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="sonido">
-  <span class="eyebrow">06 · Sonido</span>
-  <h2>Audio multiroom — Living-Comedor</h2>
-  <p class="lead">VSSL MA.1 + par de parlantes Episode Core 3 embutidos en cielorraso, invisibles a la vista.</p>
-  <div class="usecases">
-    <div class="usecase"><span class="ic">☀️</span><p>Domingo a la mañana: música de fondo en el living mientras se prepara el desayuno, controlada desde el celular.</p></div>
-    <div class="usecase"><span class="ic">🍽️</span><p>Cena con invitados: playlist activada junto con la escena de luces, sin cables ni parlante bluetooth de mesa.</p></div>
-    <div class="usecase"><span class="ic">🎬</span><p>Noche de película: el sonido del living acompaña la escena "Cine" con un solo toque en el Wall Display.</p></div>
-  </div>
-  <div class="value-box">
-    <p><strong>¿Vale la pena?</strong> Para 1 zona, este esquema es el punto justo: sonido de calidad ambiental sin la inversión de un Home Theater dedicado. Si más adelante se suma un living de doble altura o un espacio de cine, ahí sí un upgrade a más zonas o a un amplificador multi-zona se justifica — no antes.</p>
-  </div>
-</section>
-
-<section class="section" id="pileta-nota">
-  <span class="eyebrow">07 · Pileta</span>
-  <h2>Bomba automatizada</h2>
-  <p class="lead">La pileta va por especialista, pero la bomba se integra al mismo ecosistema con un Shelly Pro 2PM DIN en el tablero seccional — arranque y parada programados desde Home Assistant, sin depender de un timer mecánico aparte.</p>
-</section>
-
-<section class="section section-light" id="inversion">
-  <span class="eyebrow">08 · La inversión</span>
-  <h2>Desglose completo</h2>
-  <p class="lead">Precios en USD, IVA real discriminado por ítem — nunca una alícuota pareja.</p>
-  <div class="seg-bar" id="seg-bar"></div>
-  <div class="seg-legend" id="seg-legend"></div>
-  <div id="rubros-container" style="margin-top:24px;"></div>
-  <table class="totales-tabla">
-    <tr><td>Subtotal Equipo (neto)</td><td>USD 8.635</td></tr>
-    <tr><td>IVA equipo (discriminado)</td><td>USD 1.671</td></tr>
-    <tr><td>Subtotal Equipo (con IVA)</td><td>USD 10.306</td></tr>
-    <tr><td>Mano de obra especializada por punto</td><td>USD 3.334</td></tr>
-    <tr><td>Programación y comisionado</td><td>USD 1.364</td></tr>
-    <tr class="total"><td>TOTAL PROYECTO</td><td>USD 15.004</td></tr>
-  </table>
-  <p class="disclaimer" style="color:#5d6078;margin-top:10px;">Presupuesto válido por 15 días. TC de referencia USD oficial BNA $1.513 (03/07/2026). Puntos de instalación estimados sin plano eléctrico — a confirmar en Visita Técnica.</p>
-</section>
-
-<section class="section" id="pago">
-  <span class="eyebrow">09 · Forma de pago</span>
-  <h2>Etapas y montos</h2>
-  <table class="pago-tabla">
-    <tr><td>Equipos — 100% anticipado</td><td id="pay-equipo">USD 10.306</td></tr>
-    <tr><td>Mano de obra — 30% inicio de obra</td><td id="pay-inicio">USD 1.410</td></tr>
-    <tr><td>Mano de obra — 70% entrega con documentación</td><td id="pay-entrega">USD 3.288</td></tr>
-    <tr id="pay-iva-row" style="display:none;"><td>IVA sobre mano de obra (Factura A)</td><td id="pay-iva">USD 0</td></tr>
-    <tr class="total"><td>Total</td><td id="pay-total" style="color:var(--gold);">USD 15.004</td></tr>
-  </table>
-  <div class="factura-toggle">
-    <input type="checkbox" id="factura-a">
-    <label for="factura-a">Necesito Factura A (suma 21% IVA + IIBB sobre mano de obra)</label>
-  </div>
-</section>
-
-<section class="section" id="respaldo">
-  <span class="eyebrow">10 · Respaldo</span>
-  <h2>Con quién trabajamos</h2>
-  <p class="lead">Tocá una marca para ver por qué la elegimos.</p>
-  <div class="pill-grid" id="pill-grid"></div>
-  <div class="pill-info" id="pill-info"></div>
-  <div class="warranty-box">
-    <h3>Garantía y post-venta</h3>
-    <p style="margin-top:6px;">12 meses de garantía sobre instalación y programación. Si algo falla, lo resolvemos nosotros — un solo responsable de la obra a la app.</p>
-  </div>
-</section>
-
-<section class="section" id="condiciones">
-  <span class="eyebrow">11 · Condiciones generales</span>
-  <h2>Letra clara</h2>
-  <ul class="cond-list">
-    <li>Alcance sin instalación eléctrica: la canalización y el cableado quedan a cargo del electricista de obra según nuestras especificaciones. Nova Domus especifica y certifica esa parte, no la ejecuta.</li>
-    <li>Puntos de iluminación, alarma y cámaras estimados sin plano eléctrico — se confirman en Visita Técnica antes de compra de equipo.</li>
-    <li>Logística de materiales: 5% sobre el total de equipo si se solicita gestión, retiro y entrega en obra.</li>
-    <li>Excedentes espontáneos se comunican al detectarse y se ejecutan con autorización previa; excedentes por petición se presupuestan aparte.</li>
-    <li>Certificación de obra a cargo del Lic. Agustín Dávila o supervisor designado.</li>
-    <li>Materiales cotizados a valor de lista del proveedor al momento de la aceptación; ajuste si el proveedor actualiza precio antes de la compra.</li>
-  </ul>
-</section>
-
-<section class="section" id="faq">
-  <span class="eyebrow">12 · Preguntas frecuentes</span>
-  <h2>Objeciones típicas</h2>
-  <div id="faq-container"></div>
-</section>
-
-<section class="section" id="cta">
-  <div class="cta-box">
-    <span class="eyebrow">Último paso</span>
-    <h2 style="color:var(--cream);">Aceptar propuesta</h2>
-    <div class="price">USD 15.004</div>
-    <p class="lead" style="margin:0 auto;">Queda funcionando y documentado.</p>
-    <div class="accept-row">
-      <input type="checkbox" id="accept-check">
-      <label for="accept-check">Confirmo que revisé el alcance, la inversión y la forma de pago de esta propuesta para La Luisita L10.</label>
-    </div>
-    <a href="#" class="btn-cta" id="btn-whatsapp" target="_blank" rel="noopener">Aceptar y coordinar por WhatsApp</a>
-  </div>
-</section>
-
-<footer>
-  <span class="mark mark-footer" style="margin:0 auto;"><svg viewBox="0 0 1021 1024"><use href="#nd-logo"></use></svg></span>
-  <p style="margin-top:10px;">NOVA DOMUS · Integración Tecnológica</p>
-  <p style="margin-top:2px;color:var(--gold);">N° PY-2026-002</p>
-  <p>Av. Colón 3835, Córdoba · +549-351-6747513 · novadomuscba@gmail.com</p>
-  <p style="margin-top:8px;color:var(--gold);">CEDIA Member</p>
-</footer>
-
-<script>
-(function(){
-"use strict";
-
-/* ===================== DATOS ===================== */
-var RUBROS = [
-  {id:'redes', nombre:'Redes', color:'#4A86E8', mo:136,
-    items:[
-      {n:'TP-Link ER7212PC — router Omada VPN 8 PoE+', c:1, p:410, iva:'10,5'},
-      {n:'TP-Link EAP650 — AP WiFi 6 indoor', c:2, p:134, iva:'10,5'}
-    ]},
-  {id:'rack', nombre:'Rack / Infra', color:'#6D9EEB', mo:227,
-    items:[
-      {n:'GLC Mural 6U', c:1, p:136, iva:'21'},
-      {n:'GLC Bandeja 1U30 (router, HA Green, NVR)', c:3, p:20, iva:'21'},
-      {n:'GLC CT5000 canal de tensión', c:1, p:67, iva:'21'},
-      {n:'GLC ORGCR-001 organizador de cable', c:1, p:10, iva:'21'},
-      {n:'UPS Forza FDC-1022R-I 1000VA online rackeable', c:1, p:500, iva:'10,5'}
-    ]},
-  {id:'core', nombre:'Core', color:'#C8A96E', mo:200,
-    items:[
-      {n:'Home Assistant Green', c:1, p:511, iva:'21'},
-      {n:'Home Assistant SkyConnect (antena Zigbee)', c:1, p:102, iva:'21'},
-      {n:'Shelly Wall Display XL — ingreso principal', c:1, p:860, iva:'21'}
-    ]},
-  {id:'iluminacion', nombre:'Iluminación', color:'#8E63CE', mo:1534,
-    items:[
-      {n:'Shelly 1PM Mini Gen4', c:14, p:42, iva:'21'},
-      {n:'Shelly Plus 2PM Gen4', c:5, p:61, iva:'21'},
-      {n:'Shelly Plus I4-1', c:1, p:35, iva:'21'},
-      {n:'Shelly Dimmer Gen4 — zonas de reposo', c:7, p:96, iva:'21'}
-    ]},
-  {id:'pileta', nombre:'Pileta', color:'#43D692', mo:70,
-    items:[
-      {n:'Shelly Pro 2PM DIN — bomba de pileta', c:1, p:203, iva:'21'}
-    ]},
-  {id:'climatizacion', nombre:'Climatización', color:'#16A766', mo:120,
-    items:[
-      {n:'Sensibo Air Smart AC Controller B2B', c:4, p:298, iva:'21'}
-    ]},
-  {id:'alarma', nombre:'Alarma', color:'#F2C960', mo:395,
-    items:[
-      {n:'Hikvision Kit AXPro DS-PWA96-Kit-WB', c:1, p:585, iva:'21'},
-      {n:'Teclado LED DS-PK1-E-WB', c:1, p:97, iva:'21'},
-      {n:'Repetidor de señal DS-PR1-WB(B)', c:1, p:126, iva:'10,5'},
-      {n:'Sensor magnético inalámbrico (puerta principal + PV1 fondo)', c:2, p:37, iva:'21'},
-      {n:'Detector PIR interior', c:3, p:65, iva:'21'},
-      {n:'Sirena interior', c:1, p:78, iva:'21'},
-      {n:'Sirena exterior', c:1, p:116, iva:'21'}
-    ]},
-  {id:'video', nombre:'Videovigilancia', color:'#EAA041', mo:349,
-    items:[
-      {n:'Cámara Hikvision 4MP AcuSense DS-2CD2343G2-LI2U', c:3, p:363, iva:'21'},
-      {n:'NVR Hikvision DS-7608NXI-K2(D) 8CH', c:1, p:387, iva:'21'},
-      {n:'Disco Seagate SkyHawk 2TB', c:1, p:204, iva:'10,5'}
-    ]},
-  {id:'sonido', nombre:'Sonido', color:'#CC3A21', mo:304,
-    items:[
-      {n:'VSSL MA.1 — amplificador streaming 2 canales', c:1, p:1106, iva:'21'},
-      {n:'Episode ES-CORE-36-IC — par in-ceiling 6"', c:1, p:365, iva:'21'}
-    ]}
-];
-
-var RUBRO_TOTALS = {redes:811, rack:998, core:1672, iluminacion:3115, pileta:273, climatizacion:1309, alarma:1662, video:2026, sonido:1774};
-
-var TOTALES = {equipoNeto:8635, ivaEquipo:1671, equipoConIva:10306, mo:3334, programacion:1364, total:15004};
-var LABOR_BASE = TOTALES.mo + TOTALES.programacion; // 4698
-
-var FAQS = [
-  {q:'¿Qué pasa si algo falla después de la entrega?', a:'Tenés 12 meses de garantía sobre instalación y programación. Coordinamos visita sin cargo si el problema es de nuestro alcance.'},
-  {q:'¿El sistema depende de internet para funcionar?', a:'No para lo crítico. Home Assistant vive en tu casa y ejecuta escenas y automatizaciones aunque se corte el WiFi. Internet solo hace falta para el control remoto desde afuera y las notificaciones.'},
-  {q:'¿Quedo atado a Nova Domus para siempre?', a:'No. Home Assistant es un sistema abierto, sin ataduras a un fabricante. Cualquier integrador con conocimiento de HA puede tomar el sistema si en algún momento lo necesitás.'},
-  {q:'¿Qué pasa si la instalación eléctrica no la hacen ustedes?', a:'Hacemos dos visitas técnicas de control antes de instalar los dispositivos (al terminar canalización y al terminar cableado) para certificar que la obra está apta.'},
-  {q:'¿Hay costos recurrentes?', a:'No hay suscripción para que la domótica funcione. Sensibo y las cámaras Hikvision no requieren plan mensual para las funciones incluidas en esta propuesta.'}
-];
-
-var MARCAS = [
-  {n:'TP-Link Omada', info:'Una de las plataformas de networking gestionado más usada en instalaciones profesionales por su relación costo-prestaciones. La elegimos porque permite segmentar tráfico de domótica, seguridad e invitados sin la complejidad de un stack enterprise.'},
-  {n:'Home Assistant', info:'El proyecto de domótica de código abierto más grande del mundo, con una comunidad enorme de integraciones. Lo elegimos porque no depende de la nube de un fabricante: el sistema es tuyo y sigue funcionando aunque una marca cierre su servidor.'},
-  {n:'Shelly', info:'Fabricante europeo especializado en microrrelés que se ocultan detrás de la llave existente. Los elegimos porque permiten domotizar sin cambiar la estética de tus interruptores ni depender de wall-switches propietarios.'},
-  {n:'Hikvision', info:'Uno de los fabricantes de videovigilancia y alarma más grandes del mundo. Lo elegimos por la madurez de su tecnología AcuSense/AXPro y por la disponibilidad de repuestos y soporte local en Argentina.'},
-  {n:'Sensibo', info:'Especialista israelí en climatización inteligente por infrarrojo, compatible con prácticamente cualquier split existente. Lo elegimos porque no requiere cambiar el aire acondicionado que ya tenés.'},
-  {n:'VSSL / Episode', info:'Marcas de audio residencial de gama profesional, pensadas para integración invisible (parlantes embutidos, streaming nativo). Las elegimos por calidad de sonido sin depender de un solo servicio de streaming.'},
-  {n:'GLC', info:'Fabricante de racks e infraestructura pasiva que usamos en todos nuestros proyectos por prolijidad de terminación y disponibilidad de repuestos en Córdoba.'},
-  {n:'Seagate SkyHawk', info:'Línea de discos diseñada específicamente para grabación continua de videovigilancia, con mayor tolerancia a escritura 24/7 que un disco genérico.'}
-];
-
-/* ===================== SCROLL PROGRESS + NAV ACTIVA ===================== */
-var ring = document.getElementById('ring-fg');
-var CIRC = 138.2;
-function onScroll(){
-  var h = document.documentElement;
-  var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
-  if(isNaN(scrolled)) scrolled = 0;
-  var offset = CIRC - (scrolled*CIRC);
-  ring.setAttribute('stroke-dashoffset', offset);
-
-  var sections = document.querySelectorAll('section[id]');
-  var current = '';
-  sections.forEach(function(s){
-    var r = s.getBoundingClientRect();
-    if(r.top <= 120 && r.bottom > 120) current = s.id;
-  });
-  document.querySelectorAll('nav.chapters a').forEach(function(a){
-    a.classList.toggle('active', a.getAttribute('data-sec')===current);
-  });
-}
-document.addEventListener('scroll', onScroll, {passive:true});
-onScroll();
-
-/* ===================== COUNT-UP ===================== */
-var counted = false;
-function countUp(){
-  if(counted) return;
-  var els = document.querySelectorAll('[data-count]');
-  var any = false;
-  els.forEach(function(el){
-    var r = el.getBoundingClientRect();
-    if(r.top < window.innerHeight && r.bottom > 0) any = true;
-  });
-  if(!any) return;
-  counted = true;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  els.forEach(function(el){
-    var target = parseInt(el.getAttribute('data-count'),10);
-    if(reduce){ el.textContent = target; return; }
-    var cur = 0;
-    var step = Math.max(1, Math.round(target/24));
-    var t = setInterval(function(){
-      cur += step;
-      if(cur >= target){ cur = target; clearInterval(t); }
-      el.textContent = cur;
-    }, 30);
-  });
-}
-document.addEventListener('scroll', countUp, {passive:true});
-countUp();
-
-/* ===================== SIMULADOR DE ESCENAS ===================== */
-var SCENES = {
-  manana:{label:'MODO MAÑANA', text:'Las cortinas del living suben solas con el despertador y la luz general enciende suave, sin golpe de claridad.', c1:'#3a4a7a', c2:'#1a2550', bright:0.85},
-  dia:{label:'MODO DÍA', text:'Iluminación al mínimo — la luz natural hace el trabajo. El sistema se apaga solo si un ambiente queda vacío.', c1:'#5a6a99', c2:'#2a3560', bright:1},
-  noche:{label:'MODO NOCHE', text:'Living y cocina bajan a un tono cálido, los dormitorios quedan listos para la escena de descanso.', c1:'#241a3f', c2:'#0b132b', bright:0.55},
-  cine:{label:'MODO CINE', text:'Un toque en el Wall Display atenúa el living al 15% y activa el sonido multiroom.', c1:'#150f2b', c2:'#05070f', bright:0.25},
-  dormir:{label:'MODO DORMIR', text:'Los Dimmer Gen4 de los dormitorios bajan gradualmente a cero. Todo lo demás se apaga.', c1:'#0e1226', c2:'#05070f', bright:0.15}
+// ===== DEVICES POR SUBSISTEMA =====
+const DEVICES = {
+  redes: [
+    {n:'TP-Link ER7212PC — router Omada VPN + 8 PoE+ + controller', q:1, pu:410.00, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/er7212pc.jpg', desc:'El cerebro de la red: gestiona internet, seguridad y prioriza tráfico.'},
+    {n:'TP-Link EAP650 — AP WiFi 6 indoor AX3000', q:2, pu:134.00, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/eap650.jpg', desc:'Cobertura mesh real en PB y PA, sin zonas muertas.'},
+  ],
+  rack: [
+    {n:'GLC Mural 6U', q:1, pu:136.00, iva:21, foto:null, desc:'Gabinete donde viven ordenados router, NVR y UPS.'},
+    {n:'GLC Bandeja 1U30', q:2, pu:20.00, iva:21, foto:null, desc:'Soporte para los equipos no rackeables.'},
+    {n:'GLC CT5000 canal de tensión', q:1, pu:67.00, iva:21, foto:null, desc:'Distribución eléctrica prolija dentro del rack.'},
+    {n:'GLC ORGCR-001 organizador', q:1, pu:10.00, iva:21, foto:null, desc:'Orden de cableado.'},
+    {n:'UPS Forza FDC-1022R-I 1000VA online', q:1, pu:500.00, iva:10.5, foto:null, desc:'Protege router, NVR y alarma ante cortes de luz.'},
+  ],
+  alarma: [
+    {n:'Kit AXPro DS-PWA96-Kit-WB', q:1, pu:585.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pwa96-kit-wb.jpg', desc:'Central inalámbrica con comunicación bidireccional.'},
+    {n:'Teclado LED DS-PK1-E-WB', q:1, pu:97.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado manual del sistema.'},
+    {n:'Repetidor DS-PR1-WB(B)', q:1, pu:126.00, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/132.jpg', desc:'Cobertura de señal entre plantas.'},
+    {n:'Sensor magnético DS-PDMCS-EG2-WB', q:2, pu:37.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/200.jpg', desc:'Puerta principal y acceso de fondo.'},
+    {n:'Detector PIR DS-PDP15P-EG2-WB', q:3, pu:65.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp', desc:'Living, hall PB y hall PA.'},
+    {n:'Sirena interior DS-PS1-I-WB', q:1, pu:78.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Disuasión sonora inmediata.'},
+    {n:'Sirena exterior DS-PS1-E-WB', q:1, pu:116.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-ps1-e-wb.webp', desc:'Disuasión visible desde la calle.'},
+  ],
+  video: [
+    {n:'Cámara 4MP AcuSense DS-2CD2343G2-LI2U', q:3, pu:363.00, iva:21, foto:null, desc:'Frente/garage, fondo/pileta, lateral.'},
+    {n:'NVR DS-7608NXI-K2(D) 8CH', q:1, pu:387.00, iva:21, foto:null, desc:'Grabación con IA dedicada, no en la nube.'},
+    {n:'Disco Seagate SkyHawk 2TB', q:1, pu:204.00, iva:10.5, foto:null, desc:'Disco de grado videovigilancia 24/7.'},
+  ],
 };
-var sceneRender = document.getElementById('scene-render');
-var sceneLabel = document.getElementById('scene-label');
-var sceneText = document.getElementById('scene-text');
-var brightSlider = document.getElementById('bright-slider');
-var brightVal = document.getElementById('bright-val');
-var tempSlider = document.getElementById('temp-slider');
-var tempVal = document.getElementById('temp-val');
+const SONIDO_BASE_ITEMS = [
+  {n:'VSSL MA.1 — ampli streaming 2 canales', q:1, pu:1106.00, iva:21, foto:null, desc:'Spotify Connect, AirPlay 2 y Chromecast nativos, sin depender de un solo servicio.'},
+  {n:'Episode ES-CORE-36-IC — par in-ceiling 6"', q:1, pu:365.00, iva:21, foto:null, desc:'Sonido ambiental invisible en el cielorraso del Living-Comedor.'},
+];
+const SONIDO_51_ITEMS = [
+  {n:'Sonos Arc', q:1, pu:1188.00, iva:21, foto:null, desc:'Soundbar con virtualización Dolby Atmos — canal central para diálogo nítido.'},
+  {n:'Sonos Sub (4ª gen)', q:1, pu:1320.00, iva:21, foto:null, desc:'Grave real, no simulado por el ecualizador.'},
+  {n:'Sonos Era 100', q:2, pu:337.00, iva:21, foto:null, desc:'Traseros/surround en Living-Comedor.'},
+  {n:'Soporte de pared Era 100 (par)', q:1, pu:228.00, iva:21, foto:null, desc:'Montaje prolijo de los traseros.'},
+];
 
-function applyScene(key){
-  var s = SCENES[key];
-  sceneLabel.textContent = s.label;
-  sceneText.textContent = s.text;
-  sceneRender.style.setProperty('--scene-c1', s.c1);
-  sceneRender.style.setProperty('--scene-c2', s.c2);
-  brightSlider.value = Math.round(s.bright*100);
-  brightVal.textContent = Math.round(s.bright*100)+'%';
-  sceneRender.style.setProperty('--brightness', s.bright);
+function renderDeviceGrid(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((d,i)=>{
+    const fotoHtml = d.foto
+      ? `<img class="dc-photo" src="${d.foto}" alt="${d.n}">`
+      : `<div class="dc-photo-placeholder">Foto<br>pendiente</div>`;
+    return `<div class="device-card" id="${containerId}-${i}">
+      <div class="dc-head" onclick="toggleDevice('${containerId}-${i}')">
+        <div><div class="dc-name">${d.n}</div><div class="dc-qty">${d.q} unidad${d.q>1?'es':''}</div></div>
+        <span class="dc-arrow">▾</span>
+      </div>
+      <div class="dc-body"><div class="dc-body-inner">
+        ${fotoHtml}
+        <div class="dc-desc">${d.desc}</div>
+      </div></div>
+    </div>`;
+  }).join('');
 }
-document.querySelectorAll('#scene-tabs button').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    document.querySelectorAll('#scene-tabs button').forEach(function(b){b.classList.remove('is-active');});
-    btn.classList.add('is-active');
-    applyScene(btn.getAttribute('data-scene'));
-  });
-});
-brightSlider.addEventListener('input', function(){
-  var v = brightSlider.value;
-  brightVal.textContent = v+'%';
-  sceneRender.style.setProperty('--brightness', (v/100));
-});
-tempSlider.addEventListener('input', function(){
-  var k = tempSlider.value;
-  tempVal.textContent = k+'K';
-  var warm = k < 4000;
-  sceneRender.style.setProperty('--scene-c1', warm ? '#5a4530' : '#3a4a7a');
-});
-applyScene('manana');
+renderDeviceGrid('grid-redes', DEVICES.redes);
+renderDeviceGrid('grid-rack', DEVICES.rack);
+renderDeviceGrid('grid-alarma', DEVICES.alarma);
+renderDeviceGrid('grid-video', DEVICES.video);
+function renderSonidoGrid(){
+  renderDeviceGrid('grid-sonido', sonidoUpgrade ? SONIDO_51_ITEMS : SONIDO_BASE_ITEMS);
+  document.getElementById('sonido-lead').textContent = sonidoUpgrade
+    ? 'Home Theater 5.1 Sonos (Arc + Sub + 2x Era 100) — upgrade activo, reemplaza al VSSL/Episode.'
+    : 'VSSL MA.1 + par de parlantes Episode Core 3 embutidos en cielorraso, invisibles a la vista.';
+}
 
-/* ===================== TOGGLES COMPARATIVOS ===================== */
-function setupToggle(wrapId, panelId, listId, data){
-  var wrap = document.getElementById(wrapId);
-  var panel = document.getElementById(panelId);
-  var list = document.getElementById(listId);
-  function render(state){
-    panel.classList.toggle('is-problema', state==='problema');
-    panel.classList.toggle('is-solucion', state==='solucion');
-    list.innerHTML='';
-    data[state].forEach(function(t){
-      var li = document.createElement('li');
-      li.textContent = t;
-      list.appendChild(li);
-    });
-    wrap.querySelectorAll('button').forEach(function(b){
-      b.classList.toggle('is-active', b.getAttribute('data-state')===state);
-    });
+function toggleDevice(id){
+  const card = document.getElementById(id);
+  const body = card.querySelector('.dc-body');
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open', !isOpen);
+  body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
+}
+
+// ===== CASOS DE USO — SONIDO =====
+const SONIDO_CASOS = [
+  {tab:'Domingo', icon:'☀️', text:'Música de fondo en el living mientras se prepara el desayuno, controlada desde el celular.'},
+  {tab:'Con invitados', icon:'🍽️', text:'Playlist activada para la cena, sin cables ni parlante bluetooth sobre la mesa.'},
+  {tab:'Noche de cine', icon:'🎬', text:'Con el upgrade 5.1 activo, el sonido acompaña la película con diálogo nítido y grave real — con el 2.0 base, sigue siendo buen sonido ambiental, no de cine.'},
+];
+function renderSonidoCasos(){
+  const tabsEl = document.getElementById('uc-tabs');
+  tabsEl.innerHTML = SONIDO_CASOS.map((c,i)=>`<div class="usecase-tab ${i===0?'active':''}" onclick="setSonidoCaso(${i})">${c.tab}</div>`).join('');
+  setSonidoCaso(0);
+}
+function setSonidoCaso(i){
+  const c = SONIDO_CASOS[i];
+  document.getElementById('uc-panel').innerHTML = `<span class="uc-icon">${c.icon}</span><span>${c.text}</span>`;
+  document.querySelectorAll('#uc-tabs .usecase-tab').forEach((t,idx)=>t.classList.toggle('active', idx===i));
+}
+renderSonidoCasos();
+
+// ===== INVERSION =====
+let sonidoUpgrade = false;
+function getRubros(){
+  const s = sonidoUpgrade
+    ? {equipo:3410.00, mo:271.00}
+    : {equipo:1469.35, mo:303.95};
+  return [
+    {id:'redes', label:'Redes', equipo:675.79, mo:135.01, color:'#7089A9'},
+    {id:'rack', label:'Rack / Infraestructura', equipo:751.05, mo:217.25, color:'#4F6380'},
+    {id:'alarma', label:'Alarma', equipo:1266.94, mo:394.19, color:'#B5453A'},
+    {id:'video', label:'Videovigilancia', equipo:1676.14, mo:348.98, color:'#8698AE'},
+    {id:'sonido', label: sonidoUpgrade ? 'Sonido — 5.1 Sonos' : 'Sonido', equipo:s.equipo, mo:s.mo, color:'#C8A96E'},
+  ];
+}
+function getRubroItems(id){
+  if(id==='redes') return DEVICES.redes;
+  if(id==='rack') return DEVICES.rack;
+  if(id==='alarma') return DEVICES.alarma;
+  if(id==='video') return DEVICES.video;
+  if(id==='sonido') return sonidoUpgrade ? SONIDO_51_ITEMS : SONIDO_BASE_ITEMS;
+}
+
+function fmt(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:0, maximumFractionDigits:0}); }
+function fmt2(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+function calcularTotales(){
+  const rubros = getRubros();
+  const equipo = rubros.reduce((a,r)=>a+r.equipo,0);
+  const mo = rubros.reduce((a,r)=>a+r.mo,0);
+  const prog = (equipo+mo)*0.10;
+  const total = equipo+mo+prog;
+  return {equipo, mo, prog, total};
+}
+
+function tablaDetalle(items){
+  let html = `<table class="detalle"><tr><th>Dispositivo</th><th class="num">P. Unit.</th><th class="num">IVA</th><th class="num">Cant.</th><th class="num">Total</th></tr>`;
+  let sub = 0;
+  items.forEach(it=>{
+    const t = it.pu*it.q;
+    sub += t;
+    html += `<tr><td>${it.n}</td><td class="num">${fmt2(it.pu)}</td><td class="num">${it.iva}%</td><td class="num">${it.q}</td><td class="num">${fmt2(t)}</td></tr>`;
+  });
+  html += `<tr class="subtotal"><td colspan="4">Subtotal equipo</td><td class="num">${fmt2(sub)}</td></tr>`;
+  html += `</table>`;
+  return html;
+}
+
+function renderInversion(){
+  const t = calcularTotales();
+  const rubros = getRubros();
+  const barra = document.getElementById('barra-segmentada');
+  barra.innerHTML = rubros.map(r=>{
+    const pct = ((r.equipo+r.mo)/(t.equipo+t.mo)*100).toFixed(1);
+    return `<div style="width:${pct}%; background:${r.color};" title="${r.label}"></div>`;
+  }).join('');
+
+  const acc = document.getElementById('accordion-rubros');
+  acc.innerHTML = rubros.map(r=>{
+    const progR = (r.equipo+r.mo)*0.10;
+    const totalR = r.equipo+r.mo+progR;
+    return `<div class="accordion-item">
+      <div class="accordion-head" onclick="toggleAcc(this)">
+        <span>${r.label}</span>
+        <span class="ah-price">${fmt(totalR)} <span class="acc-arrow">▾</span></span>
+      </div>
+      <div class="accordion-body"><div class="accordion-body-inner">
+        ${tablaDetalle(getRubroItems(r.id))}
+        <p style="margin-top:10px; font-size:12.5px; color:var(--grey);">+ Mano de obra: ${fmt2(r.mo)} · + Programación: ${fmt2(progR)} = <strong>${fmt2(totalR)}</strong></p>
+      </div></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('total-final').textContent = fmt(t.total);
+  document.getElementById('resumen-total').textContent = fmt(t.total);
+  renderPago(t);
+}
+
+function renderPago(t){
+  const facturaA = document.getElementById('factura-a').checked;
+  document.getElementById('pay-equipo').textContent = fmt2(t.equipo);
+  document.getElementById('pay-mo-30').textContent = fmt2(t.mo*0.30);
+  document.getElementById('pay-mo-70').textContent = fmt2(t.mo*0.70);
+  const ivaRow = document.getElementById('pay-iva-row');
+  if(facturaA){
+    ivaRow.style.display='flex';
+    document.getElementById('pay-iva').textContent = fmt2(t.mo*0.21);
+  } else {
+    ivaRow.style.display='none';
   }
-  wrap.querySelectorAll('button').forEach(function(b){
-    b.addEventListener('click', function(){ render(b.getAttribute('data-state')); });
-  });
-  render('problema');
 }
-setupToggle('redes-toggle','redes-panel','redes-list',{
-  problema:['Un solo router para toda la casa, sin segmentar','Se satura con más de 15-20 dispositivos','Sin prioridad de ancho de banda para cámaras','Cobertura pareja pero sin roaming real entre pisos'],
-  solucion:['Tráfico de domótica y seguridad separado del resto cuando aplica','Roaming real entre APs de PB y PA, sin cortes al caminar','Ancho de banda garantizado para las 3 cámaras','Gestión centralizada Omada desde una sola app']
-});
-setupToggle('clima-toggle','clima-panel','clima-list',{
-  problema:['Aire prendido de más porque nadie se acuerda de apagarlo','Sin sensor de presencia real en el ambiente','Control remoto físico, sin programación por horario','Temperatura medida por el equipo, no por el ambiente'],
-  solucion:['Apagado automático si el ambiente queda vacío (geofencing)','Sensor de temperatura y humedad propio del ambiente','Programado desde la misma app que las luces','Horarios por escena: "Salir" apaga todo de una vez']
-});
-setupToggle('seg-toggle','seg-panel','seg-list',{
-  problema:['Notificaciones falsas por mascotas, lluvia o insectos','Grabación genérica sin filtrar personas de vehículos','Central sin respaldo de batería ni cobertura entre losas','Cámaras y alarma sin comunicación entre sí'],
-  solucion:['AcuSense filtra personas y vehículos de falsas alarmas','NVR dedicado con 3 cámaras 4MP y disco propio de vigilancia','Repetidor de señal AXPro para cobertura entre plantas','Disparo de alarma puede encender las luces automáticamente']
-});
 
-/* ===================== CLIMATIZACIÓN — CALCULADORA ===================== */
-var climSlider = document.getElementById('clim-slider');
-var climVal = document.getElementById('clim-val');
-var climAhorro = document.getElementById('clim-ahorro');
-function updateClima(){
-  var t = parseInt(climSlider.value,10);
-  climVal.textContent = t+'°C';
-  var diff = Math.abs(t-23);
-  var ahorro = Math.max(6, 14 - diff*1.5);
-  climAhorro.textContent = '~'+Math.round(ahorro)+'%';
+function toggleSonos(){
+  sonidoUpgrade = document.getElementById('opt-sonos51').checked;
+  renderSonidoGrid();
+  renderInversion();
 }
-climSlider.addEventListener('input', updateClima);
-updateClima();
+function recalcular(){ renderInversion(); }
 
-/* ===================== INVERSIÓN: BARRA + ACORDEÓN ===================== */
-var segBar = document.getElementById('seg-bar');
-var segLegend = document.getElementById('seg-legend');
-var totalInv = 0;
-RUBROS.forEach(function(r){ totalInv += RUBRO_TOTALS[r.id]; });
-
-RUBROS.forEach(function(r){
-  var pct = (RUBRO_TOTALS[r.id]/totalInv*100);
-  var span = document.createElement('span');
-  span.style.width = pct+'%';
-  span.style.background = r.color;
-  segBar.appendChild(span);
-
-  var leg = document.createElement('span');
-  leg.innerHTML = '<span class="dot" style="background:'+r.color+'"></span>'+r.nombre;
-  segLegend.appendChild(leg);
-});
-
-var container = document.getElementById('rubros-container');
-RUBROS.forEach(function(r){
-  var div = document.createElement('div');
-  div.className = 'rubro';
-  var head = document.createElement('button');
-  head.className = 'rubro-head';
-  head.innerHTML = '<span>'+r.nombre+'</span><span class="amt">USD '+RUBRO_TOTALS[r.id].toLocaleString('es-AR')+'</span>';
-  var body = document.createElement('div');
-  body.className = 'rubro-body';
-  var inner = '';
-  r.items.forEach(function(it){
-    inner += '<div class="device-card"><div class="dn">'+it.n+(it.c>1?' × '+it.c:'')+'</div>';
-    inner += '<div class="dp">Precio Unitario U$D '+it.p+' + IVA '+it.iva+'%</div></div>';
-  });
-  inner += '<div class="mo-line"><span>Instalación y mano de obra especializada</span><span>USD '+r.mo.toLocaleString('es-AR')+'</span></div>';
-  body.innerHTML = inner;
-  head.addEventListener('click', function(){
-    var open = body.style.maxHeight && body.style.maxHeight!=='0px';
-    body.style.maxHeight = open ? '0px' : body.scrollHeight+'px';
-  });
-  div.appendChild(head);
-  div.appendChild(body);
-  container.appendChild(div);
-});
-
-/* ===================== FORMA DE PAGO (LIVE) ===================== */
-var facturaCheck = document.getElementById('factura-a');
-function updatePago(){
-  var facturaA = facturaCheck.checked;
-  var ivaMO = facturaA ? Math.ceil(LABOR_BASE*0.21) : 0;
-  var laborTotal = LABOR_BASE + ivaMO;
-  var inicio = Math.ceil(laborTotal*0.30);
-  var entrega = laborTotal - inicio;
-  var total = TOTALES.equipoConIva + laborTotal;
-
-  document.getElementById('pay-equipo').textContent = 'USD '+TOTALES.equipoConIva.toLocaleString('es-AR');
-  document.getElementById('pay-inicio').textContent = 'USD '+inicio.toLocaleString('es-AR');
-  document.getElementById('pay-entrega').textContent = 'USD '+entrega.toLocaleString('es-AR');
-  document.getElementById('pay-total').textContent = 'USD '+total.toLocaleString('es-AR');
-  document.getElementById('pay-iva-row').style.display = facturaA ? 'table-row' : 'none';
-  document.getElementById('pay-iva').textContent = 'USD '+ivaMO.toLocaleString('es-AR');
-  document.querySelector('.cta-box .price').textContent = 'USD '+total.toLocaleString('es-AR');
+function toggleAcc(head){
+  const item = head.parentElement;
+  const body = item.querySelector('.accordion-body');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>b.style.maxHeight=null);
+  document.querySelectorAll('.accordion-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen){
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
 }
-facturaCheck.addEventListener('change', updatePago);
-updatePago();
-
-/* ===================== RESPALDO — MARCAS ===================== */
-var pillGrid = document.getElementById('pill-grid');
-var pillInfo = document.getElementById('pill-info');
-var ndPill = document.createElement('span'); ndPill.className='pill fixed'; ndPill.textContent='Nova Domus';
-var cediaPill = document.createElement('span'); cediaPill.className='pill fixed'; cediaPill.textContent='CEDIA Member';
-pillGrid.appendChild(ndPill);
-MARCAS.forEach(function(m){
-  var btn = document.createElement('button');
-  btn.className = 'pill';
-  btn.textContent = m.n;
-  btn.addEventListener('click', function(){
-    pillInfo.innerHTML = '<strong>'+m.n+'</strong><p style="margin-top:6px;color:var(--grey);">'+m.info+'</p>';
-    pillInfo.classList.add('is-open');
-  });
-  pillGrid.appendChild(btn);
-});
-pillGrid.appendChild(cediaPill);
-
-/* ===================== FAQ ===================== */
-var faqContainer = document.getElementById('faq-container');
-FAQS.forEach(function(f){
-  var item = document.createElement('div');
-  item.className = 'faq-item';
-  var q = document.createElement('button');
-  q.className = 'faq-q';
-  q.innerHTML = '<span>'+f.q+'</span><span>+</span>';
-  var a = document.createElement('div');
-  a.className = 'faq-a';
-  a.innerHTML = '<p>'+f.a+'</p>';
-  q.addEventListener('click', function(){
-    var open = a.style.maxHeight && a.style.maxHeight!=='0px';
-    a.style.maxHeight = open ? '0px' : a.scrollHeight+'px';
-  });
-  item.appendChild(q);
-  item.appendChild(a);
-  faqContainer.appendChild(item);
+window.addEventListener('resize', ()=>{
+  document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight+'px'; });
+  document.querySelectorAll('.device-card.open .dc-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight+'px'; });
 });
 
-/* ===================== CTA ===================== */
-var acceptCheck = document.getElementById('accept-check');
-var btnWhatsapp = document.getElementById('btn-whatsapp');
-function buildWhatsapp(){
-  var total = document.getElementById('pay-total').textContent.replace('USD ','');
-  var msg = 'Hola Nova Domus, acepto la propuesta de La Luisita L10 por un total de USD '+total+'. Quedo a la espera de coordinar la Visita Técnica.';
-  btnWhatsapp.href = 'https://wa.me/5493516747513?text='+encodeURIComponent(msg);
+// ===== COMPARATIVAS SWITCH =====
+function setRedesView(view){
+  document.querySelectorAll('#redes .switch2 button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  const panel = document.getElementById('redes-panel');
+  if(view==='generico'){
+    panel.innerHTML = `<ul>
+      <li class="no">Router único, sin segmentar tráfico</li>
+      <li class="no">Se satura con varios dispositivos conectados</li>
+      <li class="no">Sin QoS — la cámara compite con el streaming</li>
+      <li class="no">Sin gestión centralizada de la red</li>
+    </ul>`;
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">Red Omada profesional, gestionada desde un controller</li>
+      <li class="yes">Ancho de banda garantizado para videovigilancia</li>
+      <li class="yes">Mesh real con roaming — la señal no se corta al moverte entre plantas</li>
+      <li class="yes">VPN incluida para acceso remoto seguro</li>
+    </ul>`;
+  }
 }
-acceptCheck.addEventListener('change', function(){
-  btnWhatsapp.classList.toggle('enabled', acceptCheck.checked);
-  buildWhatsapp();
-});
-buildWhatsapp();
+function setAlarmaView(view){
+  document.querySelectorAll('#alarma .switch2 button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  const panel = document.getElementById('alarma-panel');
+  if(view==='comun'){
+    panel.innerHTML = `<ul>
+      <li class="no">Central cableada, difícil de ampliar</li>
+      <li class="no">Sensores con falsas alarmas frecuentes</li>
+      <li class="no">Sin integración con cámaras</li>
+      <li class="no">Monitoreo dependiente de un tercero fijo</li>
+    </ul>`;
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">100% inalámbrico, fácil de ampliar a futuro</li>
+      <li class="yes">96 zonas — cubre toda la vivienda con margen</li>
+      <li class="yes">Administración desde la app oficial Hik-Connect</li>
+      <li class="yes">Teclado y sirena también inalámbricos</li>
+    </ul>`;
+  }
+}
+function setVideoView(view){
+  document.querySelectorAll('#videovigilancia .switch2 button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  const panel = document.getElementById('video-panel');
+  if(view==='comun'){
+    panel.innerHTML = `<ul>
+      <li class="no">Detecta cualquier movimiento — ramas, sombras, insectos</li>
+      <li class="no">Alertas constantes que se terminan ignorando</li>
+      <li class="no">Sin distinción entre persona, vehículo o animal</li>
+      <li class="no">Búsqueda de eventos lenta y manual</li>
+    </ul>`;
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">IA AcuSense: distingue personas y vehículos de otros movimientos</li>
+      <li class="yes">Alertas reales, no ruido — menos fatiga de notificación</li>
+      <li class="yes">Grabación dedicada en NVR propio, no en la nube</li>
+      <li class="yes">Búsqueda de eventos por tipo, filtrable en minutos</li>
+    </ul>`;
+  }
+}
 
-})();
+// ===== RESPALDO =====
+const BRANDS = {
+  omada: "Línea profesional de TP-Link para redes gestionadas. La elegimos porque separa tráfico de invitados del de seguridad sin la complejidad de un stack enterprise.",
+  hikvision: "Uno de los fabricantes de videovigilancia y alarma más grandes del mundo. Lo elegimos por la solidez de su línea AXPro/AcuSense y el soporte técnico local de nuestro proveedor.",
+  glc: "Fabricante de racks e infraestructura pasiva que usamos en todos nuestros proyectos por prolijidad de terminación y disponibilidad de repuestos en Córdoba.",
+  seagate: "Línea SkyHawk diseñada específicamente para grabación continua de videovigilancia, con mayor tolerancia a escritura 24/7 que un disco genérico.",
+  vssl: "VSSL y Episode son marcas de audio residencial de gama profesional, pensadas para integración invisible. Las elegimos por calidad de sonido sin depender de un solo servicio de streaming.",
+  sonos: "El ecosistema de audio multiroom más difundido del mundo, con su propia app madura y estable. Lo ofrecemos como upgrade cuando el cliente quiere una experiencia de cine real, no solo sonido ambiental.",
+};
+function showBrand(key){
+  const el = document.getElementById('brand-detail');
+  el.textContent = BRANDS[key];
+  el.classList.add('show');
+}
+
+// ===== FAQ =====
+const FAQS = [
+  {q:"¿Cómo controlo la alarma y las cámaras día a día?", a:"Desde la app oficial Hik-Connect de Hikvision, gratuita — no hace falta un panel de domótica adicional para este alcance."},
+  {q:"¿Necesito internet para que la alarma funcione?", a:"El disparo local (sirenas, notificación al teclado) funciona igual sin internet. Las notificaciones remotas al celular sí necesitan conexión."},
+  {q:"¿Qué pasa si algo falla?", a:"Los primeros 12 meses, lo resolvemos nosotros sin cargo sobre instalación y programación."},
+  {q:"¿Puedo sumar domótica de iluminación más adelante?", a:"Sí — la red y la infraestructura ya quedan preparadas. Se trata como una ampliación aparte cuando lo definas, no como una corrección de esta propuesta."},
+  {q:"¿Hay costos recurrentes?", a:"No obligatorios. Hik-Connect es gratis para lo incluido acá. El monitoreo de alarma con central de terceros es opcional y aparte, solo si se contrata."},
+];
+document.getElementById('faq-list').innerHTML = FAQS.map((f,i)=>`
+  <div class="faq-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner"><p>${f.a}</p></div></div>
+  </div>`).join('');
+
+// ===== ACEPTAR =====
+function aceptarPropuesta(){
+  const t = calcularTotales();
+  const opt = sonidoUpgrade ? 'Sí — Home Theater 5.1 Sonos' : 'No — Sonido base 2.0';
+  const msg = `Hola Nova Domus! Quiero aceptar la propuesta PY-2026-002 (La Luisita L10).%0A%0ATotal: ${fmt(t.total)}%0AUpgrade 5.1 Sonos: ${opt}`;
+  window.open(`https://wa.me/5493516747513?text=${msg}`, '_blank');
+}
+
+// ===== COUNT UP =====
+function animateCount(el){
+  const target = parseInt(el.dataset.count);
+  let cur = 0;
+  const step = Math.max(1, Math.ceil(target/40));
+  const it = setInterval(()=>{
+    cur += step;
+    if(cur>=target){ cur = target; clearInterval(it); }
+    el.textContent = cur;
+  }, 30);
+}
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target); obs.unobserve(e.target); } });
+  }, {threshold:.5});
+  document.querySelectorAll('.figure[data-count]').forEach(el=>obs.observe(el));
+} else {
+  document.querySelectorAll('.figure[data-count]').forEach(el=>{ el.textContent = el.dataset.count; });
+}
+
+// ===== SCROLL PROGRESS =====
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop)/(h.scrollHeight-h.clientHeight);
+  const circumference = 144.5;
+  const offset = circumference - scrolled*circumference;
+  document.getElementById('ring-progress').style.strokeDashoffset = offset;
+});
+document.getElementById('progress-badge').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ===== NAV ACTIVA =====
+const NAV_SECTIONS = ['responsable','redes','alarma','videovigilancia','sonido','opcionales','inversion','cta'];
+window.addEventListener('scroll', ()=>{
+  let current = '';
+  NAV_SECTIONS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ const r = el.getBoundingClientRect(); if(r.top<=120 && r.bottom>120) current = id; }
+  });
+  document.querySelectorAll('#topnav .navlinks a').forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href')==='#'+current);
+  });
+});
+
+// init
+renderInversion();
+renderSonidoGrid();
+setRedesView('generico');
+setAlarmaView('comun');
+setVideoView('comun');
 </script>
 </body>
 </html>
-<!-- rebuild-trigger 1783432432 -->
