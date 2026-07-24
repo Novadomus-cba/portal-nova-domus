@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Nova Domus — Mapa de Instalación</title>
+<title>Nova Domus — Plano de Instalación e Integración</title>
 <link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -167,8 +167,8 @@ body {
 .proyecto-nombre { font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .proyecto-cliente { font-size: 12px; color: var(--text-muted); }
 .proyecto-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.mapa-chip { font-size: 11px; color: var(--text-muted); white-space: nowrap; text-align: right; }
-.mapa-chip b { color: var(--text); }
+.plano-chip { font-size: 11px; color: var(--text-muted); white-space: nowrap; text-align: right; }
+.plano-chip b { color: var(--text); }
 .chevron { font-size: 12px; color: var(--text-hint); transition: transform .2s; flex-shrink: 0; }
 .chevron.open { transform: rotate(180deg); }
 .proyecto-body { display: none; padding: 12px 14px; background: var(--bg); border-top: 1px solid var(--border); }
@@ -280,7 +280,7 @@ body {
       </a>
       <div class="portal-divider"></div>
       <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" class="portal-logo" />
-      <span class="portal-module">Mapa de Instalación</span>
+      <span class="portal-module">Plano de Instalación e Integración</span>
     </div>
     <div class="portal-bar-right">
       <span id="portal-username"></span>
@@ -329,7 +329,7 @@ async function handleLogout() {
 // ── STATE ─────────────────────────────────────────────────────
 let canWrite = false;
 let proyectos = [];       // array de proyectos filtrados por estado
-let mapasPorProyecto = {}; // { proyecto_id: [ {version, generado_en, storage_path, notas}, ... ] } desc por version
+let planosPorProyecto = {}; // { proyecto_id: [ {version, generado_en, storage_path, notas}, ... ] } desc por version
 let openId = null;        // proyecto_id actualmente expandido
 let filtro = '';
 
@@ -363,12 +363,12 @@ async function init() {
 // ── CARGA DE DATOS ────────────────────────────────────────────
 async function cargarTodo() {
   try {
-    const [{ data: proys, error: errP }, { data: mapas, error: errM }] = await Promise.all([
+    const [{ data: proys, error: errP }, { data: planos, error: errM }] = await Promise.all([
       authClient.from('proyectos')
         .select('id,numero,nombre,cliente,estado,fecha_aceptacion')
         .in('estado', RELEVANT_ESTADOS)
         .order('fecha_aceptacion', { ascending: false }),
-      authClient.from('proyectos_mapas_instalacion')
+      authClient.from('proyectos_planos_instalacion')
         .select('proyecto_id,version,generado_en,storage_path,notas')
         .order('version', { ascending: false }),
     ]);
@@ -376,10 +376,10 @@ async function cargarTodo() {
     if (errM) throw errM;
 
     proyectos = proys || [];
-    mapasPorProyecto = {};
-    (mapas || []).forEach(m => {
-      if (!mapasPorProyecto[m.proyecto_id]) mapasPorProyecto[m.proyecto_id] = [];
-      mapasPorProyecto[m.proyecto_id].push(m);
+    planosPorProyecto = {};
+    (planos || []).forEach(m => {
+      if (!planosPorProyecto[m.proyecto_id]) planosPorProyecto[m.proyecto_id] = [];
+      planosPorProyecto[m.proyecto_id].push(m);
     });
 
     render();
@@ -418,14 +418,14 @@ function render() {
   }
 
   cont.innerHTML = filtrados.map(p => {
-    const versiones = mapasPorProyecto[p.id] || [];
-    const tieneMapa = versiones.length > 0;
-    const ultima = tieneMapa ? versiones[0] : null;
+    const versiones = planosPorProyecto[p.id] || [];
+    const tienePlano = versiones.length > 0;
+    const ultima = tienePlano ? versiones[0] : null;
     const isOpen = openId === p.id;
 
-    const chip = tieneMapa
-      ? `<span class="mapa-chip"><b>v${ultima.version}</b><br>${fmtFecha(ultima.generado_en)}</span>`
-      : `<span class="pill pill-gray">Sin mapa</span>`;
+    const chip = tienePlano
+      ? `<span class="plano-chip"><b>v${ultima.version}</b><br>${fmtFecha(ultima.generado_en)}</span>`
+      : `<span class="pill pill-gray">Sin plano</span>`;
 
     return `
       <div class="proyecto-card">
@@ -462,9 +462,9 @@ function renderBody(p, versiones) {
             <span class="version-meta">${fmtFecha(v.generado_en)}</span>
             ${v.notas ? `<span class="version-notas">${v.notas}</span>` : ''}
           </div>
-          <button class="btn-sm" onclick="verMapa(event, '${v.storage_path}')">Ver</button>
+          <button class="btn-sm" onclick="verPlano(event, '${v.storage_path}')">Ver</button>
         </div>`).join('')
-    : '<div class="empty-hint">Todavía no se cargó ningún mapa para este proyecto.</div>';
+    : '<div class="empty-hint">Todavía no se cargó ningún plano para este proyecto.</div>';
 
   const uploadSection = canWrite ? `
     <div class="section-title">Subir nueva versión</div>
@@ -475,37 +475,37 @@ function renderBody(p, versiones) {
       <label>Notas (opcional)</label>
       <textarea id="notas-${p.id}" placeholder="Observaciones sobre esta versión..."></textarea>
     </div>
-    <button class="btn-primary" id="btn-upload-${p.id}" onclick="subirMapa(${p.id})">Subir mapa</button>
+    <button class="btn-primary" id="btn-upload-${p.id}" onclick="subirPlano(${p.id})">Subir plano</button>
   ` : '';
 
   return `
     <div class="section-title" style="margin-top:0;padding-top:0;border-top:none">Historial de versiones</div>
     ${historial}
     ${uploadSection}
-    <div class="section-title">Planos</div>
-    <div class="planos-placeholder">Planos del proyecto — repositorio en definición, próximamente en este panel.</div>
+    <div class="section-title">Planos de obra</div>
+    <div class="planos-placeholder">Planos de obra — repositorio en definición, próximamente en este panel.</div>
   `;
 }
 
-// ── VER MAPA (signed URL, pestaña nueva) ─────────────────────
-async function verMapa(event, storagePath) {
+// ── VER PLANO (signed URL, pestaña nueva) ─────────────────────
+async function verPlano(event, storagePath) {
   event.stopPropagation();
   const win = window.open('', '_blank');
   try {
     const { data, error } = await authClient.storage
-      .from('mapas-instalacion')
+      .from('planos-instalacion')
       .createSignedUrl(storagePath, 300);
     if (error) throw error;
     win.location.href = data.signedUrl;
   } catch (e) {
-    console.error('verMapa', e);
+    console.error('verPlano', e);
     if (win) win.close();
-    showToast('No se pudo abrir el mapa.', 'error');
+    showToast('No se pudo abrir el plano.', 'error');
   }
 }
 
 // ── SUBIR NUEVA VERSIÓN ───────────────────────────────────────
-async function subirMapa(proyectoId) {
+async function subirPlano(proyectoId) {
   const proyecto = proyectos.find(p => p.id === proyectoId);
   const fileInput = document.getElementById(`file-${proyectoId}`);
   const notasInput = document.getElementById(`notas-${proyectoId}`);
@@ -533,20 +533,20 @@ async function subirMapa(proyectoId) {
     const { data: { session } } = await authClient.auth.getSession();
     if (!session) { window.location.href = '../login.html'; return; }
 
-    const versionesActuales = mapasPorProyecto[proyectoId] || [];
+    const versionesActuales = planosPorProyecto[proyectoId] || [];
     const n = versionesActuales.length
       ? Math.max(...versionesActuales.map(v => v.version)) + 1
       : 1;
     const storagePath = `${proyecto.numero}/v${n}.html`;
 
     const { error: uploadError } = await authClient.storage
-      .from('mapas-instalacion')
+      .from('planos-instalacion')
       .upload(storagePath, file, { contentType: 'text/html', upsert: false });
     if (uploadError) throw uploadError;
 
     const notas = notasInput.value.trim() || null;
 
-    const insertRes = await fetch(AUTH_URL + '/rest/v1/proyectos_mapas_instalacion', {
+    const insertRes = await fetch(AUTH_URL + '/rest/v1/proyectos_planos_instalacion', {
       method: 'POST',
       headers: {
         'apikey': AUTH_KEY,
@@ -568,21 +568,21 @@ async function subirMapa(proyectoId) {
       throw new Error(errText);
     }
 
-    showToast('Mapa subido correctamente.', 'success');
+    showToast('Plano subido correctamente.', 'success');
 
-    const { data: mapasActualizados, error: errRefresh } = await authClient
-      .from('proyectos_mapas_instalacion')
+    const { data: planosActualizados, error: errRefresh } = await authClient
+      .from('proyectos_planos_instalacion')
       .select('proyecto_id,version,generado_en,storage_path,notas')
       .eq('proyecto_id', proyectoId)
       .order('version', { ascending: false });
-    if (!errRefresh) mapasPorProyecto[proyectoId] = mapasActualizados || [];
+    if (!errRefresh) planosPorProyecto[proyectoId] = planosActualizados || [];
 
     render();
   } catch (e) {
-    console.error('subirMapa', e);
-    showToast('No se pudo subir el mapa. Intentá de nuevo.', 'error');
+    console.error('subirPlano', e);
+    showToast('No se pudo subir el plano. Intentá de nuevo.', 'error');
     btn.disabled = false;
-    btn.textContent = 'Subir mapa';
+    btn.textContent = 'Subir plano';
   }
 }
 
