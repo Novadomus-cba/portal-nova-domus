@@ -496,7 +496,17 @@ async function verPlano(event, storagePath) {
       .from('planos-instalacion')
       .createSignedUrl(storagePath, 300);
     if (error) throw error;
-    win.location.href = data.signedUrl;
+
+    // Supabase Storage sirve las signed URLs con Content-Type no-HTML (anti-XSS),
+    // así que el navegador las muestra como texto plano si se abren directo.
+    // Traemos el HTML nosotros y lo servimos como Blob propio para que renderice.
+    const res = await fetch(data.signedUrl);
+    if (!res.ok) throw new Error('No se pudo descargar el plano');
+    const html = await res.text();
+    const blob = new Blob([html], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+    win.location.href = blobUrl;
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
   } catch (e) {
     console.error('verPlano', e);
     if (win) win.close();
