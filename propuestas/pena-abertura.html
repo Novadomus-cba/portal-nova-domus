@@ -294,6 +294,17 @@ table.item-table th{color:var(--navy); opacity:.7; font-size:10.5px; text-transf
   <div class="device-grid" id="grid-nucleo"></div>
 </section>
 
+<!-- OPCIONALES -->
+<section class="section section-light" id="opcionales">
+  <span class="eyebrow">03-bis — Opcionales</span>
+  <h2>¿Necesitan streaming 100% independiente en alguna zona?</h2>
+  <p class="lead">Con el sistema base, todas las zonas pueden escuchar la misma fuente de streaming (Spotify/AirPlay/Google Cast) al mismo tiempo, pero es una sola sesión compartida — no se puede tener dos reproduciendo cosas distintas a la vez. Este opcional agrega un streamer dedicado para que una zona puntual tenga su propia sesión, totalmente independiente del resto.</p>
+  <div class="checkbox-card">
+    <input type="checkbox" id="opt-mbxpre" onchange="recalcularTodo()">
+    <label for="opt-mbxpre"><strong>Streaming independiente en 1 zona adicional</strong> — Russound MBX-PRE (streamer dedicado: Spotify Connect, AirPlay 2, Google Cast, Bluetooth propios). <span id="opt-mbxpre-price" style="color:var(--gold); font-weight:600;"></span><br><span style="font-size:12px; color:#5d6078;">¿Necesitan esto en más de una zona? Cada zona adicional con independencia real requiere un MBX-PRE propio — avisen y lo sumamos aparte.</span></label>
+  </div>
+</section>
+
 <!-- 04 INVERSION -->
 <section class="section section-light" id="inversion">
   <span class="eyebrow">04 — Inversión</span>
@@ -637,16 +648,6 @@ function aceptarPropuesta(){
   window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 </script>
-<!-- OPCIONALES -->
-<section class="section section-light" id="opcionales">
-  <span class="eyebrow">03-bis — Opcionales</span>
-  <h2>¿Necesitan streaming 100% independiente en alguna zona?</h2>
-  <p class="lead">Con el sistema base, todas las zonas pueden escuchar la misma fuente de streaming (Spotify/AirPlay/Google Cast) al mismo tiempo, pero es una sola sesión compartida — no se puede tener dos reproduciendo cosas distintas a la vez. Este opcional agrega un streamer dedicado para que una zona puntual tenga su propia sesión, totalmente independiente del resto.</p>
-  <div class="checkbox-card">
-    <input type="checkbox" id="opt-mbxpre" onchange="recalcularTodo()">
-    <label for="opt-mbxpre"><strong>Streaming independiente en 1 zona adicional</strong> — Russound MBX-PRE (streamer dedicado: Spotify Connect, AirPlay 2, Google Cast, Bluetooth propios). <span id="opt-mbxpre-price" style="color:var(--gold); font-weight:600;"></span><br><span style="font-size:12px; color:#5d6078;">¿Necesitan esto en más de una zona? Cada zona adicional con independencia real requiere un MBX-PRE propio — avisen y lo sumamos aparte.</span></label>
-  </div>
-</section>
 
 </body>
 </html>
