@@ -173,6 +173,7 @@ table.item-table th{color:var(--navy); opacity:.7; font-size:10.5px; text-transf
       <a href="#marca" data-nav>Marca</a>
       <a href="#responsable" data-nav>Responsable</a>
       <a href="#zonas" data-nav>Zonas</a>
+      <a href="#opcionales" data-nav>Opcionales</a>
       <a href="#inversion" data-nav>Inversión</a>
       <a href="#respaldo" data-nav>Respaldo</a>
     </div>
@@ -419,7 +420,7 @@ document.getElementById('herologoplate').innerHTML = `${LOGO_SVG_NAVY.replace('<
 
 /* ===== SCROLL SPY + PROGRESS RING ===== */
 const navLinks = document.querySelectorAll('[data-nav]');
-const sections = ['experiencia','marca','responsable','zonas','inversion','respaldo'].map(id=>document.getElementById(id));
+const sections = ['experiencia','marca','responsable','zonas','opcionales','inversion','respaldo'].map(id=>document.getElementById(id));
 window.addEventListener('scroll', ()=>{
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -505,18 +506,31 @@ const RUBROS = [
 
 function itemTotal(it){ return it.cant * it.precio_neto * (1 + it.iva/100); }
 function rubroTotal(r){ return r.items.reduce((s,it)=>s+itemTotal(it),0); }
-const subtotalEquipo = RUBROS.reduce((s,r)=>s+rubroTotal(r),0);
-const programacion = subtotalEquipo * 0.20;
-const totalProyecto = subtotalEquipo + programacion;
-
+const OPCIONAL_MBXPRE = {name:'Russound MBX-PRE — Streaming independiente por zona', sku:'4500-537226', cant:1, precio_neto:973.05, iva:21};
+document.getElementById('opt-mbxpre-price').textContent = '+ ' + fmt(itemTotal(OPCIONAL_MBXPRE));
 function fmt(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+let subtotalEquipo, programacion, totalProyecto;
+function computeTotals(){
+  const opcionalChecked = document.getElementById('opt-mbxpre').checked;
+  subtotalEquipo = RUBROS.reduce((s,r)=>s+rubroTotal(r),0) + (opcionalChecked ? itemTotal(OPCIONAL_MBXPRE) : 0);
+  programacion = subtotalEquipo * 0.20;
+  totalProyecto = subtotalEquipo + programacion;
+}
 
 function renderInversion(){
+  computeTotals();
+  const opcionalChecked = document.getElementById('opt-mbxpre').checked;
   const barra = document.getElementById('barra-segmentada');
-  barra.innerHTML = RUBROS.map(r=>{
+  let barraHtml = RUBROS.map(r=>{
     const pct = (rubroTotal(r)/subtotalEquipo*100).toFixed(1);
     return `<div class="barra-seg" style="width:${pct}%;background:${r.color};"></div>`;
-  }).join('') + `<div class="barra-seg" style="width:${(programacion/totalProyecto*100).toFixed(1)}%;background:#787A91;"></div>`;
+  }).join('');
+  if(opcionalChecked){
+    const pctOpc = (itemTotal(OPCIONAL_MBXPRE)/subtotalEquipo*100).toFixed(1);
+    barraHtml += `<div class="barra-seg" style="width:${pctOpc}%;background:#8a8f6a;"></div>`;
+  }
+  barraHtml += `<div class="barra-seg" style="width:${(programacion/totalProyecto*100).toFixed(1)}%;background:#787A91;"></div>`;
+  barra.innerHTML = barraHtml;
 
   const acc = document.getElementById('accordion-rubros');
   let html = RUBROS.map((r,ri)=>{
@@ -540,9 +554,23 @@ function renderInversion(){
       </div>
     </div>`;
   }).join('');
+  if(opcionalChecked){
+    html += `<div class="rubro-acc" id="rubro-opcional">
+      <div class="rubro-head" onclick="toggleRubro('opcional')">
+        <span class="rh-name">Opcional — Streaming independiente</span>
+        <span class="rh-total">${fmt(itemTotal(OPCIONAL_MBXPRE))}</span>
+      </div>
+      <div class="rubro-body">
+        <table class="item-table">
+          <tr><th>Ítem</th><th>Cant.</th><th>Precio Neto</th><th>IVA</th><th>Total</th></tr>
+          <tr><td>${OPCIONAL_MBXPRE.name}<br><span style="font-size:10.5px;color:#999;">${OPCIONAL_MBXPRE.sku}</span></td><td>${OPCIONAL_MBXPRE.cant}</td><td>USD ${OPCIONAL_MBXPRE.precio_neto.toFixed(2)}</td><td>${OPCIONAL_MBXPRE.iva}%</td><td>USD ${itemTotal(OPCIONAL_MBXPRE).toFixed(2)}</td></tr>
+        </table>
+      </div>
+    </div>`;
+  }
   html += `<div class="rubro-acc" style="background:#f5f3ea;">
     <div class="rubro-head" style="cursor:default;">
-      <span class="rh-name">Subtotal Equipo</span><span class="rh-total">${fmt(subtotalEquipo)}</span>
+      <span class="rh-name">Subtotal Equipo${opcionalChecked ? ' (con opcional)' : ''}</span><span class="rh-total">${fmt(subtotalEquipo)}</span>
     </div></div>
     <div class="rubro-acc" style="background:#f5f3ea;">
     <div class="rubro-head" style="cursor:default;">
@@ -551,6 +579,10 @@ function renderInversion(){
   acc.innerHTML = html;
   document.getElementById('total-final').textContent = fmt(totalProyecto);
   document.getElementById('cta-total').textContent = fmt(totalProyecto);
+}
+function recalcularTodo(){
+  renderInversion();
+  recalcular();
 }
 function toggleRubro(i){
   const card = document.getElementById('rubro-'+i);
@@ -605,5 +637,16 @@ function aceptarPropuesta(){
   window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 </script>
+<!-- OPCIONALES -->
+<section class="section section-light" id="opcionales">
+  <span class="eyebrow">03-bis — Opcionales</span>
+  <h2>¿Necesitan streaming 100% independiente en alguna zona?</h2>
+  <p class="lead">Con el sistema base, todas las zonas pueden escuchar la misma fuente de streaming (Spotify/AirPlay/Google Cast) al mismo tiempo, pero es una sola sesión compartida — no se puede tener dos reproduciendo cosas distintas a la vez. Este opcional agrega un streamer dedicado para que una zona puntual tenga su propia sesión, totalmente independiente del resto.</p>
+  <div class="checkbox-card">
+    <input type="checkbox" id="opt-mbxpre" onchange="recalcularTodo()">
+    <label for="opt-mbxpre"><strong>Streaming independiente en 1 zona adicional</strong> — Russound MBX-PRE (streamer dedicado: Spotify Connect, AirPlay 2, Google Cast, Bluetooth propios). <span id="opt-mbxpre-price" style="color:var(--gold); font-weight:600;"></span><br><span style="font-size:12px; color:#5d6078;">¿Necesitan esto en más de una zona? Cada zona adicional con independencia real requiere un MBX-PRE propio — avisen y lo sumamos aparte.</span></label>
+  </div>
+</section>
+
 </body>
 </html>
