@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nova Domus — Mapa de Instalación</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
+
+:root {
+  --nd-orange: #C8A96E;
+  --nd-orange-light: rgba(200,169,110,0.08);
+  --nd-orange-border: #7a6340;
+  --bg: #0B132B;
+  --surface: #131b3d;
+  --surface2: #141E61;
+  --border: #2a3468;
+  --border-strong: #3d4a7a;
+  --text: #FDFBF0;
+  --text-muted: #9a9cb8;
+  --text-hint: #9a9cb8;
+  --accent: #C8A96E;
+  --accent-dim: #7a6340;
+  --primary: #141E61;
+  --font-display: 'Michroma', sans-serif;
+  --font-body: 'Inter', Arial, sans-serif;
+  --danger: #e74c3c;
+  --danger-bg: rgba(231,76,60,0.12);
+  --danger-border: rgba(231,76,60,0.35);
+  --success: #2ecc71;
+  --success-bg: rgba(46,204,113,0.12);
+  --warn-bg: rgba(241,196,15,0.12);
+  --warn-border: rgba(241,196,15,0.35);
+  --warn-text: #f1c40f;
+  --info: #6ea8fe;
+  --info-bg: rgba(110,168,254,0.12);
+  --info-border: rgba(110,168,254,0.35);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  min-height: 100vh;
+}
+
+/* ── LOADING OVERLAY ── */
+#app-loading {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ── PORTAL HEADER ── */
+#app-header { position: sticky; top: 0; z-index: 100; }
+.portal-bar {
+  background: var(--bg);
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+}
+.portal-bar-left { display: flex; align-items: center; gap: 10px; }
+.portal-back {
+  display: flex; align-items: center; gap: 7px;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.15s;
+}
+.portal-back:hover { color: var(--text); }
+.portal-back-icon {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, var(--accent-dim, #7a6340), var(--accent, #C8A96E));
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.portal-divider { width: 1px; height: 14px; background: var(--border); }
+.portal-module {
+  font-size: 14px; font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.portal-logo {
+  height: 32px; width: auto; display: block;
+}
+.portal-bar-right { display: flex; align-items: center; gap: 12px; }
+#portal-username {
+  font-size: 12px; color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+}
+.portal-logout {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.portal-logout:hover { color: var(--text); border-color: var(--text-muted); }
+
+/* ── FADE IN ── */
+#app-header, #app-content { animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; } }
+
+/* ── PAGE ── */
+.page { padding: 1rem; max-width: 600px; margin: 0 auto; }
+
+/* ── SEARCH ── */
+.search-wrap { margin-bottom: 12px; }
+.search-wrap input {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px; color: var(--text);
+  background: var(--surface);
+  outline: none; transition: border-color .15s;
+  font-family: inherit;
+}
+.search-wrap input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,169,110,.15);
+}
+
+/* ── PILLS ── */
+.pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 10px; font-weight: 700;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.pill-ok    { background: var(--success-bg); color: var(--success); border-color: rgba(46,204,113,.35); }
+.pill-warn  { background: var(--warn-bg); color: var(--warn-text); border-color: var(--warn-border); }
+.pill-info  { background: var(--info-bg); color: var(--info); border-color: var(--info-border); }
+.pill-gray  { background: var(--bg); color: var(--text-muted); border-color: var(--border-strong); }
+
+/* ── PROYECTO CARD (accordion) ── */
+.proyecto-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 8px; overflow: hidden;
+}
+.proyecto-header {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 8px;
+  padding: 12px 14px; cursor: pointer;
+}
+.proyecto-header:hover { background: var(--bg); }
+.proyecto-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.proyecto-numero { font-size: 11px; color: var(--text-hint); font-weight: 600; letter-spacing: .02em; }
+.proyecto-nombre { font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proyecto-cliente { font-size: 12px; color: var(--text-muted); }
+.proyecto-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.mapa-chip { font-size: 11px; color: var(--text-muted); white-space: nowrap; text-align: right; }
+.mapa-chip b { color: var(--text); }
+.chevron { font-size: 12px; color: var(--text-hint); transition: transform .2s; flex-shrink: 0; }
+.chevron.open { transform: rotate(180deg); }
+.proyecto-body { display: none; padding: 12px 14px; background: var(--bg); border-top: 1px solid var(--border); }
+.proyecto-body.open { display: block; }
+
+.section-title {
+  font-size: 11px; font-weight: 600; color: var(--text-hint);
+  text-transform: uppercase; letter-spacing: .04em;
+  margin-bottom: 8px;
+}
+.section-title:not(:first-child) { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+
+.version-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.version-row:last-child { border-bottom: none; }
+.version-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.version-num { font-size: 13px; font-weight: 600; }
+.version-meta { font-size: 11px; color: var(--text-muted); }
+.version-notas { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
+
+.btn-sm {
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text);
+  font-family: inherit; flex-shrink: 0;
+  transition: border-color .15s;
+}
+.btn-sm:hover { border-color: var(--accent); }
+.btn-sm:disabled { opacity: .5; cursor: not-allowed; }
+
+.empty-hint { font-size: 13px; color: var(--text-hint); padding: 4px 0 2px; }
+
+.upload-field { margin-bottom: 10px; }
+.upload-field label {
+  display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500;
+}
+.upload-field input[type=file] {
+  width: 100%; font-size: 13px; color: var(--text);
+}
+.upload-field textarea {
+  width: 100%; padding: 8px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 13px; color: var(--text);
+  background: var(--surface);
+  outline: none; resize: vertical; min-height: 50px;
+  font-family: inherit;
+}
+.upload-field textarea:focus { border-color: var(--accent); }
+
+.btn-primary {
+  width: 100%; padding: 11px;
+  background: var(--primary); color: var(--text); border: none;
+  border-radius: var(--radius); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: opacity .15s, transform .1s;
+  font-family: inherit;
+}
+.btn-primary:active { opacity: .88; transform: scale(.99); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+
+.planos-placeholder {
+  font-size: 12px; color: var(--text-hint);
+  background: var(--surface); border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm); padding: 12px; line-height: 1.5;
+}
+
+.loader {
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem; gap: 10px; color: var(--text-muted); font-size: 14px;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-hint); font-size: 14px; }
+
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: #0B132B;
+  padding: 10px 18px; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  opacity: 0; transition: all .25s; pointer-events: none;
+  z-index: 300; white-space: nowrap;
+}
+.toast.success { background: var(--success); color: #0B132B; }
+.toast.error   { background: var(--danger); color: #fff; }
+.toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Loading overlay — shown until auth resolves -->
+<div id="app-loading">Verificando acceso…</div>
+
+<!-- Portal header — sticky, revealed after auth -->
+<div id="app-header" style="display:none">
+  <div class="portal-bar">
+    <div class="portal-bar-left">
+      <a href="../index.html" class="portal-back">
+        <span class="portal-back-icon">⌂</span>
+        Portal
+      </a>
+      <div class="portal-divider"></div>
+      <img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus" class="portal-logo" />
+      <span class="portal-module">Mapa de Instalación</span>
+    </div>
+    <div class="portal-bar-right">
+      <span id="portal-username"></span>
+      <button class="portal-logout" onclick="handleLogout()">Salir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Panel content — revealed after auth -->
+<div id="app-content" style="display:none">
+  <div class="page">
+    <div class="search-wrap">
+      <input type="text" id="inp-buscar" placeholder="Buscar por número o nombre..." oninput="onBuscarInput()">
+    </div>
+    <div id="lista-proyectos">
+      <div class="loader"><div class="spinner"></div> Cargando proyectos...</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── AUTH ──────────────────────────────────────────────────────
+const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
+const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+const ALLOWED_ROLES = ['admin', 'supervisor', 'programacion'];
+const RELEVANT_ESTADOS = ['ACEPTADO', 'EN_OBRA', 'OBRA_ENTREGADA', 'FACTURADO', 'CERRADO'];
+const ESTADO_PILL = {
+  ACEPTADO:        'pill-info',
+  EN_OBRA:         'pill-warn',
+  OBRA_ENTREGADA:  'pill-ok',
+  FACTURADO:       'pill-ok',
+  CERRADO:         'pill-gray',
+};
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+const { createClient } = supabase;
+const authClient = createClient(AUTH_URL, AUTH_KEY);
+
+async function handleLogout() {
+  await authClient.auth.signOut();
+  window.location.href = '../login.html';
+}
+
+// ── STATE ─────────────────────────────────────────────────────
+let canWrite = false;
+let proyectos = [];       // array de proyectos filtrados por estado
+let mapasPorProyecto = {}; // { proyecto_id: [ {version, generado_en, storage_path, notas}, ... ] } desc por version
+let openId = null;        // proyecto_id actualmente expandido
+let filtro = '';
+
+// ── INIT ──────────────────────────────────────────────────────
+async function init() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { window.location.href = '../login.html'; return; }
+
+  const { data: profile } = await authClient
+    .from('user_profiles')
+    .select('full_name, role')
+    .eq('id', session.user.id)
+    .single();
+
+  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+    window.location.href = '../index.html';
+    return;
+  }
+
+  canWrite = ['admin', 'supervisor'].includes(profile.role);
+
+  document.getElementById('portal-username').textContent = profile.full_name;
+
+  document.getElementById('app-loading').style.display = 'none';
+  document.getElementById('app-header').style.display  = 'block';
+  document.getElementById('app-content').style.display = 'block';
+
+  await cargarTodo();
+}
+
+// ── CARGA DE DATOS ────────────────────────────────────────────
+async function cargarTodo() {
+  try {
+    const [{ data: proys, error: errP }, { data: mapas, error: errM }] = await Promise.all([
+      authClient.from('proyectos')
+        .select('id,numero,nombre,cliente,estado,fecha_aceptacion')
+        .in('estado', RELEVANT_ESTADOS)
+        .order('fecha_aceptacion', { ascending: false }),
+      authClient.from('proyectos_mapas_instalacion')
+        .select('proyecto_id,version,generado_en,storage_path,notas')
+        .order('version', { ascending: false }),
+    ]);
+    if (errP) throw errP;
+    if (errM) throw errM;
+
+    proyectos = proys || [];
+    mapasPorProyecto = {};
+    (mapas || []).forEach(m => {
+      if (!mapasPorProyecto[m.proyecto_id]) mapasPorProyecto[m.proyecto_id] = [];
+      mapasPorProyecto[m.proyecto_id].push(m);
+    });
+
+    render();
+  } catch (e) {
+    console.error('cargarTodo', e);
+    document.getElementById('lista-proyectos').innerHTML =
+      '<div class="empty-state">No se pudo cargar la lista de proyectos.</div>';
+  }
+}
+
+// ── BÚSQUEDA ──────────────────────────────────────────────────
+function onBuscarInput() {
+  filtro = document.getElementById('inp-buscar').value.trim().toLowerCase();
+  render();
+}
+
+// ── FORMATO ───────────────────────────────────────────────────
+function fmtFecha(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+// ── RENDER LISTA ──────────────────────────────────────────────
+function render() {
+  const cont = document.getElementById('lista-proyectos');
+  const filtrados = proyectos.filter(p => {
+    if (!filtro) return true;
+    return (p.numero || '').toLowerCase().includes(filtro) ||
+           (p.nombre || '').toLowerCase().includes(filtro);
+  });
+
+  if (filtrados.length === 0) {
+    cont.innerHTML = '<div class="empty-state">No se encontraron proyectos.</div>';
+    return;
+  }
+
+  cont.innerHTML = filtrados.map(p => {
+    const versiones = mapasPorProyecto[p.id] || [];
+    const tieneMapa = versiones.length > 0;
+    const ultima = tieneMapa ? versiones[0] : null;
+    const isOpen = openId === p.id;
+
+    const chip = tieneMapa
+      ? `<span class="mapa-chip"><b>v${ultima.version}</b><br>${fmtFecha(ultima.generado_en)}</span>`
+      : `<span class="pill pill-gray">Sin mapa</span>`;
+
+    return `
+      <div class="proyecto-card">
+        <div class="proyecto-header" onclick="toggleProyecto(${p.id})">
+          <div class="proyecto-info">
+            <span class="proyecto-numero">${p.numero || '—'}</span>
+            <span class="proyecto-nombre">${p.nombre || '—'}</span>
+            <span class="proyecto-cliente">${p.cliente || ''}</span>
+          </div>
+          <div class="proyecto-right">
+            <span class="pill ${ESTADO_PILL[p.estado] || 'pill-gray'}">${p.estado}</span>
+            ${chip}
+            <span class="chevron ${isOpen ? 'open' : ''}">▾</span>
+          </div>
+        </div>
+        <div class="proyecto-body ${isOpen ? 'open' : ''}" id="body-${p.id}">
+          ${isOpen ? renderBody(p, versiones) : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleProyecto(id) {
+  openId = openId === id ? null : id;
+  render();
+}
+
+function renderBody(p, versiones) {
+  const historial = versiones.length
+    ? versiones.map(v => `
+        <div class="version-row">
+          <div class="version-info">
+            <span class="version-num">v${v.version}</span>
+            <span class="version-meta">${fmtFecha(v.generado_en)}</span>
+            ${v.notas ? `<span class="version-notas">${v.notas}</span>` : ''}
+          </div>
+          <button class="btn-sm" onclick="verMapa(event, '${v.storage_path}')">Ver</button>
+        </div>`).join('')
+    : '<div class="empty-hint">Todavía no se cargó ningún mapa para este proyecto.</div>';
+
+  const uploadSection = canWrite ? `
+    <div class="section-title">Subir nueva versión</div>
+    <div class="upload-field">
+      <input type="file" id="file-${p.id}" accept=".html,text/html">
+    </div>
+    <div class="upload-field">
+      <label>Notas (opcional)</label>
+      <textarea id="notas-${p.id}" placeholder="Observaciones sobre esta versión..."></textarea>
+    </div>
+    <button class="btn-primary" id="btn-upload-${p.id}" onclick="subirMapa(${p.id})">Subir mapa</button>
+  ` : '';
+
+  return `
+    <div class="section-title" style="margin-top:0;padding-top:0;border-top:none">Historial de versiones</div>
+    ${historial}
+    ${uploadSection}
+    <div class="section-title">Planos</div>
+    <div class="planos-placeholder">Planos del proyecto — repositorio en definición, próximamente en este panel.</div>
+  `;
+}
+
+// ── VER MAPA (signed URL, pestaña nueva) ─────────────────────
+async function verMapa(event, storagePath) {
+  event.stopPropagation();
+  const win = window.open('', '_blank');
+  try {
+    const { data, error } = await authClient.storage
+      .from('mapas-instalacion')
+      .createSignedUrl(storagePath, 300);
+    if (error) throw error;
+    win.location.href = data.signedUrl;
+  } catch (e) {
+    console.error('verMapa', e);
+    if (win) win.close();
+    showToast('No se pudo abrir el mapa.', 'error');
+  }
+}
+
+// ── SUBIR NUEVA VERSIÓN ───────────────────────────────────────
+async function subirMapa(proyectoId) {
+  const proyecto = proyectos.find(p => p.id === proyectoId);
+  const fileInput = document.getElementById(`file-${proyectoId}`);
+  const notasInput = document.getElementById(`notas-${proyectoId}`);
+  const btn = document.getElementById(`btn-upload-${proyectoId}`);
+  const file = fileInput.files[0];
+
+  if (!file) {
+    showToast('Elegí un archivo .html para subir.', 'error');
+    return;
+  }
+  const esHtml = file.type === 'text/html' || /\.html?$/i.test(file.name);
+  if (!esHtml) {
+    showToast('El archivo debe ser HTML.', 'error');
+    return;
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    showToast('El archivo supera el límite de 10MB.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Subiendo...';
+
+  try {
+    const { data: { session } } = await authClient.auth.getSession();
+    if (!session) { window.location.href = '../login.html'; return; }
+
+    const versionesActuales = mapasPorProyecto[proyectoId] || [];
+    const n = versionesActuales.length
+      ? Math.max(...versionesActuales.map(v => v.version)) + 1
+      : 1;
+    const storagePath = `${proyecto.numero}/v${n}.html`;
+
+    const { error: uploadError } = await authClient.storage
+      .from('mapas-instalacion')
+      .upload(storagePath, file, { contentType: 'text/html', upsert: false });
+    if (uploadError) throw uploadError;
+
+    const notas = notasInput.value.trim() || null;
+
+    const insertRes = await fetch(AUTH_URL + '/rest/v1/proyectos_mapas_instalacion', {
+      method: 'POST',
+      headers: {
+        'apikey': AUTH_KEY,
+        'Authorization': 'Bearer ' + session.access_token,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        proyecto_id: proyectoId,
+        storage_path: storagePath,
+        version: n,
+        generado_por: session.user.id,
+        notas
+      })
+    });
+
+    if (!insertRes.ok) {
+      const errText = await insertRes.text();
+      throw new Error(errText);
+    }
+
+    showToast('Mapa subido correctamente.', 'success');
+
+    const { data: mapasActualizados, error: errRefresh } = await authClient
+      .from('proyectos_mapas_instalacion')
+      .select('proyecto_id,version,generado_en,storage_path,notas')
+      .eq('proyecto_id', proyectoId)
+      .order('version', { ascending: false });
+    if (!errRefresh) mapasPorProyecto[proyectoId] = mapasActualizados || [];
+
+    render();
+  } catch (e) {
+    console.error('subirMapa', e);
+    showToast('No se pudo subir el mapa. Intentá de nuevo.', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Subir mapa';
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => { t.className = 'toast'; }, 2600);
+}
+
+init();
+</script>
+</body>
+</html>
