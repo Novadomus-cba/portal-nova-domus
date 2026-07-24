@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="Peña Aberturas — Propuesta de Audio Nova Domus">
+<meta property="og:description" content="Sistema de audio multizona 8 zonas con Russound — control, programación y certificación por Nova Domus.">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/pena-abertura.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/pena-abertura.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peña Aberturas — Nova Domus | Integración Tecnológica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#141E61; --navy-deep:#0B132B; --grey:#787A91; --cream:#FDFBF0;
+  --gold:#C8A96E; --red:#B5453A; --body:#EDEAE0;
+  --font-display:'Michroma',Arial,sans-serif; --font-body:'Inter',Arial,sans-serif;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body); background:var(--navy-deep); color:var(--body); line-height:1.5; overflow-x:hidden;}
+h1,h2,.eyebrow,.figure{font-family:var(--font-display); text-transform:uppercase; letter-spacing:2px;}
+h1{font-size:clamp(28px,6vw,44px); line-height:1.15; color:var(--cream);}
+h2{font-size:clamp(18px,3.2vw,24px); letter-spacing:2.5px; margin-bottom:10px; color:var(--cream);}
+h3{font-family:var(--font-body); font-weight:600; font-size:16px; color:var(--cream);}
+.eyebrow{color:var(--gold); font-size:11px; letter-spacing:2px; margin-bottom:8px; display:block;}
+.lead{color:var(--grey); font-size:15px; max-width:640px;}
+p{color:var(--body);}
+a{color:var(--gold); text-decoration:none;}
+.section{padding:70px 20px; max-width:1100px; margin:0 auto;}
+.section-light{background:var(--cream); color:var(--navy-deep);}
+.section-light p{color:#3a3d4a;}
+.section-light h2,.section-light h3{color:var(--navy);}
+.section-light .eyebrow{color:var(--navy); opacity:.65;}
+.section-light .lead{color:#5d6078;}
+button{font-family:var(--font-body); cursor:pointer; background:transparent; appearance:none; border:none;}
+img,svg{max-width:100%;}
+
+#topnav{position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(11,19,43,.92); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,169,110,.15);}
+#topnav .inner{max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:10px 20px;}
+#topnav .mark{display:flex; align-items:center; gap:10px;}
+#topnav .mark svg{width:28px; height:28px; transform:none; display:block;}
+#topnav .navlinks{display:none; gap:16px; font-size:11.5px; letter-spacing:.5px;}
+@media(min-width:900px){#topnav .navlinks{display:flex;}}
+#topnav .navlinks a{color:var(--grey);}
+#topnav .navlinks a.active{color:var(--gold);}
+#progress-badge{position:fixed; bottom:20px; right:20px; z-index:100; width:52px; height:52px; cursor:pointer;}
+#progress-badge svg.ring-svg{transform:rotate(-90deg); width:52px; height:52px; position:absolute; top:0; left:0;}
+#progress-badge .mark{position:absolute; top:0; left:0; width:52px; height:52px; display:flex; align-items:center; justify-content:center;}
+#progress-badge .mark svg{width:26px; height:26px; transform:none; display:block;}
+
+.logo-plate{background:var(--cream); border-radius:16px; padding:14px 18px; display:inline-flex; align-items:center; gap:12px; margin-bottom:28px;}
+.logo-plate svg{width:40px; height:40px; display:block; transform:none;}
+.logo-plate .lp-word{font-family:var(--font-display); color:var(--navy-deep); font-size:15px; letter-spacing:2px; line-height:1.3;}
+.logo-plate .lp-word small{display:block; font-family:var(--font-body); font-size:9px; letter-spacing:1.5px; color:var(--gold); font-weight:600; margin-top:2px;}
+
+#hero{min-height:82vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px 20px 60px; max-width:1100px; margin:0 auto; position:relative;}
+#hero .py-tag{color:var(--gold); font-size:12px; letter-spacing:2px; font-family:var(--font-body); font-weight:600; margin-bottom:16px;}
+#hero .tagline{color:var(--grey); font-size:16px; margin-top:18px;}
+#hero .descriptor{color:var(--gold); font-size:12px; letter-spacing:3px; margin-top:6px;}
+
+/* EXPERIENCIA */
+#experiencia{background:linear-gradient(180deg,rgba(200,169,110,.06),transparent);}
+.exp-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:26px;}
+@media(min-width:800px){.exp-grid{grid-template-columns:repeat(3,1fr);}}
+.exp-card{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:12px; padding:22px; min-height:auto;}
+.exp-card .exp-icon{font-size:26px; margin-bottom:12px; display:block;}
+.exp-card h3{margin-bottom:8px;}
+.exp-card p{font-size:14px; color:var(--grey);}
+.exp-photo{width:100%; border-radius:12px; margin-top:28px; display:block; object-fit:cover; max-height:360px;}
+.exp-photo-caption{font-size:11.5px; color:var(--grey); margin-top:8px; font-style:italic;}
+
+/* MARCA */
+#marca .marca-intro{display:grid; grid-template-columns:1fr; gap:28px; margin-top:24px; align-items:center;}
+@media(min-width:820px){#marca .marca-intro{grid-template-columns:1.1fr .9fr;}}
+.marca-timeline{display:flex; flex-wrap:wrap; gap:10px; margin:20px 0;}
+.tl-chip{background:rgba(255,255,255,.04); border:1px solid rgba(200,169,110,.25); border-radius:20px; padding:8px 14px; font-size:12px; color:var(--body); display:flex; gap:8px; align-items:center;}
+.tl-chip b{color:var(--gold); font-family:var(--font-display); font-size:11px; letter-spacing:1px;}
+.video-wrap{position:relative; width:100%; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:14px; border:1px solid rgba(200,169,110,.25); background:#000;}
+.video-wrap iframe{position:absolute; top:0; left:0; width:100%; height:100%; border:0;}
+.video-caption{font-size:11.5px; color:var(--grey); margin-top:10px;}
+.awards-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:24px;}
+@media(min-width:700px){.awards-grid{grid-template-columns:repeat(4,1fr);}}
+.award-card{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:12px; padding:16px 12px; text-align:center;}
+.award-card .award-badge{width:44px; height:44px; margin:0 auto 10px; border-radius:50%; border:2px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--gold);}
+.award-card .award-name{font-size:11.5px; font-weight:600; color:var(--cream);}
+.award-card .award-year{font-size:10.5px; color:var(--grey); margin-top:3px;}
+.stat-row{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:24px;}
+@media(min-width:700px){.stat-row{grid-template-columns:repeat(4,1fr);}}
+.stat-row .figure{font-size:clamp(22px,4vw,30px); color:var(--gold);}
+.stat-row .stat-label{font-size:10.5px; color:var(--grey); letter-spacing:1px; text-transform:uppercase; margin-top:4px;}
+.honesty-box{border:1px solid rgba(200,169,110,.35); border-radius:12px; padding:20px 22px; margin-top:28px; background:rgba(200,169,110,.05);}
+.honesty-box .eyebrow{margin-bottom:10px;}
+.honesty-box p{font-size:14.5px;}
+
+/* UN SOLO RESPONSABLE */
+.diagram-5{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:26px 0;}
+@media(min-width:800px){.diagram-5{grid-template-columns:repeat(5,1fr);}}
+.diagram-step{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:10px; padding:16px 14px; text-align:center;}
+.diagram-step .step-num{font-family:var(--font-display); color:var(--gold); font-size:20px;}
+.diagram-step .step-label{font-size:12.5px; margin-top:8px; color:var(--body);}
+table.compare-table{width:100%; border-collapse:collapse; margin-top:22px; font-size:13.5px;}
+table.compare-table th,table.compare-table td{padding:10px 12px; text-align:left; border-bottom:1px solid rgba(255,255,255,.1);}
+table.compare-table th{color:var(--gold); font-size:11px; text-transform:uppercase; letter-spacing:.5px;}
+table.compare-table td.ok{color:var(--gold);}
+table.compare-table td.bad{color:var(--red);}
+.scope-note{border-left:3px solid var(--gold); padding:14px 18px; margin-top:22px; background:rgba(200,169,110,.06); font-size:13.5px;}
+
+/* DEVICE CARDS (descriptivas) */
+.device-grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:22px;}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr);}}
+.device-card{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.18); border-radius:12px; overflow:hidden;}
+.section-light .device-card{background:#fff; border:1px solid rgba(20,30,97,.12);}
+.dc-head{display:flex; gap:14px; align-items:center; padding:14px 16px; cursor:pointer; min-height:56px;}
+.dc-thumb{width:56px; height:56px; border-radius:8px; object-fit:cover; flex-shrink:0; background:#0002;}
+.dc-thumb.linework{object-fit:contain; background:#fff; padding:6px;}
+.dc-name{font-weight:600; font-size:14.5px; color:var(--cream);}
+.section-light .dc-name{color:var(--navy-deep);}
+.dc-qty{font-size:12px; color:var(--gold); margin-top:2px;}
+.dc-arrow{margin-left:auto; color:var(--gold); transition:transform .25s;}
+.device-card.open .dc-arrow{transform:rotate(90deg);}
+.dc-body{max-height:0; overflow:hidden; transition:max-height .3s ease; padding:0 16px;}
+.dc-body p{font-size:13.5px; color:var(--grey); padding-bottom:16px;}
+.section-light .dc-body p{color:#5d6078;}
+
+/* INVERSION */
+.barra-segmentada{display:flex; height:14px; border-radius:8px; overflow:hidden; margin-top:20px;}
+.barra-seg{height:100%;}
+.rubro-acc{border:1px solid rgba(20,30,97,.15); border-radius:10px; margin-bottom:10px; overflow:hidden;}
+.rubro-head{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer; background:#fff; min-height:52px;}
+.rubro-head .rh-name{font-weight:600; font-size:14.5px;}
+.rubro-head .rh-total{font-weight:600; color:var(--navy); font-size:14.5px;}
+.rubro-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+table.item-table{width:100%; border-collapse:collapse; font-size:12.5px; padding:0 16px;}
+table.item-table th,table.item-table td{padding:8px 10px; text-align:left; border-bottom:1px solid #eee;}
+table.item-table th{color:var(--navy); opacity:.7; font-size:10.5px; text-transform:uppercase;}
+.totalrow{display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:2px solid var(--navy); font-family:var(--font-display); font-size:18px; letter-spacing:1px;}
+
+/* PAGO */
+.pay-stage{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.1);}
+.pay-amt{color:var(--gold); font-weight:600;}
+.checkbox-card{display:flex; align-items:flex-start; gap:12px; margin-top:16px; padding:14px; border:1px solid rgba(200,169,110,.25); border-radius:10px;}
+.checkbox-card input{margin-top:3px; width:18px; height:18px;}
+
+/* RESPALDO */
+.pills{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.pill{padding:9px 16px; border-radius:20px; border:1px solid rgba(20,30,97,.25); font-size:13px; min-height:40px; display:flex; align-items:center;}
+.pill.fixed{background:var(--navy); color:#fff; border-color:var(--navy);}
+.brand-detail{margin-top:18px; padding:16px; border-radius:10px; background:#fff; border:1px solid rgba(20,30,97,.12); font-size:13.5px; display:none;}
+.brand-detail.show{display:block;}
+
+.btn-accept{background:var(--gold); color:var(--navy-deep); font-weight:700; padding:16px 24px; border-radius:10px; font-size:14px; letter-spacing:.5px; width:100%; margin-top:20px;}
+.btn-accept:disabled{opacity:.4; cursor:not-allowed;}
+
+@media print{
+  #topnav,#progress-badge,.dc-arrow,input[type=range]{display:none !important;}
+  body{background:#fff; color:#000;}
+  .dc-body,.rubro-body{max-height:none !important;}
+  .device-card,.rubro-acc{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="inner">
+    <div class="mark" id="navlogo"></div>
+    <div class="navlinks">
+      <a href="#experiencia" data-nav>Experiencia</a>
+      <a href="#marca" data-nav>Marca</a>
+      <a href="#responsable" data-nav>Responsable</a>
+      <a href="#zonas" data-nav>Zonas</a>
+      <a href="#inversion" data-nav>Inversión</a>
+      <a href="#respaldo" data-nav>Respaldo</a>
+    </div>
+  </div>
+</nav>
+
+<div id="progress-badge" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg class="ring-svg" viewBox="0 0 52 52">
+    <circle id="ring-progress" cx="26" cy="26" r="23" fill="none" stroke="#C8A96E" stroke-width="3" stroke-dasharray="144.5" stroke-dashoffset="144.5" stroke-linecap="round"/>
+  </svg>
+  <div class="mark" id="badgelogo"></div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="py-tag">PY-2026-016</div>
+  <div class="logo-plate" id="herologoplate"></div>
+  <h1>PEÑA ABERTURAS</h1>
+  <p class="tagline">Del cable a la app</p>
+  <p class="descriptor">INTEGRACIÓN TECNOLÓGICA — SISTEMA DE AUDIO MULTIZONA</p>
+</section>
+
+<!-- 00 EXPERIENCIA -->
+<section class="section" id="experiencia">
+  <span class="eyebrow">00 — La experiencia</span>
+  <h2>Lo que se siente al caminar por el showroom</h2>
+  <p class="lead">Antes de hablar de equipos, esto es lo que va a pasar en el día a día: 8 ambientes, cada uno con su propio volumen y su propia fuente, sin que nadie tenga que ir a tocar un equipo en un rack.</p>
+  <div class="exp-grid">
+    <div class="exp-card"><span class="exp-icon">🎵</span><h3>Ambientación propia por sector</h3><p>Recepción, showroom de Aluminio y showroom de PVC suenan distinto entre sí si hace falta — cada zona elige su propia música o radio sin afectar a las demás.</p></div>
+    <div class="exp-card"><span class="exp-icon">🔘</span><h3>Control físico de pared</h3><p>Un keypad simple en cada oficina/sala — subir, bajar, cambiar de fuente. Sin apps que instalar, sin wifi que emparejar cada vez.</p></div>
+    <div class="exp-card"><span class="exp-icon">🖥️</span><h3>Una pantalla que ve todo el sistema</h3><p>Desde el touchscreen central, cualquier persona autorizada puede ajustar el volumen de una sala puntual o de todo el showroom junto, en segundos.</p></div>
+  </div>
+</section>
+
+<!-- 01 MARCA -->
+<section class="section" id="marca">
+  <span class="eyebrow">01 — La marca detrás del sistema</span>
+  <h2>Russound no es conocida en Córdoba. En la industria, sí.</h2>
+  <p class="lead">Vamos directo al punto: es normal no haber escuchado hablar de Russound antes — no tiene distribución masiva en Argentina. Pero es una de las marcas de audio multizona más antiguas y premiadas de Estados Unidos, y es exactamente eso lo que la vuelve una elección seria, no una apuesta.</p>
+
+  <div class="marca-intro">
+    <div>
+      <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/pena-abertura/russound-smz8i.jpg" alt="Russound SMZ8i" style="border-radius:12px; width:100%; display:block;">
+      <div class="marca-timeline">
+        <div class="tl-chip"><b>1967</b> Fundación en Portsmouth, New Hampshire (EE.UU.)</div>
+        <div class="tl-chip"><b>1987</b> Maureen Baldwin adquiere la compañía — liderazgo femenino hasta hoy</div>
+        <div class="tl-chip"><b>2024</b> Lanzamiento del SMZ8 en CEDIA Expo, la feria más grande del rubro</div>
+      </div>
+    </div>
+    <div>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/ZWaeB3K_Z18" title="CEDIA Expo 2024: Russound presenta el SMZ8" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="video-caption">Cobertura de prensa especializada en CEDIA Expo 2024 sobre el lanzamiento del controlador que forma parte de este proyecto — no es material publicitario de Russound, es un tercero de la industria cubriendo el producto.</p>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="figure">59</div><div class="stat-label">Años de trayectoria (1967→2026)</div></div>
+    <div class="stat"><div class="figure">16.000+</div><div class="stat-label">Instaladores certificados en el mundo</div></div>
+    <div class="stat"><div class="figure">100+</div><div class="stat-label">Países con distribución activa</div></div>
+    <div class="stat"><div class="figure">7</div><div class="stat-label">CE Pro Quest for Quality Awards (2024-2025)</div></div>
+  </div>
+
+  <h3 style="margin-top:34px; margin-bottom:6px;">Premios de industria — votados por integradores reales, no autopromoción</h3>
+  <div class="awards-grid">
+    <div class="award-card"><div class="award-badge">★</div><div class="award-name">CEDIA Electronic Lifestyles Award</div><div class="award-year">El más prestigioso del rubro</div></div>
+    <div class="award-card"><div class="award-badge">★</div><div class="award-name">CES Innovations Award</div><div class="award-year">Feria CES, EE.UU.</div></div>
+    <div class="award-card"><div class="award-badge">★</div><div class="award-name">Residential Systems RESI Award</div><div class="award-year">Diseño industrial</div></div>
+    <div class="award-card"><div class="award-badge">★</div><div class="award-name">CE Pro Quest for Quality</div><div class="award-year">5x en 2024, 2x en 2025</div></div>
+  </div>
+
+  <div class="honesty-box">
+    <span class="eyebrow">Por qué Nova Domus la eligió igual</span>
+    <p>No la elegimos porque el cliente promedio la reconozca de entrada — la elegimos porque el producto puntual que necesitábamos (matriz 8 fuentes/8 zonas con control físico de pared real, sin depender de un ecosistema de domótica ajeno) lo resuelve mejor que las alternativas que sí tienen más presencia local. Nova Domus responde por el sistema completo con su garantía de 12 meses — la marca del equipo es una decisión técnica nuestra, no algo que el cliente tenga que validar por su cuenta.</p>
+  </div>
+</section>
+
+<!-- 02 UN SOLO RESPONSABLE -->
+<section class="section" id="responsable">
+  <span class="eyebrow">02 — Un solo responsable</span>
+  <h2>Un proyecto, un responsable técnico</h2>
+  <p class="lead">Coordinar varios proveedores (el que vende el equipo, el que programa, el que certifica) suele ser la fuente real de fallas y demoras. Acá el diseño, la programación y la certificación del sistema quedan en una sola cabeza.</p>
+
+  <div class="diagram-5">
+    <div class="diagram-step"><div class="step-num">1</div><div class="step-label">Relevamiento y especificación</div></div>
+    <div class="diagram-step"><div class="step-num">2</div><div class="step-label">Provisión de equipos</div></div>
+    <div class="diagram-step"><div class="step-num">3</div><div class="step-label">Guía de instalación detallada</div></div>
+    <div class="diagram-step"><div class="step-num">4</div><div class="step-label">Programación y comisionado</div></div>
+    <div class="diagram-step"><div class="step-num">5</div><div class="step-label">Certificación + 12 meses de garantía*</div></div>
+  </div>
+
+  <table class="compare-table">
+    <tr><th></th><th>Con Nova Domus</th><th>Con integradores tradicionales</th></tr>
+    <tr><td>Proveedores a coordinar</td><td class="ok">1</td><td class="bad">2-4</td></tr>
+    <tr><td>Responsable ante una falla de programación</td><td class="ok">Nova Domus</td><td class="bad">A definir entre partes</td></tr>
+    <tr><td>Equipo propio vs. terceros</td><td class="ok">Equipo propio (programación)</td><td class="bad">Subcontratistas variables</td></tr>
+    <tr><td>Documentación final</td><td class="ok">Incluida</td><td class="bad">No siempre</td></tr>
+  </table>
+
+  <div class="scope-note">
+    <strong>Alcance específico de este proyecto:</strong> la instalación física (montaje de parlantes, cableado, perforación) queda a cargo del cliente, siguiendo la guía de instalación que provee Nova Domus. Nova Domus es responsable único de la especificación técnica, el equipamiento, la programación y la certificación funcional del sistema — no de la ejecución física del montaje. *La garantía de 12 meses cubre equipamiento y trabajo de programación/comisionado; no cubre fallas originadas en la instalación física.
+  </div>
+</section>
+
+<!-- 03 ZONAS -->
+<section class="section section-light" id="zonas">
+  <span class="eyebrow">03 — Las 8 zonas</span>
+  <h2>Un ambiente, un volumen, una fuente</h2>
+  <p class="lead">Tocá cada zona para ver qué control tiene y cuántos parlantes cubren el ambiente.</p>
+  <div style="display:flex; align-items:center; gap:14px; margin:18px 0; padding:12px; background:#fff; border-radius:10px; border:1px solid rgba(20,30,97,.1);">
+    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/pena-abertura/episode-core1-in-ceiling.jpg" alt="Parlante Episode CORE 1 embutido de techo" style="width:90px; height:90px; object-fit:cover; border-radius:8px; flex-shrink:0;">
+    <p style="font-size:13px; color:#5d6078; margin:0;">Parlante embutido de techo Episode CORE 1 — el mismo modelo (en 6" y 8" según el ambiente) se usa en las 8 zonas.</p>
+  </div>
+  <div class="device-grid" id="grid-zonas"></div>
+
+  <h3 style="margin-top:34px; margin-bottom:6px; color:var(--navy);">El núcleo que controla todo el sistema</h3>
+  <div class="device-grid" id="grid-nucleo"></div>
+</section>
+
+<!-- 04 INVERSION -->
+<section class="section section-light" id="inversion">
+  <span class="eyebrow">04 — Inversión</span>
+  <h2>Desglose completo del proyecto</h2>
+  <p class="lead">Detalle por rubro — precio unitario, IVA real de cada ítem y total. Instalación física a cargo del cliente (ver Un Solo Responsable).</p>
+  <div class="barra-segmentada" id="barra-segmentada"></div>
+  <div id="accordion-rubros" style="margin-top:20px;"></div>
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD —</span></div>
+</section>
+
+<!-- FORMA DE PAGO -->
+<section class="section" id="pago">
+  <span class="eyebrow">05 — Forma de pago</span>
+  <h2>Etapas de cobro</h2>
+  <div class="pay-stage"><span>Equipos — 100% anticipado</span><span class="pay-amt" id="pay-equipo">USD —</span></div>
+  <div class="pay-stage"><span>Programación + Certificación — 30% al inicio</span><span class="pay-amt" id="pay-mo-30">USD —</span></div>
+  <div class="pay-stage"><span>Programación + Certificación — 70% contra entrega de documentación</span><span class="pay-amt" id="pay-mo-70">USD —</span></div>
+  <div class="checkbox-card">
+    <input type="checkbox" id="factura-a" onchange="recalcular()">
+    <label for="factura-a">Necesito Factura A (suma 21% de IVA sobre las etapas de Programación + Certificación)</label>
+  </div>
+  <div class="pay-stage" id="pay-iva-row" style="display:none;"><span>IVA Factura A (21% s/ programación)</span><span class="pay-amt" id="pay-iva">USD —</span></div>
+</section>
+
+<!-- CONDICIONES GENERALES -->
+<section class="section" id="condiciones">
+  <span class="eyebrow">06 — Condiciones generales</span>
+  <h2>Condiciones del proyecto</h2>
+  <div id="condiciones-list"></div>
+</section>
+
+<!-- RESPALDO -->
+<section class="section section-light" id="respaldo">
+  <span class="eyebrow">07 — Respaldo</span>
+  <h2>Las marcas detrás de la propuesta</h2>
+  <p class="lead">Tocá cada una para ver por qué la elegimos.</p>
+  <div class="pills">
+    <div class="pill fixed">Nova Domus</div>
+    <div class="pill fixed">CEDIA Member</div>
+    <div class="pill" onclick="showBrand('russound')">Russound</div>
+    <div class="pill" onclick="showBrand('episode')">Episode</div>
+  </div>
+  <div class="brand-detail" id="brand-detail"></div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta">
+  <span class="eyebrow">08 — Aceptación</span>
+  <h2>¿Avanzamos?</h2>
+  <p class="lead">Total del proyecto: <strong id="cta-total">USD —</strong>. Al aceptar, se genera un WhatsApp prellenado con el detalle para coordinar el primer pago.</p>
+  <div class="checkbox-card">
+    <input type="checkbox" id="accept-terms" onchange="document.getElementById('btn-accept').disabled=!this.checked">
+    <label for="accept-terms">Leí y acepto el alcance, la inversión y las condiciones generales de esta propuesta.</label>
+  </div>
+  <button class="btn-accept" id="btn-accept" disabled onclick="aceptarPropuesta()">Aceptar propuesta — PY-2026-016</button>
+</section>
+
+<footer style="text-align:center; padding:40px 20px;">
+  <div class="foot-logo" id="footlogo" style="display:flex; justify-content:center; margin-bottom:10px;"></div>
+  <p style="font-size:11px; color:var(--grey);">PY-2026-016 · Nova Domus — Del cable a la app</p>
+</footer>
+
+<script>
+/* ===== LOGOS (silueta monocromo, un solo trazo — recoloreada según fondo) ===== */
+const LOGO_PATH = `<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>`;
+const LOGO_SVG_GOLD = `<svg viewBox="0 0 5000 5000" xmlns="http://www.w3.org/2000/svg"><g fill="#C8A96E">${LOGO_PATH}</g></svg>`;
+const LOGO_SVG_NAVY = `<svg viewBox="0 0 5000 5000" xmlns="http://www.w3.org/2000/svg"><g fill="#141E61">${LOGO_PATH}</g></svg>`;
+document.getElementById('navlogo').innerHTML = LOGO_SVG_GOLD;
+document.getElementById('badgelogo').innerHTML = LOGO_SVG_GOLD;
+document.getElementById('footlogo').innerHTML = LOGO_SVG_GOLD;
+document.getElementById('herologoplate').innerHTML = `${LOGO_SVG_NAVY.replace('<svg ', '<svg style="width:40px;height:40px;display:block;" ')}<div class="lp-word">NOVA DOMUS<small>INTEGRACIÓN TECNOLÓGICA</small></div>`;
+
+/* ===== SCROLL SPY + PROGRESS RING ===== */
+const navLinks = document.querySelectorAll('[data-nav]');
+const sections = ['experiencia','marca','responsable','zonas','inversion','respaldo'].map(id=>document.getElementById(id));
+window.addEventListener('scroll', ()=>{
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.min(1, scrollTop / docHeight);
+  const ring = document.getElementById('ring-progress');
+  const circumference = 144.5;
+  ring.style.strokeDashoffset = circumference - (pct * circumference);
+  let current = sections[0];
+  sections.forEach(s=>{ if(s && scrollTop >= s.offsetTop - 140) current = s; });
+  navLinks.forEach(a=>{
+    a.classList.toggle('active', current && a.getAttribute('href') === '#'+current.id);
+  });
+}, {passive:true});
+
+/* ===== DATOS — ZONAS (descriptivas, sin precio) ===== */
+const ZONAS = [
+  {name:'Recibidor / Estar', qty:'4 parlantes · Keypad IPK-1', detalle:'Primer contacto del cliente al showroom — ambiente de doble altura, cobertura reforzada para que el sonido llegue parejo desde el piso.'},
+  {name:'Exposición Aluminio + Caja', qty:'6 parlantes · Control desde Touchscreen XTS7', detalle:'Zona de mayor circulación de cliente, ambiente de doble altura — controlada desde la pantalla central, sin keypad dedicado.'},
+  {name:'Exposición PVC', qty:'6 parlantes · Control desde Touchscreen XTS7', detalle:'Mismo criterio que Exposición Aluminio — doble altura, cobertura reforzada, control centralizado.'},
+  {name:'Sala de Espera', qty:'2 parlantes · Keypad IPK-1', detalle:'Ambientación discreta para el tiempo de espera del cliente.'},
+  {name:'Sala de Reuniones', qty:'2 parlantes · Keypad IPK-1', detalle:'Audio propio para presentaciones o simplemente ambiente durante una reunión comercial.'},
+  {name:'Oficina Privada', qty:'2 parlantes · Keypad IPK-1', detalle:'Ambiente sonoro propio, independiente del resto del showroom.'},
+  {name:'Oficina de Gerencia', qty:'2 parlantes · Keypad IPK-1', detalle:'Mismo criterio que Oficina Privada — control físico dedicado.'},
+  {name:'Administración 1+2', qty:'2 parlantes · Keypad IPK-1', detalle:'Zona compartida entre los dos puestos de Administración — un solo ambiente sonoro para ambos.'}
+];
+const NUCLEO = [
+  {name:'Russound SMZ8i', qty:'1 unidad', detalle:'El cerebro del sistema — matriz de 8 fuentes x 8 zonas con streamer integrado. Alimenta directo las 6 zonas de oficinas/salas y entrega línea para las 2 zonas de Exposición.', img:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/pena-abertura/russound-smz8i.jpg'},
+  {name:'Russound D890i', qty:'1 unidad', detalle:'Amplificador externo de 8 canales que recibe la línea del SMZ8i y le da la potencia necesaria a las 2 zonas de Exposición (doble altura, más parlantes por zona).', img:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/pena-abertura/russound-d890i.jpg'},
+  {name:'Russound IPK-1 — Keypad de pared', qty:'6 unidades', detalle:'Control físico simple por zona: subir, bajar, cambiar de fuente. Ilustración técnica de línea (no foto de estudio) — así lo publica el fabricante para este modelo puntual.', img:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/pena-abertura/russound-ipk1.jpg', linework:true},
+  {name:'Russound XTS7 — Touchscreen 7"', qty:'1 unidad', detalle:'Pantalla central de control — desde acá se maneja cualquier zona individual, o el volumen general de todo el showroom junto. Ubicación sugerida: recepción.', img:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/pena-abertura/russound-xts7-instalado.jpg'}
+];
+
+function renderDeviceGrid(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((it,i)=>{
+    const linework = it.linework ? ' linework' : '';
+    const thumb = it.img
+      ? `<img class="dc-thumb${linework}" src="${it.img}" alt="${it.name}">`
+      : `<div class="dc-thumb" style="display:flex;align-items:center;justify-content:center;font-size:20px;">🔊</div>`;
+    return `<div class="device-card" id="${containerId}-${i}">
+      <div class="dc-head" onclick="toggleDevice('${containerId}-${i}')">
+        ${thumb}
+        <div><div class="dc-name">${it.name}</div><div class="dc-qty">${it.qty}</div></div>
+        <span class="dc-arrow">▸</span>
+      </div>
+      <div class="dc-body"><p>${it.detalle}</p></div>
+    </div>`;
+  }).join('');
+}
+renderDeviceGrid('grid-zonas', ZONAS);
+renderDeviceGrid('grid-nucleo', NUCLEO);
+
+function toggleDevice(id){
+  const card = document.getElementById(id);
+  const body = card.querySelector('.dc-body');
+  const isOpen = card.classList.toggle('open');
+  body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : '0';
+}
+window.addEventListener('resize', ()=>{
+  document.querySelectorAll('.device-card.open .dc-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight + 'px'; });
+});
+
+/* ===== DATOS — INVERSIÓN (control + parlantes) ===== */
+/* precio_neto = precio de venta B2B ya con margen 30% aplicado, antes de IVA */
+const RUBROS = [
+  {
+    id:'control', nombre:'Control de Audio', color:'#141E61',
+    items:[
+      {name:'Russound SMZ8i — Controlador 8 fuentes/8 zonas', sku:'1550-854064', cant:1, precio_neto:4940.00, iva:21},
+      {name:'Russound IPK-1 — Keypad de pared', sku:'1550-853630', cant:6, precio_neto:364.00, iva:21},
+      {name:'Russound XTS7 — Touchscreen 7"', sku:'2620-853791', cant:1, precio_neto:741.00, iva:21},
+      {name:'Russound D890i — Amplificador 8 canales', sku:'2800-853944', cant:1, precio_neto:1235.00, iva:21}
+    ]
+  },
+  {
+    id:'parlantes', nombre:'Parlantes', color:'#C8A96E',
+    items:[
+      {name:'Episode CORE 1 In-Ceiling 6"', sku:'ES-CORE-16-IC', cant:10, precio_neto:92.27, iva:21},
+      {name:'Episode CORE 1 In-Ceiling 8"', sku:'ES-CORE-18-IC', cant:16, precio_neto:144.53, iva:21}
+    ]
+  }
+];
+
+function itemTotal(it){ return it.cant * it.precio_neto * (1 + it.iva/100); }
+function rubroTotal(r){ return r.items.reduce((s,it)=>s+itemTotal(it),0); }
+const subtotalEquipo = RUBROS.reduce((s,r)=>s+rubroTotal(r),0);
+const programacion = subtotalEquipo * 0.20;
+const totalProyecto = subtotalEquipo + programacion;
+
+function fmt(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+
+function renderInversion(){
+  const barra = document.getElementById('barra-segmentada');
+  barra.innerHTML = RUBROS.map(r=>{
+    const pct = (rubroTotal(r)/subtotalEquipo*100).toFixed(1);
+    return `<div class="barra-seg" style="width:${pct}%;background:${r.color};"></div>`;
+  }).join('') + `<div class="barra-seg" style="width:${(programacion/totalProyecto*100).toFixed(1)}%;background:#787A91;"></div>`;
+
+  const acc = document.getElementById('accordion-rubros');
+  let html = RUBROS.map((r,ri)=>{
+    const rows = r.items.map(it=>`<tr>
+      <td>${it.name}<br><span style="font-size:10.5px;color:#999;">${it.sku}</span></td>
+      <td>${it.cant}</td>
+      <td>USD ${it.precio_neto.toFixed(2)}</td>
+      <td>${it.iva}%</td>
+      <td>USD ${itemTotal(it).toFixed(2)}</td>
+    </tr>`).join('');
+    return `<div class="rubro-acc" id="rubro-${ri}">
+      <div class="rubro-head" onclick="toggleRubro(${ri})">
+        <span class="rh-name">${r.nombre}</span>
+        <span class="rh-total">${fmt(rubroTotal(r))}</span>
+      </div>
+      <div class="rubro-body">
+        <table class="item-table">
+          <tr><th>Ítem</th><th>Cant.</th><th>Precio Neto</th><th>IVA</th><th>Total</th></tr>
+          ${rows}
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+  html += `<div class="rubro-acc" style="background:#f5f3ea;">
+    <div class="rubro-head" style="cursor:default;">
+      <span class="rh-name">Subtotal Equipo</span><span class="rh-total">${fmt(subtotalEquipo)}</span>
+    </div></div>
+    <div class="rubro-acc" style="background:#f5f3ea;">
+    <div class="rubro-head" style="cursor:default;">
+      <span class="rh-name">Programación + Certificación (20%)</span><span class="rh-total">${fmt(programacion)}</span>
+    </div></div>`;
+  acc.innerHTML = html;
+  document.getElementById('total-final').textContent = fmt(totalProyecto);
+  document.getElementById('cta-total').textContent = fmt(totalProyecto);
+}
+function toggleRubro(i){
+  const card = document.getElementById('rubro-'+i);
+  const body = card.querySelector('.rubro-body');
+  const isOpen = card.classList.toggle('open');
+  body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : '0';
+}
+renderInversion();
+
+/* ===== PAGO ===== */
+function recalcular(){
+  const facturaA = document.getElementById('factura-a').checked;
+  document.getElementById('pay-equipo').textContent = fmt(subtotalEquipo);
+  document.getElementById('pay-mo-30').textContent = fmt(programacion*0.30);
+  document.getElementById('pay-mo-70').textContent = fmt(programacion*0.70);
+  const ivaRow = document.getElementById('pay-iva-row');
+  if(facturaA){
+    ivaRow.style.display = 'flex';
+    document.getElementById('pay-iva').textContent = fmt(programacion*0.21);
+  } else {
+    ivaRow.style.display = 'none';
+  }
+}
+recalcular();
+
+/* ===== CONDICIONES GENERALES ===== */
+const CONDICIONES = [
+  'Instalación a cargo del cliente: Nova Domus provee equipamiento, guía de instalación detallada, programación, comisionado y certificación funcional del sistema. La instalación física (montaje de parlantes, cableado, perforación) es ejecutada por el cliente o por terceros que este designe, siguiendo la guía provista por Nova Domus.',
+  'Nova Domus es responsable único de: especificación técnica del sistema, calidad y funcionamiento del equipamiento provisto, programación y configuración, y certificación de que el sistema funciona según lo especificado al momento del comisionado.',
+  'Nova Domus no es responsable por fallas derivadas de una instalación física incorrecta no ejecutada por su equipo. La garantía de 12 meses cubre equipamiento y trabajo de programación/comisionado; no cubre daños originados en la instalación física realizada por el cliente o terceros.',
+  'Este proyecto no incluye rubro de electricidad/Boca Completa — es exclusivamente equipamiento de audio, programación y certificación.',
+  'Todos los precios en dólares utilizan la cotización BNA oficial (tipo de cambio unificado).',
+  'Validez del presupuesto: 15 días corridos desde la fecha de emisión. Materiales sujetos a cotización del proveedor al momento de la compra efectiva.',
+  'Forma de pago: equipos 100% anticipado antes de la compra/importación. Programación y Certificación: 30% antes de iniciar, 70% al finalizar contra entrega de documentación del sistema.'
+];
+document.getElementById('condiciones-list').innerHTML = CONDICIONES.map(c=>`<p style="margin-bottom:14px; font-size:13.5px; color:var(--grey);">• ${c}</p>`).join('');
+
+/* ===== RESPALDO / MARCAS ===== */
+const BRANDS = {
+  russound:'Fundada en 1967 (Portsmouth, NH, EE.UU.), liderada por Maureen Baldwin desde 1987. Ganadora de 7 CE Pro Quest for Quality Awards (2024-2025), CEDIA Electronic Lifestyles Award, CES Innovations Award. 16.000+ instaladores certificados en 100+ países. Nova Domus la eligió por ser la única línea con matriz 8x8 real + keypad físico de pared, sin depender de un ecosistema de domótica ajeno.',
+  episode:'Línea de parlantes comerciales de SnapAV/Snap One, uno de los mayores grupos de distribución de AV profesional de EE.UU. La serie CORE 1 fue elegida por su relación costo/calidad para BGM discreta en ambientes de showroom y oficina.'
+};
+function showBrand(key){
+  const el = document.getElementById('brand-detail');
+  el.textContent = BRANDS[key];
+  el.classList.add('show');
+}
+
+/* ===== ACEPTAR PROPUESTA ===== */
+function aceptarPropuesta(){
+  const msg = encodeURIComponent(`Hola! Quiero aceptar la propuesta PY-2026-016 (Peña Aberturas — Sistema de Audio) por un total de ${fmt(totalProyecto)}. Alcance: 8 zonas, control Russound SMZ8i, instalación a cargo nuestro con guía de Nova Domus.`);
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+</script>
+</body>
+</html>
