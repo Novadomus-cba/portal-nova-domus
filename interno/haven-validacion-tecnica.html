@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HAVEN — Validación Técnica (sin precios) — Nova Domus</title>
+<title>HAVEN — Validación Técnica v8.1 (sin precios) — Nova Domus</title>
 <style>
 :root{
   --navy:#141E61;
@@ -507,7 +507,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
     <div class="num">R</div>
     <div>
       <h2>Redes</h2>
-      <span class="estado cerrado">9 ÍTEMS · 12 UNIDADES · 2 ZONAS</span>
+      <span class="estado cerrado">17 ÍTEMS · 52 UNIDADES · 4 ZONAS</span>
     </div>
   </div>
   <div class="resumen">
@@ -516,7 +516,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
   </div>
   <div class="counter-bar">
     <span>Validados en todo el subsistema</span>
-    <span class="n"><span id="cnt-redes">0</span>/9</span>
+    <span class="n"><span id="cnt-redes">0</span>/17</span>
   </div>
   <div id="lista-redes"></div>
   <div class="notewrap">
@@ -857,6 +857,24 @@ const GRP_REDES = [
       {sku:"CTT5000 + GLC-ORGCR-001 + F-C-1U", nombre:"Accesorios de rack", nivel:"3", cant:1, car:"Canal de tensión GLC horizontal 5 tomas IRAM+Schuko con térmica (2m) + organizador de cable 1U con tapa + frente ciego 1U — kit de accesorios de rack.", nota:"Kit básico — cantidad exacta a ajustar en obra según distribución final del rack."},
       {sku:"FDC-1002R-I (Forza)", nombre:"UPS por torre", nivel:"3", cant:1, car:"UPS online doble conversión Forza rackeable 1U, 1000VA/900W, 3 tomas IEC C13, batería 6V 9Ah x4, SNMP/USB.", nota:"Eaton no tiene opción chica para este tamaño de rack (su mínimo disponible es 6KVA, sobredimensionado) — Forza cubre el tramo correcto."},
       {sku:"TL-SG3428MP", nombre:"Switch de acceso (24p PoE+)", nivel:"3", cant:1, car:"Switch JetStream gestionado 24 puertos Gigabit PoE+ más 4 SFP, presupuesto PoE 384W, Omada SDN zero-touch provisioning, seguridad IP-MAC-Port binding/ACL/DoS/802.1X, QoS L2-L4, IGMP snooping.", nota:""},
+    ]
+  },
+  {
+    zona:"Nodos secundarios — Perímetro/Circulación (exterior)", nivLabel:"N1", ctx:"Agregado 27/07/2026 tras hallazgo de la auditoría Capa 3: sin esta capa, ~46 dispositivos IP (cámaras+ANPR+barreras) del Perímetro y las cámaras de Circulación interna no tenían forma de llegar en PoE de cobre (~100m máx.) hasta los switches troncales del NOC, dado el perímetro de 441m/6 quiebres y los ~400-460m de senderos internos. 3 nodos de perímetro + 2 de circulación (split Oeste/Este, mismo corte que separa la plaza la fila de Locales 7-12) suben por fibra a los 2 switches troncales del NOC (que ya tienen 8 SFP libres entre los dos).", nItems:4, nUnits:25,
+    items:[
+      {sku:"TL-SG2218P", nombre:"Switch de nodo secundario — Perímetro/Circulación (exterior)", nivel:"1", cant:5, car:"Switch Omada 16 puertos Gigabit + 2 SFP + PoE+, presupuesto PoE 150W, gestión centralizada (mismo controlador OC300 del NOC).", nota:"1 por nodo: Perímetro Norte, Perímetro Sur, Perímetro Este, Circulación Oeste, Circulación Este — resuelve el GAP de Capa 3 (no había capa de acceso PoE distribuida)."},
+      {sku:"Eaton 5A 900VA", nombre:"UPS de nodo secundario — Perímetro/Circulación (exterior)", nivel:"1", cant:5, car:"UPS interactiva Eaton serie 5A, 900VA, torre.", nota:"1 por nodo exterior — mismo fabricante que NOC (9PX) y torre (Forza), tamaño chico."},
+      {sku:"Gabinete exterior Poste/Pared 300x150x400 (RACMATICK)", nombre:"Gabinete de nodo secundario — Perímetro/Circulación (exterior)", nivel:"1", cant:5, car:"Gabinete exterior RACMATICK para poste/pared, 300x150x400mm.", nota:"EXCEPCIÓN al estándar GLC-only de racks — no existe gabinete IP65 chico de GLC en catálogo hoy. Aprobada por Agustín 27/07/2026 puntualmente para este uso."},
+      {sku:"TL-SM311LS", nombre:"Módulo SFP monomodo — nodos exteriores", nivel:"1", cant:10, car:"Módulo SFP TP-Link Gigabit, fibra monomodo, conector LC/UPC.", nota:"2 por enlace (nodo + troncal NOC) x 5 nodos exteriores. Uplink a los 2 switches del NOC, que ya tienen 8 SFP libres entre los dos."},
+    ]
+  },
+  {
+    zona:"Nodos secundarios — Cocheras (interior)", nivLabel:"N2", ctx:"Agregado 27/07/2026, mismo hallazgo de auditoría: 1 nodo por subsuelo (159/164/103 cocheras respectivamente) para alimentar las 24 cámaras de cocheras sin depender de un solo switch central en el NOC. Espacio interior — gabinete GLC estándar, no necesita IP65.", nItems:4, nUnits:15,
+    items:[
+      {sku:"TL-SG2218P", nombre:"Switch de nodo secundario — Cocheras (1 por subsuelo)", nivel:"2", cant:3, car:"Switch Omada 16 puertos Gigabit + 2 SFP + PoE+, presupuesto PoE 150W, gestión centralizada (mismo controlador OC300 del NOC).", nota:"1 por subsuelo (1°, 2°, 3°) — resuelve el GAP de Capa 3 para el tramo de cámaras de cocheras."},
+      {sku:"Eaton 5A 900VA", nombre:"UPS de nodo secundario — Cocheras", nivel:"2", cant:3, car:"UPS interactiva Eaton serie 5A, 900VA, torre.", nota:"1 por subsuelo."},
+      {sku:"GLC MURAL-6U500", nombre:"Gabinete de nodo secundario — Cocheras", nivel:"2", cant:3, car:"Mural GLC SOHO 6U 500mm 19\", puerta y laterales de vidrio templado, 4 soportes pivotantes.", nota:"Espacio interior (subsuelo) — no necesita gabinete IP65, se mantiene el estándar GLC."},
+      {sku:"TL-SM311LS", nombre:"Módulo SFP monomodo — nodos de cocheras", nivel:"2", cant:6, car:"Módulo SFP TP-Link Gigabit, fibra monomodo, conector LC/UPC.", nota:"2 por enlace x 3 nodos de cocheras."},
     ]
   },
 ];
