@@ -607,7 +607,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
     <div class="num">D</div>
     <div>
       <h2>Domótica</h2>
-      <span class="estado cerrado">22 ÍTEMS · 380 UNIDADES · 13 ZONAS</span>
+      <span class="estado cerrado">22 ÍTEMS · 377 UNIDADES · 14 ZONAS</span>
     </div>
   </div>
   <div class="resumen">
@@ -755,7 +755,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
     <div class="num">&Sigma;</div>
     <div>
       <h2>Resumen técnico — nivel por nivel</h2>
-      <span class="estado cerrado">80 ÍTEMS · 633 UNIDADES · 6 SUBSISTEMAS</span>
+      <span class="estado cerrado">88 ÍTEMS · 670 UNIDADES · 6 SUBSISTEMAS</span>
     </div>
   </div>
   <div class="resumen">
@@ -766,20 +766,23 @@ por cerrado. Última actualización: 26 de julio de 2026.
 
   <table class="fase-table">
     <tr><th>Nivel</th><th>Qué es</th><th>Ítems</th><th>Unidades</th><th>Subsistemas</th></tr>
-    <tr><td><b>Nivel 1</b></td><td>Perímetro</td><td>20</td><td>75</td><td>Accesos, Alarma, CCTV</td></tr>
-    <tr><td><b>Nivel 2</b></td><td>NOC / Basamento</td><td>9</td><td>47</td><td>Accesos, CCTV, Domótica, Redes</td></tr>
+    <tr><td><b>Nivel 1</b></td><td>Perímetro</td><td>25</td><td>101</td><td>Accesos, Alarma, CCTV, Domótica, Redes</td></tr>
+    <tr><td><b>Nivel 2</b></td><td>NOC / Basamento</td><td>13</td><td>62</td><td>Accesos, CCTV, Domótica, Redes</td></tr>
     <tr><td><b>Nivel 3</b></td><td>Torre (plantilla ×5)</td><td>11</td><td>21</td><td>Accesos, CCTV, Domótica, Redes</td></tr>
-    <tr><td><b>Nivel 4</b></td><td>Amenities</td><td>34</td><td>57</td><td>Accesos, AV, Domótica</td></tr>
+    <tr><td><b>Nivel 4</b></td><td>Amenities</td><td>33</td><td>53</td><td>Accesos, AV, Domótica</td></tr>
     <tr><td><b>Nivel 5</b></td><td>Unidad (×374 en el complejo completo, ×84 en Fase 1)</td><td>6</td><td>433</td><td>Accesos, Domótica</td></tr>
   </table>
 
   <h3 class="sub">Lectura rápida — qué mueve la aguja técnicamente</h3>
   <p class="txt"><b>Control de Accesos es el subsistema con más ítems distintos (20)</b> y aparece
-  en los 5 niveles — es, junto con Redes, el único subsistema realmente transversal a toda la
-  topología. <b>Domótica es el subsistema con más unidades totales</b> arrastrado por Nivel 5
-  (relés, dimmers y sensores por unidad, ×84 en Fase 1). <b>Redes y Alarma tienen pocos ítems pero
-  son estructuralmente necesarios</b> — sin Redes no funciona nada de lo demás; sin Alarma, el
-  perímetro no tiene disuasión activa, solo registro.</p>
+  en los 5 niveles — es, junto con Redes y ahora también Domótica (que suma el Hall de Ingreso en
+  Nivel 1), uno de los subsistemas realmente transversales a toda la topología. <b>Domótica es el
+  subsistema con más unidades totales</b> arrastrado por Nivel 5 (relés, dimmers y sensores por
+  unidad, ×84 en Fase 1). <b>Redes creció de 9 a 17 ítems en v8.1</b> con los 8 nodos secundarios
+  agregados tras la auditoría — sigue siendo chico en unidades pero ya no es marginal en cantidad
+  de ítems distintos. <b>Alarma sigue siendo el subsistema más chico</b> pero estructuralmente
+  necesario — sin Redes no funciona nada de lo demás; sin Alarma, el perímetro no tiene disuasión
+  activa, solo registro.</p>
 
   <h3 class="sub">Nivel 0 — Proyecto Ejecutivo de Señales Débiles</h3>
   <p class="txt">Ingeniería del proyecto ejecutivo para las 5 torres completas (ductos/bandejas,
@@ -809,8 +812,9 @@ por cerrado. Última actualización: 26 de julio de 2026.
     propio; el resto es estimado por analogía.</li>
     <li><b>Mapeo real de Locales 7-12</b> (Amenities) — hipótesis tentativa de qué amenity va en
     qué local, a confirmar con Calypso.</li>
-    <li><b>Sonda de temperatura de pileta y criterio de riego</b> (Domótica/Amenities) — sin SKU
-    propio en inventario todavía, a especificar.</li>
+    <li><b>Tarifa de instalación de riego</b> (Domótica/Amenities) — sin tarifa propia todavía,
+    estimado por analogía. <i>(La sonda de temperatura de pileta se sacó del alcance — decisión
+    27/07.)</i></li>
     <li><b>Algunos ítems sin criterio de instalación estándar todavía asociado en Supabase</b> —
     ver nota al pie de cada ítem afectado dentro de cada sección de subsistema.</li>
     <li><b>Fase 0 de Haven OS</b> — registro partner Hikvision, PoC Artemis, cotizar servidor NOC,
@@ -999,7 +1003,7 @@ const GRP_ALARMA = [
     items:[
       {sku:"DS-PWA96-Kit-WB", nombre:"Panel de alarma (96 zonas)", nivel:"1", cant:1, car:"Kit de alarma inalámbrica Hikvision AXPRO, WiFi, 3G/4G, 32 zonas.", nota:"96 zonas para dar margen de crecimiento."},
       {sku:"DS-PR1-WB(B)", nombre:"Repetidor AXPRO", nivel:"1", cant:2, car:"Repetidor Hikvision AXPRO.", nota:"Extiende alcance del panel a todo el perímetro/torres."},
-      {sku:"DS-PS1-E-WB", nombre:"Sirena exterior", nivel:"1", cant:4, car:"Sirena exterior Hikvision AXPRO, inalámbrica.", nota:""},
+      {sku:"DS-PS1-E-WB", nombre:"Sirena exterior", nivel:"1", cant:4, car:"Sirena exterior Hikvision AXPRO, inalámbrica.", nota:"DECISIÓN (Agustín, 27/07, resuelve hallazgo Capa 3): NO se suma teclado+sirena Hikvision por unidad (374×). La alarma de unidad se resuelve vía sensor de apertura Shelly + notificación Home Assistant (ya incluido en Domótica Nivel 5), no vía panel dedicado — decisión consciente de diseño, no una omisión."},
     ]
   },
 ];
@@ -1020,11 +1024,10 @@ const GRP_DOMOTICA = [
     ]
   },
   {
-    zona:"Piletas", nivLabel:"N4", ctx:"4 piletas confirmadas por rótulo exacto (\"Sup. 127 m² / Prof. 1,20 m / Volm. 152 m³\"), una por cada torre \"chica\" (1, 3, 4, 5) — Torre 2 no tiene pileta propia adyacente.", nItems:3, nUnits:12,
+    zona:"Piletas", nivLabel:"N4", ctx:"4 piletas confirmadas por rótulo exacto (\"Sup. 127 m² / Prof. 1,20 m / Volm. 152 m³\"), una por cada torre \"chica\" (1, 3, 4, 5) — Torre 2 no tiene pileta propia adyacente.", nItems:2, nUnits:8,
     items:[
       {sku:"Pro 2 DIN (Shelly)", nombre:"Control bomba/calefacción pileta", nivel:"4", cant:4, car:"Relé bicanal Shelly Pro 2 riel DIN, contacto seco 2x16A, sin medición de consumo, WiFi + Ethernet + Bluetooth.", nota:"1 por pileta (4 confirmadas por DWG, 127m² c/u), en tablero seccional de pileta."},
       {sku:"Flood Gen4 (Shelly)", nombre:"Detección de fuga/nivel — piletas", nivel:"4", cant:4, car:"Sensor de fugas de agua Shelly Flood Gen4, WiFi + Bluetooth + Zigbee, 4 pilas AA hasta 2 años, cable de detección extensible hasta 150m, IP44.", nota:"1 por sala de máquinas de pileta."},
-      {sku:"UNI (Shelly)", nombre:"Puente para sonda de temperatura — piletas", nivel:"4", cant:4, car:"Módulo universal Shelly Plus UNI, bajo voltaje 8-24VAC / 9-28VDC, 2 salidas relé estado sólido, 2 entradas digitales + 1 analógica, contador de pulsos, WiFi sin hub.", nota:"Sonda sumergible de temperatura aún sin SKU propio en inventario — a especificar."},
     ]
   },
   {
@@ -1089,7 +1092,13 @@ const GRP_DOMOTICA = [
       {sku:"Wall Display (Shelly)", nombre:"Pantalla Shelly — PLAN B / respaldo", nivel:"5", cant:1, car:"Panel táctil Shelly Wall Display, pantalla color 4\", sensor de temperatura/humedad/luz integrado, WiFi, compatible MQTT, funciona como termostato.", nota:"Solo entra si la pantalla Hikvision no rinde bien para HA — no es un ítem fijo del BOM mientras la hipótesis principal esté validando."},
       {sku:"Shelly 1PM Mini Gen4", nombre:"Iluminación por unidad (Escenario B, agregado Fase 1)", nivel:"5", cant:179, car:"Relé monocanal compacto Shelly 1PM Mini Gen4 con medición de consumo, WiFi + Bluetooth + Zigbee + Matter, hasta 8A 240VAC, protección sobrecalentamiento/sobrecorriente/sobrevoltaje.", nota:"2 por unidad Kit 1D (×73=146) + 3 por unidad Kit 2D (×11=33, incluye 2do dormitorio) = 179 unidades."},
       {sku:"Shelly Dimmer Gen4", nombre:"Dimmer por unidad (Escenario B, agregado Fase 1)", nivel:"5", cant:84, car:"Dimmer de pared Shelly Gen4 WiFi, hasta 200W (150W LED regulable), medición de consumo solo con neutro, WiFi + Bluetooth 5.0 + Zigbee + Matter.", nota:"1 por unidad, ambos kits: 73 Kit 1D + 11 Kit 2D = 84."},
-      {sku:"BLU Door Window ZB (Homiq)", nombre:"Sensor apertura por unidad (Escenario B, agregado Fase 1)", nivel:"5", cant:84, car:"Sensor puerta/ventana Shelly BLU ZB blanco, Bluetooth y Zigbee nativo sin necesidad de gateway, compatible Matter.", nota:"RESUELTO v7.3 — se cambia de la versión BLU (solo Bluetooth) a la variante ZB: entra directo a la mesh Zigbee del SLZB-06 de la torre, sin gateway BLU extra. Pendiente: falta confirmar canal mayorista con Homiq (hoy cargado a precio minorista)."},
+      {sku:"BLU Door Window ZB (Homiq)", nombre:"Sensor apertura por unidad (Escenario B, agregado Fase 1)", nivel:"5", cant:84, car:"Sensor puerta/ventana Shelly BLU ZB blanco, Bluetooth y Zigbee nativo sin necesidad de gateway, compatible Matter.", nota:"RESUELTO v7.3 — se cambia de la versión BLU (solo Bluetooth) a la variante ZB: entra directo a la mesh Zigbee del SLZB-06 de la torre, sin gateway BLU extra. Pendiente: falta confirmar canal mayorista con Homiq (hoy cargado a precio minorista). DECISIÓN (Agustín, 27/07): climatización de unidad (Sensibo) queda FUERA del Escenario B — disponible como upgrade a pedido del propietario."},
+    ]
+  },
+  {
+    zona:"Hall de Ingreso (CORE)", nivLabel:"N1", ctx:"Agregado 27/07/2026 (hallazgo de auditoría Capa 3): HAVEN es el proyecto más grande de Nova Domus y no tenía ningún Wall Display XL en el BOM — se suma en el Hall de Ingreso, el nodo central del grafo de circulación (junto al puesto de Guardia existente), como panel de bienvenida/estado del edificio.", nItems:1, nUnits:1,
+    items:[
+      {sku:"Wall Display XL (Shelly)", nombre:"Panel central — Hall de Ingreso (CORE)", nivel:"1", cant:1, car:"Panel táctil Shelly Wall Display XL, pantalla 10,1\", WiFi 6 + Bluetooth 5.4, relé integrado 5A/1500W, 4 botones físicos, sensor de luz y proximidad, compatible Home Assistant/Alexa/Google.", nota:"RESUELTO v8.1 (hallazgo Capa 3): HAVEN es el proyecto más grande de Nova Domus y no tenía ningún Wall Display XL — se suma acá, en el Hall de Ingreso (nodo central del complejo, junto al puesto de Guardia), como panel de bienvenida/estado del edificio. Los 4\" de los amenities quedan igual. DECISIÓN (Agustín, 27/07): Philips Hue queda fuera de todo el proyecto — un solo ecosistema de iluminación (Shelly)."},
     ]
   },
 ];
