@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HAVEN — Validación Técnica v8.1 (sin precios) — Nova Domus</title>
+<title>HAVEN — Validación Técnica v8.2 (sin precios) — Nova Domus</title>
 <style>
 :root{
   --navy:#141E61;
@@ -507,7 +507,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
     <div class="num">R</div>
     <div>
       <h2>Redes</h2>
-      <span class="estado cerrado">17 ÍTEMS · 52 UNIDADES · 4 ZONAS</span>
+      <span class="estado cerrado">22 ÍTEMS · 78 UNIDADES · 7 ZONAS</span>
     </div>
   </div>
   <div class="resumen">
@@ -516,7 +516,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
   </div>
   <div class="counter-bar">
     <span>Validados en todo el subsistema</span>
-    <span class="n"><span id="cnt-redes">0</span>/17</span>
+    <span class="n"><span id="cnt-redes">0</span>/22</span>
   </div>
   <div id="lista-redes"></div>
   <div class="notewrap">
@@ -755,7 +755,7 @@ por cerrado. Última actualización: 26 de julio de 2026.
     <div class="num">&Sigma;</div>
     <div>
       <h2>Resumen técnico — nivel por nivel</h2>
-      <span class="estado cerrado">88 ÍTEMS · 670 UNIDADES · 6 SUBSISTEMAS</span>
+      <span class="estado cerrado">93 ÍTEMS · 696 UNIDADES · 6 SUBSISTEMAS</span>
     </div>
   </div>
   <div class="resumen">
@@ -766,10 +766,10 @@ por cerrado. Última actualización: 26 de julio de 2026.
 
   <table class="fase-table">
     <tr><th>Nivel</th><th>Qué es</th><th>Ítems</th><th>Unidades</th><th>Subsistemas</th></tr>
-    <tr><td><b>Nivel 1</b></td><td>Perímetro</td><td>25</td><td>101</td><td>Accesos, Alarma, CCTV, Domótica, Redes</td></tr>
-    <tr><td><b>Nivel 2</b></td><td>NOC / Basamento</td><td>13</td><td>62</td><td>Accesos, CCTV, Domótica, Redes</td></tr>
+    <tr><td><b>Nivel 1</b></td><td>Perímetro</td><td>28</td><td>113</td><td>Accesos, Alarma, CCTV, Domótica, Redes</td></tr>
+    <tr><td><b>Nivel 2</b></td><td>NOC / Basamento</td><td>14</td><td>71</td><td>Accesos, CCTV, Domótica, Redes</td></tr>
     <tr><td><b>Nivel 3</b></td><td>Torre (plantilla ×5)</td><td>11</td><td>21</td><td>Accesos, CCTV, Domótica, Redes</td></tr>
-    <tr><td><b>Nivel 4</b></td><td>Amenities</td><td>33</td><td>53</td><td>Accesos, AV, Domótica</td></tr>
+    <tr><td><b>Nivel 4</b></td><td>Amenities</td><td>34</td><td>58</td><td>Accesos, AV, Domótica, Redes</td></tr>
     <tr><td><b>Nivel 5</b></td><td>Unidad (×374 en el complejo completo, ×84 en Fase 1)</td><td>6</td><td>433</td><td>Accesos, Domótica</td></tr>
   </table>
 
@@ -778,9 +778,10 @@ por cerrado. Última actualización: 26 de julio de 2026.
   en los 5 niveles — es, junto con Redes y ahora también Domótica (que suma el Hall de Ingreso en
   Nivel 1), uno de los subsistemas realmente transversales a toda la topología. <b>Domótica es el
   subsistema con más unidades totales</b> arrastrado por Nivel 5 (relés, dimmers y sensores por
-  unidad, ×84 en Fase 1). <b>Redes creció de 9 a 17 ítems en v8.1</b> con los 8 nodos secundarios
-  agregados tras la auditoría — sigue siendo chico en unidades pero ya no es marginal en cantidad
-  de ítems distintos. <b>Alarma sigue siendo el subsistema más chico</b> pero estructuralmente
+  unidad, ×84 en Fase 1). <b>Redes creció de 9 a 22 ítems</b> — 8 nodos secundarios de la
+  auditoría (v8.1) más 5 puntos de WiFi de áreas comunes/cocheras/amenities (28/07) — sigue siendo
+  chico en unidades pero ya no es marginal en cantidad de ítems distintos. <b>Alarma sigue siendo
+  el subsistema más chico</b> pero estructuralmente
   necesario — sin Redes no funciona nada de lo demás; sin Alarma, el perímetro no tiene disuasión
   activa, solo registro.</p>
 
@@ -879,6 +880,26 @@ const GRP_REDES = [
       {sku:"Eaton 5A 900VA", nombre:"UPS de nodo secundario — Cocheras", nivel:"2", cant:3, car:"UPS interactiva Eaton serie 5A, 900VA, torre.", nota:"1 por subsuelo."},
       {sku:"GLC MURAL-6U500", nombre:"Gabinete de nodo secundario — Cocheras", nivel:"2", cant:3, car:"Mural GLC SOHO 6U 500mm 19\", puerta y laterales de vidrio templado, 4 soportes pivotantes.", nota:"Espacio interior (subsuelo) — no necesita gabinete IP65, se mantiene el estándar GLC."},
       {sku:"TL-SM311LS", nombre:"Módulo SFP monomodo — nodos de cocheras", nivel:"2", cant:6, car:"Módulo SFP TP-Link Gigabit, fibra monomodo, conector LC/UPC.", nota:"2 por enlace x 3 nodos de cocheras."},
+    ]
+  },
+  {
+    zona:"WiFi — Áreas comunes", nivLabel:"N1", ctx:"", nItems:3, nUnits:12,
+    items:[
+      {sku:"Gabinete exterior Poste/Pared 300x150x400 (RACMATICK)", nombre:"Gabinete — WiFi áreas comunes", nivel:"1", cant:4, car:"Gabinete exterior RACMATICK para poste/pared, 300x150x400mm.", nota:"AGREGADO 28/07/2026 (hallazgo tardío): 1 por punto de WiFi exterior."},
+      {sku:"TL-SG1005P", nombre:"Switch PoE — WiFi áreas comunes", nivel:"1", cant:4, car:"Switch TP-Link 5 puertos Gigabit, 4 PoE.", nota:"1 AP + 1 puerto de repuesto por punto."},
+      {sku:"EAP650-OUT", nombre:"Access Point WiFi 6 exterior — Áreas comunes", nivel:"1", cant:4, car:"Access Point TP-Link Omada EAP650-Outdoor, WiFi 6 AX3000 dual band, IP65.", nota:"4 puntos: Zonas exteriores/Perímetro y Circulación interna (plaza central)."},
+    ]
+  },
+  {
+    zona:"WiFi — Cocheras", nivLabel:"N2", ctx:"", nItems:1, nUnits:9,
+    items:[
+      {sku:"EAP650-OUT", nombre:"Access Point WiFi 6 exterior — Cocheras", nivel:"2", cant:9, car:"Access Point TP-Link Omada EAP650-Outdoor, WiFi 6 AX3000 dual band, IP65.", nota:"3 por subsuelo (1°,2°,3°) = 9. Se conectan a los switches ya existentes de Cocheras, sin gabinete/switch propio."},
+    ]
+  },
+  {
+    zona:"WiFi — Amenities", nivLabel:"N4", ctx:"", nItems:1, nUnits:5,
+    items:[
+      {sku:"EAP610", nombre:"Access Point WiFi 6 indoor — Amenities", nivel:"4", cant:5, car:"Access Point TP-Link Omada EAP610, WiFi 6 AX1800 dual band, alimentado por UTP (PoE).", nota:"1 por amenity: SUM, Microcine, Spa/masajes, Yoga+Meditación, Spa de mascotas."},
     ]
   },
 ];
