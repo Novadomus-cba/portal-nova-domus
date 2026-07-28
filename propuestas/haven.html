@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="HAVEN — Nova Domus × Grupo Calypso">
+<meta property="og:description" content="Integración tecnológica para un complejo de 5 torres, 374 unidades — Nova Domus.">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/haven.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/haven.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAVEN — Nova Domus × Grupo Calypso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:      #141E61;
+  --navy-deep: #0B132B;
+  --grey:      #787A91;
+  --cream:     #FDFBF0;
+  --gold:      #C8A96E;
+  --red:       #B5453A;
+  --green:     #3E7B5C;
+  --body:      #EDEAE0;
+  --font-display: 'Michroma', Arial, sans-serif;
+  --font-body:    'Inter', Arial, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--navy-deep);color:var(--body);font-family:var(--font-body);
+  line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,.eyebrow,.figure{font-family:var(--font-display);text-transform:uppercase;letter-spacing:2px;}
+h1{font-size:clamp(44px,5.5vw,76px);line-height:1.1;color:#fff;}
+h2{font-size:clamp(26px,2.6vw,34px);letter-spacing:3px;margin-bottom:14px;color:#fff;}
+h3{font-family:var(--font-body);font-weight:600;font-size:20px;color:#fff;margin-bottom:8px;}
+.eyebrow{color:var(--gold);font-size:14px;letter-spacing:3px;margin-bottom:18px;display:block;}
+.lead{color:var(--grey);font-size:20px;max-width:760px;}
+p{color:var(--body);font-size:18px;}
+a{color:var(--gold);text-decoration:none;}
+.figure{color:var(--gold);}
+strong,b{color:#fff;}
+button{font-family:inherit;}
+
+.section-light{background:var(--cream);color:var(--navy-deep);}
+.section-light p{color:#3a3d4a;}
+.section-light h2,.section-light h3{color:var(--navy);}
+.section-light .eyebrow{color:var(--navy);opacity:.7;}
+.section-light .lead{color:#5d6078;}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 48px;}
+
+/* ============ SCREEN SYSTEM ============ */
+.screen{
+  display:none;min-height:100vh;padding-top:110px;padding-bottom:100px;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.screen.active{display:block;}
+.screen.active.in{opacity:1;transform:translateY(0);}
+#screen-hub{padding-top:0;}
+
+/* Barra de progreso — orientación sutil entre las 8 pantallas */
+.progress-track{position:fixed;top:0;left:0;right:0;height:2px;z-index:101;background:rgba(255,255,255,.06);}
+.progress-fill{height:100%;width:0%;background:var(--gold);transition:width .45s ease;}
+
+@media (prefers-reduced-motion: reduce){
+  .screen{transition:opacity .01s linear;transform:none;}
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+}
+
+/* Home button persistente */
+.homebtn{
+  position:fixed;top:18px;left:24px;z-index:200;
+  background:rgba(11,19,43,.9);border:1px solid rgba(200,169,110,.3);color:var(--gold);
+  border-radius:24px;padding:10px 18px;font-family:var(--font-display);font-size:12px;
+  letter-spacing:1px;cursor:pointer;appearance:none;display:flex;align-items:center;gap:8px;
+  min-height:44px;
+}
+.homebtn svg{width:16px;height:16px;}
+
+/* Nav de tópicos, persistente en todas las pantallas menos el hub */
+nav.chapters{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(11,19,43,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(200,169,110,.18);
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:14px 16px 14px 170px;overflow-x:auto;white-space:nowrap;
+}
+nav.chapters a{
+  color:var(--grey);font-size:14px;font-family:var(--font-display);letter-spacing:1px;
+  padding:10px 18px;border-radius:20px;flex-shrink:0;min-height:40px;display:flex;align-items:center;
+  cursor:pointer;transition:background .2s,color .2s;
+}
+nav.chapters a:hover{color:#fff;}
+nav.chapters a.active{background:rgba(200,169,110,.15);color:var(--gold);}
+
+/* ---------- HUB (home) ---------- */
+.hub-hero{
+  min-height:72vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:80px 24px 40px;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,.10), transparent 60%),
+             linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 65%);
+}
+.hub-hero .logo{width:60px;height:60px;margin-bottom:28px;opacity:.9;}
+.hub-hero h1{margin-bottom:18px;}
+.hub-hero h1 span{color:var(--gold);}
+.hub-hero .lead{margin:0 auto 40px;font-size:19px;}
+.hub-stats{display:flex;gap:0;flex-wrap:wrap;justify-content:center;border-top:1px solid rgba(255,255,255,.1);padding-top:40px;}
+.hub-stat{padding:0 40px;border-right:1px solid rgba(255,255,255,.1);}
+.hub-stat:last-child{border-right:none;}
+.hub-stat .num{font-family:var(--font-display);font-size:clamp(30px,3.2vw,46px);color:var(--gold);display:block;}
+.hub-stat .lbl{font-size:13px;color:var(--grey);letter-spacing:1px;text-transform:uppercase;margin-top:6px;}
+
+.hub-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:60px 48px 100px;max-width:1240px;margin:0 auto;
+}
+.hub-card{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;
+  padding:32px 26px;cursor:pointer;transition:all .25s;text-align:left;appearance:none;color:inherit;
+}
+.hub-card:hover{background:rgba(200,169,110,.08);border-color:var(--gold);transform:translateY(-4px);}
+.hub-card .hn{font-family:var(--font-display);color:var(--gold);font-size:13px;margin-bottom:14px;display:block;}
+.hub-card h3{font-size:19px;margin-bottom:8px;}
+.hub-card p{font-size:14.5px;color:var(--grey);}
+.hub-card.wide{grid-column:span 2;}
+@media (max-width:1000px){.hub-grid{grid-template-columns:repeat(2,1fr);}.hub-card.wide{grid-column:span 2;}}
+@media (max-width:640px){.hub-grid{grid-template-columns:1fr;padding:40px 24px 80px;}.hub-card.wide{grid-column:span 1;}}
+
+/* ---------- Motivo túnel — fondo animado del hub (identidad de marca) ---------- */
+.hub-hero{position:relative;overflow:hidden;}
+.hub-tunnel{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.hub-tunnel svg{width:min(1400px,150vw);height:auto;opacity:.16;}
+.hub-tunnel rect{animation:tunnel-breathe 9s ease-in-out infinite;transform-origin:50% 50%;}
+.hub-tunnel rect:nth-child(1){animation-delay:0s;}
+.hub-tunnel rect:nth-child(2){animation-delay:-1.2s;}
+.hub-tunnel rect:nth-child(3){animation-delay:-2.4s;}
+.hub-tunnel rect:nth-child(4){animation-delay:-3.6s;}
+.hub-tunnel rect:nth-child(5){animation-delay:-4.8s;}
+.hub-tunnel rect:nth-child(6){animation-delay:-6.0s;}
+@keyframes tunnel-breathe{
+  0%,100%{opacity:.55;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.015);}
+}
+.hub-hero > *:not(.hub-tunnel){position:relative;z-index:1;}
+
+/* ---------- Foco/hover consistentes (control remoto y teclado, no solo mouse) ---------- */
+button:focus-visible,a:focus-visible{
+  outline:2px solid var(--gold);outline-offset:3px;border-radius:6px;
+}
+.homebtn{transition:background .2s,border-color .2s,transform .2s;}
+.homebtn:hover{border-color:var(--gold);transform:translateY(-1px);}
+.hub-card{position:relative;}
+.hub-card::after{
+  content:'';position:absolute;inset:0;border-radius:18px;pointer-events:none;
+  box-shadow:0 0 0 rgba(200,169,110,0);transition:box-shadow .25s;
+}
+.hub-card:hover::after{box-shadow:0 0 32px -4px rgba(200,169,110,.35);}
+.hub-card:hover .hn{color:#fff;transition:color .2s;}
+.layer-btn:hover,.os-tab:hover,.switch-pill button:hover,.scope-pill button:hover{transform:translateY(-1px);}
+.layer-btn,.os-tab,.switch-pill button,.scope-pill button,.tl-head,.invest-row-head{transition:all .2s,transform .2s;}
+.invest-row-head:hover{background:rgba(200,169,110,.05);}
+.tl-head:hover .tl-fase{color:#fff;transition:color .2s;}
+
+/* ---------- Chapter head ---------- */
+.chap-head{display:flex;align-items:baseline;gap:16px;margin-bottom:36px;}
+.chap-head .n{font-family:var(--font-display);font-size:14px;color:var(--gold);border:1px solid var(--gold);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.section-light .chap-head .n{color:var(--navy);border-color:var(--navy);}
+
+/* ---------- RESUMEN EJECUTIVO ---------- */
+.narrative-block{display:flex;flex-direction:column;gap:34px;margin:40px 0;}
+.narrative-step{display:flex;gap:26px;align-items:flex-start;}
+.narrative-step .tag{
+  font-family:var(--font-display);font-size:12px;letter-spacing:1.5px;color:var(--navy-deep);
+  background:var(--gold);padding:7px 16px;border-radius:20px;flex-shrink:0;margin-top:3px;white-space:nowrap;
+}
+.narrative-step.problema .tag{background:var(--red);color:#fff;}
+.narrative-step p{font-size:19px;color:#fff;}
+
+.count-stats{display:flex;flex-wrap:wrap;gap:0;margin:48px 0;border:1px solid rgba(200,169,110,.25);border-radius:18px;overflow:hidden;}
+.count-stat{flex:1;min-width:180px;text-align:center;padding:32px 20px;border-right:1px solid rgba(200,169,110,.2);}
+.count-stat:last-child{border-right:none;}
+.count-stat .num{font-family:var(--font-display);font-size:clamp(32px,3.4vw,48px);color:var(--gold);display:block;}
+.count-stat .lbl{font-size:13px;color:var(--grey);letter-spacing:1px;text-transform:uppercase;margin-top:8px;}
+
+.magnitude-box{
+  margin-top:20px;border:1px solid rgba(200,169,110,.35);border-radius:16px;padding:36px 40px;
+  background:linear-gradient(135deg, rgba(200,169,110,.06), transparent);text-align:center;
+}
+.magnitude-box .figure{font-size:clamp(24px,2.4vw,32px);display:block;margin-bottom:10px;}
+.magnitude-box p{color:var(--grey);font-size:16px;max-width:600px;margin:0 auto;}
+
+/* ---------- UN SOLO RESPONSABLE ---------- */
+.stages{display:flex;gap:0;margin:44px 0;overflow-x:auto;padding-bottom:8px;}
+.stage{flex:1;min-width:170px;text-align:center;padding:0 10px;position:relative;}
+.stage:not(:last-child)::after{content:'→';position:absolute;right:-6px;top:24px;color:var(--gold);font-size:22px;}
+.stage .sn{width:48px;height:48px;border-radius:50%;background:rgba(200,169,110,.12);border:1px solid var(--gold);color:var(--gold);font-family:var(--font-display);font-size:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.stage p{font-size:15px;color:var(--grey);line-height:1.4;}
+
+.switcher{display:flex;justify-content:center;margin:48px 0 8px;}
+.switch-pill{
+  display:flex;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:5px;
+}
+.switch-pill button{
+  appearance:none;background:transparent;border:none;color:var(--grey);font-weight:700;font-size:15px;
+  padding:14px 28px;border-radius:26px;cursor:pointer;transition:all .25s;min-height:48px;
+}
+.switch-pill button.active.trad{background:var(--red);color:#fff;}
+.switch-pill button.active.nd{background:var(--gold);color:var(--navy-deep);}
+
+.compare-rows{display:flex;flex-direction:column;gap:2px;margin-top:32px;}
+.compare-row{display:flex;align-items:center;gap:24px;padding:22px 26px;border-radius:12px;background:rgba(255,255,255,.02);}
+.compare-row .rl{flex:0 0 260px;color:var(--grey);font-size:15px;}
+.compare-row .rv{flex:1;font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px;}
+.compare-row .rv::before{font-weight:800;}
+.compare-row.trad .rv{color:var(--grey);}
+.compare-row.trad .rv::before{content:'✕';color:var(--red);}
+.compare-row.nd .rv{color:#fff;}
+.compare-row.nd .rv::before{content:'✓';color:var(--gold);}
+
+/* ---------- RECORRIDO POR CAPAS ---------- */
+.layers-nav{display:flex;gap:10px;flex-wrap:wrap;margin:34px 0 30px;}
+.layer-btn{background:transparent;appearance:none;border:1px solid rgba(255,255,255,.15);color:var(--grey);font-family:var(--font-body);font-weight:600;font-size:16px;padding:13px 22px;border-radius:24px;cursor:pointer;transition:all .2s;min-height:48px;}
+.layer-btn:hover{border-color:var(--gold);color:#fff;}
+.layer-btn.active{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);}
+.layer-view{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;align-items:start;}
+.layer-imgwrap{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#fff;}
+.layer-imgwrap img{width:100%;display:block;transition:opacity .3s ease;}
+.layer-imgwrap img.fading{opacity:0;}
+.layer-renders{display:flex;gap:2px;}
+.layer-renders img{flex:1;min-width:0;height:260px;object-fit:contain;background:#EDEAE0;}
+.layer-info{transition:opacity .35s ease,transform .35s ease;}
+.layer-info.fading{opacity:0;transform:translateX(8px);}
+.layer-info h3{font-size:23px;margin-bottom:16px;}
+.layer-info p{font-size:17px;}
+.layer-info .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.layer-tag{
+  font-size:13px;background:rgba(200,169,110,.12);color:var(--gold);padding:7px 14px;border-radius:14px;
+  opacity:0;transform:translateY(6px);animation:tag-in .35s ease forwards;
+  animation-delay:calc(150ms + var(--i,0) * 70ms);
+}
+@keyframes tag-in{to{opacity:1;transform:translateY(0);}}
+@media (max-width:900px){.layer-view{grid-template-columns:1fr;}}
+
+/* ---------- Experiencias por capa (acordeón) ---------- */
+.layer-experiencias{margin-top:26px;border-top:1px solid rgba(0,0,0,.08);padding-top:10px;}
+.exp-item{border-bottom:1px solid rgba(0,0,0,.08);}
+.exp-head{display:flex;align-items:center;gap:14px;padding:14px 4px;cursor:pointer;appearance:none;background:none;border:none;width:100%;text-align:left;min-height:48px;font-family:var(--font-body);font-weight:600;font-size:16px;color:var(--navy-deep);}
+.exp-head .chev{margin-left:auto;color:#5d6078;transition:transform .2s;flex-shrink:0;}
+.exp-head.open .chev{transform:rotate(180deg);}
+.exp-body{display:none;padding:0 4px 18px;color:#5d6078;font-size:15px;max-width:640px;}
+.exp-body.open{display:block;}
+.exp-note{margin:10px 4px 18px;font-size:14px;color:#5d6078;font-style:italic;padding:12px 16px;border-left:2px solid var(--navy);background:rgba(20,30,97,.05);border-radius:0 8px 8px 0;}
+
+/* ---------- HAVEN OS ---------- */
+.os-tabs{display:flex;gap:12px;margin-bottom:32px;}
+.os-tab{background:transparent;appearance:none;border:1px solid rgba(255,255,255,.15);color:var(--grey);font-family:var(--font-display);font-size:13px;letter-spacing:1px;padding:14px 24px;border-radius:10px;cursor:pointer;min-height:48px;}
+.os-tab.active{background:rgba(200,169,110,.12);border-color:var(--gold);color:var(--gold);}
+.os-frame{display:grid;grid-template-columns:420px 1fr;gap:44px;align-items:center;}
+.os-device{background:#0d1530;border:1px solid rgba(200,169,110,.25);border-radius:22px;padding:28px;min-height:460px;display:flex;flex-direction:column;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);}
+.os-device .os-h{font-family:var(--font-display);font-size:14px;color:var(--gold);letter-spacing:1px;margin-bottom:20px;}
+.os-device .os-body{flex:1;display:flex;flex-direction:column;gap:12px;}
+.os-row{background:rgba(255,255,255,.04);border-radius:10px;padding:14px 16px;font-size:15px;color:#fff;display:flex;justify-content:space-between;}
+.os-row .l{color:var(--grey);}
+.os-cta{margin-top:auto;background:var(--gold);color:var(--navy-deep);border:none;appearance:none;border-radius:10px;padding:14px;font-weight:700;font-size:15px;text-align:center;}
+.os-checklist{display:flex;flex-direction:column;gap:14px;margin:8px 0;}
+.os-check-item{display:flex;align-items:center;gap:12px;font-size:15px;color:var(--grey);opacity:.4;transition:opacity .3s;}
+.os-check-item.done{opacity:1;color:#fff;}
+.os-check-item .dot{width:22px;height:22px;border-radius:50%;border:1px solid var(--grey);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.os-check-item.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+.os-summary{display:flex;flex-direction:column;gap:12px;}
+.os-summary-item{display:flex;gap:10px;font-size:15px;color:#fff;}
+.os-summary-item::before{content:'✓';color:var(--green);font-weight:700;}
+.os-progress{display:flex;gap:6px;justify-content:center;margin-top:20px;}
+.os-progress .d{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);}
+.os-progress .d.active{background:var(--gold);}
+.os-panel-info h3{font-size:24px;}
+.os-panel-info p{font-size:17px;}
+.sim-note{margin-top:20px;font-size:14px;color:var(--grey);font-style:italic;padding:14px 18px;border-left:2px solid var(--gold);background:rgba(200,169,110,.06);border-radius:0 8px 8px 0;}
+.os-nextbar{display:flex;gap:14px;margin-top:28px;}
+.os-btn{background:transparent;appearance:none;border:1px solid rgba(255,255,255,.2);color:#fff;font-family:var(--font-body);font-weight:600;font-size:15px;padding:13px 24px;border-radius:10px;cursor:pointer;min-height:48px;}
+.os-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);}
+@media (max-width:900px){.os-frame{grid-template-columns:1fr;}}
+
+/* ---------- Haven OS — paleta real de Grupo Calypso, SOLO dentro del mockup ----------
+   Fuente: CSS en vivo de grupocalypso.com/desarrollos/haven/ (Elementor kit + custom colors
+   de esa página). Nova Domus (dorado/azul) sigue intacto en el resto del documento — este
+   bloque solo pisa el frame del dispositivo simulado y el acento de sus tabs activas.
+   Contraste verificado (WCAG): #040A37 sobre #F5F1EA/#BA9382 > 6.8:1. Nunca texto blanco
+   sobre #BA9382 (da 2.77:1, no cumple AA). */
+#screen-havenos .os-tab.active{background:#BA9382;border-color:#BA9382;color:#040A37;}
+#screen-havenos .os-device{background:#F5F1EA;border-color:rgba(4,10,55,.15);box-shadow:0 30px 60px -20px rgba(4,10,55,.35);}
+#screen-havenos .os-device .os-h{color:#AE6D57;}
+#screen-havenos .os-row{background:rgba(4,10,55,.05);color:#040A37;}
+#screen-havenos .os-row .l{color:#70584E;}
+#screen-havenos .os-cta{background:#BA9382;color:#040A37;}
+#screen-havenos .os-check-item{color:#70584E;}
+#screen-havenos .os-check-item.done{color:#040A37;}
+#screen-havenos .os-check-item .dot{border-color:#70584E;}
+#screen-havenos .os-check-item.done .dot{background:#043CBC;border-color:#043CBC;color:#fff;}
+#screen-havenos .os-summary-item{color:#040A37;}
+#screen-havenos .os-summary-item::before{color:#043CBC;}
+#screen-havenos .os-progress .d{background:rgba(4,10,55,.12);}
+#screen-havenos .os-progress .d.active{background:#043CBC;}
+#screen-havenos .os-btn.primary{background:#BA9382;border-color:#BA9382;color:#040A37;}
+
+/* ---------- SISTEMAS ---------- */
+/* .device-card: tarjeta de equipo con foto — vive acá (antes vivía en Inversión, se movió con
+   la foto per Bloque 3/4 de la ronda 28/07). Reusada también por Sistemas > .sis-devices. */
+.device-card{
+  background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px;text-align:center;
+  overflow:hidden;transition:box-shadow .25s,border-color .25s,transform .25s;
+  opacity:0;transform:translateY(10px);
+}
+.device-card:hover{box-shadow:0 14px 30px -10px rgba(200,169,110,.35);border-color:rgba(200,169,110,.4);transform:translateY(-3px);}
+.device-card img{width:100%;height:90px;object-fit:contain;margin-bottom:10px;transition:transform .3s ease;}
+.device-card:hover img{transform:scale(1.08);}
+.device-card .dn{font-size:12.5px;color:#3a3d4a;font-weight:600;line-height:1.3;}
+.sis-panel{margin-top:8px;}
+.sis-head{display:flex;align-items:center;gap:16px;}
+.sis-dot{width:16px;height:16px;border-radius:5px;flex-shrink:0;}
+.sis-head h3{font-size:24px;margin:0;}
+.sis-count{margin-left:auto;font-family:var(--font-display);font-size:13px;color:var(--gold);letter-spacing:1px;}
+.sis-list{display:flex;flex-direction:column;gap:10px;}
+.sis-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;}
+.sis-card-head{display:flex;align-items:center;gap:16px;padding:18px 22px;cursor:pointer;appearance:none;background:none;border:none;width:100%;text-align:left;min-height:48px;}
+.sis-card-head .zn{font-weight:600;font-size:16px;color:#fff;flex-shrink:0;}
+.sis-card-head .zc{font-size:13px;color:var(--grey);flex:1;}
+.sis-card-head .zniv{font-size:10.5px;background:rgba(200,169,110,.12);color:var(--gold);padding:3px 9px;border-radius:10px;flex-shrink:0;}
+.sis-card-head .chev{color:var(--grey);transition:transform .2s;flex-shrink:0;}
+.sis-card-head.open .chev{transform:rotate(180deg);}
+.sis-devices{display:none;grid-template-columns:repeat(4,1fr);gap:14px;padding:2px 22px 24px;}
+.sis-devices.open{display:grid;}
+.sis-devices.open .device-card{animation:device-in .4s ease forwards;animation-delay:calc(var(--i,0) * 60ms);}
+.device-card.no-photo{display:flex;align-items:center;justify-content:center;min-height:110px;}
+@media (max-width:900px){.sis-devices{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:600px){.sis-card-head{flex-wrap:wrap;}.sis-devices{grid-template-columns:1fr;}}
+
+/* ---------- INVERSION ---------- */
+.scope-switcher{display:flex;justify-content:center;margin-bottom:36px;}
+.scope-pill{display:flex;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.1);border-radius:30px;padding:5px;}
+.scope-pill button{appearance:none;background:transparent;border:none;color:#5d6078;font-weight:700;font-size:14.5px;padding:13px 24px;border-radius:26px;cursor:pointer;min-height:46px;}
+.scope-pill button.active{background:var(--navy);color:#fff;}
+
+.invest-bar{display:flex;width:100%;height:40px;border-radius:10px;overflow:hidden;margin:32px 0 4px;background:rgba(0,0,0,.04);}
+.invest-bar div{position:relative;height:100%;width:0;transition:width .7s cubic-bezier(.22,.9,.3,1);}
+.bar-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;letter-spacing:.5px;white-space:nowrap;pointer-events:none;}
+.bar-pct.dark{color:var(--navy-deep);}
+.bar-pct.light{color:var(--cream);}
+.invest-bar-caption{font-size:13px;color:#5d6078;margin-bottom:24px;font-style:italic;}
+.invest-list{display:flex;flex-direction:column;gap:2px;}
+.invest-row{border-bottom:1px solid rgba(0,0,0,.08);}
+.invest-row-head{display:flex;align-items:center;gap:16px;padding:16px 4px;cursor:pointer;appearance:none;background:none;border:none;width:100%;text-align:left;min-height:48px;}
+.invest-row-head .sw{width:14px;height:14px;border-radius:4px;flex-shrink:0;}
+.invest-row-head .nm{flex:1;font-weight:600;font-size:17px;color:var(--navy-deep);}
+.invest-row-head .vl{font-family:var(--font-display);font-size:16px;color:var(--navy);}
+.invest-row-head .chev{color:#5d6078;transition:transform .2s;}
+.invest-row-head.open .chev{transform:rotate(180deg);}
+.invest-row-head.static{cursor:default;}
+.invest-row-head.static .chev{display:none;}
+.invest-service{padding:0 4px 22px;font-size:14.5px;color:#5d6078;max-width:720px;}
+.invest-lines-wrap{display:none;padding:6px 4px 24px;overflow-x:auto;}
+.invest-lines-wrap.open{display:block;}
+.invest-lines{width:100%;border-collapse:collapse;font-size:14px;min-width:640px;}
+.invest-lines th{text-align:left;font-family:var(--font-display);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:#8a8da0;padding:8px 10px;border-bottom:1px solid rgba(0,0,0,.12);}
+.invest-lines th.num,.invest-lines td.num{text-align:right;}
+.invest-lines td{padding:9px 10px;border-bottom:1px solid rgba(0,0,0,.06);color:#3a3d4a;}
+.invest-lines td.nm{font-weight:600;color:var(--navy-deep);}
+.invest-lines td.sku{font-size:11px;color:#9a9dae;font-weight:400;}
+.invest-lines tr.total td{font-weight:700;border-top:1px solid rgba(0,0,0,.25);border-bottom:none;padding-top:12px;color:var(--navy-deep);}
+@keyframes device-in{to{opacity:1;transform:translateY(0);}}
+
+.invest-total-box{margin-top:40px;background:var(--navy-deep);border-radius:18px;padding:40px;text-align:center;}
+.invest-total-box .lbl{color:var(--grey);font-size:14px;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-display);}
+.invest-pct-text{transition:opacity .3s ease;}
+.invest-pct-text.swap{opacity:0;}
+.invest-total-box .pct{color:#fff;font-size:19px;max-width:640px;margin:0 auto;}
+.rmr-box{margin-top:24px;border:1px solid var(--navy);border-radius:14px;padding:26px 30px;background:rgba(20,30,97,.04);}
+.rmr-box p{font-size:16px;}
+
+/* ---------- EJECUCION ---------- */
+.timeline{display:flex;flex-direction:column;gap:0;margin:36px 0;}
+.tl-item{border-bottom:1px solid rgba(255,255,255,.07);}
+.tl-item:last-child{border-bottom:none;}
+.tl-head{display:flex;gap:24px;padding:24px 0;cursor:pointer;appearance:none;background:none;border:none;width:100%;text-align:left;align-items:center;min-height:48px;}
+.tl-fase{font-family:var(--font-display);font-size:13px;color:var(--gold);width:110px;flex-shrink:0;}
+.tl-head b{display:block;font-size:18px;color:#fff;}
+.tl-head .chev{margin-left:auto;color:var(--grey);transition:transform .2s;}
+.tl-head.open .chev{transform:rotate(180deg);}
+.tl-detail{display:none;padding:0 0 26px 134px;color:var(--grey);font-size:15px;max-width:700px;}
+.tl-detail.open{display:block;}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px;}
+.pay-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:26px;}
+.pay-card h3{font-size:18px;}
+.pay-card p{font-size:15px;color:var(--grey);}
+
+/* ---------- CIERRE ---------- */
+.cierre-steps{display:flex;flex-direction:column;gap:20px;margin:36px 0 44px;}
+.cierre-step{display:flex;gap:20px;align-items:flex-start;}
+.cierre-step .cn{font-family:var(--font-display);color:var(--gold);font-size:20px;width:36px;flex-shrink:0;}
+.cierre-step p{font-size:18px;}
+.contact-row{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;}
+.contact-chip{background:rgba(200,169,110,.1);border:1px solid rgba(200,169,110,.3);border-radius:12px;padding:16px 22px;color:#fff;font-size:15px;}
+.contact-chip b{display:block;color:var(--gold);font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+
+@media print{
+  nav.chapters,.homebtn,.progress-track{display:none;}
+  .screen{display:block !important;opacity:1 !important;transform:none !important;}
+  .exp-body,.sis-devices,.invest-lines-wrap{display:block !important;}
+  .sis-devices{display:grid !important;}
+  .layer-imgwrap img,.layer-info{opacity:1 !important;transform:none !important;}
+}
+</style>
+</head>
+<body>
+
+<button class="homebtn" onclick="showScreen('hub')">
+  <svg viewBox="0 0 500 500"><use href="#isologo"/></svg> HAVEN
+</button>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+<nav class="chapters" id="chapNav">
+  <a data-k="resumen">Resumen</a>
+  <a data-k="responsable">Escala</a>
+  <a data-k="capas">Capas</a>
+  <a data-k="havenos">Haven OS</a>
+  <a data-k="sistemas">Sistemas</a>
+  <a data-k="inversion">Inversión</a>
+  <a data-k="ejecucion">Ejecución</a>
+  <a data-k="cierre">Cierre</a>
+</nav>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="isologo" viewBox="0 0 500.000000 500.000000">
+      <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#C8A96E" stroke="none">
+      <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ HUB ============ -->
+<section class="screen active in" id="screen-hub">
+  <div class="hub-hero">
+    <div class="hub-tunnel" aria-hidden="true">
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="580" height="380" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
+        <rect x="55" y="48" width="490" height="304" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
+        <rect x="100" y="86" width="400" height="228" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
+        <rect x="145" y="124" width="310" height="152" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
+        <rect x="190" y="162" width="220" height="76" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
+        <rect x="235" y="188" width="130" height="24" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
+      </svg>
+    </div>
+    <svg class="logo" viewBox="0 0 500 500"><use href="#isologo"/></svg>
+    <span class="eyebrow">NOVA DOMUS × GRUPO CALYPSO · PY-2026-018</span>
+    <h1>La infraestructura<br>de <span>5 torres</span>, pensada<br>como una sola</h1>
+    <p class="lead">HAVEN — Sol de Mayo 1276, Córdoba. Tocá cualquier tema para entrar — podés
+    saltar de uno a otro en el orden que necesites.</p>
+    <div class="hub-stats">
+      <div class="hub-stat"><span class="num" data-count="5">0</span><span class="lbl">Torres</span></div>
+      <div class="hub-stat"><span class="num" data-count="374">0</span><span class="lbl">Departamentos</span></div>
+      <div class="hub-stat"><span class="num" data-count="426">0</span><span class="lbl">Cocheras</span></div>
+      <div class="hub-stat"><span class="num" data-count="37000" data-suffix=""> 0</span><span class="lbl">m² totales</span></div>
+    </div>
+  </div>
+
+  <div class="hub-grid">
+    <button class="hub-card" onclick="showScreen('resumen')"><span class="hn">01</span><h3>Resumen ejecutivo</h3><p>El proyecto, el problema, la propuesta.</p></button>
+    <button class="hub-card" onclick="showScreen('responsable')"><span class="hn">02</span><h3>Un solo responsable</h3><p>Por qué un solo integrador a esta escala.</p></button>
+    <button class="hub-card wide" onclick="showScreen('capas')"><span class="hn">03</span><h3>Recorrido por capas</h3><p>Del perímetro a la unidad, sobre el plano real del proyecto.</p></button>
+    <button class="hub-card" onclick="showScreen('havenos')"><span class="hn">04</span><h3>Haven OS</h3><p>La plataforma propia — 2 flujos en vivo.</p></button>
+    <button class="hub-card wide" onclick="showScreen('sistemas')"><span class="hn">05</span><h3>Los 6 sistemas</h3><p>Recorrido completo por cada subsistema y sus componentes, antes de hablar de números.</p></button>
+    <button class="hub-card" onclick="showScreen('inversion')"><span class="hn">06</span><h3>Inversión</h3><p>Desglose completo, con equipo real.</p></button>
+    <button class="hub-card" onclick="showScreen('ejecucion')"><span class="hn">07</span><h3>Ejecución</h3><p>Cronograma, pagos, garantía.</p></button>
+    <button class="hub-card" onclick="showScreen('cierre')"><span class="hn">08</span><h3>Próximos pasos</h3><p>Cómo seguimos.</p></button>
+  </div>
+</section>
+
+<!-- ============ 1. RESUMEN EJECUTIVO ============ -->
+<section class="screen" id="screen-resumen">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">1</div><h2>Resumen ejecutivo</h2></div>
+
+    <div class="narrative-block">
+      <div class="narrative-step">
+        <span class="tag">El proyecto</span>
+        <div><p>5 torres sobre Sol de Mayo 1276, Córdoba: 374 departamentos y 426 cocheras en un
+        basamento de 3 subsuelos compartidos. La Fase 1 — Torre Sol de Mayo, 84 unidades — ya
+        está en marcha.</p></div>
+      </div>
+      <div class="narrative-step problema">
+        <span class="tag">Complicación</span>
+        <div><p>A esta escala, la tecnología de un complejo (redes, seguridad, accesos, domótica)
+        normalmente se arma con 4 o 5 proveedores distintos que no se hablan entre sí — el
+        origen real de fallas y demoras en obra.</p></div>
+      </div>
+      <div class="narrative-step">
+        <span class="tag">Resolución</span>
+        <div><p>Nova Domus propone ser el <b>único responsable</b> de esa infraestructura completa
+        — con equipo propio, un solo plan de obra, y una plataforma de gestión propia para operar
+        el complejo una vez entregado.</p></div>
+      </div>
+    </div>
+
+    <div class="count-stats" id="countStats">
+      <div class="count-stat"><span class="num" data-count="88">0</span><span class="lbl">Ítems en el BOM</span></div>
+      <div class="count-stat"><span class="num" data-count="6">0</span><span class="lbl">Subsistemas integrados</span></div>
+      <div class="count-stat"><span class="num" data-count="8">0</span><span class="lbl">Nodos de red propios</span></div>
+      <div class="count-stat"><span class="num" data-count="12">0</span><span class="lbl">Meses de garantía</span></div>
+    </div>
+
+    <div class="magnitude-box">
+      <span class="figure">Una fracción de un dígito bajo</span>
+      <p>del valor de venta de cada unidad — el detalle exacto lo vemos en Inversión, con todo el
+      contexto de en qué se traduce.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. UN SOLO RESPONSABLE ============ -->
+<section class="screen" id="screen-responsable">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">2</div><h2>Un solo responsable</h2></div>
+    <p class="lead">374 unidades, 5 torres, un basamento compartido. A esta escala, la forma
+    habitual de resolver la tecnología es sumando proveedores. Nova Domus propone otra cosa.</p>
+
+    <div class="stages">
+      <div class="stage"><div class="sn">1</div><p>Relevamiento y<br>proyecto ejecutivo</p></div>
+      <div class="stage"><div class="sn">2</div><p>Redes, WiFi<br>e iluminación</p></div>
+      <div class="stage"><div class="sn">3</div><p>Seguridad y<br>accesos</p></div>
+      <div class="stage"><div class="sn">4</div><p>Automatización<br>Home Assistant</p></div>
+      <div class="stage"><div class="sn">5</div><p>Programación y puesta<br>en marcha de Haven OS</p></div>
+      <div class="stage"><div class="sn">6</div><p>Entrega documentada<br>+ 12 meses garantía</p></div>
+    </div>
+
+    <div class="switcher">
+      <div class="switch-pill">
+        <button id="btnTrad" class="trad" onclick="setResponsable('trad')">Cómo se hace habitualmente</button>
+        <button id="btnNd" class="nd" onclick="setResponsable('nd')">Con Nova Domus</button>
+      </div>
+    </div>
+
+    <div class="compare-rows" id="compareRows"></div>
+  </div>
+</section>
+
+<!-- ============ 3. RECORRIDO POR CAPAS ============ -->
+<section class="screen section-light" id="screen-capas">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">3</div><h2>Recorrido por capas</h2></div>
+    <p class="lead">De afuera hacia adentro: así está pensada la arquitectura técnica de HAVEN,
+    capa por capa, sobre el plano real del proyecto.</p>
+
+    <div class="layers-nav" id="layersNav"></div>
+    <div class="layer-view">
+      <div class="layer-imgwrap">
+        <img id="layerImg" src="" alt="">
+        <div class="layer-renders">
+          <img id="layerRender1" src="" alt="" onerror="this.style.display='none'">
+          <img id="layerRender2" src="" alt="" style="display:none" onerror="this.style.display='none'">
+        </div>
+      </div>
+      <div class="layer-info">
+        <h3 id="layerTitle"></h3>
+        <p id="layerDesc"></p>
+        <div class="tag-row" id="layerTags"></div>
+        <div class="layer-experiencias" id="layerExperiencias"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. HAVEN OS ============ -->
+<section class="screen" id="screen-havenos">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">4</div><h2>Haven OS</h2></div>
+    <p class="lead">La plataforma de gestión propia del complejo — hoy en diseño, con la
+    arquitectura y las integraciones completamente especificadas.</p>
+
+    <div class="os-tabs" id="osTabs"></div>
+
+    <div class="os-frame">
+      <div class="os-device">
+        <div class="os-h" id="osDeviceLabel">HAVEN OS — ADMINISTRACIÓN</div>
+        <div class="os-body" id="osBody"></div>
+        <div class="os-progress" id="osProgress"></div>
+      </div>
+      <div class="os-panel-info">
+        <h3 id="osStepTitle"></h3>
+        <p id="osStepDesc"></p>
+        <div id="osSimNote"></div>
+        <div class="os-nextbar">
+          <button class="os-btn" type="button" id="osRestart">↺ Reiniciar</button>
+          <button class="os-btn primary" type="button" id="osNext">Siguiente paso →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. LOS 6 SISTEMAS ============ -->
+<section class="screen" id="screen-sistemas">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">5</div><h2>Los 6 sistemas</h2></div>
+    <p class="lead">Antes de ver números: qué incluye exactamente cada sistema, componente por
+    componente. Esto es todo lo que se instala en Torre 1.</p>
+
+    <div class="os-tabs" id="sisTabs"></div>
+
+    <div class="sis-panel">
+      <div class="sis-head">
+        <span class="sis-dot" id="sisDot"></span>
+        <h3 id="sisTitle"></h3>
+        <span class="sis-count" id="sisCount"></span>
+      </div>
+      <p class="lead" id="sisDesc" style="margin:10px 0 28px;font-size:17px;"></p>
+      <div class="sis-list" id="sisGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. INVERSION ============ -->
+<section class="screen section-light" id="screen-inversion">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">6</div><h2>Inversión</h2></div>
+    <p class="lead">Desglose completo por subsistema — tocá cada uno para ver el equipo real.</p>
+
+    <div class="scope-switcher">
+      <div class="scope-pill">
+        <button id="btnFase1" onclick="setScope('fase1')">Fase 1 · 84 unidades</button>
+        <button id="btnComplejo" onclick="setScope('complejo')">Complejo completo · 373 unidades</button>
+      </div>
+    </div>
+
+    <div class="invest-bar" id="investBar"></div>
+    <div class="invest-bar-caption">Composición por subsistema (Fase 1) — el total y la
+    incidencia de arriba cambian según el alcance elegido.</div>
+    <div class="invest-list" id="investList"></div>
+
+    <div class="invest-total-box">
+      <div class="lbl">Incidencia sobre el valor de venta</div>
+      <p class="pct invest-pct-text" id="investPctText" style="margin-top:16px;"></p>
+    </div>
+
+    <div class="rmr-box">
+      <h3>Y después de la entrega</h3>
+      <p>Haven OS y el mantenimiento del parque de Home Assistant se sostienen con un abono
+      mensual — no es una cuota más, es la continuidad de la misma relación: Nova Domus sigue
+      siendo el único responsable de que todo funcione, torre por torre, a medida que se
+      construyen las próximas 4.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. EJECUCION ============ -->
+<section class="screen" id="screen-ejecucion">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">7</div><h2>Ejecución</h2></div>
+    <p class="lead">Cronograma por fases, atado a la construcción real de cada torre — tocá cada
+    fase para ver el detalle.</p>
+
+    <div class="timeline" id="timeline"></div>
+
+    <div class="pay-grid">
+      <div class="pay-card"><h3>Equipos</h3><p>100% por anticipado, antes de instalar — asegura la compra y disponibilidad de importación.</p></div>
+      <div class="pay-card"><h3>Instalación y programación</h3><p>30% al arrancar la obra, 70% restante al terminar, contra entrega de documentación del sistema.</p></div>
+      <div class="pay-card"><h3>Garantía</h3><p>12 meses, un solo interlocutor para todo lo que Nova Domus instaló.</p></div>
+      <div class="pay-card"><h3>Validez del presupuesto</h3><p>15 días — materiales sujetos a cotización del momento.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. CIERRE ============ -->
+<section class="screen" id="screen-cierre">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">8</div><h2>Próximos pasos</h2></div>
+
+    <div class="cierre-steps">
+      <div class="cierre-step"><span class="cn">1</span><p>Avanzamos con la propuesta formal al equipo legal/técnico de Calypso, con este mismo contenido en detalle.</p></div>
+      <div class="cierre-step"><span class="cn">2</span><p>Aceptación de Nivel 0 (proyecto ejecutivo) — habilita medir en obra real lo que hoy trabajamos en espectro teórico.</p></div>
+      <div class="cierre-step"><span class="cn">3</span><p>Piloto de Torre 1 — primer punto de validación real de toda la arquitectura, incluido Haven OS.</p></div>
+    </div>
+
+    <div class="contact-row">
+      <div class="contact-chip"><b>Nova Domus</b>Agustín Dávila — Director</div>
+      <div class="contact-chip"><b>Documento completo</b>Anexo técnico disponible a pedido</div>
+    </div>
+  </div>
+</section>
+
+<script>
+const BASE_IMG = "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/haven/planos/";
+const BASE_IMG_INV = "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/";
+// Renders fotográficos reales por capa — ya subidos por Agustín a portal-nova-domus
+// (assets/haven/renders/), mismo patrón que BASE_IMG/BASE_IMG_INV. Reusar esta misma URL en
+// el archivo mobile — no volver a subir nada.
+const BASE_IMG_RENDER = "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/haven/renders/";
+const HUB_ORDER = ['resumen','responsable','capas','havenos','sistemas','inversion','ejecucion','cierre'];
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let currentScreenKey = 'hub';
+
+function updateProgress(key){
+  const fill = document.getElementById('progressFill');
+  if (!fill) return;
+  const idx = HUB_ORDER.indexOf(key);
+  if (idx === -1){ fill.style.width = '0%'; return; }
+  fill.style.width = ((idx+1) / HUB_ORDER.length * 100).toFixed(1) + '%';
+}
+
+function showScreen(key){
+  if (key === currentScreenKey) return;
+  const current = document.querySelector('.screen.active');
+  const next = document.getElementById('screen-'+key);
+  if (!next) return;
+  currentScreenKey = key;
+
+  function enterNext(){
+    next.classList.add('active');
+    void next.offsetWidth; // fuerza reflow para que la transición de entrada se dispare
+    requestAnimationFrame(() => next.classList.add('in'));
+    document.querySelectorAll('nav.chapters a').forEach(a => a.classList.toggle('active', a.dataset.k === key));
+    updateProgress(key);
+    window.scrollTo(0,0);
+    if (key === 'resumen') animateCounts(document.getElementById('countStats'));
+    if (key === 'hub') animateCounts(document.querySelector('.hub-stats'));
+    if (key === 'inversion' && typeof playInvestBar === 'function') playInvestBar();
+  }
+
+  if (current && !REDUCED_MOTION){
+    current.classList.remove('in');
+    setTimeout(() => { current.classList.remove('active'); enterNext(); }, 260);
+  } else {
+    if (current) current.classList.remove('active','in');
+    enterNext();
+  }
+}
+document.querySelectorAll('nav.chapters a').forEach(a => a.addEventListener('click', () => showScreen(a.dataset.k)));
+updateProgress('hub');
+
+// ---- count-up ----
+function animateCounts(container){
+  if (!container || container.dataset.done) return;
+  container.dataset.done = '1';
+  container.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count, 10);
+    const dur = 1000; const start = performance.now();
+    function tick(now){
+      const p = Math.min((now-start)/dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1-p,3))).toLocaleString('es-AR');
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+animateCounts(document.querySelector('.hub-stats'));
+
+// ============ 2. UN SOLO RESPONSABLE — switch ============
+const RESP_ROWS = [
+  { label:'Proveedores a coordinar', trad:'4 a 6, típicamente', nd:'1' },
+  { label:'Responsable ante una falla', trad:'"depende de cuál sistema" — zona gris habitual', nd:'Nova Domus, siempre' },
+  { label:'Equipo de instalación', trad:'Terceros distintos por rubro y por torre', nd:'Propio, mismo equipo en las 5 torres' },
+  { label:'Garantía', trad:'Fragmentada por proveedor', nd:'12 meses, un solo interlocutor' },
+  { label:'Gestión post-entrega', trad:'Sin plataforma unificada', nd:'Haven OS — plataforma propia del complejo' },
+];
+let respState = 'trad';
+function setResponsable(state){
+  respState = state;
+  document.getElementById('btnTrad').classList.toggle('active', state==='trad');
+  document.getElementById('btnNd').classList.toggle('active', state==='nd');
+  document.getElementById('compareRows').innerHTML = RESP_ROWS.map(r => `
+    <div class="compare-row ${state}">
+      <span class="rl">${r.label}</span>
+      <span class="rv">${state==='trad' ? r.trad : r.nd}</span>
+    </div>
+  `).join('');
+}
+setResponsable('trad');
+
+// ============ 3. RECORRIDO POR CAPAS ============
+const LAYERS = [
+  { key:'00-implantacion-general', label:'Implantación', title:'Las 5 torres, en conjunto',
+    desc:'HAVEN completo visto desde arriba: Torre 1 (Sol de Mayo) y su gemela chica del otro lado, las dos Torres Altas al fondo, la plaza central que las conecta a todas, y el perímetro completo.',
+    tags:['5 torres','441m de perímetro','2 accesos vehiculares'],
+    render:'132-137-Cam-Patio-Central-01-scaled',
+    experiencias:[
+      { titulo:'Un solo mapa de seguridad', desc:'El Centro de Observaciones monitorea perímetro, plaza central y las 5 torres desde un mismo puesto — no 5 sistemas de seguridad separados, uno por torre.' },
+      { titulo:'La misma app en todo el complejo', desc:'Un residente de la Torre 3 usa exactamente la misma Haven OS que uno de la Torre 1 — accesos, reservas y domótica funcionan igual en cualquiera de las 5 torres.' },
+    ] },
+  { key:'01-perimetro-accesos', label:'Perímetro', title:'La primera línea',
+    desc:'El cerco completo del predio: cámaras perimetrales, barreras vehiculares con lectura de patente, y los nodos de red que alimentan todo esto.',
+    tags:['CCTV perimetral','Barreras + ANPR','Alarma AXPro','Nodos de red PoE'],
+    render:'132-137-Cam-Peatonal-Exterior-02-scaled',
+    experiencias:[
+      { titulo:'Acceso vehicular', desc:'La barrera se coordina con una cámara ANPR que lee la patente al acercarse — el auto reconocido levanta la barrera sin que nadie baje la ventanilla ni use control remoto. Patente no reconocida → protocolo de visita.' },
+      { titulo:'Acceso peatonal — residentes', desc:'Reconocimiento facial en el ingreso peatonal por torre — el residente entra sin sacar llave, tarjeta ni celular.' },
+      { titulo:'Acceso peatonal — visitas', desc:'QR de un solo uso con ventana horaria, generado desde Haven OS por el residente o por administración — se desactiva solo al vencer la franja, nadie tiene que acordarse de revocarlo.' },
+    ] },
+  { key:'02-circulacion-interna', label:'Circulación', title:'La plaza central',
+    desc:'El corazón peatonal del complejo: paliers de las 5 torres, plazoletas, piletas, y el Hall de Ingreso con el puesto de guardia.',
+    tags:['CCTV circulación','Wall Display XL','Hall de Ingreso'],
+    render:'132-137-Cam-Peatonal-Exterior-03-scaled',
+    experiencias:[
+      { titulo:'Cobertura continua', desc:'Cobertura CCTV continua de paliers, plazoletas y el Hall de Ingreso, monitoreada desde el Centro de Observaciones (puesto de guardia).' },
+      { titulo:'Un punto físico de control', desc:'El Wall Display XL del Hall de Ingreso es el punto físico de control de toda esta zona — visible y operable sin depender de un celular.' },
+    ] },
+  { key:'03-noc-basamento', label:'NOC / Basamento', title:'Donde vive el cerebro técnico',
+    desc:'3 subsuelos compartidos por las 5 torres: 426 cocheras y 13 bauleras. El NOC centraliza el equipo de red y el servidor de Haven OS.',
+    tags:['426 cocheras','Servidor Haven OS','Backbone de red'],
+    render:'132-137-Cam-Peatonal-Exterior-01-scaled',
+    experiencias:[
+      { titulo:'Ingreso a cocheras', desc:'El mismo acceso vehicular con ANPR de la barrera general habilita el ingreso al subsuelo asignado; adentro, cobertura de cámaras por subsuelo.' },
+    ] },
+  { key:'04-torre1-palier', label:'Torre (palier)', title:'La plantilla que se repite ×5',
+    desc:'El núcleo de circulación de cada torre: cámara de palier, switch de acceso, la instancia de Home Assistant de esa torre. Torre 1 es el piloto.',
+    tags:['Home Assistant federado','Switch por torre','Coordinador Zigbee'],
+    render:'132-137-Cam-Peatonal-Exterior-04-1-scaled',
+    experiencias:[
+      { titulo:'Ingreso a la torre', desc:'Terminal facial + QR en el ingreso peatonal de cada torre — misma lógica que el hall general, replicada ×5.' },
+      { titulo:'Torre autónoma', desc:'La instancia de Home Assistant federada de cada torre sigue operando la domótica local de esa torre aunque haya un problema puntual en otra parte del complejo.' },
+    ] },
+  { key:'05-torre1-unidad-1d', label:'Unidad · 1D', title:'Dentro del departamento',
+    desc:'El kit completo de domótica y seguridad dentro de cada unidad: iluminación, sensores, cerradura digital.',
+    tags:['Iluminación Shelly','Sensor apertura','Cerradura Yale'],
+    render:'132-137-Depto-3-Cam-Estar-Comedor-H-scaled',
+    experiencias:[
+      { titulo:'Llegada a casa', desc:'Cerradura Yale digital — el residente entra con PIN, tarjeta o desde la app, sin llave física que se pierda o se copie.' },
+      { titulo:'Luz y monitoreo pasivo', desc:'Iluminación y dimmer Shelly por unidad, más un sensor de apertura que avisa a Home Assistant si una puerta o ventana queda abierta.' },
+      { titulo:'Pantalla Hikvision — control unificado', desc:'Una sola pantalla dentro del departamento gestiona tanto el acceso (llamador de portero, video de visitas) como la domótica de la unidad (Home Assistant) — el residente no necesita dos dispositivos ni dos apps distintas para dos cosas que en la práctica hace desde el mismo lugar de la casa.' },
+    ] },
+  { key:'06-amenities', label:'Amenities', title:'Locales, piletas y el Hall de Ingreso',
+    desc:'La franja de locales comunes junto a la plaza central, con audio distribuido, control de acceso propio, y climatización de piletas.',
+    tags:['Audio distribuido','Accesos por amenity','4 piletas'],
+    renders:['132-137-Cam-Pileta-terraza-02-scaled','132-137-Cam-Patio-Central-03-scaled'],
+    experiencias:[
+      { titulo:'SUM', desc:'Audio ambiente controlado y reserva con ventana horaria desde Haven OS.' },
+      { titulo:'Microcine', desc:'Proyector + sonido 5.1, con escenas de iluminación/audio preconfiguradas al reservar.' },
+      { titulo:'Spa / Masajes', desc:'Climatización con Sensibo — temperatura real del ambiente, no del equipo.' },
+      { titulo:'Yoga / Meditación', desc:'Mismo control de climatización + audio ambiente que el resto de los amenities interiores.' },
+      { titulo:'Salón de cuidado de mascotas', desc:'Control de acceso propio del local.' },
+      { titulo:'Huertas hidropónicas / riego', desc:'Automatización de riego.' },
+      { titulo:'Lavado de autos (Car Wash)', desc:'Gestión de turnos vía Haven OS.' },
+      { titulo:'Piletas (segmentadas/climatizadas)', desc:'Control de bomba, calefacción y detección de fuga.' },
+      { titulo:'Zonas exteriores / plaza central', desc:'Audio distribuido multizona.' },
+    ] },
+];
+let currentLayer = 0;
+let layerPainted = false;
+function renderLayersNav(){
+  const nav = document.getElementById('layersNav');
+  nav.innerHTML = LAYERS.map((l,i) => `<button class="layer-btn${i===0?' active':''}" data-i="${i}" type="button">${l.label}</button>`).join('');
+  nav.querySelectorAll('.layer-btn').forEach(btn => btn.addEventListener('click', () => showLayer(parseInt(btn.dataset.i))));
+}
+function showLayer(i){
+  currentLayer = i; const l = LAYERS[i];
+  const img = document.getElementById('layerImg');
+  const r1 = document.getElementById('layerRender1');
+  const r2 = document.getElementById('layerRender2');
+  const info = document.querySelector('.layer-info');
+  document.querySelectorAll('.layer-btn').forEach((btn,bi) => btn.classList.toggle('active', bi===i));
+
+  function paint(){
+    img.src = BASE_IMG + l.key + '.png';
+    img.alt = l.title;
+    // Render(s) fotográficos reales — 06-amenities es la única capa con 2 (mini-par); el resto
+    // muestra 1. Si el archivo todavía no está subido, el onerror del markup lo oculta sin romper.
+    const renders = l.renders || (l.render ? [l.render] : []);
+    r1.style.display = renders[0] ? '' : 'none';
+    if (renders[0]){ r1.src = BASE_IMG_RENDER + renders[0] + '.jpg'; r1.alt = l.title + ' — render'; }
+    r2.style.display = renders[1] ? '' : 'none';
+    if (renders[1]){ r2.src = BASE_IMG_RENDER + renders[1] + '.jpg'; r2.alt = l.title + ' — render 2'; }
+    document.getElementById('layerTitle').textContent = l.title;
+    document.getElementById('layerDesc').textContent = l.desc;
+    document.getElementById('layerTags').innerHTML = l.tags.map((t,ti) => `<span class="layer-tag" style="--i:${ti}">${t}</span>`).join('');
+    renderLayerExperiencias(l);
+    layerPainted = true;
+    if (!REDUCED_MOTION){
+      requestAnimationFrame(() => { img.classList.remove('fading'); r1.classList.remove('fading'); r2.classList.remove('fading'); info.classList.remove('fading'); });
+    }
+  }
+
+  if (REDUCED_MOTION || !layerPainted){ paint(); return; }
+  img.classList.add('fading'); r1.classList.add('fading'); r2.classList.add('fading'); info.classList.add('fading');
+  setTimeout(paint, 260);
+}
+
+// Acordeón de "experiencias" — casos de uso concretos por capa, debajo del resumen ejecutivo
+function renderLayerExperiencias(l){
+  const wrap = document.getElementById('layerExperiencias');
+  const items = (l.experiencias || []).map((e,i) => `
+    <div class="exp-item">
+      <button class="exp-head" data-i="${i}" type="button">
+        <span>${e.titulo}</span><span class="chev">▾</span>
+      </button>
+      <div class="exp-body" id="exp-${i}"><p>${e.desc}</p></div>
+    </div>
+  `).join('');
+  const nota = l.nota ? `<div class="exp-note">${l.nota}</div>` : '';
+  wrap.innerHTML = items + nota;
+  wrap.querySelectorAll('.exp-head').forEach(btn => btn.addEventListener('click', () => {
+    const panel = document.getElementById('exp-'+btn.dataset.i);
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+  }));
+}
+renderLayersNav(); showLayer(0);
+
+// ============ 5. LOS 6 SISTEMAS ============
+// Fotos: BASE_IMG_INV + nombre de archivo ya verificado (200) en el mirror local assets/inventario/
+// o en INVEST previo. null = sin foto confirmada todavía (ítem nuevo) — se muestra solo el nombre,
+// no se inventa ni adivina una URL.
+const SISTEMAS = {
+  redes: { nombre:'Redes', color:'#787A91', desc:'La capa invisible que sostiene a todas las demás — sin esto, ningún otro dispositivo IP del proyecto tiene por dónde hablar.',
+    zonas:[
+      ['Backbone NOC','N2',{ items:4, unidades:5, resumen:'4 ítems · 5 u — router/gateway, controlador Omada, switch troncal (×2), UPS online', devices:[
+        ['er8411.jpg','Router/gateway core (Omada)'],['oc300.jpg','Controlador Omada dedicado'],
+        [null,'Switch troncal NOC (24p PoE+) ×2'],['9px-3kva.jpg','UPS online NOC'],
+      ]}],
+      ['Rack de torre','N3',{ items:5, unidades:7, resumen:'5 ítems · 7 u — sub-rack 15U, accesorios de rack, bandeja, switch de acceso, UPS por torre (plantilla ×5)', devices:[
+        ['118.jpg','Sub-rack de torre (15U)'],['113.jpg','Accesorios de rack'],[null,'Bandeja de rack ×3'],
+        [null,'Switch de acceso (24p PoE+)'],[null,'UPS por torre (Forza)'],
+      ]}],
+      ['Nodos secundarios — Perímetro/Circulación','N1',{ items:4, unidades:25, resumen:'4 ítems · 25 u — gabinete exterior ×5, switch ×5, UPS ×5, módulo SFP monomodo ×10', devices:[
+        [null,'Gabinete exterior Poste/Pared ×5'],[null,'Switch de nodo secundario ×5'],
+        [null,'UPS de nodo secundario ×5'],[null,'Módulo SFP monomodo ×10'],
+      ]}],
+      ['Nodos secundarios — Cocheras','N2',{ items:4, unidades:15, resumen:'4 ítems · 15 u — gabinete ×3, switch ×3, UPS ×3, módulo SFP ×6 (uno por subsuelo + repuesto)', devices:[
+        [null,'Gabinete de nodo secundario ×3'],[null,'Switch de nodo secundario ×3'],
+        [null,'UPS de nodo secundario ×3'],[null,'Módulo SFP monomodo ×6'],
+      ]}],
+      ['WiFi — Áreas comunes','N1',{ items:3, unidades:12, resumen:'3 ítems · 12 u — AP WiFi 6 exterior ×4, gabinete dedicado ×4, switch PoE ×4. Red segmentada del tráfico de domótica/seguridad', devices:[
+        [null,'Access Point WiFi 6 exterior ×4'],[null,'Gabinete dedicado ×4'],[null,'Switch PoE ×4'],
+      ]}],
+      ['WiFi — Cocheras','N2',{ items:1, unidades:9, resumen:'1 ítem · 9 u — AP WiFi 6 exterior ×9, comparte gabinete/switch/UPS con Nodos secundarios—Cocheras. Red segmentada del tráfico de domótica/seguridad', devices:[
+        [null,'Access Point WiFi 6 exterior ×9'],
+      ]}],
+      ['WiFi — Amenities','N4',{ items:1, unidades:5, resumen:'1 ítem · 5 u — AP WiFi 6 indoor ×5. Red segmentada del tráfico de domótica/seguridad', devices:[
+        [null,'Access Point WiFi 6 indoor ×5'],
+      ]}],
+    ]},
+  cctv: { nombre:'Videovigilancia', color:'#8AA6C4', desc:'Lo que ve Seguridad desde el centro de observaciones — perímetro, accesos, cocheras, palieres.',
+    zonas:[
+      ['Grabación (NVRs + discos)','N1',{ items:4, unidades:6, resumen:'4 ítems · 6 u — NVR perímetro/accesos 32ch, NVR circulación interna 32ch, HDD perímetro ×2, HDD circulación ×2', devices:[
+        ['ds-7732nxi-k4-d.png','NVR perímetro/accesos (32ch)'],['ds-7632nxi-k2.jpg','NVR circulación interna (32ch)'],
+        ['st8000ve001.jpg','HDD NVR perímetro ×2'],[null,'HDD NVR circulación ×2'],
+      ]}],
+      ['Perímetro y accesos peatonales','N1',{ items:2, unidades:24, resumen:'2 ítems · 24 u — cámara perimetral ×18, vigilancia accesos peatonales ×6', devices:[
+        ['ds-2cd1027g3-liu.jpg','Cámara perimetral ×18'],['ds-2cd1027g3-liu.jpg','Vigilancia accesos peatonales ×6'],
+      ]}],
+      ['Circulación interna','N1',{ items:1, unidades:18, resumen:'1 ítem · 18 u — cámaras de circulación/espacios comunes', devices:[
+        ['ds-2cd1027g3-liu.jpg','Circulación interna / espacios comunes ×18'],
+      ]}],
+      ['Centro de Observaciones','N1',{ items:2, unidades:2, resumen:'2 ítems · 2 u — TV 43" + decodificador HDMI', devices:[
+        ['43-du7000.png','TV centro de observaciones'],['ds-6401hdi-t.jpg','Decodificador HDMI'],
+      ]}],
+      ['Cocheras','N2',{ items:1, unidades:24, resumen:'1 ítem · 24 u — cámaras de los 3 subsuelos', devices:[
+        ['ds-2cd1027g3-liu.jpg','Cámaras cocheras ×24'],
+      ]}],
+      ['Torre','N3',{ items:3, unidades:11, resumen:'3 ítems · 11 u — cámaras palier+ascensor ×9, NVR de torre 16ch, HDD de torre', devices:[
+        ['ds-2cd1027g3-liu.jpg','Cámaras palier + ascensor ×9'],['ds-7616nxi-k2-d.jpg','NVR de torre (16 canales)'],
+        ['st8000ve001.jpg','HDD NVR de torre'],
+      ]}],
+    ]},
+  accesos: { nombre:'Control de Accesos', color:'#C8A96E', desc:'La puerta, la barrera, el portero — cero llaves físicas en ningún punto de circulación.',
+    zonas:[
+      ['Acceso vehicular','N1',{ items:2, unidades:4, resumen:'2 ítems · 4 u — barrera ×2, cámara ANPR ×2', devices:[
+        ['ds-tmg420-4m-octagonal-o-std.jpg','Barrera vehicular ×2'],['ids-2cd7a46g0p-izhsy.jpg','Cámara ANPR (patente) ×2'],
+      ]}],
+      ['Hall general','N1',{ items:4, unidades:4, resumen:'4 ítems · 4 u — llamador+facial, QR compañero, kit llamador, kit QR', devices:[
+        ['ds-kd9203-me6.jpg','Llamador + facial — hall general'],['ds-k1t323mbwx-qre1.jpg','QR compañero — hall general'],
+        ['475.jpg','Kit control de acceso completo — hall general (llamador)'],['475.jpg','Kit control de acceso completo — hall general (QR)'],
+      ]}],
+      ['Ingreso peatonal por torre','N1',{ items:2, unidades:10, resumen:'2 ítems · 10 u — facial+QR ×5, kit completo ×5', devices:[
+        ['ds-k1t323mbwx-qre1.jpg','Facial + QR por torre ×5'],['475.jpg','Kit control de acceso completo — por torre ×5'],
+      ]}],
+      ['Sala de Residuos','N2-N3',{ items:2, unidades:2, resumen:'2 ítems · 2 u — kit + control de acceso propio', devices:[
+        ['475.jpg','Kit control de acceso completo — Sala de Residuos'],['ds-k1t801e.jpg','Control de acceso — Sala de Residuos'],
+      ]}],
+      ['Bauleras','N2',{ items:1, unidades:13, resumen:'1 ítem · 13 u — KIT YRD 256 + HUB, una por baulera', devices:[
+        [null,'KIT YRD 256 + HUB — Cerradura bauleras ×13'],
+      ]}],
+      ['Amenities (6 locales)','N4',{ items:7, unidades:12, resumen:'7 ítems · 12 u — kit completo ×6 + terminal QR/facial en cada uno', devices:[
+        ['475.jpg','Kit control de acceso completo — por amenity con puerta propia ×6'],
+        ['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — SUM'],['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Microcine'],
+        ['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Biblioteca'],['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Spa/masajes'],
+        ['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Yoga+Meditación'],['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Spa de mascotas'],
+      ]}],
+      ['Unidad','N5',{ items:2, unidades:85, resumen:'2 ítems · 85 u — pantalla Hikvision Android + cerradura Yale ×84', devices:[
+        ['ds-kh9310-wte1-b.jpg','Pantalla Hikvision Android — hipótesis principal'],[null,'Cerradura Yale KIT YMC 420 MORTISE+HUB ×84'],
+      ]}],
+    ]},
+  alarma: { nombre:'Alarma', color:'#3a3d4a', desc:'Solo se hace notar cuando algo sale mal — disuasión activa en todo el perímetro.',
+    zonas:[
+      ['Perímetro','N1',{ items:3, unidades:7, resumen:'3 ítems · 7 u — panel AXPro 96 zonas, repetidores ×2, sirenas ×4', devices:[
+        [null,'Panel de alarma AXPro (96 zonas)'],[null,'Repetidor AXPro ×2'],[null,'Sirena exterior ×4'],
+      ]}],
+    ]},
+  domotica: { nombre:'Domótica', color:'#3E7B5C', desc:'El control de luces, clima y sensores dentro de cada unidad y en los amenities.',
+    zonas:[
+      ['Hall de Ingreso (CORE)','N1',{ items:1, unidades:1, resumen:'1 ítem · 1 u — Wall Display XL', devices:[
+        ['3800235264904.png','Panel central — Hall de Ingreso (Wall Display XL)'],
+      ]}],
+      ['NOC','N2',{ items:2, unidades:4, resumen:'2 ítems · 4 u — Home Assistant agregador central + iluminación perimetral/cocheras ×3', devices:[
+        ['homiq-ha-strong-i5g7-256.jpg','Home Assistant — agregador central'],[null,'Iluminación perimetral + cocheras ×3'],
+      ]}],
+      ['Torre','N3',{ items:2, unidades:2, resumen:'2 ítems · 2 u — Home Assistant instancia federada + coordinador Zigbee/Thread', devices:[
+        ['homiq-ha-strong-i5g7-256.jpg','Home Assistant — instancia federada'],['slzb-06p10.jpg','Coordinador Zigbee/Thread'],
+      ]}],
+      ['Piletas','N4',{ items:2, unidades:8, resumen:'2 ítems · 8 u — control bomba/calefacción ×4 + detección de fuga ×4', devices:[
+        ['3800235268001.png','Control bomba/calefacción — pileta ×4'],['359.png','Detección de fuga/nivel — piletas ×4'],
+      ]}],
+      ['Amenities varios','N4',{ items:11, unidades:14, resumen:'11 ítems · 14 u — botoneras ×4, car wash, ventilación mascotas, dimmer Yoga, relé zonas ext. ×3, Sensibo, sensor tanque de lluvia, sprinkler riego ×2', devices:[
+        ['3800235264904.png','Botonera de escenas — SUM'],['3800235264904.png','Botonera de escenas — Microcine'],
+        ['3800235264904.png','Botonera de escenas — Spa/masajes'],['3800235264904.png','Botonera de escenas — Yoga+Meditación'],
+        [null,'Control bomba/electroválvula — car wash'],[null,'Control de ventilación/extractor — Spa de mascotas'],
+        [null,'Dimmer — Yoga+Meditación'],[null,'Relé zonas ext. (plazoletas/asadores/quinchos/rooftop) ×3'],
+        ['sen-air-crl-01-b2b.jpg','Sensibo Air B2B — Spa/masajes'],['3800235265710.png','Sensor de nivel — tanque de agua de lluvia'],
+        ['342.png','Sprinkler Controller — riego/huertas ×2'],
+      ]}],
+      ['Unidad','N5',{ items:4, unidades:348, resumen:'4 ítems · 348 u — iluminación ×179, dimmer ×84, sensor de apertura ×84, pantalla plan B ×1 (Escenario B)', devices:[
+        [null,'Iluminación por unidad (Shelly 1PM Mini) ×179'],[null,'Dimmer por unidad ×84'],
+        ['659.png','Sensor apertura por unidad ×84'],['3800235264904.png','Pantalla Shelly — Plan B / respaldo'],
+      ]}],
+    ]},
+  av: { nombre:'Audio/Video', color:'#B5453A', desc:'La experiencia premium de los espacios comunes — sonido y video distribuido.',
+    zonas:[
+      ['Zonas exteriores','N4',{ items:2, unidades:7, resumen:'2 ítems · 7 u — amplificador multizona VSSL + parlantes ext. IP65 ×6', devices:[
+        ['549.png','Amplificador multizona — áreas comunes ext.'],['es-500-aw-6-blk.jpg','Parlante ext. IP65 Episode All-Weather 6" (par) ×6'],
+      ]}],
+      ['SUM','N4',{ items:2, unidades:2, resumen:'2 ítems · 2 u — amplificador Sonos Amp + parlante empotrado', devices:[
+        ['sonos-amp.jpg','Amplificador — SUM'],['sonos-in-celining-by-sonance-6-par.jpg','Parlante empotrado — SUM'],
+      ]}],
+      ['Microcine','N4',{ items:5, unidades:6, resumen:'5 ítems · 6 u — proyector, pantalla motorizada, barra de sonido, parlantes traseros ×2, subwoofer', devices:[
+        ['zh507.jpg','Proyector láser — Microcine'],['242.jpg','Pantalla de proyección motorizada 120" — Microcine'],
+        [null,'Barra de sonido — Microcine (Opción B)'],['e30g1us1blk.jpg','Parlantes traseros — Microcine ×2'],
+        [null,'Subwoofer — Microcine'],
+      ]}],
+      ['Amenities interior (Spa/Yoga)','N4',{ items:4, unidades:4, resumen:'4 ítems · 4 u — amplificador ×2 (Spa/masajes, Yoga) + parlante empotrado ×2', devices:[
+        ['sonos-amp.jpg','Amplificador — Spa/masajes'],['sonos-in-celining-by-sonance-6-par.jpg','Parlante empotrado — Spa/masajes'],
+        ['sonos-amp.jpg','Amplificador — Yoga+Meditación'],['sonos-in-celining-by-sonance-6-par.jpg','Parlante empotrado — Yoga+Meditación'],
+      ]}],
+    ]},
+};
+let sisKey = 'redes';
+function renderSisTabs(){
+  const tabs = document.getElementById('sisTabs');
+  tabs.innerHTML = Object.entries(SISTEMAS).map(([k,s]) => `<button class="os-tab${k===sisKey?' active':''}" data-k="${k}" type="button">${s.nombre}</button>`).join('');
+  tabs.querySelectorAll('.os-tab').forEach(btn => btn.addEventListener('click', () => { sisKey = btn.dataset.k; renderSisTabs(); renderSisPanel(); }));
+}
+function renderSisPanel(){
+  const s = SISTEMAS[sisKey];
+  const totalItems = s.zonas.reduce((a,z) => a + z[2].items, 0);
+  const totalU = s.zonas.reduce((a,z) => a + z[2].unidades, 0);
+  document.getElementById('sisDot').style.background = s.color;
+  document.getElementById('sisTitle').textContent = s.nombre;
+  document.getElementById('sisCount').textContent = `${totalItems} ÍTEMS · ${totalU} UNIDADES`;
+  document.getElementById('sisDesc').textContent = s.desc;
+  document.getElementById('sisGrid').innerHTML = s.zonas.map(([nombre,niv,z],zi) => `
+    <div class="sis-card">
+      <button class="sis-card-head" data-zi="${zi}" type="button">
+        <span class="zn">${nombre}</span>
+        <span class="zc">${z.resumen}</span>
+        <span class="zniv">${niv}</span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="sis-devices" id="sisdev-${zi}">${z.devices.map(([img,label],di) => `
+        <div class="device-card${img ? '' : ' no-photo'}" style="--i:${di}">${img ? `<img src="${BASE_IMG_INV}${img}" alt="${label}" onerror="this.style.display='none'">` : ''}<div class="dn">${label}</div></div>
+      `).join('')}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.sis-card-head').forEach(btn => btn.addEventListener('click', () => {
+    const panel = document.getElementById('sisdev-'+btn.dataset.zi);
+    const isOpen = panel.classList.contains('open');
+    document.querySelectorAll('.sis-devices').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.sis-card-head').forEach(b => b.classList.remove('open'));
+    if (!isOpen){ panel.classList.add('open'); btn.classList.add('open'); }
+  }));
+}
+renderSisTabs(); renderSisPanel();
+
+// ============ 4. HAVEN OS MOCKUP ============
+const OS_FLOWS = {
+  alta: { label:'Alta de residente', device:'HAVEN OS — ADMINISTRACIÓN', steps:[
+    { title:'Dashboard de Administración', desc:'Torre 1 — Sol de Mayo. Estado de unidades y alta de nuevos residentes.', type:'list', items:['Depto 1A — Ocupado','Depto 1B — Ocupado','Depto 2A — Vacante'], cta:'+ Nuevo residente' },
+    { title:'Datos del nuevo residente', desc:'Se cargan los datos básicos y el tipo de acceso que va a tener.', type:'form', fields:[['Nombre','Nombre y Apellido'],['Unidad','Torre 1 — Depto 4B'],['Tipo de acceso','Titular'],['Ingreso','01/09/2026']] },
+    { title:'Orquestando el alta', desc:'Un solo flujo dispara las 4 piezas reales de la arquitectura, en orden y con reintento si algo falla.', type:'orchestration', sim:true, items:['Authentik — creando cuenta y rol','HikCentral — credenciales y niveles de acceso','Home Assistant (Torre 1) — vinculando entidades de la unidad','Postgres — registrando permisos'] },
+    { title:'Residente dado de alta', desc:'Desde este momento, todo su acceso está activo.', type:'confirm', items:['Acceso facial habilitado: Hall de Ingreso + Palier + Depto 4B','Domótica de su unidad ya controlable desde la app'] },
+  ]},
+  reserva: { label:'Reserva de amenity', device:'HAVEN OS — RESIDENTE', steps:[
+    { title:'Mis Amenities', desc:'El residente ve disponibilidad en vivo de cada espacio común.', type:'list', items:['SUM','Microcine','Spa / Masajes','Yoga + Meditación'], cta:'Ver disponibilidad de SUM' },
+    { title:'Reservar SUM', desc:'Elige día y franja horaria exacta.', type:'form', fields:[['Día','Sábado 8 de agosto'],['Franja','20:00 a 24:00 hs']] },
+    { title:'Generando tu acceso temporal', desc:'La credencial se crea con una ventana horaria exacta, no un acceso permanente.', type:'orchestration', sim:true, items:['Backend — valida disponibilidad y crea la reserva','HikCentral — provisiona credencial con ventana horaria'] },
+    { title:'Reserva confirmada', desc:'El acceso se desactiva solo — nadie tiene que acordarse de nada.', type:'confirm', items:['Acceso válido sábado 20:00 a 24:00 en el SUM','Se desactiva automáticamente al terminar la franja'] },
+  ]}
+};
+let osFlowKey = 'alta', osStepIdx = 0;
+function renderOsTabs(){
+  const tabs = document.getElementById('osTabs');
+  tabs.innerHTML = Object.entries(OS_FLOWS).map(([k,f]) => `<button class="os-tab${k===osFlowKey?' active':''}" data-k="${k}" type="button">${f.label}</button>`).join('');
+  tabs.querySelectorAll('.os-tab').forEach(btn => btn.addEventListener('click', () => { osFlowKey = btn.dataset.k; osStepIdx = 0; renderOsTabs(); renderOsStep(); }));
+}
+function renderOsStep(){
+  const flow = OS_FLOWS[osFlowKey]; const step = flow.steps[osStepIdx];
+  document.getElementById('osDeviceLabel').textContent = flow.device;
+  document.getElementById('osStepTitle').textContent = step.title;
+  document.getElementById('osStepDesc').textContent = step.desc;
+  document.getElementById('osSimNote').innerHTML = step.sim
+    ? `<div class="sim-note">Esto lo estoy simulando para mostrarles el flujo completo — el backend real todavía no está construido, pero la arquitectura y las integraciones (Authentik, HikCentral, Home Assistant) ya están completamente especificadas.</div>` : '';
+  const body = document.getElementById('osBody');
+  if (step.type === 'list'){
+    body.innerHTML = step.items.map(i => `<div class="os-row"><span>${i}</span></div>`).join('') + `<div class="os-cta">${step.cta}</div>`;
+  } else if (step.type === 'form'){
+    body.innerHTML = step.fields.map(([l,v]) => `<div class="os-row"><span class="l">${l}</span><span>${v}</span></div>`).join('') + `<div class="os-cta">Confirmar</div>`;
+  } else if (step.type === 'orchestration'){
+    body.innerHTML = `<div class="os-checklist">${step.items.map((i,idx) => `<div class="os-check-item" data-idx="${idx}"><span class="dot"></span><span>${i}</span></div>`).join('')}</div>`;
+    body.querySelectorAll('.os-check-item').forEach((row,idx) => setTimeout(() => { row.classList.add('done'); row.querySelector('.dot').textContent='✓'; }, 450*(idx+1)));
+  } else if (step.type === 'confirm'){
+    body.innerHTML = `<div class="os-summary">${step.items.map(i => `<div class="os-summary-item">${i}</div>`).join('')}</div>`;
+  }
+  document.getElementById('osProgress').innerHTML = flow.steps.map((_,i) => `<span class="d${i===osStepIdx?' active':''}"></span>`).join('');
+  document.getElementById('osNext').textContent = osStepIdx === flow.steps.length-1 ? '✓ Flujo completo' : 'Siguiente paso →';
+}
+document.getElementById('osNext').addEventListener('click', () => { const f=OS_FLOWS[osFlowKey]; if (osStepIdx < f.steps.length-1){ osStepIdx++; renderOsStep(); } });
+document.getElementById('osRestart').addEventListener('click', () => { osStepIdx = 0; renderOsStep(); });
+renderOsTabs(); renderOsStep();
+
+// ============ 5. INVERSION — detalle de línea real (Supabase, proyecto_id=36) + toggle Fase1/Complejo ============
+// Cada línea: [nombre, sku, cantidad, precio neto unitario, IVA%, precio final unitario, subtotal]
+// Fuente: select seccion,nombre,sku,cantidad,precio_sin_iva_snapshot,iva_snapshot,
+// precio_final_unitario_usd,subtotal_usd from proyectos_items where proyecto_id=36 — volcado 1:1,
+// sin recalcular. IVA real por ítem (10,5% en varios TP-Link/Omada, Hikvision facial+QR y HDD
+// Seagate SkyHawk de este proyecto puntual — no es 21% parejo).
+const INVEST = [
+  { key:'accesos', nombre:'Control de Accesos', valor:49932.11, color:'#C8A96E', lineas:[
+    ['Yale KIT YMC 420 MORTISE+HUB por unidad (Escenario B, agregado Fase 1)','16784',84,232.24,21,356.86,29976.24],
+    ['Barrera vehicular','DS-TMG420(4m octagonal)(O-STD)',2,1654.00,21,2541.70,5083.40],
+    ['Cámara ANPR (patente)','iDS-2CD7A46G0P-IZHSY',2,1151.00,21,1768.74,3537.48],
+    ['KIT YRD 256 + HUB — Cerradura bauleras','11647',13,109.31,21,167.98,2183.74],
+    ['Kit control de acceso completo — por amenity con puerta propia','STARLIGH-KIT-ACC',6,185.97,21,285.78,1714.68],
+    ['Facial + QR por torre','DS-K1T323MBWX-QRE1',5,205.00,10.5,287.69,1438.45],
+    ['Kit control de acceso completo — por torre','STARLIGH-KIT-ACC',5,185.97,21,285.78,1428.90],
+    ['Llamador + facial — hall general','DS-KD9203-ME6',1,666.00,21,1023.44,1023.44],
+    ['Pantalla Hikvision Android — hipótesis principal','DS-KH9310-WTE1(B)',1,394.00,21,605.46,605.46],
+    ['Terminal QR+facial — Spa/masajes','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['Terminal QR+facial — Yoga+Meditación','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['Terminal QR+facial — Spa de mascotas','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['QR compañero — hall general','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['Terminal QR+facial — SUM','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['Terminal QR+facial — Microcine','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['Terminal QR+facial — Biblioteca','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
+    ['Kit control de acceso completo — hall general (QR)','STARLIGH-KIT-ACC',1,185.97,21,285.78,285.78],
+    ['Kit control de acceso completo — Sala de Residuos','STARLIGH-KIT-ACC',1,185.97,21,285.78,285.78],
+    ['Kit control de acceso completo — hall general (llamador)','STARLIGH-KIT-ACC',1,185.97,21,285.78,285.78],
+    ['Control de acceso — Sala de Residuos','DS-K1T801E',1,45.00,21,69.15,69.15],
+  ]},
+  { key:'domotica', nombre:'Domótica', valor:23352.80, color:'#3E7B5C', lineas:[
+    ['Dimmer por unidad (Escenario B, agregado Fase 1)','Shelly Dimmer Gen4',84,54.00,21,82.98,6970.32],
+    ['Iluminación por unidad (Escenario B, agregado Fase 1)','Shelly 1PM Mini Gen4',179,23.36,21,35.90,6426.10],
+    ['Sensor apertura por unidad (Escenario B, agregado Fase 1)','BLU Door Window ZB (Homiq)',84,24.90,21,38.26,3213.84],
+    ['Panel central — Hall de Ingreso (CORE)','Wall Display XL (Shelly)',1,485.00,21,745.30,745.30],
+    ['Relé zonas ext. (plazoletas/asadores/quinchos/rooftop)','Pro 4PM (Shelly)',3,155.12,21,238.38,715.14],
+    ['Iluminación perimetral + cocheras','Pro 4PM (Shelly)',3,155.12,21,238.38,715.14],
+    ['Home Assistant — agregador central','HOMIQ-HA-STRONG-I5G7-256',1,460.65,21,707.88,707.88],
+    ['Home Assistant — instancia federada','HOMIQ-HA-STRONG-I5G7-256',1,460.65,21,707.88,707.88],
+    ['Control bomba/calefacción pileta','Pro 2 DIN (Shelly)',4,76.43,21,117.45,469.80],
+    ['Sprinkler Controller Shelly — riego/huertas','FK-06X US',2,149.00,21,228.97,457.94],
+    ['Detección de fuga/nivel — piletas','Flood Gen4 (Shelly)',4,67.89,21,104.33,417.32],
+    ['Pantalla Shelly — Plan B / respaldo','Wall Display (Shelly)',1,204.37,21,314.06,314.06],
+    ['Sensibo Air B2B — Spa/masajes','sen-air-crl-01-b2b',1,174.74,21,268.53,268.53],
+    ['Botonera de escenas — SUM','Wall Panel (Shelly)',1,149.98,21,230.48,230.48],
+    ['Botonera de escenas — Yoga+Meditación','Wall Panel (Shelly)',1,149.98,21,230.48,230.48],
+    ['Botonera de escenas — Spa/masajes','Wall Panel (Shelly)',1,149.98,21,230.48,230.48],
+    ['Botonera de escenas — Microcine','Wall Panel (Shelly)',1,149.98,21,230.48,230.48],
+    ['Coordinador Zigbee/Thread','SLZB-06p10',1,74.58,21,114.60,114.60],
+    ['Dimmer — Yoga+Meditación','Dimmer Gen4 (Shelly)',1,54.00,21,82.98,82.98],
+    ['Control de ventilación/extractor — Spa de mascotas','Shelly 1 Gen4',1,23.98,21,36.85,36.85],
+    ['Control bomba/electroválvula — car wash','Shelly 1 Gen4',1,23.98,21,36.85,36.85],
+    ['Sensor de nivel — tanque de agua de lluvia','UNI (Shelly)',1,19.75,21,30.35,30.35],
+  ]},
+  { key:'av', nombre:'Audio/Video (Amenities)', valor:20552.57, color:'#B5453A', lineas:[
+    ['Proyector láser — Microcine','ZH507+ (Optoma)',1,2600.00,21,3995.42,3995.42],
+    ['Amplificador multizona — áreas comunes ext.','VSSL A.6x',1,2248.40,21,3455.11,3455.11],
+    ['Parlante ext. IP65 Episode All-Weather 6" (par)','ES-500-AW-6-BLK',6,348.82,21,535.83,3214.98],
+    ['Parlantes traseros — Microcine','Sonos Era 300',2,516.53,21,793.75,1587.50],
+    ['Subwoofer — Microcine','Sonos Sub (4ta gen)',1,909.00,21,1396.86,1396.86],
+    ['Barra de sonido — Microcine (Opción B)','Sonos Arc',1,818.18,21,1257.30,1257.30],
+    ['Amplificador — Yoga+Meditación','Sonos Amp',1,652.89,21,1003.30,1003.30],
+    ['Amplificador — Spa/masajes','Sonos Amp',1,652.89,21,1003.30,1003.30],
+    ['Amplificador — SUM','Sonos Amp',1,652.89,21,1003.30,1003.30],
+    ['Parlante empotrado — Yoga+Meditación','Sonance In-Ceiling 6" (par)',1,498.35,21,765.81,765.81],
+    ['Parlante empotrado — SUM','Sonance In-Ceiling 6" (par)',1,498.35,21,765.81,765.81],
+    ['Parlante empotrado — Spa/masajes','Sonance In-Ceiling 6" (par)',1,498.35,21,765.81,765.81],
+    ['Pantalla de proyección — Microcine','Pantalla motorizada 120"',1,220.00,21,338.07,338.07],
+  ]},
+  { key:'cctv', nombre:'Videovigilancia (CCTV)', valor:16570.38, color:'#8AA6C4', lineas:[
+    ['Cámaras cocheras','DS-2CD1027G3-LIU',24,92.00,21,141.38,3393.12],
+    ['Cámara perimetral','DS-2CD1027G3-LIU',18,92.00,21,141.38,2544.84],
+    ['Circulación interna / espacios comunes','DS-2CD1027G3-LIU',18,92.00,21,141.38,2544.84],
+    ['NVR perímetro/accesos (32ch)','DS-7732NXI-K4(D)',1,1071.00,21,1645.80,1645.80],
+    ['Cámaras palier + ascensor','DS-2CD1027G3-LIU',9,92.00,21,141.38,1272.42],
+    ['HDD NVR perímetro','ST8000VE001 (Seagate SkyHawk)',2,381.30,10.5,535.10,1070.20],
+    ['Vigilancia accesos peatonales','DS-2CD1027G3-LIU',6,92.00,21,141.38,848.28],
+    ['NVR circulación interna (32ch)','DS-7632NXI-K2',1,512.00,21,786.79,786.79],
+    ['TV centro de observaciones','SAMSUNG 43" DU7000',1,396.56,21,609.30,609.30],
+    ['NVR de torre (16 canales)','DS-7616NXI-K2(D)',1,379.00,21,582.41,582.41],
+    ['HDD NVR de torre','ST8000VE001 (Seagate SkyHawk)',1,381.30,10.5,535.10,535.10],
+    ['HDD NVR circulación','ST4000VX016 (Seagate SkyHawk)',2,190.55,10.5,267.54,535.08],
+    ['Decodificador HDMI','DS-6401HDI-T',1,131.58,21,202.20,202.20],
+  ]},
+  { key:'redes', nombre:'Redes', valor:13103.30, color:'#787A91', lineas:[
+    ['Access Point WiFi 6 exterior — Cocheras','EAP650-OUT',9,122.66,10.5,172.13,1549.17],
+    ['Switch de nodo secundario — Perímetro/Circulación (exterior)','TL-SG2218P',5,184.65,10.5,259.13,1295.65],
+    ['UPS online NOC','Eaton 9PX 3KVA',1,917.38,10.5,1287.41,1287.41],
+    ['Gabinete de nodo secundario — Perímetro/Circulación (exterior)','RACMATICK 300x150x400',5,125.20,21,192.39,961.95],
+    ['Switch troncal NOC (24p PoE+)','TL-SG3428MP',2,299.39,10.5,420.15,840.30],
+    ['Switch de nodo secundario — Cocheras (1 por subsuelo)','TL-SG2218P',3,184.65,10.5,259.13,777.39],
+    ['Gabinete — WiFi áreas comunes','RACMATICK 300x150x400',4,125.20,21,192.39,769.56],
+    ['Router/gateway core (Omada)','ER8411',1,527.56,10.5,740.44,740.44],
+    ['Access Point WiFi 6 exterior — Áreas comunes','EAP650-OUT',4,122.66,10.5,172.13,688.52],
+    ['UPS por torre','FDC-1002R-I (Forza)',1,467.88,10.5,656.48,656.48],
+    ['Controlador Omada dedicado','OC300',1,412.64,21,634.10,634.10],
+    ['Access Point WiFi 6 indoor — Amenities','EAP610',5,72.93,10.5,102.35,511.75],
+    ['Switch de acceso (24p PoE+)','TL-SG3428MP',1,299.39,10.5,420.15,420.15],
+    ['UPS de nodo secundario — Perímetro/Circulación (exterior)','Eaton 5A 900VA',5,54.33,10.5,76.24,381.20],
+    ['Gabinete de nodo secundario — Cocheras','GLC MURAL-6U500',3,79.70,21,122.47,367.41],
+    ['Módulo SFP monomodo — nodos exteriores','TL-SM311LS',10,16.51,21,25.37,253.70],
+    ['UPS de nodo secundario — Cocheras','Eaton 5A 900VA',3,54.33,10.5,76.24,228.72],
+    ['Switch PoE — WiFi áreas comunes','TL-SG1005P',4,34.36,10.5,48.22,192.88],
+    ['Sub-rack de torre (15U)','GLC MURAL-15U500',1,120.88,21,185.75,185.75],
+    ['Módulo SFP monomodo — nodos de cocheras','TL-SM311LS',6,16.51,21,25.37,152.22],
+    ['Accesorios de rack','CTT5000 + GLC-ORGCR-001 + F-C-1U',1,73.01,21,112.19,112.19],
+    ['Bandeja de rack','BANDEJA 2U40 (GLC)',3,20.90,21,32.12,96.36],
+  ]},
+  { key:'alarma', nombre:'Alarma', valor:1192.46, color:'#3a3d4a', lineas:[
+    ['Panel de alarma (96 zonas)','DS-PWA96-Kit-WB',1,344.00,21,528.62,528.62],
+    ['Sirena exterior','DS-PS1-E-WB',4,68.00,21,104.49,417.96],
+    ['Repetidor AXPRO','DS-PR1-WB(B)',2,80.00,21,122.94,245.88],
+  ]},
+  { key:'mo', nombre:'Mano de obra de instalación', valor:42092.00, color:'#5d6078', lineas:null,
+    texto:'Instalación física de los 6 sistemas — tarifario Nova Domus por punto + supervisión de obra.' },
+  { key:'nivel0', nombre:'Nivel 0 — Proyecto ejecutivo', valor:5250.00, color:'#4b4e5c', lineas:null,
+    texto:'Ingeniería de señales débiles para las 5 torres completas — ductos, bandejas, NOC, backbone. Se factura una sola vez, para todo el complejo.' },
+  { key:'nivel6', nombre:'Nivel 6 — Setup Haven OS', valor:26000.00, color:'#3a3d4a', lineas:null,
+    texto:'Especificación, arquitectura y puesta en marcha de la plataforma propia de gestión.' },
+];
+let scopeState = 'fase1';
+function fmtUsd(n){ return 'USD ' + n.toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+// Elige texto claro/oscuro según el brillo del color de fondo del segmento (fórmula YIQ rápida)
+function barTextClass(hex){
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  const y = (r*299 + g*587 + b*114) / 1000;
+  return y > 150 ? 'dark' : 'light';
+}
+
+function renderInvest(){
+  const equipoRows = INVEST.filter(i => i.lineas);
+  const totalEquipo = equipoRows.reduce((a,b)=>a+b.valor,0);
+  // % visible en cada segmento — solo si el segmento es lo bastante ancho para que el número
+  // entre sin desbordar (ej. Alarma, ~1% del total): ahí se suprime en vez de mostrarse cortado.
+  document.getElementById('investBar').innerHTML = equipoRows.map(i => {
+    const pct = i.valor/totalEquipo*100;
+    const label = pct >= 5 ? `<span class="bar-pct ${barTextClass(i.color)}">${pct.toFixed(0)}%</span>` : '';
+    return `<div data-target="${pct.toFixed(2)}" style="background:${i.color}">${label}</div>`;
+  }).join('');
+  document.getElementById('investList').innerHTML = INVEST.map(i => {
+    if (i.lineas){
+      const rows = i.lineas.map(([nombre,sku,cant,neto,iva,final,sub]) => `
+        <tr>
+          <td class="nm">${nombre}<br><span class="sku">${sku}</span></td>
+          <td class="num">${cant}</td>
+          <td class="num">${fmtUsd(neto)}</td>
+          <td class="num">${iva===10.5?'10,5%':'21%'}</td>
+          <td class="num">${fmtUsd(final)}</td>
+          <td class="num">${cant>1?fmtUsd(sub):'—'}</td>
+        </tr>`).join('');
+      return `
+      <div class="invest-row">
+        <button class="invest-row-head" data-k="${i.key}" type="button">
+          <span class="sw" style="background:${i.color}"></span>
+          <span class="nm">${i.nombre}</span>
+          <span class="vl">${fmtUsd(i.valor)}</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="invest-lines-wrap" id="dev-${i.key}">
+          <table class="invest-lines">
+            <tr><th>Equipo</th><th class="num">Cant.</th><th class="num">Precio neto</th><th class="num">IVA</th><th class="num">Precio final</th><th class="num">Subtotal</th></tr>
+            ${rows}
+          </table>
+        </div>
+      </div>`;
+    }
+    return `
+      <div class="invest-row">
+        <button class="invest-row-head static" type="button">
+          <span class="sw" style="background:${i.color}"></span>
+          <span class="nm">${i.nombre}</span>
+          <span class="vl">${fmtUsd(i.valor)}</span>
+        </button>
+        <p class="invest-service">${i.texto}</p>
+      </div>`;
+  }).join('');
+  document.querySelectorAll('.invest-row-head:not(.static)').forEach(btn => btn.addEventListener('click', () => {
+    const panel = document.getElementById('dev-'+btn.dataset.k);
+    const isOpen = panel.classList.contains('open');
+    document.querySelectorAll('.invest-lines-wrap').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.invest-row-head').forEach(b => b.classList.remove('open'));
+    if (!isOpen){ panel.classList.add('open'); btn.classList.add('open'); }
+  }));
+  playInvestBar();
+}
+
+// Anima la barra segmentada de 0 al ancho final — se re-dispara cada vez que se entra a Inversión
+function playInvestBar(){
+  const bars = document.querySelectorAll('#investBar > div');
+  bars.forEach(b => { b.style.width = '0%'; });
+  void document.getElementById('investBar').offsetWidth;
+  bars.forEach((b,i) => {
+    b.style.transitionDelay = REDUCED_MOTION ? '0ms' : (i * 70) + 'ms';
+    requestAnimationFrame(() => { b.style.width = b.dataset.target + '%'; });
+  });
+}
+
+function setScope(scope){
+  scopeState = scope;
+  document.getElementById('btnFase1').classList.toggle('active', scope==='fase1');
+  document.getElementById('btnComplejo').classList.toggle('active', scope==='complejo');
+  const pctEl = document.getElementById('investPctText');
+  const applyText = () => {
+    if (scope === 'fase1'){
+      pctEl.innerHTML = 'Representa entre el <b style="color:var(--gold)">2,0%</b> y el <b style="color:var(--gold)">3,1%</b> del valor de venta de una unidad de Torre 1 — un costo bajo frente al perfil de comprador que este desarrollo ya tiene: inversores de renta, para quienes la domótica no es un gasto de lujo sino una palanca de rentabilidad operativa sobre un activo que van a operar por años, no solo vender una vez.';
+    } else {
+      pctEl.innerHTML = 'Prorrateado sobre las 373 unidades del complejo completo (5 torres), la incidencia baja a entre <b style="color:var(--gold)">1,3%</b> y <b style="color:var(--gold)">1,8%</b> — porque el NOC, el perímetro y Haven OS ya están pagos y se reparten entre más unidades a medida que construimos las próximas 4 torres juntos.';
+    }
+    pctEl.classList.remove('swap');
+  };
+  if (REDUCED_MOTION){ applyText(); }
+  else {
+    pctEl.classList.add('swap');
+    setTimeout(applyText, 180);
+  }
+}
+renderInvest(); setScope('fase1');
+
+// ============ 6. EJECUCION — timeline clickeable ============
+const TIMELINE = [
+  { fase:'FASE 0', title:'Proyecto ejecutivo (Nivel 0)', detail:'Cierre de especificaciones pendientes — ductos, bandejas, NOC, backbone entre las 5 torres — antes de arrancar cualquier instalación física. Haven OS se desarrolla en paralelo durante esta fase, no como un bloque aparte al final.' },
+  { fase:'FASE 1', title:'Torre 1 — Sol de Mayo (84 unidades)', detail:'En marcha. Piloto de todo el diseño técnico — cada decisión de arquitectura se valida acá antes de replicarse en las otras 4 torres. Haven OS avanza en paralelo en esta misma fase, no después.' },
+  { fase:'FASE 2', title:'Torre 2 — "torre larga" (~96 unidades)', detail:'Misma plantilla técnica que Torre 1: red, CCTV, accesos y domótica se instalan idénticos, con Haven OS ya validado en el piloto.' },
+  { fase:'FASE 3', title:'Torres 4 y 5 — "Torres Altas" (58 unidades c/u)', detail:'100% unidades de 1 dormitorio. Se construyen en simultáneo por ser gemelas — misma cuadrilla, mismo cronograma.' },
+  { fase:'FASE 4', title:'Torre 3 (~77 unidades)', detail:'Frente a Torre 1, cruzando la plaza central. Última fase del complejo residencial.' },
+];
+document.getElementById('timeline').innerHTML = TIMELINE.map((t,i) => `
+  <div class="tl-item">
+    <button class="tl-head" data-i="${i}" type="button">
+      <div class="tl-fase">${t.fase}</div><b>${t.title}</b><span class="chev">▾</span>
+    </button>
+    <div class="tl-detail" id="tl-${i}"><p>${t.detail}</p></div>
+  </div>
+`).join('');
+document.querySelectorAll('.tl-head').forEach(btn => btn.addEventListener('click', () => {
+  const panel = document.getElementById('tl-'+btn.dataset.i);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}));
+</script>
+
+</body>
+</html>
