@@ -66,9 +66,13 @@ tr:nth-child(even) td{background:rgba(255,255,255,0.03);}
 .pay-stage{display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:8px;font-size:14px;}
 .section-light .pay-stage{background:#F7F5EC;}
 .resp-table td:first-child{font-weight:600;width:32%;}
-.device-card{background:#fff;border:1px solid #E3E1D6;border-radius:12px;padding:20px;margin-bottom:18px;}
+.device-card{background:#fff;border:1px solid #E3E1D6;border-radius:12px;padding:20px;margin-bottom:18px;display:flex;gap:20px;flex-wrap:wrap;}
+.device-photo{width:130px;height:130px;flex-shrink:0;background:#F7F5EC;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:12px;}
+.device-photo img{max-width:100%;max-height:100%;object-fit:contain;}
+.device-info{flex:1;min-width:240px;}
 .device-info td:first-child{color:#5d6078;width:45%;}
 .device-info table{font-size:13px;}
+@media (max-width:520px){.device-card{flex-direction:column;}.device-photo{width:100%;height:110px;}}
 footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
 .hero-logo{width:52px;height:52px;margin-bottom:20px;}
 .py-num{color:var(--gold);font-weight:600;letter-spacing:1px;}
@@ -221,6 +225,9 @@ footer{text-align:center;padding:30px 20px;color:var(--grey);font-size:12px;}
   </div>
 
   <div class="device-card">
+    <div class="device-photo">
+      <img src="https://cdn.prod.website-files.com/692e29d6c6aa23d456cb4819/69b1b51b3db99765ac9e8853_MS.1-FRONT_Web.png" alt="VSSL MS.1" loading="lazy">
+    </div>
     <div class="device-info">
       <h3>VSSL MS.1</h3>
       <p style="font-size:13px;color:#5d6078;margin:0 0 10px;">Streamer de red — fuente única para todo el sistema</p>
