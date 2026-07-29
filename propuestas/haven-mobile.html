@@ -565,7 +565,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     </div>
 
     <div class="count-stats" id="countStats">
-      <div class="count-stat"><span class="num" id="statBomItems" data-count="88">0</span><span class="lbl">Ítems en el BOM</span></div>
+      <div class="count-stat"><span class="num" id="statBomItems" data-count="93">0</span><span class="lbl">Ítems en el BOM</span></div>
       <div class="count-stat"><span class="num" data-count="6">0</span><span class="lbl">Subsistemas integrados</span></div>
       <div class="count-stat"><span class="num" data-count="8">0</span><span class="lbl">Nodos de red propios</span></div>
       <div class="count-stat"><span class="num" data-count="12">0</span><span class="lbl">Meses de garantía</span></div>
@@ -690,7 +690,9 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <div class="scope-switcher">
       <div class="scope-pill">
         <button id="btnFase1" onclick="setScope('fase1')">Fase 1 · 84 unidades</button>
-        <button id="btnComplejo" onclick="setScope('complejo')">Complejo completo · 373 unidades</button>
+        <!-- 374 = cifra oficial de Calypso para el complejo completo; la suma interna por
+             torre (Torre1=84+Torre2≈96+Torre3≈77+Torre4=Torre5=58) da 373 — no es error de cálculo. -->
+        <button id="btnComplejo" onclick="setScope('complejo')">Complejo completo · 374 unidades</button>
       </div>
     </div>
 
@@ -1318,14 +1320,6 @@ const INVEST = [
   { key:'nivel6', nombre:'Nivel 6 — Setup Haven OS', valor:26000.00, color:'#3a3d4a', lineas:null,
     texto:'Especificación, arquitectura y puesta en marcha de la plataforma propia de gestión.' },
 ];
-// Ítems del BOM: calculado desde INVEST, no tipeado a mano — evita que quede pisado la próxima
-// vez que cambie el BOM (ya pasó dos veces: 80→88→93).
-const totalItemsBOM = INVEST.filter(i => i.lineas).reduce((acc,i) => acc + i.lineas.length, 0);
-document.getElementById('statBomItems').dataset.count = totalItemsBOM;
-// Unidades del complejo completo: cifra oficial de Calypso (374), no la suma interna por torre
-// (Torre1=84+Torre2≈96+Torre3≈77+Torre4=Torre5=58 = 373) — un solo lugar para cambiarla.
-const UNIDADES_COMPLEJO = 374;
-document.getElementById('btnComplejo').textContent = 'Complejo completo · ' + UNIDADES_COMPLEJO + ' unidades';
 let scopeState = 'fase1';
 function fmtUsd(n){ return 'USD ' + n.toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 
@@ -1413,7 +1407,8 @@ function setScope(scope){
     if (scope === 'fase1'){
       pctEl.innerHTML = 'Representa entre el <b style="color:var(--gold)">2,0%</b> y el <b style="color:var(--gold)">3,1%</b> del valor de venta de una unidad de Torre 1 — un costo bajo frente al perfil de comprador que este desarrollo ya tiene: inversores de renta, para quienes la domótica no es un gasto de lujo sino una palanca de rentabilidad operativa sobre un activo que van a operar por años, no solo vender una vez.';
     } else {
-      pctEl.innerHTML = 'Prorrateado sobre las ' + UNIDADES_COMPLEJO + ' unidades del complejo completo (5 torres), la incidencia baja a entre <b style="color:var(--gold)">1,3%</b> y <b style="color:var(--gold)">1,8%</b> — porque el NOC, el perímetro y Haven OS ya están pagos y se reparten entre más unidades a medida que construimos las próximas 4 torres juntos.';
+      // 374 = cifra oficial de Calypso (no 373, la suma interna por torre) — ver comentario junto al botón "Complejo completo".
+      pctEl.innerHTML = 'Prorrateado sobre las 374 unidades del complejo completo (5 torres), la incidencia baja a entre <b style="color:var(--gold)">1,3%</b> y <b style="color:var(--gold)">1,8%</b> — porque el NOC, el perímetro y Haven OS ya están pagos y se reparten entre más unidades a medida que construimos las próximas 4 torres juntos.';
     }
     pctEl.classList.remove('swap');
   };
