@@ -303,6 +303,107 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offse
 .device-card.no-photo{display:flex;align-items:center;justify-content:center;min-height:90px;}
 @keyframes device-in{to{opacity:1;transform:translateY(0);}}
 
+/* ---------- SISTEMAS — 2 grupos ---------- */
+.sis-groups{display:flex;flex-direction:column;gap:22px;margin:34px 0 30px;}
+.sis-group{border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:20px 22px 22px;background:rgba(255,255,255,.02);}
+.sis-group-h{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.sis-group-h b{display:block;font-family:var(--font-display);font-size:13px;letter-spacing:2px;color:#fff;text-transform:uppercase;}
+.sis-group-h span:not(.gtag){display:block;font-size:13.5px;color:var(--body);margin-top:4px;}
+.gtag{font-family:var(--font-display);font-size:10.5px;letter-spacing:1.5px;padding:6px 12px;border-radius:14px;flex-shrink:0;}
+.gtag.g1{background:rgba(200,169,110,.14);color:var(--gold);border:1px solid rgba(200,169,110,.35);}
+.gtag.g2{background:rgba(62,123,92,.16);color:#7FC6A0;border:1px solid rgba(62,123,92,.5);}
+.sis-group .os-tabs{flex-wrap:wrap;margin-bottom:0;}
+.sis-nota{border-left:2px solid var(--gold);background:rgba(200,169,110,.06);border-radius:0 8px 8px 0;padding:14px 18px;font-size:14.5px;color:var(--body);margin-bottom:22px;}
+.sis-nota b{color:#fff;}
+.sis-cta{margin-top:8px;}
+.sis-cta button{appearance:none;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:var(--font-body);font-weight:600;font-size:14.5px;padding:12px 20px;border-radius:10px;cursor:pointer;min-height:46px;}
+.sis-cta button:hover{background:rgba(200,169,110,.12);}
+
+/* ---------- DOMÓTICA POR UNIDAD ---------- */
+.dom-typo{display:flex;justify-content:center;margin:34px 0 6px;}
+.dom-typo .switch-pill button.active{background:var(--gold);color:var(--navy-deep);}
+.dom-hint{text-align:center;font-size:13.5px;color:var(--body);margin-bottom:30px;}
+.dom-layout{display:grid;grid-template-columns:1.25fr 1fr;gap:34px;align-items:start;}
+@media (max-width:1000px){.dom-layout{grid-template-columns:1fr;}}
+
+.cbx-card{
+  display:flex;gap:16px;align-items:flex-start;width:100%;text-align:left;cursor:pointer;
+  appearance:none;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:18px 20px;margin-bottom:12px;transition:all .22s;min-height:48px;color:inherit;
+}
+.cbx-card:hover{border-color:rgba(200,169,110,.5);background:rgba(200,169,110,.05);}
+.cbx-card.on{border-color:var(--gold);background:rgba(200,169,110,.09);}
+.cbx-card.locked{cursor:default;border-color:rgba(200,169,110,.4);background:rgba(200,169,110,.07);}
+.cbx-card.na{opacity:.42;}
+.cbx-card.na .cbx-t{text-decoration:line-through;}
+.cbx-card.reco{border-color:rgba(200,169,110,.55);box-shadow:0 0 0 1px rgba(200,169,110,.18);}
+.cbx-box{
+  width:24px;height:24px;border-radius:6px;border:1.5px solid var(--grey);flex-shrink:0;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:transparent;transition:all .2s;
+}
+.cbx-card.on .cbx-box,.cbx-card.locked .cbx-box{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);}
+.cbx-main{flex:1;min-width:0;}
+.cbx-t{font-weight:600;font-size:16.5px;color:#fff;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;}
+.cbx-t .cbx-d{font-family:var(--font-display);font-size:13px;color:var(--gold);letter-spacing:1px;}
+.cbx-reco-badge{font-family:var(--font-display);font-size:10px;letter-spacing:1.5px;background:var(--gold);color:var(--navy-deep);padding:4px 10px;border-radius:12px;text-transform:uppercase;}
+.cbx-who{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-family:var(--font-display);color:var(--grey);margin:7px 0 6px;}
+.cbx-desc{font-size:14px;color:var(--body);line-height:1.45;}
+.cbx-state{font-size:13px;color:var(--gold);margin-top:7px;font-style:italic;}
+.cbx-reco-panel{border-left:2px solid var(--gold);background:rgba(200,169,110,.07);border-radius:0 10px 10px 0;padding:14px 18px;margin:-4px 0 12px;font-size:14px;color:var(--body);}
+.cbx-reco-panel b{color:#fff;}
+
+.dom-out{position:sticky;top:96px;background:var(--navy);border:1px solid rgba(200,169,110,.3);border-radius:18px;padding:30px 28px;}
+@media (max-width:1000px){.dom-out{position:static;}}
+.dom-out .ol{font-family:var(--font-display);font-size:11.5px;letter-spacing:2px;color:var(--grey);text-transform:uppercase;}
+.dom-out .onum{font-family:var(--font-display);font-size:clamp(30px,3.6vw,44px);color:var(--gold);display:block;margin:8px 0 2px;}
+.dom-out .onum.pulse{animation:num-pulse .5s ease;}
+.dom-out .ounit{font-size:13px;color:var(--body);}
+.dom-split{display:flex;gap:0;margin:22px 0;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);}
+.dom-split div{flex:1;padding:14px 4px;}
+.dom-split div:first-child{border-right:1px solid rgba(255,255,255,.12);}
+.dom-split .sl{font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--body);}
+.dom-split .sv{font-family:var(--font-display);font-size:17px;color:#fff;margin-top:5px;}
+.dom-kv{display:flex;justify-content:space-between;gap:14px;font-size:14px;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.09);}
+.dom-kv:last-of-type{border-bottom:none;}
+.dom-kv span:first-child{color:var(--body);}
+.dom-kv b{color:#fff;font-weight:600;}
+.dom-kv b.gold{color:var(--gold);font-family:var(--font-display);font-size:14px;}
+.dom-rollup{margin-top:16px;border:1px solid rgba(200,169,110,.3);border-radius:12px;padding:16px 18px;background:rgba(200,169,110,.06);}
+.dom-rollup .rl{font-family:var(--font-display);font-size:10.5px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.dom-rollup p{font-size:13.5px;color:var(--body);margin-top:6px;}
+.dom-rollup .rv{font-family:var(--font-display);font-size:20px;color:#fff;}
+
+.dom-devs{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+.dom-dev{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:8px 14px 8px 8px;font-size:13.5px;color:#fff;}
+.dom-dev img{width:38px;height:38px;object-fit:contain;background:#fff;border-radius:8px;padding:3px;flex-shrink:0;}
+.dom-dev .dq{color:var(--gold);font-family:var(--font-display);font-size:12px;}
+.dom-dev.nophoto{padding-left:14px;}
+
+.dom-note{margin-top:26px;border-left:2px solid var(--gold);background:rgba(200,169,110,.06);border-radius:0 8px 8px 0;padding:16px 20px;}
+.dom-note b{color:#fff;}
+.dom-note p{font-size:14.5px;color:var(--body);}
+
+.dom-table-wrap{margin-top:52px;overflow-x:auto;}
+table.dom-table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:620px;}
+table.dom-table th,table.dom-table td{text-align:left;padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.09);}
+table.dom-table th{font-family:var(--font-display);font-size:11px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;font-weight:400;}
+table.dom-table td{color:var(--body);}
+table.dom-table td b{color:#fff;}
+table.dom-table td.num{font-family:var(--font-display);color:#fff;white-space:nowrap;}
+table.dom-table tr.hl td{background:rgba(200,169,110,.05);}
+
+/* ---------- INVERSIÓN — capa de unidad dinámica ---------- */
+.invest-unitlayer{border:1px solid rgba(200,169,110,.35);background:rgba(200,169,110,.05);}
+.invest-unitlayer .nm{color:var(--navy-deep);}
+.invest-unitnote{padding:4px 4px 18px 34px;font-size:13.5px;color:#5d6078;font-style:italic;}
+.invest-calc{margin-top:32px;border-top:1px solid rgba(0,0,0,.08);padding-top:28px;}
+.invest-calc-grid{display:flex;flex-wrap:wrap;gap:0;justify-content:center;text-align:center;margin-bottom:20px;}
+.invest-calc-item{padding:0 28px;border-right:1px solid rgba(0,0,0,.08);}
+.invest-calc-item:last-child{border-right:none;}
+.invest-calc-item .l{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--body);}
+.invest-calc-item .v{font-family:var(--font-display);font-size:19px;color:var(--gold);display:block;margin-top:6px;}
+.invest-calc-disclaimer{font-size:12.5px;color:var(--body);font-style:italic;max-width:640px;margin:14px auto 0;text-align:center;}
+
 /* ---------- INVERSION ---------- */
 .scope-switcher{margin-bottom:28px;}
 .scope-pill{display:flex;flex-direction:column;gap:6px;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.1);border-radius:16px;padding:5px;}
@@ -403,6 +504,7 @@ footer .foot-cedia{color:var(--grey);letter-spacing:.3px;}
   header.mobile-topbar,.drawer-backdrop,nav.chapters,.progress-track{display:none;}
   .screen{display:block !important;opacity:1 !important;transform:none !important;padding-top:20px !important;}
   .exp-body,.sis-devices,.invest-lines-wrap{display:block !important;}
+  <a data-k="domotica">Domótica</a>
   .sis-devices{display:grid !important;}
   .layer-imgwrap img,.layer-info{opacity:1 !important;transform:none !important;}
 }
@@ -433,9 +535,10 @@ footer .foot-cedia{color:var(--grey);letter-spacing:.3px;}
     <a data-k="capas">03 · Capas</a>
     <a data-k="havenos">04 · Haven OS</a>
     <a data-k="sistemas">05 · Sistemas</a>
-    <a data-k="inversion">06 · Inversión</a>
-    <a data-k="ejecucion">07 · Ejecución</a>
-    <a data-k="cierre">08 · Cierre</a>
+    <a data-k="domotica">06 · Domótica</a>
+    <a data-k="inversion">07 · Inversión</a>
+    <a data-k="ejecucion">08 · Ejecución</a>
+    <a data-k="cierre">09 · Cierre</a>
   </div>
 </nav>
 
@@ -531,10 +634,11 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <button class="hub-card" onclick="showScreen('responsable')"><span class="hn">02</span><h3>Un solo responsable</h3><p>Por qué un solo integrador a esta escala.</p></button>
     <button class="hub-card" onclick="showScreen('capas')"><span class="hn">03</span><h3>Recorrido por capas</h3><p>Del perímetro a la unidad, sobre el plano real del proyecto.</p></button>
     <button class="hub-card" onclick="showScreen('havenos')"><span class="hn">04</span><h3>Haven OS</h3><p>La plataforma propia — 2 flujos en vivo.</p></button>
-    <button class="hub-card" onclick="showScreen('sistemas')"><span class="hn">05</span><h3>Los 6 sistemas</h3><p>Recorrido completo por cada subsistema y sus componentes, antes de hablar de números.</p></button>
-    <button class="hub-card" onclick="showScreen('inversion')"><span class="hn">06</span><h3>Inversión</h3><p>Desglose completo, con equipo real.</p></button>
-    <button class="hub-card" onclick="showScreen('ejecucion')"><span class="hn">07</span><h3>Ejecución</h3><p>Cronograma, pagos, garantía.</p></button>
-    <button class="hub-card" onclick="showScreen('cierre')"><span class="hn">08</span><h3>Próximos pasos</h3><p>Cómo seguimos.</p></button>
+    <button class="hub-card" onclick="showScreen('sistemas')"><span class="hn">05</span><h3>Los sistemas</h3><p>Los 7 sistemas de Integración Tecnológica, más Domótica de unidad como capa aparte.</p></button>
+    <button class="hub-card" onclick="showScreen('domotica')"><span class="hn">06</span><h3>Domótica por unidad</h3><p>Los 5 escalones de decisión, con el precio por unidad en vivo.</p></button>
+    <button class="hub-card" onclick="showScreen('inversion')"><span class="hn">07</span><h3>Inversión</h3><p>Desglose completo, con equipo real.</p></button>
+    <button class="hub-card" onclick="showScreen('ejecucion')"><span class="hn">08</span><h3>Ejecución</h3><p>Cronograma, pagos, garantía.</p></button>
+    <button class="hub-card" onclick="showScreen('cierre')"><span class="hn">09</span><h3>Próximos pasos</h3><p>Cómo seguimos.</p></button>
   </div>
 </section>
 
@@ -565,8 +669,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     </div>
 
     <div class="count-stats" id="countStats">
-      <div class="count-stat"><span class="num" id="statBomItems" data-count="93">0</span><span class="lbl">Ítems en el BOM</span></div>
-      <div class="count-stat"><span class="num" data-count="6">0</span><span class="lbl">Subsistemas integrados</span></div>
+      <div class="count-stat"><span class="num" id="statBomItems" data-count="94">0</span><span class="lbl">Ítems en el BOM</span></div>
+      <div class="count-stat"><span class="num" data-count="7">0</span><span class="lbl">Subsistemas integrados</span></div>
       <div class="count-stat"><span class="num" data-count="8">0</span><span class="lbl">Nodos de red propios</span></div>
       <div class="count-stat"><span class="num" data-count="12">0</span><span class="lbl">Meses de garantía</span></div>
     </div>
@@ -660,14 +764,35 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   </div>
 </section>
 
-<!-- ============ 5. LOS 6 SISTEMAS ============ -->
+<!-- ============ 5. LOS SISTEMAS ============ -->
 <section class="screen" id="screen-sistemas">
   <div class="wrap">
-    <div class="chap-head"><div class="n">5</div><h2>Los 6 sistemas</h2></div>
+    <div class="chap-head"><div class="n">5</div><h2>Los sistemas</h2></div>
     <p class="lead">Antes de ver números: qué incluye exactamente cada sistema, componente por
-    componente. Esto es todo lo que se instala en Torre 1.</p>
+    componente. Se agrupan en dos bloques distintos porque los decide y los paga gente distinta.</p>
 
-    <div class="os-tabs" id="sisTabs"></div>
+    <div class="sis-groups">
+      <div class="sis-group">
+        <div class="sis-group-h">
+          <span class="gtag g1">Grupo 1</span>
+          <div>
+            <b>Integración Tecnológica</b>
+            <span>General del complejo — Calypso contrata, mandatorio</span>
+          </div>
+        </div>
+        <div class="os-tabs" id="sisTabs1"></div>
+      </div>
+      <div class="sis-group">
+        <div class="sis-group-h">
+          <span class="gtag g2">Grupo 2</span>
+          <div>
+            <b>Domótica</b>
+            <span>Exclusivo de unidades — decisión por escalones (ver capítulo 6)</span>
+          </div>
+        </div>
+        <div class="os-tabs" id="sisTabs2"></div>
+      </div>
+    </div>
 
     <div class="sis-panel">
       <div class="sis-head">
@@ -675,16 +800,66 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
         <h3 id="sisTitle"></h3>
         <span class="sis-count" id="sisCount"></span>
       </div>
-      <p class="lead" id="sisDesc" style="margin:10px 0 22px;font-size:15px;"></p>
+      <p class="lead" id="sisDesc" style="margin:10px 0 16px;font-size:15px;"></p>
+      <div id="sisNota"></div>
       <div class="sis-list" id="sisGrid"></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 6. INVERSION ============ -->
+<!-- ============ 6. DOMÓTICA POR UNIDAD ============ -->
+<section class="screen" id="screen-domotica">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">6</div><h2>Domótica por unidad</h2></div>
+    <p class="lead">Adentro del departamento la decisión no es sí o no: son escalones, y cada
+    escalón lo decide alguien distinto. Tocá los casilleros para armar el escenario y ver el
+    precio por unidad en vivo.</p>
+
+    <div class="dom-typo">
+      <div class="switch-pill">
+        <button id="btnDom1d" type="button" onclick="setDomTipo('1d')">1 dormitorio</button>
+        <button id="btnDom2d" type="button" onclick="setDomTipo('2d')">2 dormitorios</button>
+      </div>
+    </div>
+    <div class="dom-hint">La tipología solo cambia la cantidad de equipos de aire acondicionado
+    a controlar: 2 splits en 1 dormitorio, 3 en 2 dormitorios.</div>
+
+    <div class="dom-layout">
+      <div id="domCards"></div>
+      <div class="dom-out" id="domOut"></div>
+    </div>
+
+    <div class="dom-note">
+      <p><b>Cómo leer estos números.</b> Son por unidad, en USD, e incluyen equipo más mano de obra
+      de instalación. El escalón que elijas acá se refleja en vivo en la pantalla de Inversión que
+      sigue — la capa de unidad de ese capítulo se recalcula sola. La programación de las
+      automatizaciones de cada unidad sobre Home Assistant se coordina con el setup de Haven OS, no
+      se cobra por unidad por separado.</p>
+    </div>
+
+    <div class="dom-table-wrap">
+      <h3 style="margin-bottom:14px;">Los 5 escalones, de un vistazo</h3>
+      <table class="dom-table">
+        <thead><tr>
+          <th>Escalón</th><th>Quién decide</th><th>Qué agrega</th>
+          <th style="text-align:right">1 dorm.</th><th style="text-align:right">2 dorm.</th>
+        </tr></thead>
+        <tbody id="domTableBody"></tbody>
+      </table>
+      <p style="font-size:13px;color:var(--body);margin-top:16px;">Valores acumulados por unidad
+      (cada fila incluye lo de arriba, salvo Camino B y Upgrade 3, que son caminos completos
+      alternativos). <b>Upgrade 3</b> es más caro a propósito: sin apoyarse en la red, el rack ni
+      el Home Assistant del complejo, cada unidad necesita su propia infraestructura, la
+      instalación se hace individual y post-obra (unidad terminada), y suma una visita técnica de
+      relevamiento que en la instalación en bloque se reparte entre las 84.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. INVERSION ============ -->
 <section class="screen section-light" id="screen-inversion">
   <div class="wrap">
-    <div class="chap-head"><div class="n">6</div><h2>Inversión</h2></div>
+    <div class="chap-head"><div class="n">7</div><h2>Inversión</h2></div>
     <p class="lead">Desglose completo por subsistema — tocá cada uno para ver el equipo real.</p>
 
     <div class="scope-switcher">
@@ -698,12 +873,14 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 
     <div class="invest-bar" id="investBar"></div>
     <div class="invest-bar-caption">Composición por subsistema (Fase 1) — el total y la
-    incidencia de arriba cambian según el alcance elegido.</div>
+    incidencia de abajo cambian según el alcance elegido y el escalón de domótica seleccionado en
+    el capítulo 6. La Domótica de unidad se muestra desagregada (fila "Nivel 5 — unidad") porque se
+    decide por departamento.</div>
     <div class="invest-list" id="investList"></div>
 
     <div class="invest-total-box">
       <div class="lbl">Incidencia sobre el valor de venta</div>
-      <p class="pct invest-pct-text" id="investPctText" style="margin-top:14px;"></p>
+      <div class="invest-calc" id="investCalc"></div>
     </div>
 
     <div class="rmr-box">
@@ -716,10 +893,10 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   </div>
 </section>
 
-<!-- ============ 6. EJECUCION ============ -->
+<!-- ============ 8. EJECUCION ============ -->
 <section class="screen" id="screen-ejecucion">
   <div class="wrap">
-    <div class="chap-head"><div class="n">7</div><h2>Ejecución</h2></div>
+    <div class="chap-head"><div class="n">8</div><h2>Ejecución</h2></div>
     <p class="lead">Cronograma por fases, atado a la construcción real de cada torre — tocá cada
     fase para ver el detalle.</p>
 
@@ -734,10 +911,10 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   </div>
 </section>
 
-<!-- ============ 7. CIERRE ============ -->
+<!-- ============ 9. CIERRE ============ -->
 <section class="screen" id="screen-cierre">
   <div class="wrap">
-    <div class="chap-head"><div class="n">8</div><h2>Próximos pasos</h2></div>
+    <div class="chap-head"><div class="n">9</div><h2>Próximos pasos</h2></div>
 
     <div class="cierre-steps">
       <div class="cierre-step"><span class="cn">1</span><p>Avanzamos con la propuesta formal al equipo legal/técnico de Calypso, con este mismo contenido en detalle.</p></div>
@@ -771,7 +948,7 @@ const BASE_IMG_INV = "https://raw.githubusercontent.com/Novadomus-cba/portal-nov
 // (assets/haven/renders/), mismo patrón que BASE_IMG/BASE_IMG_INV. Reusar esta misma URL en
 // el archivo mobile — no volver a subir nada.
 const BASE_IMG_RENDER = "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/haven/renders/";
-const HUB_ORDER = ['resumen','responsable','capas','havenos','sistemas','inversion','ejecucion','cierre'];
+const HUB_ORDER = ['resumen','responsable','capas','havenos','sistemas','domotica','inversion','ejecucion','cierre'];
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let currentScreenKey = 'hub';
@@ -800,7 +977,7 @@ function showScreen(key){
     window.scrollTo(0,0);
     if (key === 'resumen') animateCounts(document.getElementById('countStats'));
     if (key === 'hub') animateCounts(document.querySelector('.hub-stats'));
-    if (key === 'inversion' && typeof playInvestBar === 'function') playInvestBar();
+    if (key === 'inversion' && typeof renderInvest === 'function') renderInvest();
   }
 
   if (current && !REDUCED_MOTION){
@@ -987,7 +1164,7 @@ renderLayersNav(); showLayer(0);
 // o en INVEST previo. null = sin foto confirmada todavía (ítem nuevo) — se muestra solo el nombre,
 // no se inventa ni adivina una URL.
 const SISTEMAS = {
-  redes: { nombre:'Redes', color:'#787A91', desc:'La capa invisible que sostiene a todas las demás — sin esto, ningún otro dispositivo IP del proyecto tiene por dónde hablar.',
+  redes: { nombre:'Redes', grupo:1, color:'#787A91', desc:'La capa invisible que sostiene a todas las demás — sin esto, ningún otro dispositivo IP del proyecto tiene por dónde hablar.',
     zonas:[
       ['Backbone NOC','N2',{ items:4, unidades:5, resumen:'4 ítems · 5 u — router/gateway, controlador Omada, switch troncal (×2), UPS online', devices:[
         ['er8411.jpg','Router/gateway core (Omada)'],['oc300.jpg','Controlador Omada dedicado'],
@@ -1015,7 +1192,7 @@ const SISTEMAS = {
         [null,'Access Point WiFi 6 indoor ×5'],
       ]}],
     ]},
-  cctv: { nombre:'Videovigilancia', color:'#8AA6C4', desc:'Lo que ve Seguridad desde el centro de observaciones — perímetro, accesos, cocheras, palieres.',
+  cctv: { nombre:'Videovigilancia', grupo:1, color:'#8AA6C4', desc:'Lo que ve Seguridad desde el centro de observaciones — perímetro, accesos, cocheras, palieres.',
     zonas:[
       ['Grabación (NVRs + discos)','N1',{ items:4, unidades:6, resumen:'4 ítems · 6 u — NVR perímetro/accesos 32ch, NVR circulación interna 32ch, HDD perímetro ×2, HDD circulación ×2', devices:[
         ['ds-7732nxi-k4-d.png','NVR perímetro/accesos (32ch)'],['ds-7632nxi-k2.jpg','NVR circulación interna (32ch)'],
@@ -1038,7 +1215,7 @@ const SISTEMAS = {
         ['st8000ve001.jpg','HDD NVR de torre'],
       ]}],
     ]},
-  accesos: { nombre:'Control de Accesos', color:'#C8A96E', desc:'La puerta, la barrera, el portero — cero llaves físicas en ningún punto de circulación.',
+  accesos: { nombre:'Control de Accesos', grupo:1, color:'#C8A96E', desc:'La puerta, la barrera, el portero — cero llaves físicas en ningún punto de circulación.',
     zonas:[
       ['Acceso vehicular','N1',{ items:2, unidades:4, resumen:'2 ítems · 4 u — barrera ×2, cámara ANPR ×2', devices:[
         ['ds-tmg420-4m-octagonal-o-std.jpg','Barrera vehicular ×2'],['ids-2cd7a46g0p-izhsy.jpg','Cámara ANPR (patente) ×2'],
@@ -1062,17 +1239,18 @@ const SISTEMAS = {
         ['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Biblioteca'],['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Spa/masajes'],
         ['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Yoga+Meditación'],['ds-k1t323mbwx-qre1.jpg','Terminal QR+facial — Spa de mascotas'],
       ]}],
-      ['Unidad','N5',{ items:2, unidades:85, resumen:'2 ítems · 85 u — pantalla Hikvision Android + cerradura Yale ×84', devices:[
-        ['ds-kh9310-wte1-b.jpg','Pantalla Hikvision Android — hipótesis principal'],[null,'Cerradura Yale KIT YMC 420 MORTISE+HUB ×84'],
+      ['Unidad','N5',{ items:2, unidades:84, resumen:'2 ítems · 84 u — pantalla básica Hikvision DS-KH6110-WE1 (4,3", PoE, no Android) + cerradura Yale, una por unidad', devices:[
+        [null,'Pantalla básica DS-KH6110-WE1 ×84'],[null,'Cerradura Yale KIT YMC 420 MORTISE+HUB ×84'],
       ]}],
     ]},
-  alarma: { nombre:'Alarma', color:'#3a3d4a', desc:'Solo se hace notar cuando algo sale mal — disuasión activa en todo el perímetro.',
+  alarma: { nombre:'Alarma', grupo:1, color:'#3a3d4a', desc:'Solo se hace notar cuando algo sale mal — disuasión activa en todo el perímetro.',
     zonas:[
       ['Perímetro','N1',{ items:3, unidades:7, resumen:'3 ítems · 7 u — panel AXPro 96 zonas, repetidores ×2, sirenas ×4', devices:[
         [null,'Panel de alarma AXPro (96 zonas)'],[null,'Repetidor AXPro ×2'],[null,'Sirena exterior ×4'],
       ]}],
     ]},
-  domotica: { nombre:'Domótica', color:'#3E7B5C', desc:'El control de luces, clima y sensores dentro de cada unidad y en los amenities.',
+  inmotica: { nombre:'Inmótica', grupo:1, color:'#3E7B5C', desc:'La automatización de las zonas generales: iluminación exterior y de cocheras, bombas y calefacción de piletas, riego, car wash y las escenas de cada amenity. Nada de esto está dentro de un departamento.',
+    nota:'La instancia de <b>Home Assistant de torre</b> y su coordinador Zigbee viven acá, en Inmótica — pero sirven a los dos grupos. Es una sola pieza de infraestructura compartida: no se duplica ni se cobra dos veces cuando una unidad suma Domótica.',
     zonas:[
       ['Hall de Ingreso (CORE)','N1',{ items:1, unidades:1, resumen:'1 ítem · 1 u — Wall Display XL', devices:[
         ['3800235264904.png','Panel central — Hall de Ingreso (Wall Display XL)'],
@@ -1094,12 +1272,32 @@ const SISTEMAS = {
         ['sen-air-crl-01-b2b.jpg','Sensibo Air B2B — Spa/masajes'],['3800235265710.png','Sensor de nivel — tanque de agua de lluvia'],
         ['342.png','Sprinkler Controller — riego/huertas ×2'],
       ]}],
-      ['Unidad','N5',{ items:4, unidades:348, resumen:'4 ítems · 348 u — iluminación ×179, dimmer ×84, sensor de apertura ×84, pantalla plan B ×1 (Escenario B)', devices:[
-        [null,'Iluminación por unidad (Shelly 1PM Mini) ×179'],[null,'Dimmer por unidad ×84'],
-        ['659.png','Sensor apertura por unidad ×84'],['3800235264904.png','Pantalla Shelly — Plan B / respaldo'],
+    ]},
+  domotica: { nombre:'Domótica', grupo:2, color:'#2F5D48', desc:'Lo que pasa adentro de cada departamento: luces, intensidad, sensado de apertura, aire acondicionado y cortinas. Se decide por unidad y en escalones — no es un sí o no para las 84.',
+    countLabel:'6 ÍTEMS · POR UNIDAD',
+    nota:'La <b>cerradura digital y la pantalla de portero</b> de cada unidad no están acá: son parte de Control de Accesos (Grupo 1) porque las instala Calypso en las 84 unidades por igual. Domótica arranca en el escalón siguiente.',
+    cta:'Ver los 5 escalones y el precio por unidad →',
+    zonas:[
+      ['Iluminación','N5',{ items:1, unidades:2, resumen:'1 ítem · ~2 puntos por unidad — relé Shelly 1PM Mini Gen4 (Upgrade 1A)', devices:[
+        ['shelly-1pm-mini-gen4.jpg','Relé Shelly 1PM Mini Gen4 (iluminación)'],
+      ]}],
+      ['Intensidad','N5',{ items:1, unidades:1, resumen:'1 ítem · 1 punto por unidad — dimmer Shelly Gen4 en zona de estar (Upgrade 2)', devices:[
+        ['shelly-dimmer-gen4.png','Dimmer Shelly Gen4'],
+      ]}],
+      ['Sensado de apertura','N5',{ items:1, unidades:1, resumen:'1 ítem · 1 punto por unidad — sensor Shelly BLU Door/Window Zigbee (Upgrade 2)', devices:[
+        ['659.png','Sensor apertura BLU Door/Window ZB (Homiq)'],
+      ]}],
+      ['Climatización','N5',{ items:1, unidades:2, resumen:'1 ítem · 2 a 3 splits — Sensibo Air por equipo, según tipología (Upgrade 2)', devices:[
+        ['sen-air-crl-01-b2b.jpg','Sensibo Air B2B (control de AC)'],
+      ]}],
+      ['Cortinas','N5',{ items:1, unidades:3, resumen:'1 ítem · 3 motores por unidad — Shelly Plus 2PM Gen4 (Upgrade 2)', devices:[
+        [null,'Shelly Plus 2PM Gen4 (cortinas)'],
+      ]}],
+      ['Pantalla de unidad','N5',{ items:1, unidades:1, resumen:'1 ítem · 1 por unidad — swap a Hikvision Android DS-KH9310 (Upgrade 1A)', devices:[
+        ['ds-kh9310-wte1-b.jpg','Pantalla Android Hikvision DS-KH9310-WTE1(B)'],
       ]}],
     ]},
-  av: { nombre:'Audio/Video', color:'#B5453A', desc:'La experiencia premium de los espacios comunes — sonido y video distribuido.',
+  av: { nombre:'Audio/Video', grupo:1, color:'#B5453A', desc:'La experiencia premium de los espacios comunes — sonido y video distribuido.',
     zonas:[
       ['Zonas exteriores','N4',{ items:2, unidades:7, resumen:'2 ítems · 7 u — amplificador multizona VSSL + parlantes ext. IP65 ×6', devices:[
         ['549.png','Amplificador multizona — áreas comunes ext.'],['es-500-aw-6-blk.jpg','Parlante ext. IP65 Episode All-Weather 6" (par) ×6'],
@@ -1120,9 +1318,13 @@ const SISTEMAS = {
 };
 let sisKey = 'redes';
 function renderSisTabs(){
-  const tabs = document.getElementById('sisTabs');
-  tabs.innerHTML = Object.entries(SISTEMAS).map(([k,s]) => `<button class="os-tab${k===sisKey?' active':''}" data-k="${k}" type="button">${s.nombre}</button>`).join('');
-  tabs.querySelectorAll('.os-tab').forEach(btn => btn.addEventListener('click', () => { sisKey = btn.dataset.k; renderSisTabs(); renderSisPanel(); }));
+  [1,2].forEach(g => {
+    const tabs = document.getElementById('sisTabs'+g);
+    if (!tabs) return;
+    tabs.innerHTML = Object.entries(SISTEMAS).filter(([,s]) => s.grupo === g)
+      .map(([k,s]) => `<button class="os-tab${k===sisKey?' active':''}" data-k="${k}" type="button">${s.nombre}</button>`).join('');
+    tabs.querySelectorAll('.os-tab').forEach(btn => btn.addEventListener('click', () => { sisKey = btn.dataset.k; renderSisTabs(); renderSisPanel(); }));
+  });
 }
 function renderSisPanel(){
   const s = SISTEMAS[sisKey];
@@ -1130,8 +1332,11 @@ function renderSisPanel(){
   const totalU = s.zonas.reduce((a,z) => a + z[2].unidades, 0);
   document.getElementById('sisDot').style.background = s.color;
   document.getElementById('sisTitle').textContent = s.nombre;
-  document.getElementById('sisCount').textContent = `${totalItems} ÍTEMS · ${totalU} UNIDADES`;
+  document.getElementById('sisCount').textContent = s.countLabel || `${totalItems} ÍTEMS · ${totalU} UNIDADES`;
   document.getElementById('sisDesc').textContent = s.desc;
+  document.getElementById('sisNota').innerHTML =
+    (s.nota ? `<div class="sis-nota">${s.nota}</div>` : '')
+    + (s.cta ? `<div class="sis-cta"><button type="button" onclick="showScreen('domotica')">${s.cta}</button></div>` : '');
   document.getElementById('sisGrid').innerHTML = s.zonas.map(([nombre,niv,z],zi) => `
     <div class="sis-card">
       <button class="sis-card-head" data-zi="${zi}" type="button">
@@ -1201,15 +1406,249 @@ document.getElementById('osNext').addEventListener('click', () => { const f=OS_F
 document.getElementById('osRestart').addEventListener('click', () => { osStepIdx = 0; renderOsStep(); });
 renderOsTabs(); renderOsStep();
 
+// ============ 6. DOMÓTICA POR UNIDAD — 5 escalones ============
+// Valores EXACTOS de HEAVEN/excel/HAVEN_Domotica_Comparativas.xlsx (hoja "Comparativa", enlazada a
+// Item1..Item5). eq = equipo acumulado por unidad; tot = equipo + mano de obra de instalación.
+// 'cb' corregido 30/07/2026: Item3_Upg1_Cliente!F5/F6 tenían 0,3 hardcodeado en vez de referenciar
+// Parametros!$B$6 (20% Domótica) — bug de referencia de celda, no una decisión de precio. Recalculado
+// y verificado independientemente en Python contra el resto de la hoja (los otros 8 valores no
+// cambian). No editar a mano: si cambia un margen en Parametros, recalcular y volver a pegar acá.
+const DOM_PATHS = {
+  base: { '1d':{eq: 552.044108, tot: 769.354108}, '2d':{eq: 552.044108, tot: 769.354108} },
+  u1a:  { '1d':{eq:1012.007285, tot:1335.417404}, '2d':{eq:1012.007285, tot:1335.417404} },
+  u2a:  { '1d':{eq:1781.683445, tot:2461.953564}, '2d':{eq:2035.405925, tot:2745.776044} },
+  cb:   { '1d':{eq:1766.484808, tot:2440.234808}, '2d':{eq:2020.207288, tot:2724.057288} },
+  u3:   { '1d':{eq:2332.857847, tot:3641.761847}, '2d':{eq:2618.295637, tot:3969.339638} },
+};
+// Valor de venta de referencia por tipología (relevamiento de mercado, INCIDENCIA_POR_TORRE_v8_1).
+const DOM_VENTA    = { '1d':80000, '2d':115000 };
+const DOM_UNIDADES = 84;
+
+const DOM_DEV = {
+  yale:    ['16784.png','Cerradura digital Yale YMC 420 + HUB'],
+  basica:  [null,'Pantalla de portero DS-KH6110-WE1 (4,3")'],
+  android: ['ds-kh9310-wte1-b.jpg','Pantalla Android DS-KH9310 (7")'],
+  rele:    ['shelly-1pm-mini-gen4.jpg','Relé de iluminación 1PM Mini Gen4'],
+  dimmer:  ['shelly-dimmer-gen4.png','Dimmer Shelly Gen4'],
+  sensor:  ['659.png','Sensor de apertura BLU Zigbee'],
+  sensibo: ['sen-air-crl-01-b2b.jpg','Sensibo Air — control de AC'],
+  cortina: [null,'Shelly Plus 2PM Gen4 — cortinas'],
+  hagreen: [null,'Home Assistant Green — hub propio'],
+  walld:   [null,'Shelly Wall Display 7" — propio'],
+  router:  [null,'Router WiFi 6 TP-Link Archer AX55'],
+};
+const AC = { '1d':2, '2d':3 };
+function domDevs(path, tipo){
+  const kit = [['dimmer',1],['sensor',1],['sensibo',AC[tipo]],['cortina',3]];
+  if (path === 'base') return [['yale',1],['basica',1]];
+  if (path === 'u1a')  return [['yale',1],['android',1],['rele',2]];
+  if (path === 'u2a' || path === 'cb') return [['yale',1],['android',1],['rele',2]].concat(kit);
+  return [['yale',1],['android',1],['rele',2]].concat(kit).concat([['hagreen',1],['walld',1],['router',1]]);
+}
+
+const DOM_CARDS = [
+  { id:'base', locked:true, t:'Base', badge:'floor',
+    who:'Nova Domus / Calypso — mandatorio',
+    desc:'Cerradura digital y pantalla de portero en las 84 unidades por igual. Es la parte de la unidad que ya vive dentro de Integración Tecnológica.' },
+  { id:'u1a', t:'Upgrade 1A', badge:'delta', prev:'base', reco:true,
+    who:'Calypso decide — para las 84 unidades',
+    desc:'Cambia la pantalla básica por la Android de 7" (dashboard de domótica además de portero) y suma iluminación controlada: ~2 relés Shelly por unidad.' },
+  { id:'u2a', t:'Upgrade 2A', badge:'delta', prev:'u1a',
+    who:'Propietario decide — unidad por unidad',
+    desc:'Sobre el Upgrade 1A ya instalado: dimmer en el estar, sensor de apertura, control de aire acondicionado y las 3 cortinas motorizadas.' },
+  { id:'cb', t:'Camino B', badge:'total',
+    who:'Propietario decide — antes de instalar',
+    desc:'La unidad va directo a Android sin pasar nunca por la pantalla básica, con el kit completo de una sola vez. Es el camino sin desperdicio: antes de instalar una pantalla ya se sabe si esa unidad lleva domótica.' },
+  { id:'u3', t:'Upgrade 3 — standalone', badge:'total',
+    who:'Propietario — 100% independiente',
+    desc:'Sin apoyarse en nada del complejo: servidor Home Assistant, pantalla de pared y router propios, más todo el kit. Instalación individual post-obra.' },
+];
+const DOM_WHO = {
+  base:'Calypso, dentro de la obra',
+  u1a: 'Calypso, dentro de la obra',
+  u2a: 'Propietario de la unidad',
+  cb:  'Base por Calypso · el resto, el propietario',
+  u3:  'Propietario, en su totalidad',
+};
+const DOM_NOMBRE = { base:'Base', u1a:'Base + Upgrade 1A', u2a:'Base + 1A + Upgrade 2A', cb:'Camino B', u3:'Upgrade 3 — standalone' };
+
+let domTipo = '1d';
+// Base es el alcance mandatorio de Fase 1 (resolución 7.1, 30/07/2026): arranca destildado todo lo
+// demás. Upgrade 1A es la RECOMENDACIÓN de Nova Domus, no un default pre-tildado — Calypso lo activa
+// si el argumento la convence, no al revés.
+let domSel  = { u1a:false, u2a:false, cb:false, u3:false };
+let domShownTotal = 0;
+
+function domPathKey(){
+  if (domSel.u3) return 'u3';
+  if (domSel.cb) return 'cb';
+  if (domSel.u2a) return 'u2a';
+  if (domSel.u1a) return 'u1a';
+  return 'base';
+}
+// Escalón que efectivamente mueve el alcance contractual de Calypso — sólo Upgrade 1A lo hace
+// (ver CAMBIO 3). u2a/cb/u3 son decisión y pago del propietario, nunca entran al contrato.
+function domFinanciaCalypso(){ return domSel.u1a ? 'u1a' : 'base'; }
+const domTot = (k) => Math.ceil(DOM_PATHS[k][domTipo].tot);
+const domEq  = (k) => Math.ceil(DOM_PATHS[k][domTipo].eq);
+const usd    = (n) => 'USD ' + n.toLocaleString('es-AR');
+
+function setDomTipo(t){
+  domTipo = t;
+  document.getElementById('btnDom1d').classList.toggle('active', t==='1d');
+  document.getElementById('btnDom2d').classList.toggle('active', t==='2d');
+  renderDom();
+}
+function domToggle(id){
+  if (id === 'base') return;                       // mandatorio, no se destilda
+  const on = !domSel[id];
+  if (id === 'u1a'){ domSel.u1a = on; if(on){ domSel.cb=false; domSel.u3=false; } else { domSel.u2a=false; } }
+  else if (id === 'u2a'){ domSel.u2a = on; if(on){ domSel.u1a=true; domSel.cb=false; domSel.u3=false; } }
+  else if (id === 'cb'){ domSel.cb = on; if(on){ domSel.u1a=false; domSel.u2a=false; domSel.u3=false; } }
+  else if (id === 'u3'){ domSel.u3 = on; if(on){ domSel.u1a=false; domSel.u2a=false; domSel.cb=false; } }
+  renderDom();
+  // La selección alimenta Inversión en vivo, sin importar en qué pantalla esté el cliente ahora.
+  if (typeof renderInvest === 'function' && document.getElementById('screen-inversion')) renderInvest();
+}
+
+function domCardState(c, key){
+  // devuelve [checked, naFlag, textoDeEstado]
+  if (c.id === 'base'){
+    if (key === 'u3') return [false, true, 'No aplica: el standalone trae su propia cerradura y su propia pantalla.'];
+    if (key === 'cb')  return [true, false, 'Incluida: la cerradura ya está puesta; la pantalla básica no se instala nunca en esa unidad.'];
+    return [true, false, 'Siempre incluida.'];
+  }
+  const on = !!domSel[c.id];
+  if (c.id === 'u1a' || c.id === 'u2a'){
+    if (key === 'cb') return [false, true, 'Reemplazado por Camino B.'];
+    if (key === 'u3') return [false, true, 'No aplica en el escenario standalone.'];
+    if (c.id === 'u2a' && !domSel.u1a && !on) return [false, false, 'Requiere el Upgrade 1A: al tildarlo, se activa solo.'];
+    return [on, false, ''];
+  }
+  if (c.id === 'cb'){
+    if (key === 'u3') return [false, true, 'No aplica en el escenario standalone.'];
+    if (domSel.u1a)   return [false, true, 'No aplica: si Calypso ya hizo el Upgrade 1A, esa unidad sigue por Upgrade 2A.'];
+    return [on, false, ''];
+  }
+  if (key !== 'u3' && (domSel.u1a || domSel.cb)) return [false, false, 'Al tildarlo se desactiva todo lo anterior: es un camino excluyente.'];
+  return [on, false, ''];
+}
+
+function domBadge(c){
+  if (c.badge === 'floor') return usd(domTot('base'));
+  if (c.badge === 'delta') return '+ ' + usd(domTot(c.id) - domTot(c.prev));
+  return usd(domTot(c.id)) + ' total';
+}
+
+function domAnimateTotal(target){
+  const el = document.getElementById('domTotalNum');
+  if (!el) return;
+  const from = domShownTotal; domShownTotal = target;
+  if (REDUCED_MOTION || from === target){ el.textContent = usd(target); return; }
+  const dur = 600, start = performance.now();
+  function tick(now){
+    const p = Math.min((now-start)/dur, 1), e = 1 - Math.pow(1-p,3);
+    el.textContent = usd(Math.round(from + (target-from)*e));
+    if (p < 1) requestAnimationFrame(tick);
+    else { el.classList.add('pulse'); setTimeout(() => el.classList.remove('pulse'), 500); }
+  }
+  requestAnimationFrame(tick);
+}
+
+function renderDom(){
+  const key = domPathKey();
+
+  // ---- casilleros
+  document.getElementById('domCards').innerHTML = DOM_CARDS.map(c => {
+    const [checked, na, state] = domCardState(c, key);
+    const cls = ['cbx-card', checked ? 'on' : '', na ? 'na' : '', c.locked ? 'locked' : '', c.reco ? 'reco' : ''].filter(Boolean).join(' ');
+    const recoPanel = c.reco ? `<div class="cbx-reco-panel"><b>Recomendado.</b> Para el perfil de comprador de
+      HAVEN — inversores de renta — la domótica no es un lujo, es una palanca de rentabilidad sobre
+      un activo que van a operar por años, no solo vender una vez. El Upgrade 1A es la diferencia
+      entre una unidad con acceso digital y una unidad con un argumento de venta y alquiler real
+      frente al resto del mercado (perfil de comprador + psicología de precios B2B, sección 4.5 del
+      material de propuestas comerciales).</div>` : '';
+    return `${recoPanel}<button class="${cls}" type="button" data-id="${c.id}"${c.locked ? ' aria-disabled="true"' : ''}>
+      <span class="cbx-box" aria-hidden="true">✓</span>
+      <span class="cbx-main">
+        <span class="cbx-t">${c.t}<span class="cbx-d">${domBadge(c)}</span>${c.reco ? '<span class="cbx-reco-badge">Recomendado</span>' : ''}</span>
+        <span class="cbx-who">${c.who}</span>
+        <span class="cbx-desc">${c.desc}</span>
+        ${state ? `<span class="cbx-state">${state}</span>` : ''}
+      </span>
+    </button>`;
+  }).join('');
+  document.querySelectorAll('#domCards .cbx-card').forEach(b =>
+    b.addEventListener('click', () => domToggle(b.dataset.id)));
+
+  // ---- panel de salida
+  const tot = domTot(key), eq = domEq(key), mo = tot - eq;
+  const inc = (tot / DOM_VENTA[domTipo] * 100).toFixed(2).replace('.', ',');
+  const rollup = (key === 'base' || key === 'u1a')
+    ? `<div class="dom-rollup">
+         <div class="rl">Alcance Calypso · las 84 unidades de Torre 1</div>
+         <div class="rv">${usd(Math.ceil(DOM_PATHS[key][domTipo].tot * DOM_UNIDADES))}</div>
+         ${key === 'u1a' ? `<p>Salto sobre la Base en las 84 unidades: <b style="color:var(--gold)">${usd(Math.ceil((DOM_PATHS.u1a[domTipo].tot - DOM_PATHS.base[domTipo].tot) * DOM_UNIDADES))}</b>.</p>` : '<p>Es el piso mandatorio: va en las 84 unidades por igual.</p>'}
+       </div>`
+    : `<div class="dom-rollup">
+         <div class="rl">Decisión individual</div>
+         <p style="margin-top:2px;">Este escalón lo toma cada propietario por su cuenta — no se multiplica por las 84 unidades ni entra en el contrato de obra de Calypso.</p>
+       </div>`;
+
+  document.getElementById('domOut').innerHTML = `
+    <div class="ol">Total por unidad · ${domTipo === '1d' ? '1 dormitorio' : '2 dormitorios'}</div>
+    <span class="onum" id="domTotalNum">${usd(tot)}</span>
+    <div class="ounit">por departamento — equipo + mano de obra de instalación</div>
+    <div class="dom-split">
+      <div><div class="sl">Equipo</div><div class="sv">${usd(eq)}</div></div>
+      <div><div class="sl">Instalación</div><div class="sv">${usd(mo)}</div></div>
+    </div>
+    <div class="dom-kv"><span>Escenario</span><b>${DOM_NOMBRE[key]}</b></div>
+    <div class="dom-kv"><span>Quién lo paga</span><b>${DOM_WHO[key]}</b></div>
+    <div class="dom-kv"><span>Incidencia sobre el valor de la unidad</span><b class="gold">${inc}%</b></div>
+    ${rollup}
+    <div class="dom-devs">${domDevs(key, domTipo).map(([k,q]) => {
+      const [img, label] = DOM_DEV[k];
+      return `<span class="dom-dev${img ? '' : ' nophoto'}">${img ? `<img src="${BASE_IMG_INV}${img}" alt="${label}" onerror="this.style.display='none'">` : ''}<span>${label}</span>${q > 1 ? `<span class="dq">×${q}</span>` : ''}</span>`;
+    }).join('')}</div>
+    <p style="font-size:12.5px;color:var(--body);margin-top:18px;">Incidencia calculada sobre un
+    valor de venta de referencia de ${usd(DOM_VENTA[domTipo])} para esta tipología (relevamiento de
+    mercado propio). Es un marco de referencia, no una promesa de retorno.</p>
+  `;
+  domAnimateTotal(tot);   // arranca desde el total anterior (efecto odómetro)
+
+  // ---- tabla resumen
+  document.getElementById('domTableBody').innerHTML = [
+    ['base','Base','Calypso, mandatorio','Cerradura Yale + pantalla de portero'],
+    ['u1a','Upgrade 1A','Calypso, ×84 (recomendado)','Pantalla Android + iluminación controlada'],
+    ['u2a','Upgrade 2A','Propietario','Dimmer + sensor + control de AC + cortinas'],
+    ['cb','Camino B','Propietario','Todo junto, sin pantalla básica intermedia'],
+    ['u3','Upgrade 3','Propietario, standalone','Todo + hub, pantalla y router propios'],
+  ].map(([k,n,w,q]) => `<tr${k === key ? ' class="hl"' : ''}>
+      <td><b>${n}</b></td><td>${w}</td><td>${q}</td>
+      <td class="num" style="text-align:right">${usd(Math.ceil(DOM_PATHS[k]['1d'].tot))}</td>
+      <td class="num" style="text-align:right">${usd(Math.ceil(DOM_PATHS[k]['2d'].tot))}</td>
+    </tr>`).join('');
+}
+setDomTipo('1d');
+
 // ============ 5. INVERSION — detalle de línea real (Supabase, proyecto_id=36) + toggle Fase1/Complejo ============
 // Cada línea: [nombre, sku, cantidad, precio neto unitario, IVA%, precio final unitario, subtotal]
 // Fuente: select seccion,nombre,sku,cantidad,precio_sin_iva_snapshot,iva_snapshot,
 // precio_final_unitario_usd,subtotal_usd from proyectos_items where proyecto_id=36 — volcado 1:1,
 // sin recalcular. IVA real por ítem (10,5% en varios TP-Link/Omada, Hikvision facial+QR y HDD
 // Seagate SkyHawk de este proyecto puntual — no es 21% parejo).
+// CAMBIO 3 (30/07/2026): INVEST se dividió en BLOQUE FIJO (Niveles 0-4 + 6, no lo toca la
+// selección de domótica) + una CAPA DE UNIDAD dinámica calculada desde DOM_PATHS + una línea de
+// PILOTO explícita (las 2 muestras usadas para validar el escalón, ver capítulo 6). Las líneas de
+// Nivel 5 que antes vivían adentro de 'accesos' y 'domotica' (Yale, pantalla, iluminación, dimmer,
+// sensor) se sacaron de estos totales — ya están representadas por la capa de unidad dinámica.
+const BLOQUE_FIJO_TOTAL = 125684.82; // equipo 77.197,60 + MO 17.237,22 + Nivel0 5.250 + Nivel6 26.000
+const PILOTO_TOTAL = 1106.53;        // Android muestra + Shelly plan B (equipo + MO), fuera de bloque fijo y de la capa de unidad
+const PARTE_FIJA_PU = { fase1: 1496.25, complejo: 399.34 }; // bloque fijo prorrateado por unidad (CAMBIO 4)
+
 const INVEST = [
-  { key:'accesos', nombre:'Control de Accesos', valor:49932.11, color:'#C8A96E', lineas:[
-    ['Yale KIT YMC 420 MORTISE+HUB por unidad (Escenario B, agregado Fase 1)','16784',84,232.24,21,356.86,29976.24],
+  { key:'accesos', nombre:'Control de Accesos', valor:19350.41, color:'#C8A96E', lineas:[
     ['Barrera vehicular','DS-TMG420(4m octagonal)(O-STD)',2,1654.00,21,2541.70,5083.40],
     ['Cámara ANPR (patente)','iDS-2CD7A46G0P-IZHSY',2,1151.00,21,1768.74,3537.48],
     ['KIT YRD 256 + HUB — Cerradura bauleras','11647',13,109.31,21,167.98,2183.74],
@@ -1217,7 +1656,6 @@ const INVEST = [
     ['Facial + QR por torre','DS-K1T323MBWX-QRE1',5,205.00,10.5,287.69,1438.45],
     ['Kit control de acceso completo — por torre','STARLIGH-KIT-ACC',5,185.97,21,285.78,1428.90],
     ['Llamador + facial — hall general','DS-KD9203-ME6',1,666.00,21,1023.44,1023.44],
-    ['Pantalla Hikvision Android — hipótesis principal','DS-KH9310-WTE1(B)',1,394.00,21,605.46,605.46],
     ['Terminal QR+facial — Spa/masajes','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
     ['Terminal QR+facial — Yoga+Meditación','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
     ['Terminal QR+facial — Spa de mascotas','DS-K1T323MBWX-QRE1',1,205.00,10.5,287.69,287.69],
@@ -1230,10 +1668,7 @@ const INVEST = [
     ['Kit control de acceso completo — hall general (llamador)','STARLIGH-KIT-ACC',1,185.97,21,285.78,285.78],
     ['Control de acceso — Sala de Residuos','DS-K1T801E',1,45.00,21,69.15,69.15],
   ]},
-  { key:'domotica', nombre:'Domótica', valor:23352.80, color:'#3E7B5C', lineas:[
-    ['Dimmer por unidad (Escenario B, agregado Fase 1)','Shelly Dimmer Gen4',84,54.00,21,82.98,6970.32],
-    ['Iluminación por unidad (Escenario B, agregado Fase 1)','Shelly 1PM Mini Gen4',179,23.36,21,35.90,6426.10],
-    ['Sensor apertura por unidad (Escenario B, agregado Fase 1)','BLU Door Window ZB (Homiq)',84,24.90,21,38.26,3213.84],
+  { key:'inmotica', nombre:'Inmótica (zonas generales)', valor:6428.48, color:'#3E7B5C', lineas:[
     ['Panel central — Hall de Ingreso (CORE)','Wall Display XL (Shelly)',1,485.00,21,745.30,745.30],
     ['Relé zonas ext. (plazoletas/asadores/quinchos/rooftop)','Pro 4PM (Shelly)',3,155.12,21,238.38,715.14],
     ['Iluminación perimetral + cocheras','Pro 4PM (Shelly)',3,155.12,21,238.38,715.14],
@@ -1242,7 +1677,6 @@ const INVEST = [
     ['Control bomba/calefacción pileta','Pro 2 DIN (Shelly)',4,76.43,21,117.45,469.80],
     ['Sprinkler Controller Shelly — riego/huertas','FK-06X US',2,149.00,21,228.97,457.94],
     ['Detección de fuga/nivel — piletas','Flood Gen4 (Shelly)',4,67.89,21,104.33,417.32],
-    ['Pantalla Shelly — Plan B / respaldo','Wall Display (Shelly)',1,204.37,21,314.06,314.06],
     ['Sensibo Air B2B — Spa/masajes','sen-air-crl-01-b2b',1,174.74,21,268.53,268.53],
     ['Botonera de escenas — SUM','Wall Panel (Shelly)',1,149.98,21,230.48,230.48],
     ['Botonera de escenas — Yoga+Meditación','Wall Panel (Shelly)',1,149.98,21,230.48,230.48],
@@ -1253,6 +1687,10 @@ const INVEST = [
     ['Control de ventilación/extractor — Spa de mascotas','Shelly 1 Gen4',1,23.98,21,36.85,36.85],
     ['Control bomba/electroválvula — car wash','Shelly 1 Gen4',1,23.98,21,36.85,36.85],
     ['Sensor de nivel — tanque de agua de lluvia','UNI (Shelly)',1,19.75,21,30.35,30.35],
+  ]},
+  { key:'piloto', nombre:'Piloto de validación (muestras Fase 1)', valor:919.52, color:'#6b6f52', lineas:[
+    ['Pantalla Android — muestra para validar el Upgrade 1A','DS-KH9310-WTE1(B)',1,394.00,21,605.46,605.46],
+    ['Pantalla Shelly — muestra plan B / respaldo','Wall Display (Shelly)',1,204.37,21,314.06,314.06],
   ]},
   { key:'av', nombre:'Audio/Video (Amenities)', valor:20552.57, color:'#B5453A', lineas:[
     ['Proyector láser — Microcine','ZH507+ (Optoma)',1,2600.00,21,3995.42,3995.42],
@@ -1313,12 +1751,12 @@ const INVEST = [
     ['Sirena exterior','DS-PS1-E-WB',4,68.00,21,104.49,417.96],
     ['Repetidor AXPRO','DS-PR1-WB(B)',2,80.00,21,122.94,245.88],
   ]},
-  { key:'mo', nombre:'Mano de obra de instalación', valor:42092.00, color:'#5d6078', lineas:null,
-    texto:'Instalación física de los 6 sistemas — tarifario Nova Domus por punto + supervisión de obra.' },
+  { key:'mo', nombre:'Mano de obra de instalación', valor:17237.22, color:'#5d6078', lineas:null,
+    texto:'Instalación física de los sistemas de Integración Tecnológica (Grupo 1) — tarifario Nova Domus por punto + supervisión de obra. La MO de la unidad (Domótica) va adentro de la capa de unidad, más abajo.' },
   { key:'nivel0', nombre:'Nivel 0 — Proyecto ejecutivo', valor:5250.00, color:'#4b4e5c', lineas:null,
     texto:'Ingeniería de señales débiles para las 5 torres completas — ductos, bandejas, NOC, backbone. Se factura una sola vez, para todo el complejo.' },
   { key:'nivel6', nombre:'Nivel 6 — Setup Haven OS', valor:26000.00, color:'#3a3d4a', lineas:null,
-    texto:'Especificación, arquitectura y puesta en marcha de la plataforma propia de gestión.' },
+    texto:'Especificación, arquitectura y puesta en marcha de la plataforma propia de gestión — incluye la carga de entidades y escenas de Home Assistant de cada unidad a medida que se van incorporando, no solo la plataforma en sí.' },
 ];
 let scopeState = 'fase1';
 function fmtUsd(n){ return 'USD ' + n.toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
@@ -1330,8 +1768,36 @@ function barTextClass(hex){
   return y > 150 ? 'dark' : 'light';
 }
 
+// Etiqueta + nota informativa de la fila dinámica "Nivel 5 — unidad" (CAMBIO 3). El escalón que
+// mueve el CONTRATO de Calypso es siempre domFinanciaCalypso() (base o u1a) — lo que el cliente
+// esté explorando en el capítulo 6 (domPathKey()) puede ser otro, y ahí se agrega la nota de lo
+// que paga el propietario aparte, nunca sumado al alcance de Calypso.
+function capaUnidadInfo(){
+  const calypsoKey = domFinanciaCalypso();
+  const exploredKey = domPathKey();
+  const perUnit = Math.ceil(DOM_PATHS[calypsoKey]['1d'].tot);
+  const eqPerUnit = DOM_PATHS[calypsoKey]['1d'].eq;
+  let nota = '';
+  if (exploredKey === 'u2a'){
+    const extra1d = Math.ceil(DOM_PATHS.u2a['1d'].tot) - Math.ceil(DOM_PATHS.u1a['1d'].tot);
+    const extra2d = Math.ceil(DOM_PATHS.u2a['2d'].tot) - Math.ceil(DOM_PATHS.u1a['2d'].tot);
+    nota = `Cada propietario que sume el Upgrade 2A aporta USD ${extra1d.toLocaleString('es-AR')}/${extra2d.toLocaleString('es-AR')} (1D/2D) por su cuenta — no entra en este contrato.`;
+  } else if (exploredKey === 'cb'){
+    nota = 'Camino B es una excepción por unidad, fuera de este contrato: el propietario paga directamente el kit completo antes de instalar.';
+  } else if (exploredKey === 'u3'){
+    nota = 'Upgrade 3 (standalone) queda completamente fuera del contrato de Calypso — el propietario arma su propia infraestructura.';
+  }
+  return { calypsoKey, nombre:DOM_NOMBRE[calypsoKey], perUnit, eqPerUnit, nota };
+}
+
+// Qué fila del acordeón de Inversión está desplegada — persiste a través de los renderInvest()
+// repetidos que dispara cada cambio de escalón, para que una fila abierta no se cierre/vacíe sola.
+let investOpenKey = null;
+
 function renderInvest(){
-  const equipoRows = INVEST.filter(i => i.lineas);
+  const cu = capaUnidadInfo();
+  const equipoRows = INVEST.filter(i => i.lineas).map(i => ({ key:i.key, valor:i.valor, color:i.color }));
+  equipoRows.push({ key:'unidad', valor: cu.eqPerUnit * DOM_UNIDADES, color:'#2F5D48' });
   const totalEquipo = equipoRows.reduce((a,b)=>a+b.valor,0);
   // % visible en cada segmento — solo si el segmento es lo bastante ancho para que el número
   // entre sin desbordar (ej. Alarma, ~1% del total): ahí se suprime en vez de mostrarse cortado.
@@ -1340,7 +1806,7 @@ function renderInvest(){
     const label = pct >= 5 ? `<span class="bar-pct ${barTextClass(i.color)}">${pct.toFixed(0)}%</span>` : '';
     return `<div data-target="${pct.toFixed(2)}" style="background:${i.color}">${label}</div>`;
   }).join('');
-  document.getElementById('investList').innerHTML = INVEST.map(i => {
+  const staticRows = INVEST.map(i => {
     if (i.lineas){
       const rows = i.lineas.map(([nombre,sku,cant,neto,iva,final,sub]) => `
         <tr>
@@ -1377,14 +1843,52 @@ function renderInvest(){
         <p class="invest-service">${i.texto}</p>
       </div>`;
   }).join('');
+
+  // Fila dinámica "Nivel 5 — unidad": nunca se expresa como monto agregado, sólo precio por
+  // unidad ×84 (ver CAMBIO 3) — se despliega mostrando el kit real del escalón que financia Calypso.
+  const unidadDevices = domDevs(cu.calypsoKey, '1d').map(([k,q]) => {
+    const [img, label] = DOM_DEV[k];
+    return `<div class="device-card${img ? '' : ' no-photo'}">${img ? `<img src="${BASE_IMG_INV}${img}" alt="${label}" onerror="this.style.display='none'">` : ''}<div class="dn">${label}${q>1?` ×${q}`:''}</div></div>`;
+  }).join('');
+  const unidadRow = `
+    <div class="invest-row invest-unitlayer">
+      <button class="invest-row-head" data-k="unidad" type="button">
+        <span class="sw" style="background:#2F5D48"></span>
+        <span class="nm">Nivel 5 — unidad · ${cu.nombre} (×84)</span>
+        <span class="vl">${usd(cu.perUnit)} / u</span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="invest-lines-wrap" id="dev-unidad">
+        <div class="sis-devices" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:8px 4px 20px;">${unidadDevices}</div>
+      </div>
+      ${cu.nota ? `<p class="invest-unitnote">${cu.nota}</p>` : ''}
+    </div>`;
+
+  document.getElementById('investList').innerHTML = staticRows + unidadRow;
   document.querySelectorAll('.invest-row-head:not(.static)').forEach(btn => btn.addEventListener('click', () => {
-    const panel = document.getElementById('dev-'+btn.dataset.k);
-    const isOpen = panel.classList.contains('open');
-    document.querySelectorAll('.invest-lines-wrap').forEach(p => p.classList.remove('open'));
-    document.querySelectorAll('.invest-row-head').forEach(b => b.classList.remove('open'));
-    if (!isOpen){ panel.classList.add('open'); btn.classList.add('open'); }
+    investOpenKey = (investOpenKey === btn.dataset.k) ? null : btn.dataset.k;
+    applyInvestOpenState();
   }));
+  // Bug fix (30/07/2026): renderInvest() reconstruye #investList por completo cada vez que cambia
+  // el escalón de domótica (domToggle llama acá para mantener Inversión sincronizada aunque el
+  // cliente esté mirando otra pantalla) o cada vez que se entra al capítulo. Antes, esa
+  // reconstrucción tiraba abajo cualquier fila desplegada — si la fila "Nivel 5 — unidad" (u otra)
+  // estaba abierta y el cliente cambiaba de escalón, la fila volvía a quedar cerrada/vacía en vez
+  // de mantenerse abierta con las líneas actualizadas. investOpenKey persiste qué fila estaba
+  // abierta a través de reconstrucciones, así que se reaplica acá con el contenido ya fresco.
+  applyInvestOpenState();
   playInvestBar();
+  renderIncidenciaCalc();
+}
+
+function applyInvestOpenState(){
+  document.querySelectorAll('.invest-lines-wrap').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.invest-row-head').forEach(b => b.classList.remove('open'));
+  if (!investOpenKey) return;
+  const panel = document.getElementById('dev-'+investOpenKey);
+  const btn = document.querySelector(`.invest-row-head[data-k="${investOpenKey}"]`);
+  if (panel) panel.classList.add('open');
+  if (btn) btn.classList.add('open');
 }
 
 // Anima la barra segmentada de 0 al ancho final — se re-dispara cada vez que se entra a Inversión
@@ -1398,24 +1902,64 @@ function playInvestBar(){
   });
 }
 
+// ============ CAMBIO 4 — incidencia como calculadora en vivo ============
+// incidencia = (parte fija prorrateada del alcance elegido + capa de unidad del escalón) / valor de venta.
+// Separa siempre quién paga: en 2A/Camino B/Upgrade 3 la incidencia deja de ser toda de la obra de
+// Calypso. Nunca se mezclan los dos pagadores en un solo %. Upgrade 3 no lleva parte fija.
+function renderIncidenciaCalc(){
+  const scope = scopeState;
+  const fija = PARTE_FIJA_PU[scope];
+  const exploredKey = domPathKey();
+  const calypsoKey = domFinanciaCalypso();
+  const pct = (costo, tipo) => costo / DOM_VENTA[tipo] * 100;
+  const fmtPct = (p) => p.toFixed(2).replace('.', ',');
+
+  const cols = ['1d','2d'].map(tipo => {
+    const calypsoTot = fija + DOM_PATHS[calypsoKey][tipo].tot;
+    const calypsoPct = pct(calypsoTot, tipo);
+    let extraLine = '', standaloneLine = '';
+    if (exploredKey === 'u2a'){
+      const extra = DOM_PATHS.u2a[tipo].tot - DOM_PATHS.u1a[tipo].tot;
+      extraLine = `<div class="dom-kv"><span>+ propietario (Upgrade 2A)</span><b class="gold">+${fmtPct(pct(extra,tipo))}%</b></div>`;
+    } else if (exploredKey === 'cb'){
+      const extra = DOM_PATHS.cb[tipo].tot - DOM_PATHS.base[tipo].tot;
+      extraLine = `<div class="dom-kv"><span>+ propietario (Camino B)</span><b class="gold">+${fmtPct(pct(extra,tipo))}%</b></div>`;
+    } else if (exploredKey === 'u3'){
+      const u3Pct = pct(DOM_PATHS.u3[tipo].tot, tipo);
+      standaloneLine = `<div class="dom-kv"><span>Upgrade 3 standalone (fuera del contrato)</span><b class="gold">${fmtPct(u3Pct)}%</b></div>`;
+    }
+    return `
+      <div class="invest-calc-item">
+        <div class="l">${tipo === '1d' ? '1 Dormitorio' : '2 Dormitorios'}</div>
+        <span class="v" style="font-size:28px;">${fmtPct(calypsoPct)}%</span>
+        <div style="font-size:12px;color:var(--body);margin-top:4px;">obra de Calypso</div>
+        ${extraLine}${standaloneLine}
+      </div>`;
+  }).join('');
+
+  document.getElementById('investCalc').innerHTML = `
+    <div class="invest-calc-grid">${cols}</div>
+    <div class="invest-calc-grid" style="margin-top:8px;">
+      <div class="invest-calc-item"><div class="l">Parte fija por unidad</div><span class="v">${usd(Math.round(fija))}</span></div>
+      <div class="invest-calc-item"><div class="l">Capa de unidad (${DOM_NOMBRE[calypsoKey]})</div><span class="v">${usd(Math.ceil(DOM_PATHS[calypsoKey]['1d'].tot))}</span></div>
+      <div class="invest-calc-item"><div class="l">Valor de venta ref. (1D / 2D)</div><span class="v" style="font-size:16px;">${usd(DOM_VENTA['1d'])} / ${usd(DOM_VENTA['2d'])}</span></div>
+    </div>
+    <p class="invest-calc-disclaimer">Fórmula: parte fija prorrateada (bloque fijo del alcance
+    elegido ÷ unidades) + capa de unidad del escalón, sobre el valor de venta de referencia
+    (relevamiento propio, marco de referencia — no una promesa de retorno ni una tasación). Usa
+    promedio por tipología, no los extremos de precio del PDF impreso: los números pueden diferir
+    en décimas, siempre a la baja.</p>`;
+}
+
 function setScope(scope){
   scopeState = scope;
   document.getElementById('btnFase1').classList.toggle('active', scope==='fase1');
   document.getElementById('btnComplejo').classList.toggle('active', scope==='complejo');
-  const pctEl = document.getElementById('investPctText');
-  const applyText = () => {
-    if (scope === 'fase1'){
-      pctEl.innerHTML = 'Representa entre el <b style="color:var(--gold)">2,0%</b> y el <b style="color:var(--gold)">3,1%</b> del valor de venta de una unidad de Torre 1 — un costo bajo frente al perfil de comprador que este desarrollo ya tiene: inversores de renta, para quienes la domótica no es un gasto de lujo sino una palanca de rentabilidad operativa sobre un activo que van a operar por años, no solo vender una vez.';
-    } else {
-      // 374 = cifra oficial de Calypso (no 373, la suma interna por torre) — ver comentario junto al botón "Complejo completo".
-      pctEl.innerHTML = 'Prorrateado sobre las 374 unidades del complejo completo (5 torres), la incidencia baja a entre <b style="color:var(--gold)">1,3%</b> y <b style="color:var(--gold)">1,8%</b> — porque el NOC, el perímetro y Haven OS ya están pagos y se reparten entre más unidades a medida que construimos las próximas 4 torres juntos.';
-    }
-    pctEl.classList.remove('swap');
-  };
-  if (REDUCED_MOTION){ applyText(); }
+  const calcEl = document.getElementById('investCalc');
+  if (REDUCED_MOTION){ renderIncidenciaCalc(); }
   else {
-    pctEl.classList.add('swap');
-    setTimeout(applyText, 180);
+    calcEl.classList.add('invest-pct-text','swap');
+    setTimeout(() => { renderIncidenciaCalc(); calcEl.classList.remove('swap'); }, 180);
   }
 }
 renderInvest(); setScope('fase1');
@@ -1454,7 +1998,7 @@ drawerToggle.addEventListener('click', () => { chapNav.classList.contains('open'
 drawerBackdrop.addEventListener('click', closeDrawer);
 document.querySelectorAll('nav.chapters a').forEach(a => a.addEventListener('click', closeDrawer));
 
-const TOPBAR_LABELS = { hub:'', resumen:'01 Resumen', responsable:'02 Escala', capas:'03 Capas', havenos:'04 Haven OS', sistemas:'05 Sistemas', inversion:'06 Inversión', ejecucion:'07 Ejecución', cierre:'08 Cierre' };
+const TOPBAR_LABELS = { hub:'', resumen:'01 Resumen', responsable:'02 Escala', capas:'03 Capas', havenos:'04 Haven OS', sistemas:'05 Sistemas', domotica:'06 Domótica', inversion:'07 Inversión', ejecucion:'08 Ejecución', cierre:'09 Cierre' };
 const _origShowScreen = showScreen;
 showScreen = function(key){
   _origShowScreen(key);
