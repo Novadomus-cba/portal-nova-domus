@@ -334,7 +334,25 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section" id="opcionales">
   <span class="eyebrow">06 — Opcionales</span>
   <h2>A tu criterio</h2>
-  <p class="lead">Este upgrade reemplaza al Sonido base (VSSL + Episode) — no se suman los dos, es una alternativa superadora para la misma zona.</p>
+  <p class="lead">Este proyecto incluye por defecto la línea económica de Alarma y Videovigilancia. Podés subir a la línea premium en cualquiera de las dos, de forma independiente.</p>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-alarma-premium" onchange="toggleAlarmaPremium()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade Alarma a AXPro (96 zonas)</span><span class="opt-price">+USD 931</span></div>
+      <div class="opt-desc">Reemplaza el kit AXHome (16 zonas) por el AXPro de 96 zonas, con repetidor de señal entre plantas y sirena exterior — la línea AXHome no la incluye.</div>
+      <div class="opt-utility">Sin este upgrade, la Alarma funciona perfecto para esta casa (16 zonas sobran para 5 sensores), pero queda sin sirena exterior y sin margen para ampliar mucho más adelante. Con el upgrade, sumás disuasión visible desde la calle y más margen de crecimiento.</div>
+    </div>
+  </div>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-video-premium" onchange="toggleVideoPremium()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade Videovigilancia a 4MP AcuSense</span><span class="opt-price">+USD 1.096</span></div>
+      <div class="opt-desc">Reemplaza las cámaras 2MP y el NVR 4CH por la línea 4MP con IA AcuSense y NVR 8CH — más resolución y menos falsas alarmas.</div>
+      <div class="opt-utility">Sin este upgrade, las cámaras 2MP graban bien pero con menos detalle para hacer zoom sobre una grabación (por ejemplo, leer una patente), y el NVR detecta cualquier movimiento sin distinguir persona de animal. Con el upgrade, sumás nitidez 4MP y la IA AcuSense que filtra falsas alarmas.</div>
+    </div>
+  </div>
 
   <div class="opt-card">
     <input type="checkbox" id="opt-sonos51" onchange="toggleSonos()">
@@ -538,17 +556,31 @@ const DEVICES = {
     {n:'GLC ORGCR-001 organizador', q:1, pu:10.00, iva:21, foto:null, desc:'Orden de cableado.'},
     {n:'UPS Forza FDC-1022R-I 1000VA online', q:1, pu:500.00, iva:10.5, foto:null, desc:'Protege router, NVR y alarma ante cortes de luz.'},
   ],
-  alarma: [
+  alarma_econ: [
     {n:'Kit AXHome DS-PA201P-Kit-16WB (central + control + 1er sensor magnético)', q:1, pu:168.00, iva:21, foto:null, desc:'Central inalámbrica residencial, 16 zonas — línea liviana de Hikvision.'},
     {n:'Sensor magnético adicional DS-PD201MC-WB', q:1, pu:29.00, iva:10.5, foto:null, desc:'Segundo acceso — puerta corrediza de fondo (PV1).'},
     {n:'Sensor de movimiento DS-PD201P10-WB', q:3, pu:40.00, iva:21, foto:null, desc:'Living, hall PB y hall PA.'},
     {n:'Teclado DS-PK201B-WB', q:1, pu:51.00, iva:21, foto:null, desc:'Armado/desarmado manual del sistema.'},
     {n:'Sirena interior DS-PS201-WB/Blue', q:1, pu:49.00, iva:21, foto:null, desc:'Disuasión sonora inmediata. Esta línea no incluye sirena exterior.'},
   ],
-  video: [
+  alarma_premium: [
+    {n:'Kit AXPro DS-PWA96-Kit-WB', q:1, pu:585.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pwa96-kit-wb.jpg', desc:'Central inalámbrica con comunicación bidireccional, 96 zonas.'},
+    {n:'Teclado LED DS-PK1-E-WB', q:1, pu:97.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado manual del sistema.'},
+    {n:'Repetidor DS-PR1-WB(B)', q:1, pu:126.00, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/132.jpg', desc:'Cobertura de señal entre plantas.'},
+    {n:'Sensor magnético DS-PDMCS-EG2-WB', q:2, pu:37.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/200.jpg', desc:'Puerta principal y acceso de fondo.'},
+    {n:'Detector PIR DS-PDP15P-EG2-WB', q:3, pu:65.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp', desc:'Living, hall PB y hall PA.'},
+    {n:'Sirena interior DS-PS1-I-WB', q:1, pu:78.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Disuasión sonora inmediata.'},
+    {n:'Sirena exterior DS-PS1-E-WB', q:1, pu:116.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-ps1-e-wb.webp', desc:'Disuasión visible desde la calle.'},
+  ],
+  video_econ: [
     {n:'Cámara 2MP Hikvision DS-2CD1321G0-I (sin AcuSense)', q:3, pu:60.00, iva:21, foto:null, desc:'Frente/garage, fondo/pileta, lateral. PoE, IR 20mts, IP67.'},
     {n:'NVR DS-7104NI-Q1/4P/M(D) 4CH (estándar, sin AcuSense)', q:1, pu:202.00, iva:21, foto:null, desc:'Grabación estándar, 4 canales — justo para las 3 cámaras.'},
     {n:'Disco Seagate SkyHawk 2TB', q:1, pu:204.00, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/seagate/st2000vx017.jpg', desc:'Disco de grado videovigilancia 24/7 — sobra margen para 2MP.'},
+  ],
+  video_premium: [
+    {n:'Cámara 4MP AcuSense DS-2CD2343G2-LI2U', q:3, pu:363.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg', desc:'Frente/garage, fondo/pileta, lateral. IA AcuSense: distingue personas y vehículos.'},
+    {n:'NVR DS-7608NXI-K2(D) 8CH AcuSense', q:1, pu:387.00, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-7608nxi-k2-d.jpg', desc:'Grabación con IA dedicada, no en la nube. 8 canales, margen para ampliar.'},
+    {n:'Disco Seagate SkyHawk 2TB', q:1, pu:204.00, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/seagate/st2000vx017.jpg', desc:'Disco de grado videovigilancia 24/7.'},
   ],
 };
 const SONIDO_BASE_ITEMS = [
@@ -582,8 +614,12 @@ function renderDeviceGrid(containerId, items){
 }
 renderDeviceGrid('grid-redes', DEVICES.redes);
 renderDeviceGrid('grid-rack', DEVICES.rack);
-renderDeviceGrid('grid-alarma', DEVICES.alarma);
-renderDeviceGrid('grid-video', DEVICES.video);
+function renderAlarmaGrid(){
+  renderDeviceGrid('grid-alarma', alarmaPremium ? DEVICES.alarma_premium : DEVICES.alarma_econ);
+}
+function renderVideoGrid(){
+  renderDeviceGrid('grid-video', videoPremium ? DEVICES.video_premium : DEVICES.video_econ);
+}
 function renderSonidoGrid(){
   renderDeviceGrid('grid-sonido', sonidoUpgrade ? SONIDO_51_ITEMS : SONIDO_BASE_ITEMS);
   document.getElementById('sonido-lead').textContent = sonidoUpgrade
@@ -619,23 +655,31 @@ renderSonidoCasos();
 
 // ===== INVERSION =====
 let sonidoUpgrade = false;
+let alarmaPremium = false;
+let videoPremium = false;
 function getRubros(){
   const s = sonidoUpgrade
     ? {equipo:3410.00, mo:271.00}
     : {equipo:1469.35, mo:303.95};
+  const a = alarmaPremium
+    ? {equipo:1271.00, mo:405.17}
+    : {equipo:418.02, mo:327.40};
+  const v = videoPremium
+    ? {equipo:1680.00, mo:295.05}
+    : {equipo:584.42, mo:295.05};
   return [
     {id:'redes', label:'Redes', equipo:675.79, mo:135.01, color:'#7089A9'},
     {id:'rack', label:'Rack / Infraestructura', equipo:751.05, mo:217.25, color:'#4F6380'},
-    {id:'alarma', label:'Alarma', equipo:418.02, mo:327.40, color:'#B5453A'},
-    {id:'video', label:'Videovigilancia', equipo:584.42, mo:295.05, color:'#8698AE'},
+    {id:'alarma', label: alarmaPremium ? 'Alarma — AXPro Premium' : 'Alarma — AXHome', equipo:a.equipo, mo:a.mo, color:'#B5453A'},
+    {id:'video', label: videoPremium ? 'Videovigilancia — 4MP AcuSense' : 'Videovigilancia — 2MP', equipo:v.equipo, mo:v.mo, color:'#8698AE'},
     {id:'sonido', label: sonidoUpgrade ? 'Sonido — 5.1 Sonos' : 'Sonido', equipo:s.equipo, mo:s.mo, color:'#C8A96E'},
   ];
 }
 function getRubroItems(id){
   if(id==='redes') return DEVICES.redes;
   if(id==='rack') return DEVICES.rack;
-  if(id==='alarma') return DEVICES.alarma;
-  if(id==='video') return DEVICES.video;
+  if(id==='alarma') return alarmaPremium ? DEVICES.alarma_premium : DEVICES.alarma_econ;
+  if(id==='video') return videoPremium ? DEVICES.video_premium : DEVICES.video_econ;
   if(id==='sonido') return sonidoUpgrade ? SONIDO_51_ITEMS : SONIDO_BASE_ITEMS;
 }
 
@@ -713,6 +757,16 @@ function toggleSonos(){
   renderSonidoGrid();
   renderInversion();
 }
+function toggleAlarmaPremium(){
+  alarmaPremium = document.getElementById('opt-alarma-premium').checked;
+  renderAlarmaGrid();
+  renderInversion();
+}
+function toggleVideoPremium(){
+  videoPremium = document.getElementById('opt-video-premium').checked;
+  renderVideoGrid();
+  renderInversion();
+}
 function recalcular(){ renderInversion(); }
 
 function toggleAcc(head){
@@ -766,9 +820,9 @@ function setAlarmaView(view){
   } else {
     panel.innerHTML = `<ul>
       <li class="yes">100% inalámbrico, fácil de ampliar a futuro</li>
-      <li class="yes">16 zonas — cubre con margen los 5 sensores de esta vivienda</li>
       <li class="yes">Administración desde la app oficial Hik-Connect</li>
-      <li class="no">Sin sirena exterior en esta línea (solo interior)</li>
+      <li class="yes">Central y sensores sin cableado adicional</li>
+      <li class="yes">Detección inmediata con sirena local</li>
     </ul>`;
   }
 }
@@ -788,7 +842,7 @@ function setVideoView(view){
       <li class="yes">Grabación dedicada en NVR propio, no en la nube</li>
       <li class="yes">PoE — cableado simple, sin baterías que reponer</li>
       <li class="yes">Búsqueda de eventos por fecha/hora, filtrable en minutos</li>
-      <li class="no">Sin IA AcuSense — detecta cualquier movimiento, no distingue persona de animal</li>
+      <li class="yes">Cobertura nocturna en las 3 ubicaciones clave</li>
     </ul>`;
   }
 }
@@ -876,6 +930,8 @@ window.addEventListener('scroll', ()=>{
 // init
 renderInversion();
 renderSonidoGrid();
+renderAlarmaGrid();
+renderVideoGrid();
 setRedesView('generico');
 setAlarmaView('comun');
 setVideoView('comun');
