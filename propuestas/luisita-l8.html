@@ -2,674 +2,478 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="Nova Domus — Propuesta Seguridad y Sonido | La Luisita L8">
-<meta property="og:description" content="Alarma AXPro, videovigilancia AcuSense y sonido ambiental 2 zonas. Un solo responsable, de la obra a la app.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/luisita-l8.html">
+<meta property="og:title" content="La Luisita L8 — Propuesta Nova Domus">
+<meta property="og:description" content="Seguridad y Sonido para La Luisita L8, con opciones a tu criterio. Del cable a la app.">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/luisita-l8.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<title>Nova Domus — La Luisita L8 · Seguridad y Sonido</title>
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/luisita-l8.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Luisita L8 — Nova Domus | Integración Tecnológica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy-950:#0B132B;
-  --navy-700:#141E61;
-  --gris:#787A91;
-  --gris-claro:#5d6078;
-  --cream:#FDFBF0;
-  --dorado:#C8A96E;
-  --white-on-navy:#FDFBF0;
+  --navy:#141E61; --navy-deep:#0B132B; --grey:#787A91; --cream:#FDFBF0;
+  --gold:#C8A96E; --red:#B5453A; --body:#EDEAE0;
+  --font-display:'Michroma',Arial,sans-serif; --font-body:'Inter',Arial,sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box; margin:0; padding:0;}
 html{scroll-behavior:smooth;}
-body{
-  background:var(--navy-950);
-  color:var(--cream);
-  font-family:'Inter',Arial,Helvetica,sans-serif;
-  font-size:15.5px;
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-}
-h1,h2,h3,.eyebrow,.wordmark,.michroma{
-  font-family:'Michroma',Arial,sans-serif;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-weight:400;
-}
-h1{font-size:clamp(28px,5vw,44px);line-height:1.25;}
-h2{font-size:clamp(20px,3vw,28px);margin-bottom:10px;}
-h3{font-size:15px;letter-spacing:1.5px;}
-.eyebrow{font-size:12px;color:var(--dorado);letter-spacing:3px;margin-bottom:12px;display:block;}
-a{color:var(--dorado);text-decoration:none;}
-img,svg{max-width:100%;display:block;}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
-section{padding:88px 0;position:relative;}
-.section-light{background:var(--cream);color:var(--navy-950);}
-.section-light .eyebrow{color:var(--navy-700);}
-.section-light .muted{color:var(--gris-claro);}
-.muted{color:var(--gris);}
-.center{text-align:center;}
-.btn{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--navy-700);color:var(--dorado);border:1px solid var(--dorado);
-  font-family:'Michroma',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;
-  font-size:13px;padding:16px 28px;border-radius:2px;cursor:pointer;
-  min-height:48px;transition:transform .15s ease, box-shadow .15s ease;
-}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,169,110,.25);}
-.btn-outline{background:transparent;color:var(--cream);border:1px solid var(--gris);}
-.btn-outline:hover{border-color:var(--dorado);color:var(--dorado);}
+body{font-family:var(--font-body); background:var(--navy-deep); color:var(--body); line-height:1.5; overflow-x:hidden;}
+h1,h2,.eyebrow,.figure{font-family:var(--font-display); text-transform:uppercase; letter-spacing:2px;}
+h1{font-size:clamp(28px,6vw,44px); line-height:1.15; color:var(--cream);}
+h2{font-size:clamp(18px,3.2vw,24px); letter-spacing:2.5px; margin-bottom:10px; color:var(--cream);}
+h3{font-family:var(--font-body); font-weight:600; font-size:16px; color:var(--cream);}
+.eyebrow{color:var(--gold); font-size:11px; letter-spacing:2px; margin-bottom:8px; display:block;}
+.lead{color:var(--grey); font-size:15px; max-width:640px;}
+p{color:var(--body);}
+a{color:var(--gold); text-decoration:none;}
+.section{padding:70px 20px; max-width:1100px; margin:0 auto;}
+.section-light{background:var(--cream); color:var(--navy-deep);}
+.section-light p{color:#3a3d4a;}
+.section-light h2,.section-light h3{color:var(--navy);}
+.section-light .eyebrow{color:var(--navy); opacity:.65;}
+.section-light .lead{color:#5d6078;}
+button{font-family:var(--font-body); cursor:pointer; background:transparent; appearance:none; border:none;}
+img,svg{max-width:100%;}
 
-/* NAV + progreso */
-#progress-ring{
-  position:fixed;top:18px;right:18px;width:56px;height:56px;z-index:999;
-  cursor:pointer;
-}
-#progress-ring svg.ring-svg{transform:rotate(-90deg);width:56px;height:56px;}
-#progress-ring .mark{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:26px;height:26px;
-}
-#progress-ring .mark svg{transform:none;width:100%;height:100%;}
-.navchip{
-  position:fixed;top:18px;left:18px;z-index:999;
-  background:rgba(11,19,43,.85);backdrop-filter:blur(6px);
-  border:1px solid rgba(120,122,145,.3);border-radius:2px;
-  padding:8px 14px;font-size:11px;letter-spacing:1.5px;color:var(--cream);
-  font-family:'Michroma',Arial,sans-serif;text-transform:uppercase;
-}
+#topnav{position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(11,19,43,.92); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,169,110,.15);}
+#topnav .inner{max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:10px 20px;}
+#topnav .mark{display:flex; align-items:center; gap:10px;}
+#topnav .mark svg{width:28px; height:28px; transform:none; display:block;}
+#topnav .navlinks{display:none; gap:16px; font-size:11.5px; letter-spacing:.5px;}
+@media(min-width:900px){#topnav .navlinks{display:flex;}}
+#topnav .navlinks a{color:var(--grey);}
+#topnav .navlinks a.active{color:var(--gold);}
+#progress-badge{position:fixed; bottom:20px; right:20px; z-index:100; width:52px; height:52px; cursor:pointer;}
+#progress-badge svg.ring-svg{transform:rotate(-90deg); width:52px; height:52px; position:absolute; top:0; left:0;}
+#progress-badge .mark{position:absolute; top:0; left:0; width:52px; height:52px; display:flex; align-items:center; justify-content:center;}
+#progress-badge .mark svg{width:26px; height:26px; transform:none; display:block;}
 
-/* HERO */
-.hero{
-  min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;
-}
-.hero::before{
-  content:"";position:absolute;inset:0;opacity:.14;pointer-events:none;
-  background:
-    repeating-linear-gradient(115deg, transparent 0 60px, rgba(200,169,110,.5) 60px 61px);
-  mask:radial-gradient(circle at 70% 30%, black, transparent 70%);
-}
-.hero-card{
-  background:var(--cream);color:var(--navy-950);border-radius:6px;
-  padding:28px 40px;box-shadow:0 20px 60px rgba(0,0,0,.35);
-  display:inline-block;margin-bottom:36px;
-}
-.hero-card svg{width:76px;height:auto;margin:0 auto 8px;}
-.hero-card .wordmark-txt{font-size:20px;letter-spacing:3px;color:var(--navy-700);}
-.hero-card .descriptor{font-size:9px;color:var(--gris);letter-spacing:3px;margin-top:2px;}
-.hero h1{max-width:820px;margin:0 auto 18px;}
-.hero .slogan{font-size:16px;color:var(--dorado);letter-spacing:1px;margin-bottom:28px;font-family:'Inter';font-style:italic;}
-.hero .proyecto-tag{font-size:13px;color:var(--gris);letter-spacing:2px;text-transform:uppercase;}
-.hero .proyecto-num{font-size:11px;color:var(--dorado);letter-spacing:1.5px;margin-top:8px;opacity:.85;}
+.logo-plate{background:var(--cream); border-radius:16px; padding:14px 18px; display:inline-flex; align-items:center; gap:12px; margin-bottom:28px;}
+.logo-plate svg{width:40px; height:40px; display:block; transform:none;}
+.logo-plate .lp-word{font-family:var(--font-display); color:var(--navy-deep); font-size:15px; letter-spacing:2px; line-height:1.3;}
+.logo-plate .lp-word small{display:block; font-family:var(--font-body); font-size:9px; letter-spacing:1.5px; color:var(--gold); font-weight:600; margin-top:2px;}
 
-/* RESUMEN EJECUTIVO */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px;}
-.stat{text-align:center;border:1px solid rgba(120,122,145,.25);border-radius:4px;padding:24px 12px;}
-.stat .num{font-family:'Michroma';font-size:clamp(22px,4vw,34px);color:var(--dorado);}
-.stat .lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin-top:6px;}
-@media(max-width:760px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+#hero{min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px 20px 60px; max-width:1100px; margin:0 auto; position:relative;}
+#hero .py-tag{color:var(--gold); font-size:12px; letter-spacing:2px; font-family:var(--font-body); font-weight:600; margin-bottom:16px;}
+#hero .tagline{color:var(--grey); font-size:16px; margin-top:18px;}
+#hero .descriptor{color:var(--gold); font-size:12px; letter-spacing:3px; margin-top:6px;}
 
-/* CHAPTER NAV */
-.chapternav{
-  position:sticky;top:0;z-index:50;background:rgba(11,19,43,.92);backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(120,122,145,.2);
-}
-.chapternav .wrap{display:flex;gap:4px;overflow-x:auto;padding:0 24px;}
-.chapternav button{
-  background:none;border:none;color:var(--gris);font-family:'Inter';font-size:12.5px;
-  padding:16px 14px;white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;
-  min-height:48px;
-}
-.chapternav button.active{color:var(--cream);border-bottom-color:var(--dorado);}
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:30px;}
+@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr);}}
+.stat .figure{font-size:clamp(24px,4vw,34px); color:var(--gold);}
+.stat .stat-label{font-size:10.5px; color:var(--grey); letter-spacing:1px; text-transform:uppercase; margin-top:4px;}
 
-/* DEVICE CARDS / ACCORDION */
-.rubro-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap;}
-.rubro-head .totalchip{font-family:'Inter';font-weight:600;color:var(--dorado);font-size:18px;}
-.section-light .rubro-head .totalchip{color:var(--navy-700);}
-.device{
-  border:1px solid rgba(120,122,145,.25);border-radius:4px;margin-bottom:10px;overflow:hidden;
-  background:rgba(255,255,255,.02);
-}
-.section-light .device{background:#fff;border-color:rgba(20,30,97,.12);}
-.device summary{
-  list-style:none;cursor:pointer;padding:16px 18px;display:flex;justify-content:space-between;
-  align-items:center;gap:14px;min-height:48px;font-weight:600;font-size:14.5px;
-}
-.device summary::-webkit-details-marker{display:none;}
-.device summary .qty{color:var(--dorado);font-weight:400;font-size:12.5px;margin-right:8px;}
-.section-light .device summary .qty{color:var(--navy-700);}
-.device summary .price{white-space:nowrap;font-weight:600;}
-.device .devbody{padding:0 18px 18px;font-size:13.5px;color:var(--gris);}
-.section-light .device .devbody{color:var(--gris-claro);}
-.device .devbody .priceline{margin-top:8px;font-size:12.5px;letter-spacing:.3px;color:var(--dorado);}
-.section-light .device .devbody .priceline{color:var(--navy-700);}
-.device[open] summary{border-bottom:1px solid rgba(120,122,145,.15);}
+#resumen{background:linear-gradient(180deg,rgba(200,169,110,.06),transparent);}
+.resumen-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:24px;}
+@media(min-width:800px){.resumen-grid{grid-template-columns:repeat(4,1fr);}}
+.resumen-card{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:12px; padding:20px;}
+.resumen-card .rc-label{font-size:10.5px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;}
+.resumen-card .rc-value{font-family:var(--font-display); font-size:20px; color:var(--cream);}
+.resumen-card .rc-sub{font-size:12px; color:var(--grey); margin-top:6px;}
 
-/* TOGGLES / RADIO CARDS (upgrades) */
-.opt-row{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:22px 0 8px;}
-@media(max-width:820px){.opt-row{grid-template-columns:1fr;}}
-.checkbox-card{
-  display:flex;align-items:flex-start;gap:14px;border:1px solid rgba(120,122,145,.3);
-  border-radius:4px;padding:18px;cursor:pointer;margin-top:0;
-}
-.checkbox-card input{width:20px;height:20px;margin-top:2px;accent-color:var(--dorado);flex-shrink:0;}
-.checkbox-card.selected{border-color:var(--dorado);background:rgba(200,169,110,.08);}
-.checkbox-card .opt-title{font-weight:700;font-size:14px;margin-bottom:4px;}
-.checkbox-card .opt-delta{font-size:12.5px;color:var(--dorado);font-weight:600;margin-top:6px;display:block;}
-.checkbox-card .opt-desc{font-size:12.5px;color:var(--gris);margin-top:6px;}
-.section-light .checkbox-card .opt-desc{color:var(--gris-claro);}
-.section-light .checkbox-card .opt-delta{color:var(--navy-700);}
+.diagram-5{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:26px 0;}
+@media(min-width:800px){.diagram-5{grid-template-columns:repeat(5,1fr);}}
+.diagram-step{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:10px; padding:16px 14px; text-align:center;}
+.diagram-step .step-num{font-family:var(--font-display); color:var(--gold); font-size:20px;}
+.diagram-step .step-label{font-size:12.5px; margin-top:8px; color:var(--body);}
 
-/* COMPARATIVA antes/despues */
-.comparativa{border:1px solid rgba(120,122,145,.3);border-radius:6px;padding:20px;margin:18px 0 28px;background:rgba(255,255,255,.02);}
-.section-light .comparativa{background:#fff;border-color:rgba(20,30,97,.12);}
-.comp-switch{display:flex;gap:8px;margin-bottom:16px;}
-.comp-switch button{
-  flex:1;padding:12px 10px;border-radius:4px;border:1px solid rgba(120,122,145,.35);
-  background:transparent;color:var(--gris);font-size:12.5px;font-weight:600;cursor:pointer;min-height:44px;
-  font-family:'Inter';letter-spacing:.3px;
-}
-.section-light .comp-switch button{color:var(--gris-claro);}
-.comp-switch button.active-comun{background:rgba(200,80,80,.12);border-color:rgba(200,80,80,.5);color:#e08787;}
-.comp-switch button.active-nova{background:rgba(200,169,110,.12);border-color:var(--dorado);color:var(--dorado);}
-.comp-panel{font-size:13.5px;line-height:1.6;}
-.comp-panel ul{list-style:none;padding:0;}
-.comp-panel li{padding:8px 0 8px 26px;position:relative;border-bottom:1px solid rgba(120,122,145,.12);}
-.comp-panel.comun li::before{content:"✕";position:absolute;left:0;color:#e08787;font-weight:700;}
-.comp-panel.nova li::before{content:"✓";position:absolute;left:0;color:var(--dorado);font-weight:700;}
-.comp-panel{display:none;}
-.comp-panel.visible{display:block;}
+.switch2{display:flex; border-radius:10px; overflow:hidden; margin:20px 0; border:1px solid rgba(200,169,110,.3);}
+.switch2 button{flex:1; padding:14px; font-size:13px; font-weight:600; min-height:48px; letter-spacing:.5px;}
+.switch2 button.state-a{background:rgba(181,69,58,.15); color:#e8a49c;}
+.switch2 button.state-b{background:rgba(200,169,110,.15); color:var(--gold);}
+.switch2 button.active.state-a{background:var(--red); color:#fff;}
+.switch2 button.active.state-b{background:var(--gold); color:var(--navy-deep);}
+.compare-panel{padding:20px; border:1px solid rgba(255,255,255,.1); border-radius:0 0 10px 10px; margin-top:-20px;}
+.compare-panel ul{list-style:none;}
+.compare-panel li{padding:6px 0 6px 26px; position:relative; font-size:13.5px;}
+.compare-panel li.no::before{content:"✕"; position:absolute; left:0; color:var(--red);}
+.compare-panel li.yes::before{content:"✓"; position:absolute; left:0; color:var(--gold);}
 
-/* Casos de uso / valor upgrade */
-.usecase{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(120,122,145,.15);}
-.usecase .ico{font-size:20px;flex-shrink:0;width:28px;text-align:center;}
-.valor-box{
-  border-left:3px solid var(--dorado);background:rgba(200,169,110,.06);
-  padding:18px 22px;margin-top:24px;border-radius:0 4px 4px 0;
-}
-.valor-box h4{font-family:'Inter';font-weight:700;font-size:13.5px;color:var(--dorado);margin-bottom:10px;letter-spacing:.3px;text-transform:none;}
-.valor-box ul{padding-left:18px;font-size:13px;color:var(--gris);}
-.valor-box li{margin-bottom:6px;}
+.device-grid{display:grid; grid-template-columns:1fr; gap:12px; margin:20px 0;}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr);}}
+.device-card{background:rgba(255,255,255,.03); border-radius:10px; overflow:hidden;}
+.section-light .device-card{background:rgba(20,30,97,.05);}
+.dc-head{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer; min-height:48px; gap:10px;}
+.dc-name{font-weight:600; color:var(--cream); font-size:13.5px;}
+.section-light .dc-name{color:var(--navy-deep);}
+.dc-qty{color:var(--gold); font-size:12px; font-weight:600; margin-top:2px;}
+.section-light .dc-qty{color:var(--navy);}
+.dc-arrow{color:var(--gold); transition:transform .3s ease; flex-shrink:0; font-size:14px;}
+.device-card.open .dc-arrow{transform:rotate(180deg);}
+.dc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+.dc-body-inner{padding:0 16px 16px; display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap;}
+.dc-photo{width:100px; height:100px; object-fit:contain; background:#fff; border-radius:8px; flex-shrink:0; padding:6px;}
+.dc-photo-placeholder{width:100px; height:100px; border-radius:8px; background:rgba(200,169,110,.1); border:1px dashed rgba(200,169,110,.4); display:flex; align-items:center; justify-content:center; text-align:center; font-size:10.5px; color:var(--grey); flex-shrink:0; padding:6px;}
+.dc-desc{color:var(--grey); font-size:12.5px; flex:1; min-width:160px;}
+.section-light .dc-desc{color:#5d6078;}
 
-/* INVERSION */
-.barra{display:flex;height:14px;border-radius:8px;overflow:hidden;margin:24px 0;background:rgba(120,122,145,.15);}
-.barra span{height:100%;}
-.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;margin-bottom:6px;}
-.legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;}
-table.totales{width:100%;border-collapse:collapse;margin-top:24px;font-size:14.5px;}
-table.totales td{padding:10px 4px;border-bottom:1px solid rgba(120,122,145,.2);}
-table.totales td:last-child{text-align:right;font-weight:600;white-space:nowrap;}
-table.totales tr.total-final td{font-family:'Michroma';font-size:16px;color:var(--dorado);padding-top:18px;border-bottom:none;}
-.section-light table.totales td{border-color:rgba(20,30,97,.12);}
-.section-light table.totales tr.total-final td{color:var(--navy-700);}
-.nota-tc{font-size:11.5px;color:var(--gris-claro);margin-top:10px;}
+.usecase-tabs{display:flex; gap:8px; overflow-x:auto; margin-top:20px;}
+.usecase-tab{padding:10px 16px; border-radius:20px; border:1px solid rgba(200,169,110,.3); font-size:12.5px; color:var(--grey); white-space:nowrap; min-height:40px;}
+.usecase-tab.active{background:var(--gold); color:var(--navy-deep); font-weight:600;}
+.usecase-panel{margin-top:16px; padding:18px; background:rgba(255,255,255,.03); border-radius:10px; font-size:13.5px; display:flex; gap:14px; align-items:flex-start;}
+.usecase-panel .uc-icon{font-size:26px;}
+.value-box{margin-top:18px; border:1px solid var(--gold); border-radius:10px; padding:16px; background:rgba(200,169,110,.06); font-size:13.5px;}
 
-/* CRONOGRAMA */
-.hito{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid rgba(120,122,145,.2);}
-.hito .pct{font-family:'Michroma';color:var(--dorado);font-size:20px;min-width:64px;}
-.hito-monto{font-family:'Inter';font-weight:700;font-size:15px;color:var(--navy-700);margin-top:8px;}
-.section-light .hito .pct{color:var(--navy-700);}
+.opt-card{display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.25); border-radius:12px; padding:18px; margin-bottom:14px;}
+.opt-card input[type=checkbox]{width:22px; height:22px; margin-top:2px; accent-color:var(--gold); flex-shrink:0;}
+.opt-card .opt-body{flex:1;}
+.opt-card .opt-title{font-weight:600; color:var(--cream); font-size:14.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+.opt-card .opt-price{font-family:var(--font-display); color:var(--gold); font-size:15px;}
+.opt-card .opt-desc{color:var(--grey); font-size:13px; margin-top:6px;}
+.opt-card .opt-utility{margin-top:10px; padding:10px 12px; border-left:3px solid var(--gold); background:rgba(200,169,110,.05); font-size:12.5px; border-radius:0 8px 8px 0;}
 
-/* FAQ / CONDICIONES accordion generic reuse .device style */
-.faq-q{font-weight:700;}
+.barra-segmentada{display:flex; height:14px; border-radius:7px; overflow:hidden; margin:20px 0 24px;}
+.accordion-item{border-bottom:1px solid rgba(255,255,255,.1);}
+.section-light .accordion-item{border-bottom:1px solid rgba(20,30,97,.12);}
+.accordion-head{display:flex; justify-content:space-between; align-items:center; padding:16px 4px; cursor:pointer; min-height:44px;}
+.accordion-head .ah-price{font-weight:600;}
+.accordion-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+.accordion-body-inner{padding:0 4px 16px; font-size:13.5px;}
+.acc-arrow{transition:transform .3s ease;}
+.accordion-item.open .acc-arrow{transform:rotate(180deg);}
+.totalrow{display:flex; justify-content:space-between; padding:18px 4px; font-family:var(--font-display); font-size:18px; border-top:2px solid var(--navy); margin-top:10px;}
+.opt-line{display:flex; justify-content:space-between; padding:8px 4px; font-size:13.5px; color:var(--grey);}
 
-/* RESPALDO — fichas de marca interactivas */
-.brand-grid{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px;}
-.brand-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1px solid rgba(120,122,145,.35);border-radius:20px;padding:8px 18px;
-  font-size:12.5px;letter-spacing:.5px;font-weight:600;background:transparent;color:var(--navy-950);
-  cursor:pointer;min-height:44px;transition:border-color .15s ease, background .15s ease;
-}
-.brand-pill svg{width:18px;height:18px;flex-shrink:0;}
-.brand-pill.fixed{cursor:default;border-color:var(--dorado);background:rgba(200,169,110,.08);color:var(--navy-700);}
-.brand-pill:not(.fixed):hover{border-color:var(--navy-700);}
-.brand-pill.active{border-color:var(--navy-700);background:var(--navy-700);color:var(--cream);}
-.brand-panel{
-  max-width:640px;margin:18px auto 0;text-align:left;font-size:13.5px;line-height:1.65;color:var(--gris-claro);
-  overflow:hidden;max-height:0;transition:max-height .25s ease;
-}
-.brand-panel.open{
-  border:1px solid rgba(20,30,97,.15);border-radius:6px;padding:20px 24px;background:#fff;
-}
-.brand-panel strong{color:var(--navy-700);display:block;margin-bottom:6px;font-size:13px;letter-spacing:.3px;}
+table.detalle{width:100%; border-collapse:collapse; margin-top:10px; font-size:12.5px;}
+table.detalle th{text-align:left; padding:6px 8px; font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); border-bottom:1px solid rgba(200,169,110,.3);}
+.section-light table.detalle th{color:var(--navy);}
+table.detalle td{padding:7px 8px; border-bottom:1px solid rgba(255,255,255,.06);}
+.section-light table.detalle td{border-bottom:1px solid rgba(20,30,97,.08);}
+table.detalle td.num, table.detalle th.num{text-align:right;}
+table.detalle tr.subtotal td{font-weight:700; border-top:1px solid rgba(200,169,110,.4); border-bottom:none; padding-top:10px;}
 
-/* CTA */
-.cta-box{background:var(--navy-700);border-radius:8px;padding:48px 32px;text-align:center;}
-.cta-box label{display:flex;gap:10px;align-items:flex-start;justify-content:center;font-size:13px;color:var(--gris);margin:20px auto 26px;max-width:520px;text-align:left;}
-.cta-box input[type=checkbox]{width:20px;height:20px;margin-top:2px;accent-color:var(--dorado);flex-shrink:0;}
+.pay-stage{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; background:rgba(255,255,255,.03); border-radius:8px; margin-bottom:10px;}
+.section-light .pay-stage{background:rgba(20,30,97,.04);}
+.pay-stage .pay-amt{font-family:var(--font-display); color:var(--gold); font-size:16px;}
+.section-light .pay-amt{color:var(--navy);}
+.iva-toggle{display:flex; align-items:center; gap:10px; margin:16px 0; font-size:13px;}
+.iva-toggle input{width:20px; height:20px; accent-color:var(--gold);}
 
-footer{padding:48px 0;text-align:center;font-size:12px;color:var(--gris);border-top:1px solid rgba(120,122,145,.2);}
-footer svg{width:32px;margin:0 auto 12px;}
+.pills{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.pill{padding:9px 16px; border-radius:20px; border:1px solid rgba(200,169,110,.35); font-size:12.5px; min-height:38px; display:flex; align-items:center;}
+.pill.fixed{background:var(--gold); color:var(--navy-deep); font-weight:600; cursor:default;}
+.pill:not(.fixed):hover{border-color:var(--gold);}
+.brand-detail{margin-top:16px; padding:16px; border-left:3px solid var(--gold); background:rgba(200,169,110,.05); border-radius:0 8px 8px 0; font-size:13.5px; display:none;}
+.brand-detail.show{display:block;}
+
+.faq-item{border-bottom:1px solid rgba(255,255,255,.1);}
+.section-light .faq-item{border-bottom:1px solid rgba(20,30,97,.12);}
+
+#cta{background:linear-gradient(180deg,var(--navy),var(--navy-deep)); text-align:center;}
+.btn-accept{background:var(--gold); color:var(--navy-deep); font-weight:700; padding:16px 32px; border-radius:8px; font-size:15px; margin-top:20px; letter-spacing:.5px; min-height:48px;}
+.btn-accept:disabled{opacity:.4; cursor:not-allowed;}
+.accept-check{display:flex; align-items:flex-start; gap:10px; margin-top:20px; font-size:13px; color:var(--grey); text-align:left; max-width:500px; margin-left:auto; margin-right:auto;}
+.accept-check input{width:20px; height:20px; margin-top:2px; accent-color:var(--gold); flex-shrink:0;}
+
+footer{text-align:center; padding:40px 20px; font-size:11px; color:var(--grey); border-top:1px solid rgba(200,169,110,.1);}
+footer .py-foot{color:var(--gold); font-weight:600; letter-spacing:1px;}
+footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; transform:none;}
 
 @media print{
-  #progress-ring,.navchip,.chapternav,.hero::before{display:none !important;}
-  body{background:#fff;color:#0B132B;}
-  section{padding:24px 0;break-inside:avoid;}
-  details{page-break-inside:avoid;}
-  .device .devbody{display:block !important;}
+  #topnav,#progress-badge,.switch2,input[type=checkbox],input[type=range],.btn-accept{display:none !important;}
+  .accordion-body,.dc-body{max-height:none !important;}
+  body{background:#fff; color:#000;}
+  * {print-color-adjust:exact; -webkit-print-color-adjust:exact;}
+  .section{break-inside:avoid;}
 }
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="navchip">Nova Domus · La Luisita L8</div>
-<div id="progress-ring" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
-  <svg class="ring-svg" viewBox="0 0 56 56">
-    <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(120,122,145,.25)" stroke-width="4"/>
-    <circle id="ring-progress" cx="28" cy="28" r="24" fill="none" stroke="#C8A96E" stroke-width="4"
-      stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round"/>
-  </svg>
-  <div class="mark"><svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
-fill="#fdfbf0" stroke="none">
-<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
-388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
--207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
--356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
-122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
--435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
-208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
-l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
-314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
-159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
--485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
--182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
--6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
--25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
--179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
-50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
-14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
--177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
--12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
--12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
-2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
--49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
--4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
-50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
--17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
--20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
-138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
--60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
-5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
-45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
-7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
-2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
-c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
-100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
-200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
-M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
-173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
--31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
--95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
--9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
--20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
--65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
-158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
-c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
-0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
--13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
-M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
--67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
-1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
-1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
-676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
-0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
-5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
-</g>
-</svg></div>
-</div>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-card">
-    <!-- Generator: visioncortex VTracer 0.6.12 -->
-<svg viewBox="0 0 1021 1024" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 0 C64.68 0 129.36 0 196 0 C196 0.66 196 1.32 196 2 C196.99 2 197.98 2 199 2 C201.063 5.912 202.837 9.48 204.164 13.715 C206.932 22.217 210.938 30.298 214.605 38.44 C215.617 40.69 216.623 42.943 217.629 45.195 C217.937 45.875 218.246 46.554 218.563 47.254 C219.914 50.282 221.047 53.166 221.961 56.363 C223.302 61.055 225.133 65.496 227 70 C141.664 70.302 56.325 69.296 -29 68 C-28.34 64.431 -27.48 61.697 -25.75 58.5 C-23.805 54.732 -22.168 50.974 -20.688 47 C-18.616 41.475 -16.335 36.076 -13.938 30.688 C-13.773 30.317 -13.773 30.317 -12.942 28.443 C-11.332 24.849 -9.666 21.299 -7.887 17.785 C-6.389 14.824 -5.065 11.851 -3.875 8.75 C-2.705 5.713 -1.463 2.927 0 0 Z " fill="#0D152C" transform="translate(420,771)"/>
-<path d="M0 0 C20.219 -0.187 40.437 -0.328 60.657 -0.414 C70.045 -0.456 79.433 -0.512 88.822 -0.604 C97.005 -0.683 105.188 -0.735 113.372 -0.753 C117.705 -0.763 122.037 -0.788 126.369 -0.846 C130.45 -0.9 134.529 -0.917 138.61 -0.905 C140.105 -0.907 141.6 -0.923 143.095 -0.954 C154.358 -1.174 154.358 -1.174 158.267 1.62 C160.049 3.654 161.513 5.745 163 8 C163.998 9.093 165.025 10.16 166.082 11.195 C166.588 11.701 167.094 12.207 167.615 12.728 C168.142 13.25 168.668 13.771 169.211 14.308 C169.787 14.883 170.364 15.458 170.958 16.051 C172.193 17.282 173.429 18.513 174.667 19.742 C176.623 21.685 178.576 23.632 180.528 25.579 C184.662 29.701 188.799 33.82 192.938 37.938 C197.759 42.735 202.578 47.534 207.394 52.338 C209.322 54.259 211.253 56.178 213.184 58.096 C214.355 59.263 215.525 60.43 216.695 61.597 C216.965 61.865 216.965 61.865 218.334 63.22 C219.575 64.461 220.791 65.728 222 67 C222 67.33 222 67.66 222 68 C192.846 68.912 163.696 69.284 134.529 69.532 C129.933 69.572 125.336 69.617 120.74 69.661 C90.492 69.949 60.248 70.061 30 70 C29.737 69.332 29.473 68.665 29.202 67.977 C28.85 67.091 28.499 66.205 28.136 65.292 C27.791 64.418 27.445 63.544 27.088 62.644 C25.414 58.576 23.489 54.64 21.562 50.688 C19.055 45.479 16.647 40.32 14.688 34.875 C11.746 26.808 7.819 19.179 4.012 11.492 C3.755 10.966 3.755 10.966 2.449 8.305 C2.214 7.83 2.214 7.83 1.022 5.429 C0 3 0 3 0 0 Z " fill="#0D152C" transform="translate(655,771)"/>
-<path d="M0 0 C51.81 0 103.62 0 157 0 C156.208 3.959 155.677 5.953 153.875 9.312 C148.924 18.944 144.707 28.891 141 39.062 C137.359 49.047 132.752 58.496 128 68 C64.31 68 0.62 68 -65 68 C-65 67.34 -65 66.68 -65 66 C-63.531 64.555 -63.531 64.555 -61.5 62.875 C-57.095 59.133 -53.048 55.12 -49 51 C-48.221 50.23 -47.443 49.461 -46.641 48.668 C-44.793 46.801 -42.991 44.928 -41.215 42.996 C-31.216 32.125 -20.779 21.712 -10.285 11.322 C-9.68 10.722 -9.076 10.122 -8.453 9.503 C-7.304 8.362 -6.153 7.223 -4.999 6.087 C-1.113 2.225 -1.113 2.225 0 0 Z " fill="#0D152D" transform="translate(225,771)"/>
-<path d="M0 0 C7.87 6.746 7.87 6.746 10.719 9.84 C11.341 10.511 11.964 11.182 12.605 11.873 C13.231 12.554 13.856 13.236 14.5 13.938 C26.584 27.031 26.584 27.031 32.75 32.188 C36.573 35.486 39.908 39.116 43.28 42.869 C47.731 47.785 52.378 52.495 57.062 57.188 C57.813 57.943 58.564 58.698 59.338 59.476 C60.042 60.179 60.747 60.881 61.473 61.605 C61.789 61.921 61.789 61.921 63.387 63.516 C65 65 65 65 67 66 C67 113.85 67 161.7 67 211 C44.365 204.827 22.285 197.428 0 190 C0 127.3 0 64.6 0 0 Z " fill="#4F6380" transform="translate(138,176)"/>
-<path d="M0 0 C1.955 22.642 3.262 45.286 4 68 C4.028 68.829 4.055 69.658 4.084 70.511 C6.508 145.215 6.508 145.215 -18.414 172.584 C-22.668 177.005 -27.182 181.054 -31.875 185 C-32.636 185.642 -33.397 186.284 -34.182 186.946 C-59.474 208 -59.474 208 -66 208 C-66.223 183.828 -66.444 159.656 -66.631 135.484 C-66.637 134.801 -66.642 134.119 -66.647 133.416 C-66.7 126.567 -66.753 119.717 -66.804 112.868 C-66.903 99.669 -67.008 86.47 -67.159 73.271 C-67.23 66.956 -67.287 60.641 -67.328 54.325 C-67.351 50.937 -67.382 47.548 -67.434 44.16 C-67.487 40.537 -67.509 36.916 -67.523 33.293 C-67.546 32.268 -67.569 31.242 -67.592 30.186 C-67.584 27.694 -67.528 25.434 -67 23 C-64.939 21.024 -64.939 21.024 -62 20 C-60.843 19.561 -59.685 19.122 -58.493 18.669 C-57.146 18.216 -55.796 17.769 -54.445 17.328 C-53.715 17.085 -52.984 16.841 -52.231 16.59 C-49.865 15.804 -47.495 15.027 -45.125 14.25 C-43.498 13.712 -41.871 13.174 -40.245 12.635 C-28.476 8.754 -16.662 5.043 -4.767 1.566 C-3.147 1.047 -1.691 0 0 0 Z " fill="#222E48" transform="translate(205,601)"/>
-<path d="M0 0 C5.217 0.745 9.308 1.597 14.219 3.215 C14.55 3.323 14.55 3.323 16.224 3.869 C18.317 4.553 20.409 5.245 22.5 5.938 C24.592 6.625 26.684 7.311 28.776 7.995 C30.676 8.618 32.573 9.244 34.471 9.871 C37.958 10.987 41.479 11.994 45 13 C52.26 15.31 59.52 17.62 67 20 C67 65.21 67 110.42 67 157 C45.673 164.464 45.673 164.464 37.133 167.025 C33.58 168.131 30.07 169.34 26.562 170.578 C25.319 171.016 24.075 171.455 22.793 171.906 C20.878 172.583 18.965 173.263 17.053 173.947 C15.163 174.623 13.269 175.288 11.375 175.953 C10.822 176.15 10.822 176.15 8.023 177.146 C5 178 5 178 0 178 C0 119.26 0 60.52 0 0 Z " fill="#32415C" transform="translate(138,405)"/>
-<path d="M0 0 C53.46 0 106.92 0 162 0 C160.185 6.049 158.653 11.148 156.125 16.75 C154.08 21.287 152.33 25.841 150.684 30.539 C147.819 38.651 144.511 46.553 141.154 54.474 C140.379 56.306 139.609 58.141 138.84 59.977 C138.39 61.04 137.94 62.103 137.476 63.198 C135.459 68.395 133.763 73.711 132 79 C98.34 79 64.68 79 30 79 C28.35 74.38 26.7 69.76 25 65 C23.212 60.529 21.406 56.073 19.562 51.625 C16.06 43.107 12.654 34.579 9.48 25.934 C7.302 20.061 4.912 14.267 2.538 8.471 C2.209 7.658 1.879 6.845 1.539 6.008 C1.242 5.282 0.945 4.557 0.639 3.809 C0 2 0 2 0 0 Z " fill="#7089A9" transform="translate(438,252)"/>
-<path d="M0 0 C43.89 0 87.78 0 133 0 C124.78 9.59 116.37 18.759 107.375 27.625 C97.346 37.511 97.346 37.511 93.602 41.898 C88.249 48.146 82.248 53.806 76.397 59.582 C70.371 65.538 64.479 71.528 59 78 C57.155 79.845 54.555 79.12 52.101 79.124 C51.253 79.121 50.406 79.117 49.533 79.114 C48.645 79.114 47.758 79.114 46.843 79.114 C43.894 79.113 40.945 79.105 37.996 79.098 C35.957 79.096 33.918 79.094 31.88 79.093 C26.502 79.09 21.125 79.08 15.747 79.069 C10.264 79.058 4.782 79.054 -0.701 79.049 C-11.467 79.038 -22.234 79.021 -33 79 C-32.536 77.583 -32.07 76.166 -31.603 74.75 C-31.344 73.961 -31.084 73.172 -30.817 72.359 C-29.606 68.862 -28.139 65.5 -26.625 62.125 C-26.472 61.778 -26.472 61.778 -25.696 60.024 C-23.976 56.146 -22.216 52.288 -20.438 48.438 C-18.227 43.611 -16.254 38.701 -14.303 33.766 C-10.48 24.123 -6.341 14.619 -1.98 5.207 C-1 3 -1 3 0 0 Z " fill="#7189A9" transform="translate(640,252)"/>
-<path d="M0 0 C43.56 0 87.12 0 132 0 C133.65 4.29 135.3 8.58 137 13 C138.19 15.411 139.38 17.822 140.613 20.211 C144.536 28.1 148.106 36.24 151 44.562 C153.468 51.607 156.792 58.271 160 65 C160.986 67.08 161.966 69.163 162.938 71.25 C163.338 72.101 163.739 72.952 164.152 73.828 C165 76 165 76 165 79 C153.534 79.186 142.069 79.328 130.602 79.414 C125.277 79.456 119.953 79.513 114.628 79.604 C109.487 79.691 104.346 79.738 99.203 79.759 C97.245 79.774 95.286 79.803 93.328 79.846 C77.977 80.172 77.977 80.172 73.065 77.261 C71.059 75.275 69.542 73.353 68 71 C65.519 68.516 63.036 66.035 60.535 63.57 C56.251 59.333 52.139 55.076 48.289 50.441 C47 49 47 49 44.562 47.062 C42.323 45.26 40.706 43.572 38.861 41.394 C34.993 36.927 30.869 32.776 26.66 28.633 C25.088 27.073 23.516 25.513 21.943 23.953 C19.487 21.522 17.029 19.092 14.569 16.665 C12.178 14.304 9.794 11.938 7.41 9.57 C6.667 8.84 5.923 8.11 5.157 7.358 C4.479 6.683 3.8 6.008 3.102 5.313 C2.501 4.72 1.9 4.127 1.282 3.515 C0 2 0 2 0 0 Z " fill="#7189A9" transform="translate(265,252)"/>
-<path d="M0 0 C0 38.28 0 76.56 0 116 C-14.748 121.53 -29.601 126.902 -44.768 131.176 C-51.638 133.129 -58.386 135.435 -65.136 137.766 C-65.986 138.056 -66.835 138.346 -67.711 138.645 C-68.089 138.775 -68.089 138.775 -70.001 139.437 C-72 140 -72 140 -75 140 C-75.186 131.255 -75.328 122.511 -75.414 113.764 C-75.456 109.702 -75.513 105.642 -75.604 101.581 C-75.691 97.658 -75.738 93.736 -75.759 89.813 C-75.774 88.319 -75.803 86.826 -75.846 85.333 C-76.168 73.778 -76.168 73.778 -73.691 70.006 C-71.884 68.459 -71.884 68.459 -69.675 66.931 C-66.13 64.372 -63.213 61.353 -60.157 58.239 C-58.85 56.924 -57.542 55.61 -56.235 54.297 C-55.895 53.954 -55.895 53.954 -54.178 52.222 C-52.037 50.064 -49.892 47.909 -47.747 45.756 C-41.654 39.638 -35.566 33.514 -29.482 27.386 C-25.749 23.627 -22.011 19.871 -18.27 16.119 C-16.846 14.689 -15.425 13.258 -14.005 11.824 C-12.03 9.83 -10.049 7.842 -8.067 5.856 C-7.479 5.259 -6.891 4.662 -6.285 4.047 C-2.228 0 -2.228 0 0 0 Z " fill="#34425C" transform="translate(797,282)"/>
-<path d="M0 0 C4.125 0.993 7.99 2.459 11.953 3.965 C14.872 4.956 17.798 5.685 20.792 6.408 C24.963 7.526 29.002 9.037 33.062 10.5 C34.782 11.117 36.502 11.731 38.223 12.344 C38.598 12.479 38.598 12.479 40.496 13.162 C43.632 14.211 46.821 15.092 50 16 C57.59 18.64 65.18 21.28 73 24 C73 62.94 73 101.88 73 142 C72.34 142 71.68 142 71 142 C69.681 140.66 69.681 140.66 68.1 138.729 C63.678 133.534 58.868 128.754 54.029 123.954 C52.369 122.307 50.712 120.656 49.056 119.005 C45.54 115.501 42.02 112 38.5 108.5 C34.415 104.439 30.332 100.376 26.253 96.309 C24.634 94.696 23.012 93.086 21.389 91.477 C16.571 86.681 11.847 81.868 7.505 76.627 C5.85 74.838 4.063 73.493 2.094 72.062 C-1.403 68.589 -1.636 65.038 -1.719 60.312 C-1.71 57.205 -1.609 54.105 -1.5 51 C-1.468 49.357 -1.438 47.714 -1.412 46.072 C-1.335 41.871 -1.215 37.673 -1.079 33.475 C-1.002 31.062 -0.935 28.649 -0.871 26.236 C-0.64 17.488 -0.355 8.744 0 0 Z " fill="#212C45" transform="translate(724,564)"/>
-<path d="M0 0 C0.66 0 1.32 0 2 0 C2 37.62 2 75.24 2 114 C-3.301 113.243 -7.078 112.432 -11.973 110.637 C-12.618 110.403 -13.263 110.17 -13.927 109.93 C-15.975 109.189 -18.019 108.439 -20.062 107.688 C-28.877 104.456 -37.643 101.46 -46.698 98.954 C-51.823 97.473 -56.812 95.665 -61.812 93.812 C-62.79 93.457 -63.768 93.102 -64.775 92.736 C-71.863 90.137 -71.863 90.137 -73 89 C-73.094 86.975 -73.117 84.947 -73.114 82.92 C-73.113 81.618 -73.113 80.317 -73.113 78.976 C-73.108 77.545 -73.103 76.115 -73.098 74.684 C-73.096 73.228 -73.094 71.772 -73.093 70.316 C-73.09 66.477 -73.08 62.639 -73.069 58.8 C-73.058 54.885 -73.054 50.971 -73.049 47.057 C-73.038 39.371 -73.021 31.686 -73 24 C-71.743 23.52 -70.486 23.041 -69.228 22.564 C-68.527 22.298 -67.827 22.031 -67.106 21.757 C-64.036 20.654 -60.911 19.86 -57.75 19.062 C-51.917 17.57 -46.244 15.795 -40.586 13.734 C-38 13 -38 13 -35.727 13.141 C-32.182 12.958 -29.697 11.625 -26.511 10.127 C-22.164 8.176 -17.647 6.738 -13.125 5.25 C-12.657 5.092 -12.657 5.092 -10.289 4.293 C-9.84 4.144 -9.84 4.144 -7.57 3.391 C-6.764 3.123 -5.957 2.855 -5.125 2.579 C-3 2 -3 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#2C3953" transform="translate(795,437)"/>
-<path d="M0 0 C0.4 0.002 0.4 0.002 2.426 0.011 C3.265 0.011 4.104 0.011 4.968 0.01 C7.755 0.011 10.541 0.019 13.328 0.027 C15.255 0.029 17.181 0.03 19.108 0.031 C24.19 0.035 29.271 0.045 34.353 0.056 C39.534 0.066 44.715 0.071 49.896 0.076 C60.07 0.086 70.244 0.103 80.418 0.124 C81.385 2.208 82.35 4.292 83.315 6.376 C83.853 7.537 84.391 8.697 84.945 9.893 C86.495 13.294 87.909 16.691 89.23 20.187 C89.629 21.23 90.027 22.273 90.437 23.347 C91.418 26.124 91.418 26.124 92.418 30.124 C56.448 30.124 20.478 30.124 -16.582 30.124 C-14.602 24.844 -12.622 19.564 -10.582 14.124 C-8.27 6.687 -8.27 6.687 -7.344 3.503 C-5.975 -0.771 -4.219 0.008 0 0 Z " fill="#738BAA" transform="translate(454.58209228515625,650.8755798339844)"/>
-<path d="M0 0 C8.771 -0.35 17.539 -0.615 26.316 -0.777 C30.393 -0.855 34.465 -0.96 38.539 -1.132 C67.072 -2.3 67.072 -2.3 73.868 3.149 C76.8 6.19 78.987 9.516 80.993 13.222 C82.318 15.561 83.991 17.353 85.895 19.238 C86.144 19.503 86.144 19.503 87.408 20.842 C88.394 21.874 89.381 22.905 90.369 23.936 C94 27.789 94 27.789 94 30 C66.61 30 39.22 30 11 30 C9.68 26.04 8.36 22.08 7 18 C5.792 15.268 4.581 12.603 3.25 9.938 C0 3.391 0 3.391 0 0 Z " fill="#738BAA" transform="translate(550,651)"/>
-<path d="M0 0 C1.486 0.021 2.973 0.036 4.459 0.047 C8.336 0.089 12.208 0.196 16.083 0.319 C20.052 0.432 24.021 0.482 27.99 0.537 C35.752 0.654 43.51 0.842 51.27 1.074 C50.802 2.509 50.332 3.942 49.861 5.375 C49.6 6.173 49.338 6.972 49.069 7.794 C48.054 10.69 46.755 13.357 45.332 16.074 C42.755 21.023 40.553 25.937 38.27 31.074 C11.21 31.074 -15.85 31.074 -43.73 31.074 C-43.73 30.414 -43.73 29.754 -43.73 29.074 C-42.297 27.699 -42.297 27.699 -40.293 26.074 C-37.072 23.339 -34.213 20.493 -31.418 17.324 C-31.059 16.925 -31.059 16.925 -29.24 14.906 C-27.587 13.041 -25.978 11.137 -24.419 9.193 C-17.1 0.757 -11.002 -0.453 0 0 Z " fill="#738BAA" transform="translate(382.73046875,649.92578125)"/>
-<path d="M0 0 C0.209 8.076 0.369 16.15 0.466 24.228 C0.513 27.98 0.577 31.729 0.679 35.48 C0.777 39.105 0.831 42.728 0.854 46.354 C0.87 47.732 0.903 49.11 0.952 50.487 C1.319 61.274 1.319 61.274 -1.94 65.54 C-4.203 67.542 -6.545 69.246 -9 71 C-10.206 72.298 -11.38 73.627 -12.5 75 C-15.669 78.752 -19.166 81.942 -22.887 85.141 C-25.006 87.005 -27.004 89.004 -29 91 C-29 63.61 -29 36.22 -29 8 C-3 0 -3 0 0 0 Z " fill="#5A6E8C" transform="translate(359,579)"/>
-<path d="M0 0 C4.557 3.906 8.344 7.296 12.25 11.688 C12.665 12.153 12.665 12.153 14.766 14.512 C15.231 15.064 15.697 15.615 16.177 16.184 C18 18 18 18 20.786 19.767 C25.544 23.236 28.448 26.083 29.574 32.033 C30.335 40.536 30.057 49.05 29.755 57.569 C29.642 61.115 29.592 64.662 29.537 68.209 C29.42 75.141 29.233 82.07 29 89 C27.395 88.69 25.791 88.377 24.188 88.062 C23.294 87.888 22.401 87.714 21.48 87.535 C19 87 19 87 16 86 C16 85.34 16 84.68 16 84 C15.608 83.938 15.608 83.938 13.625 83.625 C9.067 82.839 4.535 81.907 0 81 C0 54.27 0 27.54 0 0 Z " fill="#313E58" transform="translate(330,398)"/>
-<path d="M0 0 C10.186 1.67 18.855 4.796 29 8 C29 27.14 29 46.28 29 66 C23.72 67.65 18.44 69.3 13 71 C11.433 71.598 9.865 72.196 8.25 72.812 C5 74 5 74 1 74 C-0.254 58.489 -0.114 42.989 -0.062 27.438 C-0.057 24.769 -0.053 22.1 -0.049 19.432 C-0.038 12.954 -0.021 6.477 0 0 Z " fill="#475975" transform="translate(330,496)"/>
-<path d="M0 0 C21.78 0 43.56 0 66 0 C64 10 64 10 60 18 C42.18 18 24.36 18 6 18 C0 2 0 2 0 0 Z " fill="#0D152D" transform="translate(489,419)"/>
-<path d="M0 0 C17.49 0 34.98 0 53 0 C58 15 58 15 58 18 C52.202 18.249 46.407 18.429 40.605 18.549 C38.636 18.599 36.667 18.667 34.699 18.754 C18.464 19.454 18.464 19.454 12.628 16.011 C10.032 13.47 8.048 10.997 6 8 C4.02 5.36 2.04 2.72 0 0 Z " fill="#0E162E" transform="translate(425,419)"/>
-<path d="M0 0 C0.701 0.193 1.403 0.387 2.125 0.586 C2.599 0.716 2.599 0.716 5 1.375 C5.464 1.503 5.464 1.503 7.812 2.148 C11.531 3.142 15.267 4.067 19 5 C19 22.16 19 39.32 19 57 C17 57 17 57 15.484 55.496 C14.912 54.817 14.34 54.137 13.75 53.438 C13.13 52.71 12.51 51.983 11.871 51.234 C10.695 49.83 9.52 48.424 8.348 47.016 C7.841 46.412 7.334 45.809 6.812 45.188 C6.589 44.916 6.589 44.916 5.457 43.543 C4 42 4 42 1.933 40.955 C-0.633 38.36 -0.455 36.252 -0.453 32.714 C-0.433 31.876 -0.412 31.039 -0.391 30.176 C-0.385 29.314 -0.379 28.453 -0.373 27.565 C-0.351 24.814 -0.301 22.064 -0.25 19.312 C-0.23 17.447 -0.212 15.582 -0.195 13.717 C-0.151 9.144 -0.082 4.572 0 0 Z " fill="#6E84A1" transform="translate(607,542)"/>
-<path d="M0 0 C0 16.5 0 33 0 50 C-16 55 -16 55 -19 55 C-19.199 49.574 -19.343 44.151 -19.439 38.722 C-19.48 36.878 -19.534 35.034 -19.604 33.191 C-20.166 17.868 -20.166 17.868 -17.355 13.365 C-15.327 11.609 -13.331 10.316 -11 9 C-8.586 6.61 -6.233 4.175 -3.883 1.723 C-2 0 -2 0 0 0 Z " fill="#4C5D78" transform="translate(626,428)"/>
-<path d="M0 0 C16.5 0 33 0 50 0 C48.396 3.207 47.624 4.62 45.215 6.945 C44.95 7.205 44.95 7.205 43.607 8.52 C43.056 9.049 42.505 9.579 41.938 10.125 C36.12 15.76 36.12 15.76 35 18 C21.14 18 7.28 18 -7 18 C-6 13 -6 13 0 0 Z " fill="#0F172E" transform="translate(567,419)"/>
-<path d="M0 0 C0.206 32.102 0.206 32.102 -1 48 C-2.501 47.911 -4.001 47.803 -5.5 47.688 C-5.918 47.658 -5.918 47.658 -8.031 47.512 C-11 47 -11 47 -19 44 C-19 31.46 -19 18.92 -19 6 C-4 0 -4 0 0 0 Z " fill="#627692" transform="translate(626,488)"/>
-<path d="M0 0 C11.55 0 23.1 0 35 0 C38 7 38 7 39 13 C25.14 13 11.28 13 -3 13 C-1 4 -1 4 0 0 Z " fill="#151C33" transform="translate(479,586)"/>
-<path d="M0 0 C-0.803 4.979 -2.345 9.034 -4 14 C-14.89 14 -25.78 14 -37 14 C-36.34 12.68 -35.68 11.36 -35 10 C-34.587 9.149 -34.175 8.298 -33.75 7.422 C-26.198 -4.108 -12.215 -0.864 0 0 Z " fill="#0C142C" transform="translate(473,586)"/>
-<path d="M0 0 C24.31 -1.731 24.31 -1.731 29.953 2.121 C36 8.212 36 8.212 36 13 C25.44 13 14.88 13 4 13 C0 2 0 2 0 0 Z " fill="#141C32" transform="translate(521,586)"/>
-<path d="M0 0 C0.145 4.395 0.234 8.79 0.312 13.188 C0.333 13.81 0.333 13.81 0.439 16.963 C0.563 26.192 0.563 26.192 -2.082 29.988 C-2.563 30.32 -2.563 30.32 -5 32 C-7.31 33.98 -9.62 35.96 -12 38 C-12 26.78 -12 15.56 -12 4 C-4 0 -4 0 0 0 Z " fill="#17213A" transform="translate(444,554)"/>
-<path d="M0 0 C4.965 2.483 7.932 5.398 11 10 C11.227 12.911 11.227 12.911 11.195 16.418 C11.192 17.045 11.192 17.045 11.176 20.217 C11.159 21.527 11.142 22.837 11.125 24.188 C11.115 25.523 11.106 26.858 11.098 28.193 C11.074 31.462 11.041 34.731 11 38 C9.541 37.691 8.083 37.378 6.625 37.062 C5.813 36.888 5.001 36.714 4.164 36.535 C2 36 2 36 0 35 C0 23.45 0 11.9 0 0 Z " fill="#5C718F" transform="translate(432,476)"/>
-<path d="M0 0 C4.137 1.034 7.973 2.452 11.953 3.965 C14.872 4.956 17.798 5.685 20.792 6.408 C24.963 7.526 29.002 9.037 33.062 10.5 C38.675 12.513 44.262 14.37 50 16 C52.993 17.002 55.966 18.061 58.938 19.125 C59.717 19.402 60.496 19.679 61.299 19.965 C63.2 20.641 65.1 21.32 67 22 C63.567 23.2 61.903 22.825 58.625 21.348 C45.295 15.859 33.843 14.249 19.562 14.438 C19.155 14.443 19.155 14.443 17.094 14.468 C3.314 14.686 3.314 14.686 2 16 C1.763 18.526 1.578 21.031 1.438 23.562 C1.394 24.273 1.351 24.984 1.307 25.717 C1.2 27.478 1.1 29.239 1 31 C0.67 31 0.34 31 0 31 C0 20.77 0 10.54 0 0 Z " fill="#778DA9" transform="translate(724,564)"/>
-<path d="M0 0 C8.808 1.258 8.808 1.258 12 4 C12.568 6.635 12.568 6.635 12.488 9.762 C12.472 10.88 12.456 11.998 12.439 13.15 C12.398 14.318 12.356 15.485 12.312 16.688 C12.301 17.277 12.301 17.277 12.244 20.26 C12.185 23.174 12.103 26.087 12 29 C7.692 30.351 4.58 31 0 31 C0 20.77 0 10.54 0 0 Z " fill="#232F47" transform="translate(432,518)"/>
-<path d="M0 0 C6.011 1.63 12.017 3.271 18 5 C18.098 11.152 18.098 11.152 18 13 C17 14 17 14 13.402 14.098 C11.914 14.091 10.426 14.079 8.938 14.062 C8.558 14.06 8.558 14.06 6.639 14.049 C4.759 14.037 2.88 14.019 1 14 C0.064 10.845 -0.106 8.034 -0.062 4.75 C-0.053 3.858 -0.044 2.966 -0.035 2.047 C-0.024 1.371 -0.012 0.696 0 0 Z " fill="#111A31" transform="translate(607,542)"/>
-<path d="M0 0 C8.58 0 17.16 0 26 0 C25.34 2.64 24.68 5.28 24 8 C16.74 8 9.48 8 2 8 C1.34 5.36 0.68 2.72 0 0 Z " fill="#778EAC" transform="translate(496,485)"/>
-<path d="M0 0 C0 7.59 0 15.18 0 23 C-2.97 23.66 -5.94 24.32 -9 25 C-10.068 8.977 -10.068 8.977 -7.512 4.246 C-3.23 0 -3.23 0 0 0 Z " fill="#1D2840" transform="translate(552,489)"/>
-<path d="M0 0 C8.808 1.258 8.808 1.258 12 4 C12.568 6.635 12.568 6.635 12.488 9.762 C12.472 10.88 12.456 11.998 12.439 13.15 C12.398 14.318 12.356 15.485 12.312 16.688 C12.301 17.277 12.301 17.277 12.244 20.26 C12.185 23.174 12.103 26.087 12 29 C11.67 29 11.34 29 11 29 C10.939 28.096 10.879 27.193 10.816 26.262 C10.775 25.672 10.775 25.672 10.562 22.688 C10.481 21.516 10.4 20.344 10.316 19.137 C10 16 10 16 9 13 C7 12.957 5 12.959 3 13 C1.417 14.583 1.653 16.38 1.438 18.562 C1.354 19.389 1.27 20.215 1.184 21.066 C1.123 21.704 1.062 22.343 1 23 C0.67 23 0.34 23 0 23 C0 15.41 0 7.82 0 0 Z " fill="#617087" transform="translate(432,518)"/>
-<path d="M0 0 C0 3.96 0 7.92 0 12 C-2.805 12.165 -2.805 12.165 -17 13 C-17 10.36 -17 7.72 -17 5 C-14.355 4.165 -11.709 3.332 -9.062 2.5 C-8.685 2.381 -8.685 2.381 -6.775 1.777 C-1.113 0 -1.113 0 0 0 Z " fill="#101830" transform="translate(625,489)"/>
-<path d="M0 0 C6.93 0 13.86 0 21 0 C15 7 15 7 14 8 C11.137 8.073 8.299 8.092 5.438 8.062 C4.631 8.058 3.825 8.053 2.994 8.049 C0.996 8.037 -1.002 8.019 -3 8 C-1.125 2.25 -1.125 2.25 0 0 Z " fill="#778FAC" transform="translate(525,485)"/>
-<path d="M0 0 C0 8.91 0 17.82 0 27 C-0.33 27 -0.66 27 -1 27 C-1 21.39 -1 15.78 -1 10 C-9 11 -9 11 -10 12 C-10.158 13.925 -10.251 15.855 -10.316 17.785 C-10.358 18.955 -10.4 20.125 -10.443 21.33 C-10.483 22.562 -10.522 23.793 -10.562 25.062 C-10.606 26.298 -10.649 27.534 -10.693 28.807 C-10.8 31.871 -10.902 34.935 -11 38 C-11.33 38 -11.66 38 -12 38 C-12 26.78 -12 15.56 -12 4 C-4 0 -4 0 0 0 Z " fill="#626D81" transform="translate(444,554)"/>
-<path d="M0 0 C6.27 0 12.54 0 19 0 C21 4 21 4 21 8 C18.433 8.217 15.884 8.375 13.312 8.5 C12.952 8.534 12.952 8.534 11.127 8.703 C8.988 8.781 8.988 8.781 5 8 C4.175 6.68 4.175 6.68 0 0 Z " fill="#7B92AE" transform="translate(472,485)"/>
-<path d="M0 0 C0.33 0 0.66 0 1 0 C1.33 24.42 1.66 48.84 2 74 C8.6 71.69 15.2 69.38 22 67 C22.495 67.165 22.495 67.165 25 68 C6.597 76 6.597 76 0 76 C0 50.92 0 25.84 0 0 Z " fill="#C2C9CE" transform="translate(329,496)"/>
-<path d="M0 0 C2.31 0 4.62 0 7 0 C7 6.93 7 13.86 7 21 C2 17 2 17 0 14 C-0.195 10.645 -0.195 10.645 -0.125 6.812 C-0.107 5.54 -0.089 4.268 -0.07 2.957 C-0.047 1.981 -0.024 1.005 0 0 Z " fill="#131B32" transform="translate(543,542)"/>
-<path d="M0 0 C-0.33 1.65 -0.66 3.3 -1 5 C-1.165 4.505 -1.165 4.505 -2 2 C-5.648 1.905 -9.289 1.913 -12.938 1.938 C-13.959 1.91 -14.981 1.882 -16.033 1.854 C-25.934 2.012 -26.024 4.024 -34 12 C-24.1 12.33 -14.2 12.66 -4 13 C-4 13.33 -4 13.66 -4 14 C-14.89 14 -25.78 14 -37 14 C-36.34 12.68 -35.68 11.36 -35 10 C-34.587 9.149 -34.175 8.298 -33.75 7.422 C-26.198 -4.108 -12.215 -0.864 0 0 Z " fill="#5E636E" transform="translate(473,586)"/>
-<path d="M0 0 C0.33 0.165 0.33 0.165 2 1 C1.67 3.64 1.34 6.28 1 9 C6.61 9 12.22 9 18 9 C17.67 10.65 17.34 12.3 17 14 C11.72 14 6.44 14 1 14 C0.148 10.591 -0.108 8.196 -0.062 4.75 C-0.053 3.858 -0.044 2.966 -0.035 2.047 C-0.024 1.371 -0.012 0.696 0 0 Z " fill="#3B4964" transform="translate(607,542)"/>
-<path d="M0 0 C1.98 0 3.96 0 6 0 C6 5.28 6 10.56 6 16 C5.01 15.835 5.01 15.835 0 15 C0 10.05 0 5.1 0 0 Z " fill="#26314A" transform="translate(544,519)"/>
-<path d="M0 0 C0 7.59 0 15.18 0 23 C-0.66 22.67 -1.32 22.34 -2 22 C-1.67 17.71 -1.34 13.42 -1 9 C-2.98 9.33 -4.96 9.66 -7 10 C-7 14.95 -7 19.9 -7 25 C-7.66 25 -8.32 25 -9 25 C-10.068 8.977 -10.068 8.977 -7.512 4.246 C-3.23 0 -3.23 0 0 0 Z " fill="#8995A4" transform="translate(552,489)"/>
-<path d="M0 0 C3.3 0 6.6 0 10 0 C10 2.97 10 5.94 10 9 C8.52 8.692 7.041 8.378 5.562 8.062 C4.739 7.888 3.915 7.714 3.066 7.535 C1 7 1 7 0 6 C-0.041 4 -0.043 2 0 0 Z " fill="#313D56" transform="translate(433,505)"/>
-<path d="M0 0 C0 1.65 0 3.3 0 5 C-2.805 5.165 -2.805 5.165 -17 6 C-17 4.35 -17 2.7 -17 1 C-14.354 0.833 -11.708 0.666 -9.062 0.5 C-8.308 0.452 -7.553 0.405 -6.775 0.355 C-1.113 0 -1.113 0 0 0 Z " fill="#2A3752" transform="translate(625,496)"/>
-<path d="M0 0 C2.31 0 4.62 0 7 0 C7.125 5.75 7.125 5.75 6 8 C3.938 8.625 3.938 8.625 2 9 C1.67 10.65 1.34 12.3 1 14 C0.67 14 0.34 14 0 14 C0 9.38 0 4.76 0 0 Z " fill="#232E46" transform="translate(543,542)"/>
-<path d="M0 0 C1.485 0.33 1.485 0.33 9 2 C9 9.59 9 17.18 9 25 C8.34 24.67 7.68 24.34 7 24 C7.33 17.07 7.66 10.14 8 3 C5.69 3 3.38 3 1 3 C1 7.62 1 12.24 1 17 C0.67 17 0.34 17 0 17 C0 11.39 0 5.78 0 0 Z " fill="#A7AEB5" transform="translate(542,539)"/>
-<path d="M0 0 C3.438 0.188 3.438 0.188 4.438 1.188 C4.579 3.858 4.48 6.512 4.438 9.188 C3.777 8.197 3.118 7.207 2.438 6.188 C-0.642 5.931 -2.774 5.793 -5.562 7.188 C-5.688 4.812 -5.688 4.812 -5.562 2.188 C-3.562 0.188 -3.562 0.188 0 0 Z " fill="#445572" transform="translate(438.5625,524.8125)"/>
-<path d="M0 0 C3.3 0 6.6 0 10 0 C10 1.65 10 3.3 10 5 C8.721 5.144 7.442 5.289 6.125 5.438 C3.743 5.706 2.155 5.922 0 7 C0 4.69 0 2.38 0 0 Z " fill="#35445F" transform="translate(433,559)"/>
-<path d="M0 0 C0 6.6 0 13.2 0 20 C-0.99 19.67 -1.98 19.34 -3 19 C-2.34 19 -1.68 19 -1 19 C-1 13.72 -1 8.44 -1 3 C-2.98 3 -4.96 3 -7 3 C-7 7.95 -7 12.9 -7 18 C-7.33 18 -7.66 18 -8 18 C-8 12.72 -8 7.44 -8 2 C-4 0 -4 0 0 0 Z " fill="#9CA5AF" transform="translate(551,516)"/>
-<path d="M0 0 C0.485 0.01 0.485 0.01 2.938 0.062 C2.938 2.043 2.938 4.022 2.938 6.062 C2.546 6.217 2.546 6.217 0.562 7 C-2.062 8.062 -2.062 8.062 -4.062 9.062 C-4.16 2.91 -4.16 2.91 -4.062 1.062 C-3.062 0.062 -3.062 0.062 0 0 Z " fill="#3E4E6A" transform="translate(548.0625,497.9375)"/>
-<path d="M0 0 C0.66 0 1.32 0 2 0 C2 1.32 2 2.64 2 4 C-3.61 4 -9.22 4 -15 4 C-15 3.34 -15 2.68 -15 2 C-10.05 2 -5.1 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#242F48" transform="translate(623,547)"/>
-<path d="M0 0 C0 2.97 0 5.94 0 9 C-4 8 -4 8 -5 7 C-5.041 5 -5.043 3 -5 1 C-1.125 0 -1.125 0 0 0 Z " fill="#141D35" transform="translate(550,526)"/>
-<path d="M0 0 C5.61 0.33 11.22 0.66 17 1 C16.67 1.66 16.34 2.32 16 3 C10.72 3 5.44 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#1B263F" transform="translate(608,494)"/>
-<path d="M0 0 C4 2 4 2 6 5 C5.175 4.67 5.175 4.67 1 3 C1 10.59 1 18.18 1 26 C0.67 26 0.34 26 0 26 C0 17.42 0 8.84 0 0 Z " fill="#8698AE" transform="translate(432,476)"/>
-<path d="M0 0 C4.557 0.438 7.577 0.85 11 4 C3.25 4.125 3.25 4.125 1 3 C0.67 4.32 0.34 5.64 0 7 C0 4.69 0 2.38 0 0 Z " fill="#8697AC" transform="translate(432,518)"/>
-<path d="M0 0 C-4.565 3.043 -9.452 6.208 -15.062 5.75 C-15.702 5.502 -16.341 5.255 -17 5 C-11.727 2.144 -6.104 -0.572 0 0 Z " fill="#8EA1B6" transform="translate(774,445)"/>
-<path d="M0 0 C-1.477 3.452 -3.438 5.65 -6.125 8.25 C-6.849 8.956 -7.574 9.663 -8.32 10.391 C-8.875 10.922 -9.429 11.453 -10 12 C-10 8.073 -8.721 7.181 -6.125 4.312 C-5.765 3.908 -5.765 3.908 -3.945 1.863 C-2 0 -2 0 0 0 Z " fill="#293044" transform="translate(448,587)"/>
-<path d="M0 0 C1.98 0 3.96 0 6 0 C6 1.32 6 2.64 6 4 C4.02 4.33 2.04 4.66 0 5 C0 3.35 0 1.7 0 0 Z " fill="#475975" transform="translate(544,519)"/>
-<path d="M0 0 C2.31 0 4.62 0 7 0 C7 0.99 7 1.98 7 3 C5.02 3 3.04 3 1 3 C0.67 3.99 0.34 4.98 0 6 C0 4.02 0 2.04 0 0 Z " fill="#4A5B77" transform="translate(543,542)"/>
-<path d="M0 0 C3.3 0 6.6 0 10 0 C10 0.99 10 1.98 10 3 C6.7 2.67 3.4 2.34 0 2 C0 1.34 0 0.68 0 0 Z " fill="#435471" transform="translate(433,559)"/>
-<path d="M0 0 C1.98 0 3.96 0 6 0 C6 0.66 6 1.32 6 2 C5.216 2.309 4.433 2.619 3.625 2.938 C1 4 1 4 -1 5 C-0.67 3.35 -0.34 1.7 0 0 Z " fill="#2E3B55" transform="translate(545,502)"/>
-</svg>
-    <div class="wordmark-txt">NOVA DOMUS</div>
-    <div class="descriptor">INTEGRACIÓN TECNOLÓGICA</div>
-  </div>
-  <span class="eyebrow">Propuesta técnico-comercial · La Luisita L8</span>
-  <h1>Seguridad y Sonido para tu casa,<br>con un solo responsable</h1>
-  <p class="slogan">Del cable a la app</p>
-  <p class="proyecto-tag">Preparado para Bruno Enrici</p>
-  <p class="proyecto-num">N° PY-2026-003</p>
-</section>
-
-<!-- CHAPTER NAV -->
-<nav class="chapternav">
-  <div class="wrap" id="chapternav-wrap">
-    <button data-target="resumen" class="active">Resumen</button>
-    <button data-target="seguridad">Seguridad</button>
-    <button data-target="sonido">Sonido</button>
-    <button data-target="redes">Red WiFi</button>
-    <button data-target="inversion">Inversión</button>
-    <button data-target="ejecucion">Ejecución</button>
-    <button data-target="condiciones">Condiciones</button>
-    <button data-target="respaldo">Respaldo</button>
-    <button data-target="faq">FAQ</button>
+<nav id="topnav">
+  <div class="inner">
+    <div class="mark" id="navlogo"></div>
+    <div class="navlinks">
+      <a href="#responsable">Responsable</a>
+      <a href="#alarma">Alarma</a>
+      <a href="#videovigilancia">Video</a>
+      <a href="#sonido">Sonido</a>
+      <a href="#opcionales">Opcionales</a>
+      <a href="#inversion">Inversión</a>
+      <a href="#cta">Aceptar</a>
+    </div>
   </div>
 </nav>
 
-<!-- RESUMEN EJECUTIVO -->
-<section id="resumen">
-  <div class="wrap">
-    <span class="eyebrow">60 segundos</span>
-    <h2>Resumen ejecutivo</h2>
-    <p class="muted" style="max-width:640px">Este documento cubre <strong style="color:var(--cream)">Alarma, Videovigilancia y Sonido ambiental</strong> para La Luisita L8. El resto del proyecto (redes, iluminación, climatización) queda fuera de este presupuesto — se cotiza aparte si se retoma.</p>
-    <div class="stat-grid">
-      <div class="stat"><div class="num" data-count="24">0</div><div class="lbl">Dispositivos</div></div>
-      <div class="stat"><div class="num" data-count="3">0</div><div class="lbl">Subsistemas</div></div>
-      <div class="stat"><div class="num" data-count="2">0</div><div class="lbl">Zonas de audio</div></div>
-      <div class="stat"><div class="num-total lbl-total">U$D 7,842</div><div class="lbl">Inversión total</div></div>
-    </div>
-    <p class="nota-tc">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1513/USD. Materiales sujetos a cotización del momento.</p>
+<div id="progress-badge">
+  <svg class="ring-svg" viewBox="0 0 52 52">
+    <circle cx="26" cy="26" r="23" fill="none" stroke="rgba(200,169,110,.2)" stroke-width="3"/>
+    <circle id="ring-progress" cx="26" cy="26" r="23" fill="none" stroke="#C8A96E" stroke-width="3" stroke-dasharray="144.5" stroke-dashoffset="144.5" stroke-linecap="round"/>
+  </svg>
+  <div class="mark" id="badgelogo"></div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="logo-plate">
+    <div id="heroLogo"></div>
+    <div class="lp-word">NOVA DOMUS<small>INTEGRACIÓN TECNOLÓGICA</small></div>
+  </div>
+  <div class="py-tag">PY-2026-003 · PROPUESTA COMERCIAL (revisión de alcance)</div>
+  <h1>LA LUISITA L8</h1>
+  <div class="descriptor">INTEGRACIÓN TECNOLÓGICA</div>
+  <p class="tagline">Del cable a la app</p>
+  <p class="lead" style="margin-top:20px;">Vivienda de Bruno Enrici, La Luisita, Córdoba. Alarma, videovigilancia y sonido ambiental en dos zonas — con la línea económica como base y upgrade a criterio en Alarma y Videovigilancia.</p>
+  <div class="stats">
+    <div class="stat"><div class="figure" data-count="15">0</div><div class="stat-label">Dispositivos base incluidos</div></div>
+    <div class="stat"><div class="figure" data-count="4">0</div><div class="stat-label">Cámaras Hikvision</div></div>
+    <div class="stat"><div class="figure" data-count="2">0</div><div class="stat-label">Zonas de audio</div></div>
+    <div class="stat"><div class="figure" data-count="1">0</div><div class="stat-label">Responsable de punta a punta</div></div>
   </div>
 </section>
 
-<!-- SEGURIDAD -->
-<section id="seguridad" class="section-light">
-  <div class="wrap">
-    <span class="eyebrow">01 · Alarma y Videovigilancia</span>
-    <h2>Seguridad Proactiva Hikvision</h2>
-    <p class="muted" style="max-width:640px;margin-bottom:8px">Alarma inalámbrica AXPro + videovigilancia AcuSense con IA, integradas entre sí y con Home Assistant si en el futuro se suma domótica.</p>
-
-    <h3 style="margin-top:36px;margin-bottom:16px;color:var(--navy-700)">Alarma AXPro</h3>
-    <div class="comparativa">
-      <div class="comp-switch">
-        <button class="active-comun" data-comp="alarma" data-state="comun">Una alarma común</button>
-        <button data-comp="alarma" data-state="nova">AXPro Hikvision</button>
-      </div>
-      <div class="comp-panel comun visible" data-comp="alarma" data-state="comun">
-        <ul>
-          <li>Sensores por radio simple: cualquier interferencia genera falsas alarmas frecuentes</li>
-          <li>Sin repetidor: en casas grandes quedan zonas con señal débil o sin cobertura</li>
-          <li>Central sin batería de respaldo real o con autonomía muy corta ante un corte de luz</li>
-          <li>Notificación solo por app genérica, sin integración con cámaras ni con el resto de la casa</li>
-        </ul>
-      </div>
-      <div class="comp-panel nova" data-comp="alarma" data-state="nova">
-        <ul>
-          <li>Comunicación bidireccional real entre sensores y panel — confirma que cada aviso llegó</li>
-          <li>Repetidor de señal dimensionado a la distancia real de la vivienda (por eso van 2 en este proyecto)</li>
-          <li>Sirena interior + exterior disuade en el momento, no solo notifica después</li>
-          <li>Se integra con Home Assistant: si el proyecto suma domótica a futuro, un disparo puede encender todas las luces automáticamente</li>
-        </ul>
-      </div>
+<!-- RESUMEN EJECUTIVO -->
+<section class="section" id="resumen">
+  <span class="eyebrow">00 — Resumen ejecutivo</span>
+  <h2>La propuesta en 60 segundos</h2>
+  <p class="lead">Alarma Hikvision, videovigilancia y sonido ambiental en Living y Suite — todo instalado y programado por Nova Domus. Base económica en Alarma y Cámaras, con upgrade a la línea premium a tu criterio, de forma independiente.</p>
+  <div class="resumen-grid">
+    <div class="resumen-card">
+      <div class="rc-label">Qué necesita</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Seguridad física real y sonido ambiental en dos zonas, con el mejor equilibrio precio/calidad</div>
     </div>
-    <div id="alarma-devices"></div>
-
-    <h3 style="margin-top:36px;margin-bottom:16px;color:var(--navy-700)">Videovigilancia AcuSense</h3>
-    <div class="comparativa">
-      <div class="comp-switch">
-        <button class="active-comun" data-comp="camara" data-state="comun">Una cámara común</button>
-        <button data-comp="camara" data-state="nova">AcuSense (IA)</button>
-      </div>
-      <div class="comp-panel comun visible" data-comp="camara" data-state="comun">
-        <ul>
-          <li>Notifica ante CUALQUIER movimiento: hojas, lluvia, un gato — terminás ignorando las alertas</li>
-          <li>Sin distinción entre persona, vehículo o animal en la imagen</li>
-          <li>Grabación genérica, sin filtrar los eventos relevantes de los que no lo son</li>
-        </ul>
-      </div>
-      <div class="comp-panel nova" data-comp="camara" data-state="nova">
-        <ul>
-          <li>IA a bordo distingue personas y vehículos de animales, lluvia o ramas — muchas menos falsas alarmas</li>
-          <li>Notificación con el clip del evento real, no un aviso genérico</li>
-          <li>Grabación local en NVR propio (no en la nube) — privacidad y semanas de respaldo sin costo recurrente</li>
-        </ul>
-      </div>
+    <div class="resumen-card">
+      <div class="rc-label">Qué proponemos</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Alarma AXHome + Cámaras 2MP como base, con upgrade opcional a AXPro/AcuSense</div>
     </div>
-    <div id="video-devices"></div>
-
-    <div class="rubro-head" style="margin-top:28px;border-top:1px solid rgba(20,30,97,.15);padding-top:18px;">
-      <span>Subtotal Seguridad (con IVA)</span>
-      <span class="totalchip">U$D 3,354</span>
+    <div class="resumen-card">
+      <div class="rc-label">Inversión base</div>
+      <div class="rc-value" id="resumen-total">USD 5.484</div>
+      <div class="rc-sub">Equipo + mano de obra + programación</div>
+    </div>
+    <div class="resumen-card">
+      <div class="rc-label">Próximo paso</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Confirmar upgrades (Alarma / Video / Home Theater) y coordinar instalación</div>
     </div>
   </div>
+</section>
+
+<!-- UN SOLO RESPONSABLE -->
+<section class="section" id="responsable">
+  <span class="eyebrow">01 — Nuestro compromiso</span>
+  <h2>Un solo responsable</h2>
+  <p class="lead">En una obra con tecnología normalmente coordinás varios proveedores: el de alarma, el de cámaras, el de sonido. Cuando algo falla, cada uno señala al otro y el problema queda en el medio.</p>
+  <p style="margin-top:14px;">Nosotros ejecutamos con equipo propio todo lo que ves en esta propuesta: alarma, videovigilancia y sonido. <strong>La instalación eléctrica de esta vivienda no es parte de este presupuesto</strong> — hacemos una visita técnica de control antes de instalar, para certificar que la base existente está apta. La Alarma y la Videovigilancia se administran desde la app oficial Hik-Connect de Hikvision.</p>
+
+  <div class="diagram-5">
+    <div class="diagram-step"><div class="step-num">01</div><div class="step-label">Relevamiento y especificación</div></div>
+    <div class="diagram-step"><div class="step-num">02</div><div class="step-label">Alarma y videovigilancia</div></div>
+    <div class="diagram-step"><div class="step-num">03</div><div class="step-label">Sonido ambiental</div></div>
+    <div class="diagram-step"><div class="step-num">04</div><div class="step-label">Configuración y puesta en marcha</div></div>
+    <div class="diagram-step"><div class="step-num">05</div><div class="step-label">Entrega documentada + 12 meses de garantía</div></div>
+  </div>
+</section>
+
+<!-- ALARMA -->
+<section class="section" id="alarma">
+  <span class="eyebrow">02 — Alarma</span>
+  <h2>Detección antes que reacción</h2>
+  <p class="lead" id="alarma-lead">Panel Hikvision AXHome, 100% inalámbrico — línea económica de base, con upgrade opcional a AXPro más abajo.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setAlarmaView('comun')">Alarma común</button>
+    <button class="state-b" onclick="setAlarmaView('hik')">Con Hikvision</button>
+  </div>
+  <div class="compare-panel" id="alarma-panel"></div>
+
+  <div class="device-grid" id="grid-alarma"></div>
+</section>
+
+<!-- VIDEOVIGILANCIA -->
+<section class="section section-light" id="videovigilancia">
+  <span class="eyebrow">03 — Videovigilancia</span>
+  <h2>Ver de verdad, no solo grabar</h2>
+  <p class="lead" id="video-lead">4 cámaras Hikvision con grabación local dedicada — línea económica de base, con upgrade opcional a AcuSense más abajo.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setVideoView('comun')">Cámara común</button>
+    <button class="state-b" onclick="setVideoView('hik')">Con Hikvision</button>
+  </div>
+  <div class="compare-panel" id="video-panel"></div>
+
+  <div class="device-grid" id="grid-video"></div>
 </section>
 
 <!-- SONIDO -->
-<section id="sonido">
-  <div class="wrap">
-    <span class="eyebrow">02 · Sonido ambiental</span>
-    <h2>Audio en Living y Dormitorio Suite</h2>
-    <p class="muted" style="max-width:640px;margin-bottom:8px">Dos zonas independientes: cada una con su propio amplificador streaming y su par de parlantes embutidos, control desde la app.</p>
+<section class="section" id="sonido">
+  <span class="eyebrow">04 — Sonido</span>
+  <h2>Audio ambiental — Living y Suite</h2>
+  <p class="lead">Dos zonas independientes: cada una con su propio amplificador streaming y su par de parlantes embutidos, control desde la app. La zona Living admite upgrade opcional a Home Theater.</p>
 
-    <h3 style="margin-top:36px;margin-bottom:16px">Zona Living</h3>
-    <div id="sonido-living"></div>
+  <h3 style="margin-top:28px; margin-bottom:6px;">Zona Living</h3>
+  <p class="lead" id="sonido-living-lead" style="font-size:13.5px;">VSSL MA.1 + par de parlantes Episode Core 3 embutidos en cielorraso.</p>
+  <div class="device-grid" id="grid-sonido-living"></div>
 
-    <h3 style="margin-top:36px;margin-bottom:16px">Zona Dormitorio Suite</h3>
-    <div id="sonido-suite"></div>
+  <h3 style="margin-top:28px; margin-bottom:6px;">Zona Dormitorio Suite</h3>
+  <p class="lead" style="font-size:13.5px;">VSSL MA.1 + par de parlantes Episode Core 3 embutidos en cielorraso — zona independiente, no se ve afectada por el upgrade de Living.</p>
+  <div class="device-grid" id="grid-sonido-suite"></div>
 
-    <div class="rubro-head" style="margin-top:20px;">
-      <span>Subtotal Sonido base (con IVA)</span>
-      <span class="totalchip" id="sonido-subtotal-base">U$D 2,509</span>
-    </div>
-
-    <h3 style="margin-top:44px;margin-bottom:14px">En el día a día</h3>
-    <div class="usecase"><div class="ico">☕</div><div>Desayunás en la cocina con la radio puesta en el Living a bajo volumen, sin necesidad de llevar el celular con vos.</div></div>
-    <div class="usecase"><div class="ico">🎧</div><div>Tu pareja se acuesta temprano en la Suite mientras vos seguís con música en el Living — cada zona es independiente, no se pisan.</div></div>
-    <div class="usecase"><div class="ico">🎬</div><div>Recibís invitados: activás una escena de "reunión" que sube el volumen del Living sin tocar nada en la Suite.</div></div>
-
-    <h3 style="margin-top:44px;margin-bottom:6px">Opcional · Upgrade Home Theater en el Living</h3>
-    <p class="muted" style="font-size:13px;margin-bottom:14px">Reemplaza el ambiental 2.0 de la zona Living (arriba) por un sistema envolvente para el televisor. Podés activar una opción, la otra, o ninguna — se recalcula abajo en vivo.</p>
-
-    <div class="opt-row">
-      <label class="checkbox-card" id="sonos-card">
-        <input type="checkbox" id="sonos-checkbox">
-        <div>
-          <div class="opt-title">Sonos Home Theater</div>
-          <div class="opt-desc">Arc + Sub Mini + 2x Era 100 (rear). Envolvente con canal central virtual — la opción más simple de instalar y de usar.</div>
-          <span class="opt-delta">+U$D 1,481 con IVA</span>
-        </div>
-      </label>
-      <label class="checkbox-card" id="vssl-card">
-        <input type="checkbox" id="vssl-checkbox">
-        <div>
-          <div class="opt-title">VSSL Kit 5.1 inalámbrico</div>
-          <div class="opt-desc">5.1 discreto real: canal central, surrounds y subwoofer separados, no virtualizados.</div>
-          <span class="opt-delta">+U$D 5,424 con IVA</span>
-        </div>
-      </label>
-    </div>
-
-    <div class="valor-box">
-      <h4>¿Por qué vale la pena el upgrade?</h4>
-      <ul>
-        <li>El ambiental 2.0 está pensado para música de fondo — para ver una película o un partido con volumen real, el sonido queda "plano" sin canal central ni graves.</li>
-        <li>El upgrade usa el mismo amplificador/infraestructura de la zona, no arranca de cero: la diferencia de precio es exclusivamente por el salto de calidad de audio.</li>
-        <li>Es la diferencia entre "escuchar" la película y "sentirla" — sobre todo notable con el subwoofer en escenas de acción o partidos.</li>
-      </ul>
-    </div>
-  </div>
+  <div class="usecase-tabs" id="uc-tabs"></div>
+  <div class="usecase-panel" id="uc-panel"></div>
 </section>
 
-<!-- REDES / DECO opcional -->
-<section id="redes" class="section-light">
-  <div class="wrap">
-    <span class="eyebrow">03 · Opcional</span>
-    <h2>Red WiFi 6 whole-home</h2>
-    <p class="muted" style="max-width:640px">Este presupuesto no incluye red de datos. Si querés sumar cobertura WiFi 6 en toda la casa, este es el mejor kit mesh que tenemos disponible en la línea Deco.</p>
-    <label class="checkbox-card" id="deco-card" style="margin-top:18px">
-      <input type="checkbox" id="deco-checkbox">
-      <div>
-        <div class="opt-title" style="color:var(--navy-700)">TP-Link Deco X80 · AX6000 (kit x2)</div>
-        <div class="opt-desc" style="color:var(--gris-claro)">Tope de gama WiFi 6 de la línea Deco — tri-banda, 2 nodos mesh. Cubre vivienda de este tamaño sin necesidad de un 3er nodo.</div>
-        <span class="opt-delta" style="color:var(--navy-700)">+U$D 288 con IVA</span>
-      </div>
-    </label>
+<!-- OPCIONALES -->
+<section class="section" id="opcionales">
+  <span class="eyebrow">05 — Opcionales</span>
+  <h2>A tu criterio</h2>
+  <p class="lead">Este proyecto incluye por defecto la línea económica de Alarma y Videovigilancia. Podés subir a la línea premium en cualquiera de las dos, de forma independiente, y sumar upgrades de Sonido o Red WiFi.</p>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-alarma-premium" onchange="toggleAlarmaPremium()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade Alarma a AXPro</span><span class="opt-price" id="opt-alarma-price">+USD 1.058</span></div>
+      <div class="opt-desc">Reemplaza el kit AXHome por el AXPro, con 2 repetidores de señal y sirena exterior — la línea AXHome no los incluye.</div>
+      <div class="opt-utility">Sin este upgrade, la Alarma AXHome cubre bien los sensores de esta casa, pero queda sin sirena exterior y sin repetidor de señal — y esta vivienda concretamente necesitó 2 repetidores en la línea AXPro por su tamaño, así que hay riesgo real de zonas con señal débil sin ese upgrade. Con el upgrade, sumás disuasión visible desde la calle, cobertura de señal dimensionada a la distancia real de la casa, y comunicación bidireccional entre sensores y panel.</div>
+    </div>
+  </div>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-video-premium" onchange="toggleVideoPremium()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade Videovigilancia a AcuSense (IA)</span><span class="opt-price" id="opt-video-price">+USD 1.252</span></div>
+      <div class="opt-desc">Reemplaza las cámaras 2MP y el NVR 4CH por la línea 4MP con IA AcuSense y NVR 8CH — más resolución y menos falsas alarmas.</div>
+      <div class="opt-utility">Sin este upgrade, las cámaras 2MP graban bien pero notifican ante cualquier movimiento (hojas, autos, animales) sin distinguir qué es relevante, y con menos detalle para hacer zoom sobre una grabación. Con el upgrade, sumás nitidez 4MP y la IA AcuSense que filtra falsas alarmas distinguiendo personas y vehículos.</div>
+    </div>
+  </div>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-sonos" onchange="toggleSonos()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade a Sonos Home Theater (zona Living)</span><span class="opt-price">+USD 1.481</span></div>
+      <div class="opt-desc">Arc + Sub Mini + 2x Era 100 (rear). Envolvente con canal central virtual — la opción más simple de instalar y de usar. Reemplaza el ambiental VSSL/Episode de la zona Living (no afecta la Suite).</div>
+      <div class="opt-utility">El ambiental 2.0 está pensado para música de fondo — para ver una película o un partido con volumen real, el sonido queda "plano" sin canal central ni graves. El upgrade usa la misma infraestructura de la zona: la diferencia de precio es exclusivamente por el salto de calidad de audio.</div>
+    </div>
+  </div>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-vssl51" onchange="toggleVssl()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Upgrade a VSSL Kit 5.1 (zona Living)</span><span class="opt-price">+USD 5.425</span></div>
+      <div class="opt-desc">5.1 discreto real: canal central, surrounds y subwoofer separados, no virtualizados. Reemplaza el ambiental VSSL/Episode de la zona Living (no afecta la Suite). Mutuamente excluyente con el upgrade Sonos — activar uno desactiva el otro.</div>
+      <div class="opt-utility">Es la diferencia entre "escuchar" la película y "sentirla" — sobre todo notable con el subwoofer dedicado en escenas de acción o partidos. Discreto (no virtualizado) significa que cada canal viene de un parlante físico distinto, no simulado por software.</div>
+    </div>
+  </div>
+
+  <div class="opt-card">
+    <input type="checkbox" id="opt-deco" onchange="toggleDeco()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Red WiFi 6 whole-home — TP-Link Deco X80</span><span class="opt-price">+USD 288</span></div>
+      <div class="opt-desc">Este presupuesto no incluye red de datos. Kit AX6000 tri-banda, 2 nodos mesh — cubre esta vivienda sin necesidad de un 3er nodo.</div>
+      <div class="opt-utility">Si ya tenés un router que cubre bien toda la casa, no hace falta. Si notás zonas con WiFi débil, este kit resuelve cobertura completa sin necesidad de la línea profesional Omada (que requeriría más equipo del que este proyecto contempla).</div>
+    </div>
   </div>
 </section>
 
 <!-- INVERSION -->
-<section id="inversion">
-  <div class="wrap">
-    <span class="eyebrow">La Inversión</span>
-    <h2>Desglose por rubro</h2>
-    <div class="legend" id="inv-legend"></div>
-    <div class="barra" id="inv-barra"></div>
+<section class="section section-light" id="inversion">
+  <span class="eyebrow">06 — Inversión</span>
+  <h2>Desglose completo</h2>
+  <p class="lead">Por subsistema, con el detalle cuantitativo de cada dispositivo e IVA real por ítem. Tocá cada rubro para ver la tabla completa.</p>
 
-    <table class="totales">
-      <tr><td>Subtotal Equipo (neto)</td><td id="t-neto">U$D 4,882</td></tr>
-      <tr><td>IVA equipo (discriminado)</td><td id="t-iva">U$D 981</td></tr>
-      <tr><td>Subtotal Equipo (con IVA)</td><td id="t-civa">U$D 5,863</td></tr>
-      <tr><td>Mano de obra especializada por punto</td><td id="t-mo">U$D 1,266</td></tr>
-      <tr><td>Programación y comisionado (10%)</td><td id="t-prog">U$D 713</td></tr>
-      <tr id="t-facturaa-row" style="display:none"><td>IVA Factura A (21% s/mano de obra)</td><td id="t-facturaa">U$D 0</td></tr>
-      <tr class="total-final"><td>TOTAL PROYECTO</td><td id="t-total">U$D 7,842</td></tr>
-    </table>
-    <p class="nota-tc" id="t-ars">Equivalente aprox. ARS 11,865,415 al TC BNA oficial ($1513/USD) del día del presupuesto — se actualiza a la fecha de pago.</p>
-    <p class="nota-tc">Precios en USD, redondeados hacia arriba, sin centavos. "Precio Neto" no incluye IVA — se detalla la alícuota real de cada ítem (21% o 10,5% según corresponda).</p>
-  </div>
+  <div class="barra-segmentada" id="barra-segmentada"></div>
+  <div id="accordion-rubros"></div>
+
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 5.484</span></div>
+  <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.513. Materiales sujetos a cotización del proveedor al momento de la compra.</p>
 </section>
 
-<!-- EJECUCION -->
-<section id="ejecucion" class="section-light">
-  <div class="wrap">
-    <span class="eyebrow">Ejecución y forma de pago</span>
-    <h2>Cómo se instala</h2>
-    <div class="hito">
-      <div class="pct">100%</div>
-      <div>
-        <strong>Equipos, al aceptar la propuesta</strong><br>
-        <span class="muted">Los dispositivos se cancelan en su totalidad por anticipado, para asegurar la compra y disponibilidad de importación.</span>
-        <div class="hito-monto" id="hito-1-monto">U$D 5,863</div>
-      </div>
-    </div>
-    <div class="hito">
-      <div class="pct">30%</div>
-      <div>
-        <strong>Mano de obra, antes de arrancar</strong><br>
-        <span class="muted">Instalación + programación: 30% se certifica y cancela antes de iniciar los trabajos en obra.</span>
-        <div class="hito-monto" id="hito-2-monto">U$D 594</div>
-      </div>
-    </div>
-    <div class="hito">
-      <div class="pct">70%</div>
-      <div>
-        <strong>Mano de obra, al terminar</strong><br>
-        <span class="muted">El 70% restante se cancela al finalizar, contra entrega del sistema funcionando y documentado.</span>
-        <div class="hito-monto" id="hito-3-monto">U$D 1,385</div>
-      </div>
-    </div>
+<!-- FORMA DE PAGO -->
+<section class="section" id="pago">
+  <span class="eyebrow">07 — Forma de pago</span>
+  <h2>Simple y por etapas</h2>
+  <p class="lead">Equipos 100% por anticipado (asegura la compra e importación). Mano de obra en dos partes: 30% al arrancar la obra, 70% al terminar, contra entrega de documentación.</p>
 
-    <label class="checkbox-card" id="facturaa-card" style="margin-top:28px">
-      <input type="checkbox" id="facturaa-checkbox">
-      <div>
-        <div class="opt-title" style="color:var(--navy-700)">Necesito Factura A</div>
-        <div class="opt-desc" style="color:var(--gris-claro)">Suma el IVA (21%) sobre las etapas 2 y 3 de mano de obra — se factura discriminado en vez de estar incluido en el neto de instalación/programación.</div>
-        <span class="opt-delta" style="color:var(--navy-700)" id="facturaa-delta">+U$D 0</span>
-      </div>
-    </label>
-  </div>
-</section>
+  <div class="pay-stage"><span>Equipos — 100% anticipado</span><span class="pay-amt" id="pay-equipo">USD —</span></div>
+  <div class="pay-stage"><span>Mano de obra — 30% al arrancar</span><span class="pay-amt" id="pay-mo-30">USD —</span></div>
+  <div class="pay-stage"><span>Mano de obra — 70% al terminar</span><span class="pay-amt" id="pay-mo-70">USD —</span></div>
 
-<!-- CONDICIONES -->
-<section id="condiciones">
-  <div class="wrap">
-    <span class="eyebrow">Condiciones generales</span>
-    <h2>Antes de aceptar</h2>
-    <details class="device"><summary>Validez y actualización de precios<span></span></summary>
-      <div class="devbody">Presupuesto fechado, válido 15 días. El TC de referencia es el BNA oficial del día. Si el dólar no se actualiza en la misma proporción que el ICC, se usa este índice como factor de ajuste mensual.</div>
-    </details>
-    <details class="device"><summary>Pago de equipos<span></span></summary>
-      <div class="devbody">100% de los dispositivos se cobra por anticipado, antes de instalar — asegura la disponibilidad de importación de los equipos.</div>
-    </details>
-    <details class="device"><summary>Pago de mano de obra</summary>
-      <div class="devbody">Instalación y programación se cobran juntas como mano de obra: 30% antes de arrancar la obra, 70% restante al terminar, contra entrega de la documentación del sistema.</div>
-    </details>
-    <details class="device"><summary>Visitas técnicas<span></span></summary>
-      <div class="devbody">Como este presupuesto no incluye instalación eléctrica, se realiza una visita técnica de control antes de instalar los dispositivos, para certificar que la instalación existente está apta. Valor de la visita: USD 100.</div>
-    </details>
-    <details class="device"><summary>Excedentes<span></span></summary>
-      <div class="devbody">Excedente espontáneo: lo detectamos nosotros en obra, se comunica antes de ejecutar y se cotiza según el ítem de referencia del presupuesto. Excedente por petición: lo solicita el cliente; si no está relacionado a ningún ítem existente, se presupuesta aparte antes de ejecutarlo.</div>
-    </details>
-    <details class="device"><summary>Facturación<span></span></summary>
-      <div class="devbody">Se puede emitir Factura A. La mano de obra lleva IVA e IIBB adicionales sobre los valores indicados.</div>
-    </details>
+  <div class="iva-toggle">
+    <input type="checkbox" id="factura-a" onchange="recalcular()">
+    <label for="factura-a">Necesito Factura A (suma 21% IVA sobre mano de obra)</label>
   </div>
+  <div class="pay-stage" id="pay-iva-row" style="display:none;"><span>IVA Factura A (21% s/ mano de obra)</span><span class="pay-amt" id="pay-iva">USD —</span></div>
 </section>
 
 <!-- RESPALDO -->
-<section id="respaldo" class="section-light">
-  <div class="wrap center">
-    <span class="eyebrow">Respaldo</span>
-    <h2>Un solo responsable</h2>
-    <p class="muted" style="max-width:600px;margin:0 auto 20px">Coordinar alarmista, camarista y técnico de audio por separado significa que, si algo falla, cada uno señala al otro. Nova Domus instala y programa los sistemas de este proyecto con equipo propio: un solo número de contacto, una sola garantía.</p>
+<section class="section section-light" id="respaldo">
+  <span class="eyebrow">08 — Respaldo</span>
+  <h2>Las marcas detrás de la propuesta</h2>
+  <p class="lead">Tocá cada una para ver por qué la elegimos.</p>
+  <div class="pills">
+    <div class="pill fixed">Nova Domus</div>
+    <div class="pill fixed">CEDIA Member</div>
+    <div class="pill" onclick="showBrand('hikvision')">Hikvision</div>
+    <div class="pill" onclick="showBrand('seagate')">Seagate</div>
+    <div class="pill" onclick="showBrand('vssl')">VSSL / Episode</div>
+    <div class="pill" onclick="showBrand('sonos')">Sonos</div>
+    <div class="pill" onclick="showBrand('tplink')">TP-Link Deco</div>
+  </div>
+  <div class="brand-detail" id="brand-detail"></div>
+  <div style="margin-top:24px; border:1px solid rgba(20,30,97,.15); border-radius:10px; padding:16px;">
+    <h3>Garantía y post-venta</h3>
+    <p style="margin-top:6px;">12 meses de garantía sobre instalación y programación. Si algo falla en ese período, lo resolvemos nosotros — un solo responsable de punta a punta.</p>
+  </div>
+</section>
 
-    <div class="brand-grid" id="brand-grid">
-      <div class="brand-pill fixed" title="Marca protagonista — no se despliega">
-        <!-- Generator: visioncortex VTracer 0.6.12 -->
-<svg viewBox="0 0 1021 1024" xmlns="http://www.w3.org/2000/svg">
+<!-- FAQ -->
+<section class="section" id="faq">
+  <span class="eyebrow">09 — Preguntas frecuentes</span>
+  <h2>Antes de que preguntes</h2>
+  <div id="faq-list"></div>
+</section>
+
+<!-- CONDICIONES GENERALES -->
+<section class="section" id="condiciones">
+  <span class="eyebrow">10 — Condiciones generales</span>
+  <h2>Cómo trabajamos</h2>
+  <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
+  <div id="condiciones-list"></div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta">
+  <span class="eyebrow">11 — Siguiente paso</span>
+  <h2>¿Avanzamos?</h2>
+  <p class="lead" style="margin:0 auto;">Confirmá la configuración elegida (línea económica o con upgrades) y coordinamos la Visita Técnica.</p>
+  <div class="accept-check">
+    <input type="checkbox" id="accept-terms" onchange="document.getElementById('btn-accept').disabled=!this.checked">
+    <label for="accept-terms">Entiendo que este presupuesto es válido por 15 días, que los materiales están sujetos a cotización del momento, y que la forma de pago es la detallada más arriba.</label>
+  </div>
+  <button class="btn-accept" id="btn-accept" disabled onclick="aceptarPropuesta()">Aceptar propuesta — PY-2026-003</button>
+</section>
+
+<footer>
+  <div class="foot-logo" id="footlogo"></div>
+  <div>Nova Domus — NDWD SAS · Córdoba, Argentina</div>
+  <div class="py-foot">PY-2026-003</div>
+</footer>
+
+<script>
+const CONDICIONES = [
+  {t:"Validez y actualización de precios", d:"Presupuesto fechado, válido 15 días. El TC de referencia es el BNA oficial del día. Si el dólar no se actualiza en la misma proporción que el ICC, se usa este índice como factor de ajuste mensual."},
+  {t:"Pago de equipos", d:"El 100% de los dispositivos se cobra por anticipado, antes de instalar — asegura la disponibilidad de importación de los equipos."},
+  {t:"Pago de mano de obra", d:"Instalación y programación se certifican de la misma manera: 30% antes de arrancar la obra, 70% al terminar, contra entrega de documentación del sistema."},
+  {t:"Visitas técnicas (electricidad de terceros)", d:"Como este presupuesto no incluye instalación eléctrica, se realiza una visita técnica de control antes de instalar los dispositivos, para certificar que la instalación existente está apta. Valor de la visita: USD 100."},
+  {t:"Certificación de la obra", d:"Toda la obra queda certificada por el Lic. Agustín Dávila, director de la firma, o por el supervisor de obra designado al comenzar."},
+  {t:"Excedentes", d:"Excedente espontáneo: lo detectamos nosotros en obra, se comunica antes de ejecutar y se cotiza según el ítem de referencia del presupuesto. Excedente por petición: lo solicita el cliente; si no está relacionado a ningún ítem existente, se presupuesta aparte antes de ejecutarlo."},
+  {t:"Actualización del presupuesto", d:"El presupuesto queda fechado, con el valor de dólar a la fecha para el cálculo en pesos. Si el dólar no se actualiza respecto al peso en los mismos porcentajes que el ICC, se usa este índice como factor de actualización mensual."},
+  {t:"Tipo de cambio de referencia", d:"Todos los precios en dólares utilizan la cotización BNA oficial (tipo de cambio unificado — ya no se distingue oficial/blue)."},
+  {t:"Formas de cobro", d:"Se reciben pesos en efectivo, transferencia o dólares. E-cheq: consultar factibilidad y financiación, siempre con e-cheqs propios."},
+  {t:"Facturación", d:"Se puede emitir Factura A. En mano de obra, a los precios indicados se le suma IVA e IIBB."},
+];
+document.getElementById('condiciones-list').innerHTML = CONDICIONES.map(c=>`
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner"><p>${c.d}</p></div></div>
+  </div>`).join('');
+</script>
+
+<script>
+const LOGO_SVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1021" height="1024" viewBox="0 0 1021 1024">
 <path d="M0 0 C64.68 0 129.36 0 196 0 C196 0.66 196 1.32 196 2 C196.99 2 197.98 2 199 2 C201.063 5.912 202.837 9.48 204.164 13.715 C206.932 22.217 210.938 30.298 214.605 38.44 C215.617 40.69 216.623 42.943 217.629 45.195 C217.937 45.875 218.246 46.554 218.563 47.254 C219.914 50.282 221.047 53.166 221.961 56.363 C223.302 61.055 225.133 65.496 227 70 C141.664 70.302 56.325 69.296 -29 68 C-28.34 64.431 -27.48 61.697 -25.75 58.5 C-23.805 54.732 -22.168 50.974 -20.688 47 C-18.616 41.475 -16.335 36.076 -13.938 30.688 C-13.773 30.317 -13.773 30.317 -12.942 28.443 C-11.332 24.849 -9.666 21.299 -7.887 17.785 C-6.389 14.824 -5.065 11.851 -3.875 8.75 C-2.705 5.713 -1.463 2.927 0 0 Z " fill="#0D152C" transform="translate(420,771)"/>
 <path d="M0 0 C20.219 -0.187 40.437 -0.328 60.657 -0.414 C70.045 -0.456 79.433 -0.512 88.822 -0.604 C97.005 -0.683 105.188 -0.735 113.372 -0.753 C117.705 -0.763 122.037 -0.788 126.369 -0.846 C130.45 -0.9 134.529 -0.917 138.61 -0.905 C140.105 -0.907 141.6 -0.923 143.095 -0.954 C154.358 -1.174 154.358 -1.174 158.267 1.62 C160.049 3.654 161.513 5.745 163 8 C163.998 9.093 165.025 10.16 166.082 11.195 C166.588 11.701 167.094 12.207 167.615 12.728 C168.142 13.25 168.668 13.771 169.211 14.308 C169.787 14.883 170.364 15.458 170.958 16.051 C172.193 17.282 173.429 18.513 174.667 19.742 C176.623 21.685 178.576 23.632 180.528 25.579 C184.662 29.701 188.799 33.82 192.938 37.938 C197.759 42.735 202.578 47.534 207.394 52.338 C209.322 54.259 211.253 56.178 213.184 58.096 C214.355 59.263 215.525 60.43 216.695 61.597 C216.965 61.865 216.965 61.865 218.334 63.22 C219.575 64.461 220.791 65.728 222 67 C222 67.33 222 67.66 222 68 C192.846 68.912 163.696 69.284 134.529 69.532 C129.933 69.572 125.336 69.617 120.74 69.661 C90.492 69.949 60.248 70.061 30 70 C29.737 69.332 29.473 68.665 29.202 67.977 C28.85 67.091 28.499 66.205 28.136 65.292 C27.791 64.418 27.445 63.544 27.088 62.644 C25.414 58.576 23.489 54.64 21.562 50.688 C19.055 45.479 16.647 40.32 14.688 34.875 C11.746 26.808 7.819 19.179 4.012 11.492 C3.755 10.966 3.755 10.966 2.449 8.305 C2.214 7.83 2.214 7.83 1.022 5.429 C0 3 0 3 0 0 Z " fill="#0D152C" transform="translate(655,771)"/>
 <path d="M0 0 C51.81 0 103.62 0 157 0 C156.208 3.959 155.677 5.953 153.875 9.312 C148.924 18.944 144.707 28.891 141 39.062 C137.359 49.047 132.752 58.496 128 68 C64.31 68 0.62 68 -65 68 C-65 67.34 -65 66.68 -65 66 C-63.531 64.555 -63.531 64.555 -61.5 62.875 C-57.095 59.133 -53.048 55.12 -49 51 C-48.221 50.23 -47.443 49.461 -46.641 48.668 C-44.793 46.801 -42.991 44.928 -41.215 42.996 C-31.216 32.125 -20.779 21.712 -10.285 11.322 C-9.68 10.722 -9.076 10.122 -8.453 9.503 C-7.304 8.362 -6.153 7.223 -4.999 6.087 C-1.113 2.225 -1.113 2.225 0 0 Z " fill="#0D152D" transform="translate(225,771)"/>
@@ -734,442 +538,423 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 <path d="M0 0 C2.31 0 4.62 0 7 0 C7 0.99 7 1.98 7 3 C5.02 3 3.04 3 1 3 C0.67 3.99 0.34 4.98 0 6 C0 4.02 0 2.04 0 0 Z " fill="#4A5B77" transform="translate(543,542)"/>
 <path d="M0 0 C3.3 0 6.6 0 10 0 C10 0.99 10 1.98 10 3 C6.7 2.67 3.4 2.34 0 2 C0 1.34 0 0.68 0 0 Z " fill="#435471" transform="translate(433,559)"/>
 <path d="M0 0 C1.98 0 3.96 0 6 0 C6 0.66 6 1.32 6 2 C5.216 2.309 4.433 2.619 3.625 2.938 C1 4 1 4 -1 5 C-0.67 3.35 -0.34 1.7 0 0 Z " fill="#2E3B55" transform="translate(545,502)"/>
-</svg><span>Nova Domus</span>
-      </div>
-      <div class="brand-pill fixed" title="Membresía profesional">
-        <span>CEDIA Member</span>
-      </div>
-    </div>
-    <div class="brand-grid" id="brand-grid-clickable" style="margin-top:10px"></div>
-    <div class="brand-panel" id="brand-panel"></div>
-
-    <p class="muted" style="margin-top:28px;font-size:13px">Garantía: 12 meses sobre instalación y programación. Si algo falla en ese período, lo resolvemos nosotros.</p>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="wrap">
-    <span class="eyebrow">Preguntas frecuentes</span>
-    <h2>Objeciones típicas</h2>
-    <details class="device"><summary>¿Qué pasa si se corta Internet?<span></span></summary>
-      <div class="devbody">La alarma AXPro y la videovigilancia funcionan de forma local — grabación en el NVR propio, no en la nube. Se pierde la notificación remota mientras no haya conexión, pero el sistema sigue activo y grabando.</div>
-    </details>
-    <details class="device"><summary>¿Quién administra el sistema después de instalado?<span></span></summary>
-      <div class="devbody">Se entrega documentado con usuario y clave de administrador para vos. Nosotros quedamos disponibles para soporte, pero no hay dependencia obligatoria de nuestra empresa para el uso diario.</div>
-    </details>
-    <details class="device"><summary>¿Hay costos recurrentes?<span></span></summary>
-      <div class="devbody">No hay suscripción obligatoria para que la alarma o las cámaras funcionen localmente. Si en el futuro se quiere notificación por 4G/GPRS sin WiFi, ese módulo específico sí puede tener costo de línea, y se cotiza aparte si se pide.</div>
-    </details>
-    <details class="device"><summary>¿Por qué agregaron un segundo repetidor de la alarma?<span></span></summary>
-      <div class="devbody">Por las distancias entre el panel central y los sensores más alejados de la vivienda — un solo repetidor podía dejar zonas con señal débil. Con dos se asegura cobertura estable en toda la casa.</div>
-    </details>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta" class="section-light">
-  <div class="wrap">
-    <div class="cta-box">
-      <span class="eyebrow" style="color:var(--dorado)">Siguiente paso</span>
-      <h2 style="color:var(--cream)">¿Avanzamos?</h2>
-      <p class="muted" style="max-width:480px;margin:0 auto">Confirmá la configuración elegida arriba (con o sin upgrades) y te escribimos por WhatsApp con el monto final para coordinar la reserva de equipos.</p>
-      <label>
-        <input type="checkbox" id="accept-check">
-        <span>Entiendo que este presupuesto tiene validez de 15 días y que los precios están sujetos a la cotización del dólar oficial del día de pago.</span>
-      </label>
-      <br>
-      <button class="btn" id="whatsapp-btn">Confirmar por WhatsApp →</button>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
-fill="#fdfbf0" stroke="none">
-<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
-388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
--207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
--356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
-122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
--435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
-208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
-l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
-314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
-159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
--485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
--182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
--6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
--25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
--179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
-50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
-14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
--177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
--12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
--12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
-2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
--49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
--4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
-50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
--17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
--20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
-138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
--60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
-5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
-45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
-7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
-2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
-c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
-100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
-200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
-M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
-173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
--31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
--95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
--9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
--20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
--65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
-158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
-c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
-0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
--13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
-M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
--67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
-1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
-1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
-676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
-0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
-5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
-</g>
 </svg>
-  Nova Domus · Integración Tecnológica · Del cable a la app<br>
-  <span style="color:var(--dorado)">N° PY-2026-003</span><br>
-  novadomuscba@gmail.com · +549-351-6747513
-</footer>
+`;
+document.getElementById('navlogo').innerHTML = LOGO_SVG;
+document.getElementById('badgelogo').innerHTML = LOGO_SVG;
+document.getElementById('heroLogo').innerHTML = LOGO_SVG;
+document.getElementById('footlogo').innerHTML = LOGO_SVG;
 
-<script>
-const TC = 1513;
-
-// ---------- DATA ----------
-const alarmaItems = [
-  {n:"Kit alarma inalámbrica AXPro WiFi", sku:"DS-PWA96-Kit-WB", qty:1, unitCiva:499.49, iva:21, desc:"Panel central + control remoto, comunicación bidireccional con sensores."},
-  {n:"Teclado LED inalámbrico", sku:"DS-PK1-E-WB", qty:1, unitCiva:82.76, iva:21, desc:"Armado/desarmado por código en el ingreso principal."},
-  {n:"Repetidor de señal AXPro", sku:"DS-PR1-WB(B)", qty:2, unitCiva:107.41, iva:10.5, desc:"Extiende la cobertura de radio a sensores alejados del panel — 2 unidades por las distancias de la vivienda."},
-  {n:"Sensor magnético de puerta/ventana", sku:"DS-PDMCS-EG2-WB", qty:2, unitCiva:30.78, iva:21, desc:"Detecta apertura de aberturas perimetrales."},
-  {n:"Detector PIR interior", sku:"DS-PDP15P-EG2-WB", qty:4, unitCiva:55.18, iva:21, desc:"Detección de movimiento interior, inmune a mascotas chicas."},
-  {n:"Sirena interior", sku:"DS-PS1-I-WB", qty:2, unitCiva:66.36, iva:21, desc:"Alerta sonora dentro de la vivienda."},
-  {n:"Sirena exterior", sku:"DS-PS1-E-WB", qty:2, unitCiva:98.74, iva:21, desc:"Alerta sonora y disuasión visible desde la calle."},
-];
-
-const videoItems = [
-  {n:"Cámara IP 4MP domo AcuSense", sku:"DS-2CD2343G2-LI2U", qty:4, unitCiva:309.28, iva:21, desc:"Luz dual, IA que distingue personas/vehículos de falsas alarmas. Instalación en superficie."},
-  {n:"NVR AcuSense 8 canales", sku:"DS-7608NXI-K2(D)", qty:1, unitCiva:454.48, iva:21, desc:"Grabador central, soporta 2 discos hasta 10TB."},
-  {n:"Disco SkyHawk 4TB (grado vigilancia)", sku:"ST4000VX016", qty:1, unitCiva:252.67, iva:10.5, desc:"Almacenamiento continuo 24/7, semanas de grabación local."},
-];
-
-const sonidoLiving = [
-  {n:"VSSL MA.1 — amplificador streaming 2ch", sku:"VSSL MA.1", qty:1, unitCiva:943.80, iva:21, desc:"AirPlay 2, Spotify Connect y Chromecast nativos, sin hub adicional."},
-  {n:"Episode Core 3 In-Ceiling 6\" (par)", sku:"ES-CORE-36-IC", qty:1, unitCiva:310.90, iva:21, desc:"Parlantes embutidos en cielorraso, sonido invisible."},
-];
-const sonidoSuite = [
-  {n:"VSSL MA.1 — amplificador streaming 2ch", sku:"VSSL MA.1", qty:1, unitCiva:943.80, iva:21, desc:"Zona independiente de la del Living — música distinta en cada ambiente."},
-  {n:"Episode Core 3 In-Ceiling 6\" (par)", sku:"ES-CORE-36-IC", qty:1, unitCiva:310.90, iva:21, desc:"Parlantes embutidos en cielorraso, sonido invisible."},
-];
-
-// Home Theater upgrade options (reemplazan sonidoLiving)
-const htSonos = {
-  neto: 2260.80, civa: 2735.57,
-  items:[
-    {n:"Sonos Arc", unitCiva:1319.87},
-    {n:"Sonos Sub Mini", unitCiva:718.74},
-    {n:"Sonos Era 100 (rear, x2)", unitCiva:696.96},
-  ]
+// ===== DEVICES POR SUBSISTEMA =====
+const DEVICES = {
+  alarma_econ: [
+    {n:'Kit AXHome DS-PA201P-Kit-16WB (central + control + 1er sensor magnético)', q:1, pu:168.43, iva:21, foto:null, desc:'Central inalámbrica residencial, 16 zonas — línea liviana de Hikvision, de sobra para los 6 sensores de este proyecto.'},
+    {n:'Sensor magnético adicional DS-PD201MC-WB', q:1, pu:29.17, iva:10.5, foto:null, desc:'Segundo acceso — cubre el 2º punto de apertura de la vivienda.'},
+    {n:'Sensor de movimiento DS-PD201P10-WB', q:4, pu:40.08, iva:21, foto:null, desc:'Detección de movimiento interior en los 4 ambientes definidos.'},
+    {n:'Teclado DS-PK201B-WB', q:1, pu:50.82, iva:21, foto:null, desc:'Armado/desarmado manual del sistema en el ingreso principal.'},
+    {n:'Sirena interior DS-PS201-WB/Blue', q:2, pu:49.37, iva:21, foto:null, desc:'Disuasión sonora inmediata dentro de la vivienda. Esta línea no incluye sirena exterior ni repetidor de señal.'},
+  ],
+  alarma_premium: [
+    {n:'Kit alarma inalámbrica AXPro WiFi DS-PWA96-Kit-WB', q:1, pu:499.49, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg', desc:'Panel central + control remoto, 96 zonas, comunicación bidireccional real con los sensores.'},
+    {n:'Teclado LED DS-PK1-E-WB', q:1, pu:82.76, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado por código en el ingreso principal.'},
+    {n:'Repetidor de señal DS-PR1-WB(B)', q:2, pu:107.41, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg', desc:'Extiende la cobertura de radio a los sensores más alejados — 2 unidades por las distancias reales de esta vivienda.'},
+    {n:'Sensor magnético DS-PDMCS-EG2-WB', q:2, pu:30.78, iva:21, foto:null, desc:'Detecta apertura de aberturas perimetrales.'},
+    {n:'Detector PIR interior DS-PDP15P-EG2-WB', q:4, pu:55.18, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp', desc:'Detección de movimiento interior, inmune a mascotas chicas.'},
+    {n:'Sirena interior DS-PS1-I-WB', q:2, pu:66.36, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Alerta sonora dentro de la vivienda.'},
+    {n:'Sirena exterior DS-PS1-E-WB', q:2, pu:98.74, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Alerta sonora y disuasión visible desde la calle — no disponible en la línea AXHome.'},
+  ],
+  video_econ: [
+    {n:'Cámara 2MP Hikvision DS-2CD1321G0-I (sin AcuSense)', q:4, pu:59.53, iva:21, foto:null, desc:'Domo IP 2MP, PoE, IR 20mts, IP67 — cobertura perimetral estándar.'},
+    {n:'NVR DS-7104NI-Q1/4P/M(D) 4CH (estándar, sin AcuSense)', q:1, pu:201.83, iva:21, foto:null, desc:'Grabación estándar, 4 canales — justo para las 4 cámaras.'},
+    {n:'Disco Seagate SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Disco de grado videovigilancia 24/7, semanas de grabación local.'},
+  ],
+  video_premium: [
+    {n:'Cámara IP 4MP domo AcuSense DS-2CD2343G2-LI2U', q:4, pu:309.28, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg', desc:'Luz dual, IA que distingue personas/vehículos de falsas alarmas.'},
+    {n:'NVR AcuSense 8 canales DS-7608NXI-K2(D)', q:1, pu:454.48, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-7608nxi-k2-d.jpg', desc:'Grabador central con IA dedicada, soporta 2 discos hasta 10TB.'},
+    {n:'Disco Seagate SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Disco de grado videovigilancia 24/7, semanas de grabación local.'},
+  ],
 };
-const htVssl = { neto:5520.00, civa:6679.20, items:[{n:"VSSL Kit 5,1 inalámbrico", unitCiva:6679.20}] };
-const livingBase = { neto: 780.00*1.20*0+0, civa: 943.80+310.90, neto2: 780.00 + 256.945 };
+const SONIDO_LIVING_BASE = [
+  {n:'VSSL MA.1 — ampli streaming 2 canales (Living)', q:1, pu:943.80, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png', desc:'AirPlay 2, Spotify Connect y Chromecast nativos, sin hub adicional.'},
+  {n:'Episode Core 3 In-Ceiling 6" — par (Living)', q:1, pu:310.90, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/es-core-36-ic.jpg', desc:'Parlantes embutidos en cielorraso, sonido ambiental invisible.'},
+];
+const SONIDO_SUITE_ITEMS = [
+  {n:'VSSL MA.1 — ampli streaming 2 canales (Suite)', q:1, pu:943.80, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png', desc:'Zona independiente de la del Living — música distinta en cada ambiente.'},
+  {n:'Episode Core 3 In-Ceiling 6" — par (Suite)', q:1, pu:310.90, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/es-core-36-ic.jpg', desc:'Parlantes embutidos en cielorraso, sonido ambiental invisible.'},
+];
+const SONIDO_SONOS_ITEMS = [
+  {n:'Sonos Arc', q:1, pu:1319.87, iva:21, foto:null, desc:'Soundbar con virtualización Dolby Atmos — canal central para diálogo nítido.'},
+  {n:'Sonos Sub Mini', q:1, pu:718.74, iva:21, foto:null, desc:'Grave real para escenas de acción, sin ocupar el lugar de un subwoofer grande.'},
+  {n:'Sonos Era 100 (rear)', q:2, pu:348.48, iva:21, foto:null, desc:'Traseros/surround en el Living.'},
+];
+const SONIDO_VSSL51_ITEMS = [
+  {n:'VSSL Kit 5.1 inalámbrico', q:1, pu:6679.20, iva:21, foto:null, desc:'5.1 discreto real: canal central, surrounds y subwoofer separados, no virtualizados.'},
+];
+const DECO_ITEM = [
+  {n:'TP-Link Deco X80 AX6000 (kit x2)', q:1, pu:288.25, iva:10.5, foto:null, desc:'Tope de gama WiFi 6 de la línea Deco — tri-banda, 2 nodos mesh, cubre esta vivienda sin necesidad de un 3er nodo.'},
+];
 
-const decoAddon = { neto:260.86, iva:27.39, civa:288.25, moArs:118960, label:"TP-Link Deco X80 AX6000 (kit x2)" };
-
-const brandData = {
-  hikvision: {
-    name: "Hikvision",
-    text: "El mayor fabricante de videovigilancia del mundo por participación de mercado (25,7% global, según JVSG 2025). Nova Domus lo elige por su tecnología AcuSense — IA que distingue personas y vehículos de falsas alarmas — y por la disponibilidad real de repuestos y soporte técnico en Argentina."
-  },
-  vssl: {
-    name: "VSSL",
-    text: "Fabricante especializado en amplificadores streaming multi-zona para integradores residenciales. Se elige porque integra AirPlay 2, Spotify Connect y Chromecast de forma nativa, sin depender de un hub ni una app propietaria adicional — y porque el mismo amplificador puede escalar a más zonas el día de mañana."
-  },
-  episode: {
-    name: "Episode",
-    text: "Marca de audio in-ceiling especializada en integración residencial invisible, distribuida por Snap One (uno de los mayores distribuidores de AV para integradores certificados). Se elige por la calidad de reproducción en un formato embutido que no se nota en el cielorraso."
-  },
-  sonos: {
-    name: "Sonos",
-    text: "El fabricante de audio inalámbrico más reconocido a nivel de consumidor masivo. Se ofrece como upgrade de Home Theater porque es la opción más simple de configurar y usar día a día, con el respaldo de una app madura y muy difundida."
-  },
-  tplink: {
-    name: "TP-Link / Deco",
-    text: "Uno de los mayores fabricantes de equipamiento de redes del mundo por volumen de ventas. La línea Deco se elige para el upgrade de WiFi 6 whole-home por su simplicidad de configuración vía app — ideal cuando no se necesita la segmentación VLAN de la línea profesional Omada."
-  },
-};
-
-// MO fijo (Alarma+Camaras, Tarifario ND, ARS) -> ya calculado
-const MO_ALARMA_CAMARAS_ARS = 1156399;
-
-// ---------- HELPERS ----------
-function sum(items){ return items.reduce((a,i)=>a+i.unitCiva*i.qty,0); }
-function sumNeto(items){ return items.reduce((a,i)=>a + (i.unitCiva/(1+i.iva/100))*i.qty ,0); }
-function fmt(n){ return n.toLocaleString('en-US',{maximumFractionDigits:0}); }
-
-function renderDevices(container, items){
-  container.innerHTML = items.map(it=>{
-    const totalCiva = it.unitCiva*it.qty;
-    const showSubtotal = it.qty>1;
-    return `<details class="device">
-      <summary><span><span class="qty">x${it.qty}</span>${it.n}</span><span class="price">U\$D ${fmt(totalCiva)}</span></summary>
-      <div class="devbody">
-        ${it.desc}
-        <div class="priceline">Precio Unitario U\$D ${fmt(it.unitCiva/(1+it.iva/100))} + IVA ${it.iva}%${showSubtotal?` &nbsp;·&nbsp; Subtotal U\$D ${fmt(totalCiva)}`:''}</div>
+function renderDeviceGrid(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((d,i)=>{
+    const fotoHtml = d.foto
+      ? `<img class="dc-photo" src="${d.foto}" alt="${d.n}">`
+      : `<div class="dc-photo-placeholder">Foto<br>pendiente</div>`;
+    return `<div class="device-card" id="${containerId}-${i}">
+      <div class="dc-head" onclick="toggleDevice('${containerId}-${i}')">
+        <div><div class="dc-name">${d.n}</div><div class="dc-qty">${d.q} unidad${d.q>1?'es':''}</div></div>
+        <span class="dc-arrow">▾</span>
       </div>
-    </details>`;
+      <div class="dc-body"><div class="dc-body-inner">
+        ${fotoHtml}
+        <div class="dc-desc">${d.desc}</div>
+      </div></div>
+    </div>`;
   }).join('');
 }
 
-// ---------- STATE ----------
+function renderAlarmaGrid(){
+  renderDeviceGrid('grid-alarma', alarmaPremium ? DEVICES.alarma_premium : DEVICES.alarma_econ);
+  document.getElementById('alarma-lead').textContent = alarmaPremium
+    ? 'Panel Hikvision AXPro, 100% inalámbrico — upgrade activo, con repetidores y sirena exterior.'
+    : 'Panel Hikvision AXHome, 100% inalámbrico — línea económica de base, con upgrade opcional a AXPro más abajo.';
+}
+function renderVideoGrid(){
+  renderDeviceGrid('grid-video', videoPremium ? DEVICES.video_premium : DEVICES.video_econ);
+  document.getElementById('video-lead').textContent = videoPremium
+    ? '4 cámaras Hikvision AcuSense con IA — upgrade activo, distingue personas y vehículos de falsas alarmas.'
+    : '4 cámaras Hikvision con grabación local dedicada — línea económica de base, con upgrade opcional a AcuSense más abajo.';
+}
+function sonidoLivingItems(){
+  if(sonosOn) return SONIDO_SONOS_ITEMS;
+  if(vsslOn) return SONIDO_VSSL51_ITEMS;
+  return SONIDO_LIVING_BASE;
+}
+function renderSonidoGrids(){
+  renderDeviceGrid('grid-sonido-living', sonidoLivingItems());
+  renderDeviceGrid('grid-sonido-suite', SONIDO_SUITE_ITEMS);
+  document.getElementById('sonido-living-lead').textContent = sonosOn
+    ? 'Home Theater Sonos (Arc + Sub Mini + 2x Era 100) — upgrade activo, reemplaza al VSSL/Episode de esta zona.'
+    : vsslOn
+    ? 'VSSL Kit 5.1 inalámbrico — upgrade activo, reemplaza al VSSL/Episode 2.0 de esta zona.'
+    : 'VSSL MA.1 + par de parlantes Episode Core 3 embutidos en cielorraso.';
+}
+
+function toggleDevice(id){
+  const card = document.getElementById(id);
+  const body = card.querySelector('.dc-body');
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open', !isOpen);
+  body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
+}
+
+// ===== CASOS DE USO — SONIDO =====
+const SONIDO_CASOS = [
+  {tab:'Desayuno', icon:'☕', text:'Radio o música de fondo en el Living mientras desayunás, sin necesidad de llevar el celular con vos.'},
+  {tab:'Cada uno en lo suyo', icon:'🎧', text:'Tu pareja se acuesta temprano en la Suite mientras vos seguís con música en el Living — cada zona es independiente, no se pisan.'},
+  {tab:'Con invitados', icon:'🍽️', text:'Activás una escena de reunión que sube el volumen del Living sin tocar nada en la Suite.'},
+  {tab:'Noche de cine', icon:'🎬', text:'Con un upgrade de Home Theater activo en Living, el sonido acompaña la película con diálogo nítido y grave real — con el ambiental 2.0 base, sigue siendo buen sonido de fondo, no de cine.'},
+];
+function renderSonidoCasos(){
+  const tabsEl = document.getElementById('uc-tabs');
+  tabsEl.innerHTML = SONIDO_CASOS.map((c,i)=>`<div class="usecase-tab ${i===0?'active':''}" onclick="setSonidoCaso(${i})">${c.tab}</div>`).join('');
+  setSonidoCaso(0);
+}
+function setSonidoCaso(i){
+  const c = SONIDO_CASOS[i];
+  document.getElementById('uc-panel').innerHTML = `<span class="uc-icon">${c.icon}</span><span>${c.text}</span>`;
+  document.querySelectorAll('#uc-tabs .usecase-tab').forEach((t,idx)=>t.classList.toggle('active', idx===i));
+}
+renderSonidoCasos();
+
+// ===== INVERSION =====
+const TC = 1513;
+let alarmaPremium = false;
+let videoPremium = false;
 let sonosOn = false;
 let vsslOn = false;
 let decoOn = false;
-let facturaAOn = false;
 
-function recalc(){
-  const alarmaCiva = sum(alarmaItems);
-  const alarmaNeto = sumNeto(alarmaItems);
-  const videoCiva = sum(videoItems);
-  const videoNeto = sumNeto(videoItems);
-
-  let sonidoCiva = sum(sonidoLiving) + sum(sonidoSuite);
-  let sonidoNeto = sumNeto(sonidoLiving) + sumNeto(sonidoSuite);
-
-  // Si se elige Sonos y/o VSSL, se retira UNA vez el ambiental base de la zona Living
-  // (es el mismo lugar físico) y se suma cada upgrade elegido — así se puede ver el
-  // combinado si se tildan los dos, aunque en obra real se instalaría uno solo.
-  if(sonosOn || vsslOn){
-    sonidoCiva -= sum(sonidoLiving);
-    sonidoNeto -= sumNeto(sonidoLiving);
-    if(sonosOn){ sonidoCiva += htSonos.civa; sonidoNeto += htSonos.neto; }
-    if(vsslOn){ sonidoCiva += htVssl.civa; sonidoNeto += htVssl.neto; }
-  }
-
-  let equipoCiva = alarmaCiva + videoCiva + sonidoCiva;
-  let equipoNeto = alarmaNeto + videoNeto + sonidoNeto;
-  if(decoOn){ equipoCiva += decoAddon.civa; equipoNeto += decoAddon.neto; }
-
-  const equipoIva = equipoCiva - equipoNeto;
-
-  const moAlarmaCam = MO_ALARMA_CAMARAS_ARS/TC;
-  const moSonido = 0.20*sonidoCiva;
-  const moDeco = decoOn ? (decoAddon.moArs/TC) : 0;
-  const moTotal = moAlarmaCam + moSonido + moDeco;
-
-  const programacion = 0.10*(equipoCiva+moTotal);
-
-  // Mano de obra total (instalacion + programacion) es la base de las etapas 2 y 3.
-  // Factura A discrimina y suma 21% de IVA sobre esa mano de obra.
-  const manoDeObraNeta = moTotal + programacion;
-  const ivaFacturaA = facturaAOn ? manoDeObraNeta*0.21 : 0;
-  const manoDeObraFacturada = manoDeObraNeta + ivaFacturaA;
-
-  const total = equipoCiva + manoDeObraFacturada;
-
-  // Etapas de pago
-  const etapa1 = equipoCiva;                 // 100% equipos, ya incluye IVA por item
-  const etapa2 = manoDeObraFacturada*0.30;    // 30% mano de obra, antes de arrancar
-  const etapa3 = manoDeObraFacturada*0.70;    // 70% mano de obra, al terminar
-
-  document.getElementById('t-neto').textContent = 'U$D '+fmt(equipoNeto);
-  document.getElementById('t-iva').textContent = 'U$D '+fmt(equipoIva);
-  document.getElementById('t-civa').textContent = 'U$D '+fmt(equipoCiva);
-  document.getElementById('t-mo').textContent = 'U$D '+fmt(moTotal);
-  document.getElementById('t-prog').textContent = 'U$D '+fmt(programacion);
-  document.getElementById('t-facturaa-row').style.display = facturaAOn ? '' : 'none';
-  document.getElementById('t-facturaa').textContent = 'U$D '+fmt(ivaFacturaA);
-  document.getElementById('t-total').textContent = 'U$D '+fmt(total);
-  document.getElementById('t-ars').textContent = `Equivalente aprox. ARS ${fmt(total*TC)} al TC BNA oficial ($${TC}/USD) del día del presupuesto — se actualiza a la fecha de pago.`;
-
-  document.querySelectorAll('.num-total').forEach(el=>{ el.textContent = 'U$D '+fmt(total); });
-
-  // Montos por etapa en Ejecución
-  document.getElementById('hito-1-monto').textContent = 'U$D '+fmt(etapa1);
-  document.getElementById('hito-2-monto').textContent = 'U$D '+fmt(etapa2);
-  document.getElementById('hito-3-monto').textContent = 'U$D '+fmt(etapa3);
-  document.getElementById('facturaa-delta').textContent = '+U$D '+fmt(ivaFacturaA)+' sobre el total';
-
-  // barra segmentada
-  const rubros = [
-    {l:'Alarma', v:alarmaCiva, c:'#C8A96E'},
-    {l:'Videovigilancia', v:videoCiva, c:'#787A91'},
-    {l:'Sonido', v:sonidoCiva, c:'#5eead4'},
-  ];
-  if(decoOn) rubros.push({l:'Red WiFi 6', v:decoAddon.civa, c:'#e0a458'});
-  const totalRubros = rubros.reduce((a,r)=>a+r.v,0);
-  document.getElementById('inv-barra').innerHTML = rubros.map(r=>`<span style="width:${(r.v/totalRubros*100).toFixed(2)}%;background:${r.c}"></span>`).join('');
-  document.getElementById('inv-legend').innerHTML = rubros.map(r=>`<span><span class="dot" style="background:${r.c}"></span>${r.l} — U\$D ${fmt(r.v)}</span>`).join('');
-
-  document.getElementById('sonido-subtotal-base').textContent = 'U$D '+fmt(sum(sonidoLiving)+sum(sonidoSuite));
+function sonidoEquipoTotal(){
+  const sumItems = items => items.reduce((a,i)=>a+i.pu*i.q,0);
+  return sumItems(SONIDO_SUITE_ITEMS) + sumItems(sonidoLivingItems());
 }
 
-// ---------- INIT ----------
-document.addEventListener('DOMContentLoaded', ()=>{
-  renderDevices(document.getElementById('alarma-devices'), alarmaItems);
-  renderDevices(document.getElementById('video-devices'), videoItems);
-  renderDevices(document.getElementById('sonido-living'), sonidoLiving);
-  renderDevices(document.getElementById('sonido-suite'), sonidoSuite);
+function getRubros(){
+  const a = alarmaPremium
+    ? {equipo:1409.55, mo:560.55}
+    : {equipo:507.46, mo:405.01};
+  const v = videoPremium
+    ? {equipo:1944.27, mo:369.40}
+    : {equipo:692.63, mo:369.40};
+  const sEquipo = sonidoEquipoTotal();
+  const s = {equipo:sEquipo, mo: 0.20*sEquipo};
+  const rubros = [
+    {id:'alarma', label: alarmaPremium ? 'Alarma — AXPro' : 'Alarma — AXHome', equipo:a.equipo, mo:a.mo, color:'#B5453A'},
+    {id:'video', label: videoPremium ? 'Videovigilancia — AcuSense 4MP' : 'Videovigilancia — 2MP', equipo:v.equipo, mo:v.mo, color:'#8698AE'},
+    {id:'sonido', label:'Sonido — Living + Suite', equipo:s.equipo, mo:s.mo, color:'#C8A96E'},
+  ];
+  if(decoOn){
+    const d = DECO_ITEM[0];
+    const moDecoUsd = 118960/TC;
+    rubros.push({id:'deco', label:'Red WiFi 6 — Deco X80', equipo:d.pu*d.q, mo:moDecoUsd, color:'#e0a458'});
+  }
+  return rubros;
+}
+function getRubroItems(id){
+  if(id==='alarma') return alarmaPremium ? DEVICES.alarma_premium : DEVICES.alarma_econ;
+  if(id==='video') return videoPremium ? DEVICES.video_premium : DEVICES.video_econ;
+  if(id==='sonido') return [...SONIDO_SUITE_ITEMS, ...sonidoLivingItems()];
+  if(id==='deco') return DECO_ITEM;
+}
 
-  // comparativas antes/despues (alarma y camara)
-  document.querySelectorAll('.comp-switch button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const comp = btn.dataset.comp, state = btn.dataset.state;
-      document.querySelectorAll(`.comp-switch button[data-comp="${comp}"]`).forEach(b=>{
-        b.classList.remove('active-comun','active-nova');
-      });
-      btn.classList.add(state==='comun'?'active-comun':'active-nova');
-      document.querySelectorAll(`.comp-panel[data-comp="${comp}"]`).forEach(p=>{
-        p.classList.toggle('visible', p.dataset.state===state);
-      });
-    });
+function fmt(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:0, maximumFractionDigits:0}); }
+function fmt2(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+function calcularTotales(){
+  const rubros = getRubros();
+  const equipo = rubros.reduce((a,r)=>a+r.equipo,0);
+  const mo = rubros.reduce((a,r)=>a+r.mo,0);
+  const prog = (equipo+mo)*0.10;
+  const total = equipo+mo+prog;
+  return {equipo, mo, prog, total};
+}
+
+function tablaDetalle(items){
+  let html = `<table class="detalle"><tr><th>Dispositivo</th><th class="num">P. Unit.</th><th class="num">IVA</th><th class="num">Cant.</th><th class="num">Total</th></tr>`;
+  let sub = 0;
+  items.forEach(it=>{
+    const t = it.pu*it.q;
+    sub += t;
+    html += `<tr><td>${it.n}</td><td class="num">${fmt2(it.pu)}</td><td class="num">${it.iva}%</td><td class="num">${it.q}</td><td class="num">${fmt2(t)}</td></tr>`;
   });
+  html += `<tr class="subtotal"><td colspan="4">Subtotal equipo</td><td class="num">${fmt2(sub)}</td></tr>`;
+  html += `</table>`;
+  return html;
+}
 
-  const sonosCheckbox = document.getElementById('sonos-checkbox');
-  const sonosCard = document.getElementById('sonos-card');
-  const vsslCheckbox = document.getElementById('vssl-checkbox');
-  const vsslCard = document.getElementById('vssl-card');
+function renderInversion(){
+  const t = calcularTotales();
+  const rubros = getRubros();
+  const barra = document.getElementById('barra-segmentada');
+  barra.innerHTML = rubros.map(r=>{
+    const pct = ((r.equipo+r.mo)/(t.equipo+t.mo)*100).toFixed(1);
+    return `<div style="width:${pct}%; background:${r.color};" title="${r.label}"></div>`;
+  }).join('');
 
-  sonosCheckbox.addEventListener('change', ()=>{
-    sonosOn = sonosCheckbox.checked;
-    if(sonosOn){ vsslOn = false; vsslCheckbox.checked = false; vsslCard.classList.remove('selected'); }
-    sonosCard.classList.toggle('selected', sonosOn);
-    recalc();
-  });
+  const acc = document.getElementById('accordion-rubros');
+  acc.innerHTML = rubros.map(r=>{
+    const progR = (r.equipo+r.mo)*0.10;
+    const totalR = r.equipo+r.mo+progR;
+    return `<div class="accordion-item">
+      <div class="accordion-head" onclick="toggleAcc(this)">
+        <span>${r.label}</span>
+        <span class="ah-price">${fmt(totalR)} <span class="acc-arrow">▾</span></span>
+      </div>
+      <div class="accordion-body"><div class="accordion-body-inner">
+        ${tablaDetalle(getRubroItems(r.id))}
+        <p style="margin-top:10px; font-size:12.5px; color:var(--grey);">+ Mano de obra: ${fmt2(r.mo)} · + Programación: ${fmt2(progR)} = <strong>${fmt2(totalR)}</strong></p>
+      </div></div>
+    </div>`;
+  }).join('');
 
-  vsslCheckbox.addEventListener('change', ()=>{
-    vsslOn = vsslCheckbox.checked;
-    if(vsslOn){ sonosOn = false; sonosCheckbox.checked = false; sonosCard.classList.remove('selected'); }
-    vsslCard.classList.toggle('selected', vsslOn);
-    recalc();
-  });
+  document.getElementById('total-final').textContent = fmt(t.total);
+  document.getElementById('resumen-total').textContent = fmt(t.total);
+  document.getElementById('opt-alarma-price').textContent = '+' + fmt(1409.55+560.55-507.46-405.01);
+  document.getElementById('opt-video-price').textContent = '+' + fmt(1944.27+369.40-692.63-369.40);
+  renderPago(t);
+}
 
-  const decoCheckbox = document.getElementById('deco-checkbox');
-  const decoCard = document.getElementById('deco-card');
-  decoCheckbox.addEventListener('change', ()=>{
-    decoOn = decoCheckbox.checked;
-    decoCard.classList.toggle('selected', decoOn);
-    recalc();
-  });
+function renderPago(t){
+  const facturaA = document.getElementById('factura-a').checked;
+  document.getElementById('pay-equipo').textContent = fmt2(t.equipo);
+  document.getElementById('pay-mo-30').textContent = fmt2(t.mo*0.30);
+  document.getElementById('pay-mo-70').textContent = fmt2(t.mo*0.70);
+  const ivaRow = document.getElementById('pay-iva-row');
+  if(facturaA){
+    ivaRow.style.display='flex';
+    document.getElementById('pay-iva').textContent = fmt2(t.mo*0.21);
+  } else {
+    ivaRow.style.display='none';
+  }
+}
 
-  const facturaACheckbox = document.getElementById('facturaa-checkbox');
-  const facturaACard = document.getElementById('facturaa-card');
-  facturaACheckbox.addEventListener('change', ()=>{
-    facturaAOn = facturaACheckbox.checked;
-    facturaACard.classList.toggle('selected', facturaAOn);
-    recalc();
-  });
+function toggleAlarmaPremium(){
+  alarmaPremium = document.getElementById('opt-alarma-premium').checked;
+  renderAlarmaGrid();
+  renderInversion();
+}
+function toggleVideoPremium(){
+  videoPremium = document.getElementById('opt-video-premium').checked;
+  renderVideoGrid();
+  renderInversion();
+}
+function toggleSonos(){
+  sonosOn = document.getElementById('opt-sonos').checked;
+  if(sonosOn){ vsslOn = false; document.getElementById('opt-vssl51').checked = false; }
+  renderSonidoGrids();
+  renderInversion();
+}
+function toggleVssl(){
+  vsslOn = document.getElementById('opt-vssl51').checked;
+  if(vsslOn){ sonosOn = false; document.getElementById('opt-sonos').checked = false; }
+  renderSonidoGrids();
+  renderInversion();
+}
+function toggleDeco(){
+  decoOn = document.getElementById('opt-deco').checked;
+  renderInversion();
+}
+function recalcular(){ renderInversion(); }
 
-  recalc();
+function toggleAcc(head){
+  const item = head.parentElement;
+  const body = item.querySelector('.accordion-body');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>b.style.maxHeight=null);
+  document.querySelectorAll('.accordion-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen){
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+window.addEventListener('resize', ()=>{
+  document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight+'px'; });
+  document.querySelectorAll('.device-card.open .dc-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight+'px'; });
+});
 
-  // Respaldo — fichas de marca interactivas
-  const brandGrid = document.getElementById('brand-grid-clickable');
-  const brandPanel = document.getElementById('brand-panel');
-  let activeBrand = null;
-  brandGrid.innerHTML = Object.keys(brandData).map(key=>
-    `<button class="brand-pill" data-brand="${key}">${brandData[key].name}</button>`
-  ).join('');
-  brandGrid.querySelectorAll('.brand-pill').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const key = btn.dataset.brand;
-      if(activeBrand===key){
-        activeBrand = null;
-        brandPanel.classList.remove('open');
-        brandPanel.style.maxHeight = null;
-        brandPanel.innerHTML = '';
-        btn.classList.remove('active');
-        return;
-      }
-      brandGrid.querySelectorAll('.brand-pill').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      activeBrand = key;
-      brandPanel.innerHTML = `<strong>${brandData[key].name}</strong>${brandData[key].text}`;
-      brandPanel.classList.add('open');
-      brandPanel.style.maxHeight = brandPanel.scrollHeight + 'px';
-    });
-  });
+// ===== COMPARATIVAS SWITCH =====
+function setAlarmaView(view){
+  document.querySelectorAll('#alarma .switch2 button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  const panel = document.getElementById('alarma-panel');
+  if(view==='comun'){
+    panel.innerHTML = `<ul>
+      <li class="no">Sensores por radio simple: cualquier interferencia genera falsas alarmas frecuentes</li>
+      <li class="no">Sin repetidor: en casas grandes quedan zonas con señal débil o sin cobertura</li>
+      <li class="no">Central sin batería de respaldo real, o con autonomía muy corta ante un corte de luz</li>
+      <li class="no">Notificación solo por app genérica, sin integración con cámaras</li>
+    </ul>`;
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">Comunicación bidireccional real entre sensores y panel — confirma que cada aviso llegó</li>
+      <li class="yes">100% inalámbrico, fácil de ampliar a futuro</li>
+      <li class="yes">Administración desde la app oficial Hik-Connect</li>
+      <li class="yes">Upgrade disponible a repetidor de señal + sirena exterior si la vivienda lo necesita</li>
+    </ul>`;
+  }
+}
+function setVideoView(view){
+  document.querySelectorAll('#videovigilancia .switch2 button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  const panel = document.getElementById('video-panel');
+  if(view==='comun'){
+    panel.innerHTML = `<ul>
+      <li class="no">Cámaras de consumo, muchas dependen de suscripción en la nube</li>
+      <li class="no">WiFi con batería — hay que reponer o recargar</li>
+      <li class="no">Grabación limitada por espacio de nube o microSD chica</li>
+      <li class="no">Instalación amateur, sin certificación de obra</li>
+    </ul>`;
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">Grabación dedicada en NVR propio, no en la nube</li>
+      <li class="yes">PoE — cableado simple, sin baterías que reponer</li>
+      <li class="yes">Búsqueda de eventos por fecha/hora, filtrable en minutos</li>
+      <li class="yes">Upgrade disponible a IA AcuSense que distingue personas y vehículos</li>
+    </ul>`;
+  }
+}
 
-  // count-up
-  const counters = document.querySelectorAll('[data-count]');
-  const seen = new Set();
+// ===== RESPALDO =====
+const BRANDS = {
+  hikvision: "El mayor fabricante de videovigilancia y alarma del mundo. Lo elegimos por la solidez tanto de su línea residencial liviana (AXHome) como de la línea profesional (AXPro/AcuSense), y por el soporte técnico local de nuestro proveedor.",
+  seagate: "Línea SkyHawk diseñada específicamente para grabación continua de videovigilancia, con mayor tolerancia a escritura 24/7 que un disco genérico.",
+  vssl: "VSSL y Episode son marcas de audio residencial de gama profesional, pensadas para integración invisible. Las elegimos por calidad de sonido sin depender de un solo servicio de streaming.",
+  sonos: "El ecosistema de audio multiroom más difundido del mundo, con su propia app madura y estable. Lo ofrecemos como upgrade cuando el cliente quiere una experiencia de cine real, no solo sonido ambiental.",
+  tplink: "Uno de los mayores fabricantes de equipamiento de redes del mundo por volumen de ventas. La línea Deco se elige para el upgrade de WiFi 6 whole-home por su simplicidad de configuración vía app.",
+};
+function showBrand(key){
+  const el = document.getElementById('brand-detail');
+  el.textContent = BRANDS[key];
+  el.classList.add('show');
+}
+
+// ===== FAQ =====
+const FAQS = [
+  {q:"¿Cómo controlo la alarma y las cámaras día a día?", a:"Desde la app oficial Hik-Connect de Hikvision, gratuita — no hace falta un panel de domótica adicional para este alcance."},
+  {q:"¿Qué pasa si se corta Internet?", a:"La alarma y la videovigilancia funcionan de forma local — grabación en el NVR propio, no en la nube. Se pierde la notificación remota mientras no haya conexión, pero el sistema sigue activo y grabando."},
+  {q:"¿Quién administra el sistema después de instalado?", a:"Se entrega documentado con usuario y clave de administrador para vos. Nosotros quedamos disponibles para soporte, pero no hay dependencia obligatoria de nuestra empresa para el uso diario."},
+  {q:"¿Hay costos recurrentes?", a:"No hay suscripción obligatoria para que la alarma o las cámaras funcionen localmente. Hik-Connect es gratis para lo incluido acá. El monitoreo de alarma con central de terceros es opcional y aparte, solo si se contrata."},
+  {q:"¿Por qué el upgrade de Alarma incluye 2 repetidores?", a:"Por las distancias entre el panel central y los sensores más alejados de esta vivienda en particular — un solo repetidor podía dejar zonas con señal débil. La línea económica AXHome no ofrece repetidor: si notás cortes de señal en zonas alejadas, el upgrade a AXPro es la forma de resolverlo."},
+  {q:"¿Puedo sumar domótica o iluminación más adelante?", a:"Sí — se trata como una ampliación aparte cuando lo definas, no como una corrección de esta propuesta."},
+];
+document.getElementById('faq-list').innerHTML = FAQS.map((f,i)=>`
+  <div class="faq-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner"><p>${f.a}</p></div></div>
+  </div>`).join('');
+
+// ===== ACEPTAR =====
+function aceptarPropuesta(){
+  const t = calcularTotales();
+  const alarmaTxt = alarmaPremium ? 'AXPro (upgrade)' : 'AXHome (base)';
+  const videoTxt = videoPremium ? 'AcuSense 4MP (upgrade)' : '2MP (base)';
+  const sonidoTxt = sonosOn ? 'Sonos Home Theater' : (vsslOn ? 'VSSL Kit 5.1' : 'Base 2.0');
+  const decoTxt = decoOn ? 'Sí' : 'No';
+  const msg = `Hola Nova Domus! Quiero avanzar con la propuesta PY-2026-003 (La Luisita L8).%0A%0AAlarma: ${alarmaTxt}%0AVideovigilancia: ${videoTxt}%0ASonido Living: ${sonidoTxt}%0ARed WiFi 6 Deco: ${decoTxt}%0A%0ATotal: ${fmt(t.total)}`;
+  window.open(`https://wa.me/5493516747513?text=${msg}`, '_blank');
+}
+
+// ===== COUNT UP =====
+function animateCount(el){
+  const target = parseInt(el.dataset.count);
+  let cur = 0;
+  const step = Math.max(1, Math.ceil(target/40));
+  const it = setInterval(()=>{
+    cur += step;
+    if(cur>=target){ cur = target; clearInterval(it); }
+    el.textContent = cur;
+  }, 30);
+}
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !seen.has(e.target)){
-        seen.add(e.target);
-        const target = parseInt(e.target.dataset.count,10);
-        if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-          e.target.textContent = target; return;
-        }
-        let cur = 0;
-        const step = Math.max(1, Math.ceil(target/30));
-        const t = setInterval(()=>{
-          cur += step;
-          if(cur>=target){ cur = target; clearInterval(t); }
-          e.target.textContent = cur;
-        }, 30);
-      }
-    });
-  },{threshold:.4});
-  counters.forEach(c=>obs.observe(c));
+    entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target); obs.unobserve(e.target); } });
+  }, {threshold:.5});
+  document.querySelectorAll('.figure[data-count]').forEach(el=>obs.observe(el));
+} else {
+  document.querySelectorAll('.figure[data-count]').forEach(el=>{ el.textContent = el.dataset.count; });
+}
 
-  // scroll progress ring
-  const ring = document.getElementById('ring-progress');
-  const CIRC = 150.8;
-  window.addEventListener('scroll', ()=>{
-    const h = document.documentElement;
-    const scrolled = (h.scrollTop)/(h.scrollHeight-h.clientHeight);
-    ring.style.strokeDashoffset = CIRC - (CIRC*Math.min(1,Math.max(0,scrolled)));
+// ===== SCROLL PROGRESS =====
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop)/(h.scrollHeight-h.clientHeight);
+  const circumference = 144.5;
+  const offset = circumference - scrolled*circumference;
+  document.getElementById('ring-progress').style.strokeDashoffset = offset;
+});
+document.getElementById('progress-badge').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ===== NAV ACTIVA =====
+const NAV_SECTIONS = ['responsable','alarma','videovigilancia','sonido','opcionales','inversion','cta'];
+window.addEventListener('scroll', ()=>{
+  let current = '';
+  NAV_SECTIONS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ const r = el.getBoundingClientRect(); if(r.top<=120 && r.bottom>120) current = id; }
   });
-
-  // chapter nav active state + smooth scroll
-  const navButtons = document.querySelectorAll('.chapternav button');
-  navButtons.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth'});
-    });
-  });
-  const sectionsForNav = Array.from(navButtons).map(b=>document.getElementById(b.dataset.target));
-  const navObs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        navButtons.forEach(b=>b.classList.remove('active'));
-        const btn = document.querySelector(`.chapternav button[data-target="${e.target.id}"]`);
-        if(btn) btn.classList.add('active');
-      }
-    });
-  },{threshold:.3, rootMargin:"-80px 0px -60% 0px"});
-  sectionsForNav.forEach(s=>navObs.observe(s));
-
-  // CTA whatsapp
-  document.getElementById('whatsapp-btn').addEventListener('click', ()=>{
-    if(!document.getElementById('accept-check').checked){
-      alert('Marcá primero el check de conformidad con las condiciones.');
-      return;
-    }
-    const total = document.getElementById('t-total').textContent;
-    let cfg = 'Base (Alarma + Videovigilancia + Sonido 2 zonas)';
-    if(sonosOn) cfg += ' + Upgrade Home Theater Sonos';
-    if(vsslOn) cfg += ' + Upgrade Home Theater VSSL 5.1';
-    if(decoOn) cfg += ' + Red WiFi 6 Deco X80';
-    const msg = encodeURIComponent(`Hola Nova Domus! Quiero confirmar la propuesta de La Luisita L8.\nConfiguración: ${cfg}\nTotal: ${total}`);
-    window.open(`https://wa.me/5493516747513?text=${msg}`, '_blank');
+  document.querySelectorAll('#topnav .navlinks a').forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href')==='#'+current);
   });
 });
+
+// init
+renderInversion();
+renderSonidoGrids();
+renderAlarmaGrid();
+renderVideoGrid();
+setAlarmaView('comun');
+setVideoView('comun');
 </script>
 </body>
 </html>
