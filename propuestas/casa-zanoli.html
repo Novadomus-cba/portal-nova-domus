@@ -276,7 +276,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión total</div>
-      <div class="rc-value">USD 16.210</div>
+      <div class="rc-value">USD 16.309</div>
       <div class="rc-sub">Con crédito por equipos ya facturados en 2025 — ver Anexo</div>
     </div>
     <div class="resumen-card">
@@ -481,6 +481,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <tr><td class="dim">Kit Seguridad Shelly XL</td><td class="then-col">3 unidades</td><td class="now-col">Ninguna — se suma al proyecto para automatizar pasillos y zonas de poca estadía, ya saldado</td></tr>
   </table>
   <p style="font-size:12.5px; color:var(--grey); margin-top:6px;">Lo único que no estaba pagado es la instalación: la mano de obra de este presupuesto cubre el montaje y programación de <strong>todos</strong> los dispositivos (los ya facturados y los nuevos), porque en agosto de 2025 solo se facturó el equipo.</p>
+  <p style="font-size:13px; color:var(--gold); margin-top:14px; font-weight:600;">Además, un gesto de nuestra parte: los Shelly nuevos que sí se facturan (1PM Mini e i4) se cobran al mismo precio que pagaste en 2025, aunque hoy nuestro costo bajó desde entonces — es nuestro reconocimiento a que confiaste en el proyecto desde el principio.</p>
 </section>
 
 <!-- INVERSION -->
@@ -509,16 +510,17 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
   <table class="evol-table">
     <tr><th>Dispositivo</th><th>Feb 2025</th><th class="now-col">Hoy</th></tr>
-    <tr><td class="dim">Shelly 1PM Mini</td><td class="then-col">$44,77/u</td><td class="now-col">$35,33/u (-21,1%)</td></tr>
-    <tr><td class="dim">Shelly 2PM</td><td class="then-col">$53,24/u</td><td class="now-col">$51,27/u (-3,7%)</td></tr>
+    <tr><td class="dim">Shelly 1PM Mini</td><td class="then-col">$44,77/u</td><td class="now-col">$44,77/u — mismo precio</td></tr>
+    <tr><td class="dim">Shelly 2PM</td><td class="then-col">$53,24/u</td><td class="now-col">$53,24/u — mismo precio</td></tr>
     <tr><td class="dim">Shelly Dimmer</td><td class="then-col">$75,02/u</td><td class="now-col">$81,68/u (+8,9%)</td></tr>
-    <tr><td class="dim">Shelly i4</td><td class="then-col">$35,09/u</td><td class="now-col">$29,19/u (-16,8%)</td></tr>
+    <tr><td class="dim">Shelly i4</td><td class="then-col">$35,09/u</td><td class="now-col">$35,09/u — mismo precio</td></tr>
     <tr><td class="dim">Cámara</td><td class="then-col">$75,02/u (Dahua 2MP, sin IA)</td><td class="now-col">$133,58/u (Hikvision AcuSense 2MP, +78,0%)</td></tr>
     <tr><td class="dim">NVR</td><td class="then-col">$183,00 (4 canales)</td><td class="now-col">$550,31 (16 canales AcuSense, +200,7%)</td></tr>
     <tr><td class="dim">Disco</td><td class="then-col">$145,00 (2TB)</td><td class="now-col">$252,67 (4TB, +74,3%)</td></tr>
     <tr><td class="dim">Router</td><td class="then-col">$228,00 (ER7212PC)</td><td class="now-col">$279,50 (ER605+OC200, +22,6% — por discontinuación, no por inflación)</td></tr>
     <tr><td class="dim">Access Point</td><td class="then-col">$292,35/u</td><td class="now-col">$113,68/u</td></tr>
   </table>
+  <p style="font-size:13px; color:var(--cream); margin-top:16px; padding:14px 16px; background:rgba(200,169,110,.08); border-radius:8px;">El salto en <strong>Seguridad</strong> no es un aumento de precio por precio — son dos cambios de fondo: pasamos de 4 a 10 cámaras (más del doble de cobertura) y sumamos un sistema de alarma profesional que en 2025 directamente no existía en la propuesta. Son sistemas nuevos, no la misma cámara más cara.</p>
 </section>
 
 <!-- FORMA DE PAGO -->
@@ -652,17 +654,17 @@ document.getElementById('footlogo').innerHTML = LOGO_GOLD;
 // Para ítems sin crédito, qTotal === qCargo.
 const DEVICES = {
   iluminacion: [
-    {n:'Shelly 1PM Mini Gen4', qTotal:30, qCargo:4, pu:35.33, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/387.jpg', desc:'Relés individuales por efecto — 26 unidades ya saldadas (Factura B 0001-00000114), se facturan 4 nuevas.'},
-    {n:'Shelly 2PM Gen4', qTotal:16, qCargo:0, pu:51.27, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg', desc:'Cajas con 2 efectos de iluminación — las 16 unidades necesarias ya están saldadas, sin cargo nuevo.'},
+    {n:'Shelly 1PM Mini Gen4', qTotal:30, qCargo:4, pu:44.77, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/387.jpg', desc:'Relés individuales por efecto — 26 unidades ya saldadas (Factura B 0001-00000114), se facturan 4 nuevas al mismo precio de 2025.'},
+    {n:'Shelly 2PM Gen4', qTotal:16, qCargo:0, pu:53.24, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg', desc:'Cajas con 2 efectos de iluminación — las 16 unidades necesarias ya están saldadas, sin cargo nuevo.'},
     {n:'Shelly Dimmer Gen4', qTotal:10, qCargo:1, pu:81.68, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/358.png', desc:'Dormitorios y zonas de descanso — 9 unidades ya saldadas, se factura 1 nueva.'},
-    {n:'Shelly i4', qTotal:7, qCargo:3, pu:29.19, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235265079.jpg', desc:'Lectura de cajas con 3 o más efectos — 4 unidades ya saldadas, se facturan 3 nuevas.'},
+    {n:'Shelly i4', qTotal:7, qCargo:3, pu:35.09, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235265079.jpg', desc:'Lectura de cajas con 3 o más efectos — 4 unidades ya saldadas, se facturan 3 nuevas al mismo precio de 2025.'},
     {n:'Kit de Seguridad Shelly XL (circulación)', qTotal:3, qCargo:0, pu:198.24, iva:21, foto:null, desc:'Sensores de movimiento y apertura para pasillos, baños y zonas de poca estadía — la luz se enciende sola al pasar. Ya saldado (Factura B 0001-00000114); instalación incluida en la mano de obra de domótica.'},
   ],
   confort: [
     {n:'Sensibo Air Smart AC Controller B2B', qTotal:5, qCargo:5, pu:253.72, iva:21, foto:null, desc:'Un controlador por split — geolocalización y sensor de temperatura ambiente real, no del equipo.'},
     {n:'Shelly Presence Gen4', qTotal:2, qCargo:2, pu:177.87, iva:21, foto:null, desc:'Habitación de servicio y su baño — detecta presencia real (incluso inmóvil, no solo movimiento) para apagar luces y electrodomésticos por ausencia.'},
-    {n:'Shelly 2PM Gen4 (tomacorrientes uso general)', qTotal:8, qCargo:8, pu:51.27, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg', desc:'Automatiza los tomacorrientes de uso general de la zona de servicio — TV, ventilador y demás, ligados al sensor de presencia.'},
-    {n:'Shelly 1PM Mini Gen4 (tomacorrientes uso especial, incl. aire)', qTotal:3, qCargo:3, pu:35.33, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/387.jpg', desc:'Tomas de uso especial (TUE) de la zona de servicio, según plano — una de ellas corta/da corriente al aire según temperatura medida por Home Assistant, reemplazando al Sensibo en este ambiente puntual.'},
+    {n:'Shelly 2PM Gen4 (tomacorrientes uso general)', qTotal:8, qCargo:8, pu:53.24, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg', desc:'Automatiza los tomacorrientes de uso general de la zona de servicio — TV, ventilador y demás, ligados al sensor de presencia.'},
+    {n:'Shelly 1PM Mini Gen4 (tomacorrientes uso especial, incl. aire)', qTotal:3, qCargo:3, pu:44.77, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/387.jpg', desc:'Tomas de uso especial (TUE) de la zona de servicio, según plano — una de ellas corta/da corriente al aire según temperatura medida por Home Assistant, reemplazando al Sensibo en este ambiente puntual.'},
     {n:'Estación meteorológica Hard Kraft HK-WS2900', qTotal:1, qCargo:1, pu:250.47, iva:21, foto:null, desc:'Temperatura, viento y lluvia en el exterior — monitoreo y alertas ahora; base lista para automatizar cortinas cuando esa etapa se defina.'},
   ],
   alarma: [
@@ -756,7 +758,7 @@ function fmt2(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigit
 // Mano de obra: ajuste manual para este proyecto puntual (target +20% s/presupuesto Feb 2025,
 // sin el método de Tarifario ND estricto). Ya incluye la instalación de los kits de seguridad
 // de circulación (no es una línea aparte). Cerraduras siempre aparte, nunca en este cálculo.
-const MO_DOMOTICA = 4065.47;
+const MO_DOMOTICA = 4056.42;
 const MO_CERRADURAS = 500.00;
 
 function calcularTotales(){
