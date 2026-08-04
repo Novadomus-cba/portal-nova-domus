@@ -422,6 +422,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <div class="grid3">
       <div class="stat"><div class="figure"><span class="count" data-to="504">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Kit Autonomía Personal — equipado, instalado y programado</div></div>
       <div class="stat"><div class="figure"><span class="count" data-to="359">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Kit Seguridad en el Hogar — equipado, instalado y programado</div></div>
+      <div class="stat"><div class="figure"><span class="count" data-to="833">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Kit Completo — ambos kits juntos, con instalación única (ahorro de USD 30)</div></div>
       <div class="stat"><div class="figure"><span class="count" data-to="12">0</span> <small style="font-size:14px">MESES</small></div><div class="fl">Garantía sobre todo lo instalado, con soporte de equipo propio</div></div>
     </div>
     <ul class="exec-steps">
@@ -751,6 +752,33 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       </div>
     </div>
 
+
+    <!-- KIT COMPLETO -->
+    <div class="inv-kit" style="border-color:var(--gold);border-width:2px">
+      <div class="inv-head">
+        <h3>Kit Completo · Autonomía + Seguridad <span style="font-size:11px;color:var(--navy);opacity:.65;font-weight:600;letter-spacing:1px">OPCIONAL RECOMENDADO</span></h3>
+        <div class="qty"><button data-k="k3" data-d="-1" aria-label="Quitar un Kit Completo">−</button><span class="qv" id="q-k3">0</span><button data-k="k3" data-d="1" aria-label="Agregar un Kit Completo">+</button></div>
+      </div>
+      <div class="inv-sub">Equipo <b>USD 633</b> · Instalación y programación única <b>USD 200</b> · <b>USD 833 por kit</b></div>
+      <div style="margin:12px 20px 6px;border:1px solid var(--gold);border-radius:12px;padding:13px 16px;font-size:13px;color:#3a3d4a"><b style="color:var(--navy)">Por qué la instalación única cuesta menos:</b> los dos kits en la misma vivienda son una sola visita, un solo relevamiento y una sola capacitación. Ese ahorro operativo real se traslada al precio: USD 30 menos que instalar los kits por separado (USD 833 vs. 863). Además, las 4 bombillas del lado Autonomía ya le dan luz al sensor nocturno — no hace falta la bombilla opcional.</div>
+      <button class="acc-toggle" aria-expanded="false">Ver detalle por dispositivo <span>▾</span></button>
+      <div class="acc-body">
+        <table class="det">
+          <tr><th>Dispositivo</th><th class="r">Precio unitario</th><th class="r">Cant.</th><th class="r">Total</th></tr>
+          <tr><td>Amazon Echo Dot 4ª Gen — asistente de voz Alexa</td><td class="r">U$D 99 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 99</td></tr>
+          <tr><td>WiZ Bombilla E27 8W — blanca regulable Wi-Fi</td><td class="r">U$D 12 · IVA 10,5% inc.</td><td class="r">4</td><td class="r">U$D 48</td></tr>
+          <tr><td>Shelly Plus 2PM Gen4 — control de 2 circuitos comunes</td><td class="r">U$D 52 · IVA 21% inc.</td><td class="r">2</td><td class="r">U$D 104</td></tr>
+          <tr><td>Shelly Plus 1PM Gen4 — cargas de alta potencia 16A</td><td class="r">U$D 37 · IVA 21% inc.</td><td class="r">2</td><td class="r">U$D 74</td></tr>
+          <tr><td>Shelly Button 1 — botón SOS y de rutinas, portátil</td><td class="r">U$D 29 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 29</td></tr>
+          <tr><td>Hikvision AXHome DS-PA201PS-Kit-16WB — kit alarma inalámbrica WiFi + 4G (incluye: central ×1, llavero con botón de pánico ×1, sensor de movimiento ×1, sensor de puerta ×1)</td><td class="r">U$D 255 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 255</td></tr>
+          <tr><td>WiZ Sensor de Movimiento inalámbrico</td><td class="r">U$D 24 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 24</td></tr>
+          <tr class="tot"><td>Subtotal equipo</td><td class="r"></td><td class="r"></td><td class="r">U$D 633</td></tr>
+          <tr><td>Instalación y programación única — ciudad de Córdoba</td><td class="r"></td><td class="r"></td><td class="r">U$D 200</td></tr>
+          <tr class="tot"><td>Total por kit</td><td class="r"></td><td class="r"></td><td class="r">U$D 833</td></tr>
+        </table>
+      </div>
+    </div>
+
     <div class="bar"><div class="b-eq" id="bar-eq" style="width:70%"></div><div class="b-mo" id="bar-mo" style="width:30%"></div></div>
     <div class="bar-leg">
       <span><i style="background:var(--navy)"></i>Equipos: <b id="leg-eq">U$D 633</b></span>
@@ -910,21 +938,21 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 var P = {
   k1: { equipo:354, mo:150 },                 /* 99 + 4*12 + 2*52 + 2*37 + 29 = 354 */
   k2: { equipo:279, mo:80, opcBombilla:12 },  /* 255 + 24 = 279 */
-  ivaMO: 0.21
+  k3: { equipo:633, mo:200 }                  /* kit completo: 354 + 279 equipo, MO unica */
 };
-var state = { k1:1, k2:1, bombilla:false };
+var state = { k1:1, k2:1, k3:0, bombilla:false };
 var fmt = function(n){ return 'U$D ' + Math.ceil(n).toLocaleString('es-AR'); };
 
 function calc(){
   var k2eq = P.k2.equipo + (state.bombilla ? P.k2.opcBombilla : 0);
-  var eq = state.k1*P.k1.equipo + state.k2*k2eq;
-  var mo = state.k1*P.k1.mo + state.k2*P.k2.mo;
+  var eq = state.k1*P.k1.equipo + state.k2*k2eq + state.k3*P.k3.equipo;
+  var mo = state.k1*P.k1.mo + state.k2*P.k2.mo + state.k3*P.k3.mo;
   return { k2eq:k2eq, eq:eq, mo:mo, total:eq+mo };
 }
 function $(id){ return document.getElementById(id); }
 function render(){
   var c = calc();
-  $('q-k1').textContent = state.k1; $('q-k2').textContent = state.k2;
+  $('q-k1').textContent = state.k1; $('q-k2').textContent = state.k2; $('q-k3').textContent = state.k3;
   $('k2-eq-lbl').textContent = 'USD ' + c.k2eq;
   $('k2-tot-lbl').textContent = 'USD ' + (c.k2eq + P.k2.mo) + ' por kit';
   $('k2-sub').textContent = fmt(c.k2eq);
@@ -936,10 +964,10 @@ function render(){
   $('leg-eq').textContent = fmt(c.eq); $('leg-mo').textContent = fmt(c.mo);
   $('g-eq').textContent = fmt(c.eq); $('g-mo').textContent = fmt(c.mo);
   $('g-total').textContent = fmt(c.total);
-  $('ct-desc').textContent = state.k1 + ' × Kit Autonomía + ' + state.k2 + ' × Kit Seguridad' + (state.bombilla ? ' (con bombilla opcional)' : '');
+  $('ct-desc').textContent = state.k1 + ' × Kit Autonomía + ' + state.k2 + ' × Kit Seguridad + ' + state.k3 + ' × Kit Completo' + (state.bombilla ? ' (con bombilla opcional)' : '');
   $('ct-total').textContent = fmt(c.total);
   var msg = 'Hola Nova Domus, confirmamos la propuesta PY-2026-020 (Kits de Autonomía y Seguridad): ' +
-    state.k1 + ' Kit Autonomía Personal + ' + state.k2 + ' Kit Seguridad en el Hogar' +
+    state.k1 + ' Kit Autonomía Personal + ' + state.k2 + ' Kit Seguridad en el Hogar + ' + state.k3 + ' Kit Completo' +
     (state.bombilla ? ' con bombilla WiZ opcional' : '') +
     '. Total: ' + fmt(c.total) + '.';
   $('btn-accept').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
