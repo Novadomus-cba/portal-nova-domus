@@ -195,6 +195,35 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   * {print-color-adjust:exact; -webkit-print-color-adjust:exact;}
   .section{break-inside:avoid;}
 }
+
+/* ===== SEÑALES DE INTERACTIVIDAD (nova-domus-propuestas-interactivas v2.4) ===== */
+@keyframes arrow-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(3px);}}
+@keyframes arrow-bounce-open{0%,100%{transform:rotate(180deg) translateY(0);}50%{transform:rotate(180deg) translateY(3px);}}
+.dc-arrow,.acc-arrow{display:inline-block; animation:arrow-bounce 1.6s ease-in-out infinite;}
+.device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{animation:arrow-bounce-open 1.6s ease-in-out infinite; transform:rotate(180deg);}
+@keyframes pill-glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.35);}50%{box-shadow:0 0 0 6px rgba(200,169,110,.12);}}
+@keyframes pill-glow-light{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,.25);}50%{box-shadow:0 0 0 6px rgba(20,30,97,.14);}}
+.switch2{animation:pill-glow 2.6s ease-in-out infinite;}
+.section-light .switch2{animation:pill-glow-light 2.6s ease-in-out infinite;}
+.tap-badge{display:inline-flex; align-items:center; gap:6px; font-size:10.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--navy-deep); background:var(--gold); border-radius:999px; padding:4px 10px; margin-left:10px; white-space:nowrap; animation:tap-badge-pulse 1.8s ease-in-out infinite;}
+@keyframes tap-badge-pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.device-card.open .tap-badge,.accordion-item.open .tap-badge,.faq-item.open .tap-badge{display:none;}
+.hint-line{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--gold); margin-bottom:14px;}
+.section-light .hint-line{color:var(--navy);}
+.hint-line .hp{display:inline-block; animation:arrow-bounce 1.4s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){
+  .dc-arrow,.acc-arrow,.device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{animation:none;}
+  .device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{transform:rotate(180deg);}
+  .switch2,.section-light .switch2{animation:none;}
+  .tap-badge{animation:none;}
+  .hint-line .hp{animation:none;}
+}
+
+/* ===== VIDEO POR MARCA (linkeado, nunca embebido) ===== */
+.bd-video{position:relative; margin-top:12px; border-radius:10px; overflow:hidden; aspect-ratio:16/9; background:#000; max-width:100%;}
+.bd-video.vertical{aspect-ratio:9/16; max-width:280px; margin-left:auto; margin-right:auto;}
+.bd-video iframe{position:absolute; top:0; left:0; width:100%; height:100%; border:0;}
+.bd-video-pending{margin-top:12px; padding:14px; border-radius:10px; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.15); font-size:12.5px; color:var(--grey); text-align:center;}
 </style>
 </head>
 <body>
@@ -315,6 +344,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">02 — Seguridad</span>
   <h2>Alarma y videovigilancia</h2>
   <p class="lead">Detección por movimiento en cada consultorio y videovigilancia interior y perimetral.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá el switch para comparar antes/después, y cada tarjeta para ver precio y detalle.</div>
 
   <h3 style="margin-top:8px;">Alarma</h3>
   <div class="switch2">
@@ -343,6 +373,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <button class="active state-a" onclick="setAudioModelo('sonos', this)">Sonos — de aplique</button>
     <button class="state-b" onclick="setAudioModelo('vssl', this)">VSSL + Episode — empotrado</button>
   </div>
+  <div class="hint-line"><span class="hp">👆</span> Tocá para comparar los dos modelos de audio.</div>
   <div class="compare-panel" id="audio-modelo-panel"></div>
 
   <div class="device-grid" id="grid-audio"></div>
@@ -381,6 +412,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">07 — Inversión</span>
   <h2>Desglose completo</h2>
   <p class="lead">Por sistema, con el detalle cuantitativo de cada dispositivo. Tocá cada rubro para ver la tabla completa.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada rubro de la lista para abrir el desglose línea por línea.</div>
 
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
@@ -416,6 +448,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">09 — Respaldo</span>
   <h2>Las marcas detrás de la propuesta</h2>
   <p class="lead">Tocá cada una para ver por qué la elegimos.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá una marca para ver la ficha y el video.</div>
   <div class="pills">
     <div class="pill fixed">Nova Domus</div>
     <div class="pill fixed">CEDIA Member</div>
@@ -456,6 +489,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">12 — Condiciones generales</span>
   <h2>Cómo trabajamos</h2>
   <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada punto para leer el detalle completo.</div>
   <div id="condiciones-list"></div>
 </section>
 
@@ -480,11 +514,13 @@ const CONDICIONES = [
   {t:"Boca Completa / obra eléctrica", d:"La base de cotización de Boca Completa de la Asociación Argentina de Instaladores Electricistas no aplica a este proyecto — la obra eléctrica y el cableado los resuelve un tercero, no Nova Domus."},
   {t:"Sirena exterior de alarma", d:"La compatibilidad de la sirena exterior con el panel AXHome está sujeta a confirmación final con el distribuidor antes de la compra — no se garantiza hasta esa confirmación."},
 ];
-document.getElementById('condiciones-list').innerHTML = CONDICIONES.map(c=>`
-  <div class="accordion-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}</span><span class="acc-arrow">▾</span></div>
+document.getElementById('condiciones-list').innerHTML = CONDICIONES.map((c,i)=>{
+  const badge = i===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
+  return `<div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}${badge}</span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner"><p>${c.d}</p></div></div>
-  </div>`).join('');
+  </div>`;
+}).join('');
 </script>
 
 <script>
@@ -568,19 +604,19 @@ document.getElementById('footlogo').innerHTML = LOGO_SVG;
 // ===== DEVICES POR SUBSISTEMA v3-parcial (pu = precio unitario CON IVA ya aplicado) =====
 const DEVICES = {
   alarma: [
-    {n:'Kit AXHome base (central+control+1 sensor magnético de fábrica)', q:1, pu:168.43, iva:21, foto:null, desc:'Central inalámbrica Hikvision, línea residencial/comercial chica.'},
+    {n:'Kit AXHome base (central+control+1 sensor magnético de fábrica)', q:1, pu:168.43, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201P-Kit-16WB.png', desc:'Central inalámbrica Hikvision, línea residencial/comercial chica.'},
     {n:'Sensor de movimiento DS-PD201P10-WB', q:7, pu:40.08, iva:21, foto:null, desc:'Detección de movimiento en cada consultorio y áreas comunes.'},
     {n:'Teclado AXHome', q:1, pu:50.82, iva:21, foto:null, desc:'Armado y desarmado manual del sistema.'},
     {n:'Sirena interior', q:1, pu:49.37, iva:21, foto:null, desc:'Disuasión sonora ante intrusión.'},
-    {n:'Sirena exterior DS-PS1-E-WB (*)', q:1, pu:98.74, iva:21, foto:null, desc:'Disuasión visual y sonora perimetral. COMPATIBILIDAD CON AXHOME A CONFIRMAR, ver nota.'},
+    {n:'Sirena exterior DS-PS1-E-WB (*)', q:1, pu:98.74, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Disuasión visual y sonora perimetral. COMPATIBILIDAD CON AXHOME A CONFIRMAR, ver nota.'},
   ],
   videovigilancia: [
     {n:'Cámara bullet 2MP PoE', q:4, pu:100.19, iva:21, foto:null, desc:'2 interiores (circulación de personas) + 2 exteriores (perimetral).'},
-    {n:'NVR AcuSense 4ch DS-7604NXI-K1', q:1, pu:223.61, iva:21, foto:null, desc:'La inteligencia artificial de clasificación de personas/vehículos corre acá, centralizada.'},
-    {n:'HDD SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:null, desc:'Almacenamiento especial para videovigilancia continua.'},
+    {n:'NVR AcuSense 4ch DS-7604NXI-K1', q:1, pu:223.61, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7604NXI-K1(D).png', desc:'La inteligencia artificial de clasificación de personas/vehículos corre acá, centralizada.'},
+    {n:'HDD SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Almacenamiento especial para videovigilancia continua.'},
   ],
   audio: [
-    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:null, desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
     {n:'Soporte de pared Sanus (par)', q:4, pu:143.99, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
   ],
 };
@@ -588,11 +624,11 @@ const DEVICES = {
 // ===== DOS MODELOS DE AUDIO A ELECCIÓN (misma cobertura de 6 zonas) =====
 const AUDIO_VARIANTES = {
   sonos: [
-    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:null, desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
     {n:'Soporte de pared Sanus (par)', q:4, pu:143.99, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
   ],
   vssl: [
-    {n:'VSSL A.6x — Amplificador streamer 6 zonas', q:1, pu:3264.68, iva:21, foto:null, desc:'Un ampli con 6 salidas de zona independientes — cada consultorio, recepción y pasillo con su propio volumen.'},
+    {n:'VSSL A.6x — Amplificador streamer 6 zonas', q:1, pu:3264.68, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/549.png', desc:'Un ampli con 6 salidas de zona independientes — cada consultorio, recepción y pasillo con su propio volumen.'},
     {n:'Episode CORE 1 — Parlante embutido techo 6" (par)', q:4, pu:206.13, iva:21, foto:null, desc:'Parlante empotrado en cielorraso, no visible — la opción que pide la arquitecta en vez de un parlante de aplique.'},
   ],
 };
@@ -631,11 +667,12 @@ function renderDeviceGrid(containerId, key){
   const el = document.getElementById(containerId);
   el.innerHTML = DEVICES[key].map((d,i)=>{
     const fotoHtml = d.foto
-      ? `<img class="dc-photo" src="${d.foto}" alt="${d.n}">`
+      ? `<img class="dc-photo" loading="lazy" src="${d.foto}" alt="${d.n}">`
       : `<div class="dc-photo-placeholder">Foto<br>pendiente</div>`;
+    const badge = i===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
     return `<div class="device-card" id="${containerId}-${i}">
       <div class="dc-head" onclick="toggleDevice('${containerId}-${i}')">
-        <div><div class="dc-name">${d.n}</div><div class="dc-qty">${d.q} unidad${d.q>1?'es':''}</div></div>
+        <div><div class="dc-name">${d.n}${badge}</div><div class="dc-qty">${d.q} unidad${d.q>1?'es':''}</div></div>
         <span class="dc-arrow">▾</span>
       </div>
       <div class="dc-body"><div class="dc-body-inner">
@@ -701,11 +738,12 @@ function renderInversion(){
   }).join('');
 
   const acc = document.getElementById('accordion-rubros');
-  acc.innerHTML = RUBROS.map(r=>{
+  acc.innerHTML = RUBROS.map((r,idx)=>{
     const rTotal = sumConIva(DEVICES[r.id]);
+    const badge = idx===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
     return `<div class="accordion-item">
       <div class="accordion-head" onclick="toggleAcc(this)">
-        <span>${r.label}</span>
+        <span>${r.label}${badge}</span>
         <span class="ah-price">${fmt(rTotal)} <span class="acc-arrow">▾</span></span>
       </div>
       <div class="accordion-body"><div class="accordion-body-inner">
@@ -800,12 +838,16 @@ function setVideoView(view, btn){
 
 // ===== RESPALDO =====
 const BRANDS = {
-  hikvision: "Uno de los fabricantes de videovigilancia y control de acceso más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense y el soporte técnico local de nuestro proveedor.",
-  sonos: "Referente mundial en audio multiroom. Cada parlante es su propio amplificador, lo que permite zonas verdaderamente independientes sin necesitar un equipo central — ideal para un local con varios ambientes chicos.",
+  hikvision: {d:"Uno de los fabricantes de videovigilancia y control de acceso más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense y el soporte técnico local de nuestro proveedor.", video:null},
+  sonos: {d:"Referente mundial en audio multiroom. Cada parlante es su propio amplificador, lo que permite zonas verdaderamente independientes sin necesitar un equipo central — ideal para un local con varios ambientes chicos.", video:null},
 };
 function showBrand(key){
+  const b = BRANDS[key];
   const el = document.getElementById('brand-detail');
-  el.textContent = BRANDS[key];
+  const videoHtml = b.video
+    ? `<div class="bd-video ${b.vertical?'vertical':''}"><iframe src="${b.video}" title="Video ${key}" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
+    : `<div class="bd-video-pending">🎬 Video de presentación — pendiente de grabar/subir.</div>`;
+  el.innerHTML = `<p>${b.d}</p>${videoHtml}`;
   el.classList.add('show');
 }
 
@@ -820,7 +862,7 @@ const FAQS = [
 ];
 document.getElementById('faq-list').innerHTML = FAQS.map((f,i)=>`
   <div class="faq-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}${i===0?'<span class="tap-badge">Tocá para abrir</span>':''}</span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner"><p>${f.a}</p></div></div>
   </div>`).join('');
 
