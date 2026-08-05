@@ -290,16 +290,16 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
   <h3 style="margin-top:8px;">Alarma</h3>
   <div class="switch2">
-    <button class="active state-a" onclick="setAlarmaView('comun')">Alarma común</button>
-    <button class="state-b" onclick="setAlarmaView('axhome')">Con AXHome</button>
+    <button class="active state-a" onclick="setAlarmaView('comun', this)">Alarma común</button>
+    <button class="state-b" onclick="setAlarmaView('axhome', this)">Con AXHome</button>
   </div>
   <div class="compare-panel" id="alarma-panel"></div>
   <div class="device-grid" id="grid-alarma"></div>
 
   <h3 style="margin-top:32px;">Videovigilancia</h3>
   <div class="switch2">
-    <button class="active state-a" onclick="setVideoView('comun')">Cámara común</button>
-    <button class="state-b" onclick="setVideoView('acusense')">Con AcuSense en el NVR</button>
+    <button class="active state-a" onclick="setVideoView('comun', this)">Cámara común</button>
+    <button class="state-b" onclick="setVideoView('acusense', this)">Con AcuSense en el NVR</button>
   </div>
   <div class="compare-panel" id="video-panel"></div>
   <div class="device-grid" id="grid-videovigilancia"></div>
@@ -309,14 +309,20 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section" id="audio">
   <span class="eyebrow">05 — Audio</span>
   <h2>6 zonas de sonido, cada una independiente</h2>
-  <p class="lead">Un parlante activo Sonos en cada consultorio y dos en las zonas grandes (recepción y pasillo) — cada Sonos es su propio amplificador, así que cada zona controla su propio volumen y su propia fuente, sin depender de un equipo central.</p>
+  <p class="lead" id="audio-lead">Dos formas de llegar a las mismas 6 zonas independientes — elegí cuál te sirve para mostrarle a la clienta y la arquitecta.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setAudioModelo('sonos', this)">Sonos — de aplique</button>
+    <button class="state-b" onclick="setAudioModelo('vssl', this)">VSSL + Episode — empotrado</button>
+  </div>
+  <div class="compare-panel" id="audio-modelo-panel"></div>
 
   <div class="device-grid" id="grid-audio"></div>
 
   <div class="opt-card" style="border-color:rgba(200,169,110,.4);">
     <div class="opt-body" style="width:100%;">
-      <div class="opt-title"><span>¿Por qué zonas independientes en vez de un solo sistema compartido?</span></div>
-      <div class="opt-desc" style="margin-top:8px;">Un ambiente de tratamiento no necesariamente quiere la misma música que la recepción, y un consultorio ocupado puede necesitar silencio mientras el resto sigue con música. Con Sonos, cada parlante es su propia zona — se apaga, cambia o sube de volumen sin afectar al resto. La contracara es que son 8 dispositivos en vez de un ampli central: se paga esa independencia real, pero sigue siendo más económico que un sistema multizona profesional tradicional para la misma cantidad de zonas.</div>
+      <div class="opt-title"><span id="audio-valor-title">¿Por qué zonas independientes en vez de un solo sistema compartido?</span></div>
+      <div class="opt-desc" style="margin-top:8px;" id="audio-valor-desc">Un ambiente de tratamiento no necesariamente quiere la misma música que la recepción, y un consultorio ocupado puede necesitar silencio mientras el resto sigue con música. Con Sonos, cada parlante es su propia zona — se apaga, cambia o sube de volumen sin afectar al resto. La contracara es que son 8 dispositivos en vez de un ampli central: se paga esa independencia real, pero sigue siendo más económico que un sistema multizona profesional tradicional para la misma cantidad de zonas.</div>
     </div>
   </div>
 </section>
@@ -544,6 +550,48 @@ const DEVICES = {
   ],
 };
 
+// ===== DOS MODELOS DE AUDIO A ELECCIÓN (misma cobertura de 6 zonas) =====
+const AUDIO_VARIANTES = {
+  sonos: [
+    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:null, desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Soporte de pared Sanus (par)', q:4, pu:143.99, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
+  ],
+  vssl: [
+    {n:'VSSL A.6x — Amplificador streamer 6 zonas', q:1, pu:3264.68, iva:21, foto:null, desc:'Un ampli con 6 salidas de zona independientes — cada consultorio, recepción y pasillo con su propio volumen.'},
+    {n:'Episode CORE 1 — Parlante embutido techo 6" (par)', q:4, pu:206.13, iva:21, foto:null, desc:'Parlante empotrado en cielorraso, no visible — la opción que pide la arquitecta en vez de un parlante de aplique.'},
+  ],
+};
+let AUDIO_MODELO_ACTUAL = 'sonos';
+function setAudioModelo(modelo, btn){
+  AUDIO_MODELO_ACTUAL = modelo;
+  DEVICES.audio = AUDIO_VARIANTES[modelo];
+  document.querySelectorAll('#audio .switch2 button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const panel = document.getElementById('audio-modelo-panel');
+  if(modelo==='sonos'){
+    panel.innerHTML = `<ul>
+      <li class="yes">Parlante de aplique — se ve, pero no necesita obra en el cielorraso</li>
+      <li class="yes">Cada Sonos es su propio amplificador — sin equipo central que pueda fallar para todas las zonas a la vez</li>
+      <li class="no">No es empotrado — queda visible en la pared</li>
+    </ul>`;
+    document.getElementById('audio-lead').textContent = 'Un parlante activo Sonos en cada consultorio y dos en las zonas grandes (recepción y pasillo) — cada Sonos es su propio amplificador, así que cada zona controla su propio volumen y su propia fuente, sin depender de un equipo central.';
+    document.getElementById('audio-valor-title').textContent = '¿Por qué zonas independientes en vez de un solo sistema compartido?';
+    document.getElementById('audio-valor-desc').textContent = 'Un ambiente de tratamiento no necesariamente quiere la misma música que la recepción, y un consultorio ocupado puede necesitar silencio mientras el resto sigue con música. Con Sonos, cada parlante es su propia zona — se apaga, cambia o sube de volumen sin afectar al resto. La contracara es que son 8 dispositivos en vez de un ampli central: se paga esa independencia real, pero sigue siendo más económico que un sistema multizona profesional tradicional para la misma cantidad de zonas.';
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">Parlante empotrado en el cielorraso — invisible, terminación más prolija</li>
+      <li class="yes">6 zonas independientes reales desde un solo equipo central</li>
+      <li class="no">Requiere un ampli central — si falla, puede afectar más de una zona a la vez</li>
+      <li class="no">Necesita obra/cableado en el cielorraso para el parlante embutido</li>
+    </ul>`;
+    document.getElementById('audio-lead').textContent = 'Ampli VSSL A.6x con 6 salidas de zona independientes, más parlantes Episode empotrados en el cielorraso — la opción para cuando se prioriza que no se vea ningún parlante.';
+    document.getElementById('audio-valor-title').textContent = '¿Por qué empotrado en vez de aplique?';
+    document.getElementById('audio-valor-desc').textContent = 'El parlante embutido queda escondido en el cielorraso — nada visible en la pared, terminación más prolija para un centro estético con foco en el diseño de interiores. La contracara: necesita obra en el cielorraso para instalarlo y depende de un amplificador central para las 6 zonas, mientras que con Sonos cada zona es autónoma.';
+  }
+  renderDeviceGrid('grid-audio', 'audio');
+  renderInversion();
+}
+
 function renderDeviceGrid(containerId, key){
   const el = document.getElementById(containerId);
   el.innerHTML = DEVICES[key].map((d,i)=>{
@@ -571,24 +619,6 @@ function toggleDevice(id){
   card.classList.toggle('open', !isOpen);
   body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
 }
-
-// ===== CASOS DE USO ILUMINACION =====
-const ILUM_CASOS = [
-  {tab:'Recepción', icon:'💡', text:'Luz blanca neutra profesional durante todo el horario de atención — genera percepción de calidad y prolijidad desde que el cliente entra.'},
-  {tab:'Tratamiento', icon:'🌤️', text:'Un toque en la app atenúa a luz cálida difusa en las salas de tratamiento, para un ambiente de relajación.'},
-  {tab:'Cierre', icon:'🌙', text:'Al cierre, una escena reduce todo al mínimo consumo antes de irse.'},
-];
-function renderIlumCasos(){
-  const tabsEl = document.getElementById('uc-tabs');
-  tabsEl.innerHTML = ILUM_CASOS.map((c,i)=>`<div class="usecase-tab ${i===0?'active':''}" onclick="setIlumCaso(${i})">${c.tab}</div>`).join('');
-  setIlumCaso(0);
-}
-function setIlumCaso(i){
-  const c = ILUM_CASOS[i];
-  document.getElementById('uc-panel').innerHTML = `<span class="uc-icon">${c.icon}</span><span>${c.text}</span>`;
-  document.querySelectorAll('#uc-tabs .usecase-tab').forEach((t,idx)=>t.classList.toggle('active', idx===i));
-}
-renderIlumCasos();
 
 // ===== DATOS DE INVERSION =====
 const RUBROS = [
@@ -690,10 +720,10 @@ window.addEventListener('resize', ()=>{
 });
 
 // ===== COMPARATIVAS SWITCH =====
-function setAlarmaView(view){
+function setAlarmaView(view, btn){
   const btns = document.querySelectorAll('#seguridad .switch2')[0].querySelectorAll('button');
   btns.forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   const panel = document.getElementById('alarma-panel');
   if(view==='comun'){
     panel.innerHTML = `<ul>
@@ -711,10 +741,10 @@ function setAlarmaView(view){
     </ul>`;
   }
 }
-function setVideoView(view){
+function setVideoView(view, btn){
   const btns = document.querySelectorAll('#seguridad .switch2')[1].querySelectorAll('button');
   btns.forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   const panel = document.getElementById('video-panel');
   if(view==='comun'){
     panel.innerHTML = `<ul>
@@ -800,6 +830,7 @@ document.getElementById('progress-badge').addEventListener('click', ()=>window.s
 renderInversion();
 setAlarmaView('comun');
 setVideoView('comun');
+setAudioModelo('sonos');
 </script>
 
 </script>
