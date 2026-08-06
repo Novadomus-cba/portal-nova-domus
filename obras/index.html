@@ -335,11 +335,11 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
       <div class="card" id="sTotCard" style="display:none">
         <div class="ct">Resumen</div>
         <div class="tbox">
-          <div class="tr2"><span>Certificados</span><span id="tC">$ 0</span></div>
-          <div class="tr2"><span>Exc. espontáneos</span><span id="tE">$ 0</span></div>
-          <div class="tr2"><span>Exc. por solicitud</span><span id="tS">$ 0</span></div>
-          <div class="tr2"><span>Facturas/materiales</span><span id="tF">$ 0</span></div>
-          <div class="tf"><span>TOTAL RECIBO</span><span id="tT">$ 0</span></div>
+          <div class="tr2"><span>Certificados</span><span style="text-align:right"><span id="tC">$ 0</span><br><span id="tCu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+          <div class="tr2"><span>Exc. espontáneos</span><span style="text-align:right"><span id="tE">$ 0</span><br><span id="tEu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+          <div class="tr2"><span>Exc. por solicitud</span><span style="text-align:right"><span id="tS">$ 0</span><br><span id="tSu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+          <div class="tr2"><span>Facturas/materiales</span><span style="text-align:right"><span id="tF">$ 0</span><br><span id="tFu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+          <div class="tf"><span>TOTAL RECIBO</span><span style="text-align:right"><span id="tT">$ 0</span><br><span id="tTu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between">
@@ -721,6 +721,7 @@ const gs  = k=>{ const s=ls('nd_cfg')||{}; return s[k]; };
 const ss  = (k,v)=>{ const s=ls('nd_cfg')||{}; s[k]=v; lss('nd_cfg',s); };
 const uid = ()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
 const f$  = n=>'$ '+Math.round(n||0).toLocaleString('es-AR');
+const fUsd = n=>'U$D '+(n||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fd  = iso=>{ if(!iso)return''; const[y,m,d]=iso.split('-'); return`${d}/${m}/${y}`; };
 
 // SUPABASE FETCH
@@ -1932,8 +1933,11 @@ function recalcS(){
   const byC=c=>sItems.filter(i=>i.cls===c).reduce((s,i)=>s+(i.sub||0),0);
   const tC=byC('CERTIFICADO'),tE=byC('EXC_ESPONTANEO'),tS=byC('EXC_SOLICITUD');
   const tF=sFacts.reduce((s,f)=>s+(f.conIva||0),0);
+  const tc=parseFloat(document.getElementById('sTC').value)||1430;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=f$(v);};
+  const setU=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=fUsd(v/tc);};
   set('tC',tC);set('tE',tE);set('tS',tS);set('tF',tF);set('tT',tC+tE+tS+tF);
+  setU('tCu',tC);setU('tEu',tE);setU('tSu',tS);setU('tFu',tF);setU('tTu',tC+tE+tS+tF);
 }
 
 function showPV(w,el){
