@@ -1769,7 +1769,7 @@ async function onSObraChange(){
     document.getElementById('sNumC').value=1;
     document.getElementById('sNumR').value=1;
   }
-  document.getElementById('sTC').value=gs('tc')||'1430';
+  document.getElementById('sTC').value=tcLastRecord?Math.round(tcLastRecord.valor):(gs('tc')||'1430');
 }
 
 async function getMatFacts(obraId,desde,hasta){
