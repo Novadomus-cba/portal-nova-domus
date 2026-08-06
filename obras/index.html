@@ -1787,12 +1787,13 @@ function addSI(cls){
   const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id&&(r.precio_usd_obra||r.precio_usd_unitario));
   const tarBase=cache.tarifario();
   const wrap=document.getElementById('sItems');
-  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
   const {l,c}=CM[cls];
   const div=document.createElement('div');
   div.className='iblk';div.id=`si-${id}`;
   div.innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <span id="sinum-${id}" style="font-size:10px;font-weight:900;color:var(--text3)">Item</span>
       <span style="font-size:10px;font-weight:900;color:${c};letter-spacing:.8px">${l}</span>
       <button class="btn btn-d btn-sm" onclick="rmSI('${id}')">✕</button>
     </div>
@@ -1844,6 +1845,7 @@ function addSI(cls){
       id="sub-${id}">Subtotal: $ 0</div>`;
   wrap.appendChild(div);
   document.getElementById('sTotCard').style.display='block';
+  renumSI();
 }
 
 function onTarSel(id,tarId){
@@ -1889,14 +1891,22 @@ function rmSI(id){
   document.getElementById(`si-${id}`)?.remove();
   if(!sItems.length)document.getElementById('sItems').innerHTML=
     '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Agregá los trabajos de la semana</div>';
+  renumSI();
   recalcS();
+}
+
+function renumSI(){
+  sItems.forEach((it,idx)=>{
+    const el=document.getElementById(`sinum-${it.id}`);
+    if(el)el.textContent=`Item ${idx+1}`;
+  });
 }
 
 function addSF(){
   const id=uid();
   sFacts.push({id,razon:'',nro:'',sinIva:0,conIva:0});
   const wrap=document.getElementById('sFacts');
-  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
+  if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
   const div=document.createElement('div');
   div.className='iblk';div.id=`sf-${id}`;
   div.innerHTML=`
@@ -1927,7 +1937,13 @@ function addSF(){
 }
 
 function updSF(id,f,v){const i=sFacts.find(x=>x.id===id);if(i)i[f]=v;}
-function rmSF(id){sFacts=sFacts.filter(i=>i.id!==id);document.getElementById(`sf-${id}`)?.remove();recalcS();}
+function rmSF(id){
+  sFacts=sFacts.filter(i=>i.id!==id);
+  document.getElementById(`sf-${id}`)?.remove();
+  if(!sFacts.length)document.getElementById('sFacts').innerHTML=
+    '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá facturas de materiales si corresponde</div>';
+  recalcS();
+}
 
 function recalcS(){
   const byC=c=>sItems.filter(i=>i.cls===c).reduce((s,i)=>s+(i.sub||0),0);
