@@ -101,6 +101,17 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 .b-up{background:#2e0d0d;color:var(--danger)}.b-down{background:#0d3320;color:var(--ok)}
 /* ITEM ROWS */
 .iblk{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:7px}
+/* TARIFARIO SEARCH COMBO */
+.tar-combo .search-results{display:none;position:absolute;z-index:20;top:calc(100% + 4px);left:0;right:0;
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;max-height:240px;overflow-y:auto;
+  box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.tar-combo .search-results.open{display:block}
+.tar-combo .search-group{font-size:9px;font-weight:900;color:var(--accent);letter-spacing:.6px;
+  padding:6px 10px 2px;text-transform:uppercase}
+.tar-combo .search-item{padding:7px 10px;cursor:pointer;font-size:12px;border-bottom:1px solid var(--border)}
+.tar-combo .search-item:last-child{border-bottom:none}
+.tar-combo .search-item:hover{background:var(--bg)}
+.tar-combo .search-empty{padding:10px;font-size:11px;color:var(--text3);text-align:center}
 /* TOTALES */
 .tbox{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px}
 .tr2{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;color:var(--text2)}
@@ -1784,8 +1795,6 @@ const CM={
 function addSI(cls){
   const id=uid();
   sItems.push({id,cls,desc:'',tId:'',qty:1,pct:0.6,usd:null,tc:parseFloat(document.getElementById('sTC').value)||1430,sub:0});
-  const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id&&(r.precio_usd_obra||r.precio_usd_unitario));
-  const tarBase=cache.tarifario();
   const wrap=document.getElementById('sItems');
   if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
   const {l,c}=CM[cls];
@@ -1805,15 +1814,12 @@ function addSI(cls){
       </div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div class="fg" style="max-width:200px">
+      <div class="fg tar-combo" style="max-width:220px;position:relative">
         <label>Ítem del tarifario</label>
-        <select onchange="onTarSel('${id}',this.value)">
-          <option value="">— sin asignar —</option>
-          ${rubros.length
-            ? rubros.map(r=>`<option value="${r.id}">[${r.codigo}] ${r.descripcion.slice(0,30)}</option>`).join('')
-            : tarBase.map(t=>`<option value="${t.id}" data-usd="${t.precio_usd||''}">[${t.codigo}] ${t.nombre.slice(0,30)}</option>`).join('')
-          }
-        </select>
+        <input type="text" placeholder="Buscar código o nombre..." autocomplete="off"
+          id="tarq-${id}"
+          oninput="onTarSearch('${id}',this.value)" onfocus="onTarSearch('${id}',this.value)">
+        <div class="search-results" id="tarres-${id}"></div>
       </div>
       <div class="fg" style="max-width:90px">
         <label>Cantidad</label>
@@ -1847,6 +1853,57 @@ function addSI(cls){
   document.getElementById('sTotCard').style.display='block';
   renumSI();
 }
+
+function tarGroupedList(){
+  const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id&&(r.precio_usd_obra||r.precio_usd_unitario));
+  const tarBase=cache.tarifario();
+  const items=rubros.length
+    ? rubros.map(r=>({id:r.id,codigo:r.codigo,label:r.descripcion,grupo:tarBase.find(t=>t.id===r.tarifario_base_id)?.grupo||''}))
+    : tarBase.map(t=>({id:t.id,codigo:t.codigo,label:t.nombre,grupo:t.grupo||''}));
+  return items.sort((a,b)=>a.grupo.localeCompare(b.grupo)||(a.codigo||'').localeCompare(b.codigo||''));
+}
+
+function onTarSearch(id,q){
+  const term=(q||'').trim().toLowerCase();
+  const items=tarGroupedList();
+  const filtered=term
+    ? items.filter(t=>(t.codigo||'').toLowerCase().includes(term)||(t.label||'').toLowerCase().includes(term))
+    : items;
+  renderTarResults(id,filtered);
+}
+
+function renderTarResults(id,items){
+  const wrap=document.getElementById(`tarres-${id}`);
+  if(!items.length){
+    wrap.innerHTML='<div class="search-empty">Sin resultados</div>';
+    wrap.classList.add('open');
+    return;
+  }
+  let html='',lastGroup=null;
+  items.forEach(t=>{
+    if(t.grupo!==lastGroup){
+      lastGroup=t.grupo;
+      html+=`<div class="search-group">${t.grupo||'SIN GRUPO'}</div>`;
+    }
+    html+=`<div class="search-item" onclick="selectTar('${id}','${t.id}')">[${t.codigo}] ${(t.label||'').slice(0,40)}</div>`;
+  });
+  wrap.innerHTML=html;
+  wrap.classList.add('open');
+}
+
+function selectTar(id,tarId){
+  const t=tarGroupedList().find(x=>x.id===tarId);
+  const qEl=document.getElementById(`tarq-${id}`);
+  if(qEl&&t)qEl.value=`[${t.codigo}] ${(t.label||'').slice(0,40)}`;
+  document.getElementById(`tarres-${id}`).classList.remove('open');
+  onTarSel(id,tarId);
+}
+
+document.addEventListener('click',e=>{
+  document.querySelectorAll('.tar-combo .search-results.open').forEach(el=>{
+    if(!el.closest('.tar-combo').contains(e.target))el.classList.remove('open');
+  });
+});
 
 function onTarSel(id,tarId){
   const item=sItems.find(i=>i.id===id);if(!item)return;
