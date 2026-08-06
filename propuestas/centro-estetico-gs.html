@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta property="og:title" content="Centro Estético GS — Propuesta Nova Domus">
-<meta property="og:description" content="Redes, iluminación, seguridad y sonido para un centro estético en Córdoba — cada sistema con su propia app, integrado por Nova Domus.">
+<meta property="og:description" content="Seguridad (alarma y videovigilancia) y sonido por zona para un centro estético en Córdoba — cada sistema con su propia app, integrado por Nova Domus.">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/centro-estetico-gs.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -195,6 +195,35 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   * {print-color-adjust:exact; -webkit-print-color-adjust:exact;}
   .section{break-inside:avoid;}
 }
+
+/* ===== SEÑALES DE INTERACTIVIDAD (nova-domus-propuestas-interactivas v2.4) ===== */
+@keyframes arrow-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(3px);}}
+@keyframes arrow-bounce-open{0%,100%{transform:rotate(180deg) translateY(0);}50%{transform:rotate(180deg) translateY(3px);}}
+.dc-arrow,.acc-arrow{display:inline-block; animation:arrow-bounce 1.6s ease-in-out infinite;}
+.device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{animation:arrow-bounce-open 1.6s ease-in-out infinite; transform:rotate(180deg);}
+@keyframes pill-glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.35);}50%{box-shadow:0 0 0 6px rgba(200,169,110,.12);}}
+@keyframes pill-glow-light{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,.25);}50%{box-shadow:0 0 0 6px rgba(20,30,97,.14);}}
+.switch2{animation:pill-glow 2.6s ease-in-out infinite;}
+.section-light .switch2{animation:pill-glow-light 2.6s ease-in-out infinite;}
+.tap-badge{display:inline-flex; align-items:center; gap:6px; font-size:10.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--navy-deep); background:var(--gold); border-radius:999px; padding:4px 10px; margin-left:10px; white-space:nowrap; animation:tap-badge-pulse 1.8s ease-in-out infinite;}
+@keyframes tap-badge-pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.device-card.open .tap-badge,.accordion-item.open .tap-badge,.faq-item.open .tap-badge{display:none;}
+.hint-line{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--gold); margin-bottom:14px;}
+.section-light .hint-line{color:var(--navy);}
+.hint-line .hp{display:inline-block; animation:arrow-bounce 1.4s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){
+  .dc-arrow,.acc-arrow,.device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{animation:none;}
+  .device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{transform:rotate(180deg);}
+  .switch2,.section-light .switch2{animation:none;}
+  .tap-badge{animation:none;}
+  .hint-line .hp{animation:none;}
+}
+
+/* ===== VIDEO POR MARCA (linkeado, nunca embebido) ===== */
+.bd-video{position:relative; margin-top:12px; border-radius:10px; overflow:hidden; aspect-ratio:16/9; background:#000; max-width:100%;}
+.bd-video.vertical{aspect-ratio:9/16; max-width:280px; margin-left:auto; margin-right:auto;}
+.bd-video iframe{position:absolute; top:0; left:0; width:100%; height:100%; border:0;}
+.bd-video-pending{margin-top:12px; padding:14px; border-radius:10px; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.15); font-size:12.5px; color:var(--grey); text-align:center;}
 </style>
 </head>
 <body>
@@ -227,15 +256,15 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <div id="heroLogo"></div>
     <div class="lp-word">NOVA DOMUS<small>INTEGRACIÓN TECNOLÓGICA</small></div>
   </div>
-  <div class="py-tag">PY-2026-011 · PROPUESTA COMERCIAL · VÍA SCUD SEGURIDAD</div>
+  <div class="py-tag">PY-2026-011 · V3 · PROPUESTA COMERCIAL · VÍA SCUD SEGURIDAD</div>
   <h1>CENTRO ESTÉTICO GS</h1>
   <div class="descriptor">INTEGRACIÓN TECNOLÓGICA</div>
   <p class="tagline">Del cable a la app</p>
-  <p class="lead" style="margin-top:20px;">Local comercial en edificio corporativo, Córdoba. Redes, iluminación, seguridad y audio ambiente — cada sistema con su propia app, sin depender de un servidor local. La obra eléctrica y el cableado de señal débil los resuelve el electricista de la clienta; Nova Domus provee, instala y programa cada dispositivo.</p>
+  <p class="lead" style="margin-top:20px;">Local comercial en edificio corporativo, Córdoba. Seguridad (alarma y videovigilancia) y sonido por zona — cada sistema con su propia app, sin depender de un servidor local. La obra eléctrica y el cableado de señal débil los resuelve el electricista de la clienta; Nova Domus provee, instala y programa cada dispositivo.</p>
   <div class="stats">
-    <div class="stat"><div class="figure" data-count="8">0</div><div class="stat-label">Cámaras de videovigilancia</div></div>
-    <div class="stat"><div class="figure" data-count="2">0</div><div class="stat-label">Accesos con control facial</div></div>
-    <div class="stat"><div class="figure" data-count="5">0</div><div class="stat-label">Sistemas integrados</div></div>
+    <div class="stat"><div class="figure" data-count="4">0</div><div class="stat-label">Cámaras de videovigilancia</div></div>
+    <div class="stat"><div class="figure" data-count="6">0</div><div class="stat-label">Zonas de audio independientes</div></div>
+    <div class="stat"><div class="figure" data-count="7">0</div><div class="stat-label">Sensores de movimiento</div></div>
     <div class="stat"><div class="figure" data-count="1">0</div><div class="stat-label">Responsable de punta a punta</div></div>
   </div>
 </section>
@@ -244,19 +273,19 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section" id="resumen">
   <span class="eyebrow">00 — Resumen ejecutivo</span>
   <h2>La propuesta en 60 segundos</h2>
-  <p class="lead">Seguridad esencial (alarma, videovigilancia y control de acceso en ambos ingresos), red profesional, iluminación Philips Hue y sonido ambiente para las áreas comunes — cada uno gestionado desde su propia app, sin un servidor central en el local.</p>
+  <p class="lead">Seguridad con detección de movimiento en cada consultorio, videovigilancia interior y perimetral, y sonido independiente en las 6 zonas del local — cada sistema gestionado desde su propia app, sin un servidor central en el local.</p>
   <div class="resumen-grid">
     <div class="resumen-card">
       <div class="rc-label">Qué necesita</div>
-      <div class="rc-value" style="font-size:14px; line-height:1.5;">Seguridad, red y ambiente profesional para un local de consultorios en un edificio corporativo</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Seguridad y sonido por zona para un local de consultorios en un edificio corporativo</div>
     </div>
     <div class="resumen-card">
       <div class="rc-label">Qué proponemos</div>
-      <div class="rc-value" style="font-size:14px; line-height:1.5;">TP-Link Omada + Hikvision AXHome/AcuSense + Philips Hue + VSSL, con Nova Domus como único responsable de lo que instala</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Hikvision AXHome/AcuSense + Sonos por zona, con Nova Domus como único responsable de lo que instala</div>
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión base</div>
-      <div class="rc-value">USD 7.428</div>
+      <div class="rc-value">USD 7.317</div>
       <div class="rc-sub">Equipo + mano de obra + programación</div>
     </div>
     <div class="resumen-card">
@@ -270,85 +299,89 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section" id="responsable">
   <span class="eyebrow">01 — Nuestro compromiso</span>
   <h2>Un solo responsable</h2>
-  <p class="lead">En una obra con tecnología normalmente coordinás varios proveedores: el de redes, el de cámaras, el que programa cada cosa. Cuando algo falla, cada uno señala al otro y el problema queda en el medio.</p>
-  <p style="margin-top:14px;">Nosotros proveemos, instalamos y programamos con equipo propio todo lo que ves en esta propuesta: redes, iluminación, seguridad, videovigilancia, acceso y audio. <strong>La obra eléctrica y el cableado de señal débil de este local los resuelve el electricista de la clienta</strong> — nosotros especificamos y certificamos esa parte, pero la instalación y puesta en marcha de cada dispositivo es 100% nuestra.</p>
+  <p class="lead">En una obra con tecnología normalmente coordinás varios proveedores: el de cámaras, el de alarma, el que programa cada cosa. Cuando algo falla, cada uno señala al otro y el problema queda en el medio.</p>
+  <p style="margin-top:14px;">Nosotros proveemos, instalamos y programamos con equipo propio todo lo que ves en esta propuesta: alarma, videovigilancia y audio. <strong>La obra eléctrica y el cableado de señal débil de este local los resuelve el electricista de la clienta</strong> — nosotros especificamos y certificamos esa parte, pero la instalación y puesta en marcha de cada dispositivo es 100% nuestra.</p>
 
   <div class="diagram-5">
     <div class="diagram-step"><div class="step-num">01</div><div class="step-label">Relevamiento y especificación</div></div>
-    <div class="diagram-step"><div class="step-num">02</div><div class="step-label">Redes e iluminación</div></div>
-    <div class="diagram-step"><div class="step-num">03</div><div class="step-label">Seguridad y accesos</div></div>
+    <div class="diagram-step"><div class="step-num">02</div><div class="step-label">Alarma y videovigilancia</div></div>
+    <div class="diagram-step"><div class="step-num">03</div><div class="step-label">Audio por zona</div></div>
     <div class="diagram-step"><div class="step-num">04</div><div class="step-label">Instalación y programación por dispositivo</div></div>
     <div class="diagram-step"><div class="step-num">05</div><div class="step-label">Entrega documentada + 12 meses de garantía</div></div>
   </div>
-</section>
 
-<!-- REDES -->
-<section class="section section-light" id="redes">
-  <span class="eyebrow">02 — Redes</span>
-  <h2>La base de todo lo demás</h2>
-  <p class="lead">Router VPN y switch PoE+ TP-Link Omada, con rack y UPS propios para que el equipamiento del local quede protegido y ordenado.</p>
-
-  <div class="switch2">
-    <button class="active state-a" onclick="setRedesView('generico')">WiFi doméstico común</button>
-    <button class="state-b" onclick="setRedesView('actual')">Lo que proponemos</button>
-  </div>
-  <div class="compare-panel" id="redes-panel"></div>
-
-  <div class="device-grid" id="grid-redes"></div>
-</section>
-
-<!-- ILUMINACION -->
-<section class="section" id="iluminacion">
-  <span class="eyebrow">03 — Iluminación</span>
-  <h2>El primer momento que percibe el cliente</h2>
-  <p class="lead">Tiras Philips Hue con Bridge propio — color y temperatura de luz ajustables por escena, controladas desde la app de Hue por el personal del centro.</p>
-
-  <div class="device-grid" id="grid-iluminacion"></div>
-
-  <h3 style="margin-top:32px; margin-bottom:6px;">Casos de uso por momento</h3>
-  <div class="usecase-tabs" id="uc-tabs"></div>
-  <div class="usecase-panel" id="uc-panel"></div>
+  <table style="width:100%; border-collapse:collapse; margin-top:24px; font-size:13.5px;">
+    <tr style="border-bottom:1px solid rgba(200,169,110,.3);">
+      <th style="text-align:left; padding:10px 8px; color:var(--gold); font-family:var(--font-body); font-weight:600;"></th>
+      <th style="text-align:center; padding:10px 8px; color:var(--gold); font-family:var(--font-body); font-weight:600;">Con Nova Domus</th>
+      <th style="text-align:center; padding:10px 8px; color:var(--grey); font-family:var(--font-body); font-weight:600;">Con integradores tradicionales</th>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+      <td style="padding:10px 8px; color:var(--body);">Proveedores a coordinar</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--body);">1</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--grey);">3 o más (alarma, cámaras, audio por separado)</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+      <td style="padding:10px 8px; color:var(--body);">Responsable ante una falla</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--body);">Nova Domus, siempre</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--grey);">Cada proveedor se desliga del resto</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+      <td style="padding:10px 8px; color:var(--body);">Equipo de instalación</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--body);">Propio, para todo lo que instalamos</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--grey);">Subcontratistas distintos por rubro</td>
+    </tr>
+    <tr>
+      <td style="padding:10px 8px; color:var(--body);">Garantía</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--body);">12 meses, unificada</td>
+      <td style="text-align:center; padding:10px 8px; color:var(--grey);">Fragmentada, distinta por proveedor</td>
+    </tr>
+  </table>
 </section>
 
 <!-- SEGURIDAD -->
 <section class="section section-light" id="seguridad">
-  <span class="eyebrow">04 — Seguridad</span>
-  <h2>Alarma, videovigilancia y accesos</h2>
-  <p class="lead">Los tres subsistemas de seguridad de este proyecto, pensados a lo esencial: cubren el riesgo real de un local de consultorios sin sobredimensionar.</p>
+  <span class="eyebrow">02 — Seguridad</span>
+  <h2>Alarma y videovigilancia</h2>
+  <p class="lead">Detección por movimiento en cada consultorio y videovigilancia interior y perimetral.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá el switch para comparar antes/después, y cada tarjeta para ver precio y detalle.</div>
 
   <h3 style="margin-top:8px;">Alarma</h3>
   <div class="switch2">
-    <button class="active state-a" onclick="setAlarmaView('comun')">Alarma común</button>
-    <button class="state-b" onclick="setAlarmaView('axhome')">Con AXHome</button>
+    <button class="active state-a" onclick="setAlarmaView('comun', this)">Alarma común</button>
+    <button class="state-b" onclick="setAlarmaView('axhome', this)">Con AXHome</button>
   </div>
   <div class="compare-panel" id="alarma-panel"></div>
   <div class="device-grid" id="grid-alarma"></div>
 
   <h3 style="margin-top:32px;">Videovigilancia</h3>
   <div class="switch2">
-    <button class="active state-a" onclick="setVideoView('comun')">Cámara común</button>
-    <button class="state-b" onclick="setVideoView('acusense')">Con AcuSense en el NVR</button>
+    <button class="active state-a" onclick="setVideoView('comun', this)">Cámara común</button>
+    <button class="state-b" onclick="setVideoView('acusense', this)">Con AcuSense en el NVR</button>
   </div>
   <div class="compare-panel" id="video-panel"></div>
   <div class="device-grid" id="grid-videovigilancia"></div>
-
-  <h3 style="margin-top:32px;">Control de acceso</h3>
-  <p class="lead" style="font-size:13.5px;">Terminal facial en cada uno de los dos ingresos (calle y lobby del edificio), con cerradura electromagnética, herraje, fuente y pulsador de salida en un solo kit.</p>
-  <div class="device-grid" id="grid-acceso"></div>
 </section>
 
 <!-- AUDIO -->
 <section class="section" id="audio">
   <span class="eyebrow">05 — Audio</span>
-  <h2>Sonido ambiente en las áreas comunes</h2>
-  <p class="lead">Amplificador streaming VSSL de 1 zona + parlantes embutidos Episode para sala de espera y pasillos. Suficiente para música de fondo consistente en todo el local, con marca reconocida y streaming nativo (Spotify, AirPlay, Chromecast).</p>
+  <h2>6 zonas de sonido, cada una independiente</h2>
+  <p class="lead" id="audio-lead">Dos formas de llegar a las mismas 6 zonas independientes — elegí cuál te sirve para mostrarle a la clienta y la arquitecta.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setAudioModelo('sonos', this)">Sonos — de aplique</button>
+    <button class="state-b" onclick="setAudioModelo('vssl', this)">VSSL + Episode — empotrado</button>
+  </div>
+  <div class="hint-line"><span class="hp">👆</span> Tocá para comparar los dos modelos de audio.</div>
+  <div class="compare-panel" id="audio-modelo-panel"></div>
 
   <div class="device-grid" id="grid-audio"></div>
 
   <div class="opt-card" style="border-color:rgba(200,169,110,.4);">
     <div class="opt-body" style="width:100%;">
-      <div class="opt-title"><span>¿Por qué esta opción y no algo más económico?</span></div>
-      <div class="opt-desc" style="margin-top:8px;">Evaluamos una alternativa Bluetooth (sin streaming en red) que hubiera bajado el costo del ampli en aproximadamente USD 780. La descartamos para esta propuesta porque depende de tener siempre un celular emparejado y cerca — con el VSSL, la música corre sola desde la red, sin depender de un dispositivo físico presente en el local. Si el presupuesto lo requiere, la alternativa Bluetooth sigue disponible como downgrade a pedido.</div>
+      <div class="opt-title"><span id="audio-valor-title">¿Por qué zonas independientes en vez de un solo sistema compartido?</span></div>
+      <div class="opt-desc" style="margin-top:8px;" id="audio-valor-desc">Un ambiente de tratamiento no necesariamente quiere la misma música que la recepción, y un consultorio ocupado puede necesitar silencio mientras el resto sigue con música. Con Sonos, cada parlante es su propia zona — se apaga, cambia o sube de volumen sin afectar al resto. La contracara es que son 8 dispositivos en vez de un ampli central: se paga esa independencia real, pero sigue siendo más económico que un sistema multizona profesional tradicional para la misma cantidad de zonas.</div>
     </div>
   </div>
 </section>
@@ -379,6 +412,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">07 — Inversión</span>
   <h2>Desglose completo</h2>
   <p class="lead">Por sistema, con el detalle cuantitativo de cada dispositivo. Tocá cada rubro para ver la tabla completa.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada rubro de la lista para abrir el desglose línea por línea.</div>
 
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
@@ -386,7 +420,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="totalrow" style="border-top:1px solid rgba(200,169,110,.25); font-size:14px; margin-top:16px;"><span>Subtotal Equipo (neto)</span><span id="eq-neto">USD —</span></div>
   <div class="totalrow" style="font-size:14px;"><span>IVA equipo (discriminado)</span><span id="eq-iva">USD —</span></div>
   <div class="totalrow" style="font-size:14px;"><span>Subtotal Equipo (con IVA)</span><span id="eq-total">USD —</span></div>
-  <div class="totalrow" style="font-size:14px;"><span>Mano de obra especializada</span><span id="mo-total">USD —</span></div>
+  <div class="totalrow" style="font-size:14px;"><span>Mano de obra especializada (Tarifario ND)</span><span id="mo-total">USD —</span></div>
   <div class="totalrow" style="font-size:14px;"><span>Programación y comisionado</span><span id="prog-total">USD —</span></div>
   <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD —</span></div>
   <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial ($1.513). Materiales sujetos a cotización del proveedor al momento de la compra.</p>
@@ -414,16 +448,21 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">09 — Respaldo</span>
   <h2>Las marcas detrás de la propuesta</h2>
   <p class="lead">Tocá cada una para ver por qué la elegimos.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá una marca para ver la ficha y el video.</div>
   <div class="pills">
     <div class="pill fixed">Nova Domus</div>
     <div class="pill fixed">CEDIA Member</div>
     <div class="pill" onclick="showBrand('hikvision')">Hikvision</div>
-    <div class="pill" onclick="showBrand('omada')">TP-Link Omada</div>
-    <div class="pill" onclick="showBrand('hue')">Philips Hue</div>
-    <div class="pill" onclick="showBrand('vssl')">VSSL</div>
-    <div class="pill" onclick="showBrand('starligh')">Starligh</div>
+    <div class="pill" onclick="showBrand('sonos')">Sonos</div>
   </div>
   <div class="brand-detail" id="brand-detail"></div>
+
+  <div class="opt-card" style="border-color:rgba(200,169,110,.4); margin-top:24px;">
+    <div class="opt-body" style="width:100%;">
+      <div class="opt-title"><span>Garantía y post-venta</span></div>
+      <div class="opt-desc" style="margin-top:8px;">12 meses de garantía sobre todo lo que instalamos y programamos directamente — alarma, videovigilancia y audio. Si algo falla en ese período, lo resolvemos sin cargo. Después, service a demanda: seguimos siendo un solo interlocutor para todo lo que ejecutamos, aunque la parte eléctrica la haya resuelto un tercero.</div>
+    </div>
+  </div>
 </section>
 
 <!-- FAQ -->
@@ -450,13 +489,14 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">12 — Condiciones generales</span>
   <h2>Cómo trabajamos</h2>
   <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada punto para leer el detalle completo.</div>
   <div id="condiciones-list"></div>
 </section>
 
 <footer>
   <div class="foot-logo" id="footlogo"></div>
   <div>Nova Domus — NDWD SAS · Córdoba, Argentina</div>
-  <div class="py-foot">PY-2026-011</div>
+  <div class="py-foot">PY-2026-011 · v3</div>
 </footer>
 
 <script>
@@ -472,12 +512,15 @@ const CONDICIONES = [
   {t:"Formas de cobro", d:"Se reciben pesos en efectivo, transferencia o dólares. E-cheq: consultar factibilidad y financiación, siempre con e-cheqs propios."},
   {t:"Facturación", d:"Se puede facturar Factura A. En mano de obra, a los precios indicados se le suma IVA e IIBB."},
   {t:"Boca Completa / obra eléctrica", d:"La base de cotización de Boca Completa de la Asociación Argentina de Instaladores Electricistas no aplica a este proyecto — la obra eléctrica y el cableado los resuelve un tercero, no Nova Domus."},
+  {t:"Sirena exterior de alarma", d:"La compatibilidad de la sirena exterior con el panel AXHome está sujeta a confirmación final con el distribuidor antes de la compra — no se garantiza hasta esa confirmación."},
 ];
-document.getElementById('condiciones-list').innerHTML = CONDICIONES.map(c=>`
-  <div class="accordion-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}</span><span class="acc-arrow">▾</span></div>
+document.getElementById('condiciones-list').innerHTML = CONDICIONES.map((c,i)=>{
+  const badge = i===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
+  return `<div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}${badge}</span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner"><p>${c.d}</p></div></div>
-  </div>`).join('');
+  </div>`;
+}).join('');
 </script>
 
 <script>
@@ -558,53 +601,78 @@ document.getElementById('footlogo').innerHTML = LOGO_SVG;
 </script>
 <script>
 
-// ===== DEVICES POR SUBSISTEMA (pu = precio unitario CON IVA ya aplicado) =====
+// ===== DEVICES POR SUBSISTEMA v3-parcial (pu = precio unitario CON IVA ya aplicado) =====
 const DEVICES = {
-  redes: [
-    {n:'Router VPN Omada ER605', q:1, pu:66.46, iva:10.5, foto:null, desc:'Gestiona la conexión a internet y protege con firewall.'},
-    {n:'Switch PoE+ 8p Smart 2SFP TL-SG2210P', q:1, pu:108.43, iva:10.5, foto:null, desc:'Alimenta cámaras y terminales de acceso sin fuentes sueltas.'},
-    {n:'Rack mural GLC 12U', q:1, pu:156.25, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/117.jpg', desc:'Gabinete centralizado para todo el equipamiento de red y seguridad.'},
-    {n:'UPS Forza interactiva 2000VA', q:1, pu:200.36, iva:10.5, foto:null, desc:'Respaldo ante cortes eléctricos para router, switch y NVR.'},
-    {n:'Bandeja GLC 1U30', q:1, pu:16.63, iva:21, foto:null, desc:'Soporte para equipos no rackeables dentro del gabinete.'},
-    {n:'Canal de tensión GLC 5 tomas', q:1, pu:56.95, iva:21, foto:null, desc:'Distribución eléctrica ordenada dentro del rack.'},
-    {n:'Organizador de cable GLC 1U', q:1, pu:8.54, iva:21, foto:null, desc:'Prolijidad y mantenimiento futuro del cableado del rack.'},
-    {n:'AP Omada EAP610 WiFi6 AX1800 PoE', q:1, pu:138.02, iva:21, foto:null, desc:'Cobertura WiFi para todo el local — recepción y los 4 consultorios. PRECIO PROVISORIO, ver nota.'},
-  ],
-  iluminacion: [
-    {n:'Philips Hue Bridge Pro', q:1, pu:143.81, iva:21, foto:null, desc:'Hub local que gestiona toda la iluminación Hue del local.'},
-    {n:'Philips Hue Lightstrip Plus 2m', q:3, pu:84.88, iva:21, foto:null, desc:'Tiras LED de color y temperatura ajustable para recepción y pasillos.'},
-  ],
   alarma: [
-    {n:'Kit AXHome base (central+control+1 sensor)', q:1, pu:168.43, iva:21, foto:null, desc:'Central inalámbrica Hikvision, línea residencial/comercial chica.'},
-    {n:'Sensor magnético adicional', q:7, pu:31.9443, iva:21, foto:null, desc:'Apertura de puertas y ventanas de cada consultorio y accesos.'},
-    {n:'Teclado AXHome', q:1, pu:50.82, iva:21, foto:null, desc:'Armado y desarmado manual del sistema.'},
-    {n:'Sirena interior', q:2, pu:49.37, iva:21, foto:null, desc:'Disuasión sonora ante intrusión — dos unidades para mayor cobertura de sonido.'},
+    {n:'Kit AXHome base (central+control+1 sensor magnético de fábrica)', q:1, pu:188.64, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201P-Kit-16WB.png', desc:'Central inalámbrica Hikvision, línea residencial/comercial chica.'},
+    {n:'Sensor de movimiento DS-PD201P10-WB', q:7, pu:44.89, iva:21, foto:null, desc:'Detección de movimiento en cada consultorio y áreas comunes.'},
+    {n:'Teclado AXHome', q:1, pu:56.92, iva:21, foto:null, desc:'Armado y desarmado manual del sistema.'},
+    {n:'Sirena interior', q:1, pu:55.29, iva:21, foto:null, desc:'Disuasión sonora ante intrusión.'},
+    {n:'Sirena exterior DS-PS1-E-WB (*)', q:1, pu:110.59, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Disuasión visual y sonora perimetral. COMPATIBILIDAD CON AXHOME A CONFIRMAR, ver nota.'},
   ],
   videovigilancia: [
-    {n:'Cámara bullet 2MP PoE', q:8, pu:100.19, iva:21, foto:null, desc:'4 interiores (circulación de personas) + 4 exteriores (perimetral).'},
-    {n:'NVR AcuSense 8ch 12MP', q:1, pu:329.60, iva:21, foto:null, desc:'La inteligencia artificial de clasificación de personas/vehículos corre acá, centralizada.'},
-    {n:'HDD SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:null, desc:'Almacenamiento especial para videovigilancia continua.'},
-  ],
-  acceso: [
-    {n:'Terminal facial/QR/huella DS-K1T323MBFWX-E1', q:2, pu:279.79, iva:10.5, foto:null, desc:'Uno en la puerta a la calle, otro en el ingreso desde el lobby del edificio.'},
-    {n:'Kit de Accesos Proximidad interior (Starligh)', q:2, pu:99.49, iva:21, foto:null, desc:'Cerradura electromagnética + herraje + fuente + pulsador de salida, en un solo kit por acceso.'},
+    {n:'Cámara bullet 2MP PoE', q:4, pu:112.21, iva:21, foto:null, desc:'2 interiores (circulación de personas) + 2 exteriores (perimetral).'},
+    {n:'NVR AcuSense 4ch DS-7604NXI-K1', q:1, pu:250.44, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7604NXI-K1(D).png', desc:'La inteligencia artificial de clasificación de personas/vehículos corre acá, centralizada.'},
+    {n:'HDD SkyHawk 4TB', q:1, pu:282.99, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Almacenamiento especial para videovigilancia continua.'},
   ],
   audio: [
-    {n:'VSSL MA.1 — Ampli streaming 2 canales', q:1, pu:943.80, iva:21, foto:null, desc:'Streaming nativo Spotify/AirPlay/Chromecast para música ambiente.'},
-    {n:'Episode CORE 1 — Parlante embutido techo (par)', q:3, pu:206.1267, iva:21, foto:null, desc:'Sala de espera y pasillos — línea de entrada de la misma marca, no downgrade de calidad.'},
-    {n:'Episode — Selector de parlantes 6 pares', q:1, pu:336.57, iva:21, foto:null, desc:'Permite repartir un solo amplificador entre los 3 pares sin dañarlo.'},
+    {n:'Sonos ERA 100', q:8, pu:376.31, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Soporte de pared Sanus (par)', q:4, pu:161.27, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
   ],
 };
+
+// ===== DOS MODELOS DE AUDIO A ELECCIÓN (misma cobertura de 6 zonas) =====
+const AUDIO_VARIANTES = {
+  sonos: [
+    {n:'Sonos ERA 100', q:8, pu:376.31, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Soporte de pared Sanus (par)', q:4, pu:161.27, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
+  ],
+  vssl: [
+    {n:'VSSL A.6x — Amplificador streamer 6 zonas', q:1, pu:3656.44, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/549.png', desc:'Un ampli con 6 salidas de zona independientes — cada consultorio, recepción y pasillo con su propio volumen.'},
+    {n:'Episode CORE 1 — Parlante embutido techo 6" (par)', q:4, pu:230.87, iva:21, foto:null, desc:'Parlante empotrado en cielorraso, no visible — la opción que pide la arquitecta en vez de un parlante de aplique.'},
+  ],
+};
+let AUDIO_MODELO_ACTUAL = 'sonos';
+function setAudioModelo(modelo, btn){
+  AUDIO_MODELO_ACTUAL = modelo;
+  DEVICES.audio = AUDIO_VARIANTES[modelo];
+  document.querySelectorAll('#audio .switch2 button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const panel = document.getElementById('audio-modelo-panel');
+  if(modelo==='sonos'){
+    panel.innerHTML = `<ul>
+      <li class="yes">Parlante de aplique — se ve, pero no necesita obra en el cielorraso</li>
+      <li class="yes">Cada Sonos es su propio amplificador — sin equipo central que pueda fallar para todas las zonas a la vez</li>
+      <li class="no">No es empotrado — queda visible en la pared</li>
+    </ul>`;
+    document.getElementById('audio-lead').textContent = 'Un parlante activo Sonos en cada consultorio y dos en las zonas grandes (recepción y pasillo) — cada Sonos es su propio amplificador, así que cada zona controla su propio volumen y su propia fuente, sin depender de un equipo central.';
+    document.getElementById('audio-valor-title').textContent = '¿Por qué zonas independientes en vez de un solo sistema compartido?';
+    document.getElementById('audio-valor-desc').textContent = 'Un ambiente de tratamiento no necesariamente quiere la misma música que la recepción, y un consultorio ocupado puede necesitar silencio mientras el resto sigue con música. Con Sonos, cada parlante es su propia zona — se apaga, cambia o sube de volumen sin afectar al resto. La contracara es que son 8 dispositivos en vez de un ampli central: se paga esa independencia real, pero sigue siendo más económico que un sistema multizona profesional tradicional para la misma cantidad de zonas.';
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">Parlante empotrado en el cielorraso — invisible, terminación más prolija</li>
+      <li class="yes">6 zonas independientes reales desde un solo equipo central</li>
+      <li class="no">Requiere un ampli central — si falla, puede afectar más de una zona a la vez</li>
+      <li class="no">Necesita obra/cableado en el cielorraso para el parlante embutido</li>
+    </ul>`;
+    document.getElementById('audio-lead').textContent = 'Ampli VSSL A.6x con 6 salidas de zona independientes, más parlantes Episode empotrados en el cielorraso — la opción para cuando se prioriza que no se vea ningún parlante.';
+    document.getElementById('audio-valor-title').textContent = '¿Por qué empotrado en vez de aplique?';
+    document.getElementById('audio-valor-desc').textContent = 'El parlante embutido queda escondido en el cielorraso — nada visible en la pared, terminación más prolija para un centro estético con foco en el diseño de interiores. La contracara: necesita obra en el cielorraso para instalarlo y depende de un amplificador central para las 6 zonas, mientras que con Sonos cada zona es autónoma.';
+  }
+  renderDeviceGrid('grid-audio', 'audio');
+  renderInversion();
+}
 
 function renderDeviceGrid(containerId, key){
   const el = document.getElementById(containerId);
   el.innerHTML = DEVICES[key].map((d,i)=>{
     const fotoHtml = d.foto
-      ? `<img class="dc-photo" src="${d.foto}" alt="${d.n}">`
+      ? `<img class="dc-photo" loading="lazy" src="${d.foto}" alt="${d.n}">`
       : `<div class="dc-photo-placeholder">Foto<br>pendiente</div>`;
+    const badge = i===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
     return `<div class="device-card" id="${containerId}-${i}">
       <div class="dc-head" onclick="toggleDevice('${containerId}-${i}')">
-        <div><div class="dc-name">${d.n}</div><div class="dc-qty">${d.q} unidad${d.q>1?'es':''}</div></div>
+        <div><div class="dc-name">${d.n}${badge}</div><div class="dc-qty">${d.q} unidad${d.q>1?'es':''}</div></div>
         <span class="dc-arrow">▾</span>
       </div>
       <div class="dc-body"><div class="dc-body-inner">
@@ -614,7 +682,7 @@ function renderDeviceGrid(containerId, key){
     </div>`;
   }).join('');
 }
-['redes','iluminacion','alarma','videovigilancia','acceso','audio'].forEach(k=>renderDeviceGrid('grid-'+k, k));
+['alarma','videovigilancia','audio'].forEach(k=>renderDeviceGrid('grid-'+k, k));
 
 function toggleDevice(id){
   const card = document.getElementById(id);
@@ -624,34 +692,13 @@ function toggleDevice(id){
   body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
 }
 
-// ===== CASOS DE USO ILUMINACION =====
-const ILUM_CASOS = [
-  {tab:'Recepción', icon:'💡', text:'Luz blanca neutra profesional durante todo el horario de atención — genera percepción de calidad y prolijidad desde que el cliente entra.'},
-  {tab:'Tratamiento', icon:'🌤️', text:'Un toque en la app atenúa a luz cálida difusa en las salas de tratamiento, para un ambiente de relajación.'},
-  {tab:'Cierre', icon:'🌙', text:'Al cierre, una escena reduce todo al mínimo consumo antes de irse.'},
-];
-function renderIlumCasos(){
-  const tabsEl = document.getElementById('uc-tabs');
-  tabsEl.innerHTML = ILUM_CASOS.map((c,i)=>`<div class="usecase-tab ${i===0?'active':''}" onclick="setIlumCaso(${i})">${c.tab}</div>`).join('');
-  setIlumCaso(0);
-}
-function setIlumCaso(i){
-  const c = ILUM_CASOS[i];
-  document.getElementById('uc-panel').innerHTML = `<span class="uc-icon">${c.icon}</span><span>${c.text}</span>`;
-  document.querySelectorAll('#uc-tabs .usecase-tab').forEach((t,idx)=>t.classList.toggle('active', idx===i));
-}
-renderIlumCasos();
-
 // ===== DATOS DE INVERSION =====
 const RUBROS = [
-  {id:'redes', label:'Redes', color:'#7089A9'},
-  {id:'iluminacion', label:'Iluminación', color:'#C8A96E'},
   {id:'alarma', label:'Alarma', color:'#B5453A'},
   {id:'videovigilancia', label:'Videovigilancia', color:'#8698AE'},
-  {id:'acceso', label:'Acceso', color:'#4F6380'},
   {id:'audio', label:'Audio', color:'#34425C'},
 ];
-const MO_FIJA = 1020.00;
+const MO_FIJA = 1288.06; // Tarifario ND itemizado x1.12 (incluye comision SCUD prorrateada)
 
 function sumConIva(items){ return items.reduce((a,it)=>a+it.pu*it.q,0); }
 function sumNeto(items){ return items.reduce((a,it)=>a+ (it.pu*it.q)/(1+it.iva/100),0); }
@@ -691,11 +738,12 @@ function renderInversion(){
   }).join('');
 
   const acc = document.getElementById('accordion-rubros');
-  acc.innerHTML = RUBROS.map(r=>{
+  acc.innerHTML = RUBROS.map((r,idx)=>{
     const rTotal = sumConIva(DEVICES[r.id]);
+    const badge = idx===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
     return `<div class="accordion-item">
       <div class="accordion-head" onclick="toggleAcc(this)">
-        <span>${r.label}</span>
+        <span>${r.label}${badge}</span>
         <span class="ah-price">${fmt(rTotal)} <span class="acc-arrow">▾</span></span>
       </div>
       <div class="accordion-body"><div class="accordion-body-inner">
@@ -745,51 +793,31 @@ window.addEventListener('resize', ()=>{
 });
 
 // ===== COMPARATIVAS SWITCH =====
-function setRedesView(view){
-  document.querySelectorAll('#redes .switch2 button').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  const panel = document.getElementById('redes-panel');
-  if(view==='generico'){
-    panel.innerHTML = `<ul>
-      <li class="no">Router único, sin segmentar tráfico</li>
-      <li class="no">Se satura con muchos dispositivos conectados</li>
-      <li class="no">Sin QoS — la cámara compite con el resto del tráfico</li>
-      <li class="no">Sin gestión centralizada de la red</li>
-    </ul>`;
-  } else {
-    panel.innerHTML = `<ul>
-      <li class="yes">Red Omada profesional, gestionable desde un controller</li>
-      <li class="yes">Ancho de banda garantizado para videovigilancia</li>
-      <li class="yes">Switch PoE+ dedicado — cámaras y accesos sin fuentes sueltas</li>
-      <li class="yes">Router con VPN para acceso remoto seguro</li>
-    </ul>`;
-  }
-}
-function setAlarmaView(view){
+function setAlarmaView(view, btn){
   const btns = document.querySelectorAll('#seguridad .switch2')[0].querySelectorAll('button');
   btns.forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   const panel = document.getElementById('alarma-panel');
   if(view==='comun'){
     panel.innerHTML = `<ul>
       <li class="no">Central cableada, difícil de ampliar</li>
-      <li class="no">Sensores con falsas alarmas frecuentes</li>
+      <li class="no">Solo detecta apertura de puertas/ventanas, no movimiento dentro del ambiente</li>
       <li class="no">Cada consultorio requiere su propio cableado</li>
       <li class="no">Sin sirena redundante ante fallos</li>
     </ul>`;
   } else {
     panel.innerHTML = `<ul>
       <li class="yes">100% inalámbrico, fácil de instalar sin romper paredes</li>
-      <li class="yes">8 sensores magnéticos cubren las 4 consultorios y ambos accesos</li>
+      <li class="yes">7 sensores de movimiento cubren cada consultorio y áreas comunes</li>
       <li class="yes">Teclado inalámbrico para armado/desarmado manual</li>
-      <li class="yes">2 sirenas interiores para mayor cobertura de sonido</li>
+      <li class="yes">Sirena interior + exterior para disuasión inmediata</li>
     </ul>`;
   }
 }
-function setVideoView(view){
+function setVideoView(view, btn){
   const btns = document.querySelectorAll('#seguridad .switch2')[1].querySelectorAll('button');
   btns.forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   const panel = document.getElementById('video-panel');
   if(view==='comun'){
     panel.innerHTML = `<ul>
@@ -802,7 +830,7 @@ function setVideoView(view){
     panel.innerHTML = `<ul>
       <li class="yes">NVR AcuSense: clasifica personas y vehículos de forma centralizada</li>
       <li class="yes">Búsqueda de eventos por tipo, filtrable en minutos</li>
-      <li class="yes">4 cámaras interiores (circulación) + 4 exteriores (perimetral)</li>
+      <li class="yes">2 cámaras interiores (circulación) + 2 exteriores (perimetral)</li>
       <li class="yes">Grabación continua en disco SkyHawk pensado para CCTV</li>
     </ul>`;
   }
@@ -810,36 +838,38 @@ function setVideoView(view){
 
 // ===== RESPALDO =====
 const BRANDS = {
-  hikvision: "Uno de los fabricantes de videovigilancia y control de acceso más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense y el soporte técnico local de nuestro proveedor.",
-  omada: "Línea profesional de TP-Link para redes gestionadas. La elegimos porque da un salto real de fiabilidad sobre un router doméstico, sin la complejidad de un stack enterprise.",
-  hue: "Referente mundial en iluminación inteligente. Nova Domus es distribuidor directo de la línea — control de color y temperatura sin depender de terceros.",
-  vssl: "Especialista en audio streaming para instalación profesional. Lo elegimos por el streaming nativo (Spotify, AirPlay, Chromecast) sin hardware adicional.",
-  starligh: "Proveedor especializado en hardware de control de acceso (cerraduras electromagnéticas, herrajes, fuentes). Lo elegimos por la calidad de sus kits completos y el cumplimiento de norma de egreso con el pulsador de salida táctil.",
+  hikvision: {d:"Uno de los fabricantes de videovigilancia y control de acceso más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense y el soporte técnico local de nuestro proveedor.", video:null},
+  sonos: {d:"Referente mundial en audio multiroom. Cada parlante es su propio amplificador, lo que permite zonas verdaderamente independientes sin necesitar un equipo central — ideal para un local con varios ambientes chicos.", video:null},
 };
 function showBrand(key){
+  const b = BRANDS[key];
   const el = document.getElementById('brand-detail');
-  el.textContent = BRANDS[key];
+  const videoHtml = b.video
+    ? `<div class="bd-video ${b.vertical?'vertical':''}"><iframe src="${b.video}" title="Video ${key}" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
+    : `<div class="bd-video-pending">🎬 Video de presentación — pendiente de grabar/subir.</div>`;
+  el.innerHTML = `<p>${b.d}</p>${videoHtml}`;
   el.classList.add('show');
 }
 
 // ===== FAQ =====
 const FAQS = [
-  {q:"¿Necesito internet para que todo funcione?", a:"Sí, para el control remoto y las notificaciones de cada app (Hikvision, Hue, VSSL). La alarma y la grabación de las cámaras siguen funcionando localmente aunque se corte internet — lo que se pierde temporalmente es el acceso remoto y las alertas push hasta que vuelva la conexión."},
-  {q:"¿Hay un panel único que controle todo?", a:"No en esta propuesta. Cada sistema se maneja desde su propia app (Hik-Connect para seguridad, la app de Hue para iluminación, la app de VSSL para audio). Es la forma más económica de resolver esto — un panel centralizado tipo Home Assistant es un upgrade posible a futuro, no incluido acá."},
-  {q:"¿Qué pasa si un dispositivo queda obsoleto?", a:"Cada marca sigue su propio ciclo de soporte y actualización — Hikvision, Philips Hue y VSSL son fabricantes grandes con recorrido largo. Un dispositivo puntual se reemplaza por su equivalente sin afectar al resto del sistema."},
+  {q:"¿Necesito internet para que todo funcione?", a:"Sí, para el control remoto y las notificaciones de cada app (Hikvision, Hue, Sonos). La alarma y la grabación de las cámaras siguen funcionando localmente aunque se corte internet — lo que se pierde temporalmente es el acceso remoto y las alertas push hasta que vuelva la conexión."},
+  {q:"¿Hay un panel único que controle todo?", a:"No en esta propuesta. Cada sistema se maneja desde su propia app (Hik-Connect para seguridad, la app de Sonos para audio). Es la forma más económica de resolver esto — un panel centralizado tipo Home Assistant es un upgrade posible a futuro, no incluido acá."},
+  {q:"¿Por qué el audio tiene 8 parlantes para solo 6 zonas?", a:"Las 2 zonas grandes (recepción y pasillo) llevan 2 parlantes cada una para cubrir mejor el espacio; las 4 zonas chicas (los consultorios) llevan 1 cada una. Cada zona se controla de forma independiente desde la app de Sonos, sin importar cuántos parlantes tenga."},
+  {q:"¿Qué pasa si un dispositivo queda obsoleto?", a:"Cada marca sigue su propio ciclo de soporte y actualización — Hikvision, Philips Hue y Sonos son fabricantes grandes con recorrido largo. Un dispositivo puntual se reemplaza por su equivalente sin afectar al resto del sistema."},
   {q:"¿Qué pasa si algo falla?", a:"Los primeros 12 meses lo resolvemos nosotros sin cargo. Después, service a demanda — somos un solo interlocutor para todo lo que instalamos, aunque la parte eléctrica la haya resuelto un tercero."},
-  {q:"¿Hay costos recurrentes?", a:"Ninguno obligatorio — Hik-Connect, la app de Hue y la de VSSL no cobran licencia en su nivel estándar. Si en el futuro se suma una función cloud premium de alguna marca, te lo aclaramos puntualmente antes de activarla."},
+  {q:"¿Hay costos recurrentes?", a:"Ninguno obligatorio — Hik-Connect y la app de Sonos no cobran licencia en su nivel estándar. Si en el futuro se suma una función cloud premium de alguna marca, te lo aclaramos puntualmente antes de activarla."},
 ];
 document.getElementById('faq-list').innerHTML = FAQS.map((f,i)=>`
   <div class="faq-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}${i===0?'<span class="tap-badge">Tocá para abrir</span>':''}</span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner"><p>${f.a}</p></div></div>
   </div>`).join('');
 
 // ===== ACEPTAR =====
 function aceptarPropuesta(){
   const t = calcularTotales();
-  const msg = `Hola Nova Domus! Quiero aceptar la propuesta PY-2026-011 (Centro Estetico GS).%0A%0ATotal: ${fmt(t.total)}`;
+  const msg = `Hola Nova Domus! Quiero aceptar la propuesta PY-2026-011 v3 (Centro Estetico GS).%0A%0ATotal: ${fmt(t.total)}`;
   window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
@@ -875,9 +905,9 @@ document.getElementById('progress-badge').addEventListener('click', ()=>window.s
 
 // init
 renderInversion();
-setRedesView('generico');
 setAlarmaView('comun');
 setVideoView('comun');
+setAudioModelo('sonos');
 </script>
 
 </script>

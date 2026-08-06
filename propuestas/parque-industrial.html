@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="Parque Industrial — Video Vigilancia Perimetral | PY-2026-022">
+<meta property="og:description" content="Propuesta técnica Nova Domus para Scud Seguridad — perimetral industrial, 20 cámaras, 1.500m de infraestructura.">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/parque-industrial.png">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/parque-industrial.html">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parque Industrial — Propuesta Técnica | Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#141E61; --navy-deep:#0B132B; --grey:#787A91; --cream:#FDFBF0;
+  --gold:#C8A96E; --red:#B5453A;
+  --font-display:'Michroma',Arial,sans-serif; --font-body:'Inter',Arial,sans-serif;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{background:var(--navy-deep); color:#EDEAE0; font-family:var(--font-body); line-height:1.5; -webkit-font-smoothing:antialiased;}
+h1,h2,.eyebrow,.figure{font-family:var(--font-display); text-transform:uppercase; letter-spacing:2px;}
+h1{font-size:clamp(26px,5.5vw,40px); line-height:1.15; color:#fff;}
+h2{font-size:clamp(17px,3vw,22px); letter-spacing:2.5px; margin-bottom:10px; color:#fff;}
+h3{font-family:var(--font-body); font-weight:600; font-size:16px; color:#fff;}
+.eyebrow{color:var(--gold); font-size:11px; letter-spacing:2px; margin-bottom:8px; display:block;}
+.lead{color:var(--grey); font-size:15px; max-width:680px;}
+p{color:#EDEAE0;}
+a{color:var(--gold); text-decoration:none;}
+.section{padding:56px 24px; max-width:980px; margin:0 auto;}
+.section-light{background:var(--cream); color:var(--navy-deep);}
+.section-light h1,.section-light h2,.section-light h3{color:var(--navy);}
+.section-light p{color:#3a3d4a;}
+.section-light .eyebrow{color:var(--navy); opacity:.7;}
+.section-light .lead{color:#5d6078;}
+.pynum{color:var(--gold); font-family:var(--font-display); letter-spacing:2px; font-size:13px;}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 70%); padding:70px 24px 50px; text-align:left;}
+.hero-inner{max-width:980px; margin:0 auto;}
+.hero .badge{display:inline-block; border:1px solid var(--gold); color:var(--gold); font-size:11px; letter-spacing:1.5px; padding:5px 12px; border-radius:20px; margin-bottom:18px; font-family:var(--font-display);}
+.hero .total{margin-top:28px; padding:20px 24px; border:1px solid rgba(200,169,110,.35); border-radius:10px; display:inline-block;}
+.hero .total .num{font-family:var(--font-display); color:var(--gold); font-size:clamp(24px,4vw,32px); letter-spacing:1px;}
+.hero .total .lbl{font-size:12px; color:var(--grey); letter-spacing:1px; text-transform:uppercase;}
+
+/* RESUMEN */
+.resumen-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px; margin-top:24px;}
+.resumen-card{background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:18px;}
+.resumen-card .n{font-family:var(--font-display); color:var(--gold); font-size:22px;}
+.resumen-card .l{font-size:12px; color:var(--grey); margin-top:4px; text-transform:uppercase; letter-spacing:.5px;}
+
+/* ARQUITECTURA */
+.topo{display:flex; flex-direction:column; gap:14px; margin-top:24px;}
+.topo-node{border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:16px 18px; background:rgba(255,255,255,.03); display:flex; gap:14px; align-items:flex-start;}
+.topo-node .ico{font-size:22px; flex-shrink:0;}
+.topo-node .txt b{color:#fff;}
+.topo-node .txt small{color:var(--grey); display:block; margin-top:2px;}
+.topo-arrow{text-align:center; color:var(--gold); font-size:18px; margin:-4px 0;}
+
+/* DEVICE CARDS */
+.devgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:20px;}
+.device-card{background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:10px; overflow:hidden;}
+.section-light .device-card{background:#fff; border:1px solid #e5e1d3;}
+.device-card img{width:100%; height:150px; object-fit:cover; display:block; background:#1c2340;}
+.device-card .ph{width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:#1c2340; color:var(--grey); font-size:12px; letter-spacing:1px;}
+.section-light .device-card .ph{background:#eee9da; color:#8a8672;}
+.device-card .body{padding:14px 16px;}
+.device-card .qty{color:var(--gold); font-size:12px; letter-spacing:1px; margin-bottom:4px;}
+.section-light .device-card .qty{color:var(--navy);}
+.device-card .body p{font-size:13px; color:var(--grey); margin-top:6px;}
+.section-light .device-card .body p{color:#5d6078;}
+
+/* COMPARATIVA */
+.comparativa{margin-top:20px; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.1);}
+.comp-toggle{display:flex; background:rgba(255,255,255,.05);}
+.comp-toggle button{flex:1; padding:14px; background:transparent; border:none; appearance:none; color:var(--grey); font-family:var(--font-body); font-weight:600; font-size:13px; cursor:pointer; letter-spacing:.5px; min-height:48px;}
+.comp-toggle button.active{color:#fff; border-bottom:3px solid var(--red);}
+.comp-toggle button.active.gold{border-bottom:3px solid var(--gold); color:var(--gold);}
+.comp-body{padding:20px 22px;}
+.comp-body ul{list-style:none;}
+.comp-body li{padding:8px 0; font-size:14px; border-bottom:1px solid rgba(255,255,255,.06);}
+.comp-body li:last-child{border-bottom:none;}
+.comp-body.problema li::before{content:"✕  "; color:var(--red);}
+.comp-body.solucion li::before{content:"✓  "; color:var(--gold);}
+
+/* ACORDEON INVERSION */
+.acc-item{border-bottom:1px solid #e5e1d3; }
+.acc-head{width:100%; text-align:left; background:transparent; border:none; appearance:none; padding:18px 4px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; min-height:48px;}
+.acc-head .l{font-weight:600; font-size:15px; color:var(--navy);}
+.acc-head .r{font-family:var(--font-display); color:var(--navy); font-size:15px;}
+.acc-head .arrow{transition:transform .2s; color:var(--gold); margin-left:10px;}
+.acc-head.open .arrow{transform:rotate(180deg);}
+.acc-panel{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+.acc-panel table{width:100%; font-size:13px; margin-bottom:14px; border-collapse:collapse;}
+.acc-panel th{text-align:left; color:var(--navy); font-weight:600; padding:6px 4px; border-bottom:1px solid #d8d3c2; font-size:11px; letter-spacing:.5px; text-transform:uppercase;}
+.acc-panel td{padding:8px 4px; border-bottom:1px solid #ece8db; color:#3a3d4a;}
+.acc-panel td.num{text-align:right; white-space:nowrap;}
+
+.totales-box{margin-top:24px; border:1px solid var(--navy); border-radius:10px; padding:20px 22px;}
+.totales-box .row{display:flex; justify-content:space-between; padding:7px 0; font-size:14px;}
+.totales-box .row.final{border-top:2px solid var(--navy); margin-top:8px; padding-top:14px; font-family:var(--font-display); font-size:16px; letter-spacing:1px;}
+.totales-box .row.final .v{color:var(--navy);}
+
+.callout{background:rgba(200,169,110,.08); border:1px solid var(--gold); border-radius:10px; padding:16px 18px; margin-top:20px; font-size:13.5px;}
+.section-light .callout{background:#fbf6e9;}
+
+/* PAGO */
+.pago-row{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.08); gap:16px;}
+.pago-row:last-child{border-bottom:none;}
+.pago-row .et{font-size:14px;}
+.pago-row .mo{font-family:var(--font-display); color:var(--gold); font-size:15px; white-space:nowrap;}
+
+/* RESPALDO */
+.chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+.chip{border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:8px 16px; font-size:13px; background:transparent; color:#EDEAE0; cursor:pointer; appearance:none; min-height:44px;}
+.chip.fixed{border-color:var(--gold); color:var(--gold); cursor:default;}
+.chip.active{background:var(--gold); color:var(--navy-deep); border-color:var(--gold);}
+.brand-panel{display:none; margin-top:16px; border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:18px; background:rgba(255,255,255,.03);}
+.brand-panel.show{display:block;}
+.video-wrap{position:relative; width:100%; max-width:480px; aspect-ratio:16/9; margin-top:12px; border-radius:8px; overflow:hidden;}
+.video-wrap iframe{width:100%; height:100%; border:0;}
+.video-pending{aspect-ratio:16/9; max-width:480px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.2); border-radius:8px; color:var(--grey); font-size:13px; margin-top:12px;}
+
+/* CTA */
+.cta-box{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 100%); border-radius:14px; padding:32px 28px; text-align:center; margin-top:10px;}
+.btn-accept{display:inline-block; margin-top:16px; background:var(--gold); color:var(--navy-deep); border:none; appearance:none; padding:16px 32px; border-radius:8px; font-family:var(--font-display); letter-spacing:1.5px; font-size:13px; cursor:pointer; min-height:48px;}
+
+footer{text-align:center; padding:32px 24px; color:var(--grey); font-size:12px;}
+footer .pynum{display:block; margin-top:6px;}
+
+@media print{
+  .comp-toggle, .btn-accept, .chip{display:none;}
+  .acc-panel{max-height:none!important;}
+  body{background:#fff; color:#000;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="badge">PROPUESTA TÉCNICA · SCUD SEGURIDAD</span>
+    <h1>PARQUE INDUSTRIAL — VIDEO VIGILANCIA PERIMETRAL</h1>
+    <p class="lead" style="margin-top:14px;">Predio rural, zona Guiñazu · 981,95m de perímetro · 52.436,93 m² · internet satelital · centro de monitoreo presencial + acceso remoto.</p>
+    <div class="total">
+      <div class="lbl">Inversión total (equipo + MO Nova Domus)</div>
+      <div class="num">USD 37.796,52</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUMEN EJECUTIVO -->
+<section class="section">
+  <span class="eyebrow">Resumen ejecutivo</span>
+  <h2>Qué se propone</h2>
+  <p class="lead">20 cámaras Hikvision AcuSense (IR 60m, IK10) distribuidas en 4 gabinetes secundarios sobre el perímetro, alimentadas y conectadas vía 3 nodos principales de distribución pasiva desde el centro de monitoreo. Grabación 100% local (NVR 32ch, ~26TB necesarios para 30 días), con acceso remoto vía el enlace satelital del predio.</p>
+  <div class="resumen-grid">
+    <div class="resumen-card"><div class="n">20</div><div class="l">Cámaras AcuSense IR 60m</div></div>
+    <div class="resumen-card"><div class="n">1.500m</div><div class="l">Zanjeo + biducto/tritubo</div></div>
+    <div class="resumen-card"><div class="n">3+4</div><div class="l">Nodos principales / secundarios</div></div>
+    <div class="resumen-card"><div class="n">30 días</div><div class="l">Retención de grabación</div></div>
+  </div>
+</section>
+
+<!-- ARQUITECTURA -->
+<section class="section">
+  <span class="eyebrow">Arquitectura del sistema</span>
+  <h2>Topología</h2>
+  <p class="lead">Distribución en dos niveles: nodos principales pasivos (tablero eléctrico + patch óptico) y gabinetes secundarios activos (switch + UPS + cámaras), en cascada de fibra hacia el centro de monitoreo.</p>
+  <div class="topo">
+    <div class="topo-node">
+      <div class="ico">🖥️</div>
+      <div class="txt"><b>Centro de monitoreo</b><small>NVR 32ch 4K AcuSense + 2x HDD 18TB · Switch core 24p + 4 SFP · Router VPN (acceso remoto vía satelital) · UPS 9PX 1KVA + banco de batería</small></div>
+    </div>
+    <div class="topo-arrow">↓ fibra + feeder eléctrico (biducto/tritubo enterrado)</div>
+    <div class="topo-node">
+      <div class="ico">⚡</div>
+      <div class="txt"><b>3x Nodo principal</b> — distribución pasiva<small>Tablero eléctrico (térmicas por rama) + patch óptico por fusión · sin equipo activo</small></div>
+    </div>
+    <div class="topo-arrow">↓</div>
+    <div class="topo-node">
+      <div class="ico">📷</div>
+      <div class="txt"><b>4x Gabinete secundario</b> — ~6 cámaras c/u<small>Switch PoE+ con SFP+LAN · UPS local (mejor esfuerzo, sin 2hs garantizadas) · cámaras back-to-back</small></div>
+    </div>
+  </div>
+  <div class="callout">⚠️ La autonomía de 2hs pedida originalmente no es alcanzable en los gabinetes de campo sin generador (fuera de alcance). El centro de monitoreo sí llega a las 2hs reales gracias al UPS 9PX + banco de batería externo.</div>
+</section>
+
+<!-- ESPECIFICACION TECNICA -->
+<section class="section">
+  <span class="eyebrow">Especificación técnica — Seguridad</span>
+  <h2>Cámaras y grabación</h2>
+  <div class="devgrid">
+    <div class="device-card">
+      <div class="ph">FOTO PENDIENTE</div>
+      <div class="body"><div class="qty">20 UNIDADES</div><h3>Hikvision DS-2CD2646G2-IZS</h3><p>4MP AcuSense, varifocal motorizada 2.8-12mm, IR hasta 60m, IP66, IK10 antivandálica.</p></div>
+    </div>
+    <div class="device-card">
+      <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7632nxi-k2.jpg" alt="NVR" loading="lazy">
+      <div class="body"><div class="qty">1 UNIDAD</div><h3>NVR Hikvision DS-7632NXI-K2</h3><p>32 canales, 4K, AcuSense. Grabación 100% local.</p></div>
+    </div>
+    <div class="device-card">
+      <div class="ph">FOTO PENDIENTE</div>
+      <div class="body"><div class="qty">2 UNIDADES</div><h3>Seagate SkyHawk 18TB</h3><p>Disco para videovigilancia, ~36TB totales para 30 días de retención.</p></div>
+    </div>
+  </div>
+
+  <div class="comparativa" id="comp-seguridad">
+    <div class="comp-toggle">
+      <button class="active" onclick="setComp('seguridad','problema')">Cámara común</button>
+      <button onclick="setComp('seguridad','solucion')">Con AcuSense</button>
+    </div>
+    <div class="comp-body problema" id="comp-seguridad-body">
+      <ul>
+        <li>Falsas alarmas por animales, insectos o ramas en movimiento</li>
+        <li>Sin visión útil en noches cerradas o niebla</li>
+        <li>Reconocimiento de persona/vehículo poco confiable a distancia</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <span class="eyebrow">Especificación técnica — Redes</span>
+  <h2>Infraestructura de datos y energía</h2>
+  <div class="devgrid">
+    <div class="device-card">
+      <div class="ph">FOTO PENDIENTE</div>
+      <div class="body"><div class="qty">1 UNIDAD</div><h3>Switch core TP-Link TL-SG3428</h3><p>24 puertos GbE L2 + 4 SFP, agregación de las 3 ramas de fibra.</p></div>
+    </div>
+    <div class="device-card">
+      <div class="ph">FOTO PENDIENTE</div>
+      <div class="body"><div class="qty">4 UNIDADES</div><h3>Switch TP-Link TL-SG2210P</h3><p>8p GbE PoE+ 61W + 2 SFP, uno por gabinete secundario.</p></div>
+    </div>
+    <div class="device-card">
+      <div class="ph">FOTO PENDIENTE</div>
+      <div class="body"><div class="qty">3+4 UNIDADES</div><h3>Gabinete exterior Rackmatik</h3><p>IP66, poste/pared — nodos principales y secundarios.</p></div>
+    </div>
+  </div>
+
+  <div class="comparativa" id="comp-redes">
+    <div class="comp-toggle">
+      <button class="active" onclick="setComp('redes','problema')">Red genérica</button>
+      <button onclick="setComp('redes','solucion')">Red profesional Omada</button>
+    </div>
+    <div class="comp-body problema" id="comp-redes-body">
+      <ul>
+        <li>Sin gestión centralizada de los nodos remotos</li>
+        <li>Sin QoS — la videovigilancia compite con cualquier otro tráfico</li>
+        <li>Diagnóstico de fallas a ciegas, sin visibilidad de switches en campo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- INVERSION -->
+<section class="section section-light">
+  <span class="eyebrow">Desglose de inversión</span>
+  <h2>Inversión por rubro</h2>
+  <p class="lead">Todos los precios en USD, IVA real por ítem (21% o 10,5% según corresponda), TC de referencia BNA oficial.</p>
+
+  <div id="acordeon">
+    <div class="acc-item">
+      <button class="acc-head" onclick="toggleAcc(this)"><span class="l">Cámaras y videovigilancia</span><span class="r">USD 15.069,27<span class="arrow">▾</span></span></button>
+      <div class="acc-panel"><table>
+        <tr><th>Ítem</th><th>Cant.</th><th>Precio unit.</th><th>IVA</th><th class="num">Total</th></tr>
+        <tr><td>Cámara Hikvision DS-2CD2646G2-IZS 4MP AcuSense IR60m IK10</td><td>20</td><td>USD 544,80 + IVA 21%</td><td>21%</td><td class="num">13.184,16</td></tr>
+        <tr><td>NVR Hikvision DS-7632NXI-K2 32ch 4K AcuSense</td><td>1</td><td>USD 614,40 + IVA 21%</td><td>21%</td><td class="num">743,42</td></tr>
+        <tr><td>Disco Seagate SkyHawk 18TB</td><td>2</td><td>USD 516,60 + IVA 10,5%</td><td>10,5%</td><td class="num">1.141,69</td></tr>
+      </table></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-head" onclick="toggleAcc(this)"><span class="l">Infraestructura de red</span><span class="r">USD 1.601,62<span class="arrow">▾</span></span></button>
+      <div class="acc-panel"><table>
+        <tr><th>Ítem</th><th>Cant.</th><th>Precio unit.</th><th>IVA</th><th class="num">Total</th></tr>
+        <tr><td>Switch TP-Link TL-SG2210P (secundarios)</td><td>4</td><td>USD 98,12 + IVA 10,5%</td><td>10,5%</td><td class="num">433,71</td></tr>
+        <tr><td>Switch core TP-Link TL-SG3428</td><td>1</td><td>USD 182,00 + IVA 10,5%</td><td>10,5%</td><td class="num">201,11</td></tr>
+        <tr><td>Router TP-Link ER7206 (VPN, acceso remoto)</td><td>1</td><td>USD 102,88 + IVA 10,5%</td><td>10,5%</td><td class="num">113,68</td></tr>
+        <tr><td>Módulo SFP monomodo TL-SM311LS</td><td>8</td><td>USD 19,81 + IVA 21%</td><td>21%</td><td class="num">191,78</td></tr>
+        <tr><td>Fibra óptica FO12-S80-2KM (12 hilos, referencia)</td><td>1</td><td>USD 598,50 + IVA 10,5%</td><td>10,5%</td><td class="num">661,34</td></tr>
+      </table></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-head" onclick="toggleAcc(this)"><span class="l">Gabinetes y energía</span><span class="r">USD 5.254,09<span class="arrow">▾</span></span></button>
+      <div class="acc-panel"><table>
+        <tr><th>Ítem</th><th>Cant.</th><th>Precio unit.</th><th>IVA</th><th class="num">Total</th></tr>
+        <tr><td>Gabinete Rackmatik ext. 620x520x240 (nodo principal)</td><td>3</td><td>USD 348,48 + IVA 21%</td><td>21%</td><td class="num">1.264,98</td></tr>
+        <tr><td>Gabinete Rackmatik ext. 650x250x610 (secundario)</td><td>4</td><td>USD 354,96 + IVA 21%</td><td>21%</td><td class="num">1.718,01</td></tr>
+        <tr><td>UPS Eaton 5A 1500VA (secundarios)</td><td>4</td><td>USD 156,22 + IVA 10,5%</td><td>10,5%</td><td class="num">690,47</td></tr>
+        <tr><td>UPS Eaton 9PX 1KVA on-line (centro monitoreo)</td><td>1</td><td>USD 835,18 + IVA 10,5%</td><td>10,5%</td><td class="num">922,87</td></tr>
+        <tr><td>Banco de batería Eaton 9PX EBM48RT</td><td>1</td><td>USD 543,60 + IVA 21%</td><td>21%</td><td class="num">657,76</td></tr>
+      </table></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-head" onclick="toggleAcc(this)"><span class="l">Obra civil (zanjeo, tritubo, empalmes)</span><span class="r">USD 8.021,54<span class="arrow">▾</span></span></button>
+      <div class="acc-panel"><table>
+        <tr><th>Ítem</th><th>Cant.</th><th>Precio unit.</th><th>IVA</th><th class="num">Total</th></tr>
+        <tr><td>Zanjeo/canalización subcontratado (>500ml, con máquina)</td><td>1.500m</td><td>USD 1,58 + IVA 21%</td><td>21%</td><td class="num">2.874,96</td></tr>
+        <tr><td>Tritubo (triple conducto FO+eléctrico)</td><td>1.500m</td><td>USD 2,40 + IVA 21%</td><td>21%</td><td class="num">4.356,00</td></tr>
+        <tr><td>Patch óptico por fusión — 3 nodos principales</td><td>3</td><td>—</td><td>mixto</td><td class="num">790,58</td></tr>
+      </table></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-head" onclick="toggleAcc(this)"><span class="l">Mano de obra especializada (Tarifario ND)</span><span class="r">USD 4.413,94<span class="arrow">▾</span></span></button>
+      <div class="acc-panel"><table>
+        <tr><th>Ítem</th><th>Cant.</th><th class="num">Tarifa</th><th class="num">Total</th></tr>
+        <tr><td>Instalación cámaras (MO-VID-CAM-SUP)</td><td>20</td><td class="num">74,35</td><td class="num">1.487,00</td></tr>
+        <tr><td>Instalación switches (MO-RED-SW)</td><td>5</td><td class="num">69,70</td><td class="num">348,50</td></tr>
+        <tr><td>Instalación router (MO-RED-RT)</td><td>1</td><td class="num">55,00</td><td class="num">55,00</td></tr>
+        <tr><td>Instalación NVR (MO-VID-NVR)</td><td>1</td><td class="num">60,00</td><td class="num">60,00</td></tr>
+        <tr><td>Instalación UPS (MO-INF-UPS)</td><td>5</td><td class="num">75,58</td><td class="num">377,90</td></tr>
+        <tr><td>Instalación discos (MO-VID-DISCO)</td><td>2</td><td class="num">12,00</td><td class="num">24,00</td></tr>
+        <tr><td>Instalación gabinetes (MO-INF-RACK)</td><td>7</td><td class="num">95,22</td><td class="num">666,54</td></tr>
+        <tr><td>Tendido de fibra por caño/ducto (MO-RED-FO-CANO)</td><td>1.500m</td><td class="num">0,93</td><td class="num">1.395,00</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="totales-box">
+    <div class="row"><span>Subtotal Equipo (neto)</span><span>USD 24.422,89</span></div>
+    <div class="row"><span>IVA equipo (discriminado por ítem)</span><span>USD 4.733,05</span></div>
+    <div class="row"><span>Subtotal Equipo (con IVA)</span><span>USD 29.155,94</span></div>
+    <div class="row"><span>Mano de obra especializada</span><span>USD 4.413,94</span></div>
+    <div class="row"><span>Programación y comisionado (10%)</span><span>USD 3.356,99</span></div>
+    <div class="row final"><span>TOTAL PROYECTO</span><span class="v">USD 37.796,52</span></div>
+  </div>
+
+  <div class="callout"><b>Opcional, fuera de este total:</b> tablero eléctrico + cable feeder Sintenax (220V). Se cotizan aparte únicamente si Nova Domus ejecuta la instalación eléctrica del feeder — si el cliente resuelve esa parte con electricista propio, no aplica.</div>
+  <div class="callout" style="margin-top:12px;">⚠️ La fibra óptica cotizada (FO12-S80-2KM) es tipo <b>ADSS</b> (autosustentada, pensada para tendido aéreo). Como el proyecto es 100% enterrado, es precio de referencia — pendiente confirmar con Denise/Masnet la variante correcta para ducto antes de cerrar compra.</div>
+</section>
+
+<!-- UN SOLO RESPONSABLE (adaptado) -->
+<section class="section">
+  <span class="eyebrow">Un solo responsable</span>
+  <h2>Un integrador, no cinco proveedores</h2>
+  <p class="lead">Coordinar zanjeo, fibra, energía, cámaras, NVR y programación con proveedores separados es la fuente típica de demoras y fallas de instalación. Nova Domus diseña, provee y comisiona todo el sistema activo — la obra civil de zanjeo va subcontratada bajo especificación y supervisión de Nova Domus.</p>
+  <div class="topo" style="margin-top:20px;">
+    <div class="topo-node"><div class="ico">1</div><div class="txt"><b>Relevamiento y diseño de arquitectura</b></div></div>
+    <div class="topo-node"><div class="ico">2</div><div class="txt"><b>Obra civil (zanjeo + biducto)</b><small>subcontratado, bajo especificación Nova Domus</small></div></div>
+    <div class="topo-node"><div class="ico">3</div><div class="txt"><b>Tendido de fibra + energía, instalación de cámaras</b></div></div>
+    <div class="topo-node"><div class="ico">4</div><div class="txt"><b>Comisionado del NVR y acceso remoto</b></div></div>
+    <div class="topo-node"><div class="ico">5</div><div class="txt"><b>Entrega documentada + garantía</b></div></div>
+  </div>
+</section>
+
+<!-- FORMA DE PAGO -->
+<section class="section">
+  <span class="eyebrow">Forma de pago</span>
+  <h2>Condiciones</h2>
+  <div class="pago-row"><span class="et">Equipos — 100% anticipado (asegura compra e importación)</span><span class="mo">USD 29.155,94</span></div>
+  <div class="pago-row"><span class="et">Mano de obra — 30% antes de arrancar la obra</span><span class="mo">USD 2.331,27</span></div>
+  <div class="pago-row"><span class="et">Mano de obra — 70% al terminar, contra documentación</span><span class="mo">USD 5.439,64</span></div>
+</section>
+
+<!-- CONDICIONES GENERALES -->
+<section class="section section-light">
+  <span class="eyebrow">Condiciones generales</span>
+  <h2>Detalle</h2>
+  <div id="acordeon2">
+    <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="l">Validez y actualización</span><span class="arrow">▾</span></button>
+      <div class="acc-panel"><div style="padding:0 4px 16px;font-size:13.5px;">Presupuesto válido por 15 días. Materiales sujetos a cotización del momento de compra. Actualización posterior por variación de ICC/lista de proveedores si se excede la validez.</div></div>
+    </div>
+    <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="l">Tipo de cambio</span><span class="arrow">▾</span></button>
+      <div class="acc-panel"><div style="padding:0 4px 16px;font-size:13.5px;">Todos los precios en dólares utilizan la cotización BNA oficial (TC unificado, ya no se distingue oficial/blue).</div></div>
+    </div>
+    <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="l">Alcance de la obra civil</span><span class="arrow">▾</span></button>
+      <div class="acc-panel"><div style="padding:0 4px 16px;font-size:13.5px;">El zanjeo/canalización (1.500ml) se ejecuta con subcontratista bajo especificación de Nova Domus. La instalación eléctrica del feeder 220V (tablero + cable Sintenax) no está incluida en este presupuesto — se cotiza aparte solo si Nova Domus la ejecuta.</div></div>
+    </div>
+    <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="l">Certificación y garantía</span><span class="arrow">▾</span></button>
+      <div class="acc-panel"><div style="padding:0 4px 16px;font-size:13.5px;">12 meses de garantía sobre la instalación y programación de Nova Domus. Certificación de la obra a cargo de Nova Domus para todo lo que ejecuta directamente.</div></div>
+    </div>
+    <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="l">Facturación</span><span class="arrow">▾</span></button>
+      <div class="acc-panel"><div style="padding:0 4px 16px;font-size:13.5px;">Factura A disponible a solicitud — consultar tratamiento de IVA sobre mano de obra en ese caso.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESPALDO -->
+<section class="section">
+  <span class="eyebrow">Respaldo</span>
+  <h2>Marcas</h2>
+  <div class="chips">
+    <span class="chip fixed">NOVA DOMUS</span>
+    <span class="chip fixed">CEDIA MEMBER</span>
+    <span class="chip" onclick="toggleBrand('hikvision')">Hikvision</span>
+    <span class="chip" onclick="toggleBrand('tplink')">TP-Link / Omada</span>
+    <span class="chip" onclick="toggleBrand('eaton')">Eaton</span>
+    <span class="chip" onclick="toggleBrand('seagate')">Seagate</span>
+    <span class="chip" onclick="toggleBrand('rackmatik')">Rackmatik</span>
+  </div>
+
+  <div class="brand-panel" id="brand-hikvision">
+    <p>Uno de los mayores fabricantes de videovigilancia a nivel mundial. Nova Domus lo elige por la línea AcuSense (filtrado inteligente de falsas alarmas) y soporte real de repuestos/garantía en Argentina vía Seguridad Centro.</p>
+    <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" allowfullscreen></iframe></div>
+  </div>
+  <div class="brand-panel" id="brand-tplink">
+    <p>Línea Omada — redes gestionadas de nivel profesional a un costo accesible frente a marcas enterprise. Nova Domus la usa como estándar de red en todos sus proyectos.</p>
+    <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" allowfullscreen></iframe></div>
+  </div>
+  <div class="brand-panel" id="brand-eaton">
+    <p>Fabricante global de soluciones de energía y UPS. Nova Domus lo usa para protección de energía crítica en centros de monitoreo y nodos de campo.</p>
+    <div class="video-pending">Video institucional pendiente de carga</div>
+  </div>
+  <div class="brand-panel" id="brand-seagate">
+    <p>Discos especializados en videovigilancia (línea SkyHawk), diseñados para grabación continua 24/7.</p>
+    <div class="video-pending">Sin video de marca — no aplica para este tipo de componente</div>
+  </div>
+  <div class="brand-panel" id="brand-rackmatik">
+    <p>Proveedor de gabinetes de intemperie IP66 para infraestructura de red y seguridad en exteriores.</p>
+    <div class="video-pending">Video institucional pendiente de carga</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="cta-box">
+    <h2 style="color:#fff;">¿Avanzamos?</h2>
+    <p class="lead" style="margin:0 auto;">Cualquier ajuste de alcance (cantidad de nodos, instalación eléctrica del feeder) se recalcula antes de la aceptación final.</p>
+    <a class="btn-accept" href="https://wa.me/?text=Confirmo%20avance%20del%20proyecto%20Parque%20Industrial%20PY-2026-022%2C%20USD%2037.796%2C52" target="_blank">CONFIRMAR POR WHATSAPP</a>
+  </div>
+</section>
+
+<footer>
+  Nova Domus — Del cable a la app
+  <span class="pynum">PY-2026-022</span>
+</footer>
+
+<script>
+function toggleAcc(btn){
+  var panel = btn.nextElementSibling;
+  var isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.acc-head').forEach(function(h){
+    if(h!==btn){ h.classList.remove('open'); h.nextElementSibling.style.maxHeight=null; }
+  });
+  if(isOpen){ btn.classList.remove('open'); panel.style.maxHeight=null; }
+  else { btn.classList.add('open'); panel.style.maxHeight = panel.scrollHeight + 'px'; }
+}
+window.addEventListener('resize', function(){
+  document.querySelectorAll('.acc-head.open').forEach(function(h){
+    h.nextElementSibling.style.maxHeight = h.nextElementSibling.scrollHeight + 'px';
+  });
+});
+
+function setComp(section, state){
+  var wrap = document.getElementById('comp-'+section);
+  var body = document.getElementById('comp-'+section+'-body');
+  var btns = wrap.querySelectorAll('.comp-toggle button');
+  if(state==='problema'){
+    btns[0].classList.add('active'); btns[0].classList.remove('gold');
+    btns[1].classList.remove('active');
+    body.className = 'comp-body problema';
+    body.innerHTML = section==='seguridad'
+      ? '<ul><li>Falsas alarmas por animales, insectos o ramas en movimiento</li><li>Sin visión útil en noches cerradas o niebla</li><li>Reconocimiento de persona/vehículo poco confiable a distancia</li></ul>'
+      : '<ul><li>Sin gestión centralizada de los nodos remotos</li><li>Sin QoS — la videovigilancia compite con cualquier otro tráfico</li><li>Diagnóstico de fallas a ciegas, sin visibilidad de switches en campo</li></ul>';
+  } else {
+    btns[1].classList.add('active'); btns[1].classList.add('gold');
+    btns[0].classList.remove('active');
+    body.className = 'comp-body solucion';
+    body.innerHTML = section==='seguridad'
+      ? '<ul><li>AcuSense filtra movimiento irrelevante, solo alerta por persona/vehículo</li><li>IR propio hasta 60m, funciona sin luz artificial en el predio</li><li>IK10 antivandálica — resistente a golpes e intentos de sabotaje</li></ul>'
+      : '<ul><li>Switches gestionados Omada, visibilidad centralizada de toda la red</li><li>QoS real: la videovigilancia tiene prioridad garantizada</li><li>Diagnóstico remoto de cada nodo desde el centro de monitoreo</li></ul>';
+  }
+}
+
+function toggleBrand(id){
+  document.querySelectorAll('.brand-panel').forEach(function(p){
+    if(p.id === 'brand-'+id){ p.classList.toggle('show'); }
+    else { p.classList.remove('show'); }
+  });
+  document.querySelectorAll('.chip:not(.fixed)').forEach(function(c){ c.classList.remove('active'); });
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
+<!-- rebuild trigger -->
+<!-- rebuild trigger 2 -->
