@@ -7,6 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 :root{
@@ -159,35 +160,44 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 .kpi-s{font-size:10px;color:var(--text2);margin-top:2px}
 /* DELTA COLORS */
 .delta-up{color:var(--danger)}.delta-down{color:var(--ok)}.delta-eq{color:var(--text3)}
-/* DOC */
+/* DOC — identidad Nova Domus vigente (skill nova-domus-identidad-marca) */
 .dw{position:fixed;left:-9999px;top:0;pointer-events:none}
-#DC,#DR,#cdRawC,#cdRawR,.doc-print{width:800px;background:#fff;font-family:Arial,sans-serif;font-size:11px;
-  color:#111;padding:30px;line-height:1.5}
-#DC *,#DR *,#cdRawC *,#cdRawR *,.doc-print *{font-family:Arial,sans-serif;color:#111}
-.db2{font-size:9px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:2px}
-.dt{font-size:21px;font-weight:900;color:#0f1117}
-.dp{display:inline-block;background:#0f1117;color:#e8a020;font-size:9px;
-  font-weight:800;padding:3px 10px;border-radius:20px;margin-top:3px;letter-spacing:.5px}
+#DC,#DR,#cdRawC,#cdRawR,.doc-print{width:800px;background:#FDFBF0;font-family:'Inter',Arial,sans-serif;font-size:11px;
+  color:#242a4d;padding:30px;line-height:1.5}
+#DC *,#DR *,#cdRawC *,#cdRawR *,.doc-print *{font-family:'Inter',Arial,sans-serif}
+.brand-lockup{display:flex;align-items:center;gap:11px}
+.brand-lockup svg{width:42px;height:42px;flex:none;display:block}
+.brand-word{font-family:'Michroma',sans-serif;font-size:14px;letter-spacing:2.4px;color:#141E61;line-height:1}
+.brand-desc{font-family:'Inter',sans-serif;font-size:7.5px;letter-spacing:1.4px;text-transform:uppercase;
+  color:#787A91;font-weight:600;line-height:1;margin-top:2px}
+.db2{font-size:9.5px;color:#4a5578;margin:11px 0 3px;font-weight:500}
+.dt{font-family:'Michroma',sans-serif;font-size:19px;font-weight:400;letter-spacing:.4px;color:#141E61}
+.dp{display:inline-block;background:#141E61;color:#C8A96E;font-size:9px;
+  font-weight:700;padding:3px 10px;border-radius:20px;margin-top:6px;letter-spacing:.5px}
 .dg2{display:grid;grid-template-columns:1fr 1fr;gap:18px;
-  padding:11px;background:#f5f7fa;border-radius:4px;margin:12px 0;font-size:11px}
-.dl{font-weight:800;font-size:9px;letter-spacing:.8px;text-transform:uppercase;
-  border-bottom:2px solid #e8a020;padding-bottom:2px;margin-bottom:4px;display:inline-block;color:#333}
-.dst{font-weight:800;font-size:9px;letter-spacing:.8px;text-transform:uppercase;
-  color:#0f1117;border-bottom:1px solid #ddd;padding-bottom:4px;margin:12px 0 5px}
-.di{padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:11px;display:flex;gap:5px}
-.dfg{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:28px;
-  padding-top:12px;border-top:1px solid #eee}
-.dfa{text-align:center;font-size:10px;color:#666}
-.dfl{height:38px;border-bottom:1px solid #333;margin-bottom:5px}
-.dft{margin-top:16px;padding:7px;background:#f5f7fa;border-radius:4px;
-  font-size:9px;color:#999;text-align:center;line-height:1.7}
-.rt{width:100%;border-collapse:collapse;font-size:11px;margin:9px 0}
-.rt th{background:#0f1117;color:#fff;padding:6px 9px;text-align:left;font-size:10px;letter-spacing:.4px}
-.rt td{padding:6px 9px;border-bottom:1px solid #eee}
-.rt .rtot{background:#f5f7fa;font-weight:900;font-size:12px}
-.rt .rtot td{border-top:2px solid #0f1117}
-.rtc{display:inline-block;background:#e8a020;color:#000;font-weight:800;
-  font-size:9px;padding:2px 7px;border-radius:10px;margin-top:3px}
+  padding:12px;background:rgba(20,30,97,.045);border:1px solid rgba(20,30,97,.13);border-radius:5px;margin:14px 0;font-size:11px}
+.dl{font-weight:700;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:2px solid #C8A96E;padding-bottom:3px;margin-bottom:5px;display:inline-block;color:#4a5578}
+.dst{font-weight:700;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;
+  color:#141E61;border-bottom:1px solid rgba(20,30,97,.18);padding-bottom:4px;margin:16px 0 6px}
+.di{padding:4px 0;border-bottom:1px solid rgba(20,30,97,.07);font-size:11px;display:flex;gap:6px}
+.dfg{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:32px;
+  padding-top:14px;border-top:1px solid rgba(20,30,97,.16)}
+.dfa{text-align:center;font-size:10px;color:#6b6f8c}
+.dfl{height:38px;border-bottom:1px solid #444a6e;margin-bottom:5px}
+.dft{margin-top:18px;padding:10px;background:rgba(20,30,97,.045);border-radius:5px;
+  font-size:9px;color:#4a5578;text-align:center;line-height:1.7}
+.rt{width:100%;border-collapse:collapse;font-size:11px;margin:10px 0}
+.rt th{background:#141E61;color:#FDFBF0;padding:7px 9px;text-align:left;font-size:10px;letter-spacing:.4px;font-weight:700}
+.rt td{padding:7px 9px;border-bottom:1px solid rgba(20,30,97,.09);color:#242a4d}
+.rt .rtot{background:rgba(20,30,97,.05);font-weight:800;font-size:12px}
+.rt .rtot td{border-top:2px solid #141E61}
+.rtc{display:inline-block;background:#141E61;color:#C8A96E;font-weight:700;
+  font-size:9px;padding:3px 8px;border-radius:10px;margin-top:4px}
+.dtotal-final{display:flex;justify-content:space-between;align-items:center;margin-top:18px;
+  padding:14px 18px;background:#141E61;border-radius:6px;border-top:3px solid #C8A96E}
+.dtotal-final span:first-child{font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#C8A96E}
+.dtotal-final span:last-child{font-family:'Michroma',sans-serif;font-size:21px;color:#FDFBF0}
 /* PREVIEW INLINE */
 .pv-wrap{overflow-x:auto;padding:8px}
 .pv-doc{transform-origin:top left;transform:scale(0.78);display:inline-block}
@@ -314,6 +324,12 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
             <input type="number" id="sTC" placeholder="1430" oninput="recalcS()"></div>
           <div class="fg"><label>Detalle del recibo</label>
             <input type="text" id="sDet" value="RECIBO POR INSTALACIÓN ELECTRICA"></div>
+          <div class="fg" style="max-width:150px"><label>IVA mano de obra</label>
+            <label style="display:flex;align-items:center;gap:6px;height:35px;font-size:12px;font-weight:400;
+              text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer">
+              <input type="checkbox" id="sIvaMO" style="width:auto"> Incluir 21%
+            </label>
+          </div>
         </div>
       </div>
       <div style="display:flex;justify-content:flex-end">
@@ -368,6 +384,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
           <button class="btn btn-g" id="pvRB" onclick="showPV('r',this)">🧾 Recibo</button>
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn btn-g" onclick="dlActivePDF()">📄 PDF</button>
           <button class="btn btn-g" onclick="goS(2)">← Volver</button>
           <button class="btn btn-p" id="btnGen" onclick="generar()">⚡ Generar y guardar</button>
         </div>
@@ -1592,7 +1609,7 @@ async function previewEdicionCert(){
     .replace('id="cdRawC"','class="doc-print" style="background:#fff"');
 
   if(edRec){
-    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto}));
+    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo)}));
     const matFacts=await getMatFacts(edObra.id,edCert.periodo_desde,edCert.periodo_hasta);
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
@@ -2026,10 +2043,12 @@ async function buildPreviews(){
   await loadMatFacts();
   buildDC();buildDR();
   document.getElementById('pvCDoc').innerHTML=document.getElementById('DC').outerHTML
-    .replace('id="DC"','class="doc-print" style="background:#fff"');
+    .replace('id="DC"','class="doc-print" style="background:#FDFBF0"');
   document.getElementById('pvRDoc').innerHTML=document.getElementById('DR').outerHTML
-    .replace('id="DR"','class="doc-print" style="background:#fff"');
+    .replace('id="DR"','class="doc-print" style="background:#FDFBF0"');
 }
+
+const NOVA_LOGO_SVG='<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000" preserveAspectRatio="xMidYMid meet"> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#0b132b" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg>';
 
 function buildDC(src){
   const o=src?src.obra:sObra;if(!o)return;
@@ -2041,18 +2060,19 @@ function buildDC(src){
   const bC=c=>items.filter(i=>i.cls===c);
   const iHTML=(arr,col)=>arr.length
     ?arr.map(i=>`<div class="di"><span style="color:${col};font-weight:900">▪</span><span>${i.desc||'(sin descripción)'}</span></div>`).join('')
-    :'<div style="color:#aaa;font-size:10px;padding:4px 0">—</div>';
+    :'<div style="color:#9a9db8;font-size:10px;padding:4px 0">—</div>';
   document.getElementById(src?.target||'DC').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
       <div>
-        <div class="db2">Habitamos Espacios Inteligentes</div>
+        <div class="brand-lockup">${NOVA_LOGO_SVG}<div><div class="brand-word">NOVA DOMUS</div><div class="brand-desc">Integración Tecnológica</div></div></div>
+        <div class="db2">Del cable a la app</div>
         <div class="dt">CERTIFICADO DE OBRA N° ${num}</div>
         ${desde&&hasta?`<div><span class="dp">📅 ${desde} → ${hasta}</span></div>`:''}
       </div>
       <div style="text-align:right">
-        <div style="font-size:9px;color:#999">Fecha</div>
-        <div style="font-size:14px;font-weight:900">${fecha}</div>
-        <div style="font-size:10px;color:#666;margin-top:2px">${o.nombre}</div>
+        <div style="font-size:9px;color:#8a8fb0">Fecha</div>
+        <div style="font-size:14px;font-weight:900;color:#141E61">${fecha}</div>
+        <div style="font-size:10px;color:#6b6f8c;margin-top:2px">${o.nombre}</div>
       </div>
     </div>
     <div class="dg2">
@@ -2065,7 +2085,7 @@ function buildDC(src){
       </div>
     </div>
     <div class="dst">Certificación de obra — Listado</div>
-    ${iHTML(bC('CERTIFICADO'),'#e8a020')}
+    ${iHTML(bC('CERTIFICADO'),'#C8A96E')}
     <div class="dst" style="color:#b45309">Excedentes Espontáneos</div>
     ${iHTML(bC('EXC_ESPONTANEO'),'#b45309')}
     <div class="dst" style="color:#7c3aed">Excedentes por Solicitud</div>
@@ -2085,6 +2105,7 @@ function buildDR(src){
   const tc=src?(src.tc||1430):(parseFloat(document.getElementById('sTC').value)||1430);
   const det=src?(src.det||''):document.getElementById('sDet').value;
   const matFacts=src?(src.matFacts||[]):sMatFacts;
+  const ivaMOOn=src?!!src.ivaMO:document.getElementById('sIvaMO').checked;
 
   let lineas;
   if(src&&src.lineas){
@@ -2102,23 +2123,40 @@ function buildDR(src){
       lineas.push({desc:cod+(i.desc||''),usd:i.usd,pct:i.pct,qty:i.qty,monto:i.sub,tipo:label});
     });
     push('CERTIFICADO','CERT');push('EXC_ESPONTANEO','EXC');push('EXC_SOLICITUD','EXC');
-    sFacts.forEach(f=>lineas.push({desc:`${f.razon||''}${f.nro?' · '+f.nro:''}`,monto:f.conIva,tipo:'MAT',
-      extra:`Sin IVA: ${f$(f.sinIva)} / Con IVA: ${f$(f.conIva)}`}));
   }
 
-  const total=lineas.reduce((s,l)=>s+(l.monto||0),0);
-  const hasUSD=lineas.some(l=>l.usd);
+  // "lineas" puede venir de un recibo ya guardado (reimpresión) donde el tipo 'MAT'
+  // todavía mezclaba facturas del paso 2 — filtrar por tipo asegura que el sub-total
+  // de mano de obra nunca las incluya, sea un recibo nuevo o uno histórico.
+  const moLineas=lineas.filter(l=>l.tipo!=='MAT');
+  const matLineasHist=lineas.filter(l=>l.tipo==='MAT');
+  const subtotalMO=moLineas.reduce((s,l)=>s+(l.monto||0),0);
+  const ivaMOMonto=ivaMOOn?subtotalMO*0.21:0;
+  const totalMO=subtotalMO+ivaMOMonto;
+  const hasUSD=moLineas.some(l=>l.usd);
+
+  // Materiales: une las facturas tipeadas a mano en el paso 2 (sFacts, solo en un recibo
+  // nuevo — no aplica al reimprimir uno ya guardado) con las auto-cargadas desde
+  // facturas_obra por rango de fechas (matFacts) y las de un recibo histórico (matLineasHist).
+  const matAll=[
+    ...matLineasHist.map(l=>({proveedor:l.desc||'',detalle:l.extra||'',monto:l.monto||0})),
+    ...(src?[]:sFacts).map(f=>({proveedor:f.razon||'',detalle:f.nro?`N° ${f.nro}`:'',monto:f.conIva||0})),
+    ...matFacts.map(f=>({proveedor:f.proveedor||'',detalle:f.materiales||'',monto:f.monto_con_iva||0})),
+  ];
+  const totalMat=matAll.reduce((s,f)=>s+(f.monto||0),0);
+  const totalRecibo=totalMO+totalMat;
 
   document.getElementById(src?.target||'DR').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
       <div>
-        <div class="db2">Habitamos Espacios Inteligentes</div>
+        <div class="brand-lockup">${NOVA_LOGO_SVG}<div><div class="brand-word">NOVA DOMUS</div><div class="brand-desc">Integración Tecnológica</div></div></div>
+        <div class="db2">Del cable a la app</div>
         <div class="dt">RECIBO DE OBRA N° ${num}</div>
-        <div style="font-size:10px;color:#666;margin-top:2px">${o.nombre}</div>
+        <div style="font-size:10px;color:#6b6f8c;margin-top:2px">${o.nombre}</div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:9px;color:#999">Fecha</div>
-        <div style="font-size:14px;font-weight:900">${fecha}</div>
+        <div style="font-size:9px;color:#8a8fb0">Fecha</div>
+        <div style="font-size:14px;font-weight:900;color:#141E61">${fecha}</div>
         <span class="rtc">USD $ ${tc.toLocaleString('es-AR')}</span>
       </div>
     </div>
@@ -2130,24 +2168,28 @@ function buildDR(src){
         ${o.cliente_direccion?`<div>${o.cliente_direccion}</div>`:''}
       </div>
     </div>
-    ${det?`<div style="font-size:10px;font-weight:800;color:#0f1117;padding:5px;background:#f0f4ff;border-radius:3px;margin-bottom:9px">${det}</div>`:''}
+    ${det?`<div style="font-size:10px;font-weight:800;color:#141E61;padding:6px 8px;background:rgba(20,30,97,.06);border-radius:4px;margin-bottom:9px">${det}</div>`:''}
+    <div class="dst" style="margin-top:0">Mano de obra</div>
     <table class="rt">
       <thead><tr><th style="width:${hasUSD?'52%':'72%'}">CONCEPTO</th>
         ${hasUSD?'<th>USD</th><th>%</th><th>Cant</th>':''}
         <th style="text-align:right">$ TOTAL</th></tr></thead>
       <tbody>
-        ${lineas.map(l=>`<tr>
-          <td>${l.desc||''}${l.extra?`<br><span style="font-size:9px;color:#888">${l.extra}</span>`:''}</td>
+        ${moLineas.map(l=>`<tr>
+          <td>${l.desc||''}${l.extra?`<br><span style="font-size:9px;color:#8a8fa0">${l.extra}</span>`:''}</td>
           ${hasUSD?`<td>${l.usd?'U$D '+l.usd:''}</td><td>${l.pct?Math.round(l.pct*100)+'%':''}</td><td>${l.qty&&l.qty!==1?l.qty:''}</td>`:''}
           <td style="text-align:right;font-weight:700">$ ${Math.round(l.monto||0).toLocaleString('es-AR')}</td>
         </tr>`).join('')}
-        <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>TOTAL</b></td>
-          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(total).toLocaleString('es-AR')}</b></td></tr>
+        <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>SUB-TOTAL</b></td>
+          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(subtotalMO).toLocaleString('es-AR')}</b></td></tr>
+        <tr><td colspan="${hasUSD?4:1}">IVA${ivaMOOn?' (21%)':''}</td>
+          <td style="text-align:right;font-weight:700">$ ${Math.round(ivaMOMonto).toLocaleString('es-AR')}</td></tr>
+        <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>TOTAL MANO DE OBRA</b></td>
+          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(totalMO).toLocaleString('es-AR')}</b></td></tr>
       </tbody>
     </table>
-    ${matFacts.length?`
-    <div style="font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#333;
-      border-bottom:1px solid #ddd;padding-bottom:4px;margin:16px 0 5px">Materiales</div>
+    ${matAll.length?`
+    <div class="dst">Materiales</div>
     <table class="rt" style="margin-top:4px">
       <thead><tr>
         <th style="width:35%">Proveedor</th>
@@ -2155,16 +2197,17 @@ function buildDR(src){
         <th style="text-align:right">Total c/IVA</th>
       </tr></thead>
       <tbody>
-        ${matFacts.map(f=>`<tr>
-          <td>${f.proveedor||''}</td>
-          <td style="font-size:10px;color:#666">${f.materiales||''}</td>
-          <td style="text-align:right;font-weight:700">$ ${Math.round(f.monto_con_iva||0).toLocaleString('es-AR')}</td>
+        ${matAll.map(f=>`<tr>
+          <td>${f.proveedor}</td>
+          <td style="font-size:10px;color:#6b6f8c">${f.detalle}</td>
+          <td style="text-align:right;font-weight:700">$ ${Math.round(f.monto||0).toLocaleString('es-AR')}</td>
         </tr>`).join('')}
         <tr class="rtot"><td colspan="2"><b>TOTAL MATERIALES</b></td>
-          <td style="text-align:right"><b>$ ${Math.round(matFacts.reduce((s,f)=>s+(f.monto_con_iva||0),0)).toLocaleString('es-AR')}</b></td>
+          <td style="text-align:right"><b>$ ${Math.round(totalMat).toLocaleString('es-AR')}</b></td>
         </tr>
       </tbody>
     </table>`:''}
+    <div class="dtotal-final"><span>Total a pagar</span><span>$ ${Math.round(totalRecibo).toLocaleString('es-AR')}</span></div>
     <div class="dft" style="margin-top:16px">NOVA DOMUS ES MARCA REGISTRADA POR NDWD SAS · CUIT 30-71858914-9<br>
       Tel: 3516-747513 | Av. Colón 3835, Córdoba | novadomuscba@gmail.com | www.novadomuscba.com.ar</div>`;
 }
@@ -2233,9 +2276,27 @@ async function generar(){
 
 async function dlDoc(elId,nombre){
   const el=document.getElementById(elId);
-  const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
+  const c=await html2canvas(el,{scale:2,backgroundColor:'#FDFBF0',useCORS:true,logging:false});
   const a=document.createElement('a');
   a.download=`${nombre}.jpg`;a.href=c.toDataURL('image/jpeg',0.95);a.click();
+}
+
+async function dlDocPDF(elId,nombre){
+  const el=document.getElementById(elId);
+  const c=await html2canvas(el,{scale:2,backgroundColor:'#FDFBF0',useCORS:true,logging:false});
+  const img=c.toDataURL('image/jpeg',0.95);
+  const { jsPDF }=window.jspdf;
+  const pdf=new jsPDF({unit:'px',format:[c.width,c.height]});
+  pdf.addImage(img,'JPEG',0,0,c.width,c.height);
+  pdf.save(`${nombre}.pdf`);
+}
+
+async function dlActivePDF(){
+  if(!sObra)return;
+  const esCert=document.getElementById('pvC').style.display!=='none';
+  const on=(sObra.nombre||'obra').slice(0,18).replace(/[^a-z0-9]/gi,'_');
+  if(esCert) await dlDocPDF('DC',`cert_${on}_N${document.getElementById('sNumC').value}`);
+  else await dlDocPDF('DR',`recibo_${on}_N${document.getElementById('sNumR').value}`);
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
