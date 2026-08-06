@@ -285,7 +285,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión base</div>
-      <div class="rc-value">USD 6.533</div>
+      <div class="rc-value">USD 7.317</div>
       <div class="rc-sub">Equipo + mano de obra + programación</div>
     </div>
     <div class="resumen-card">
@@ -604,32 +604,32 @@ document.getElementById('footlogo').innerHTML = LOGO_SVG;
 // ===== DEVICES POR SUBSISTEMA v3-parcial (pu = precio unitario CON IVA ya aplicado) =====
 const DEVICES = {
   alarma: [
-    {n:'Kit AXHome base (central+control+1 sensor magnético de fábrica)', q:1, pu:168.43, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201P-Kit-16WB.png', desc:'Central inalámbrica Hikvision, línea residencial/comercial chica.'},
-    {n:'Sensor de movimiento DS-PD201P10-WB', q:7, pu:40.08, iva:21, foto:null, desc:'Detección de movimiento en cada consultorio y áreas comunes.'},
-    {n:'Teclado AXHome', q:1, pu:50.82, iva:21, foto:null, desc:'Armado y desarmado manual del sistema.'},
-    {n:'Sirena interior', q:1, pu:49.37, iva:21, foto:null, desc:'Disuasión sonora ante intrusión.'},
-    {n:'Sirena exterior DS-PS1-E-WB (*)', q:1, pu:98.74, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Disuasión visual y sonora perimetral. COMPATIBILIDAD CON AXHOME A CONFIRMAR, ver nota.'},
+    {n:'Kit AXHome base (central+control+1 sensor magnético de fábrica)', q:1, pu:188.64, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201P-Kit-16WB.png', desc:'Central inalámbrica Hikvision, línea residencial/comercial chica.'},
+    {n:'Sensor de movimiento DS-PD201P10-WB', q:7, pu:44.89, iva:21, foto:null, desc:'Detección de movimiento en cada consultorio y áreas comunes.'},
+    {n:'Teclado AXHome', q:1, pu:56.92, iva:21, foto:null, desc:'Armado y desarmado manual del sistema.'},
+    {n:'Sirena interior', q:1, pu:55.29, iva:21, foto:null, desc:'Disuasión sonora ante intrusión.'},
+    {n:'Sirena exterior DS-PS1-E-WB (*)', q:1, pu:110.59, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Disuasión visual y sonora perimetral. COMPATIBILIDAD CON AXHOME A CONFIRMAR, ver nota.'},
   ],
   videovigilancia: [
-    {n:'Cámara bullet 2MP PoE', q:4, pu:100.19, iva:21, foto:null, desc:'2 interiores (circulación de personas) + 2 exteriores (perimetral).'},
-    {n:'NVR AcuSense 4ch DS-7604NXI-K1', q:1, pu:223.61, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7604NXI-K1(D).png', desc:'La inteligencia artificial de clasificación de personas/vehículos corre acá, centralizada.'},
-    {n:'HDD SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Almacenamiento especial para videovigilancia continua.'},
+    {n:'Cámara bullet 2MP PoE', q:4, pu:112.21, iva:21, foto:null, desc:'2 interiores (circulación de personas) + 2 exteriores (perimetral).'},
+    {n:'NVR AcuSense 4ch DS-7604NXI-K1', q:1, pu:250.44, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7604NXI-K1(D).png', desc:'La inteligencia artificial de clasificación de personas/vehículos corre acá, centralizada.'},
+    {n:'HDD SkyHawk 4TB', q:1, pu:282.99, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Almacenamiento especial para videovigilancia continua.'},
   ],
   audio: [
-    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
-    {n:'Soporte de pared Sanus (par)', q:4, pu:143.99, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
+    {n:'Sonos ERA 100', q:8, pu:376.31, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Soporte de pared Sanus (par)', q:4, pu:161.27, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
   ],
 };
 
 // ===== DOS MODELOS DE AUDIO A ELECCIÓN (misma cobertura de 6 zonas) =====
 const AUDIO_VARIANTES = {
   sonos: [
-    {n:'Sonos ERA 100', q:8, pu:335.99, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
-    {n:'Soporte de pared Sanus (par)', q:4, pu:143.99, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
+    {n:'Sonos ERA 100', q:8, pu:376.31, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg', desc:'Parlante activo de aplique — 1 por consultorio, 2 en recepción y pasillo. Cada uno es su propia zona independiente.'},
+    {n:'Soporte de pared Sanus (par)', q:4, pu:161.27, iva:21, foto:null, desc:'Montaje de aplique para 2 Sonos ERA 100.'},
   ],
   vssl: [
-    {n:'VSSL A.6x — Amplificador streamer 6 zonas', q:1, pu:3264.68, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/549.png', desc:'Un ampli con 6 salidas de zona independientes — cada consultorio, recepción y pasillo con su propio volumen.'},
-    {n:'Episode CORE 1 — Parlante embutido techo 6" (par)', q:4, pu:206.13, iva:21, foto:null, desc:'Parlante empotrado en cielorraso, no visible — la opción que pide la arquitecta en vez de un parlante de aplique.'},
+    {n:'VSSL A.6x — Amplificador streamer 6 zonas', q:1, pu:3656.44, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/549.png', desc:'Un ampli con 6 salidas de zona independientes — cada consultorio, recepción y pasillo con su propio volumen.'},
+    {n:'Episode CORE 1 — Parlante embutido techo 6" (par)', q:4, pu:230.87, iva:21, foto:null, desc:'Parlante empotrado en cielorraso, no visible — la opción que pide la arquitecta en vez de un parlante de aplique.'},
   ],
 };
 let AUDIO_MODELO_ACTUAL = 'sonos';
@@ -698,7 +698,7 @@ const RUBROS = [
   {id:'videovigilancia', label:'Videovigilancia', color:'#8698AE'},
   {id:'audio', label:'Audio', color:'#34425C'},
 ];
-const MO_FIJA = 1150.05; // Tarifario ND itemizado, solo alarma+video+audio (alcance parcial)
+const MO_FIJA = 1288.06; // Tarifario ND itemizado x1.12 (incluye comision SCUD prorrateada)
 
 function sumConIva(items){ return items.reduce((a,it)=>a+it.pu*it.q,0); }
 function sumNeto(items){ return items.reduce((a,it)=>a+ (it.pu*it.q)/(1+it.iva/100),0); }
@@ -838,8 +838,8 @@ function setVideoView(view, btn){
 
 // ===== RESPALDO =====
 const BRANDS = {
-  hikvision: {d:"Uno de los fabricantes de videovigilancia y control de acceso más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense y el soporte técnico local de nuestro proveedor.", video:"https://www.youtube-nocookie.com/embed/J3ermaYlDv4"},
-  sonos: {d:"Referente mundial en audio multiroom. Cada parlante es su propio amplificador, lo que permite zonas verdaderamente independientes sin necesitar un equipo central — ideal para un local con varios ambientes chicos.", video:"https://www.youtube-nocookie.com/embed/DwIdo-4jwNk"},
+  hikvision: {d:"Uno de los fabricantes de videovigilancia y control de acceso más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense y el soporte técnico local de nuestro proveedor.", video:null},
+  sonos: {d:"Referente mundial en audio multiroom. Cada parlante es su propio amplificador, lo que permite zonas verdaderamente independientes sin necesitar un equipo central — ideal para un local con varios ambientes chicos.", video:null},
 };
 function showBrand(key){
   const b = BRANDS[key];
