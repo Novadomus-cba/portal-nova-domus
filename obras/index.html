@@ -2324,7 +2324,13 @@ async function dlDocPDF(elId,nombre){
   const c=await html2canvas(el,{scale:2,backgroundColor:'#FDFBF0',useCORS:true,logging:false});
   const img=c.toDataURL('image/jpeg',0.95);
   const { jsPDF }=window.jspdf;
-  const pdf=new jsPDF({unit:'px',format:[c.width,c.height]});
+  // jsPDF asume orientation:'portrait' por defecto y, si el ancho supera al alto del
+  // formato pasado, reordena width/height para "corregirlo" a la fuerza — sin avisar.
+  // Documentos cortos (pocos ítems) terminan más anchos que altos, y esa corrección
+  // silenciosa achicaba la página real por debajo del ancho de la imagen: se perdía
+  // el borde derecho (fecha, badge de TC, columna "$ TOTAL", montos en USD).
+  const orientation=c.width>c.height?'l':'p';
+  const pdf=new jsPDF({unit:'px',orientation,format:[c.width,c.height]});
   pdf.addImage(img,'JPEG',0,0,c.width,c.height);
   pdf.save(`${nombre}.pdf`);
 }
