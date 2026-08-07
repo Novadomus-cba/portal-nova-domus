@@ -41,6 +41,14 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
   .tr{flex:0 1 100%;margin-left:0;max-width:100%}
   .snav{padding:0 12px}
 }
+@media (min-width:821px){
+  /* Desktop: el logo/título y los widgets de la derecha ya llenan la fila por
+     su cuenta — las pestañas de navegación pasan a su propia fila deslizable
+     debajo, en vez de competir por espacio en la misma línea. */
+  .topbar{flex-wrap:wrap;height:auto;padding:8px 20px}
+  .tr{order:1}
+  .nt-scroll{order:2;flex:1 0 100%;height:38px;margin-top:2px}
+}
 .tc-box{display:flex;align-items:center;gap:5px;background:var(--bg3);
   border:1px solid var(--border);border-radius:4px;padding:3px 8px}
 .tc-box label{font-size:10px;color:var(--text3);white-space:nowrap}
@@ -724,6 +732,10 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
             style="border-color:var(--accent);color:var(--accent)">📋 Certificado</button>
           <button class="btn btn-g" id="cdPvRB" onclick="showCdPV('r',this)">🧾 Recibo</button>
         </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-g" onclick="dlCdImg(this)">🖼️ Imagen</button>
+          <button class="btn btn-g" onclick="dlCdPDF(this)">📄 PDF</button>
+        </div>
         <div id="cdEstadoBadge" style="margin-left:auto"></div>
       </div>
       <div id="cdPvC" class="pv-wrap"><div class="pv-doc" id="cdDocC"></div></div>
@@ -1340,6 +1352,10 @@ function resetCdViewSkeleton(){
           style="border-color:var(--accent);color:var(--accent)">📋 Certificado</button>
         <button class="btn btn-g" id="cdPvRB" onclick="showCdPV('r',this)">🧾 Recibo</button>
       </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-g" onclick="dlCdImg(this)">🖼️ Imagen</button>
+        <button class="btn btn-g" onclick="dlCdPDF(this)">📄 PDF</button>
+      </div>
       <div id="cdEstadoBadge" style="margin-left:auto"></div>
     </div>
     <div id="cdPvC" class="pv-wrap"><div class="pv-doc" id="cdDocC"></div></div>
@@ -1368,7 +1384,7 @@ async function abrirDetalleCert(certId){
   buildDC({obra,numC:cert.numero,fecha:cert.fecha_emision,desde:cert.periodo_desde,hasta:cert.periodo_hasta,
     items,target:'cdRawC'});
   document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
-    .replace('id="cdRawC"','class="doc-print" style="background:#fff"');
+    .replace('id="cdRawC"','class="doc-print" style="background:#FDFBF0"');
 
   if(rec){
     const lineas=(rec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
@@ -1377,7 +1393,7 @@ async function abrirDetalleCert(certId){
     buildDR({obra,numR:rec.numero,fecha:rec.fecha_emision,tc:rec.tipo_cambio_usd,det:rec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
-      .replace('id="cdRawR"','class="doc-print" style="background:#fff"');
+      .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
     document.getElementById('cdDocR').innerHTML=
       '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
@@ -1623,7 +1639,7 @@ async function previewEdicionCert(){
   buildDC({obra:edObra,numC:edCert.numero,fecha:edCert.fecha_emision,desde:edCert.periodo_desde,hasta:edCert.periodo_hasta,
     items,target:'cdRawC'});
   document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
-    .replace('id="cdRawC"','class="doc-print" style="background:#fff"');
+    .replace('id="cdRawC"','class="doc-print" style="background:#FDFBF0"');
 
   if(edRec){
     const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo)}));
@@ -1631,7 +1647,7 @@ async function previewEdicionCert(){
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
-      .replace('id="cdRawR"','class="doc-print" style="background:#fff"');
+      .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
     document.getElementById('cdDocR').innerHTML=
       '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
@@ -2327,6 +2343,34 @@ async function dlBothPDF(btn){
   }
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+// Descarga desde el modal "Ver"/detalle de un certificado ya guardado
+// (#mCertDetalle, ids cdDocC/cdDocR) — mismo patrón que dlBothPDF del wizard,
+// reusando dlDoc/dlDocPDF sin duplicar la lógica de generación.
+async function dlCdBoth(fn,btn,label){
+  if(!cdCert||!cdObra)return;
+  if(btn){btn.disabled=true;btn.innerHTML='<div class="spin"></div> Generando...';}
+  const wasCert=document.getElementById('cdPvC').style.display!=='none';
+  const on=(cdObra.nombre||'obra').slice(0,18).replace(/[^a-z0-9]/gi,'_');
+  try{
+    // cdDocC/cdDocR viven dentro de cdPvC/cdPvR, que se togglean con display:none —
+    // html2canvas necesita que el que se está capturando esté visible (con layout real),
+    // así que se activa cada pestaña antes de capturarla y se restaura la original al final.
+    showCdPV('c',document.getElementById('cdPvCB'));
+    await fn('cdDocC',`cert_${on}_N${cdCert.numero}`);
+    if(cdRec){
+      showCdPV('r',document.getElementById('cdPvRB'));
+      await sleep(500);
+      await fn('cdDocR',`recibo_${on}_N${cdRec.numero}`);
+    }
+    toast(`✅ ${label} de Certificado${cdRec?' y Recibo':''} descargado`+(label==='Imagen'?'a':''),'ok');
+  }finally{
+    showCdPV(wasCert?'c':'r',document.getElementById(wasCert?'cdPvCB':'cdPvRB'));
+    if(btn){btn.disabled=false;btn.innerHTML=label==='Imagen'?'🖼️ Imagen':'📄 PDF';}
+  }
+}
+const dlCdImg=btn=>dlCdBoth(dlDoc,btn,'Imagen');
+const dlCdPDF=btn=>dlCdBoth(dlDocPDF,btn,'PDF');
 
 // ═══════════════════════════════════════════════════════════════
 //  ICC / ACTUALIZACIÓN DE PRECIOS
