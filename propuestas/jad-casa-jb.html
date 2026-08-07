@@ -107,7 +107,8 @@ a{color:var(--gold);text-decoration:none;}
 .hub-hero{position:relative;overflow:hidden;}
 .hub-hero-bg{position:absolute;inset:0;background:url('https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/hero-render.jpg') center 30%/cover no-repeat;opacity:0;animation:heroIn 2.2s ease-out .15s forwards;will-change:opacity,transform;}
 @keyframes heroIn{from{opacity:0;transform:scale(1.07);}to{opacity:1;transform:scale(1);}}
-.hub-hero-veil{position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,19,43,.62) 0%, rgba(11,19,43,.72) 45%, rgba(11,19,43,.92) 78%, var(--navy-deep) 100%);}
+.hub-hero-veil{position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,19,43,.28) 0%, rgba(11,19,43,.34) 40%, rgba(11,19,43,.62) 68%, rgba(11,19,43,.9) 88%, var(--navy-deep) 100%);}
+.hub-hero h1, .hub-hero .lead, .hub-hero .py-tag, .hub-hero .lp-word, .hub-hero .hub-stat{text-shadow:0 2px 14px rgba(11,19,43,.85), 0 1px 4px rgba(11,19,43,.9);}
 .hub-hero > *:not(.hub-hero-bg):not(.hub-hero-veil){position:relative;z-index:2;}
 .render-credit{position:absolute;right:14px;bottom:8px;z-index:3;font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:rgba(253,251,240,.45);}
 @media (prefers-reduced-motion: reduce){.hub-hero-bg{animation:none;opacity:1;transform:none;}}
