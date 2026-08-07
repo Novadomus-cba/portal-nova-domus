@@ -210,8 +210,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   font-size:9px;padding:3px 8px;border-radius:10px;margin-top:4px}
 .dtotal-final{display:flex;justify-content:space-between;align-items:center;margin-top:18px;
   padding:14px 18px;background:#141E61;border-radius:6px;border-top:3px solid #C8A96E}
-.dtotal-final span:first-child{font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#C8A96E}
-.dtotal-final span:last-child{font-family:'Michroma',sans-serif;font-size:21px;color:#FDFBF0}
+.dtotal-final .dtf-label{font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#C8A96E}
+.dtotal-final .dtf-amt{font-family:'Michroma',sans-serif;font-size:21px;color:#FDFBF0;text-align:right}
+.dtotal-final .dtf-usd{font-size:10px;font-weight:500;color:#C8A96E;text-align:right;margin-top:2px}
 /* PREVIEW INLINE */
 .pv-wrap{overflow-x:auto;padding:8px}
 .pv-doc{transform-origin:top left;transform:scale(0.78);display:inline-block}
@@ -400,7 +401,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
           <button class="btn btn-g" id="pvRB" onclick="showPV('r',this)">🧾 Recibo</button>
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
-          <button class="btn btn-g" onclick="dlActivePDF()">📄 PDF</button>
+          <button class="btn btn-g" onclick="dlBothPDF(this)">📄 PDF</button>
           <button class="btn btn-g" onclick="goS(2)">← Volver</button>
           <button class="btn btn-p" id="btnGen" onclick="generar()">⚡ Generar y guardar</button>
         </div>
@@ -2197,11 +2198,14 @@ function buildDR(src){
           <td style="text-align:right;font-weight:700">$ ${Math.round(l.monto||0).toLocaleString('es-AR')}</td>
         </tr>`).join('')}
         <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>SUB-TOTAL</b></td>
-          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(subtotalMO).toLocaleString('es-AR')}</b></td></tr>
+          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(subtotalMO).toLocaleString('es-AR')}</b><br>
+            <span style="font-size:9px;font-weight:500;color:#6b6f8c">${fUsd(subtotalMO/tc)}</span></td></tr>
         <tr><td colspan="${hasUSD?4:1}">IVA${ivaMOOn?' (21%)':''}</td>
-          <td style="text-align:right;font-weight:700">$ ${Math.round(ivaMOMonto).toLocaleString('es-AR')}</td></tr>
+          <td style="text-align:right;font-weight:700">$ ${Math.round(ivaMOMonto).toLocaleString('es-AR')}<br>
+            <span style="font-size:9px;font-weight:500;color:#8a8fa0">${fUsd(ivaMOMonto/tc)}</span></td></tr>
         <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>TOTAL MANO DE OBRA</b></td>
-          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(totalMO).toLocaleString('es-AR')}</b></td></tr>
+          <td style="text-align:right;font-size:13px"><b>$ ${Math.round(totalMO).toLocaleString('es-AR')}</b><br>
+            <span style="font-size:9px;font-weight:500;color:#6b6f8c">${fUsd(totalMO/tc)}</span></td></tr>
       </tbody>
     </table>
     ${matAll.length?`
@@ -2223,7 +2227,9 @@ function buildDR(src){
         </tr>
       </tbody>
     </table>`:''}
-    <div class="dtotal-final"><span>Total a pagar</span><span>$ ${Math.round(totalRecibo).toLocaleString('es-AR')}</span></div>
+    <div class="dtotal-final"><span class="dtf-label">Total a pagar</span>
+      <span><div class="dtf-amt">$ ${Math.round(totalRecibo).toLocaleString('es-AR')}</div>
+        <div class="dtf-usd">${fUsd(totalRecibo/tc)}</div></span></div>
     <div class="dft" style="margin-top:16px">NOVA DOMUS ES MARCA REGISTRADA POR NDWD SAS · CUIT 30-71858914-9<br>
       Tel: 3516-747513 | Av. Colón 3835, Córdoba | novadomuscba@gmail.com | www.novadomuscba.com.ar</div>`;
 }
@@ -2307,12 +2313,18 @@ async function dlDocPDF(elId,nombre){
   pdf.save(`${nombre}.pdf`);
 }
 
-async function dlActivePDF(){
+async function dlBothPDF(btn){
   if(!sObra)return;
-  const esCert=document.getElementById('pvC').style.display!=='none';
+  if(btn){btn.disabled=true;btn.innerHTML='<div class="spin"></div> Generando...';}
   const on=(sObra.nombre||'obra').slice(0,18).replace(/[^a-z0-9]/gi,'_');
-  if(esCert) await dlDocPDF('DC',`cert_${on}_N${document.getElementById('sNumC').value}`);
-  else await dlDocPDF('DR',`recibo_${on}_N${document.getElementById('sNumR').value}`);
+  try{
+    await dlDocPDF('DC',`cert_${on}_N${document.getElementById('sNumC').value}`);
+    await sleep(500);
+    await dlDocPDF('DR',`recibo_${on}_N${document.getElementById('sNumR').value}`);
+    toast('✅ PDF de Certificado y Recibo descargados','ok');
+  }finally{
+    if(btn){btn.disabled=false;btn.innerHTML='📄 PDF';}
+  }
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
