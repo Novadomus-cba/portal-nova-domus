@@ -104,6 +104,13 @@ a{color:var(--gold);text-decoration:none;}
 .tot-table tr.pending td{color:var(--grey);font-style:italic;}
 .btn-pdf{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:13px 22px;border-radius:6px;font-size:13.5px;font-weight:600;margin-top:14px;min-height:48px;}
 .btn-pdf:hover{background:rgba(200,169,110,.1);}
+.hub-hero{position:relative;overflow:hidden;}
+.hub-hero-bg{position:absolute;inset:0;background:url('https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/hero-render.jpg') center 30%/cover no-repeat;opacity:0;animation:heroIn 2.2s ease-out .15s forwards;will-change:opacity,transform;}
+@keyframes heroIn{from{opacity:0;transform:scale(1.07);}to{opacity:1;transform:scale(1);}}
+.hub-hero-veil{position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,19,43,.62) 0%, rgba(11,19,43,.72) 45%, rgba(11,19,43,.92) 78%, var(--navy-deep) 100%);}
+.hub-hero > *:not(.hub-hero-bg):not(.hub-hero-veil){position:relative;z-index:2;}
+.render-credit{position:absolute;right:14px;bottom:8px;z-index:3;font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:rgba(253,251,240,.45);}
+@media (prefers-reduced-motion: reduce){.hub-hero-bg{animation:none;opacity:1;transform:none;}}
 .tap-badge{display:inline-block;background:rgba(200,169,110,.15);color:var(--gold);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-left:8px;animation:badgepulse 2s infinite;vertical-align:middle;}
 @keyframes badgepulse{0%,100%{opacity:1}50%{opacity:.45}}
 @media (prefers-reduced-motion: reduce){.tap-badge{animation:none;}}
@@ -152,6 +159,9 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
 
 <section class="screen active" id="screen-hub">
   <div class="hub-hero">
+    <div class="hub-hero-bg" aria-hidden="true"></div>
+    <div class="hub-hero-veil" aria-hidden="true"></div>
+    <span class="render-credit">Render realizado por IA</span>
     <div class="hub-tunnel" aria-hidden="true">
       <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
         <rect x="10" y="10" width="580" height="380" rx="4" fill="none" stroke="#C8A96E" stroke-width="1"/>
@@ -222,8 +232,6 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     <div class="chap-head"><div class="n">02</div><h2>Informe Técnico</h2></div>
     <p class="lead">Los criterios técnicos y el dimensionado de la instalación eléctrica: demanda, acometida,
     protecciones y las decisiones de diseño detrás de cada sistema. Tocá cada bloque para expandirlo. 👆</p>
-    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-1.jpg"
-         alt="Casa JB — render del proyecto" loading="lazy" class="informe-img" style="margin-bottom:24px;">
     
   <div class="accordion-item">
     <div class="accordion-head" onclick="toggleAcc(this)"><span>01 — Descripción general del proyecto <span class="tap-badge">Tocá para abrir</span></span><span class="acc-arrow">▾</span></div>
