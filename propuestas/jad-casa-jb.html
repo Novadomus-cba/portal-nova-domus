@@ -104,6 +104,19 @@ a{color:var(--gold);text-decoration:none;}
 .tot-table tr.pending td{color:var(--grey);font-style:italic;}
 .btn-pdf{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:13px 22px;border-radius:6px;font-size:13.5px;font-weight:600;margin-top:14px;min-height:48px;}
 .btn-pdf:hover{background:rgba(200,169,110,.1);}
+.tap-badge{display:inline-block;background:rgba(200,169,110,.15);color:var(--gold);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-left:8px;animation:badgepulse 2s infinite;vertical-align:middle;}
+@keyframes badgepulse{0%,100%{opacity:1}50%{opacity:.45}}
+@media (prefers-reduced-motion: reduce){.tap-badge{animation:none;}}
+.informe-img{display:block;max-width:100%;border-radius:8px;margin:14px 0 0;}
+.informe-img-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 0;}
+.informe-img-row img{max-width:calc(50% - 6px);min-width:180px;flex:1;border-radius:8px;object-fit:contain;background:#fff;}
+.plano-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:24px;}
+.plano-card{display:flex;gap:16px;background:rgba(255,255,255,.04);border:1px solid rgba(200,169,110,.18);border-radius:10px;padding:20px;}
+.plano-num{font-family:var(--font-display);font-size:26px;color:var(--gold);opacity:.5;flex-shrink:0;}
+.plano-info p{font-size:12.5px;color:var(--grey);margin:4px 0 12px;}
+.plano-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.plano-btns a{display:inline-block;border:1px solid rgba(200,169,110,.35);color:var(--gold);padding:9px 16px;border-radius:6px;font-size:12.5px;font-weight:600;min-height:38px;}
+.plano-btns a:hover{border-color:var(--gold);background:rgba(200,169,110,.08);}
 .screen-nav{display:flex;justify-content:space-between;gap:12px;margin-top:60px;padding-top:24px;border-top:1px solid rgba(200,169,110,.15);}
 .screen-nav button{background:transparent;appearance:none;border:1px solid rgba(200,169,110,.3);color:var(--gold);font-family:var(--font-body);font-size:13px;padding:12px 18px;border-radius:6px;cursor:pointer;min-height:48px;}
 .screen-nav button:hover{border-color:var(--gold);background:rgba(200,169,110,.08);}
@@ -127,10 +140,12 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     <div class="navlinks">
       <button data-s="hub" onclick="showScreen('hub')">Inicio</button>
       <button data-s="proyecto" onclick="showScreen('proyecto')">01 · El Proyecto</button>
-      <button data-s="computos" onclick="showScreen('computos')">02 · Cómputos</button>
-      <button data-s="tecnologia" onclick="showScreen('tecnologia')">03 · Integración Tecnológica</button>
-      <button data-s="presupuestos" onclick="showScreen('presupuestos')">04 · Presupuestos</button>
-      <button data-s="cierre" onclick="showScreen('cierre')">05 · Cómo seguimos</button>
+      <button data-s="informe" onclick="showScreen('informe')">02 · Informe Técnico</button>
+      <button data-s="computos" onclick="showScreen('computos')">03 · Cómputos</button>
+      <button data-s="tecnologia" onclick="showScreen('tecnologia')">04 · Integración Tecnológica</button>
+      <button data-s="presupuestos" onclick="showScreen('presupuestos')">05 · Presupuestos</button>
+      <button data-s="planos" onclick="showScreen('planos')">06 · Planos</button>
+      <button data-s="cierre" onclick="showScreen('cierre')">07 · Cómo seguimos</button>
     </div>
   </div>
 </nav>
@@ -163,10 +178,12 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
   </div>
   <div class="hub-grid">
     <button class="hub-card" onclick="showScreen('proyecto')"><span class="hn">01</span><h3>El Proyecto</h3><p>El alcance de ingeniería aceptado — los 6 sistemas de la Arquitectura Tecnológica.</p></button>
-    <button class="hub-card" onclick="showScreen('computos')"><span class="hn">02</span><h3>Cómputos</h3><p>El detalle completo de obra eléctrica: tableros, cableado, bocas y llaves.</p></button>
-    <button class="hub-card" onclick="showScreen('tecnologia')"><span class="hn">03</span><h3>Integración Tecnológica</h3><p>El proyecto completo de los 6 sistemas, con cada dispositivo especificado.</p></button>
-    <button class="hub-card" onclick="showScreen('presupuestos')"><span class="hn">04</span><h3>Presupuestos</h3><p>BOM de equipos, mano de obra detallada y resumen de la inversión de referencia.</p></button>
-    <button class="hub-card" onclick="showScreen('cierre')"><span class="hn">05</span><h3>Cómo seguimos</h3><p>Un solo responsable, del proyecto a la obra.</p></button>
+    <button class="hub-card" onclick="showScreen('informe')"><span class="hn">02</span><h3>Informe Técnico</h3><p>Criterios de diseño, cálculo de demanda, dimensionado y normativa de la instalación.</p></button>
+    <button class="hub-card" onclick="showScreen('computos')"><span class="hn">03</span><h3>Cómputos</h3><p>El detalle completo de obra eléctrica: tableros, cableado, bocas y llaves.</p></button>
+    <button class="hub-card" onclick="showScreen('tecnologia')"><span class="hn">04</span><h3>Integración Tecnológica</h3><p>El proyecto completo de los 6 sistemas, con cada dispositivo especificado.</p></button>
+    <button class="hub-card" onclick="showScreen('presupuestos')"><span class="hn">05</span><h3>Presupuestos</h3><p>BOM de equipos, mano de obra detallada y resumen de la inversión de referencia.</p></button>
+    <button class="hub-card" onclick="showScreen('planos')"><span class="hn">06</span><h3>Planos</h3><p>Los planos ejecutivos del proyecto, para previsualizar o descargar en PDF.</p></button>
+    <button class="hub-card" onclick="showScreen('cierre')"><span class="hn">07</span><h3>Cómo seguimos</h3><p>Un solo responsable, del proyecto a la obra.</p></button>
   </div>
   <p class="hub-note">Documento del proyecto ejecutivo — no constituye orden de compra ni inicio de obra.</p>
   <footer>Nova Domus (NDWD SAS) · Córdoba, Argentina · <span class="py-foot">PY-2026-023</span> · Estudio JAD · Casa JB</footer>
@@ -190,24 +207,228 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     <h3 style="margin-top:44px;margin-bottom:14px;">Entregables del proyecto ejecutivo</h3>
     <div class="diagram-5">
       <div class="diagram-step"><div class="step-num">01</div><div class="step-label">Planos Ejecutivos (CAD/PDF) — se entregan por separado</div></div>
-      <div class="diagram-step"><div class="step-num">02</div><div class="step-label">Cómputo de Materiales (BOM) — Capítulos 02 y 04</div></div>
-      <div class="diagram-step"><div class="step-num">03</div><div class="step-label">Presupuesto de Ejecución de referencia — Capítulo 04</div></div>
+      <div class="diagram-step"><div class="step-num">02</div><div class="step-label">Cómputo de Materiales (BOM) — Capítulos 03 y 05</div></div>
+      <div class="diagram-step"><div class="step-num">03</div><div class="step-label">Presupuesto de Ejecución de referencia — Capítulo 05</div></div>
     </div>
     <div class="screen-nav">
       <button onclick="showScreen('hub')">← Inicio</button><span class="spacer"></span>
-      <button onclick="showScreen('computos')">02 · Cómputos →</button>
+      <button onclick="showScreen('informe')">02 · Informe Técnico →</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="screen-informe">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">02</div><h2>Informe Técnico</h2></div>
+    <p class="lead">Los criterios técnicos y el dimensionado de la instalación eléctrica: demanda, acometida,
+    protecciones y las decisiones de diseño detrás de cada sistema. Tocá cada bloque para expandirlo. 👆</p>
+    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-1.jpg"
+         alt="Casa JB — render del proyecto" loading="lazy" class="informe-img" style="margin-bottom:24px;">
+    
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>01 — Descripción general del proyecto <span class="tap-badge">Tocá para abrir</span></span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Vivienda de 605 m² en Córdoba, alimentada desde la red pública con suministro <b>trifásico 380V / 50Hz</b>
+  conforme a la normativa vigente (AEA 90364 y disposiciones de EPEC). El sistema se distribuye en
+  <b>6 tableros seccionales</b>.</p>
+  <ul class="detail-list">
+    <li>Calefacción por radiadores a gas natural y cocción a gas — sin carga eléctrica de calor</li>
+    <li>12 unidades de aire acondicionado tipo Inverter</li>
+    <li>Pileta de natación con bomba de filtrado y remoción de agua</li>
+    <li>Tomacorrientes distribuidos en todos los ambientes + cortineros motorizados</li>
+    <li>Iluminación LED de alta eficiencia en toda la vivienda</li>
+  </ul>
+  <p style="margin-top:12px;">La disponibilidad de gas natural para calefacción y cocción es un factor determinante
+  en la reducción de la demanda eléctrica total: elimina las cargas más pesadas de una instalación residencial
+  convencional y permite optimizar significativamente el dimensionado de la acometida y los conductores.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>02 — Eficiencia energética</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Uno de los pilares del proyecto es la elección de equipamiento de alta eficiencia. Esta decisión condiciona
+  directamente el dimensionado de toda la infraestructura: cables, protecciones, tableros y acometida.</p>
+  <p style="margin-top:10px;"><b>Electrodomésticos Clase A:</b> consumen entre un 30% y un 50% menos que uno de
+  clase inferior cumpliendo la misma función. <b>Aires Inverter:</b> ahorro del 30-35% respecto a equipos de
+  velocidad fija.</p>
+  <div class="table-scroll"><table class="inv-table" style="min-width:480px;margin-top:14px;">
+    <thead><tr><th>Escenario</th><th class="num">Demanda</th><th class="num">Corriente</th><th class="num">Cable</th><th class="num">ITM</th></tr></thead>
+    <tbody>
+      <tr><td>Sin criterios de eficiencia</td><td class="num">36 kW</td><td class="num">80 A</td><td class="num">25 mm²</td><td class="num">80 A</td></tr>
+      <tr><td>Con Clase A + AC Inverter</td><td class="num">25 kW</td><td class="num">50 A</td><td class="num">16 mm²</td><td class="num">63 A</td></tr>
+      <tr><td><b>Ahorro / reducción</b></td><td class="num"><b>≈31%</b></td><td class="num"><b>≈37%</b></td><td class="num" colspan="2"><b>Menor sección y calibre</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted" style="margin-top:10px;">La eficiencia derivó en un cable de acometida de 16 mm² en lugar de
+  25 mm² — ahorro directo en materiales y una instalación térmicamente más eficiente.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>03 — Cálculo de demanda eléctrica</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Aplicando factores de simultaneidad y de uso real — no todas las cargas operan al mismo tiempo ni a potencia
+  nominal máxima — con un margen de seguridad del 25% sobre la corriente resultante.</p>
+  <div class="table-scroll"><table class="inv-table" style="min-width:480px;margin-top:14px;">
+    <thead><tr><th>Carga</th><th class="num">Cant.</th><th class="num">Total (W)</th><th>Criterio</th></tr></thead>
+    <tbody>
+      <tr><td>Aires acondicionados Inverter</td><td class="num">12</td><td class="num">19.500</td><td>Carga real al 65%</td></tr>
+      <tr><td>Tomacorrientes (Clase A)</td><td class="num">~100</td><td class="num">15.000</td><td>Simultaneidad 30%</td></tr>
+      <tr><td>Bomba de filtrado de pileta</td><td class="num">1</td><td class="num">1.500</td><td>Carga nominal</td></tr>
+      <tr><td>Iluminación LED</td><td class="num">—</td><td class="num">3.000</td><td>Por superficie</td></tr>
+      <tr><td>Otras cargas (home theater, automatización)</td><td class="num">—</td><td class="num">2.500</td><td>Estimación general</td></tr>
+      <tr><td><b>TOTAL INSTALADO</b></td><td class="num"></td><td class="num"><b>41.500</b></td><td></td></tr>
+      <tr><td><b>DEMANDA MÁXIMA (f. simult. 0,6)</b></td><td class="num"></td><td class="num"><b>≈25.000</b></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:12px;"><b>I</b> = P / (√3 × V × cos φ) = 25.000 / (1,732 × 380 × 0,95) ≈ <b>40,1 A</b> —
+  con factor de seguridad del 25%: <b>I diseño ≈ 50 A</b>.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>04 — Dimensionado del cable de acometida</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>La acometida — del medidor de EPEC al tablero general — es el conductor que alimenta toda la instalación
+  y debe soportar la demanda máxima con margen de seguridad.</p>
+  <div class="table-scroll"><table class="inv-table" style="min-width:420px;margin-top:14px;">
+    <tbody>
+      <tr><td>Tensión de alimentación</td><td class="num">380V trifásico / 50Hz</td></tr>
+      <tr><td>Demanda máxima estimada</td><td class="num">≈ 25 kW</td></tr>
+      <tr><td>Corriente de diseño (con 25% seguridad)</td><td class="num">≈ 50 A</td></tr>
+      <tr><td>Sección de fases y neutro</td><td class="num">16 mm² Cu — IRAM 2183/NM247-3</td></tr>
+      <tr><td>Conductor de tierra</td><td class="num">10 mm²</td></tr>
+      <tr><td>ITM de cabecera</td><td class="num">Tetrapolar 80A curva C — 10 kA</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted" style="margin-top:10px;">Cable multipolar de cobre 4×16 mm² (3 fases + neutro) + tierra
+  independiente 10 mm², enterrado en cañería de PVC reforzado.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>05 — Protecciones y puesta a tierra</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p><b>Interruptor principal:</b> ITM tetrapolar 63A curva C en cabecera del tablero general, poder de corte
+  mínimo 10 kA. <b>Protección diferencial:</b> al menos un DDR de 30 mA por tablero seccional; en baños, cocina
+  y exterior, sensibilidad de 10 mA.</p>
+  <p style="margin-top:10px;"><b>Puesta a tierra</b> única y centralizada (AEA 90364): jabalinas de cobre
+  distribuidas en el terreno, interconectadas con cobre desnudo de 16 mm², Barra Principal de Tierra en el
+  tablero general y conductor PE de 10 mm² a cada seccional. Resistencia total ≤ 10 Ω, verificada con
+  telurímetro tras la ejecución.</p>
+  <p style="margin-top:10px;"><b>Caso especial — pileta:</b> barra de equipotencialidad local que une todas las
+  masas metálicas del sector (estructura, bomba, escaleras, luminarias sumergibles) — enlace equipotencial
+  suplementario obligatorio por AEA 90364 en zonas húmedas.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>06 — Resumen de circuitos e instalación</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>La instalación se organiza en <b>37 circuitos</b> distribuidos en tres sistemas: TUE (aires acondicionados +
+  artefactos de cocina), TUG (tomacorrientes + cortineros) e IUG (iluminación + llaves de luz).</p>
+  <p class="muted" style="margin-top:10px;">El detalle actualizado de bocas, circuitos y materiales vive en el
+  capítulo <b>03 · Cómputos</b> de este documento.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>07 — TUE — Circuitos exclusivos de aire acondicionado</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Cada aire acondicionado cuenta con un <b>circuito exclusivo e independiente</b>: cable de cobre de 4 mm²
+  canalizado de forma independiente, tierra propia de 4 mm² y protección termomagnética individual dimensionada
+  según la corriente nominal del equipo (curva y calibre aptos para arranque por compresor).</p>
+  <p style="margin-top:10px;">La hembra de conexión se ubica en caja de 10×10 cm a la derecha de la caja de
+  preinstalación de la unidad interior — el cable queda oculto detrás del equipo, fuera de la zona de desagüe.</p>
+  <p style="margin-top:10px;"><b>Previsión para sauna:</b> canalización de 32 mm desde el tablero seccional 6;
+  circuito y protección a definir con la ficha técnica de la maquinaria.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>08 — TUG — Tomacorrientes de uso general</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Tomacorrientes distribuidos en todos los ambientes en circuitos independientes de 2,5 mm². Se recomienda
+  la marca <b>Cambre</b> para teclas y tomas. Instalación horizontal a 0,40 m al centro de la caja (excepciones
+  acotadas en planos).</p>
+  <p style="margin-top:10px;"><b>Cortineros:</b> cada cortinero eléctrico cuenta con caja minion de 5×5 cm donde
+  se aloja el <b>Shelly Plus 2PM Gen4</b> para su comando y alimentación del motor. El control es inalámbrico
+  vía Home Assistant — sin cableado adicional de control, con gestión individual o agrupada en escenas.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>09 — Iluminación</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Criterio de <b>iluminación multipunto</b>: múltiples focos de menor intensidad cuyos haces se superponen
+  parcialmente, evitando zonas de sombra. Con altura de ambientes de 2,90 m y el ángulo de las dicroicas, la
+  separación general resulta cercana a 1,50 m.</p>
+  <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-2.jpg" alt="Esquema de iluminación multipunto" loading="lazy" class="informe-img">
+  <p style="margin-top:14px;">Se optó por <b>spots de aplicar</b> blancos — el techo de hormigón visto no se
+  perfora, preservando su expresividad. Artefacto seleccionado: <b>plafón monovolumen redondo MKS P5801WH</b>,
+  cuerpo de aluminio, para lámpara GU10. La <b>lámpara Philips dimerizable</b> (haz de 36°) se eligió por su
+  calidad de dimerización — indispensable para las escenas del sistema domotizado, sin parpadeo ni pérdida de
+  rango.</p>
+  <div class="informe-img-row">
+    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-3.jpg" alt="Lámpara Philips GU10" loading="lazy">
+    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-4.jpg" alt="Retícula de iluminación" loading="lazy">
+  </div>
+  <p style="margin-top:14px;">Premisa transversal: <b>focos intercambiables</b> — se puede cambiar temperatura
+  de color, potencia o ángulo sin reemplazar el artefacto. En dobles alturas y áreas sociales se incorpora
+  <b>riel magnético 48V</b> (proyectores orientables + módulos lineales reconfigurables sin obra). Colgantes
+  sobre islas y mesadas en cocina y quincho. Plafones embutidos donde hay cielorraso suspendido.</p>
+  <div class="informe-img-row">
+    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-5.jpg" alt="Apliques exteriores cielo-tierra" loading="lazy">
+    <img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/jad/informe-6.jpg" alt="Aplique exterior" loading="lazy">
+  </div>
+  <p style="margin-top:14px;"><b>Exterior:</b> apliques cielo-tierra bidireccionales sobre muros y fachadas.
+  <b>Coherencia formal:</b> todos los artefactos son cilíndricos — exteriores en negro, interiores en blanco.
+  <b>Tiras LED COB 24V</b> para luz indirecta en gargantas, cortinas, muros de piedra y mobiliario, con cajón de
+  alojamiento y espacio técnico previsto para las fuentes 24V (3×5×20 cm, accesibles para mantenimiento).</p>
+  <p style="margin-top:10px;"><b>Comando:</b> teclas Cambre modelo Bauhaus, a 1,10 m al centro de la caja, en
+  posición vertical. Los extractores de baño se vinculan a los circuitos de iluminación (permitido por AEA 90364
+  para cargas de muy bajo consumo en espacios húmedos).</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>10 — Señales débiles y domótica</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Sistema integrado de conectividad, automatización, videovigilancia y alarma, centralizado en un rack de
+  comunicaciones y gestionado con <b>Home Assistant</b>.</p>
+  <p style="margin-top:10px;"><b>Red:</b> acceso a internet por Starlink (canalización mínima de 32 mm, 40 mm en
+  recorridos largos). Todo el cableado de señales débiles en <b>UTP Cat6</b>, en canalizaciones propias con
+  separación mínima de 30 cm de la potencia, cruces a 90°, sin empalmes, y 70 cm de reserva en cada boca.</p>
+  <p style="margin-top:10px;"><b>Rack mural de 12U</b> con caja de distribución de 30×30 cm detrás: router y
+  controller Omada, access points WiFi 6, switches PoE+, UPS online rackeable, Home Assistant Green +
+  SkyConnect, NVR AcuSense con disco SkyHawk y central de alarma AXPro (el detalle de equipos y modelos vive en
+  el capítulo <b>04 · Integración Tecnológica</b>).</p>
+  <p style="margin-top:10px;"><b>Videovigilancia:</b> 8 cámaras IP bullet alimentadas por PoE — sin tomacorriente
+  en su ubicación; cada punto termina en caja estanca 10×10. <b>Alarma:</b> completamente inalámbrica (teclado,
+  magnéticos, PIR, sirenas interiores y exteriores) — sin canalización de señal.</p>
+  <p style="margin-top:10px;"><b>Automatización Shelly + Home Assistant:</b> las luces siguen funcionando con
+  normalidad aunque no haya internet — el control se ejecuta de forma local. ⚡ <b>Consideración eléctrica
+  crítica:</b> en todos los puntos de comando con módulos Shelly debe llevarse el <b>conductor de neutro hasta
+  la caja de la tecla</b> — los Shelly requieren neutro para su alimentación interna.</p>
+  <p style="margin-top:10px;"><b>Cerraduras digitales Yale:</b> funcionan a batería — no requieren alimentación
+  eléctrica ni toma en su ubicación.</p></div></div>
+  </div>
+  <div class="accordion-item">
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>11 — Previsión para cargador de vehículo eléctrico</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-body"><div class="accordion-body-inner">
+  <p>Se adopta el criterio de <b>medidor independiente desde el pilar</b> en lugar de derivar de un tablero
+  interior — por seguridad (niños en la vivienda) y por la potencia involucrada.</p>
+  <ul class="detail-list">
+    <li>La carga del ACU no se suma a la acometida principal: el 4×16 mm² existente se mantiene sin cambios</li>
+    <li>No circula alta potencia dentro de la vivienda — el circuito queda contenido en la cochera</li>
+    <li>EPEC ofrece tarifa diferenciada para movilidad eléctrica (~35% de descuento en horario nocturno) con
+    medidor inteligente</li>
+    <li>Preinstalación: cable 4×10 mm², espacio para segundo medidor en el pilar, y <b>diferencial Tipo A
+    obligatorio</b> — detecta las corrientes de falla de componente continua propias de los cargadores</li>
+  </ul>
+  <p class="muted" style="margin-top:10px;">La gestión del segundo medidor se tramita ante EPEC como nuevo
+  suministro para movilidad eléctrica — viable para uso residencial en Córdoba.</p></div></div>
+  </div>
+    <p class="muted" style="margin-top:20px;">Documento elaborado con fines técnicos. Requiere validación y firma
+    de profesional matriculado para su ejecución.</p>
+    <div class="screen-nav">
+      <button onclick="showScreen('proyecto')">← 01 · El Proyecto</button><span class="spacer"></span>
+      <button onclick="showScreen('computos')">03 · Cómputos →</button>
     </div>
   </div>
 </section>
 
 <section class="screen" id="screen-computos">
   <div class="wrap">
-    <div class="chap-head"><div class="n">02</div><h2>Cómputos de Obra Eléctrica</h2></div>
+    <div class="chap-head"><div class="n">03</div><h2>Cómputos de Obra Eléctrica</h2></div>
     <p class="lead">Relevamiento completo de la instalación eléctrica proyectada: tableros, cableado y todas
     las bocas de la vivienda. Tocá cada bloque para ver el detalle. 👆</p>
     
   <div class="accordion-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>01 — Tableros</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>01 — Tableros <span class="tap-badge">Tocá para abrir</span></span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner">
       <p class="lead">7 gabinetes (Acometida + 6 seccionales), 150 polos reales armados</p>
       <ul class="detail-list"><li>2× ITM tetrapolar (80A/50A) — Tablero de Acometida</li><li>1× Gabinete metálico modular 72 módulos — TS1 Principal</li><li>16× ITM bipolar 20A, 10× ITM bipolar 16A, 15× ITM bipolar 10A (repartidos en 6 seccionales)</li><li>6× ID bipolar 63A 30mA, 4× ID bipolar 40A 30mA, 2× ID bipolar 40A 10mA alta sensibilidad, 1× ID 25A 10mA (luces pileta)</li><li>2× Peine de conexión 56 polos · 100 puntera TIF 6mm² · 300 terminal TIF (100 c/calibre)</li></ul>
@@ -265,17 +486,17 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     <a class="btn-pdf" href="computo-materiales-jad.pdf" download>⬇ Descargar cómputo de materiales (PDF)</a>
 <p class="muted" style="margin-top:6px;">Para validar presupuestos de proveedores o comprar en su casa de electricidad de confianza.</p>
     <div class="screen-nav">
-      <button onclick="showScreen('proyecto')">← 01 · El Proyecto</button><span class="spacer"></span>
-      <button onclick="showScreen('tecnologia')">03 · Integración Tecnológica →</button>
+      <button onclick="showScreen('informe')">← 02 · Informe Técnico</button><span class="spacer"></span>
+      <button onclick="showScreen('tecnologia')">04 · Integración Tecnológica →</button>
     </div>
   </div>
 </section>
 
 <section class="screen" id="screen-tecnologia">
   <div class="wrap">
-    <div class="chap-head"><div class="n">03</div><h2>Integración Tecnológica</h2></div>
+    <div class="chap-head"><div class="n">04</div><h2>Integración Tecnológica</h2></div>
     <p class="lead">213 dispositivos en 6 sistemas — el proyecto completo de integración, con cada dispositivo
-    especificado. El detalle de inversión por ítem está en el Capítulo 04 · Presupuestos.</p>
+    especificado. El detalle de inversión por ítem está en el Capítulo 05 · Presupuestos.</p>
     
 <div class="sistema-block" id="sis-iluminacion">
   <div class="sistema-head"><h3>ILUMINACIÓN</h3></div>
@@ -612,15 +833,15 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     </div></div>
 </div>
     <div class="screen-nav">
-      <button onclick="showScreen('computos')">← 02 · Cómputos</button><span class="spacer"></span>
-      <button onclick="showScreen('presupuestos')">04 · Presupuestos →</button>
+      <button onclick="showScreen('computos')">← 03 · Cómputos</button><span class="spacer"></span>
+      <button onclick="showScreen('presupuestos')">05 · Presupuestos →</button>
     </div>
   </div>
 </section>
 
 <section class="screen" id="screen-presupuestos">
   <div class="wrap">
-    <div class="chap-head"><div class="n">04</div><h2>Presupuestos</h2></div>
+    <div class="chap-head"><div class="n">05</div><h2>Presupuestos</h2></div>
     <p class="lead">Valores de referencia del proyecto ejecutivo, en dólares (TC BNA oficial de referencia:
     $ 1,520 por U$D 1). Tocá cada bloque para ver el detalle. 👆</p>
 
@@ -628,7 +849,7 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     <p class="lead" style="margin-bottom:6px;">Precio unitario, cantidad e IVA real por ítem, por sistema.</p>
     
   <div class="accordion-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>ILUMINACIÓN — U$D 6,496 equipo</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>ILUMINACIÓN — U$D 6,496 equipo <span class="tap-badge">Tocá para abrir</span></span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner">
       <div class="table-scroll"><table class="inv-table">
         <thead><tr><th>Ítem</th><th class="num">Cant.</th><th class="num">Precio Unitario</th><th class="num">IVA</th><th class="num">Subtotal</th></tr></thead>
@@ -876,15 +1097,86 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
 <p class="muted" style="margin-top:6px;">Para validar presupuestos de proveedores o comprar en su casa de electricidad de confianza.</p>
 
     <div class="screen-nav">
-      <button onclick="showScreen('tecnologia')">← 03 · Integración Tecnológica</button><span class="spacer"></span>
-      <button onclick="showScreen('cierre')">05 · Cómo seguimos →</button>
+      <button onclick="showScreen('tecnologia')">← 04 · Integración Tecnológica</button><span class="spacer"></span>
+      <button onclick="showScreen('planos')">06 · Planos →</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="screen-planos">
+  <div class="wrap">
+    <div class="chap-head"><div class="n">06</div><h2>Planos del Proyecto</h2></div>
+    <p class="lead">Los planos ejecutivos en PDF — se pueden previsualizar en el navegador o descargar para
+    imprimir y llevar a obra.</p>
+    <div class="plano-grid">
+    
+    <div class="plano-card">
+      <div class="plano-num">01</div>
+      <div class="plano-info">
+        <h4>Diagrama unifilar y acometidas</h4>
+        <p>Esquema eléctrico completo: pilar, medidores, tableros y protecciones</p>
+        <div class="plano-btns">
+          <a href="planos-jad/01-diagrama-unifilar-acometidas.pdf" target="_blank" rel="noopener">Ver plano</a>
+          <a href="planos-jad/01-diagrama-unifilar-acometidas.pdf" download>⬇ Descargar</a>
+        </div>
+      </div>
+    </div>
+    <div class="plano-card">
+      <div class="plano-num">02</div>
+      <div class="plano-info">
+        <h4>ACU y TUE</h4>
+        <p>Circuitos exclusivos de aires acondicionados y tomas de uso especial</p>
+        <div class="plano-btns">
+          <a href="planos-jad/02-acu-tue.pdf" target="_blank" rel="noopener">Ver plano</a>
+          <a href="planos-jad/02-acu-tue.pdf" download>⬇ Descargar</a>
+        </div>
+      </div>
+    </div>
+    <div class="plano-card">
+      <div class="plano-num">03</div>
+      <div class="plano-info">
+        <h4>TUG y Cortineros</h4>
+        <p>Tomacorrientes de uso general y alimentación de cortineros</p>
+        <div class="plano-btns">
+          <a href="planos-jad/03-tug-cortineros.pdf" target="_blank" rel="noopener">Ver plano</a>
+          <a href="planos-jad/03-tug-cortineros.pdf" download>⬇ Descargar</a>
+        </div>
+      </div>
+    </div>
+    <div class="plano-card">
+      <div class="plano-num">04</div>
+      <div class="plano-info">
+        <h4>Iluminación y extractores</h4>
+        <p>Bocas, circuitos, teclas y tipos de luminaria por ambiente</p>
+        <div class="plano-btns">
+          <a href="planos-jad/04-iluminacion.pdf" target="_blank" rel="noopener">Ver plano</a>
+          <a href="planos-jad/04-iluminacion.pdf" download>⬇ Descargar</a>
+        </div>
+      </div>
+    </div>
+    <div class="plano-card">
+      <div class="plano-num">05</div>
+      <div class="plano-info">
+        <h4>Señales débiles</h4>
+        <p>Red, cámaras, access points y canalizaciones UTP</p>
+        <div class="plano-btns">
+          <a href="planos-jad/05-senales-debiles.pdf" target="_blank" rel="noopener">Ver plano</a>
+          <a href="planos-jad/05-senales-debiles.pdf" download>⬇ Descargar</a>
+        </div>
+      </div>
+    </div>
+    </div>
+    <p class="muted" style="margin-top:20px;">Los archivos CAD editables se entregan por separado al Estudio.</p>
+    <div class="screen-nav">
+      <button onclick="showScreen('presupuestos')">← 05 · Presupuestos</button><span class="spacer"></span>
+      <button onclick="showScreen('cierre')">07 · Cómo seguimos →</button>
     </div>
   </div>
 </section>
 
 <section class="screen" id="screen-cierre">
   <div class="wrap">
-    <div class="chap-head"><div class="n">05</div><h2>Cómo seguimos</h2></div>
+    <div class="chap-head"><div class="n">07</div><h2>Cómo seguimos</h2></div>
     <p class="lead">Este proyecto ejecutivo puede derivar en obra. Si el Estudio/Cliente decide avanzar con
     Nova Domus para la ejecución, un mismo equipo lleva el proyecto de punta a punta.</p>
     <p style="margin-top:14px;">En una obra con tecnología normalmente se coordinan varios proveedores: el
@@ -900,7 +1192,7 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     </div>
     <p class="muted">Queda funcionando y documentado.</p>
     <div class="screen-nav">
-      <button onclick="showScreen('presupuestos')">← 04 · Presupuestos</button><span class="spacer"></span>
+      <button onclick="showScreen('planos')">← 06 · Planos</button><span class="spacer"></span>
       <button onclick="showScreen('hub')">Volver al inicio</button>
     </div>
   </div>
@@ -991,6 +1283,8 @@ function toggleAcc(head){
   const isOpen = item.classList.contains('open');
   if(isOpen){ item.classList.remove('open'); body.style.maxHeight = null; }
   else{ item.classList.add('open'); body.style.maxHeight = body.scrollHeight + 'px'; }
+  const badge = head.querySelector('.tap-badge');
+  if(badge) badge.remove();
 }
 window.addEventListener('resize', ()=>{
   document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight + 'px'; });
