@@ -108,6 +108,13 @@ img,svg{max-width:100%;}
 .evol-table td.dim{color:var(--gold); font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; font-weight:600; white-space:nowrap;}
 .evol-table td.then-col{color:var(--grey);}
 .evol-table td.now-col{color:var(--cream); font-weight:500;}
+/* Bug fix: dentro de .section-light (fondo cream) los tokens de arriba quedan invisibles — se invierten */
+.section-light .evol-table th{color:#5d6078;}
+.section-light .evol-table th.now-col{color:var(--navy);}
+.section-light .evol-table td{border-bottom:1px solid rgba(20,30,97,.1);}
+.section-light .evol-table td.dim{color:var(--navy);}
+.section-light .evol-table td.then-col{color:#5d6078;}
+.section-light .evol-table td.now-col{color:var(--navy-deep); font-weight:600;}
 .evol-stats{display:grid; grid-template-columns:1fr; gap:14px; margin:24px 0;}
 @media(min-width:700px){.evol-stats{grid-template-columns:repeat(3,1fr);}}
 .evol-stat{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:12px; padding:18px; text-align:center;}
@@ -158,8 +165,23 @@ img,svg{max-width:100%;}
 .section-light .dc-name{color:var(--navy-deep);}
 .dc-qty{color:var(--gold); font-size:12px; font-weight:600; margin-top:2px;}
 .section-light .dc-qty{color:var(--navy);}
-.dc-arrow{color:var(--gold); transition:transform .3s ease; flex-shrink:0; font-size:14px;}
-.device-card.open .dc-arrow{transform:rotate(180deg);}
+@keyframes arrow-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(3px);}}
+@keyframes arrow-bounce-open{0%,100%{transform:rotate(180deg) translateY(0);}50%{transform:rotate(180deg) translateY(3px);}}
+.dc-arrow{color:var(--gold); flex-shrink:0; font-size:14px; display:inline-block; animation:arrow-bounce 1.6s ease-in-out infinite;}
+.acc-arrow{display:inline-block; animation:arrow-bounce 1.6s ease-in-out infinite;}
+.device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{animation:arrow-bounce-open 1.6s ease-in-out infinite;}
+.tap-badge{display:inline-flex; align-items:center; gap:6px; font-size:10.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--navy-deep); background:var(--gold); border-radius:999px; padding:4px 10px; margin-left:10px; white-space:nowrap; animation:tap-badge-pulse 1.8s ease-in-out infinite;}
+@keyframes tap-badge-pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.device-card.open .tap-badge,.accordion-item.open .tap-badge,.faq-item.open .tap-badge{display:none;}
+.hint-line{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--gold); margin-bottom:14px;}
+.section-light .hint-line{color:var(--navy);}
+.hint-line .hp{display:inline-block; animation:arrow-bounce 1.4s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){
+  .dc-arrow,.acc-arrow,.device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{animation:none;}
+  .device-card.open .dc-arrow,.accordion-item.open .acc-arrow,.faq-item.open .acc-arrow{transform:rotate(180deg);}
+  .tap-badge{animation:none;}
+  .hint-line .hp{animation:none;}
+}
 .dc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
 .dc-body-inner{padding:0 16px 16px; display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap;}
 .dc-photo{width:100px; height:100px; object-fit:contain; background:#fff; border-radius:8px; flex-shrink:0; padding:6px;}
@@ -174,8 +196,7 @@ img,svg{max-width:100%;}
 .accordion-head .ah-price{font-weight:600;}
 .accordion-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
 .accordion-body-inner{padding:0 4px 16px; font-size:13.5px;}
-.acc-arrow{transition:transform .3s ease;}
-.accordion-item.open .acc-arrow{transform:rotate(180deg);}
+/* .acc-arrow y su estado open ahora animados via arrow-bounce/arrow-bounce-open, definidos arriba */
 .totalrow{display:flex; justify-content:space-between; padding:18px 4px; font-family:var(--font-display); font-size:18px; border-top:2px solid var(--navy); margin-top:10px;}
 .subtotal-line{display:flex; justify-content:space-between; padding:9px 4px; font-size:13.5px; color:var(--grey); border-top:1px solid rgba(200,169,110,.15);}
 .subtotal-line.note{font-size:11.5px; font-style:italic;}
@@ -211,10 +232,7 @@ table.detalle tr.subtotal td{font-weight:700; border-top:1px solid rgba(200,169,
 .brand-video-toggle{margin-top:10px; font-size:12px; color:var(--gold); cursor:pointer; display:inline-flex; align-items:center; gap:6px; min-height:32px;}
 .brand-video-wrap{margin-top:10px; border-radius:8px; overflow:hidden;}
 .brand-video-wrap iframe{width:100%; aspect-ratio:16/9; display:block; border:none;}
-.slide-hint{font-size:11.5px; color:var(--grey); margin-top:8px; display:flex; align-items:center; gap:6px; animation:hint-pulse 2.6s ease-in-out infinite;}
-.section-light .slide-hint{color:#5d6078;}
-@keyframes hint-pulse{0%,100%{opacity:.6;} 50%{opacity:1;}}
-@media (prefers-reduced-motion: reduce){.slide-hint{animation:none;}}
+/* .slide-hint reemplazado por .hint-line (patrón unificado, ver Docta Massello) */
 
 /* CASOS DE EXITO */
 .casos-grid{display:grid; grid-template-columns:1fr; gap:18px; margin-top:24px;}
@@ -389,6 +407,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h2>La casa que responde</h2>
   <p class="lead">63 dispositivos Shelly Gen4 (relevamiento real ambiente por ambiente, con 10% de margen de repuesto) sobre Home Assistant, más el Kit de Seguridad Shelly XL para automatizar pasillos y zonas de poca estadía: la luz se enciende sola al abrir la puerta o detectar movimiento, sin depender de la llave manual. Probá el simulador: así se siente controlar la casa según el momento del día.</p>
 
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada pestaña para cambiar de escena, y arrastrá el slider para sentir el control.</div>
   <div id="scene-sim">
     <div id="scene-visual" style="background:linear-gradient(135deg,#FFDCA8,#FFF3D6);">
       <div class="scene-icon">🌅</div>
@@ -422,6 +441,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h2>Climatización que no se olvida prendida</h2>
   <p class="lead">Un Sensibo por cada uno de los 5 splits — geolocalización y sensor de temperatura ambiente real, no del equipo. En la habitación de servicio el aire se maneja distinto: un Shelly en el tomacorriente, controlado por temperatura desde Home Assistant. Sumamos también sensores de presencia real para apagado automático por ausencia, tomacorrientes automatizados de esa misma zona, y una estación meteorológica exterior. Movés el slider y mirá el efecto estimado:</p>
 
+  <div class="hint-line"><span class="hp">👆</span> Arrastrá el slider y tocá el switch para comparar.</div>
   <div id="confort-calc">
     <div class="slider-row">
       <label><span>Temperatura objetivo</span><span id="confort-temp-val">24°C</span></label>
@@ -449,6 +469,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h2>Que la cortina te diga dónde está</h2>
   <p class="lead">5 motores con Shelly 2PM Gen4: 2 en el vidrio en "L" del living, y 1 en estudio, 1 en habitación de invitados y 1 en la principal. La diferencia real frente a un motor por radiofrecuencia común: con Shelly, la cortina reporta su % de apertura real a Home Assistant — no es una suposición, es un dato.</p>
 
+  <div class="hint-line"><span class="hp">👆</span> Tocá el switch para comparar, y arrastrá el slider de apertura.</div>
   <div class="switch2">
     <button class="active state-a" onclick="setCortinasView('rf')">Motor RF común</button>
     <button class="state-b" onclick="setCortinasView('shelly')">Motor + Shelly Gen4</button>
@@ -475,6 +496,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h2>Detección antes que reacción</h2>
   <p class="lead">Panel Hikvision AXPro de 48 zonas, 100% inalámbrico — la línea mandataria de Nova Domus para todo proyecto salvo indicación contraria. Antes, esta casa no tenía un sistema de alarma dedicado.</p>
 
+  <div class="hint-line"><span class="hp">👆</span> Tocá para comparar antes y después.</div>
   <div class="switch2">
     <button class="active state-a" onclick="setAlarmaView('comun')">Sin sistema dedicado</button>
     <button class="state-b" onclick="setAlarmaView('axpro')">Con AXPro</button>
@@ -490,6 +512,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h2>Ver de verdad, no solo grabar</h2>
   <p class="lead">10 cámaras Hikvision ColorVU 3.0 con IA AcuSense — 5 exteriores (ingreso ×2, tender, quincho, patio) y 5 interiores (sala técnica, pasillo de servicio, dormitorio, pasillo principal, pasillo y cocina). Antes: 4 cámaras Dahua sin inteligencia artificial.</p>
 
+  <div class="hint-line"><span class="hp">👆</span> Tocá para comparar antes y después.</div>
   <div class="switch2">
     <button class="active state-a" onclick="setVideoView('comun')">Dahua básico (2025)</button>
     <button class="state-b" onclick="setVideoView('acusense')">Hikvision AcuSense (hoy)</button>
@@ -513,6 +536,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h2>La base de todo lo demás</h2>
   <p class="lead">Router Omada + controlador de hardware dedicado, switch gestionable de 24 puertos PoE+ (alimenta cámaras y APs sin fuentes sueltas) y 2 access points WiFi6 indoor. Sin una red sólida, nada de lo que sigue funciona bien.</p>
 
+  <div class="hint-line"><span class="hp">👆</span> Tocá para comparar antes y después.</div>
   <div class="switch2">
     <button class="active state-a" onclick="setRedesView('generico')">WiFi doméstico común</button>
     <button class="state-b" onclick="setRedesView('actual')">Red profesional Omada</button>
@@ -552,7 +576,8 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section section-light" id="inversion">
   <span class="eyebrow">11-bis — Inversión</span>
   <h2>Desglose completo</h2>
-  <p class="lead">Por sistema, con el detalle cuantitativo de cada dispositivo — ya reflejando el crédito del anexo de arriba. Tocá cada rubro para ver la tabla completa.</p>
+  <p class="lead">Por sistema, con el detalle cuantitativo de cada dispositivo — ya reflejando el crédito del anexo de arriba.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada rubro para abrir el desglose línea por línea.</div>
 
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
@@ -634,7 +659,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <div class="pill fixed">Nova Domus</div>
     <div class="pill fixed">CEDIA Member</div>
   </div>
-  <p class="slide-hint">👉 Deslizá para ver cada marca y su video</p>
+  <div class="hint-line"><span class="hp">👆</span> Deslizá y tocá una marca para ver por qué la elegimos, con su video.</div>
   <div class="brand-slider" id="brand-slider"></div>
 
   <p style="margin-top:24px; font-size:13.5px;"><strong>Garantía:</strong> 12 meses sobre instalación y programación desde la entrega documentada del sistema.</p>
@@ -664,6 +689,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">17 — Condiciones generales</span>
   <h2>Cómo trabajamos</h2>
   <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
+  <div class="hint-line"><span class="hp">👆</span> Tocá cada punto para leer el detalle completo.</div>
   <div id="condiciones-list"></div>
 </section>
 
@@ -685,9 +711,9 @@ const CONDICIONES = [
   {t:"Facturación", d:"Se puede facturar Factura A. En mano de obra, a los precios indicados se le suma IVA e IIBB."},
   {t:"Instalación de cerraduras", d:"Se cotiza siempre como línea aparte, adicional a la instalación y programación general de domótica, con su propia tarifa de mano de obra."},
 ];
-document.getElementById('condiciones-list').innerHTML = CONDICIONES.map(c=>`
+document.getElementById('condiciones-list').innerHTML = CONDICIONES.map((c,i)=>`
   <div class="accordion-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${c.t}${i===0?'<span class="tap-badge">Tocá para abrir</span>':''}</span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner"><p>${c.d}</p></div></div>
   </div>`).join('');
 </script>
@@ -779,9 +805,10 @@ function renderDeviceGrid(containerId, key){
     const qtyLine = saldadas > 0
       ? `${d.qTotal} unidad${d.qTotal>1?'es':''} <span style="opacity:.7; font-weight:400;">(${saldadas} ya saldada${saldadas>1?'s':''})</span>`
       : `${d.qTotal} unidad${d.qTotal>1?'es':''}`;
+    const badge = i===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
     return `<div class="device-card" id="${containerId}-${i}">
       <div class="dc-head" onclick="toggleDevice('${containerId}-${i}')">
-        <div><div class="dc-name">${d.n}</div><div class="dc-qty">${qtyLine}</div></div>
+        <div><div class="dc-name">${d.n}${badge}</div><div class="dc-qty">${qtyLine}</div></div>
         <span class="dc-arrow">▾</span>
       </div>
       <div class="dc-body"><div class="dc-body-inner">
@@ -859,11 +886,12 @@ function renderInversion(){
   }).join('');
 
   const acc = document.getElementById('accordion-rubros');
-  acc.innerHTML = RUBROS.map(r=>{
+  acc.innerHTML = RUBROS.map((r,idx)=>{
     const e = equipoDe(r.id);
+    const badge = idx===0 ? '<span class="tap-badge">Tocá para abrir</span>' : '';
     return `<div class="accordion-item">
       <div class="accordion-head" onclick="toggleAcc(this)">
-        <span>${r.label}</span>
+        <span>${r.label}${badge}</span>
         <span class="ah-price">${fmt(e)} <span class="acc-arrow">▾</span></span>
       </div>
       <div class="accordion-body"><div class="accordion-body-inner">
@@ -1090,7 +1118,7 @@ const FAQS = [
 ];
 document.getElementById('faq-list').innerHTML = FAQS.map((f,i)=>`
   <div class="faq-item">
-    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}</span><span class="acc-arrow">▾</span></div>
+    <div class="accordion-head" onclick="toggleAcc(this)"><span>${f.q}${i===0?'<span class="tap-badge">Tocá para abrir</span>':''}</span><span class="acc-arrow">▾</span></div>
     <div class="accordion-body"><div class="accordion-body-inner"><p>${f.a}</p></div></div>
   </div>`).join('');
 
