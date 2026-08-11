@@ -58,7 +58,7 @@ img,svg{max-width:100%;}
 .logo-plate .lp-word{font-family:var(--font-display); color:var(--navy-deep); font-size:15px; letter-spacing:2px; line-height:1.3;}
 .logo-plate .lp-word small{display:block; font-family:var(--font-body); font-size:9px; letter-spacing:1.5px; color:var(--gold); font-weight:600; margin-top:2px;}
 
-#hero{min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px 20px 60px; max-width:1100px; margin:0 auto; position:relative;}
+#hero{min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px 20px 60px; max-width:1100px; margin:0 auto; position:relative; overflow:hidden;}
 #hero .py-tag{color:var(--gold); font-size:12px; letter-spacing:2px; font-family:var(--font-body); font-weight:600; margin-bottom:16px;}
 #hero .tagline{color:var(--grey); font-size:16px; margin-top:18px;}
 #hero .descriptor{color:var(--gold); font-size:12px; letter-spacing:3px; margin-top:6px;}
@@ -78,9 +78,27 @@ img,svg{max-width:100%;}
 
 .diagram-5{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:26px 0;}
 @media(min-width:800px){.diagram-5{grid-template-columns:repeat(5,1fr);}}
-.diagram-step{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:10px; padding:16px 14px; text-align:center;}
+.diagram-step{background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.2); border-radius:10px; padding:16px 14px; text-align:center;
+  opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease;}
+.diagram-step.revealed{opacity:1; transform:translateY(0);}
+@supports (animation-timeline: view()){
+  .diagram-step{transition:none; animation:diagram-build linear both; animation-timeline:view(); animation-range:entry 0% cover 35%;}
+  .diagram-step:nth-child(1){animation-range:entry 0% entry 35%;}
+  .diagram-step:nth-child(2){animation-range:entry 8% entry 43%;}
+  .diagram-step:nth-child(3){animation-range:entry 16% entry 51%;}
+  .diagram-step:nth-child(4){animation-range:entry 24% entry 59%;}
+  .diagram-step:nth-child(5){animation-range:entry 32% entry 67%;}
+}
+@keyframes diagram-build{ from{opacity:0; transform:translateY(24px);} to{opacity:1; transform:translateY(0);} }
+@media (prefers-reduced-motion: reduce){
+  .diagram-step{opacity:1 !important; transform:none !important; animation:none !important; transition:none !important;}
+}
 .diagram-step .step-num{font-family:var(--font-display); color:var(--gold); font-size:20px;}
 .diagram-step .step-label{font-size:12.5px; margin-top:8px; color:var(--body);}
+
+/* Motivo del túnel — textura de fondo, una sola vez por pieza, dorado a baja opacidad */
+.tunnel-motif{position:absolute; top:50%; right:0; transform:translateY(-50%); width:380px; height:380px; opacity:.1; pointer-events:none; z-index:0;}
+@media(max-width:700px){.tunnel-motif{width:220px; height:220px; right:-30px;}}
 
 /* EVOLUCION DEL PROYECTO */
 .evol-table{width:100%; border-collapse:collapse; margin:24px 0;}
@@ -243,6 +261,13 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- HERO / PORTADA -->
 <section id="hero">
+  <svg class="tunnel-motif" viewBox="0 0 400 400" aria-hidden="true">
+    <rect x="20" y="20" width="360" height="360" fill="none" stroke="var(--gold)" stroke-width="2"/>
+    <rect x="60" y="60" width="280" height="280" fill="none" stroke="var(--gold)" stroke-width="2" transform="rotate(8 200 200)"/>
+    <rect x="100" y="100" width="200" height="200" fill="none" stroke="var(--gold)" stroke-width="2" transform="rotate(16 200 200)"/>
+    <rect x="140" y="140" width="120" height="120" fill="none" stroke="var(--gold)" stroke-width="2" transform="rotate(24 200 200)"/>
+    <rect x="170" y="170" width="60" height="60" fill="none" stroke="var(--gold)" stroke-width="2" transform="rotate(32 200 200)"/>
+  </svg>
   <div class="logo-plate">
     <div id="heroLogo"></div>
     <div class="lp-word">NOVA DOMUS<small>INTEGRACIÓN TECNOLÓGICA</small></div>
@@ -1070,6 +1095,16 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   document.querySelectorAll('.figure[data-count]').forEach(el=>obs.observe(el));
 } else {
   document.querySelectorAll('.figure[data-count]').forEach(el=>{ el.textContent = el.dataset.count; });
+}
+
+// ===== DIAGRAMA "UN SOLO RESPONSABLE" — fallback para navegadores sin animation-timeline (Safari) =====
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const diagObs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); diagObs.unobserve(e.target); } });
+  }, {threshold:.2});
+  document.querySelectorAll('.diagram-step').forEach(el=>diagObs.observe(el));
+} else {
+  document.querySelectorAll('.diagram-step').forEach(el=>el.classList.add('revealed'));
 }
 
 // ===== SCROLL PROGRESS =====
