@@ -144,11 +144,35 @@ footer .py-foot{color:var(--gold); font-weight:600; letter-spacing:1px;}
 footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; transform:none;}
 
 @media print{
-  #topnav,#progress-badge,input[type=checkbox],.btn-accept{display:none !important;}
+  #topnav,#progress-badge,input[type=checkbox],.btn-accept,button{display:none !important;}
   .accordion-body{max-height:none !important;}
-  body{background:#fff; color:#000;}
   * {print-color-adjust:exact; -webkit-print-color-adjust:exact;}
   .section{break-inside:avoid;}
+
+  /* Los textos dorado/gris/crema estan pensados para fondo navy oscuro.
+     Al imprimir el fondo pasa a blanco y esos mismos colores quedan
+     "muy claritos" / ilegibles. Se fuerza un set de colores de alto
+     contraste para TODO el documento impreso, sin depender de si la
+     sección es .section-light o no. */
+  body, .section, .section-light, #cta, footer{
+    background:#fff !important;
+    color:#141E61 !important;
+  }
+  h1,h2,h3,
+  .eyebrow,.lead,.tagline,.descriptor,.py-tag,
+  .stat .figure,.stat-label,
+  .rc-value,.rc-label,.rc-sub,
+  .opt-title,.opt-price,.opt-desc,.opt-line,
+  .pay-pct,.pay-amt,.ars,
+  .accept-check,footer .py-foot,
+  .step-num,.step-label,
+  table.detalle th,.pill,
+  a{
+    color:#141E61 !important;
+  }
+  p,.section-light p{color:#1a1a1a !important;}
+  .opt-pending{color:#7a2b22 !important; background:rgba(181,69,58,.12) !important;}
+  .pill.fixed{background:#C8A96E !important; color:#141E61 !important;}
 }
 </style>
 </head>
