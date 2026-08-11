@@ -90,6 +90,15 @@ a{color:var(--gold);text-decoration:none;}
 .timeline-table tr.total td{font-weight:700;color:var(--navy);border-top:2px solid var(--navy);border-bottom:none;padding-top:14px;}
 .timeline-table tr.total td:first-child{color:var(--navy);text-transform:none;font-size:14.5px;}
 
+/* ===== TARIFARIO DE REFERENCIA ===== */
+.tarifa-table{width:100%;border-collapse:collapse;margin-top:10px;}
+.tarifa-table td{padding:8px 4px;font-size:13.5px;border-bottom:1px solid rgba(20,30,97,.08);color:var(--navy-deep);}
+.tarifa-table td:last-child{text-align:right;font-weight:600;white-space:nowrap;color:var(--navy);}
+.tarifa-table .unidad{font-weight:400;font-size:11px;color:var(--grey);}
+.tarifa-table tr.tarifa-cat td{padding-top:16px;font-family:var(--font-body);font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-deep,#8a6d2f);border-bottom:2px solid rgba(200,169,110,.3);}
+.tarifa-sub-h{font-size:13px;font-weight:700;color:var(--navy);margin-top:18px;letter-spacing:.5px;}
+.tarifa-sub-h:first-of-type{margin-top:4px;}
+
 /* ===== TOTAL FINAL ===== */
 .total-final{text-align:center;padding:48px 24px;border-radius:14px;border:1px solid rgba(200,169,110,.4);margin-top:8px;background:rgba(200,169,110,.05);}
 .total-final .figure{font-size:clamp(32px,7vw,52px);color:var(--gold);}
@@ -430,6 +439,98 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <div class="acc-item">
         <button class="acc-head" onclick="toggleAcc(this)">Validez de este documento<span class="arrow">▾</span></button>
         <div class="acc-body"><div class="acc-body-inner">15 días desde la fecha de envío. Pasado ese plazo, confirmamos que los valores siguen vigentes antes de coordinar el pago.</div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">Tarifario de referencia para trabajos adicionales<span class="arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p style="margin-bottom:10px;">Este tarifario aplica exclusivamente a trabajo nuevo que se solicite <strong>a partir de esta fecha</strong> (un punto de luz más, un relé de domótica adicional, una cámara nueva, etc.). No modifica ni reabre el saldo ya acordado de este documento, que mantiene los valores históricos ya definidos. Sirve para que cualquier pedido puntual futuro se cotice con un criterio único y verificable, y no una cifra dada al momento.</p>
+          <p class="tarifa-sub-h">Domótica, Seguridad y Redes (mano de obra por dispositivo)</p>
+          <table class="tarifa-table">
+        <tr class="tarifa-cat"><td colspan="2">Accesos y Cerraduras</td></tr>
+        <tr><td>Accesorio genérico de acceso (hub Zigbee, etc.)</td><td>USD 28</td></tr>
+        <tr><td>Caja de conexión / gabinete de acceso</td><td>USD 24</td></tr>
+        <tr><td>Cerradura digital retrofit (Yale/EZVIZ/Astrotool)</td><td>USD 100</td></tr>
+        <tr><td>Cerradura digital en puerta de chapa</td><td>USD 110</td></tr>
+        <tr><td>Cerradura digital en puerta de madera</td><td>USD 100</td></tr>
+        <tr><td>Controladora de acceso</td><td>USD 70</td></tr>
+        <tr><td>Control de acceso cableado completo (maglock + herraje + fuente + batería + lector)</td><td>USD 135</td></tr>
+        <tr><td>Portero eléctrico audio/video</td><td>USD 118</td></tr>
+        <tr><td>Motor/actuador de puerta o portón</td><td>USD 95</td></tr>
+        <tr><td>Accesorio mecánico de puerta (door closer, etc.)</td><td>USD 18</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Alarma</td></tr>
+        <tr><td>Accesorio genérico de alarma</td><td>USD 18</td></tr>
+        <tr><td>Central de alarma (panel)</td><td>USD 85</td></tr>
+        <tr><td>Repetidor de señal de alarma</td><td>USD 28</td></tr>
+        <tr><td>Sensor de alarma (puerta/ventana/movimiento)</td><td>USD 28</td></tr>
+        <tr><td>Sirena (interior o exterior)</td><td>USD 50</td></tr>
+        <tr><td>Teclado de alarma</td><td>USD 54</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Audio y Video</td></tr>
+        <tr><td>Amplificador (montaje en rack + configuración)</td><td>USD 65</td></tr>
+        <tr><td>Parlante fijo (embutir/barra/soporte)</td><td>USD 40</td></tr>
+        <tr><td>Proyector (montaje + cableado + calibración)</td><td>USD 85</td></tr>
+        <tr><td>Montaje de TV (soporte + cableado oculto)</td><td>USD 63</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Cajas Fuertes</td></tr>
+        <tr><td>Instalación / anclaje caja fuerte biométrica o buzón</td><td>USD 47</td></tr>
+        <tr><td>Instalación / anclaje caja fuerte medium / laptop</td><td>USD 41</td></tr>
+        <tr><td>Instalación / anclaje caja fuerte mini</td><td>USD 35</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Climatización</td></tr>
+        <tr><td>Sensibo por split (montaje + configuración, no incluye el aire)</td><td>USD 31</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Domótica</td></tr>
+        <tr><td>Botonera / keypad de escenas</td><td>USD 60</td></tr>
+        <tr><td>Central / hub domótica (Control4, Home Assistant)</td><td>USD 85</td></tr>
+        <tr><td>Dimmer Gen4</td><td>USD 60</td></tr>
+        <tr><td>Módulo relé/dimmer DIN en tablero (armado + cableado, por módulo)</td><td>USD 96</td></tr>
+        <tr><td>Shelly Wall Display 4"/XL</td><td>USD 70</td></tr>
+        <tr><td>Medidor de consumo / energía</td><td>USD 50</td></tr>
+        <tr><td>Shelly multicircuito 2PM / i4</td><td>USD 70</td></tr>
+        <tr><td>Sensor de movimiento / presencia / puerta-ventana</td><td>USD 28</td></tr>
+        <tr><td>Shelly simple 1PM Mini</td><td>USD 50</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Iluminación</td></tr>
+        <tr><td>Accesorio de iluminación (driver/riel)</td><td>USD 18</td></tr>
+        <tr><td>Artefacto colgante liviano</td><td>USD 40</td></tr>
+        <tr><td>Artefacto colgante pesado / grande</td><td>USD 60</td></tr>
+        <tr><td>Artefacto simple (aplique/bombilla)</td><td>USD 25</td></tr>
+        <tr><td>Salida / enchufe de iluminación exterior</td><td>USD 27</td></tr>
+        <tr><td>Plafón embutido en cielorraso</td><td>USD 40</td></tr>
+        <tr><td>Tira LED en perfil de aluminio</td><td>USD 27</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Infraestructura (Rack / UPS)</td></tr>
+        <tr><td>Punto de rack (terminación de equipo instalado/cableado)</td><td>USD 10</td></tr>
+        <tr><td>Armado y organización completa de rack</td><td>USD 96</td></tr>
+        <tr><td>Instalación y cableado de UPS</td><td>USD 76</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Redes</td></tr>
+        <tr><td>Antena exterior / PtP (montaje en altura + alineación)</td><td>USD 85</td></tr>
+        <tr><td>Access Point WiFi (montaje + cable + configuración)</td><td>USD 28</td></tr>
+        <tr><td>Cableado estructurado, por punto (UTP + conector)</td><td>USD 40</td></tr>
+        <tr><td>Fibra óptica, empalme/fusión por punto</td><td>USD 54</td></tr>
+        <tr><td>Tendido de fibra óptica por metro (en bandeja)</td><td>USD 9</td></tr>
+        <tr><td>Tendido de fibra óptica por metro (en caño/ducto existente)</td><td>USD 1</td></tr>
+        <tr><td>Tendido de fibra óptica por metro (valor de referencia)</td><td>USD 8</td></tr>
+        <tr><td>Tendido de fibra óptica por metro (con zanjeo)</td><td>USD 14</td></tr>
+        <tr><td>Router (configuración WAN/LAN/firewall)</td><td>USD 55</td></tr>
+        <tr><td>Switch de red (montaje + configuración)</td><td>USD 70</td></tr>
+        <tr class="tarifa-cat"><td colspan="2">Videovigilancia</td></tr>
+        <tr><td>Accesorio de videovigilancia (fuente/splitter/cableado)</td><td>USD 18</td></tr>
+        <tr><td>Cámara IP con canalización</td><td>USD 107</td></tr>
+        <tr><td>Cámara IP en superficie</td><td>USD 75</td></tr>
+        <tr><td>Instalación de disco en NVR/DVR</td><td>USD 12</td></tr>
+        <tr><td>Instalación de DVR (coaxial)</td><td>USD 55</td></tr>
+        <tr><td>Instalación de NVR (red + almacenamiento)</td><td>USD 60</td></tr>
+          </table>
+          <p class="tarifa-sub-h">Obra eléctrica (base AAIE/EPAC — valor de Boca Completa)</p>
+          <table class="tarifa-table">
+        <tr><td>Iluminación de uso general (IUG) — boca completa</td><td>USD 35 <span class="unidad">por boca</span></td></tr>
+        <tr><td>Tomas de uso general (TUG) — boca completa</td><td>USD 35 <span class="unidad">por boca</span></td></tr>
+        <tr><td>Llaves de control de iluminación (LL) — boca completa</td><td>USD 35 <span class="unidad">por boca</span></td></tr>
+        <tr><td>Circuitos (CIR)</td><td>USD 35 <span class="unidad">por circuito</span></td></tr>
+        <tr><td>Tomas de uso especial (TUE)</td><td>USD 42 <span class="unidad">por boca</span></td></tr>
+        <tr><td>Tomas de señales débiles (TSD)</td><td>USD 42 <span class="unidad">por boca</span></td></tr>
+        <tr><td>Circuito de alimentación de carga única (ACU)</td><td>USD 42 <span class="unidad">por circuito</span></td></tr>
+        <tr><td>Jornal de medio oficial</td><td>USD 27 <span class="unidad">por jornal</span></td></tr>
+        <tr><td>Canaleteado en piso de hormigón</td><td>USD 7 <span class="unidad">por metro</span></td></tr>
+        <tr><td>Bandejas portacables</td><td>USD 12 <span class="unidad">por metro</span></td></tr>
+          </table>
+          <p class="note-flag">La Boca Completa se abona en tres etapas (60% canalización y amurado · 30% cableado reglamentario · 10% conexión de módulos/portalámparas), igual que el resto de la obra eléctrica de La Deseada. Los valores no incluyen materiales ni el equipo domótica/seguridad — solo mano de obra de instalación. Programación y comisionado, cuando corresponde, se cobra aparte al 10% de equipo con IVA + mano de obra.</p>
+        </div></div>
       </div>
     </div>
   </div>
