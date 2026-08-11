@@ -200,8 +200,21 @@ table.detalle tr.subtotal td{font-weight:700; border-top:1px solid rgba(200,169,
 .pill{padding:9px 16px; border-radius:20px; border:1px solid rgba(200,169,110,.35); font-size:12.5px; min-height:38px; display:flex; align-items:center;}
 .pill.fixed{background:var(--gold); color:var(--navy-deep); font-weight:600; cursor:default;}
 .pill:not(.fixed):hover{border-color:var(--gold);}
-.brand-detail{margin-top:16px; padding:16px; border-left:3px solid var(--gold); background:rgba(200,169,110,.05); border-radius:0 8px 8px 0; font-size:13.5px; display:none;}
-.brand-detail.show{display:block;}
+.brand-slider{display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; padding:6px 4px 16px; margin-top:10px; -webkit-overflow-scrolling:touch;}
+.brand-slider::-webkit-scrollbar{height:6px;}
+.brand-slider::-webkit-scrollbar-thumb{background:rgba(200,169,110,.4); border-radius:3px;}
+.brand-card{scroll-snap-align:start; flex:0 0 auto; width:260px; background:rgba(255,255,255,.03); border:1px solid rgba(200,169,110,.25); border-radius:14px; padding:18px;}
+.section-light .brand-card{background:rgba(20,30,97,.04);}
+.brand-card h4{font-family:var(--font-display); font-size:12.5px; letter-spacing:1.5px; color:var(--gold); text-transform:uppercase; margin-bottom:8px;}
+.brand-card p{font-size:12.5px; color:var(--grey); line-height:1.5;}
+.section-light .brand-card p{color:#5d6078;}
+.brand-video-toggle{margin-top:10px; font-size:12px; color:var(--gold); cursor:pointer; display:inline-flex; align-items:center; gap:6px; min-height:32px;}
+.brand-video-wrap{margin-top:10px; border-radius:8px; overflow:hidden;}
+.brand-video-wrap iframe{width:100%; aspect-ratio:16/9; display:block; border:none;}
+.slide-hint{font-size:11.5px; color:var(--grey); margin-top:8px; display:flex; align-items:center; gap:6px; animation:hint-pulse 2.6s ease-in-out infinite;}
+.section-light .slide-hint{color:#5d6078;}
+@keyframes hint-pulse{0%,100%{opacity:.6;} 50%{opacity:1;}}
+@media (prefers-reduced-motion: reduce){.slide-hint{animation:none;}}
 
 /* CASOS DE EXITO */
 .casos-grid{display:grid; grid-template-columns:1fr; gap:18px; margin-top:24px;}
@@ -617,18 +630,12 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   </div>
 
   <h3 style="margin-top:40px; margin-bottom:6px;">Las marcas detrás de la propuesta</h3>
-  <p class="lead" style="font-size:13.5px;">Tocá cada una para ver por qué la elegimos.</p>
-  <div class="pills">
+  <div class="pills" style="margin-top:12px;">
     <div class="pill fixed">Nova Domus</div>
     <div class="pill fixed">CEDIA Member</div>
-    <div class="pill" onclick="showBrand('shelly')">Shelly</div>
-    <div class="pill" onclick="showBrand('hikvision')">Hikvision</div>
-    <div class="pill" onclick="showBrand('omada')">TP-Link Omada</div>
-    <div class="pill" onclick="showBrand('ha')">Home Assistant</div>
-    <div class="pill" onclick="showBrand('ezviz')">EZVIZ</div>
-    <div class="pill" onclick="showBrand('sensibo')">Sensibo</div>
   </div>
-  <div class="brand-detail" id="brand-detail"></div>
+  <p class="slide-hint">👉 Deslizá para ver cada marca y su video</p>
+  <div class="brand-slider" id="brand-slider"></div>
 
   <p style="margin-top:24px; font-size:13.5px;"><strong>Garantía:</strong> 12 meses sobre instalación y programación desde la entrega documentada del sistema.</p>
 </section>
@@ -1041,20 +1048,37 @@ function updateCortina(v){
   document.getElementById('cortina-panel-der').style.width = (50 - abierto/2) + '%';
 }
 
-// ===== RESPALDO =====
+// ===== RESPALDO — menú deslizable por marca, con video real de marcas_respaldo =====
 const BRANDS = {
-  shelly: "Referente europeo en dispositivos WiFi/Zigbee de domótica de bajo perfil. Lo elegimos por su compatibilidad nativa con Home Assistant y su relación calidad/precio en volumen.",
-  hikvision: "Uno de los fabricantes de videovigilancia más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense/ColorVU y el soporte técnico local de nuestro proveedor.",
-  omada: "Línea profesional de TP-Link para redes gestionadas. La elegimos porque separa tráfico de invitados del de domótica/seguridad sin la complejidad de un stack enterprise.",
-  ha: "Plataforma de domótica de código abierto, sin ataduras a un fabricante. La elegimos porque el cliente es dueño total de su sistema — nada de licencias de por vida.",
-  ezviz: "Marca con línea propia de cerraduras digitales con integración real a Home Assistant. La elegimos para Accesos porque, a diferencia de otras opciones del mercado, arma y desarma desde el mismo sistema que el resto de la casa, sin quedar aislada en una app aparte.",
-  sensibo: "Especialista en climatización inteligente retrofit — se instala sobre el aire acondicionado que ya tenés. La elegimos por su sensor de temperatura ambiente real y su integración directa con Home Assistant.",
+  shelly: {label:'Shelly', video:'tBUUtSxykeA', desc:'Fabricante europeo de relés y módulos de domótica WiFi/Zigbee, pensados para retrofit sobre instalación eléctrica existente. Lo elegimos por su integración estable con Home Assistant y su buena disponibilidad de repuestos en el mercado local.'},
+  hikvision: {label:'Hikvision', video:'J3ermaYlDv4', desc:'Uno de los fabricantes de videovigilancia y seguridad más grandes del mundo. Trabajamos con su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.'},
+  omada: {label:'TP-Link Omada', video:'bj3jae3osRo', desc:'Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de domótica/seguridad del de invitados desde un solo controlador.'},
+  ha: {label:'Home Assistant', video:'p07oNkemrDk', desc:'Sistema de automatización de código abierto, con soporte para miles de dispositivos de distintos fabricantes. Corre local, en la vivienda — no depende de un servidor en la nube de un tercero para seguir funcionando. Lo elegimos porque no ata al cliente a una sola marca.'},
+  ezviz: {label:'EZVIZ', video:'CJcFcPFIqcM', desc:'Marca de dispositivos inteligentes para el segmento residencial, del mismo grupo que Hikvision. La usamos en cerraduras y cámaras de entrada, para proyectos con foco explícito en costo sin resignar calidad básica.'},
+  sensibo: {label:'Sensibo', video:'gRa6Vb89U6E', desc:'Fabricante especializado en climatización inteligente para aires acondicionados split ya instalados. Lo elegimos porque suma sensor de presencia real — algo que el control remoto de fábrica del aire no tiene.'},
 };
-function showBrand(key){
-  const el = document.getElementById('brand-detail');
-  el.textContent = BRANDS[key];
-  el.classList.add('show');
+function renderBrandSlider(){
+  const el = document.getElementById('brand-slider');
+  el.innerHTML = Object.entries(BRANDS).map(([key,b])=>`
+    <div class="brand-card">
+      <h4>${b.label}</h4>
+      <p>${b.desc}</p>
+      <div class="brand-video-toggle" onclick="toggleBrandVideo('${key}')" id="bt-${key}">▶ Ver video</div>
+      <div class="brand-video-wrap" id="bv-${key}"></div>
+    </div>`).join('');
 }
+function toggleBrandVideo(key){
+  const wrap = document.getElementById('bv-'+key);
+  const toggle = document.getElementById('bt-'+key);
+  const isOpen = wrap.innerHTML.length > 0;
+  document.querySelectorAll('.brand-video-wrap').forEach(w=>w.innerHTML='');
+  document.querySelectorAll('.brand-video-toggle').forEach(t=>t.textContent='▶ Ver video');
+  if(!isOpen){
+    wrap.innerHTML = `<iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${BRANDS[key].video}" title="${BRANDS[key].label}" allowfullscreen></iframe>`;
+    toggle.textContent = '▲ Ocultar video';
+  }
+}
+renderBrandSlider();
 
 // ===== FAQ =====
 const FAQS = [
