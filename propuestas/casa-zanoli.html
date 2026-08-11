@@ -276,7 +276,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión total</div>
-      <div class="rc-value">USD 16.309</div>
+      <div class="rc-value">USD 16.294</div>
       <div class="rc-sub">Con crédito por equipos ya facturados en 2025 — ver Anexo</div>
     </div>
     <div class="resumen-card">
@@ -439,7 +439,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section" id="accesos">
   <span class="eyebrow">07 — Accesos</span>
   <h2>Quién entra, cuándo y cómo</h2>
-  <p class="lead">Cerraduras digitales Yale en 5 puntos: 3 en las puertas de acceso principal, 2 cerrojos más económicos en despensa y vestidor. Una aclaración honesta: en Argentina, Yale no tiene integración real a Home Assistant pese a que el kit incluye un HUB WiFi — la administración es siempre standalone, desde la app propia, PIN o tarjeta.</p>
+  <p class="lead">Cerraduras digitales EZVIZ en 5 puntos: 1 con cámara integrada + 3 con pasador y multilock en las puertas de acceso principal, y 1 de aplicar por huella en despensa/vestidor. A diferencia de otras marcas, EZVIZ sí tiene integración real a Home Assistant — arma, desarma y consulta estado desde el mismo sistema que el resto de la casa.</p>
   <div class="device-grid" id="grid-accesos"></div>
 </section>
 
@@ -574,7 +574,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <div class="pill" onclick="showBrand('hikvision')">Hikvision</div>
     <div class="pill" onclick="showBrand('omada')">TP-Link Omada</div>
     <div class="pill" onclick="showBrand('ha')">Home Assistant</div>
-    <div class="pill" onclick="showBrand('yale')">Yale</div>
+    <div class="pill" onclick="showBrand('ezviz')">EZVIZ</div>
     <div class="pill" onclick="showBrand('sensibo')">Sensibo</div>
   </div>
   <div class="brand-detail" id="brand-detail"></div>
@@ -683,8 +683,9 @@ const DEVICES = {
     {n:'Disco Skyhawk 4TB', qTotal:1, qCargo:1, pu:252.67, iva:10.5, foto:null, desc:'Diseñado para grabación continua 24/7.'},
   ],
   accesos: [
-    {n:'Yale KIT YMC 420 Mortise + HUB (puertas principales)', qTotal:3, qCargo:3, pu:337.21, iva:21, foto:null, desc:'Las 3 puertas de acceso principal — administración standalone (app propia/PIN/tarjeta), sin integración a Home Assistant en Argentina.'},
-    {n:'Yale KIT YRD 256 + HUB (cerrojos internos)', qTotal:2, qCargo:2, pu:190.90, iva:21, foto:null, desc:'Despensa y vestidor — cerrojo digital más económico sobre la cerradura tradicional, misma app que las principales.'},
+    {n:'EZVIZ CS-DL50FVS-R101-WBP-GR (cámara integrada, sin manija)', qTotal:1, qCargo:1, pu:635.25, iva:21, foto:null, desc:'Puerta de acceso principal — cerradura con cámara propia integrada, sin manija exterior, con integración real a Home Assistant.'},
+    {n:'EZVIZ DL05 con pasador (multilock)', qTotal:3, qCargo:3, pu:204.33, iva:21, foto:null, desc:'Puertas de acceso principal — viene con pasador, cerrojo multilock y perilla interior para trabar los cerrojos. Integración real a Home Assistant.'},
+    {n:'EZVIZ DL03 (huella, de aplicar)', qTotal:1, qCargo:1, pu:128.65, iva:21, foto:null, desc:'Despensa o vestidor — cerradura de aplicar por huella dactilar, integración real a Home Assistant.'},
   ],
   redes: [
     {n:'Router Omada ER605', qTotal:1, qCargo:1, pu:66.46, iva:10.5, foto:null, desc:'Router Omada Gigabit VPN — reemplaza al ER7212PC, discontinuado por el fabricante.'},
@@ -758,7 +759,7 @@ function fmt2(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigit
 // Mano de obra: ajuste manual para este proyecto puntual (target +20% s/presupuesto Feb 2025,
 // sin el método de Tarifario ND estricto). Ya incluye la instalación de los kits de seguridad
 // de circulación (no es una línea aparte). Cerraduras siempre aparte, nunca en este cálculo.
-const MO_DOMOTICA = 4056.42;
+const MO_DOMOTICA = 4058.84;
 const MO_CERRADURAS = 500.00;
 
 function calcularTotales(){
@@ -963,7 +964,7 @@ const BRANDS = {
   hikvision: "Uno de los fabricantes de videovigilancia más grandes del mundo. Lo elegimos por la solidez de su línea AcuSense/ColorVU y el soporte técnico local de nuestro proveedor.",
   omada: "Línea profesional de TP-Link para redes gestionadas. La elegimos porque separa tráfico de invitados del de domótica/seguridad sin la complejidad de un stack enterprise.",
   ha: "Plataforma de domótica de código abierto, sin ataduras a un fabricante. La elegimos porque el cliente es dueño total de su sistema — nada de licencias de por vida.",
-  yale: "Referente global en cerraduras digitales. La elegimos por la robustez de sus kits de embutir — la administración en Argentina es standalone (app propia, PIN o tarjeta), sin depender de un puente a Home Assistant.",
+  ezviz: "Marca con línea propia de cerraduras digitales con integración real a Home Assistant. La elegimos para Accesos porque, a diferencia de otras opciones del mercado, arma y desarma desde el mismo sistema que el resto de la casa, sin quedar aislada en una app aparte.",
   sensibo: "Especialista en climatización inteligente retrofit — se instala sobre el aire acondicionado que ya tenés. La elegimos por su sensor de temperatura ambiente real y su integración directa con Home Assistant.",
 };
 function showBrand(key){
