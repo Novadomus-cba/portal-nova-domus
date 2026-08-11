@@ -166,6 +166,23 @@ img,svg{max-width:100%;}
 .dc-desc{color:var(--grey); font-size:12.5px; flex:1; min-width:160px;}
 .section-light .dc-desc{color:#5d6078;}
 
+/* HERO DEVICE CARD — foto grande, tratamiento premium (Sonido) */
+.hero-grid{display:grid; grid-template-columns:1fr; gap:18px; margin:20px 0;}
+@media(min-width:700px){.hero-grid{grid-template-columns:repeat(2,1fr);}}
+.hero-card{background:rgba(255,255,255,.03); border-radius:14px; overflow:hidden; border:1px solid rgba(200,169,110,.15);}
+.section-light .hero-card{background:rgba(20,30,97,.05);}
+.hero-photo-wrap{width:100%; aspect-ratio:4/3; overflow:hidden; background:linear-gradient(135deg,rgba(200,169,110,.08),rgba(11,19,43,.4));}
+.hero-photo-wrap img{width:100%; height:100%; object-fit:cover; display:block;}
+.hero-photo-placeholder{width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--gold); font-size:12px; letter-spacing:.5px;}
+.hero-photo-placeholder .hpp-icon{font-size:34px; opacity:.7;}
+.hero-body{padding:16px 18px 18px;}
+.hero-body .hb-name{font-weight:600; color:var(--cream); font-size:14.5px; margin-bottom:4px;}
+.section-light .hero-body .hb-name{color:var(--navy-deep);}
+.hero-body .hb-qty{color:var(--gold); font-size:11.5px; font-weight:600; margin-bottom:8px;}
+.section-light .hero-body .hb-qty{color:var(--navy);}
+.hero-body .hb-desc{color:var(--grey); font-size:12.5px; line-height:1.5;}
+.section-light .hero-body .hb-desc{color:#5d6078;}
+
 .barra-segmentada{display:flex; height:14px; border-radius:7px; overflow:hidden; margin:20px 0 24px;}
 .accordion-item{border-bottom:1px solid rgba(255,255,255,.1);}
 .section-light .accordion-item{border-bottom:1px solid rgba(20,30,97,.12);}
@@ -395,11 +412,10 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="value-box" id="living-detail"></div>
 
   <h3 style="margin-top:36px; margin-bottom:12px;">Equipo — Galería (fijo)</h3>
-  <div class="device-grid" id="grid-galeria"></div>
+  <div class="hero-grid" id="grid-galeria"></div>
 
   <h3 style="margin-top:28px; margin-bottom:12px;">Equipo — Living (según opción elegida)</h3>
-  <div class="hint-line"><span class="hp">👆</span> Tocá cada equipo para ver el detalle.</div>
-  <div class="device-grid" id="grid-living"></div>
+  <div class="hero-grid" id="grid-living"></div>
 </section>
 
 <!-- INVERSION -->
@@ -575,8 +591,8 @@ const LIVING_OPTIONS = {
     label: 'Discreto + ambiental (Amp + embutidos)',
     tagline: 'Se pierde el efecto envolvente — instalación invisible',
     devices: [
-      {n:'Sonos Amp', q:1, pu:908.50, iva:21, foto:null, desc:'Amplificador de 2 canales con entrada HDMI ARC — conecta directo al TV del living.'},
-      {n:'Sonos In-Ceiling by Sonance 6" (Par)', q:1, pu:693.45, iva:21, foto:null, desc:'Par de parlantes embutidos en cielorraso — invisibles a simple vista, cubren tanto el TV como la música ambiental del living.'},
+      {n:'Sonos Amp', q:1, pu:908.50, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sonos-amp.jpg', desc:'Amplificador de 2 canales con entrada HDMI ARC — conecta directo al TV del living. Se ubica oculto en un mueble o rack, sin ocupar lugar visible.'},
+      {n:'Sonos In-Ceiling by Sonance 6" (Par)', q:1, pu:693.45, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sonos-in-celining-by-sonance-6-par.jpg', desc:'Par de parlantes embutidos en cielorraso — invisibles a simple vista, cubren tanto el TV como la música ambiental del living.'},
     ],
     mo: 110.20, // Amp (MO-AUD-AMP $65) + 2 puntos de embutido (2x MO-AUD-PARL $40) con 24% off
     detail: 'El mismo par de parlantes embutidos en el techo sirve para el TV y para música de fondo el resto del día — sin tener que "activar modo cine". A cambio, se pierde el efecto envolvente y de altura: es estéreo 2.0, no 5.1 con Atmos. Gana en discreción: no hay ningún equipo visible en el living.'
@@ -603,8 +619,25 @@ function renderDeviceGrid(containerId, items){
     </div>`;
   }).join('');
 }
+
+function renderHeroGrid(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(d=>{
+    const fotoHtml = d.foto
+      ? `<img src="${d.foto}" alt="${d.n}" loading="lazy">`
+      : `<div class="hero-photo-placeholder"><span class="hpp-icon">🔊</span>Foto de producto pendiente</div>`;
+    return `<div class="hero-card">
+      <div class="hero-photo-wrap">${fotoHtml}</div>
+      <div class="hero-body">
+        <div class="hb-name">${d.n}</div>
+        <div class="hb-qty">${d.q} unidad${d.q>1?'es':''}</div>
+        <div class="hb-desc">${d.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
 renderDeviceGrid('grid-redes', DEVICES.redes);
-renderDeviceGrid('grid-galeria', GALERIA);
+renderHeroGrid('grid-galeria', GALERIA);
 
 function equipoDeArr(arr){ return arr.reduce((a,d)=>a+d.pu*d.q,0); }
 
@@ -619,7 +652,7 @@ function renderLivingOptions(){
     </div>`;
   }).join('');
   document.getElementById('living-detail').innerHTML = `<h4>${LIVING_OPTIONS[livingOption].label}</h4><p style="font-size:12.5px;">${LIVING_OPTIONS[livingOption].detail}</p>`;
-  renderDeviceGrid('grid-living', LIVING_OPTIONS[livingOption].devices);
+  renderHeroGrid('grid-living', LIVING_OPTIONS[livingOption].devices);
 }
 function setLivingOption(key){
   livingOption = key;
