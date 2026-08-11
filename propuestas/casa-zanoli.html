@@ -276,7 +276,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión total</div>
-      <div class="rc-value">USD 16.294</div>
+      <div class="rc-value">USD 16.559</div>
       <div class="rc-sub">Con crédito por equipos ya facturados en 2025 — ver Anexo</div>
     </div>
     <div class="resumen-card">
@@ -405,9 +405,35 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="device-grid" id="grid-confort"></div>
 </section>
 
+<!-- CORTINAS -->
+<section class="section section-light" id="cortinas">
+  <span class="eyebrow">05 — Cortinas</span>
+  <h2>Que la cortina te diga dónde está</h2>
+  <p class="lead">5 motores con Shelly 2PM Gen4: 2 en el vidrio en "L" del living, y 1 en estudio, 1 en habitación de invitados y 1 en la principal. La diferencia real frente a un motor por radiofrecuencia común: con Shelly, la cortina reporta su % de apertura real a Home Assistant — no es una suposición, es un dato.</p>
+
+  <div class="switch2">
+    <button class="active state-a" onclick="setCortinasView('rf')">Motor RF común</button>
+    <button class="state-b" onclick="setCortinasView('shelly')">Motor + Shelly Gen4</button>
+  </div>
+  <div class="compare-panel" id="cortinas-panel"></div>
+
+  <div id="cortinas-sim" style="margin-top:20px; border-radius:16px; overflow:hidden; border:1px solid rgba(20,30,97,.15);">
+    <div id="cortina-visual" style="height:180px; position:relative; background:linear-gradient(180deg,#BEE3F8,#EAF6FF); overflow:hidden;">
+      <div id="cortina-panel-izq" style="position:absolute; top:0; left:0; height:100%; width:50%; background:var(--navy); transition:width .2s ease;"></div>
+      <div id="cortina-panel-der" style="position:absolute; top:0; right:0; height:100%; width:50%; background:var(--navy); transition:width .2s ease;"></div>
+    </div>
+    <div style="padding:20px; background:rgba(20,30,97,.03);">
+      <label style="font-size:12px; color:#5d6078; display:flex; justify-content:space-between; margin-bottom:6px;"><span>Apertura</span><span id="cortina-pct-val">50%</span></label>
+      <input type="range" min="0" max="100" value="50" id="cortina-slider" oninput="updateCortina(this.value)" style="width:100%; accent-color:var(--gold); height:36px;">
+    </div>
+  </div>
+
+  <div class="device-grid" id="grid-cortinas"></div>
+</section>
+
 <!-- ALARMA -->
 <section class="section" id="alarma">
-  <span class="eyebrow">05 — Alarma</span>
+  <span class="eyebrow">06 — Alarma</span>
   <h2>Detección antes que reacción</h2>
   <p class="lead">Panel Hikvision AXPro de 48 zonas, 100% inalámbrico — la línea mandataria de Nova Domus para todo proyecto salvo indicación contraria. Antes, esta casa no tenía un sistema de alarma dedicado.</p>
 
@@ -422,7 +448,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- VIDEOVIGILANCIA -->
 <section class="section section-light" id="videovigilancia">
-  <span class="eyebrow">06 — Videovigilancia</span>
+  <span class="eyebrow">07 — Videovigilancia</span>
   <h2>Ver de verdad, no solo grabar</h2>
   <p class="lead">10 cámaras Hikvision ColorVU 3.0 con IA AcuSense — 5 exteriores (ingreso ×2, tender, quincho, patio) y 5 interiores (sala técnica, pasillo de servicio, dormitorio, pasillo principal, pasillo y cocina). Antes: 4 cámaras Dahua sin inteligencia artificial.</p>
 
@@ -437,7 +463,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- ACCESOS -->
 <section class="section" id="accesos">
-  <span class="eyebrow">07 — Accesos</span>
+  <span class="eyebrow">08 — Accesos</span>
   <h2>Quién entra, cuándo y cómo</h2>
   <p class="lead">Cerraduras digitales EZVIZ en 5 puntos: 1 con cámara integrada + 3 con pasador y multilock en las puertas de acceso principal, y 1 de aplicar por huella en despensa/vestidor. A diferencia de otras marcas, EZVIZ sí tiene integración real a Home Assistant — arma, desarma y consulta estado desde el mismo sistema que el resto de la casa.</p>
   <div class="device-grid" id="grid-accesos"></div>
@@ -445,7 +471,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- REDES -->
 <section class="section section-light" id="redes">
-  <span class="eyebrow">08 — Redes</span>
+  <span class="eyebrow">09 — Redes</span>
   <h2>La base de todo lo demás</h2>
   <p class="lead">Router Omada + controlador de hardware dedicado, switch gestionable de 24 puertos PoE+ (alimenta cámaras y APs sin fuentes sueltas) y 2 access points WiFi6 indoor. Sin una red sólida, nada de lo que sigue funciona bien.</p>
 
@@ -460,7 +486,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- CORE -->
 <section class="section" id="core">
-  <span class="eyebrow">09 — Core</span>
+  <span class="eyebrow">10 — Core</span>
   <h2>El corazón del sistema</h2>
   <p class="lead">Home Assistant es el cerebro que orquesta iluminación, confort, seguridad y accesos en un solo lugar — sin depender de la nube para funcionar día a día. El Wall Display XL va en el ingreso principal.</p>
   <div class="device-grid" id="grid-core"></div>
@@ -468,7 +494,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- ANEXO — EQUIPOS YA FACTURADOS -->
 <section class="section section-light" id="anexo">
-  <span class="eyebrow">10 — Anexo: actualización y equipos ya saldados</span>
+  <span class="eyebrow">11 — Anexo: actualización y equipos ya saldados</span>
   <h2>Lo que ya pagaste, no lo volvés a pagar</h2>
   <p class="lead">En agosto de 2025 nos compraste un primer lote de equipos Shelly (Factura B 0001-00000114). Ese lote sigue en tu poder, sin instalar. El acuerdo fue simple: si había que actualizar de generación 3 a generación 4, nosotros tomamos lo viejo y te entregamos lo nuevo, sin cobrarte de nuevo el equipo.</p>
 
@@ -486,7 +512,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- INVERSION -->
 <section class="section section-light" id="inversion">
-  <span class="eyebrow">10-bis — Inversión</span>
+  <span class="eyebrow">11-bis — Inversión</span>
   <h2>Desglose completo</h2>
   <p class="lead">Por sistema, con el detalle cuantitativo de cada dispositivo — ya reflejando el crédito del anexo de arriba. Tocá cada rubro para ver la tabla completa.</p>
 
@@ -504,7 +530,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- COMPARATIVA DETALLADA CON PRECIOS -->
 <section class="section" id="comparativa">
-  <span class="eyebrow">11 — Comparativa detallada</span>
+  <span class="eyebrow">12 — Comparativa detallada</span>
   <h2>Feb 2025 vs. hoy, dispositivo por dispositivo</h2>
   <p class="lead">Solo equipo (la mano de obra se calculó con otro método en cada momento, no es comparable línea a línea). Los equipos tecnológicos — cámaras con IA embebida, grabadores, redes — vienen absorbiendo aumentos en dólares muy por encima de cualquier otro rubro de la construcción, empujados por la demanda global de hardware para IA. Parte de las subas de abajo también son upgrade real de prestaciones, no solo precio — y no es una regla pareja para todo: Redes, por ejemplo, bajó porque el equipo original se discontinuó y el reemplazo salió más barato.</p>
 
@@ -525,7 +551,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- FORMA DE PAGO -->
 <section class="section" id="pago">
-  <span class="eyebrow">12 — Forma de pago</span>
+  <span class="eyebrow">13 — Forma de pago</span>
   <h2>Simple y por etapas</h2>
   <p class="lead">Equipos 100% por anticipado (asegura la compra e importación). Mano de obra en dos partes: 30% al arrancar la obra, 70% al terminar, contra entrega de documentación.</p>
 
@@ -543,7 +569,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- RESPALDO -->
 <section class="section" id="respaldo">
-  <span class="eyebrow">13 — Respaldo</span>
+  <span class="eyebrow">14 — Respaldo</span>
   <h2>Ya lo hicimos antes</h2>
   <p class="lead">Dos proyectos recientes con el mismo criterio: un solo responsable, de la caja de luz a la app.</p>
 
@@ -584,14 +610,14 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- FAQ -->
 <section class="section section-light" id="faq">
-  <span class="eyebrow">14 — Preguntas frecuentes</span>
+  <span class="eyebrow">15 — Preguntas frecuentes</span>
   <h2>Antes de que preguntes</h2>
   <div id="faq-list"></div>
 </section>
 
 <!-- CTA -->
 <section class="section" id="cta">
-  <span class="eyebrow">15 — Siguiente paso</span>
+  <span class="eyebrow">16 — Siguiente paso</span>
   <h2>¿Avanzamos?</h2>
   <p class="lead" style="margin:0 auto;">Confirmá la propuesta y coordinamos el inicio de instalación.</p>
   <div class="accept-check">
@@ -603,7 +629,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- CONDICIONES GENERALES -->
 <section class="section" id="condiciones">
-  <span class="eyebrow">16 — Condiciones generales</span>
+  <span class="eyebrow">17 — Condiciones generales</span>
   <h2>Cómo trabajamos</h2>
   <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
   <div id="condiciones-list"></div>
@@ -705,6 +731,10 @@ const DEVICES = {
     {n:'Organizador de cable', qTotal:2, qCargo:2, pu:8.54, iva:21, foto:null, desc:'Prolijidad y mantenimiento futuro.'},
     {n:'UPS Eaton Interactiva 2000VA', qTotal:1, qCargo:1, pu:184.78, iva:10.5, foto:null, desc:'El sistema sigue funcionando durante un corte de luz, y se apaga de forma ordenada.'},
   ],
+  cortinas: [
+    {n:'Shelly 2PM Gen4 (vidrio en L, living)', qTotal:2, qCargo:2, pu:53.24, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg', desc:'Los dos paños del vidrio en L del living, comandados por separado.'},
+    {n:'Shelly 2PM Gen4 (estudio, invitados, principal)', qTotal:3, qCargo:3, pu:53.24, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg', desc:'Uno por ambiente: estudio, habitación de invitados y habitación principal.'},
+  ],
 };
 
 function renderDeviceGrid(containerId, key){
@@ -729,7 +759,7 @@ function renderDeviceGrid(containerId, key){
     </div>`;
   }).join('');
 }
-['iluminacion','confort','alarma','video','accesos','redes','core'].forEach(k=>renderDeviceGrid('grid-'+k, k));
+['iluminacion','confort','cortinas','alarma','video','accesos','redes','core'].forEach(k=>renderDeviceGrid('grid-'+k, k));
 
 function toggleDevice(id){
   const card = document.getElementById(id);
@@ -743,6 +773,7 @@ function toggleDevice(id){
 const RUBROS = [
   {id:'iluminacion', label:'Iluminación', color:'#C8A96E'},
   {id:'confort', label:'Confort', color:'#7089A9'},
+  {id:'cortinas', label:'Cortinas', color:'#9AAAC7'},
   {id:'video', label:'Videovigilancia', color:'#8698AE'},
   {id:'alarma', label:'Alarma', color:'#B5453A'},
   {id:'accesos', label:'Accesos', color:'#4F6380'},
@@ -759,7 +790,7 @@ function fmt2(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigit
 // Mano de obra: ajuste manual para este proyecto puntual (target +20% s/presupuesto Feb 2025,
 // sin el método de Tarifario ND estricto). Ya incluye la instalación de los kits de seguridad
 // de circulación (no es una línea aparte). Cerraduras siempre aparte, nunca en este cálculo.
-const MO_DOMOTICA = 4058.84;
+const MO_DOMOTICA = 4033.73;
 const MO_CERRADURAS = 500.00;
 
 function calcularTotales(){
@@ -879,7 +910,7 @@ function updateConfort(v){
 // ===== COMPARATIVAS SWITCH =====
 function setConfortView(view){
   document.querySelectorAll('#confort .switch2 button').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(typeof event!=='undefined' && event && event.target) event.target.classList.add('active');
   const panel = document.getElementById('confort-panel');
   if(view==='sin'){
     panel.innerHTML = `<ul>
@@ -899,7 +930,7 @@ function setConfortView(view){
 }
 function setAlarmaView(view){
   document.querySelectorAll('#alarma .switch2 button').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(typeof event!=='undefined' && event && event.target) event.target.classList.add('active');
   const panel = document.getElementById('alarma-panel');
   if(view==='comun'){
     panel.innerHTML = `<ul>
@@ -919,7 +950,7 @@ function setAlarmaView(view){
 }
 function setVideoView(view){
   document.querySelectorAll('#videovigilancia .switch2 button').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(typeof event!=='undefined' && event && event.target) event.target.classList.add('active');
   const panel = document.getElementById('video-panel');
   if(view==='comun'){
     panel.innerHTML = `<ul>
@@ -939,7 +970,7 @@ function setVideoView(view){
 }
 function setRedesView(view){
   document.querySelectorAll('#redes .switch2 button').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(typeof event!=='undefined' && event && event.target) event.target.classList.add('active');
   const panel = document.getElementById('redes-panel');
   if(view==='generico'){
     panel.innerHTML = `<ul>
@@ -956,6 +987,33 @@ function setRedesView(view){
       <li class="yes">VPN incluida para acceso remoto seguro</li>
     </ul>`;
   }
+}
+
+function setCortinasView(view){
+  document.querySelectorAll('#cortinas .switch2 button').forEach(b=>b.classList.remove('active'));
+  if(typeof event!=='undefined' && event && event.target) event.target.classList.add('active');
+  const panel = document.getElementById('cortinas-panel');
+  if(view==='rf'){
+    panel.innerHTML = `<ul>
+      <li class="no">No reporta el % de apertura real — Home Assistant no sabe si quedó a medio abrir</li>
+      <li class="no">Comando por radiofrecuencia, sin confirmación de estado</li>
+      <li class="no">No se puede calibrar una apertura parcial precisa</li>
+      <li class="no">Sin integración real al resto de las escenas de la casa</li>
+    </ul>`;
+  } else {
+    panel.innerHTML = `<ul>
+      <li class="yes">Reporta el % de apertura real, en todo momento</li>
+      <li class="yes">Se puede calibrar y pedir un % exacto (ej. "40% abierta")</li>
+      <li class="yes">Integrado a Home Assistant — entra en las mismas escenas que luces y clima</li>
+      <li class="yes">Pulsador físico de línea 2 hilos, sin depender solo del celular</li>
+    </ul>`;
+  }
+}
+function updateCortina(v){
+  document.getElementById('cortina-pct-val').textContent = v+'%';
+  const abierto = v; // % abierta = cuánto se retiran los paños hacia los costados
+  document.getElementById('cortina-panel-izq').style.width = (50 - abierto/2) + '%';
+  document.getElementById('cortina-panel-der').style.width = (50 - abierto/2) + '%';
 }
 
 // ===== RESPALDO =====
@@ -1031,6 +1089,8 @@ setConfortView('sin');
 setAlarmaView('comun');
 setVideoView('comun');
 setRedesView('generico');
+setCortinasView('rf');
+updateCortina(50);
 updateConfort(24);
 </script>
 </body>
