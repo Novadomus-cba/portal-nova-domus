@@ -7,6 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/logo/nova-domus-isologo-monocromo-navy.svg" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth-bridge.js"></script>
+  <script src="finance-utils.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 
@@ -779,21 +780,68 @@
     `).join('');
   }
 
-  function renderFinanciero(rows) {
+  // Calcula todo el bloque financiero en el cliente (Opcion B, confirmada por
+  // Agustin) -- no depende de panel_financiero_resumen ni de ninguna tarea
+  // programada. addBusinessDays/calcularSemaforoFinanciero/netoEnVentana viven
+  // en finance-utils.js, compartido con contable.html para que el criterio de
+  // dias habiles/semaforo no se desincronice entre los dos.
+  function computeFinanciero(cuenta, movimientos, chequesEmitidosPendientes, hoyISO) {
+    if (!cuenta || !movimientos.length) return null;
+    const saldoActual = Number(movimientos[0].saldo);
+    const neto30 = netoEnVentana(movimientos, 30, hoyISO);
+    const neto60 = netoEnVentana(movimientos, 60, hoyISO);
+    const neto90 = netoEnVentana(movimientos, 90, hoyISO);
+    const semaforoInfo = calcularSemaforoFinanciero(saldoActual, chequesEmitidosPendientes, hoyISO);
+    const referencia15d = chequesEmitidosPendientes.filter(c => c.fecha_efectivo > semaforoInfo.limiteVentana2dFecha);
+    return { saldoActual, neto30, neto60, neto90, semaforoInfo, referencia15d };
+  }
+
+  function renderChequesVentana(rows, titulo) {
+    if (!rows.length) return `<div class="fin-detail" style="margin-top:8px">${titulo}: sin cheques.</div>`;
+    return `
+      <div class="fin-detail" style="margin-top:8px;margin-bottom:4px">${titulo}:</div>
+      ${rows.map(c => `
+        <div class="cheque-row">
+          <span>↗ ${c.beneficiario_librador || ''}${c.certeza ? ` <span class="badge ${c.certeza === 'CIERTO' ? 'badge-oportunidad' : 'badge-atencion'}">${c.certeza}</span>` : ''}</span>
+          <span>${f$(c.monto)} · ${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</span>
+        </div>
+      `).join('')}
+    `;
+  }
+
+  function toggleFinDetail() {
+    const el = document.getElementById('finDetailMore');
+    const btn = document.getElementById('finToggleBtn');
+    const isHidden = el.style.display === 'none';
+    el.style.display = isHidden ? 'block' : 'none';
+    btn.textContent = isHidden ? 'Ver menos ▴' : 'Ver más ▾';
+  }
+
+  function renderFinanciero(fin) {
     const el = document.getElementById('financieroBody');
-    if (!rows.length) {
-      el.innerHTML = '<div class="panel-card-empty">Todavía no se calculó el resumen financiero de hoy.</div>';
+    if (!fin) {
+      el.innerHTML = '<div class="panel-card-empty">Todavía no hay movimientos cargados para la cuenta principal — es el estado real, no un dato faltante.</div>';
       return;
     }
-    const r = rows[0];
-    const negativo = Number(r.saldo_actual) < 0;
+    const { saldoActual, neto30, neto60, neto90, semaforoInfo, referencia15d } = fin;
+    const negativo = saldoActual < 0;
+    const motivoRojo = semaforoInfo.semaforo === 'ROJO'
+      ? `Con los cheques que se descuentan en los próximos 2 días hábiles (hasta ${fd(semaforoInfo.limiteVentana2dFecha)}), el saldo proyectado es de ${f$(semaforoInfo.proyectado)}, por debajo del límite de descubierto de ${f$(semaforoInfo.limiteDescubierto)}.`
+      : null;
+
     el.innerHTML = `
       <div class="fin-kpi">
-        <span class="semaforo-dot semaforo-${r.semaforo}"></span>
-        <span class="fin-saldo${negativo ? ' neg' : ''}">${f$(r.saldo_actual)}</span>
+        <span class="semaforo-dot semaforo-${semaforoInfo.semaforo}"></span>
+        <span class="fin-saldo${negativo ? ' neg' : ''}">${f$(saldoActual)}</span>
       </div>
-      <div class="fin-detail">Neto 30d: <b>${f$(r.neto_30d)}</b> · 60d: <b>${f$(r.neto_60d)}</b> · 90d: <b>${f$(r.neto_90d)}</b></div>
-      ${r.movimientos_sin_clasificar ? `<div class="fin-detail" style="margin-top:6px">${r.movimientos_sin_clasificar} movimientos sin clasificar</div>` : ''}
+      ${motivoRojo ? `<div class="fin-detail" style="color:#ff8a80;margin-bottom:6px">${motivoRojo}</div>` : ''}
+      <div class="fin-detail">Neto 30d: <b>${f$(neto30)}</b></div>
+      <div id="finDetailMore" style="display:none">
+        <div class="fin-detail" style="margin-top:8px">Neto 60d: <b>${f$(neto60)}</b> · 90d: <b>${f$(neto90)}</b></div>
+        ${renderChequesVentana(semaforoInfo.chequesVentana2d, 'Cheques en la ventana de 2 días hábiles')}
+        ${referencia15d.length ? renderChequesVentana(referencia15d, 'Referencia — próximos 15 días (no afecta el semáforo)') : ''}
+      </div>
+      <button id="finToggleBtn" onclick="toggleFinDetail()" style="background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;padding:0;margin-top:8px;font-family:inherit">Ver más ▾</button>
     `;
   }
 
@@ -816,12 +864,26 @@
     const hoyMas7 = new Date();
     hoyMas7.setDate(hoyMas7.getDate() + 7);
     const hoyMas7Str = hoyMas7.toISOString().slice(0, 10);
+    const hoyMas15Str = addCalendarDays(hoy, 15);
 
-    const [agenda, inbox, financiero, cheques] = await Promise.allSettled([
+    // La cuenta principal se necesita antes para poder pedir sus movimientos,
+    // no entra en el Promise.allSettled de abajo.
+    let cuentaPrincipal = null;
+    try {
+      const cuentas = await cuadrillaGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
+      cuentaPrincipal = cuentas.find(c => c.es_cuenta_principal) || cuentas[0] || null;
+    } catch (e) {
+      console.error('No se pudo cargar cuentas_bancarias:', e);
+    }
+
+    const [agenda, inbox, cheques7d, movimientos, chequesEmitidos] = await Promise.allSettled([
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
-      cuadrillaGet('panel_financiero_resumen', `?order=fecha_calculo.desc,actualizado_en.desc&limit=1`),
       cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
+      cuentaPrincipal
+        ? cuadrillaGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.desc,created_at.desc&limit=1000&select=fecha,importe,saldo`)
+        : Promise.resolve([]),
+      cuadrillaGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas15Str}&order=fecha_efectivo.asc&select=monto,fecha_efectivo,certeza,beneficiario_librador`),
     ]);
 
     if (agenda.status === 'fulfilled') renderAgenda(agenda.value);
@@ -830,11 +892,14 @@
     if (inbox.status === 'fulfilled') renderInbox(inbox.value);
     else document.getElementById('inboxBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la bandeja.</div>';
 
-    if (financiero.status === 'fulfilled') renderFinanciero(financiero.value);
-    else document.getElementById('financieroBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el resumen financiero.</div>';
-
-    if (cheques.status === 'fulfilled') renderCheques(cheques.value);
+    if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
     else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
+
+    if (movimientos.status === 'fulfilled' && chequesEmitidos.status === 'fulfilled') {
+      renderFinanciero(computeFinanciero(cuentaPrincipal, movimientos.value, chequesEmitidos.value, hoy));
+    } else {
+      document.getElementById('financieroBody').innerHTML = '<div class="panel-card-empty">No se pudo calcular el resumen financiero.</div>';
+    }
   }
 
   async function marcarRevisado(refCodigo) {

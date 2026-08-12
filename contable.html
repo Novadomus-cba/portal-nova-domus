@@ -606,6 +606,7 @@ tr:last-child td{border-bottom:none}
 
 <div id="toast"></div>
 <script src="auth-bridge.js"></script>
+<script src="finance-utils.js"></script>
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
 const SB_URL   = 'https://voowjwzlkhdknpapkhxc.supabase.co';
@@ -1467,20 +1468,24 @@ function diaAbrev(dateStr) {
 
 async function loadPosicion() {
   try {
-    const [cuentas, financieros] = await Promise.all([
-      sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc'),
-      sbGet('panel_financiero_resumen', '?order=fecha_calculo.desc,actualizado_en.desc&limit=20'),
-    ]);
+    const hoy = today();
+    const cuentas = await sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
     cuentasBancarias = cuentas;
     const cuentaPrincipal = cuentas.find(c => c.es_cuenta_principal) || cuentas[0];
 
     let movimientosPrincipal = [];
+    let chequesEmitidosPendientes = [];
     if (cuentaPrincipal) {
-      movimientosPrincipal = await sbGet('movimientos_bancarios',
-        `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto`);
+      // Semaforo calculado en el cliente (Opcion B) -- panel_financiero_resumen
+      // ya no se escribe desde ningun lado, calcularSemaforoFinanciero vive en
+      // finance-utils.js, compartido con el mismo calculo del Home admin.
+      [movimientosPrincipal, chequesEmitidosPendientes] = await Promise.all([
+        sbGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto`),
+        sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&order=fecha_efectivo.asc&select=monto,fecha_efectivo`),
+      ]);
     }
 
-    renderPosCuentas(cuentas, financieros, movimientosPrincipal, cuentaPrincipal);
+    renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendientes, cuentaPrincipal, hoy);
     renderPosChart(movimientosPrincipal);
     renderPosCategorias(movimientosPrincipal);
     await renderPosCobros(movimientosPrincipal);
@@ -1491,18 +1496,16 @@ async function loadPosicion() {
   }
 }
 
-function renderPosCuentas(cuentas, financieros, movimientosPrincipal, cuentaPrincipal) {
+function renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendientes, cuentaPrincipal, hoy) {
   const el = document.getElementById('posCuentasList');
   if (!cuentas.length) { el.innerHTML = '<div class="empty">No hay cuentas bancarias cargadas.</div>'; return; }
 
   el.innerHTML = cuentas.map(c => {
-    const fin = financieros.find(f => f.cuenta_id === c.id);
-    let saldo = null, saldoFecha = null, semaforo = fin ? fin.semaforo : null;
-    if (fin) {
-      saldo = fin.saldo_actual;
-    } else if (cuentaPrincipal && c.id === cuentaPrincipal.id && movimientosPrincipal.length) {
+    let saldo = null, saldoFecha = null, semaforo = null;
+    if (cuentaPrincipal && c.id === cuentaPrincipal.id && movimientosPrincipal.length) {
       const ultimo = movimientosPrincipal[movimientosPrincipal.length - 1];
       saldo = ultimo.saldo; saldoFecha = ultimo.fecha;
+      semaforo = calcularSemaforoFinanciero(Number(saldo), chequesEmitidosPendientes, hoy).semaforo;
     }
     const bCls = semaforo==='ROJO'?'b-danger':semaforo==='AMARILLO'?'b-pend':semaforo==='VERDE'?'b-ok':'b-gray';
     return `<div class="item">
