@@ -2,15 +2,15 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
-<meta property="og:title" content="Nova Domus — Propuesta de Ingeniería · Casa Terron Enrici">
-<meta property="og:description" content="Arquitectura Tecnológica Integral para El Terrón, Mendiolaza. PY-2026-026.">
+<meta property="og:title" content="Nova Domus — Proyecto Ejecutivo de Tecnológica Integral · Casa Terron Enrici">
+<meta property="og:description" content="Proyecto Ejecutivo de Tecnológica Integral para El Terrón, Mendiolaza. PY-2026-026.">
 <meta property="og:image" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/og/casa-terron-enrici.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/casa-terron-enrici.html">
 <meta property="og:type" content="website">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Domus — Propuesta de Ingeniería · Casa Terron Enrici</title>
+<title>Nova Domus — Proyecto Ejecutivo de Tecnológica Integral · Casa Terron Enrici</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -119,6 +119,23 @@ a{color:var(--gold); text-decoration:none;}
 .pago-stage .amt{font-family:var(--font-display); color:var(--gold); font-size:15px;}
 .condicion-nota{margin-top:20px; font-size:13px; color:var(--grey);}
 
+/* JUSTIFICACION DE PRECIO */
+.justif-grid{display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:24px; border:1px solid rgba(255,255,255,.1); border-radius:10px; overflow:hidden;}
+.justif-col{padding:22px 24px;}
+.justif-col.prev{background:rgba(255,255,255,.02); border-right:1px solid rgba(255,255,255,.08);}
+.justif-col.actual{background:rgba(200,169,110,.07);}
+.justif-col .jc-title{font-family:var(--font-display); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px;}
+.justif-col.prev .jc-title{color:var(--grey);}
+.justif-col.actual .jc-title{color:var(--gold);}
+.justif-row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.06); font-size:13.5px;}
+.justif-row span:first-child{color:var(--grey);}
+.justif-row span:last-child{color:#fff; font-weight:600; text-align:right;}
+.justif-col.actual .justif-row span:last-child{color:var(--gold);}
+@media(max-width:600px){.justif-grid{grid-template-columns:1fr;} .justif-col.prev{border-right:none; border-bottom:1px solid rgba(255,255,255,.08);}}
+.justif-factores{margin-top:20px; list-style:none;}
+.justif-factores li{position:relative; padding-left:22px; margin-bottom:10px; font-size:14px; color:#EDEAE0;}
+.justif-factores li::before{content:'+'; position:absolute; left:0; color:var(--gold); font-weight:700;}
+
 /* CTA / FOOTER */
 .cta-section{text-align:center;}
 .cta-btn{display:inline-block; margin-top:24px; background:var(--gold); color:var(--navy-deep); font-family:var(--font-display); font-size:13px; letter-spacing:1.5px; text-transform:uppercase; padding:16px 36px; border-radius:6px; font-weight:700;}
@@ -215,7 +232,7 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
       </svg>
       <span class="py-tag">PY-2026-026</span>
     </div>
-    <h1>Propuesta de Ingeniería<br>Tecnológica Integral</h1>
+    <h1>Proyecto Ejecutivo<br>de Tecnológica Integral</h1>
     <div class="hero-meta">
       <div class="meta-item"><div class="meta-label">A</div><div class="meta-value">Bruno Enrici</div></div>
       <div class="meta-item"><div class="meta-label">De</div><div class="meta-value">Nova Domus</div></div>
@@ -250,7 +267,7 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
 
 <section class="section alcances">
   <div class="sec-num"><span class="n">02</span><span class="eyebrow" style="margin:0;">Alcance del proyecto</span></div>
-  <h2>Alcances del Proyecto Ejecutivo (Ingeniería)</h2>
+  <h2>Alcances del Proyecto Ejecutivo</h2>
   <p class="lead">👆 Cinco frentes de trabajo, pensados como un solo sistema — no como rubros sueltos.</p>
 
   <div class="alcance-block">
@@ -302,7 +319,7 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
 
 <section class="section entregables">
   <div class="sec-num"><span class="n">03</span><span class="eyebrow" style="margin:0;">Entregables</span></div>
-  <h2>Entregables de Ingeniería</h2>
+  <h2>Entregables del Proyecto Ejecutivo</h2>
   <p class="lead">Al finalizar el plazo, Nova Domus entrega a Bruno Enrici:</p>
   <div class="entregables-grid">
     <div class="entregable">
@@ -351,7 +368,7 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
   <h2>Honorarios y Plazos</h2>
   <div class="cond-grid">
     <div class="cond-card">
-      <div class="cc-label">Honorarios de Ingeniería de Proyecto</div>
+      <div class="cc-label">Honorarios de Proyecto Ejecutivo</div>
       <div class="cc-value">USD 1.000</div>
       <div class="cc-sub">Incluye la totalidad de los alcances de la sección 02</div>
     </div>
@@ -368,15 +385,44 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
   </div>
 
   <p class="condicion-nota">Los archivos CAD originales de la vivienda (plantas, cortes, vistas y plano estructural) ya
-  fueron recibidos por Nova Domus — no hay condición previa pendiente para dar inicio a la ingeniería
+  fueron recibidos por Nova Domus — no hay condición previa pendiente para dar inicio al proyecto ejecutivo
   una vez acreditado el anticipo. Tipo de cambio de referencia: BNA oficial. Honorarios expresados
   directamente en USD.</p>
 </section>
 
+<section class="section justificacion">
+  <div class="sec-num"><span class="n">06</span><span class="eyebrow" style="margin:0;">Referencia de valor</span></div>
+  <h2>¿Por qué USD 1.000?</h2>
+  <p class="lead">El año pasado desarrollamos un Proyecto Ejecutivo para el mismo cliente en Las Delicias.
+  Esta obra es de mayor escala y complejidad — el monto refleja esa diferencia, no un ajuste arbitrario.</p>
+
+  <div class="justif-grid">
+    <div class="justif-col prev">
+      <div class="jc-title">Las Delicias (2025)</div>
+      <div class="justif-row"><span>Superficie</span><span>650 m²</span></div>
+      <div class="justif-row"><span>Honorarios</span><span>USD 600</span></div>
+      <div class="justif-row"><span>Complejidad domótica/sensores</span><span>Estándar</span></div>
+    </div>
+    <div class="justif-col actual">
+      <div class="jc-title">Casa Terron Enrici (2026)</div>
+      <div class="justif-row"><span>Superficie</span><span>+1.000 m²</span></div>
+      <div class="justif-row"><span>Honorarios</span><span>USD 1.000</span></div>
+      <div class="justif-row"><span>Complejidad domótica/sensores</span><span>Superior</span></div>
+    </div>
+  </div>
+
+  <p class="lead" style="margin-top:20px;">La diferencia de honorarios responde a tres factores concretos frente al proyecto anterior:</p>
+  <ul class="justif-factores">
+    <li><b style="color:#fff;">Más de 50% de superficie adicional</b> — más ambientes, más circuitos y más metros de planimetría a diseñar en cada uno de los 5 alcances.</li>
+    <li><b style="color:#fff;">Mayor densidad de sensores y señales débiles</b> — más puntos de presencia/apertura, más zonas de audio multiroom y más cobertura de red a planificar que en Las Delicias.</li>
+    <li><b style="color:#fff;">Mayor complejidad de integración en Domótica y Control</b> — más lógica de escenas y climatización a coordinar en un solo ecosistema, sin dependencia de la nube.</li>
+  </ul>
+</section>
+
 <section class="section cta-section">
   <h2 style="text-align:center;">¿Avanzamos?</h2>
-  <p class="lead" style="margin:0 auto;">Confirmá la conformidad para que arranquemos con la ingeniería de Casa Terron Enrici.</p>
-  <a class="cta-btn" href="https://wa.me/?text=Hola%20Nova%20Domus%2C%20confirmo%20conformidad%20con%20la%20propuesta%20de%20ingenier%C3%ADa%20PY-2026-026%20%E2%80%94%20Casa%20Terron%20Enrici%2C%20USD%201.000.">Confirmar por WhatsApp</a>
+  <p class="lead" style="margin:0 auto;">Confirmá la conformidad para que arranquemos con el proyecto ejecutivo de Casa Terron Enrici.</p>
+  <a class="cta-btn" href="https://wa.me/?text=Hola%20Nova%20Domus%2C%20confirmo%20conformidad%20con%20el%20Proyecto%20Ejecutivo%20de%20Tecnol%C3%B3gica%20Integral%20PY-2026-026%20%E2%80%94%20Casa%20Terron%20Enrici%2C%20USD%201.000.">Confirmar por WhatsApp</a>
 </section>
 
 </main>
