@@ -7,6 +7,8 @@
 <link rel="icon" type="image/svg+xml" href="assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/build/md5.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 :root {
@@ -458,9 +460,31 @@ tr:last-child td{border-bottom:none}
   <div id="posCheques"><div class="empty">Cargando…</div></div>
 
   <div class="card" style="margin-top:14px">
-    <div class="card-title">Carga de extractos</div>
-    <button class="btn btn-ghost" disabled style="opacity:.5;cursor:not-allowed">Cargar extracto (próximamente)</button>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">El parseo automático de extractos bancarios queda para una próxima sesión.</div>
+    <div class="card-title">Carga de extractos y cheques</div>
+    <div class="fg">
+      <label>Tipo de archivo</label>
+      <select id="extTipo" onchange="onExtTipoChange()">
+        <option value="">— Seleccionar —</option>
+        <option value="movimientos">Movimientos bancarios (Ultimos_Movimientos.xls)</option>
+        <option value="cheques_emitidos">Cheques emitidos (Listado_cheques_Emitidos.xls)</option>
+        <option value="cheques_recibidos">Cheques recibidos (Listado_cheques_Recibidos.xls)</option>
+      </select>
+      <div class="field-hint">Solo se parsean los Excel — el Resumen en PDF no se carga, es únicamente para verificar el saldo consolidado a mano.</div>
+    </div>
+    <div class="fg" id="extFileWrap" style="display:none">
+      <label>Archivo .xls</label>
+      <input type="file" id="extFile" accept=".xls,.xlsx" onchange="onExtFileSelected()">
+    </div>
+    <div id="extPreviewWrap" style="display:none">
+      <div class="section-hdr">
+        <span class="section-title" id="extPreviewTitle">—</span>
+      </div>
+      <div id="extPreviewSubtitle" style="font-size:11px;color:var(--muted);margin:-6px 0 10px"></div>
+      <div id="extPreviewTable"></div>
+      <button class="btn btn-primary" id="extBtnConfirmar" onclick="confirmarCargaExtracto()" style="margin-top:10px">Confirmar carga</button>
+      <button class="btn btn-ghost" onclick="resetExtracto()" style="margin-top:6px">Cancelar</button>
+    </div>
+    <div id="extResult" style="font-size:12px;margin-top:10px"></div>
   </div>
 </div>
 
@@ -618,6 +642,28 @@ const sbGet   = (table, q='') => apiFetch(SB_URL, null, 'GET',    table, null, q
 const sbPost  = (table, b)    => apiFetch(SB_URL, null, 'POST',   table, b);
 const sbPatch = (table, b, q) => apiFetch(SB_URL, null, 'PATCH',  table, b,    q);
 const sbDel   = (table, q)    => apiFetch(SB_URL, null, 'DELETE', table, null, q);
+
+// Upsert con dedupe: onConflict + ignore-duplicates. Devuelve solo las filas
+// realmente insertadas (las duplicadas se omiten silenciosamente por Postgres).
+async function sbUpsert(table, rows, onConflict) {
+  const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=${onConflict}`, {
+    method: 'POST',
+    headers: {
+      'apikey': CUADRILLA_PUBLISHABLE_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=ignore-duplicates,return=representation',
+    },
+    body: JSON.stringify(rows),
+  });
+  if (!res.ok) {
+    const t = await res.text();
+    let msg = res.statusText;
+    try { msg = JSON.parse(t).message || msg; } catch {}
+    throw new Error(msg);
+  }
+  const t = await res.text();
+  return t ? JSON.parse(t) : [];
+}
 
 // ── CATEGORIAS ────────────────────────────────────────────────
 let categorias = [];    // active only — feeds all data-entry selects
@@ -795,6 +841,8 @@ let chequeTipo = 'EMITIDO';
 const pendingDel = new Set();
 let reporteData = [], reporteChart = null;
 let posicionLoaded = false, posChart = null;
+let cuentasBancarias = [];
+let extState = { tipo: null, filas: [], cuenta: null };
 
 // ── AUTH ──────────────────────────────────────────────────────
 async function handleLogout() {
@@ -1423,6 +1471,7 @@ async function loadPosicion() {
       sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc'),
       sbGet('panel_financiero_resumen', '?order=fecha_calculo.desc,actualizado_en.desc&limit=20'),
     ]);
+    cuentasBancarias = cuentas;
     const cuentaPrincipal = cuentas.find(c => c.es_cuenta_principal) || cuentas[0];
 
     let movimientosPrincipal = [];
@@ -1576,10 +1625,11 @@ function renderPosEgresos() {
 
 function renderPosCheques() {
   const el = document.getElementById('posCheques');
+  const hoyStr = today();
   const hoyMas7 = new Date(); hoyMas7.setDate(hoyMas7.getDate()+7);
   const hoyMas7Str = hoyMas7.toISOString().slice(0,10);
   const list = cheques
-    .filter(c => c.estado_calculado === 'PENDIENTE' && c.fecha_efectivo <= hoyMas7Str)
+    .filter(c => c.estado_calculado === 'PENDIENTE' && c.fecha_efectivo >= hoyStr && c.fecha_efectivo <= hoyMas7Str)
     .sort((a,b) => a.fecha_efectivo.localeCompare(b.fecha_efectivo));
   if (!list.length) { el.innerHTML = '<div class="empty">Sin cheques por vencer en los próximos 7 días.</div>'; return; }
   el.innerHTML = list.map(c => `
@@ -1592,6 +1642,319 @@ function renderPosCheques() {
         <div class="item-right"><div class="item-monto">${f$(c.monto)}</div></div>
       </div>
     </div>`).join('');
+}
+
+// ── CARGA DE EXTRACTOS Y CHEQUES ─────────────────────────────
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+// Serial de fecha de Excel -> 'YYYY-MM-DD' directo desde y/m/d, sin pasar por
+// Date() ni timezone (mismo tipo de bug que ya corregimos en el Home admin).
+function excelDateToISO(serial) {
+  if (serial === null || serial === undefined || serial === '') return null;
+  const d = XLSX.SSF.parse_date_code(Number(serial));
+  if (!d) return null;
+  return `${d.y}-${pad2(d.m)}-${pad2(d.d)}`;
+}
+
+function limpiarMonto(v) {
+  return typeof v === 'number' ? v : (parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0);
+}
+
+// Reproduce str(float) de Python: siempre al menos un decimal (-200000 -> "-200000.0"),
+// nunca de mas (-3088.03 -> "-3088.03"). Verificado byte a byte contra hash_dedupe
+// ya calculado en produccion -- no cambiar sin volver a verificar contra la base real.
+function importeParaHash(n) {
+  return Number.isInteger(n) ? n.toFixed(1) : String(n);
+}
+
+function computeHashDedupe(fechaISO, referencia, causal, concepto, importe) {
+  const str = `${fechaISO}|${referencia}|${causal}|${concepto}|${importeParaHash(importe)}`;
+  return md5(str);
+}
+
+// Reglas de categorizacion verificadas contra las 420 filas reales ya cargadas
+// (concepto -> categoria_sugerida existente), no inventadas. El orden importa:
+// "COMISION CHEQUE CONSULTA" tiene que caer en GASTOS_BANCARIOS, no en CHEQUES.
+function inferCategoria(concepto) {
+  const c = (concepto || '').toUpperCase();
+  if (c.includes('DEBITO FISCAL IVA')) return 'IMPUESTOS_IVA';
+  if (c.includes('COMISION') || c.startsWith('DBCR') || c.includes('INTER.ADEL') || c.includes('MANTENIMIENTO MENSUAL')) return 'GASTOS_BANCARIOS';
+  if (c.includes('CHEQUE')) return 'CHEQUES';
+  if (c.includes('APPYPF')) return 'COMBUSTIBLE';
+  if (c.includes('AFIP') || c.includes('DGR ') || c.includes('IIBB') || c.includes('ING BRUTOS') || c.includes('AUTONOMOS')) return 'IMPUESTOS';
+  if (c.includes('CAMARA ARGENTINA') || c.includes('SEGURO')) return 'GASTOS_FIJOS';
+  if (c.includes('MERPAGO')) return 'PAGOS_TARJETA_DEBITO';
+  if (c.includes('TRF MO')) return 'TRANSF_INTERNA_MO';
+  return 'SIN_CLASIFICAR';
+}
+
+// Header por nombre de columna TRIMEADO -- el archivo de Recibidos trae headers
+// con espacio inicial (" Enviado por CUIT", " Emisor razón social").
+function buildColumnMap(headerRow) {
+  const map = {};
+  (headerRow || []).forEach((h, i) => {
+    if (h === null || h === undefined) return;
+    const key = String(h).trim();
+    if (key) map[key] = i;
+  });
+  return map;
+}
+
+function findHeaderRowIndex(rows, maxScan = 15) {
+  for (let i = 0; i < Math.min(maxScan, rows.length); i++) {
+    const row = rows[i] || [];
+    const filled = row.filter(c => c !== null && c !== undefined && String(c).trim() !== '').length;
+    const first = (row[0] === null || row[0] === undefined) ? '' : String(row[0]).trim();
+    if (filled >= 5 && /^Fecha/i.test(first)) return i;
+  }
+  return -1;
+}
+
+// Las 3 filas de metadata al pie ("Fecha de descarga:...", "Empresa:...",
+// "Operador:...") arrancan siempre con este prefijo -- marca el fin de los datos.
+function isFooterRow(row) {
+  const first = (row && row[0] !== null && row[0] !== undefined) ? String(row[0]).trim() : '';
+  return /^Fecha de descarga:/i.test(first);
+}
+
+async function readWorkbookRows(file) {
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf, { type: 'array' });
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  return XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: null });
+}
+
+function textOrNull(v) {
+  return (v === null || v === undefined || String(v).trim() === '') ? null : String(v).trim();
+}
+
+function parseMovimientos(rows) {
+  const hIdx = findHeaderRowIndex(rows);
+  if (hIdx < 0) throw new Error('No se encontró la fila de encabezado (buscando "Fecha")');
+  const map = buildColumnMap(rows[hIdx]);
+  const need = ['Fecha', 'Nro. de Referencia', 'Causal', 'Concepto', 'Importe', 'Saldo'];
+  for (const k of need) if (!(k in map)) throw new Error(`Falta la columna "${k}" en el archivo`);
+
+  const filas = [];
+  for (let i = hIdx + 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || isFooterRow(row)) break;
+    const fechaRaw = row[map['Fecha']];
+    if (fechaRaw === null || fechaRaw === undefined || fechaRaw === '') continue;
+    const fecha = excelDateToISO(fechaRaw);
+    const referencia = textOrNull(row[map['Nro. de Referencia']]);
+    const causal = textOrNull(row[map['Causal']]);
+    const concepto = row[map['Concepto']] !== null && row[map['Concepto']] !== undefined ? String(row[map['Concepto']]) : '';
+    const importe = limpiarMonto(row[map['Importe']]);
+    const saldo = limpiarMonto(row[map['Saldo']]);
+    filas.push({
+      fecha, referencia, causal, concepto, importe, saldo,
+      origen: 'EXCEL',
+      categoria_sugerida: inferCategoria(concepto),
+      hash_dedupe: computeHashDedupe(fecha, referencia, causal, concepto, importe),
+    });
+  }
+  return filas;
+}
+
+// CUSTODIA/ACTIVO/PAGADO -> estado + certeza. certeza es informacion real de
+// certeza de cobro/debito (confirmado por Agustin, no un detalle cosmetico).
+function mapEstadoCheque(estadoRaw) {
+  const e = (estadoRaw || '').toString().trim().toUpperCase();
+  if (e === 'CUSTODIA') return { estado: 'PENDIENTE', certeza: 'CIERTO' };
+  if (e === 'ACTIVO') return { estado: 'PENDIENTE', certeza: 'INCIERTO' };
+  if (e === 'PAGADO') return { estado: 'COBRADO', certeza: null };
+  return { estado: 'PENDIENTE', certeza: 'INCIERTO' };
+}
+
+function parseChequesEmitidos(rows) {
+  const hIdx = findHeaderRowIndex(rows);
+  if (hIdx < 0) throw new Error('No se encontró la fila de encabezado');
+  const map = buildColumnMap(rows[hIdx]);
+  const need = ['Fecha de Emisión', 'Fecha de Pago', 'Nro. de Cheque', 'Importe', 'Beneficiario Inicial', 'Razón Social Beneficiario Inicial', 'Estado'];
+  for (const k of need) if (!(k in map)) throw new Error(`Falta la columna "${k}"`);
+
+  const filas = [];
+  for (let i = hIdx + 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || isFooterRow(row)) break;
+    const numero_cheque = textOrNull(row[map['Nro. de Cheque']]);
+    if (!numero_cheque) continue;
+    const { estado, certeza } = mapEstadoCheque(row[map['Estado']]);
+    const fechaEmision = excelDateToISO(row[map['Fecha de Emisión']]);
+    const fechaPago = excelDateToISO(row[map['Fecha de Pago']]);
+    filas.push({
+      tipo: 'EMITIDO',
+      numero_cheque: numero_cheque.replace(/\.0$/, ''),
+      banco: 'Macro',
+      beneficiario_cuit: textOrNull(row[map['Beneficiario Inicial']]),
+      beneficiario_librador: (row[map['Razón Social Beneficiario Inicial']] || '').toString().trim(),
+      monto: limpiarMonto(row[map['Importe']]),
+      fecha_emision: fechaEmision,
+      fecha_efectivo: fechaPago,
+      estado, certeza,
+      fecha_cobro_real: estado === 'COBRADO' ? fechaPago : null,
+      notas: null,
+    });
+  }
+  return filas;
+}
+
+function parseChequesRecibidos(rows) {
+  const hIdx = findHeaderRowIndex(rows);
+  if (hIdx < 0) throw new Error('No se encontró la fila de encabezado');
+  const map = buildColumnMap(rows[hIdx]);
+  const need = ['Fecha Emisión', 'Fecha Pago', 'Nro. Cheque', 'Importe', 'Emisor razón social', 'Emisor CUIT', 'Emisor Banco', 'Estado'];
+  for (const k of need) if (!(k in map)) throw new Error(`Falta la columna "${k}" — revisar encabezados del archivo (pueden venir con espacio inicial)`);
+
+  const filas = [];
+  for (let i = hIdx + 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || isFooterRow(row)) break;
+    const numero_cheque = textOrNull(row[map['Nro. Cheque']]);
+    if (!numero_cheque) continue;
+    let { estado, certeza } = mapEstadoCheque(row[map['Estado']]);
+    let notas = null;
+    if ('Motivo rechazo' in map) {
+      // El placeholder de "sin rechazo" es literalmente " - ", no vacio.
+      const motivo = textOrNull(row[map['Motivo rechazo']]);
+      if (motivo && motivo !== '-') { estado = 'RECHAZADO'; certeza = null; notas = motivo; }
+    }
+    const fechaEmision = excelDateToISO(row[map['Fecha Emisión']]);
+    const fechaPago = excelDateToISO(row[map['Fecha Pago']]);
+    filas.push({
+      tipo: 'RECIBIDO',
+      numero_cheque,
+      banco: (row[map['Emisor Banco']] || '').toString().trim(),
+      beneficiario_cuit: textOrNull(row[map['Emisor CUIT']]),
+      beneficiario_librador: (row[map['Emisor razón social']] || '').toString().trim(),
+      monto: limpiarMonto(row[map['Importe']]),
+      fecha_emision: fechaEmision,
+      fecha_efectivo: fechaPago,
+      estado, certeza,
+      fecha_cobro_real: estado === 'COBRADO' ? fechaPago : null,
+      notas,
+    });
+  }
+  return filas;
+}
+
+function onExtTipoChange() {
+  const tipo = document.getElementById('extTipo').value;
+  extState = { tipo, filas: [], cuenta: null };
+  document.getElementById('extFileWrap').style.display = tipo ? 'block' : 'none';
+  document.getElementById('extFile').value = '';
+  document.getElementById('extPreviewWrap').style.display = 'none';
+  document.getElementById('extResult').innerHTML = '';
+}
+
+async function onExtFileSelected() {
+  const file = document.getElementById('extFile').files[0];
+  if (!file) return;
+  document.getElementById('extResult').innerHTML = '';
+  try {
+    const rows = await readWorkbookRows(file);
+    let filas;
+    if (extState.tipo === 'movimientos') {
+      filas = parseMovimientos(rows);
+      if (!cuentasBancarias.length) cuentasBancarias = await sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
+      extState.cuenta = cuentasBancarias.find(c => c.es_cuenta_principal) || cuentasBancarias[0];
+      if (!extState.cuenta) throw new Error('No hay cuentas bancarias cargadas para asociar los movimientos');
+    } else if (extState.tipo === 'cheques_emitidos') {
+      filas = parseChequesEmitidos(rows);
+    } else if (extState.tipo === 'cheques_recibidos') {
+      filas = parseChequesRecibidos(rows);
+    } else {
+      return;
+    }
+
+    if (!filas.length) { toast('El archivo no tiene filas de datos reconocibles', 'err'); return; }
+    extState.filas = filas;
+    renderExtPreview();
+  } catch (e) {
+    toast('Error al parsear: ' + e.message, 'err');
+  }
+}
+
+function renderExtPreview() {
+  document.getElementById('extPreviewWrap').style.display = 'block';
+  document.getElementById('extPreviewTitle').textContent = `${extState.filas.length} filas reconocidas`;
+
+  const subEl = document.getElementById('extPreviewSubtitle');
+  const tableEl = document.getElementById('extPreviewTable');
+  const MAX_PREVIEW = 50;
+  const total = extState.filas.length;
+  const masFilas = total > MAX_PREVIEW ? `<div style="font-size:11px;color:var(--muted);margin-top:6px">Mostrando ${MAX_PREVIEW} de ${total} filas.</div>` : '';
+
+  if (extState.tipo === 'movimientos') {
+    subEl.textContent = extState.cuenta
+      ? `Se van a asociar a: ${extState.cuenta.banco} — ${extState.cuenta.moneda}${extState.cuenta.es_cuenta_principal ? ' (cuenta principal)' : ''}`
+      : '';
+    const rows = extState.filas.slice(0, MAX_PREVIEW).map(f => `<tr>
+      <td>${fd(f.fecha)}</td>
+      <td>${f.concepto}</td>
+      <td style="text-align:right">${f$(f.importe)}</td>
+      <td>${f.categoria_sugerida.replace(/_/g, ' ')}</td>
+    </tr>`).join('');
+    tableEl.innerHTML = `<div class="tw"><table>
+      <thead><tr><th>Fecha</th><th>Concepto</th><th style="text-align:right">Importe</th><th>Categoría</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>${masFilas}`;
+  } else {
+    subEl.textContent = '';
+    const rows = extState.filas.slice(0, MAX_PREVIEW).map(c => `<tr>
+      <td>${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</td>
+      <td>${c.beneficiario_librador}${c.banco ? ` <span style="color:var(--muted);font-size:10px">(${c.banco})</span>` : ''}</td>
+      <td style="text-align:right">${f$(c.monto)}</td>
+      <td><span class="badge ${c.estado === 'COBRADO' ? 'b-ok' : c.estado === 'RECHAZADO' ? 'b-danger' : 'b-pend'}">${c.estado}</span></td>
+      <td>${c.certeza ? `<span class="badge ${c.certeza === 'CIERTO' ? 'b-ok' : 'b-gray'}" style="font-size:9px">${c.certeza}</span>` : '—'}</td>
+    </tr>`).join('');
+    tableEl.innerHTML = `<div class="tw"><table>
+      <thead><tr><th>Fecha efectivo</th><th>Beneficiario/Librador</th><th style="text-align:right">Monto</th><th>Estado</th><th>Certeza</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>${masFilas}`;
+  }
+}
+
+function resetExtracto() {
+  const tipo = document.getElementById('extTipo').value;
+  extState = { tipo, filas: [], cuenta: null };
+  document.getElementById('extFile').value = '';
+  document.getElementById('extPreviewWrap').style.display = 'none';
+  document.getElementById('extResult').innerHTML = '';
+}
+
+async function confirmarCargaExtracto() {
+  const btn = document.getElementById('extBtnConfirmar');
+  btn.disabled = true; btn.innerHTML = '<div class="spin"></div> Guardando…';
+  try {
+    let table, conflictCols, payload;
+    if (extState.tipo === 'movimientos') {
+      table = 'movimientos_bancarios';
+      conflictCols = 'hash_dedupe';
+      payload = extState.filas.map(f => ({ ...f, cuenta_id: extState.cuenta.id }));
+    } else {
+      table = 'cheques';
+      conflictCols = 'tipo,banco,numero_cheque';
+      payload = extState.filas;
+    }
+
+    const inserted = await sbUpsert(table, payload, conflictCols);
+    const dup = payload.length - inserted.length;
+    document.getElementById('extResult').innerHTML =
+      `<span style="color:var(--ok)">${inserted.length} filas nuevas cargadas</span>` +
+      (dup > 0 ? ` · ${dup} ya existían (omitidas)` : '');
+    toast(`✅ ${inserted.length} filas cargadas`, 'ok');
+    document.getElementById('extPreviewWrap').style.display = 'none';
+    document.getElementById('extFile').value = '';
+    extState.filas = [];
+    posicionLoaded = false; // fuerza recarga de Posición Bancaria con los datos nuevos
+    if (table === 'cheques') await loadCheques(); // refresca el tab de Cheques tambien
+  } catch (e) {
+    toast('Error al guardar: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Confirmar carga';
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────

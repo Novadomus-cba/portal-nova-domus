@@ -821,7 +821,7 @@
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
       cuadrillaGet('panel_financiero_resumen', `?order=fecha_calculo.desc,actualizado_en.desc&limit=1`),
-      cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
+      cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
     ]);
 
     if (agenda.status === 'fulfilled') renderAgenda(agenda.value);
