@@ -6,6 +6,7 @@
   <title>Nova Domus — Portal</title>
   <link rel="icon" type="image/svg+xml" href="assets/logo/nova-domus-isologo-monocromo-navy.svg" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-bridge.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 
@@ -257,6 +258,166 @@
       padding: 60px 20px;
       color: var(--muted);
     }
+
+    /* HOME NAV (admin) */
+    .home-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .home-nav-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .home-nav-btn.active {
+      color: var(--text);
+      border-color: var(--accent-dim);
+      background: var(--surface);
+    }
+
+    .home-nav-btn:hover { color: var(--text); }
+
+    /* PANEL PERSONAL */
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .panel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      min-width: 0;
+    }
+
+    .panel-card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+    .panel-card-title {
+      font-family: var(--font-display);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .panel-card-updated, .panel-card-counts {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel-card-body { font-size: 13px; color: var(--text); }
+
+    .panel-card-empty {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 12px 0;
+      line-height: 1.5;
+    }
+
+    .panel-card-footnote {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .panel-card-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .panel-card-link:hover { text-decoration: underline; }
+
+    .agenda-next { border-left: 2px solid var(--accent); padding-left: 12px; margin-bottom: 10px; }
+    .agenda-next-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .agenda-next-meta { font-size: 12px; color: var(--muted); }
+    .agenda-count { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    .inbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .inbox-row:last-child { border-bottom: none; }
+    .inbox-check {
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .inbox-main { flex: 1; min-width: 0; }
+    .inbox-top { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; }
+    .inbox-ref { font-size: 11px; color: var(--muted); }
+    .inbox-remitente { font-size: 13px; font-weight: 600; }
+    .inbox-asunto { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+    .inbox-resumen { font-size: 12px; color: var(--text); }
+    .inbox-fecha { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .badge-critico     { background: rgba(231,76,60,0.18); color: #ff8a80; }
+    .badge-atencion    { background: rgba(200,169,110,0.18); color: var(--accent); }
+    .badge-oportunidad { background: rgba(46,204,113,0.18); color: #6fe3a0; }
+
+    .fin-kpi { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+    .fin-saldo { font-family: var(--font-display); font-size: 22px; }
+    .fin-saldo.neg { color: #ff8a80; }
+    .semaforo-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .semaforo-VERDE    { background: #2ecc71; }
+    .semaforo-AMARILLO { background: #f1c40f; }
+    .semaforo-ROJO     { background: #e74c3c; }
+    .fin-detail { font-size: 12px; color: var(--muted); }
+    .fin-detail b { color: var(--text); }
+
+    .cheque-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cheque-row:last-child { border-bottom: none; }
+    .cheque-row.warn { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      main { padding: 32px 16px 60px; }
+      .panel-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -283,11 +444,54 @@
     <div class="greeting-title">Buen día, <span id="greetingName">—</span></div>
   </div>
 
-  <div class="modules-label">Módulos disponibles</div>
-  <div class="modules-grid" id="modulesGrid"></div>
+  <div class="home-nav" id="homeNav" style="display:none">
+    <button class="home-nav-btn active" id="navPanelBtn" onclick="showHomeView('panel')">Panel Personal</button>
+    <button class="home-nav-btn" id="navModulosBtn" onclick="showHomeView('modulos')">Módulos</button>
+  </div>
 
-  <div class="no-access" id="noAccess">
-    No tenés módulos asignados. Contactá a Agustín.
+  <div id="panelPersonal" style="display:none">
+    <div class="panel-grid">
+      <section class="panel-card" id="cardAgenda">
+        <div class="panel-card-header">
+          <span class="panel-card-title">📅 Agenda</span>
+          <span class="panel-card-updated" id="agendaUpdated"></span>
+        </div>
+        <div class="panel-card-body" id="agendaBody">Cargando…</div>
+      </section>
+
+      <section class="panel-card" id="cardInbox">
+        <div class="panel-card-header">
+          <span class="panel-card-title">📥 Bandeja de entrada</span>
+          <span class="panel-card-counts" id="inboxCounts"></span>
+        </div>
+        <div class="panel-card-body" id="inboxBody">Cargando…</div>
+        <div class="panel-card-footnote">Clasificación hecha por Claude según remitente/contenido — no es un filtro nativo de Gmail.</div>
+      </section>
+
+      <section class="panel-card" id="cardFinanciero">
+        <div class="panel-card-header">
+          <span class="panel-card-title">💵 Financiero</span>
+        </div>
+        <div class="panel-card-body" id="financieroBody">Cargando…</div>
+        <a class="panel-card-link" href="contable.html">Ver Posición Bancaria →</a>
+      </section>
+
+      <section class="panel-card" id="cardCheques">
+        <div class="panel-card-header">
+          <span class="panel-card-title">🧾 Cheques por vencer (7 días)</span>
+        </div>
+        <div class="panel-card-body" id="chequesBody">Cargando…</div>
+      </section>
+    </div>
+  </div>
+
+  <div id="modulesView">
+    <div class="modules-label">Módulos disponibles</div>
+    <div class="modules-grid" id="modulesGrid"></div>
+
+    <div class="no-access" id="noAccess">
+      No tenés módulos asignados. Contactá a Agustín.
+    </div>
   </div>
 </main>
 
@@ -448,6 +652,13 @@
       });
     }
 
+    // Panel Personal: nuevo Home solo para admin. Ningún otro rol cambia de comportamiento.
+    if (role === 'admin') {
+      document.getElementById('homeNav').style.display = 'flex';
+      showHomeView('panel');
+      initPanelPersonal(); // sin await: no bloquea el primer paint
+    }
+
     // Mostrar contenido
     document.getElementById('loading').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
@@ -456,6 +667,220 @@
   async function handleLogout() {
     await client.auth.signOut();
     window.location.href = 'login.html';
+  }
+
+  // ───────────────────────── Panel Personal (admin) ─────────────────────────
+
+  const PRIORIDAD_ORDEN = { CRITICO: 0, ATENCION: 1, OPORTUNIDAD: 2 };
+
+  function f$(n) {
+    if (n === null || n === undefined) return '—';
+    return '$' + Number(n).toLocaleString('es-AR', { maximumFractionDigits: 0 });
+  }
+
+  // Las columnas `date` (sin hora, ej. fecha_evento/fecha_efectivo) llegan como
+  // 'YYYY-MM-DD'. `new Date('YYYY-MM-DD')` las interpreta como medianoche UTC,
+  // que en Argentina (UTC-3) cae en el dia anterior a las 21:00 — forzamos hora
+  // local explicita para que no se corran un dia. Los timestamptz (fecha_correo,
+  // actualizado_en) ya traen hora+offset y se parsean tal cual.
+  function parseDate(dateStr) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(dateStr) ? new Date(dateStr + 'T00:00:00') : new Date(dateStr);
+  }
+
+  const DIAS_ABREV = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
+
+  function diaAbrev(dateStr) {
+    return dateStr ? DIAS_ABREV[parseDate(dateStr).getDay()] : '';
+  }
+
+  function fd(dateStr) {
+    if (!dateStr) return '—';
+    return parseDate(dateStr).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  function fdt(dateStr) {
+    if (!dateStr) return '—';
+    return parseDate(dateStr).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  }
+
+  async function cuadrillaGet(table, query) {
+    const headers = await getCuadrillaHeaders(client);
+    const res = await fetch(`${CUADRILLA_URL}/rest/v1/${table}${query}`, { headers });
+    const text = await res.text(); // regla del proyecto: nunca .json() directo
+    const data = JSON.parse(text);
+    if (!res.ok) throw new Error((data && (data.message || data.error)) || `Error consultando ${table}`);
+    return data;
+  }
+
+  function showHomeView(view) {
+    const isPanel = view === 'panel';
+    document.getElementById('panelPersonal').style.display = isPanel ? 'block' : 'none';
+    document.getElementById('modulesView').style.display = isPanel ? 'none' : 'block';
+    document.getElementById('navPanelBtn').classList.toggle('active', isPanel);
+    document.getElementById('navModulosBtn').classList.toggle('active', !isPanel);
+  }
+
+  function renderAgenda(rows) {
+    const el = document.getElementById('agendaBody');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">No hay eventos cargados para los próximos días — es el estado real, no un dato faltante.</div>';
+      document.getElementById('agendaUpdated').textContent = '';
+      return;
+    }
+    const next = rows[0];
+    const hoyStr = new Date().toISOString().slice(0, 10);
+    const hoyCount = rows.filter(r => r.fecha_evento === hoyStr).length;
+    el.innerHTML = `
+      <div class="agenda-next">
+        <div class="agenda-next-title">${next.titulo}</div>
+        <div class="agenda-next-meta">${fd(next.fecha_evento)}${next.hora_inicio ? ' · ' + next.hora_inicio.slice(0, 5) : ''}${next.lugar ? ' · ' + next.lugar : ''}</div>
+        ${next.descripcion ? `<div class="agenda-next-meta" style="margin-top:4px">${next.descripcion}</div>` : ''}
+      </div>
+      <div class="agenda-count">${rows.length} evento${rows.length === 1 ? '' : 's'} próximo${rows.length === 1 ? '' : 's'}${hoyCount ? ` · ${hoyCount} hoy` : ''}</div>
+    `;
+    const updated = rows.reduce((max, r) => (r.actualizado_en > max ? r.actualizado_en : max), rows[0].actualizado_en);
+    document.getElementById('agendaUpdated').textContent = 'Actualizado: ' + fdt(updated);
+  }
+
+  function badgeClass(p) {
+    return p === 'CRITICO' ? 'badge-critico' : p === 'ATENCION' ? 'badge-atencion' : 'badge-oportunidad';
+  }
+
+  function renderInbox(rows) {
+    const el = document.getElementById('inboxBody');
+    const counts = document.getElementById('inboxCounts');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Bandeja al día — no hay correos pendientes de revisión.</div>';
+      counts.textContent = '';
+      return;
+    }
+    const sorted = [...rows].sort((a, b) => {
+      const p = PRIORIDAD_ORDEN[a.prioridad] - PRIORIDAD_ORDEN[b.prioridad];
+      if (p !== 0) return p;
+      return new Date(b.fecha_correo || 0) - new Date(a.fecha_correo || 0);
+    });
+    const criticos = sorted.filter(r => r.prioridad === 'CRITICO').length;
+    const atencion = sorted.filter(r => r.prioridad === 'ATENCION').length;
+    counts.textContent = `${sorted.length} sin revisar · ${criticos} crítico${criticos === 1 ? '' : 's'} · ${criticos + atencion} requieren acción`;
+    el.innerHTML = sorted.map(r => `
+      <div class="inbox-row" id="inbox-${r.ref_codigo}">
+        <input type="checkbox" class="inbox-check" onchange="marcarRevisado('${r.ref_codigo}')" />
+        <div class="inbox-main">
+          <div class="inbox-top">
+            <span class="inbox-ref">${r.ref_codigo}</span>
+            <span class="badge ${badgeClass(r.prioridad)}">${r.prioridad}</span>
+            <span class="inbox-remitente">${r.remitente}</span>
+          </div>
+          <div class="inbox-asunto">${r.asunto}</div>
+          ${r.resumen ? `<div class="inbox-resumen">${r.resumen}</div>` : ''}
+        </div>
+        <div class="inbox-fecha">${fd(r.fecha_correo)}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderFinanciero(rows) {
+    const el = document.getElementById('financieroBody');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Todavía no se calculó el resumen financiero de hoy.</div>';
+      return;
+    }
+    const r = rows[0];
+    const negativo = Number(r.saldo_actual) < 0;
+    el.innerHTML = `
+      <div class="fin-kpi">
+        <span class="semaforo-dot semaforo-${r.semaforo}"></span>
+        <span class="fin-saldo${negativo ? ' neg' : ''}">${f$(r.saldo_actual)}</span>
+      </div>
+      <div class="fin-detail">Neto 30d: <b>${f$(r.neto_30d)}</b> · 60d: <b>${f$(r.neto_60d)}</b> · 90d: <b>${f$(r.neto_90d)}</b></div>
+      ${r.movimientos_sin_clasificar ? `<div class="fin-detail" style="margin-top:6px">${r.movimientos_sin_clasificar} movimientos sin clasificar</div>` : ''}
+    `;
+  }
+
+  function renderCheques(rows) {
+    const el = document.getElementById('chequesBody');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Sin cheques por vencer en los próximos 7 días.</div>';
+      return;
+    }
+    el.innerHTML = rows.map(c => `
+      <div class="cheque-row warn">
+        <span>${c.tipo === 'EMITIDO' ? '↗' : '↘'} ${c.beneficiario_librador}</span>
+        <span>${f$(c.monto)} · ${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</span>
+      </div>
+    `).join('');
+  }
+
+  async function initPanelPersonal() {
+    const hoy = new Date().toISOString().slice(0, 10);
+    const hoyMas7 = new Date();
+    hoyMas7.setDate(hoyMas7.getDate() + 7);
+    const hoyMas7Str = hoyMas7.toISOString().slice(0, 10);
+
+    const [agenda, inbox, financiero, cheques] = await Promise.allSettled([
+      cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
+      cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
+      cuadrillaGet('panel_financiero_resumen', `?order=fecha_calculo.desc,actualizado_en.desc&limit=1`),
+      cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
+    ]);
+
+    if (agenda.status === 'fulfilled') renderAgenda(agenda.value);
+    else document.getElementById('agendaBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la agenda.</div>';
+
+    if (inbox.status === 'fulfilled') renderInbox(inbox.value);
+    else document.getElementById('inboxBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la bandeja.</div>';
+
+    if (financiero.status === 'fulfilled') renderFinanciero(financiero.value);
+    else document.getElementById('financieroBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el resumen financiero.</div>';
+
+    if (cheques.status === 'fulfilled') renderCheques(cheques.value);
+    else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
+  }
+
+  async function marcarRevisado(refCodigo) {
+    const rowEl = document.getElementById(`inbox-${refCodigo}`);
+    if (!rowEl) return;
+    const parent = rowEl.parentElement;
+    const nextSibling = rowEl.nextSibling;
+    rowEl.remove(); // ocultamiento optimista
+
+    try {
+      const headers = await getCuadrillaHeaders(client, {
+        'Content-Type': 'application/json',
+        Prefer: 'return=representation',
+      });
+      const res = await fetch(
+        `${CUADRILLA_URL}/rest/v1/panel_inbox_snapshot?ref_codigo=eq.${encodeURIComponent(refCodigo)}`,
+        {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({ revisado: true, revisado_en: new Date().toISOString() }),
+        }
+      );
+      const text = await res.text();
+      const data = JSON.parse(text);
+      if (!res.ok || !Array.isArray(data) || data.length === 0) {
+        throw new Error('El servidor no confirmó el cambio');
+      }
+
+      const remainingRows = document.querySelectorAll('.inbox-row');
+      if (remainingRows.length === 0) {
+        document.getElementById('inboxBody').innerHTML = '<div class="panel-card-empty">Bandeja al día — no hay correos pendientes de revisión.</div>';
+        document.getElementById('inboxCounts').textContent = '';
+      } else {
+        const criticos = document.querySelectorAll('.inbox-row .badge-critico').length;
+        const atencion = document.querySelectorAll('.inbox-row .badge-atencion').length;
+        document.getElementById('inboxCounts').textContent =
+          `${remainingRows.length} sin revisar · ${criticos} crítico${criticos === 1 ? '' : 's'} · ${criticos + atencion} requieren acción`;
+      }
+    } catch (err) {
+      console.error('marcarRevisado error:', err);
+      if (nextSibling) parent.insertBefore(rowEl, nextSibling);
+      else parent.appendChild(rowEl);
+      const check = rowEl.querySelector('.inbox-check');
+      if (check) check.checked = false;
+      alert('No se pudo marcar como revisado. Intentá de nuevo.');
+    }
   }
 
   init();

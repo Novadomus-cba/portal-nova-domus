@@ -129,6 +129,7 @@ tr:last-child td{border-bottom:none}
   <div class="tab" onclick="showTab('planes')">Planes de pago</div>
   <div class="tab" onclick="showTab('cheques')">Cheques</div>
   <div class="tab" onclick="showTab('reportes')">Reportes</div>
+  <div class="tab" onclick="showTab('posicion')">Posición Bancaria</div>
 </div>
 
 <div class="page">
@@ -424,6 +425,43 @@ tr:last-child td{border-bottom:none}
     <button class="btn btn-ghost btn-sm" id="btnCSV" onclick="exportCSV()" style="display:none">⬇ CSV</button>
   </div>
   <div id="reporteTable"><div class="empty">Aplicá un filtro para ver los resultados.</div></div>
+</div>
+
+<!-- ═══ POSICIÓN BANCARIA ═══ -->
+<div class="section" id="sec-posicion">
+  <div class="section-hdr">
+    <span class="section-title">Posición Bancaria</span>
+    <button class="btn btn-ghost btn-sm" onclick="loadPosicion()">↻</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Saldo por cuenta</div>
+    <div id="posCuentasList"><div class="empty">Cargando…</div></div>
+  </div>
+
+  <div class="chart-wrap" id="posChartWrap" style="display:none">
+    <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">Evolución de saldo (90 días) — cuenta principal</div>
+    <canvas id="posChart" height="220"></canvas>
+  </div>
+
+  <div class="section-hdr"><span class="section-title">Desglose por categoría</span></div>
+  <div id="posCategorias"><div class="empty">Cargando…</div></div>
+
+  <div class="section-hdr"><span class="section-title">Conciliación de cobros (sugerencias)</span></div>
+  <div style="font-size:11px;color:var(--muted);margin:-4px 0 10px">Movimientos sin clasificar comparados contra presupuestos comerciales pagados. Es una lista de solo lectura — la tabla de movimientos bancarios quedó de solo consulta, no hay acción de "conciliar" desde acá.</div>
+  <div id="posCobros"><div class="empty">Cargando…</div></div>
+
+  <div class="section-hdr"><span class="section-title">Conciliación de egresos</span></div>
+  <div id="posEgresos"><div class="empty">Cargando…</div></div>
+
+  <div class="section-hdr"><span class="section-title">Cheques por vencer (≤7 días)</span></div>
+  <div id="posCheques"><div class="empty">Cargando…</div></div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-title">Carga de extractos</div>
+    <button class="btn btn-ghost" disabled style="opacity:.5;cursor:not-allowed">Cargar extracto (próximamente)</button>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">El parseo automático de extractos bancarios queda para una próxima sesión.</div>
+  </div>
 </div>
 
 </div><!-- /container -->
@@ -756,6 +794,7 @@ let editingEgresoId = null, editingCuotaId = null;
 let chequeTipo = 'EMITIDO';
 const pendingDel = new Set();
 let reporteData = [], reporteChart = null;
+let posicionLoaded = false, posChart = null;
 
 // ── AUTH ──────────────────────────────────────────────────────
 async function handleLogout() {
@@ -766,11 +805,12 @@ async function handleLogout() {
 // ── TABS ──────────────────────────────────────────────────────
 function showTab(name) {
   document.querySelectorAll('.tab').forEach((t,i) => {
-    const names=['egresos','costosfijos','planes','cheques','reportes'];
+    const names=['egresos','costosfijos','planes','cheques','reportes','posicion'];
     t.classList.toggle('active', names[i]===name);
   });
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(`sec-${name}`).classList.add('active');
+  if (name === 'posicion' && !posicionLoaded) { posicionLoaded = true; loadPosicion(); }
 }
 
 // ── MODALS ─────────────────────────────────────────────────────
@@ -1368,6 +1408,190 @@ function exportCSV() {
   a.href = 'data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);
   a.download = `egresos_${document.getElementById('rDesde').value}_${document.getElementById('rHasta').value}.csv`;
   a.click();
+}
+
+// ── POSICIÓN BANCARIA ────────────────────────────────────────
+function diaAbrev(dateStr) {
+  const DIAS = ['Do','Lu','Ma','Mi','Ju','Vi','Sá'];
+  const [y,m,d] = dateStr.split('-');
+  return DIAS[new Date(+y, +m-1, +d).getDay()];
+}
+
+async function loadPosicion() {
+  try {
+    const [cuentas, financieros] = await Promise.all([
+      sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc'),
+      sbGet('panel_financiero_resumen', '?order=fecha_calculo.desc,actualizado_en.desc&limit=20'),
+    ]);
+    const cuentaPrincipal = cuentas.find(c => c.es_cuenta_principal) || cuentas[0];
+
+    let movimientosPrincipal = [];
+    if (cuentaPrincipal) {
+      movimientosPrincipal = await sbGet('movimientos_bancarios',
+        `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto`);
+    }
+
+    renderPosCuentas(cuentas, financieros, movimientosPrincipal, cuentaPrincipal);
+    renderPosChart(movimientosPrincipal);
+    renderPosCategorias(movimientosPrincipal);
+    await renderPosCobros(movimientosPrincipal);
+    renderPosEgresos();
+    renderPosCheques();
+  } catch (e) {
+    document.getElementById('posCuentasList').innerHTML = `<div class="empty">${e.message}</div>`;
+  }
+}
+
+function renderPosCuentas(cuentas, financieros, movimientosPrincipal, cuentaPrincipal) {
+  const el = document.getElementById('posCuentasList');
+  if (!cuentas.length) { el.innerHTML = '<div class="empty">No hay cuentas bancarias cargadas.</div>'; return; }
+
+  el.innerHTML = cuentas.map(c => {
+    const fin = financieros.find(f => f.cuenta_id === c.id);
+    let saldo = null, saldoFecha = null, semaforo = fin ? fin.semaforo : null;
+    if (fin) {
+      saldo = fin.saldo_actual;
+    } else if (cuentaPrincipal && c.id === cuentaPrincipal.id && movimientosPrincipal.length) {
+      const ultimo = movimientosPrincipal[movimientosPrincipal.length - 1];
+      saldo = ultimo.saldo; saldoFecha = ultimo.fecha;
+    }
+    const bCls = semaforo==='ROJO'?'b-danger':semaforo==='AMARILLO'?'b-pend':semaforo==='VERDE'?'b-ok':'b-gray';
+    return `<div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${c.banco} — ${c.tipo_cuenta.replace('_',' ')}${c.es_cuenta_principal?' <span class="badge b-info" style="font-size:9px">Principal</span>':''}</div>
+          <div class="item-meta"><span>${c.moneda}</span>${c.numero_cuenta?`<span>${c.numero_cuenta}</span>`:''}</div>
+        </div>
+        <div class="item-right">
+          ${saldo !== null
+            ? `<div class="item-monto">${f$(saldo)}</div><div style="margin-top:4px">${semaforo?`<span class="badge ${bCls}">${semaforo}</span>`:''}${saldoFecha?`<span style="font-size:10px;color:var(--muted);margin-left:6px">al ${fd(saldoFecha)}</span>`:''}</div>`
+            : `<div style="font-size:11px;color:var(--muted)">Sin movimientos registrados</div>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPosChart(movimientos) {
+  const wrap = document.getElementById('posChartWrap');
+  if (!movimientos.length) { wrap.style.display = 'none'; return; }
+
+  const hoy = new Date();
+  const desde = new Date(hoy); desde.setDate(desde.getDate() - 90);
+  const desdeStr = desde.toISOString().slice(0,10);
+
+  // Un saldo por fecha (el ultimo si hay varios movimientos el mismo dia)
+  const porFecha = new Map();
+  movimientos.filter(m => m.fecha >= desdeStr).forEach(m => porFecha.set(m.fecha, m.saldo));
+  const fechas = [...porFecha.keys()].sort();
+  if (!fechas.length) { wrap.style.display = 'none'; return; }
+
+  wrap.style.display = 'block';
+  const ctx = document.getElementById('posChart').getContext('2d');
+  if (posChart) posChart.destroy();
+  posChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: fechas.map(fd),
+      datasets: [{
+        data: fechas.map(f => porFecha.get(f)),
+        borderColor: 'rgba(200,169,110,1)',
+        backgroundColor: 'rgba(200,169,110,0.15)',
+        borderWidth: 2, tension: 0.25, pointRadius: 0, fill: true,
+      }]
+    },
+    options: {
+      plugins: { legend: { display:false } },
+      scales: {
+        x: { ticks:{color:'#9a9cb8',maxTicksLimit:8}, grid:{display:false} },
+        y: { ticks:{color:'#FDFBF0',callback:v=>'$'+v.toLocaleString('es-AR')}, grid:{color:'#141E61'} }
+      }
+    }
+  });
+}
+
+function renderPosCategorias(movimientos) {
+  const el = document.getElementById('posCategorias');
+  if (!movimientos.length) { el.innerHTML = '<div class="empty">Sin movimientos para desglosar.</div>'; return; }
+
+  const grupos = {};
+  movimientos.forEach(m => {
+    const cat = m.categoria_sugerida || 'SIN_CATEGORIA';
+    if (!grupos[cat]) grupos[cat] = { credito: 0, debito: 0 };
+    if (m.importe > 0) grupos[cat].credito += m.importe;
+    else grupos[cat].debito += Math.abs(m.importe);
+  });
+  const rows = Object.entries(grupos)
+    .sort((a,b) => (b[1].credito+b[1].debito) - (a[1].credito+a[1].debito))
+    .map(([cat, v]) => `<tr>
+      <td>${cat.replace(/_/g,' ')}</td>
+      <td style="text-align:right;color:var(--ok)">${v.credito ? f$(v.credito) : '—'}</td>
+      <td style="text-align:right;color:var(--danger)">${v.debito ? f$(v.debito) : '—'}</td>
+    </tr>`).join('');
+  el.innerHTML = `<div class="tw"><table>
+    <thead><tr><th>Categoría</th><th style="text-align:right">Créditos</th><th style="text-align:right">Débitos</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+async function renderPosCobros(movimientos) {
+  const el = document.getElementById('posCobros');
+  const candidatos = movimientos.filter(m => m.categoria_sugerida === 'SIN_CLASIFICAR' && m.importe > 0);
+  if (!candidatos.length) { el.innerHTML = '<div class="empty">No hay movimientos sin clasificar por cobrar.</div>'; return; }
+
+  let pagados = [];
+  try {
+    const { data, error } = await authClient.from('presupuestos_comerciales')
+      .select('numero,cliente_nombre,total_ars,fecha_pago').eq('estado','PAGADO');
+    if (error) throw error;
+    pagados = data || [];
+  } catch (e) {
+    el.innerHTML = `<div class="empty">No se pudo cargar presupuestos comerciales: ${e.message}</div>`;
+    return;
+  }
+
+  el.innerHTML = candidatos.map(m => {
+    const match = pagados.find(p => p.total_ars && Math.abs(p.total_ars - m.importe) / m.importe < 0.01);
+    return `<div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${m.concepto || 'Movimiento sin clasificar'}</div>
+          <div class="item-meta"><span>${fd(m.fecha)}</span></div>
+        </div>
+        <div class="item-right">
+          <div class="item-monto">${f$(m.importe)}</div>
+          ${match
+            ? `<div style="font-size:10px;color:var(--ok);margin-top:4px">≈ ${match.numero} · ${match.cliente_nombre}</div>`
+            : `<div style="font-size:10px;color:var(--muted);margin-top:4px">Sin coincidencia</div>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPosEgresos() {
+  document.getElementById('posEgresos').innerHTML =
+    '<div class="empty">Sin candidatos — pendiente backfill de egresos generales.</div>';
+}
+
+function renderPosCheques() {
+  const el = document.getElementById('posCheques');
+  const hoyMas7 = new Date(); hoyMas7.setDate(hoyMas7.getDate()+7);
+  const hoyMas7Str = hoyMas7.toISOString().slice(0,10);
+  const list = cheques
+    .filter(c => c.estado_calculado === 'PENDIENTE' && c.fecha_efectivo <= hoyMas7Str)
+    .sort((a,b) => a.fecha_efectivo.localeCompare(b.fecha_efectivo));
+  if (!list.length) { el.innerHTML = '<div class="empty">Sin cheques por vencer en los próximos 7 días.</div>'; return; }
+  el.innerHTML = list.map(c => `
+    <div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${c.tipo === 'EMITIDO' ? '↗' : '↘'} ${c.beneficiario_librador}</div>
+          <div class="item-meta"><span>${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</span></div>
+        </div>
+        <div class="item-right"><div class="item-monto">${f$(c.monto)}</div></div>
+      </div>
+    </div>`).join('');
 }
 
 // ── INIT ─────────────────────────────────────────────────────
