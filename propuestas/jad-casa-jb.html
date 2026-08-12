@@ -152,7 +152,7 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
       <button data-s="computos" onclick="showScreen('computos')">03 · Cómputos</button>
       <button data-s="tecnologia" onclick="showScreen('tecnologia')">04 · Integración Tecnológica</button>
       <button data-s="presupuestos" onclick="showScreen('presupuestos')">05 · Presupuestos</button>
-      <button data-s="planos" onclick="showScreen('planos')">06 · Planos</button>
+      <button data-s="planos" onclick="showScreen('planos')">06 · Descargas</button>
       <button data-s="cierre" onclick="showScreen('cierre')">07 · Cómo seguimos</button>
     </div>
   </div>
@@ -193,7 +193,7 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     <button class="hub-card" onclick="showScreen('computos')"><span class="hn">03</span><h3>Cómputos</h3><p>El detalle completo de obra eléctrica: tableros, cableado, bocas y llaves.</p></button>
     <button class="hub-card" onclick="showScreen('tecnologia')"><span class="hn">04</span><h3>Integración Tecnológica</h3><p>El proyecto completo de los 6 sistemas, con cada dispositivo especificado.</p></button>
     <button class="hub-card" onclick="showScreen('presupuestos')"><span class="hn">05</span><h3>Presupuestos</h3><p>BOM de equipos, mano de obra detallada y resumen de la inversión de referencia.</p></button>
-    <button class="hub-card" onclick="showScreen('planos')"><span class="hn">06</span><h3>Planos</h3><p>Los planos ejecutivos del proyecto, para previsualizar o descargar en PDF.</p></button>
+    <button class="hub-card" onclick="showScreen('planos')"><span class="hn">06</span><h3>Descargas</h3><p>Planos, archivos editables y presupuestos de proveedores — para previsualizar o descargar.</p></button>
     <button class="hub-card" onclick="showScreen('cierre')"><span class="hn">07</span><h3>Cómo seguimos</h3><p>Un solo responsable, del proyecto a la obra.</p></button>
   </div>
   <p class="hub-note">Documento del proyecto ejecutivo — no constituye orden de compra ni inicio de obra.</p>
@@ -1093,29 +1093,41 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     </table></div>
 
     <h3 style="margin:40px 0 4px;">E — Resumen de Presupuestos</h3>
+    <p class="lead" style="margin-bottom:10px;">A + B + C + D son los valores de referencia de Nova Domus. Los
+    materiales de obra eléctrica se muestran aparte: son presupuestos de proveedores externos, no vinculantes
+    para Nova Domus, sujetos a la compra directa del Estudio/Cliente.</p>
     <table class="tot-table">
       <tbody>
         <tr><td>A — Equipos de Integración Tecnológica (con IVA)</td><td class="num">U$D 26,215</td></tr>
         <tr><td>B — Mano de obra Integración Tecnológica (instalación + programación)</td><td class="num">U$D 13,204</td></tr>
         <tr><td>C — Mano de obra Obra Eléctrica</td><td class="num">U$D 20,617</td></tr>
         <tr><td>D — Mano de obra Colocación de Artefactos</td><td class="num">U$D 3,609</td></tr>
-        <tr class="pending"><td>Materiales de obra eléctrica y luminarias — a incorporar según presupuestos de proveedores (en curso)</td><td class="num">pendiente</td></tr>
         <tr class="grand"><td>TOTAL DE REFERENCIA (sin materiales eléctricos)</td><td class="num">U$D 63,645</td></tr>
       </tbody>
     </table>
+
+    <table class="tot-table" style="margin-top:18px;">
+      <tbody>
+        <tr><td>Materiales de obra eléctrica <span class="muted">— cotización Electroalem S21274, presupuesto de proveedor (no vinculante)</span></td><td class="num">U$D 9,095</td></tr>
+        <tr class="pending"><td>Materiales de luminarias — a incorporar según presupuesto de proveedor (en curso)</td><td class="num">pendiente</td></tr>
+        <tr class="grand"><td>TOTAL con materiales eléctricos <span class="muted" style="font-style:italic;font-weight:400;">(parcial — falta luminarias)</span></td><td class="num">U$D 72,740</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:8px;">Cotización de materiales eléctricos de referencia disponible para
+    descarga en el capítulo 06 · Descargas.</p>
     <a class="btn-pdf" href="computo-materiales-jad.pdf" download>⬇ Descargar cómputo de materiales (PDF)</a>
 <p class="muted" style="margin-top:6px;">Para validar presupuestos de proveedores o comprar en su casa de electricidad de confianza.</p>
 
     <div class="screen-nav">
       <button onclick="showScreen('tecnologia')">← 04 · Integración Tecnológica</button><span class="spacer"></span>
-      <button onclick="showScreen('planos')">06 · Planos →</button>
+      <button onclick="showScreen('planos')">06 · Descargas →</button>
     </div>
   </div>
 </section>
 
 <section class="screen" id="screen-planos">
   <div class="wrap">
-    <div class="chap-head"><div class="n">06</div><h2>Planos del Proyecto</h2></div>
+    <div class="chap-head"><div class="n">06</div><h2>Descargas</h2></div>
     <p class="lead">Los planos ejecutivos en PDF — se pueden previsualizar en el navegador o descargar para
     imprimir y llevar a obra.</p>
     <div class="plano-grid">
@@ -1210,6 +1222,16 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
         </div>
       </div>
     </div>
+    <div class="plano-card">
+      <div class="plano-num" style="font-size:16px;letter-spacing:1px;">PDF</div>
+      <div class="plano-info">
+        <h4>Cotización de materiales eléctricos — Electroalem</h4>
+        <p>Presupuesto de proveedor (S21274) para los materiales de la obra eléctrica. Informativo — no vinculante para Nova Domus</p>
+        <div class="plano-btns">
+          <a href="planos-jad/cotizacion-electroalem-s21274.pdf" download>⬇ Descargar</a>
+        </div>
+      </div>
+    </div>
     </div>
     <div class="screen-nav">
       <button onclick="showScreen('presupuestos')">← 05 · Presupuestos</button><span class="spacer"></span>
@@ -1236,7 +1258,7 @@ footer .py-foot{color:var(--gold);font-weight:600;letter-spacing:1px;}
     </div>
     <p class="muted">Queda funcionando y documentado.</p>
     <div class="screen-nav">
-      <button onclick="showScreen('planos')">← 06 · Planos</button><span class="spacer"></span>
+      <button onclick="showScreen('planos')">← 06 · Descargas</button><span class="spacer"></span>
       <button onclick="showScreen('hub')">Volver al inicio</button>
     </div>
   </div>
