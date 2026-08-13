@@ -367,22 +367,22 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
       <div class="card">
         <div class="sh">
           <div class="sh-t">Ítems del período</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <button class="btn btn-g btn-sm" onclick="addSI('CERTIFICADO')">+ Certificado</button>
-            <button class="btn btn-g btn-sm" style="color:var(--warn);border-color:var(--warn)"
-              onclick="addSI('EXC_ESPONTANEO')">+ Exc. espontáneo</button>
-            <button class="btn btn-g btn-sm" style="color:#a78bfa;border-color:#a78bfa"
-              onclick="addSI('EXC_SOLICITUD')">+ Exc. por solicitud</button>
-          </div>
         </div>
         <div id="sItems"><div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Agregá los trabajos de la semana</div></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn btn-g btn-sm" onclick="addSI('CERTIFICADO')">+ Certificado</button>
+          <button class="btn btn-g btn-sm" style="color:var(--warn);border-color:var(--warn)"
+            onclick="addSI('EXC_ESPONTANEO')">+ Exc. espontáneo</button>
+          <button class="btn btn-g btn-sm" style="color:#a78bfa;border-color:#a78bfa"
+            onclick="addSI('EXC_SOLICITUD')">+ Exc. por solicitud</button>
+        </div>
       </div>
       <div class="card">
         <div class="sh">
           <div class="sh-t">Facturas / Materiales</div>
-          <button class="btn btn-g btn-sm" onclick="addSF()">+ Factura</button>
         </div>
         <div id="sFacts"><div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá facturas de materiales si corresponde</div></div>
+        <button class="btn btn-g btn-sm" style="margin-top:10px" onclick="addSF()">+ Factura</button>
       </div>
       <div class="card" id="sTotCard" style="display:none">
         <div class="ct">Resumen</div>
@@ -801,6 +801,7 @@ const sbGet=(t,q='')=>sbFetch('GET',t,null,q);
 const sbPost=(t,b)=>sbFetch('POST',t,b);
 const sbPatch=(t,b,q)=>sbFetch('PATCH',t,b,q);
 const sbDel=(t,q)=>sbFetch('DELETE',t,null,q);
+const sbRpc=(fn,params)=>sbPost(`rpc/${fn}`,params);
 
 function setDbStatus(ok,txt){
   sbOK=ok;
@@ -1342,6 +1343,19 @@ const mapCertTipo=t=>t==='EXCEDENTE_ESPONTANEO'?'EXC_ESPONTANEO':t==='EXCEDENTE_
 const mapRecTipo =t=>t==='EXCEDENTE'?'EXC':t==='MATERIAL'?'MAT':t==='CERTIFICADO'?'CERT':'OTRO';
 const unmapCertTipo=cls=>cls==='EXC_ESPONTANEO'?'EXCEDENTE_ESPONTANEO':cls==='EXC_SOLICITUD'?'EXCEDENTE_SOLICITUD':'CERTIFICADO';
 
+// Fuente única: traduce ítems de certificado (sItems/edItems) a líneas de recibo.
+// Usada tanto al generar un recibo nuevo como al re-derivar las líneas de mano de
+// obra durante edición/rectificación, para que ambos caminos nunca diverjan.
+function construirLineasRecibo(items){
+  return items.filter(i=>!i._deleted).map(i=>({
+    _srcKey:i.id||null,
+    tipo:i.cls==='CERTIFICADO'?'CERTIFICADO':'EXCEDENTE',
+    descripcion:i.desc||'',
+    monto_pesos:i.sub||0,
+    cantidad:i.qty||1,
+  }));
+}
+
 let cdCert=null,cdRec=null,cdObra=null;
 
 function resetCdViewSkeleton(){
@@ -1388,7 +1402,7 @@ async function abrirDetalleCert(certId){
 
   if(rec){
     const lineas=(rec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo)}));
+      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo),qty:l.cantidad||1}));
     const matFacts=await getMatFacts(obra.id,cert.periodo_desde,cert.periodo_hasta);
     buildDR({obra,numR:rec.numero,fecha:rec.fecha_emision,tc:rec.tipo_cambio_usd,det:rec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
@@ -1404,9 +1418,11 @@ async function abrirDetalleCert(certId){
 
   const actions=document.getElementById('cdActions');
   if(cert.estado==='BORRADOR'||cert.estado==='ENVIADO'){
-    actions.innerHTML=`<button class="btn btn-p" onclick="editarCertificado('${cert.id}')">✏ Editar</button>`;
+    actions.innerHTML=`<button class="btn btn-p" onclick="editarCertificado('${cert.id}')">✏ Editar</button>
+      <button class="btn btn-d" onclick="eliminarCertificado('${cert.id}')">🗑 Eliminar</button>`;
   }else if(cert.estado==='PAGADO'){
-    actions.innerHTML=`<button class="btn btn-p" onclick="rectificarCertificado('${cert.id}')">📄 Rectificar</button>`;
+    actions.innerHTML=`<button class="btn btn-p" onclick="rectificarCertificado('${cert.id}')">📄 Rectificar</button>
+      <button class="btn btn-d" onclick="anularCertificado('${cert.id}')">🚫 Anular</button>`;
   }else{
     actions.innerHTML='';
   }
@@ -1424,20 +1440,50 @@ function showCdPV(w,el){
 
 // ── Edición de certificado/recibo (BORRADOR / ENVIADO) ──────────
 //    y rectificación (PAGADO) — comparten el mismo formulario de ítems/líneas.
-let edMode='edit',edCert=null,edRec=null,edObra=null,edItems=[],edLineas=[],edTC=1430;
+let edMode='edit',edCert=null,edRec=null,edObra=null,edItems=[],edFacts=[],edLineas=[],edTC=1430;
 
-function editarCertificado(id){
+async function editarCertificado(id){
   if(!cdCert||cdCert.id!==id){ toast('Error interno: certificado no cargado','err'); return; }
   edMode='edit';
   edCert=cdCert;edRec=cdRec;edObra=cdObra;
   edTC=edCert.tipo_cambio_usd||1430;
   edItems=(edCert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-    .map(i=>({_key:i.id,_id:i.id,_new:false,_deleted:false,orden:i.orden||0,
-      cls:mapCertTipo(i.tipo),desc:i.descripcion||'',qty:i.cantidad||1,
-      pct:i.porcentaje_etapa||1,usd:i.precio_usd_unitario||null}));
-  edLineas=(edRec?.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-    .map(l=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
-      tipo:l.tipo,desc:l.descripcion||'',monto:l.monto_pesos||0}));
+    .map(i=>{
+      const rub=i.rubro_id?cache.rubros().find(r=>r.id===i.rubro_id):null;
+      return {id:i.id,_id:i.id,_new:false,_deleted:false,orden:i.orden||0,
+        cls:mapCertTipo(i.tipo),desc:i.descripcion||'',qty:i.cantidad||1,
+        pct:i.porcentaje_etapa||1,usd:i.precio_usd_unitario||null,
+        tId:i.rubro_id||null,_tarLabel:rub?`[${rub.codigo}] ${(rub.descripcion||'').slice(0,40)}`:''};
+    });
+
+  const todasLineas=(edRec?.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0));
+  const matLineas=todasLineas.filter(l=>l.tipo==='MATERIAL');
+  const otroLineas=todasLineas.filter(l=>l.tipo==='OTRO');
+  let importadas=new Set();
+  if(matLineas.length){
+    try{
+      const rows=await sbGet('facturas_obra',`?recibo_linea_id=in.(${matLineas.map(l=>l.id).join(',')})&select=recibo_linea_id`);
+      importadas=new Set(rows.map(r=>r.recibo_linea_id));
+    }catch{ /* si falla, mejor mostrar editable que romper la carga del formulario */ }
+  }
+  edFacts=matLineas.map(l=>({id:uid(),_new:false,_deleted:false,razon:l.proveedor||'',
+    nro:l.factura_referencia||'',sinIva:0,conIva:l.monto_pesos||0,_locked:importadas.has(l.id)}));
+
+  // Las líneas CERTIFICADO/EXCEDENTE ya guardadas no tienen forma de matchearse a un
+  // ítem de certificado puntual (recibos_lineas no guarda esa referencia) — se marcan
+  // para borrar acá y syncEdLineasFromItems() las reemplaza por las recién derivadas
+  // de edItems. Las MATERIAL quedan linkeadas a su tarjeta de edFacts vía _srcFactKey
+  // para que syncEdLineasFromFacts() actualice en el lugar (nunca borre+recree, porque
+  // pueden estar referenciadas desde facturas_obra). Las OTRO legacy no las genera ni
+  // las toca este formulario — quedan intactas, de solo lectura.
+  edLineas=[
+    ...todasLineas.filter(l=>l.tipo==='CERTIFICADO'||l.tipo==='EXCEDENTE').map(l=>({_key:l.id,_id:l.id,_new:false,
+      _deleted:true,orden:l.orden||0,tipo:l.tipo,desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1})),
+    ...matLineas.map((l,idx)=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
+      tipo:'MATERIAL',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_srcFactKey:edFacts[idx].id})),
+    ...otroLineas.map(l=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
+      tipo:'OTRO',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_locked:true})),
+  ];
   renderEditForm();
 }
 
@@ -1449,14 +1495,38 @@ function rectificarCertificado(id){
   edTC=edCert.tipo_cambio_usd||1430;
   // Los ítems/líneas se copian como nuevos: van a un certificado/recibo nuevo, el original no se toca.
   edItems=(edCert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-    .map(i=>({_key:uid(),_id:null,_new:true,_deleted:false,orden:i.orden||0,
-      cls:mapCertTipo(i.tipo),desc:i.descripcion||'',qty:i.cantidad||1,
-      pct:i.porcentaje_etapa||1,usd:i.precio_usd_unitario||null}));
-  edLineas=(edRec?.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-    .map(l=>({_key:uid(),_id:null,_new:true,_deleted:false,orden:l.orden||0,
-      tipo:l.tipo,desc:l.descripcion||'',monto:l.monto_pesos||0}));
+    .map(i=>{
+      const rub=i.rubro_id?cache.rubros().find(r=>r.id===i.rubro_id):null;
+      return {id:uid(),_id:null,_new:true,_deleted:false,orden:i.orden||0,
+        cls:mapCertTipo(i.tipo),desc:i.descripcion||'',qty:i.cantidad||1,
+        pct:i.porcentaje_etapa||1,usd:i.precio_usd_unitario||null,
+        tId:i.rubro_id||null,_tarLabel:rub?`[${rub.codigo}] ${(rub.descripcion||'').slice(0,40)}`:''};
+    });
+
+  const todasLineas=(edRec?.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0));
+  const matLineas=todasLineas.filter(l=>l.tipo==='MATERIAL');
+  const otroLineas=todasLineas.filter(l=>l.tipo==='OTRO');
+  edFacts=matLineas.map(l=>({id:uid(),_new:true,_deleted:false,razon:l.proveedor||'',
+    nro:l.factura_referencia||'',sinIva:0,conIva:l.monto_pesos||0,_locked:false}));
+  // CERTIFICADO/EXCEDENTE/MATERIAL se descartan acá: van a un recibo nuevo que todavía
+  // no existe, y los syncEdLineasFrom*() los regeneran desde edItems/edFacts. Las OTRO
+  // legacy se copian como nuevas (mismo criterio que edItems).
+  edLineas=otroLineas.map(l=>({_key:uid(),_id:null,_new:true,_deleted:false,orden:l.orden||0,
+    tipo:'OTRO',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_locked:true}));
   renderEditForm();
 }
+
+function getEdMeta(){
+  return {arr:edItems,wrapId:'edItemsWrap',getTC:()=>edTC,getObraId:()=>edObra?.id,
+    onChange:syncEdLineasFromItems,
+    emptyHtml:'<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá ítems al certificado</div>'};
+}
+function getEdFactMeta(){
+  return {arr:edFacts,wrapId:'edFactsWrap',onChange:syncEdLineasFromFacts,
+    emptyHtml:'<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá facturas de materiales si corresponde</div>'};
+}
+function addEI(cls){ addItemCard(getEdMeta(),cls); }
+function addEF(){ addFactCard(getEdFactMeta()); }
 
 function renderEditForm(){
   const isRect=edMode==='rectify';
@@ -1467,38 +1537,37 @@ function renderEditForm(){
     :eBadge(edCert.estado);
   const body=document.querySelector('#mCertDetalle .mbody');
   body.innerHTML=`
-    <div class="ct">Ítems del certificado</div>
-    <div id="edItemsWrap"></div>
-    <div style="display:flex;gap:6px;margin:10px 0 18px;flex-wrap:wrap">
-      <button class="btn btn-g btn-sm" onclick="addEI('CERTIFICADO')">+ Certificado</button>
-      <button class="btn btn-g btn-sm" style="color:var(--warn);border-color:var(--warn)"
-        onclick="addEI('EXC_ESPONTANEO')">+ Exc. espontáneo</button>
-      <button class="btn btn-g btn-sm" style="color:#a78bfa;border-color:#a78bfa"
-        onclick="addEI('EXC_SOLICITUD')">+ Exc. por solicitud</button>
+    <div class="card">
+      <div class="sh"><div class="sh-t">Ítems del certificado</div></div>
+      <div id="edItemsWrap"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn btn-g btn-sm" onclick="addEI('CERTIFICADO')">+ Certificado</button>
+        <button class="btn btn-g btn-sm" style="color:var(--warn);border-color:var(--warn)"
+          onclick="addEI('EXC_ESPONTANEO')">+ Exc. espontáneo</button>
+        <button class="btn btn-g btn-sm" style="color:#a78bfa;border-color:#a78bfa"
+          onclick="addEI('EXC_SOLICITUD')">+ Exc. por solicitud</button>
+      </div>
     </div>
     ${edRec?`
-    <div class="ct">Líneas del recibo</div>
-    <div id="edLineasWrap"></div>
-    <div style="margin:10px 0 4px">
-      <button class="btn btn-g btn-sm" onclick="addEL()">+ Línea</button>
+    <div class="card">
+      <div class="sh"><div class="sh-t">Facturas / Materiales</div></div>
+      <div id="edFactsWrap"></div>
+      <button class="btn btn-g btn-sm" style="margin-top:10px" onclick="addEF()">+ Factura</button>
+    </div>
+    <div class="card">
+      <div class="ct">Resumen</div>
+      <div class="tbox">
+        <div class="tr2"><span>Certificados</span><span style="text-align:right"><span id="edTC">$ 0</span><br><span id="edTCu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+        <div class="tr2"><span>Exc. espontáneos</span><span style="text-align:right"><span id="edTE">$ 0</span><br><span id="edTEu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+        <div class="tr2"><span>Exc. por solicitud</span><span style="text-align:right"><span id="edTS">$ 0</span><br><span id="edTSu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+        <div class="tr2"><span>Facturas/materiales</span><span style="text-align:right"><span id="edTF">$ 0</span><br><span id="edTFu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+        <div class="tf"><span>TOTAL RECIBO</span><span style="text-align:right"><span id="edTT">$ 0</span><br><span id="edTTu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
+      </div>
     </div>`:`
-    <div class="ct">Líneas del recibo</div>
-    <div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Sin recibo asociado a este certificado.</div>`}
-    <div id="edTotal" style="text-align:right;font-weight:800;color:var(--accent);margin-top:8px"></div>`;
+    <div class="ct" style="margin-top:14px">Sin recibo asociado a este certificado.</div>`}`;
 
-  const iw=document.getElementById('edItemsWrap');
-  const visItems=edItems.filter(i=>!i._deleted);
-  iw.innerHTML=visItems.length?'':
-    '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá ítems al certificado</div>';
-  visItems.forEach(renderEIBlock);
-
-  if(edRec){
-    const lw=document.getElementById('edLineasWrap');
-    const visLineas=edLineas.filter(l=>!l._deleted);
-    lw.innerHTML=visLineas.length?'':
-      '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Sin líneas de recibo</div>';
-    visLineas.forEach(renderELBlock);
-  }
+  hydrateItemCards(edItems,getEdMeta());
+  if(edRec) hydrateFactCards(edFacts,getEdFactMeta());
   recalcEd();
 
   const actions=document.getElementById('cdActions');
@@ -1511,119 +1580,60 @@ function cancelarEdicionCert(){
   abrirDetalleCert(edCert.id);
 }
 
-function addEI(cls){
-  const key=uid();
-  edItems.push({_key:key,_id:null,_new:true,_deleted:false,orden:edItems.length,
-    cls,desc:'',qty:1,pct:1,usd:null});
-  renderEIBlock(edItems[edItems.length-1]);
+// Reconstruye las líneas CERTIFICADO/EXCEDENTE de edLineas a partir de edItems, y las
+// MATERIAL a partir de edFacts (vía construirLineasRecibo y el mapeo directo de
+// edFacts respectivamente) — evita que certificado y recibo se desincronicen durante
+// la edición (ver plan de unificación). Las líneas OTRO legacy, que no tienen
+// _srcKey/_srcFactKey porque no vienen de ningún ítem/factura de este formulario, no
+// se tocan.
+function syncEdLineasFromItems(){
+  if(edRec){
+    const derived=construirLineasRecibo(edItems);
+    const prevAuto=new Map(edLineas.filter(l=>l._srcKey).map(l=>[l._srcKey,l]));
+    const rest=edLineas.filter(l=>!l._srcKey);
+    const derivedKeys=new Set(derived.map(d=>d._srcKey));
+    const autoLines=derived.map(d=>{
+      const prev=prevAuto.get(d._srcKey);
+      return prev
+        ?{...prev,tipo:d.tipo,desc:d.descripcion,monto:d.monto_pesos,qty:d.cantidad,_deleted:false}
+        :{_key:uid(),_id:null,_new:true,_deleted:false,orden:0,_srcKey:d._srcKey,
+          tipo:d.tipo,desc:d.descripcion,monto:d.monto_pesos,qty:d.cantidad};
+    });
+    prevAuto.forEach((l,key)=>{
+      if(!derivedKeys.has(key)&&!l._new) autoLines.push({...l,_deleted:true});
+    });
+    edLineas=[...autoLines,...rest];
+  }
   recalcEd();
 }
 
-function renderEIBlock(item){
-  const wrap=document.getElementById('edItemsWrap');
-  if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
-  const {l,c}=CM[item.cls];
-  const div=document.createElement('div');
-  div.className='iblk';div.id=`ei-${item._key}`;
-  div.innerHTML=`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
-      <span style="font-size:10px;font-weight:900;color:${c};letter-spacing:.8px">${l}</span>
-      <button class="btn btn-d btn-sm" onclick="rmEI('${item._key}')">✕</button>
-    </div>
-    <div class="fg" style="margin-bottom:8px">
-      <label>Descripción</label>
-      <textarea rows="2" oninput="updEI('${item._key}','desc',this.value)">${item.desc||''}</textarea>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div class="fg" style="max-width:90px"><label>Cantidad</label>
-        <input type="number" value="${item.qty||1}" min="0.1" step="0.1"
-          oninput="updEI('${item._key}','qty',parseFloat(this.value)||1);calcEI('${item._key}')"></div>
-      <div class="fg" style="max-width:120px"><label>% Etapa (0–1)</label>
-        <input type="number" value="${item.pct||1}" step="0.01" min="0.01" max="1"
-          oninput="updEI('${item._key}','pct',parseFloat(this.value)||0);calcEI('${item._key}')"></div>
-      <div class="fg" style="max-width:120px"><label>USD Unitario</label>
-        <input type="number" step="0.01" value="${item.usd!=null?item.usd:''}" placeholder="auto"
-          oninput="updEI('${item._key}','usd',parseFloat(this.value)||null);calcEI('${item._key}')"></div>
-    </div>
-    <div style="font-size:11px;color:var(--accent);font-weight:800;margin-top:6px;text-align:right"
-      id="eisub-${item._key}"></div>`;
-  wrap.appendChild(div);
-  calcEI(item._key);
-}
-
-function updEI(key,f,v){const i=edItems.find(x=>x._key===key);if(i)i[f]=v;}
-
-function calcEI(key){
-  const i=edItems.find(x=>x._key===key);if(!i)return;
-  const sub=(i.usd||0)*(i.pct||0)*(i.qty||1)*edTC;
-  i.sub=sub;
-  const el=document.getElementById(`eisub-${key}`);
-  if(el)el.textContent=sub>0?`Subtotal: ${f$(sub)}`:'Subtotal: sin precio asignado';
-  recalcEd();
-}
-
-function rmEI(key){
-  const idx=edItems.findIndex(x=>x._key===key);if(idx<0)return;
-  if(edItems[idx]._new) edItems.splice(idx,1);
-  else edItems[idx]._deleted=true;
-  document.getElementById(`ei-${key}`)?.remove();
-  if(!edItems.filter(i=>!i._deleted).length)
-    document.getElementById('edItemsWrap').innerHTML=
-      '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá ítems al certificado</div>';
-  recalcEd();
-}
-
-const RL_LABELS={CERTIFICADO:'📋 Certificado',EXCEDENTE:'📌 Excedente',MATERIAL:'🧾 Material',OTRO:'▪ Otro'};
-
-function addEL(){
-  const key=uid();
-  edLineas.push({_key:key,_id:null,_new:true,_deleted:false,orden:edLineas.length,
-    tipo:'OTRO',desc:'',monto:0});
-  renderELBlock(edLineas[edLineas.length-1]);
-  recalcEd();
-}
-
-function renderELBlock(l){
-  const wrap=document.getElementById('edLineasWrap');
-  if(wrap.querySelector('div[style*="text-align"]'))wrap.innerHTML='';
-  const div=document.createElement('div');
-  div.className='iblk';div.id=`el-${l._key}`;
-  div.innerHTML=`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
-      <select style="max-width:160px" onchange="updEL('${l._key}','tipo',this.value)">
-        ${Object.keys(RL_LABELS).map(t=>`<option value="${t}" ${l.tipo===t?'selected':''}>${RL_LABELS[t]}</option>`).join('')}
-      </select>
-      <button class="btn btn-d btn-sm" style="margin-left:auto" onclick="rmEL('${l._key}')">✕</button>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div class="fg" style="flex:2;min-width:220px"><label>Descripción</label>
-        <input type="text" value="${(l.desc||'').replace(/"/g,'&quot;')}"
-          oninput="updEL('${l._key}','desc',this.value)"></div>
-      <div class="fg" style="max-width:140px"><label>Monto $</label>
-        <input type="number" value="${l.monto||0}" step="1"
-          oninput="updEL('${l._key}','monto',parseFloat(this.value)||0);recalcEd()"></div>
-    </div>`;
-  wrap.appendChild(div);
-}
-
-function updEL(key,f,v){const l=edLineas.find(x=>x._key===key);if(l)l[f]=v;}
-
-function rmEL(key){
-  const idx=edLineas.findIndex(x=>x._key===key);if(idx<0)return;
-  if(edLineas[idx]._new) edLineas.splice(idx,1);
-  else edLineas[idx]._deleted=true;
-  document.getElementById(`el-${key}`)?.remove();
-  if(!edLineas.filter(l=>!l._deleted).length)
-    document.getElementById('edLineasWrap').innerHTML=
-      '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Sin líneas de recibo</div>';
+function syncEdLineasFromFacts(){
+  if(edRec){
+    const rest=edLineas.filter(l=>!l._srcFactKey);
+    const prevAuto=new Map(edLineas.filter(l=>l._srcFactKey).map(l=>[l._srcFactKey,l]));
+    const visFacts=edFacts.filter(f=>!f._deleted);
+    const derivedKeys=new Set(visFacts.map(f=>f.id));
+    const autoLines=visFacts.map(f=>{
+      const prev=prevAuto.get(f.id);
+      const payload={tipo:'MATERIAL',desc:f.razon?`${f.razon}${f.nro?' · '+f.nro:''}`:'',monto:f.conIva||0,qty:1,
+        proveedor:f.razon||null,factura_referencia:f.nro||null};
+      return prev?{...prev,...payload,_deleted:false}
+        :{_key:uid(),_id:null,_new:true,_deleted:false,orden:0,_srcFactKey:f.id,...payload};
+    });
+    prevAuto.forEach((l,key)=>{
+      if(!derivedKeys.has(key)&&!l._new) autoLines.push({...l,_deleted:true});
+    });
+    edLineas=[...rest,...autoLines];
+  }
   recalcEd();
 }
 
 function recalcEd(){
-  const totC=edItems.filter(i=>!i._deleted).reduce((s,i)=>s+(i.sub||0),0);
-  const totL=edLineas.filter(l=>!l._deleted).reduce((s,l)=>s+(l.monto||0),0);
-  const el=document.getElementById('edTotal');
-  if(el)el.textContent=`Total certificado: ${f$(totC)} · Total recibo: ${f$(totL)}`;
+  const {tC,tE,tS,tF,tT}=computeTotals(edItems,edFacts,edTC);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=f$(v);};
+  const setU=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=fUsd(v/edTC);};
+  set('edTC',tC);set('edTE',tE);set('edTS',tS);set('edTF',tF);set('edTT',tT);
+  setU('edTCu',tC);setU('edTEu',tE);setU('edTSu',tS);setU('edTFu',tF);setU('edTTu',tT);
 }
 
 async function previewEdicionCert(){
@@ -1642,7 +1652,7 @@ async function previewEdicionCert(){
     .replace('id="cdRawC"','class="doc-print" style="background:#FDFBF0"');
 
   if(edRec){
-    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo)}));
+    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo),qty:l.qty||1}));
     const matFacts=await getMatFacts(edObra.id,edCert.periodo_desde,edCert.periodo_hasta);
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
       lineas,matFacts,target:'cdRawR'});
@@ -1672,7 +1682,7 @@ async function confirmarGuardarCert(){
         continue;
       }
       const payload={tipo:unmapCertTipo(i.cls),descripcion:i.desc,precio_usd_unitario:i.usd||null,
-        porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,orden:orden++};
+        porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,rubro_id:i.tId||null,orden:orden++};
       if(i._new) await sbPost('certificados_items',{...payload,certificado_id:edCert.id});
       else await sbPatch('certificados_items',payload,`?id=eq.${i._id}`);
     }
@@ -1683,7 +1693,7 @@ async function confirmarGuardarCert(){
           if(!l._new) await sbDel('recibos_lineas',`?id=eq.${l._id}`);
           continue;
         }
-        const payload={tipo:l.tipo,descripcion:l.desc,monto_pesos:l.monto||0,orden:ordenL++};
+        const payload={tipo:l.tipo,descripcion:l.desc,monto_pesos:l.monto||0,cantidad:l.qty||1,orden:ordenL++};
         if(l._new) await sbPost('recibos_lineas',{...payload,recibo_id:edRec.id});
         else await sbPatch('recibos_lineas',payload,`?id=eq.${l._id}`);
       }
@@ -1712,7 +1722,7 @@ async function confirmarRectificarCert(){
     for(const i of edItems.filter(x=>!x._deleted)){
       await sbPost('certificados_items',{certificado_id:newCertId,tipo:unmapCertTipo(i.cls),
         descripcion:i.desc,precio_usd_unitario:i.usd||null,porcentaje_etapa:i.pct||null,
-        cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,orden:orden++});
+        cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,rubro_id:i.tId||null,orden:orden++});
     }
 
     if(edRec){
@@ -1727,7 +1737,7 @@ async function confirmarRectificarCert(){
       let ordenL=0;
       for(const l of edLineas.filter(x=>!x._deleted)){
         await sbPost('recibos_lineas',{recibo_id:newRecId,tipo:l.tipo,descripcion:l.desc,
-          monto_pesos:l.monto||0,orden:ordenL++});
+          monto_pesos:l.monto||0,cantidad:l.qty||1,orden:ordenL++});
       }
       await sbPatch('recibos',{estado:'RECTIFICADO'},`?id=eq.${edRec.id}`);
     }
@@ -1740,6 +1750,117 @@ async function confirmarRectificarCert(){
     selObra(selObraId);
   }catch(e){
     toast('Error al rectificar: '+e.message,'err');
+  }
+}
+
+// ── Borrado / anulado de certificado y recibo ───────────────────
+// recibos.certificado_id, observador_movimientos/recibos_cobros/materiales_compras
+// .recibo_id y facturas_obra.recibo_linea_id son FK sin cascade — un DELETE directo
+// falla si hay algo del otro lado. Se valida todo ANTES de pedir confirmación.
+async function getRecDeleteBlockers(rec){
+  const lineaIds=(rec.recibos_lineas||[]).map(l=>l.id);
+  const [rectHijo,mov,cob,mat,fact]=await Promise.all([
+    sbGet('recibos',`?rectifica_id=eq.${rec.id}&select=id,numero`),
+    sbGet('observador_movimientos',`?recibo_id=eq.${rec.id}&select=id`),
+    sbGet('recibos_cobros',`?recibo_id=eq.${rec.id}&select=id`),
+    sbGet('materiales_compras',`?recibo_id=eq.${rec.id}&select=id`),
+    lineaIds.length?sbGet('facturas_obra',`?recibo_linea_id=in.(${lineaIds.join(',')})&select=id`):Promise.resolve([]),
+  ]);
+  if(rectHijo.length) return `el recibo N°${rectHijo[0].numero} lo rectifica`;
+  if(mov.length) return `tiene ${mov.length} movimiento(s) de cuadrilla registrados`;
+  if(cob.length) return `tiene ${cob.length} cobro(s) registrados`;
+  if(mat.length) return `tiene ${mat.length} compra(s) de materiales registradas`;
+  if(fact.length) return `tiene ${fact.length} factura(s) importada(s) vinculadas`;
+  return null;
+}
+
+// El trigger de recibos_lineas recalcula analisis_obra buscando el obra_id del recibo
+// padre — al borrar el recibo, Postgres cascadea el DELETE a sus recibos_lineas
+// DESPUÉS de borrar la fila del recibo, así que esa búsqueda ya no encuentra nada y el
+// trigger se sale sin recalcular. Por eso el refresh se pide acá, explícito.
+async function borrarReciboInterno(rec){
+  await sbDel('recibos',`?id=eq.${rec.id}`);
+  await sbRpc('refresh_obra_balance_from',{p_obra_id:rec.obra_id,p_from_fecha:'2000-01-01'});
+}
+
+async function eliminarRecibo(recId){
+  if(!cdRec||cdRec.id!==recId){ toast('Error interno: recibo no cargado','err'); return; }
+  const rec=cdRec;
+  if(rec.estado!=='BORRADOR'&&rec.estado!=='ENVIADO'){
+    toast('Solo se pueden eliminar recibos en BORRADOR o ENVIADO','err'); return;
+  }
+  const blocker=await getRecDeleteBlockers(rec);
+  if(blocker){ toast('No se puede eliminar: '+blocker,'err'); return; }
+  const total=(rec.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0);
+  const msg=`Vas a eliminar el Recibo N°${rec.numero} (${rec.estado}, ${f$(total)}).\n`+
+    `Esto también elimina sus ${(rec.recibos_lineas||[]).length} línea(s).\n`+
+    `Esta acción no se puede deshacer.`;
+  if(!confirm(msg))return;
+  try{
+    await borrarReciboInterno(rec);
+    toast('✅ Recibo eliminado','ok');
+    closeM('mCertDetalle');
+    await loadObras();
+    selObra(selObraId);
+  }catch(e){
+    toast('Error al eliminar: '+e.message,'err');
+  }
+}
+
+async function eliminarCertificado(certId){
+  if(!cdCert||cdCert.id!==certId){ toast('Error interno: certificado no cargado','err'); return; }
+  const cert=cdCert,rec=cdRec;
+  if(cert.estado!=='BORRADOR'&&cert.estado!=='ENVIADO'){
+    toast('Solo se pueden eliminar certificados en BORRADOR o ENVIADO','err'); return;
+  }
+  let rectHijo;
+  try{ rectHijo=await sbGet('certificados',`?rectifica_id=eq.${certId}&select=id,numero`); }
+  catch(e){ toast('Error: '+e.message,'err'); return; }
+  if(rectHijo.length){
+    toast(`No se puede eliminar: el certificado N°${rectHijo[0].numero} lo rectifica`,'err'); return;
+  }
+  let recBlocker=null;
+  if(rec){
+    try{ recBlocker=await getRecDeleteBlockers(rec); }
+    catch(e){ toast('Error: '+e.message,'err'); return; }
+  }
+  if(recBlocker){ toast('No se puede eliminar: el recibo asociado '+recBlocker,'err'); return; }
+
+  const items=cert.certificados_items||[];
+  const totalCert=items.reduce((s,i)=>s+(i.monto_pesos_manual!=null?i.monto_pesos_manual:i.monto_pesos_calculado||0),0);
+  let msg=`Vas a eliminar el Certificado N°${cert.numero} de ${cdObra?.nombre||''} (${cert.estado}, ${f$(totalCert)}).\n`+
+    `Esto también elimina: ${items.length} ítem(s) del certificado`;
+  if(rec) msg+=`, 1 recibo y sus ${(rec.recibos_lineas||[]).length} línea(s)`;
+  msg+='.\nEsta acción no se puede deshacer.';
+  if(!confirm(msg))return;
+  try{
+    if(rec) await borrarReciboInterno(rec);
+    await sbDel('certificados',`?id=eq.${certId}`);
+    toast('✅ Certificado eliminado','ok');
+    closeM('mCertDetalle');
+    await loadObras();
+    selObra(selObraId);
+  }catch(e){
+    toast('Error al eliminar: '+e.message,'err');
+  }
+}
+
+async function anularCertificado(certId){
+  if(!cdCert||cdCert.id!==certId){ toast('Error interno: certificado no cargado','err'); return; }
+  if(cdCert.estado!=='PAGADO'){ toast('Solo se pueden anular certificados PAGADOS','err'); return; }
+  const msg=cdRec
+    ? `¿Anular el Certificado N°${cdCert.numero}? Su recibo N°${cdRec.numero} también se va a marcar como no válido.`
+    : `¿Anular el Certificado N°${cdCert.numero}?`;
+  if(!confirm(msg))return;
+  try{
+    await sbPatch('certificados',{estado:'ANULADO'},`?id=eq.${certId}`);
+    if(cdRec) await sbPatch('recibos',{estado:'NO_VALIDO'},`?id=eq.${cdRec.id}`);
+    toast('✅ Certificado anulado','ok');
+    closeM('mCertDetalle');
+    await loadObras();
+    selObra(selObraId);
+  }catch(e){
+    toast('Error al anular: '+e.message,'err');
   }
 }
 
@@ -1842,80 +1963,121 @@ const CM={
   EXC_SOLICITUD: {l:'📌 EXC. POR SOLICITUD',c:'#a78bfa'},
 };
 
-function addSI(cls){
+// ═══════════════════════════════════════════════════════════════
+//  TARJETAS DE ÍTEM / FACTURA — compartidas entre Carga Semanal y
+//  la edición de certificado, para que ambos formularios sean
+//  literalmente el mismo componente (ver plan de unificación).
+// ═══════════════════════════════════════════════════════════════
+const PCT_PRESETS=[0.6,0.3,0.1,1];
+const itemMeta=new Map();  // id -> {arr,wrapId,getTC,getObraId,onChange,emptyHtml}
+const factMeta=new Map();  // id -> {arr,wrapId,onChange,emptyHtml}
+
+function getSMeta(){
+  return {arr:sItems,wrapId:'sItems',
+    getTC:()=>parseFloat(document.getElementById('sTC').value)||1430,
+    getObraId:()=>sObra?.id,onChange:recalcS,
+    emptyHtml:'<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Agregá los trabajos de la semana</div>'};
+}
+function getSFactMeta(){
+  return {arr:sFacts,wrapId:'sFacts',onChange:recalcS,
+    emptyHtml:'<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá facturas de materiales si corresponde</div>'};
+}
+
+function addSI(cls){ addItemCard(getSMeta(),cls); document.getElementById('sTotCard').style.display='block'; }
+function addSF(){ addFactCard(getSFactMeta()); document.getElementById('sTotCard').style.display='block'; }
+
+function addItemCard(meta,cls){
   const id=uid();
-  sItems.push({id,cls,desc:'',tId:'',qty:1,pct:0.6,usd:null,tc:parseFloat(document.getElementById('sTC').value)||1430,sub:0});
-  const wrap=document.getElementById('sItems');
+  const item={id,_id:null,_new:true,_deleted:false,cls,desc:'',tId:null,qty:1,pct:0.6,usd:null,sub:0};
+  meta.arr.push(item);
+  itemMeta.set(id,meta);
+  const wrap=document.getElementById(meta.wrapId);
   if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
-  const {l,c}=CM[cls];
+  renderItemCard(item,meta);
+  renumItems(meta);
+  meta.onChange();
+}
+
+function hydrateItemCards(items,meta){
+  const wrap=document.getElementById(meta.wrapId);
+  const visible=items.filter(i=>!i._deleted);
+  wrap.innerHTML=visible.length?'':meta.emptyHtml;
+  visible.forEach(item=>{ itemMeta.set(item.id,meta); renderItemCard(item,meta); });
+  renumItems(meta);
+}
+
+function renderItemCard(item,meta){
+  const wrap=document.getElementById(meta.wrapId);
+  const {l,c}=CM[item.cls];
+  const isPreset=PCT_PRESETS.includes(item.pct);
   const div=document.createElement('div');
-  div.className='iblk';div.id=`si-${id}`;
+  div.className='iblk';div.id=`ic-${item.id}`;
   div.innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
-      <span id="sinum-${id}" style="font-size:10px;font-weight:900;color:var(--text3)">Item</span>
+      <span id="inum-${item.id}" style="font-size:10px;font-weight:900;color:var(--text3)">Item</span>
       <span style="font-size:10px;font-weight:900;color:${c};letter-spacing:.8px">${l}</span>
-      <button class="btn btn-d btn-sm" onclick="rmSI('${id}')">✕</button>
+      <button class="btn btn-d btn-sm" style="margin-left:auto" onclick="rmItemCard('${item.id}')">✕</button>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
       <div class="fg" style="flex:2;min-width:220px">
         <label>Descripción cualitativa</label>
         <textarea rows="2" placeholder="Describí el trabajo realizado..."
-          oninput="updSI('${id}','desc',this.value)"></textarea>
+          oninput="updItemCard('${item.id}','desc',this.value)">${item.desc||''}</textarea>
       </div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <div class="fg tar-combo" style="max-width:220px;position:relative">
         <label>Ítem del tarifario</label>
         <input type="text" placeholder="Buscar código o nombre..." autocomplete="off"
-          id="tarq-${id}"
-          oninput="onTarSearch('${id}',this.value)" onfocus="onTarSearch('${id}',this.value)">
-        <div class="search-results" id="tarres-${id}"></div>
+          id="tarq-${item.id}" value="${(item._tarLabel||'').replace(/"/g,'&quot;')}"
+          oninput="onTarSearch('${item.id}',this.value)" onfocus="onTarSearch('${item.id}',this.value)">
+        <div class="search-results" id="tarres-${item.id}"></div>
       </div>
       <div class="fg" style="max-width:90px">
         <label>Cantidad</label>
-        <input type="number" value="1" min="0.1" step="0.1"
-          oninput="updSI('${id}','qty',parseFloat(this.value)||1);calcSI('${id}')">
+        <input type="number" value="${item.qty||1}" min="0.1" step="0.1"
+          oninput="updItemCard('${item.id}','qty',parseFloat(this.value)||1);calcItemCard('${item.id}')">
       </div>
       <div class="fg" style="max-width:160px">
         <label>% Ejecución</label>
-        <select onchange="onPctSel('${id}',this.value)" id="pct-${id}">
-          <option value="0.6">60% — Canalización</option>
-          <option value="0.3">30% — Cableado</option>
-          <option value="0.1">10% — Armado</option>
-          <option value="1">100% — Completo</option>
-          <option value="c">Personalizado...</option>
+        <select onchange="onPctSel('${item.id}',this.value)" id="pct-${item.id}">
+          <option value="0.6" ${item.pct===0.6?'selected':''}>60% — Canalización</option>
+          <option value="0.3" ${item.pct===0.3?'selected':''}>30% — Cableado</option>
+          <option value="0.1" ${item.pct===0.1?'selected':''}>10% — Armado</option>
+          <option value="1" ${item.pct===1?'selected':''}>100% — Completo</option>
+          <option value="c" ${isPreset?'':'selected'}>Personalizado...</option>
         </select>
       </div>
-      <div class="fg" style="max-width:95px" id="pcc-${id}" style="display:none">
+      <div class="fg" style="max-width:95px;display:${isPreset?'none':'flex'}" id="pcc-${item.id}">
         <label>% valor</label>
-        <input type="number" placeholder="10" step="1" max="100" min="1"
-          oninput="updSI('${id}','pct',(parseFloat(this.value)||0)/100);calcSI('${id}')">
+        <input type="number" placeholder="10" step="1" max="100" min="1" value="${isPreset?'':Math.round((item.pct||0)*100)}"
+          oninput="updItemCard('${item.id}','pct',(parseFloat(this.value)||0)/100);calcItemCard('${item.id}')">
       </div>
       <div class="fg" style="max-width:100px">
         <label>USD Unitario</label>
-        <input type="number" step="0.01" id="usd-${id}" placeholder="auto"
-          oninput="updSI('${id}','usd',parseFloat(this.value)||null);calcSI('${id}')">
+        <input type="number" step="0.01" id="usd-${item.id}" placeholder="auto" value="${item.usd!=null?item.usd:''}"
+          oninput="updItemCard('${item.id}','usd',parseFloat(this.value)||null);calcItemCard('${item.id}')">
       </div>
     </div>
     <div style="font-size:11px;color:var(--accent);font-weight:800;margin-top:6px;text-align:right"
-      id="sub-${id}">Subtotal: $ 0</div>`;
+      id="sub-${item.id}">Subtotal: $ 0</div>`;
   wrap.appendChild(div);
-  document.getElementById('sTotCard').style.display='block';
-  renumSI();
+  calcItemCard(item.id);
 }
 
-function tarGroupedList(){
-  const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id&&(r.precio_usd_obra||r.precio_usd_unitario));
+function tarGroupedList(obraId){
+  const rubros=cache.rubros().filter(r=>r.obra_id===obraId&&(r.precio_usd_obra||r.precio_usd_unitario));
   const tarBase=cache.tarifario();
   const items=rubros.length
     ? rubros.map(r=>({id:r.id,codigo:r.codigo,label:r.descripcion,grupo:tarBase.find(t=>t.id===r.tarifario_base_id)?.grupo||''}))
-    : tarBase.map(t=>({id:t.id,codigo:t.codigo,label:t.nombre,grupo:t.grupo||''}));
+    : tarBase.filter(t=>t.activo!==false).map(t=>({id:t.id,codigo:t.codigo,label:t.nombre,grupo:t.grupo||''}));
   return items.sort((a,b)=>a.grupo.localeCompare(b.grupo)||(a.codigo||'').localeCompare(b.codigo||''));
 }
 
 function onTarSearch(id,q){
+  const meta=itemMeta.get(id);if(!meta)return;
   const term=(q||'').trim().toLowerCase();
-  const items=tarGroupedList();
+  const items=tarGroupedList(meta.getObraId());
   const filtered=term
     ? items.filter(t=>(t.codigo||'').toLowerCase().includes(term)||(t.label||'').toLowerCase().includes(term))
     : items;
@@ -1942,7 +2104,8 @@ function renderTarResults(id,items){
 }
 
 function selectTar(id,tarId){
-  const t=tarGroupedList().find(x=>x.id===tarId);
+  const meta=itemMeta.get(id);if(!meta)return;
+  const t=tarGroupedList(meta.getObraId()).find(x=>x.id===tarId);
   const qEl=document.getElementById(`tarq-${id}`);
   if(qEl&&t)qEl.value=`[${t.codigo}] ${(t.label||'').slice(0,40)}`;
   document.getElementById(`tarres-${id}`).classList.remove('open');
@@ -1956,10 +2119,12 @@ document.addEventListener('click',e=>{
 });
 
 function onTarSel(id,tarId){
-  const item=sItems.find(i=>i.id===id);if(!item)return;
+  const meta=itemMeta.get(id);if(!meta)return;
+  const item=meta.arr.find(i=>i.id===id);if(!item)return;
   item.tId=tarId;
   if(!tarId)return;
-  const rubros=cache.rubros().filter(r=>r.obra_id===sObra?.id);
+  const obraId=meta.getObraId();
+  const rubros=cache.rubros().filter(r=>r.obra_id===obraId);
   let usd=null;
   const rub=rubros.find(r=>r.id===tarId);
   if(rub){ usd=rub.precio_usd_obra||rub.precio_usd_unitario||null; }
@@ -1971,96 +2136,145 @@ function onTarSel(id,tarId){
   item.usd=usd;
   const el=document.getElementById(`usd-${id}`);
   if(el&&usd)el.value=usd;
-  calcSI(id);
+  calcItemCard(id);
 }
 
 function onPctSel(id,val){
   const el=document.getElementById(`pcc-${id}`);
   if(val==='c'){el.style.display='flex';}
-  else{el.style.display='none';updSI(id,'pct',parseFloat(val));calcSI(id);}
+  else{el.style.display='none';updItemCard(id,'pct',parseFloat(val));calcItemCard(id);}
 }
 
-function updSI(id,f,v){const i=sItems.find(x=>x.id===id);if(i)i[f]=v;}
+function updItemCard(id,f,v){
+  const meta=itemMeta.get(id);if(!meta)return;
+  const i=meta.arr.find(x=>x.id===id);if(i)i[f]=v;
+  meta.onChange();
+}
 
-function calcSI(id){
-  const item=sItems.find(i=>i.id===id);if(!item)return;
-  const tc=parseFloat(document.getElementById('sTC').value)||1430;
-  item.tc=tc;
+function calcItemCard(id){
+  const meta=itemMeta.get(id);if(!meta)return;
+  const item=meta.arr.find(i=>i.id===id);if(!item)return;
+  const tc=meta.getTC();
   const sub=(item.usd||0)*(item.pct||0)*(item.qty||1)*tc;
   item.sub=sub;
   const el=document.getElementById(`sub-${id}`);
   if(el)el.textContent=sub>0?`Subtotal: ${f$(sub)}`:'Subtotal: sin precio asignado';
-  recalcS();
+  meta.onChange();
 }
 
-function rmSI(id){
-  sItems=sItems.filter(i=>i.id!==id);
-  document.getElementById(`si-${id}`)?.remove();
-  if(!sItems.length)document.getElementById('sItems').innerHTML=
-    '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Agregá los trabajos de la semana</div>';
-  renumSI();
-  recalcS();
+function rmItemCard(id){
+  const meta=itemMeta.get(id);if(!meta)return;
+  const idx=meta.arr.findIndex(x=>x.id===id);if(idx<0)return;
+  if(meta.arr[idx]._new) meta.arr.splice(idx,1);
+  else meta.arr[idx]._deleted=true;
+  itemMeta.delete(id);
+  document.getElementById(`ic-${id}`)?.remove();
+  if(!meta.arr.some(x=>!x._deleted)) document.getElementById(meta.wrapId).innerHTML=meta.emptyHtml||'';
+  renumItems(meta);
+  meta.onChange();
 }
 
-function renumSI(){
-  sItems.forEach((it,idx)=>{
-    const el=document.getElementById(`sinum-${it.id}`);
+function renumItems(meta){
+  meta.arr.filter(i=>!i._deleted).forEach((it,idx)=>{
+    const el=document.getElementById(`inum-${it.id}`);
     if(el)el.textContent=`Item ${idx+1}`;
   });
 }
 
-function addSF(){
+function addFactCard(meta){
   const id=uid();
-  sFacts.push({id,razon:'',nro:'',sinIva:0,conIva:0});
-  const wrap=document.getElementById('sFacts');
+  const item={id,_id:null,_new:true,_deleted:false,_locked:false,razon:'',nro:'',sinIva:0,conIva:0};
+  meta.arr.push(item);
+  factMeta.set(id,meta);
+  const wrap=document.getElementById(meta.wrapId);
   if(!wrap.querySelector('.iblk'))wrap.innerHTML='';
+  renderFactCard(item,meta);
+  meta.onChange();
+}
+
+function hydrateFactCards(items,meta){
+  const wrap=document.getElementById(meta.wrapId);
+  const visible=items.filter(i=>!i._deleted);
+  wrap.innerHTML=visible.length?'':meta.emptyHtml;
+  visible.forEach(item=>{ factMeta.set(item.id,meta); renderFactCard(item,meta); });
+}
+
+function renderFactCard(item,meta){
+  const wrap=document.getElementById(meta.wrapId);
   const div=document.createElement('div');
-  div.className='iblk';div.id=`sf-${id}`;
+  div.className='iblk';div.id=`fc-${item.id}`;
+  if(item._locked){
+    div.innerHTML=`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+        <span style="font-size:10px;font-weight:900;color:var(--info);letter-spacing:.8px">🧾 FACTURA / MATERIAL · importada</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:baseline">
+        <div style="flex:2;min-width:180px;font-size:12px">${item.razon||''}${item.nro?' · '+item.nro:''}</div>
+        <div style="font-weight:700;margin-left:auto">$ ${Math.round(item.conIva||0).toLocaleString('es-AR')}</div>
+      </div>`;
+    wrap.appendChild(div);
+    return;
+  }
   div.innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
       <span style="font-size:10px;font-weight:900;color:var(--info);letter-spacing:.8px">🧾 FACTURA / MATERIAL</span>
-      <button class="btn btn-d btn-sm" onclick="rmSF('${id}')">✕</button>
+      <button class="btn btn-d btn-sm" style="margin-left:auto" onclick="rmFactCard('${item.id}')">✕</button>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <div class="fg" style="flex:2">
         <label>Razón social emisor</label>
-        <input type="text" placeholder="Ferretería La Ferre"
-          oninput="updSF('${id}','razon',this.value)"></div>
+        <input type="text" placeholder="Ferretería La Ferre" value="${(item.razon||'').replace(/"/g,'&quot;')}"
+          oninput="updFactCard('${item.id}','razon',this.value)"></div>
       <div class="fg" style="max-width:180px">
         <label>N° Factura</label>
-        <input type="text" placeholder="A 0001-00012345"
-          oninput="updSF('${id}','nro',this.value)"></div>
+        <input type="text" placeholder="A 0001-00012345" value="${(item.nro||'').replace(/"/g,'&quot;')}"
+          oninput="updFactCard('${item.id}','nro',this.value)"></div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
       <div class="fg"><label>Monto sin impuestos $</label>
-        <input type="number" placeholder="0"
-          oninput="updSF('${id}','sinIva',parseFloat(this.value)||0);recalcS()"></div>
+        <input type="number" placeholder="0" value="${item.sinIva||''}"
+          oninput="updFactCard('${item.id}','sinIva',parseFloat(this.value)||0)"></div>
       <div class="fg"><label>Monto con impuestos $</label>
-        <input type="number" placeholder="0"
-          oninput="updSF('${id}','conIva',parseFloat(this.value)||0);recalcS()"></div>
+        <input type="number" placeholder="0" value="${item.conIva||''}"
+          oninput="updFactCard('${item.id}','conIva',parseFloat(this.value)||0)"></div>
     </div>`;
   wrap.appendChild(div);
-  document.getElementById('sTotCard').style.display='block';
 }
 
-function updSF(id,f,v){const i=sFacts.find(x=>x.id===id);if(i)i[f]=v;}
-function rmSF(id){
-  sFacts=sFacts.filter(i=>i.id!==id);
-  document.getElementById(`sf-${id}`)?.remove();
-  if(!sFacts.length)document.getElementById('sFacts').innerHTML=
-    '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá facturas de materiales si corresponde</div>';
-  recalcS();
+function updFactCard(id,f,v){
+  const meta=factMeta.get(id);if(!meta)return;
+  const i=meta.arr.find(x=>x.id===id);if(i)i[f]=v;
+  meta.onChange();
+}
+
+function rmFactCard(id){
+  const meta=factMeta.get(id);if(!meta)return;
+  const idx=meta.arr.findIndex(x=>x.id===id);if(idx<0)return;
+  if(meta.arr[idx]._new) meta.arr.splice(idx,1);
+  else meta.arr[idx]._deleted=true;
+  factMeta.delete(id);
+  document.getElementById(`fc-${id}`)?.remove();
+  if(!meta.arr.some(x=>!x._deleted)) document.getElementById(meta.wrapId).innerHTML=meta.emptyHtml||'';
+  meta.onChange();
+}
+
+// Cálculo puro de los 4 subtotales + total — usado por Carga Semanal (recalcS) y por
+// el resumen del modal de edición (recalcEd), para que ambos muestren exactamente los
+// mismos números a partir de los mismos ítems/facturas.
+function computeTotals(items,facts,tc){
+  const byC=c=>items.filter(i=>!i._deleted&&i.cls===c).reduce((s,i)=>s+(i.sub||0),0);
+  const tC=byC('CERTIFICADO'),tE=byC('EXC_ESPONTANEO'),tS=byC('EXC_SOLICITUD');
+  const tF=facts.filter(f=>!f._deleted).reduce((s,f)=>s+(f.conIva||0),0);
+  return {tC,tE,tS,tF,tT:tC+tE+tS+tF};
 }
 
 function recalcS(){
-  const byC=c=>sItems.filter(i=>i.cls===c).reduce((s,i)=>s+(i.sub||0),0);
-  const tC=byC('CERTIFICADO'),tE=byC('EXC_ESPONTANEO'),tS=byC('EXC_SOLICITUD');
-  const tF=sFacts.reduce((s,f)=>s+(f.conIva||0),0);
   const tc=parseFloat(document.getElementById('sTC').value)||1430;
+  const {tC,tE,tS,tF,tT}=computeTotals(sItems,sFacts,tc);
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=f$(v);};
   const setU=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=fUsd(v/tc);};
-  set('tC',tC);set('tE',tE);set('tS',tS);set('tF',tF);set('tT',tC+tE+tS+tF);
-  setU('tCu',tC);setU('tEu',tE);setU('tSu',tS);setU('tFu',tF);setU('tTu',tC+tE+tS+tF);
+  set('tC',tC);set('tE',tE);set('tS',tS);set('tF',tF);set('tT',tT);
+  setU('tCu',tC);setU('tEu',tE);setU('tSu',tS);setU('tFu',tF);setU('tTu',tT);
 }
 
 function showPV(w,el){
@@ -2204,22 +2418,24 @@ function buildDR(src){
     ${det?`<div style="font-size:10px;font-weight:800;color:#141E61;padding:6px 8px;background:rgba(20,30,97,.06);border-radius:4px;margin-bottom:9px">${det}</div>`:''}
     <div class="dst" style="margin-top:0">Mano de obra</div>
     <table class="rt">
-      <thead><tr><th style="width:${hasUSD?'52%':'72%'}">CONCEPTO</th>
-        ${hasUSD?'<th>USD</th><th>%</th><th>Cant</th>':''}
+      <thead><tr><th style="width:${hasUSD?'44%':'60%'}">CONCEPTO</th>
+        ${hasUSD?'<th>USD</th><th>%</th>':''}
+        <th>Cant</th>
         <th style="text-align:right">$ TOTAL</th></tr></thead>
       <tbody>
         ${moLineas.map(l=>`<tr>
           <td>${l.desc||''}${l.extra?`<br><span style="font-size:9px;color:#8a8fa0">${l.extra}</span>`:''}</td>
-          ${hasUSD?`<td>${l.usd?'U$D '+l.usd:''}</td><td>${l.pct?Math.round(l.pct*100)+'%':''}</td><td>${l.qty&&l.qty!==1?l.qty:''}</td>`:''}
+          ${hasUSD?`<td>${l.usd?'U$D '+l.usd:''}</td><td>${l.pct?Math.round(l.pct*100)+'%':''}</td>`:''}
+          <td>${l.qty||1}</td>
           <td style="text-align:right;font-weight:700">$ ${Math.round(l.monto||0).toLocaleString('es-AR')}</td>
         </tr>`).join('')}
-        <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>SUB-TOTAL</b></td>
+        <tr class="rtot"><td colspan="${hasUSD?4:2}"><b>SUB-TOTAL</b></td>
           <td style="text-align:right;font-size:13px"><b>$ ${Math.round(subtotalMO).toLocaleString('es-AR')}</b><br>
             <span style="font-size:9px;font-weight:500;color:#6b6f8c">${fUsd(subtotalMO/tc)}</span></td></tr>
-        <tr><td colspan="${hasUSD?4:1}">IVA${ivaMOOn?' (21%)':''}</td>
+        <tr><td colspan="${hasUSD?4:2}">IVA${ivaMOOn?' (21%)':''}</td>
           <td style="text-align:right;font-weight:700">$ ${Math.round(ivaMOMonto).toLocaleString('es-AR')}<br>
             <span style="font-size:9px;font-weight:500;color:#8a8fa0">${fUsd(ivaMOMonto/tc)}</span></td></tr>
-        <tr class="rtot"><td colspan="${hasUSD?4:1}"><b>TOTAL MANO DE OBRA</b></td>
+        <tr class="rtot"><td colspan="${hasUSD?4:2}"><b>TOTAL MANO DE OBRA</b></td>
           <td style="text-align:right;font-size:13px"><b>$ ${Math.round(totalMO).toLocaleString('es-AR')}</b><br>
             <span style="font-size:9px;font-weight:500;color:#6b6f8c">${fUsd(totalMO/tc)}</span></td></tr>
       </tbody>
@@ -2269,7 +2485,7 @@ async function generar(){
     const certId=cr[0].id;
     for(const i of sItems)
       await sbPost('certificados_items',{certificado_id:certId,tipo:unmapCertTipo(i.cls),
-        descripcion:i.desc,precio_usd_unitario:i.usd||null,
+        descripcion:i.desc,precio_usd_unitario:i.usd||null,rubro_id:i.tId||null,
         porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||null});
     const rr=await sbPost('recibos',{
       obra_id:sObra.id,certificado_id:certId,numero:numR,
@@ -2278,9 +2494,9 @@ async function generar(){
       estado:'BORRADOR'
     });
     const recId=rr[0].id;
-    for(const i of sItems)
-      await sbPost('recibos_lineas',{recibo_id:recId,tipo:i.cls==='CERTIFICADO'?'CERTIFICADO':'EXCEDENTE',
-        descripcion:i.desc,monto_pesos:i.sub||0});
+    for(const l of construirLineasRecibo(sItems))
+      await sbPost('recibos_lineas',{recibo_id:recId,tipo:l.tipo,descripcion:l.descripcion,
+        monto_pesos:l.monto_pesos,cantidad:l.cantidad});
     for(const f of sFacts)
       await sbPost('recibos_lineas',{recibo_id:recId,tipo:'MATERIAL',
         descripcion:`${f.razon} · ${f.nro}`,monto_pesos:f.conIva||0,
