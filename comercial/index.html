@@ -706,10 +706,10 @@ function irAReingresar(){
   window.location.href=`/login?next=${next}`;
 }
 
-// ─── PUENTE CUADRILLA/OBRAS (voowjwzlkhdknpapkhxc) vía auth-bridge.js ──
+// ─── OBRAS, consolidado en este mismo proyecto (Comercial) desde 14/08/2026 ──
 let cuadrillaToken=null;
 async function sbC(path,opts={}){
-  const r=await fetch(CUADRILLA_URL+path,{...opts,headers:{'apikey':CUADRILLA_PUBLISHABLE_KEY,'Authorization':'Bearer '+cuadrillaToken,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  const r=await fetch(AUTH_URL+path,{...opts,headers:{'apikey':AUTH_KEY,'Authorization':'Bearer '+cuadrillaToken,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
   const text=await r.text();
   const data=text?JSON.parse(text):null; // regla del proyecto: nunca .json() directo
   if(!r.ok) throw new Error((data&&data.message)||r.statusText);
@@ -796,8 +796,7 @@ window.onload = async () => {
   document.getElementById('app-loading').style.display = 'none';
   document.getElementById('app-header').style.display  = 'block';
   document.getElementById('app-content').style.display = 'block';
-  try{ cuadrillaToken = await getCuadrillaToken(authClient); }
-  catch(e){ console.error('auth-bridge cuadrilla', e); }
+  cuadrillaToken = session.access_token;
   await Promise.all([fetchTC(), loadComerciales(), loadInventario(), loadManoObra()]);
   restaurarBackupCarrito();
   const tabParam = new URLSearchParams(window.location.search).get('tab');
@@ -1591,7 +1590,7 @@ async function guardarPresupuesto(){
     }else{
       cabecera.estado='BORRADOR';
       cabecera.fecha_emision=today();
-      cabecera.fecha_vencimiento=addDays(30);
+      cabecera.fecha_vencimiento=addDays(15);
       const inserted=await sb('/rest/v1/presupuestos_comerciales?select=id,numero',{method:'POST',prefer:'return=representation',body:JSON.stringify(cabecera)});
       if(!inserted||!inserted[0])throw new Error('No se pudo recuperar el presupuesto guardado');
       pid=inserted[0].id;

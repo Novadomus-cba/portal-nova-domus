@@ -222,14 +222,16 @@ tfoot td:first-child{text-align:left;color:var(--text2)}
 <script>
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-const SB_URL  = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
+// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+const SB_URL  = AUTH_URL;
 let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin', 'supervisor'];
 
 const { createClient } = supabase;
 const authClient = createClient(AUTH_URL, AUTH_KEY);
 function HDR() {
-  return { 'apikey': CUADRILLA_PUBLISHABLE_KEY, 'Authorization': `Bearer ${cuadrillaToken}`, 'Content-Type': 'application/json' };
+  return { 'apikey': AUTH_KEY, 'Authorization': `Bearer ${cuadrillaToken}`, 'Content-Type': 'application/json' };
 }
 
 async function sbGet(path, qs = '') {
@@ -274,7 +276,7 @@ async function init() {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = 'index.html'; return;
   }
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
   document.getElementById('topbarUser').textContent = profile.full_name;
 
   const now = new Date();

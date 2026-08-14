@@ -713,9 +713,12 @@
     return parseDate(dateStr).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   }
 
+  // Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: ya no hace falta
+  // un cliente ni un token distinto, se usa la misma sesión de "client".
   async function cuadrillaGet(table, query) {
-    const headers = await getCuadrillaHeaders(client);
-    const res = await fetch(`${CUADRILLA_URL}/rest/v1/${table}${query}`, { headers });
+    const { data: { session } } = await client.auth.getSession();
+    const headers = { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${session?.access_token || SUPABASE_ANON_KEY}` };
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${query}`, { headers });
     const text = await res.text(); // regla del proyecto: nunca .json() directo
     const data = JSON.parse(text);
     if (!res.ok) throw new Error((data && (data.message || data.error)) || `Error consultando ${table}`);
@@ -921,12 +924,15 @@
     rowEl.remove(); // ocultamiento optimista
 
     try {
-      const headers = await getCuadrillaHeaders(client, {
+      const { data: { session } } = await client.auth.getSession();
+      const headers = {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${session?.access_token || SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json',
         Prefer: 'return=representation',
-      });
+      };
       const res = await fetch(
-        `${CUADRILLA_URL}/rest/v1/panel_inbox_snapshot?ref_codigo=eq.${encodeURIComponent(refCodigo)}`,
+        `${SUPABASE_URL}/rest/v1/panel_inbox_snapshot?ref_codigo=eq.${encodeURIComponent(refCodigo)}`,
         {
           method: 'PATCH',
           headers,

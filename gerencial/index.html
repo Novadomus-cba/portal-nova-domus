@@ -171,6 +171,15 @@ body {
 .toast.ok  { background: var(--ok); color: #0B132B; }
 .toast.err { background: var(--danger); }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:400; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); width:calc(100% - 32px); max-width:420px; padding:20px; }
+.modal-close-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+.modal-title { font-size:17px; font-weight:700; }
+.modal-close-btn { background:none; border:none; font-size:22px; color:var(--hint); cursor:pointer; padding:0; }
+.modal-msg { font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.5; }
+.modal-btn-primary { width:100%; padding:10px 14px; border-radius:var(--radius-sm); border:none; background:var(--primary); color:var(--text); font-size:13px; font-weight:600; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -271,6 +280,17 @@ body {
 
 <div class="toast" id="toast"></div>
 
+<div class="modal-overlay" id="modal-sesion">
+  <div class="modal">
+    <div class="modal-close-row">
+      <div class="modal-title">Sesión expirada</div>
+      <button class="modal-close-btn" onclick="cerrarModalSesion()">×</button>
+    </div>
+    <div id="modal-sesion-msg" class="modal-msg"></div>
+    <button class="modal-btn-primary" onclick="irAReingresar()">🔐 Reingresar</button>
+  </div>
+</div>
+
 <script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
@@ -286,13 +306,23 @@ async function handleLogout() {
   window.location.href = '../login.html';
 }
 
-// ── DATA (Cuadrilla/Obras project, via auth-bridge) ────────────
+// ── DATA (Obras, consolidado en este mismo proyecto desde 14/08/2026) ──
+// Sin sesión no hay fallback a la anon key: la llamada falla explícito y
+// dispara el aviso de sesión expirada (mismo criterio que sb() en comercial/index.html).
 let cuadrillaToken = null;
 
 async function sbObras(path) {
-  const res = await fetch(CUADRILLA_URL + '/rest/v1/' + path, {
-    headers: { apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken }
+  if (!cuadrillaToken) {
+    manejarSesionExpirada();
+    throw new Error('SIN_SESION');
+  }
+  const res = await fetch(AUTH_URL + '/rest/v1/' + path, {
+    headers: { apikey: AUTH_KEY, Authorization: 'Bearer ' + cuadrillaToken }
   });
+  if (res.status === 401) {
+    manejarSesionExpirada();
+    throw new Error('SESION_EXPIRADA');
+  }
   const text = await res.text();
   const data = text ? JSON.parse(text) : [];
   if (!res.ok) throw new Error((data && data.message) || res.statusText);
@@ -300,23 +330,39 @@ async function sbObras(path) {
 }
 
 async function sbObrasPatch(path, body) {
-  const res = await fetch(CUADRILLA_URL + '/rest/v1/' + path, {
+  if (!cuadrillaToken) {
+    manejarSesionExpirada();
+    throw new Error('SIN_SESION');
+  }
+  const res = await fetch(AUTH_URL + '/rest/v1/' + path, {
     method: 'PATCH',
     headers: {
-      apikey: CUADRILLA_PUBLISHABLE_KEY, Authorization: 'Bearer ' + cuadrillaToken,
+      apikey: AUTH_KEY, Authorization: 'Bearer ' + cuadrillaToken,
       'Content-Type': 'application/json', Prefer: 'return=minimal',
     },
     body: JSON.stringify(body),
   });
+  if (res.status === 401) {
+    manejarSesionExpirada();
+    throw new Error('SESION_EXPIRADA');
+  }
   if (!res.ok) { const t = await res.text(); throw new Error(t); }
 }
 
 // ── DATA (Auth/Comercial project) — RLS exige el access_token real ──
 async function sbAuth(path) {
   const { data: { session } } = await authClient.auth.getSession();
+  if (!session) {
+    manejarSesionExpirada();
+    throw new Error('SIN_SESION');
+  }
   const res = await fetch(AUTH_URL + '/rest/v1/' + path, {
-    headers: { apikey: AUTH_KEY, Authorization: 'Bearer ' + (session?.access_token || AUTH_KEY) }
+    headers: { apikey: AUTH_KEY, Authorization: 'Bearer ' + session.access_token }
   });
+  if (res.status === 401) {
+    manejarSesionExpirada();
+    throw new Error('SESION_EXPIRADA');
+  }
   const text = await res.text();
   const data = text ? JSON.parse(text) : [];
   if (!res.ok) throw new Error((data && data.message) || res.statusText);
@@ -674,7 +720,7 @@ async function init() {
     return;
   }
 
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
 
   document.getElementById('portal-username').textContent = profile.full_name;
   document.getElementById('app-loading').style.display = 'none';

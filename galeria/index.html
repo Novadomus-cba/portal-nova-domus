@@ -316,6 +316,15 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
 .toast.success { background: var(--success); color: var(--bg); border-color: var(--success); }
 .toast.error   { background: var(--error); color: var(--bg); border-color: var(--error); }
 .toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:500; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); width:calc(100% - 32px); max-width:420px; padding:20px; }
+.modal-close-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+.modal-title { font-size:17px; font-weight:700; }
+.modal-close-btn { background:none; border:none; font-size:22px; color:var(--hint); cursor:pointer; padding:0; }
+.modal-msg { font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.5; }
+.modal-btn-primary { width:100%; padding:10px 14px; border-radius:var(--radius-sm); border:none; background:var(--primary); color:var(--text); font-size:13px; font-weight:600; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -487,6 +496,17 @@ textarea { resize: vertical; min-height: 60px; font-family: inherit; line-height
 
 <div class="toast" id="toast"></div>
 
+<div class="modal-overlay" id="modal-sesion">
+  <div class="modal">
+    <div class="modal-close-row">
+      <div class="modal-title">Sesión expirada</div>
+      <button class="modal-close-btn" onclick="cerrarModalSesion()">×</button>
+    </div>
+    <div id="modal-sesion-msg" class="modal-msg"></div>
+    <button class="modal-btn-primary" onclick="irAReingresar()">🔐 Reingresar</button>
+  </div>
+</div>
+
 <script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
@@ -504,18 +524,28 @@ async function handleLogout() {
   window.location.href = '../login.html';
 }
 
-// ── OBRAS (read-only client) ─────────────────────────────────
-const OBRAS_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+// ── OBRAS (read-only client) — consolidado en este mismo proyecto desde 14/08/2026 ──
+const OBRAS_URL = AUTH_URL;
 let cuadrillaToken = null;
 
 async function fetchJson(url, key, path) {
   const isCuadrilla = url === OBRAS_URL;
+  let token;
+  if (isCuadrilla) {
+    if (!cuadrillaToken) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
+    token = cuadrillaToken;
+  } else {
+    const { data: { session } } = await authClient.auth.getSession();
+    if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
+    token = session.access_token;
+  }
   const res = await fetch(url + path, {
     headers: {
-      'apikey': isCuadrilla ? CUADRILLA_PUBLISHABLE_KEY : key,
-      'Authorization': `Bearer ${isCuadrilla ? cuadrillaToken : key}`
+      'apikey': isCuadrilla ? AUTH_KEY : key,
+      'Authorization': `Bearer ${token}`
     }
   });
+  if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   const text = await res.text();
   if (!res.ok) throw new Error(text);
   return text ? JSON.parse(text) : [];
@@ -552,7 +582,7 @@ async function init() {
     return;
   }
 
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
 
   currentProfile = profile;
   document.getElementById('portal-username').textContent = profile.full_name;

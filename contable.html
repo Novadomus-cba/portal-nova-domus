@@ -609,10 +609,12 @@ tr:last-child td{border-bottom:none}
 <script src="finance-utils.js"></script>
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
-const SB_URL   = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-let cuadrillaToken = null;
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
+// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+const SB_URL   = AUTH_URL;
+let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin','contable'];
 
 const { createClient } = supabase;
@@ -623,7 +625,7 @@ async function apiFetch(baseUrl, apiKey, method, table, body=null, query='') {
   const res = await fetch(`${baseUrl}/rest/v1/${table}${query}`, {
     method,
     headers: {
-      'apikey': CUADRILLA_PUBLISHABLE_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
+      'apikey': AUTH_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
       'Content-Type': 'application/json',
       'Prefer': method==='POST'?'return=representation':method==='PATCH'?'return=minimal':''
     },
@@ -650,7 +652,7 @@ async function sbUpsert(table, rows, onConflict) {
   const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=${onConflict}`, {
     method: 'POST',
     headers: {
-      'apikey': CUADRILLA_PUBLISHABLE_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
+      'apikey': AUTH_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
       'Content-Type': 'application/json',
       'Prefer': 'resolution=ignore-duplicates,return=representation',
     },
@@ -1967,7 +1969,7 @@ window.onload = async () => {
   const { data:profile } = await authClient.from('user_profiles').select('full_name,role').eq('id',session.user.id).single();
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) { window.location.href='index.html'; return; }
 
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
 
   currentUser = { ...profile, email: session.user.email };
   document.getElementById('userName').textContent = profile.full_name;

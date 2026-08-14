@@ -917,7 +917,9 @@
   /* ══════════════════════════════════════════════
      Config
   ══════════════════════════════════════════════ */
-  var SUPA_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+  // Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SUPA_URL/cuadrillaToken
+  // ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+  var SUPA_URL = AUTH_URL;
   var cuadrillaToken = null;
   var MIN_HORAS = 6;
   var SUPERVISOR_COMMISSION_RATE = 0.03; // 3%
@@ -1016,7 +1018,7 @@
 
   function sbHeaders(extra) {
     var h = {
-      'apikey': CUADRILLA_PUBLISHABLE_KEY,
+      'apikey': AUTH_KEY,
       'Authorization': 'Bearer ' + cuadrillaToken,
       'Accept': 'application/json'
     };
@@ -1865,8 +1867,8 @@
     if (!profile || ALLOWED_ROLES.indexOf(profile.role) === -1) {
       window.location.href = '../index.html'; return;
     }
-    return getCuadrillaToken(authClient).then(function(token) {
-      cuadrillaToken = token;
+    return authClient.auth.getSession().then(function(sres) {
+      cuadrillaToken = sres.data.session.access_token;
       document.getElementById('portal-username').textContent = profile.full_name;
       document.getElementById('app-loading').style.display = 'none';
       return loadTecnicos()

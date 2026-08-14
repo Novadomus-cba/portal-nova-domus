@@ -769,7 +769,9 @@ async function handleLogout() {
 // ═══════════════════════════════════════════════════════════════
 //  CONFIG & SUPABASE
 // ═══════════════════════════════════════════════════════════════
-let SB_URL='https://voowjwzlkhdknpapkhxc.supabase.co', cuadrillaToken=null, sbOK=false;
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
+// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+let SB_URL=AUTH_URL, cuadrillaToken=null, sbOK=false;
 let currentUserId=null, currentUserRole=null;
 
 const ls  = k=>{ try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null} };
@@ -787,7 +789,7 @@ async function sbFetch(method,table,body=null,query=''){
   const r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{
     method,
     headers:{
-      'apikey':CUADRILLA_PUBLISHABLE_KEY,'Authorization':`Bearer ${cuadrillaToken}`,
+      'apikey':AUTH_KEY,'Authorization':`Bearer ${cuadrillaToken}`,
       'Content-Type':'application/json',
       'Prefer':method==='POST'?'return=representation':''
     },
@@ -837,7 +839,7 @@ window.onload = async () => {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html'; return;
   }
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
   currentUserId = session.user.id;
   currentUserRole = profile.role;
   document.getElementById('portal-username').textContent = profile.full_name;

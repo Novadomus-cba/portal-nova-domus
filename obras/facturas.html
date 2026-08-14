@@ -342,12 +342,14 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 <script src="../auth-bridge.js"></script>
 <script>
 // ── CONFIG ────────────────────────────────────────────────────
-const SB_URL   = 'https://voowjwzlkhdknpapkhxc.supabase.co';
-let cuadrillaToken = null;
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
+// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+const SB_URL   = AUTH_URL;
+let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
-const ANALYZE_IMAGE_URL = 'https://voowjwzlkhdknpapkhxc.supabase.co/functions/v1/analyze-image';
+const ANALYZE_IMAGE_URL = AUTH_URL + '/functions/v1/analyze-image';
 
 const TIPO_COMPROBANTE_IA_A_LABEL = {
   FACTURA_A:    'Factura A',
@@ -375,7 +377,7 @@ const pendingDel = new Set();
 async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '', schema = '') {
   const isCuadrilla = baseUrl === SB_URL;
   const headers = {
-    'apikey': isCuadrilla ? CUADRILLA_PUBLISHABLE_KEY : apiKey,
+    'apikey': isCuadrilla ? AUTH_KEY : apiKey,
     'Authorization': `Bearer ${isCuadrilla ? cuadrillaToken : apiKey}`,
     'Content-Type': 'application/json',
     'Prefer': method === 'POST' ? 'return=representation' : method === 'PATCH' ? 'return=minimal' : ''
@@ -424,7 +426,7 @@ window.onload = async () => {
     window.location.href = '../index.html'; return;
   }
 
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
 
   currentUser = { id: session.user.id, full_name: profile.full_name, role: profile.role };
   document.getElementById('userName').textContent = profile.full_name;

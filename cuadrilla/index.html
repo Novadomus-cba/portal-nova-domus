@@ -816,7 +816,9 @@ async function handleLogout() {
 }
 
 // ── PANEL DATA ────────────────────────────────────────────────
-const SUPA_URL    = 'https://voowjwzlkhdknpapkhxc.supabase.co';
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SUPA_URL/cuadrillaToken
+// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+const SUPA_URL    = AUTH_URL;
 let cuadrillaToken = null;
 const MIN_HORAS   = 6;
 const VALOR_PEAJE = 3000;
@@ -845,7 +847,7 @@ async function supa(path, opts = {}) {
   const res = await fetch(SUPA_URL + path, {
     ...opts,
     headers: {
-      'apikey': CUADRILLA_PUBLISHABLE_KEY,
+      'apikey': AUTH_KEY,
       'Authorization': 'Bearer ' + cuadrillaToken,
       'Content-Type': 'application/json',
       'Prefer': opts.prefer || '',
@@ -873,7 +875,7 @@ async function init() {
     return;
   }
 
-  cuadrillaToken = await getCuadrillaToken(authClient);
+  cuadrillaToken = session.access_token;
 
   // Portal header
   document.getElementById('portal-username').textContent = profile.full_name;
