@@ -232,10 +232,21 @@
   const { createClient } = supabase;
   const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // ?next=<ruta> para volver adonde estaba el usuario tras el login (1B-3, 14/08/2026).
+  // Solo se acepta una ruta relativa propia del portal — nunca una URL absoluta ni
+  // "//host" — para no abrir un open redirect.
+  function destinoTrasLogin() {
+    const next = new URLSearchParams(window.location.search).get('next');
+    if (next && next.startsWith('/') && !next.startsWith('//') && !next.includes('://')) {
+      return next;
+    }
+    return 'index.html';
+  }
+
   // Si ya hay sesión activa, redirigir directo
   (async () => {
     const { data: { session } } = await client.auth.getSession();
-    if (session) window.location.href = 'index.html';
+    if (session) window.location.href = destinoTrasLogin();
   })();
 
   // Login con Enter
@@ -268,7 +279,7 @@
       return;
     }
 
-    window.location.href = 'index.html';
+    window.location.href = destinoTrasLogin();
   }
 
   function showError(msg) {

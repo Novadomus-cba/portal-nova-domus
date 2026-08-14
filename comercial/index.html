@@ -524,6 +524,17 @@ textarea{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-sesion">
+  <div class="modal" id="modal-sesion-body" style="max-width:420px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div style="font-size:17px;font-weight:700">Sesión expirada</div>
+      <button onclick="cerrarModalSesion()" style="background:none;border:none;font-size:22px;color:var(--hint);cursor:pointer;padding:0">×</button>
+    </div>
+    <div id="modal-sesion-msg" style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5"></div>
+    <button class="btn btn-primary" style="width:100%" onclick="irAReingresar()">🔐 Reingresar</button>
+  </div>
+</div>
+
 <!-- ══ NOVEDADES DEL PANEL (visible en cualquier pestaña) ═══════ -->
 <div class="card" id="novedades-card" style="margin-top:8px">
   <div class="card-hdr" onclick="toggleNovedades()" style="cursor:pointer">
@@ -590,6 +601,8 @@ const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 let TC=0, inventario=[], comerciales=[], cart=[], servicios=[], clienteTipo='B2C', facturaA=false;
 let editingPresupuestoId=null, editingNumero=null;
 const MARGEN_MINIMO=0.20;
+const CART_BACKUP_KEY='nd_comercial_cart_backup_v1';
+let sesionExpiradaMostrada=false;
 let currentBrand='', savedId=null;
 let manoObraMap={};
 
@@ -604,15 +617,92 @@ function formatDate(iso){if(!iso)return'';const[y,m,d]=iso.split('-');return d+'
 
 async function sb(path,opts={}){
   // RLS de vvwnyszcfindtuvojqgs quedó scopeada a "authenticated" (migración
-  // harden_rls_remove_anon_access, 2026-07-08) — hay que mandar el access_token
-  // real de la sesión, la anon key sola ya no alcanza para leer ni escribir.
+  // harden_rls_remove_anon_access, 2026-07-08) — hace falta el access_token real
+  // de la sesión. Sin sesión no hay fallback a la anon key: la llamada falla
+  // explícito y dispara el aviso de sesión expirada (1B-3, 14/08/2026).
   const { data: { session } } = await authClient.auth.getSession();
-  const token = session?.access_token || SKEY;
-  const r=await fetch(SURL+path,{...opts,headers:{'apikey':SKEY,'Authorization':'Bearer '+token,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  if(!session){
+    manejarSesionExpirada();
+    throw new Error('SIN_SESION');
+  }
+  const r=await fetch(SURL+path,{...opts,headers:{'apikey':SKEY,'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  if(r.status===401){
+    manejarSesionExpirada();
+    throw new Error('SESION_EXPIRADA');
+  }
   if(!r.ok){const e=await r.text();throw new Error(e)}
   const text=await r.text();
   if(!text)return null;
   return JSON.parse(text);
+}
+
+// ─── SESIÓN EXPIRADA (1B-3) ────────────────────────────────────
+// Un solo lugar para el 401: si hay un presupuesto a medio armar lo respalda en
+// sessionStorage y muestra el modal de reingreso — nunca redirect duro, para no
+// perder el carrito en curso.
+function guardarBackupCarrito(){
+  try{
+    sessionStorage.setItem(CART_BACKUP_KEY, JSON.stringify({
+      cart, servicios, clienteTipo, facturaA, editingPresupuestoId, editingNumero,
+      cliNombre: document.getElementById('cli-nombre')?.value||'',
+      cliEmpresa: document.getElementById('cli-empresa')?.value||'',
+      cliEmail: document.getElementById('cli-email')?.value||'',
+      cliTel: document.getElementById('cli-tel')?.value||'',
+      selComercial: document.getElementById('sel-comercial')?.value||'',
+    }));
+  }catch(e){console.error('guardarBackupCarrito',e)}
+}
+
+function restaurarBackupCarrito(){
+  let raw;
+  try{ raw=sessionStorage.getItem(CART_BACKUP_KEY); }catch(e){ return }
+  if(!raw)return;
+  sessionStorage.removeItem(CART_BACKUP_KEY);
+  try{
+    const b=JSON.parse(raw);
+    if(!b||(!b.cart?.length&&!b.servicios?.length))return;
+    cart=b.cart||[]; servicios=b.servicios||[];
+    clienteTipo=b.clienteTipo||'B2C'; facturaA=!!b.facturaA;
+    editingPresupuestoId=b.editingPresupuestoId||null; editingNumero=b.editingNumero||null;
+    document.getElementById('cli-nombre').value=b.cliNombre||'';
+    document.getElementById('cli-empresa').value=b.cliEmpresa||'';
+    document.getElementById('cli-email').value=b.cliEmail||'';
+    document.getElementById('cli-tel').value=b.cliTel||'';
+    if(b.selComercial)document.getElementById('sel-comercial').value=b.selComercial;
+    setTipo(clienteTipo); setFactura(facturaA);
+    document.getElementById('cart-card').style.display=cart.length?'':'none';
+    document.getElementById('summary-card').style.display=(cart.length||servicios.length)?'':'none';
+    document.getElementById('actions-card').style.display='';
+    if(editingPresupuestoId){
+      document.getElementById('editing-numero').textContent=editingNumero;
+      document.getElementById('editing-banner').style.display='flex';
+      document.getElementById('btn-guardar').textContent='💾 Guardar cambios en '+editingNumero;
+    }
+    renderCart(); renderServicios(); renderSummary();
+    showPage('nuevo', document.querySelector(`.nav-tab[onclick*="showPage('nuevo'"]`));
+    toast('Recuperamos tu presupuesto en curso — seguí donde lo dejaste','ok');
+  }catch(e){console.error('restaurarBackupCarrito',e)}
+}
+
+function manejarSesionExpirada(){
+  if(sesionExpiradaMostrada)return;
+  sesionExpiradaMostrada=true;
+  const tieneCarrito=cart.length||servicios.length;
+  if(tieneCarrito)guardarBackupCarrito();
+  document.getElementById('modal-sesion-msg').textContent=tieneCarrito
+    ?'Se cerró tu sesión, pero tu presupuesto en curso quedó guardado. Reingresá para retomarlo donde lo dejaste.'
+    :'Se cerró tu sesión. Volvé a iniciar sesión para seguir trabajando.';
+  document.getElementById('modal-sesion').classList.add('open');
+}
+
+function cerrarModalSesion(){
+  document.getElementById('modal-sesion').classList.remove('open');
+  sesionExpiradaMostrada=false;
+}
+
+function irAReingresar(){
+  const next=encodeURIComponent(location.pathname+location.search);
+  window.location.href=`/login?next=${next}`;
 }
 
 // ─── PUENTE CUADRILLA/OBRAS (voowjwzlkhdknpapkhxc) vía auth-bridge.js ──
@@ -678,7 +768,11 @@ async function fetchTCFallback(){
 // ─── INIT ────────────────────────────────────────────────────
 window.onload = async () => {
   const { data: { session } } = await authClient.auth.getSession();
-  if (!session) { window.location.href = '../login.html'; return; }
+  if (!session) {
+    const next = encodeURIComponent(location.pathname + location.search);
+    window.location.href = `/login?next=${next}`;
+    return;
+  }
   const { data: profile } = await authClient
     .from('user_profiles').select('full_name, role')
     .eq('id', session.user.id).single();
@@ -692,6 +786,7 @@ window.onload = async () => {
   try{ cuadrillaToken = await getCuadrillaToken(authClient); }
   catch(e){ console.error('auth-bridge cuadrilla', e); }
   await Promise.all([fetchTC(), loadComerciales(), loadInventario(), loadManoObra()]);
+  restaurarBackupCarrito();
   const tabParam = new URLSearchParams(window.location.search).get('tab');
   if (tabParam) {
     const btn = document.querySelector(`.nav-tab[onclick*="showPage('${tabParam}'"]`);
