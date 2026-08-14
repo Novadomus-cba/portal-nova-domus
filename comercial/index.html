@@ -1804,9 +1804,12 @@ async function abrirModalPres(id){
     });
     if(svcs.length){
       svcs.forEach(i=>{
-        itHtml+=`<div style="padding:7px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px">
-          <div>🔧 <b>${i.nombre}</b><br><span style="color:var(--muted)">Servicio</span></div>
-          <div style="text-align:right;white-space:nowrap"><b>${fUSD(i.subtotal_usd||0)}</b></div>
+        itHtml+=`<div style="padding:7px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;gap:8px">
+            <div>🔧 <b>${i.nombre}</b><br><span style="color:var(--muted)">Servicio</span></div>
+            <div style="text-align:right;white-space:nowrap"><b>${fUSD(i.subtotal_usd||0)}</b></div>
+          </div>
+          ${renderLineaHoras(i)}
         </div>`;
       });
     }
@@ -1836,6 +1839,73 @@ async function cambiarEstado(id,estado,btn){
     toast('Estado: '+estado,'ok');
     cargarHistorial();
   }catch(e){toast('Error','err');}
+}
+
+// ─── HORAS DE MANO DE OBRA (1B-6, 14/08/2026) ──────────────────
+// PATCH angosto por línea: solo horas_estimadas_mo/horas_estimadas_origen, nunca
+// pasa por cargarParaEditar()/guardarPresupuesto() (ese camino hace DELETE+INSERT
+// de todas las líneas). El comercial consulta la horas al área técnica de forma
+// informal y las carga acá — técnica no tiene acceso al portal.
+function formatHorasMo(i){
+  if(i.horas_estimadas_mo==null)return'Sin horas cargadas';
+  const origen=i.horas_estimadas_origen==='TECNICA'?'consultado a técnica'
+    :i.horas_estimadas_origen==='COMERCIAL'?'estimado por comercial'
+    :'origen sin registrar';
+  return `${i.horas_estimadas_mo}h · ${origen}`;
+}
+
+function renderLineaHoras(i){
+  return `
+    <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <span id="mpres-horas-actual-${i.id}" style="font-size:11px;color:var(--muted)">${formatHorasMo(i)}</span>
+      <input type="number" id="mpres-horas-inp-${i.id}" min="0" step="0.5" placeholder="Horas" style="width:70px;font-size:12px;padding:4px 6px">
+      <select id="mpres-horas-origen-${i.id}" style="font-size:12px;padding:4px 6px">
+        <option value="">— origen —</option>
+        <option value="COMERCIAL">Comercial (estimado)</option>
+        <option value="TECNICA">Técnica (consultado)</option>
+      </select>
+      <button class="btn btn-secondary btn-sm" onclick="guardarHorasMo(${i.id},this)">Guardar horas</button>
+    </div>`;
+}
+
+async function guardarHorasMo(itemId,btn){
+  const horasInp=document.getElementById(`mpres-horas-inp-${itemId}`);
+  const origenSel=document.getElementById(`mpres-horas-origen-${itemId}`);
+  const horas=parseFloat(horasInp.value);
+  const origen=origenSel.value;
+  if(!horasInp.value.trim()||isNaN(horas)||horas<=0){
+    toast('Ingresá una cantidad de horas mayor a 0','err');
+    return;
+  }
+  if(!origen){
+    toast('Elegí el origen: Comercial o Técnica','err');
+    return;
+  }
+  const txtOriginal=btn.textContent;
+  btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    // Payload con SOLO estas dos columnas — el grant de la base rechaza (403)
+    // cualquier otra, aunque sea con el mismo valor que ya tenía la fila.
+    const rows=await sb(`/rest/v1/presupuestos_items?id=eq.${itemId}`,{
+      method:'PATCH',
+      prefer:'return=representation',
+      body:JSON.stringify({horas_estimadas_mo:horas,horas_estimadas_origen:origen})
+    });
+    const row=rows&&rows[0];
+    if(!row)throw new Error('No se pudo confirmar el guardado');
+    const idx=currentPresItems.findIndex(x=>x.id===itemId);
+    if(idx>=0)currentPresItems[idx]=row;
+    // Repinta con lo que devolvió la base (return=representation), no con lo tipeado.
+    document.getElementById(`mpres-horas-actual-${itemId}`).textContent=formatHorasMo(row);
+    horasInp.value='';
+    origenSel.value='';
+    toast('Horas guardadas','ok');
+  }catch(e){
+    console.error('guardarHorasMo',e);
+    if(!esErrorDeSesion(e))toast('No se pudieron guardar las horas: '+e.message,'err');
+  }finally{
+    btn.disabled=false;btn.textContent=txtOriginal;
+  }
 }
 
 // ─── WHATSAPP (modal) ────────────────────────────────────────
