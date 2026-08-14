@@ -178,6 +178,7 @@ urgencia, no como corte real.
 | Tema | Decisión |
 |---|---|
 | **Un solo proyecto Supabase** | `vvwnyszcfindtuvojqgs`. La consolidación Obras → Comercial (Opción A) se ejecutó el 14/08/2026. `voowjwzlkhdknpapkhxc` queda como **rollback, solo lectura, no se borra** |
+| **Rollback del proyecto viejo** | Es de **solo lectura**. La migración `20260814223240_mitigacion_corte_revocar_escritura_authenticated` (14/08 22:32 UTC) dejó a `authenticated` con solo `SELECT` en `voowjwzlkhdknpapkhxc` (36 objetos `public` + 6 `cuadrilla`, tablas y vistas). Cierra la vía de escritura de una pestaña con código pre-deploy: aunque consiga token por `exchange-jwt`, cualquier `INSERT`/`UPDATE`/`DELETE` muere en `permission denied`. **Consecuencia: el rollback ya no es de un paso** — para volver a apuntar el front a Obras hay que revertir esa migración primero |
 | **Plan Free** | Se queda. Un dump manual tomado minutos antes de un corte es mejor que un backup diario con hasta 24 h de atraso. Se acepta perder log de 7 días, protección de contraseñas filtradas y la red de seguridad de un daño silencioso descubierto días después |
 | **Método de backup** | `supabase db dump` en 3 archivos (`--role-only`, schema, `--use-copy --data-only`). **No `pg_dump` directo**: incluye internos de Supabase y falla al restaurar. Requiere Docker |
 | **Backup de Storage** | El dump captura `storage.objects` (metadata) pero **no los binarios**. Se bajan aparte. `supabase storage cp` y `functions delete` requieren un **personal access token de cuenta** (no de proyecto): para volúmenes chicos conviene el dashboard antes que crear un PAT |
@@ -248,3 +249,16 @@ Martín tiene fila en `comerciales` (id 6) **sin `user_id`, a propósito**.
 - Grant de `anon` sobre `comerciales` (`SELECT(id, nombre)`) — confirmado resto de antes de
   `v_presupuesto_publico` (el público solo consulta la vista, nunca `/rest/v1/comerciales`
   directo) y revocado el 14/08/2026.
+
+**Pendientes operativos (no bloquean nada, quedan para cuando haya un rato):**
+- Las 3 Edge Functions de `voowjwzlkhdknpapkhxc` (`exchange-jwt`, `cuadrilla`, `analyze-image`)
+  siguen `ACTIVE` — el borrado no se ejecutó todavía. **Ya no es urgente**: la escritura está
+  cerrada por grants (ver fila de "Rollback del proyecto viejo" en §4), verificado con un INSERT
+  de prueba que murió en `permission denied`, y `function_edge_logs` no tiene hits nuevos desde
+  las 21:22:44 UTC del 14/08. Sigue valiendo la pena borrarlas por la **lectura**: con
+  `exchange-jwt` vivo, una pestaña con código pre-deploy puede leer del proyecto huérfano y
+  mostrar datos desactualizados sin ningún error visible — sin el puente, ese camino termina en
+  el modal de sesión expirada. Fuentes archivadas fuera de Supabase
+  (`novadomus-paneles-backups/fase8-ventana-de-corte_20260814/`). Se borran por dashboard cuando
+  haya tiempo.
+- Aviso pendiente al equipo: Ctrl+Shift+R antes de arrancar el lunes.
