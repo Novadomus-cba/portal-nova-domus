@@ -400,7 +400,6 @@ const sbGet       = (t, q='') => apiFetch(SB_URL,   null,     'GET',    t, null,
 const sbPost      = (t, b)    => apiFetch(SB_URL,   null,     'POST',   t, b);
 const sbPatch     = (t, b, q) => apiFetch(SB_URL,   null,     'PATCH',  t, b,    q);
 const sbDel       = (t, q)    => apiFetch(SB_URL,   null,     'DELETE', t, null, q);
-const authGet     = (t, q='') => apiFetch(AUTH_URL, AUTH_KEY, 'GET',    t, null, q);
 const cuadrillGet = (t, q='') => apiFetch(SB_URL,   null,     'GET',    t, null, q, 'cuadrilla');
 const cuadrillPost= (t, b)    => apiFetch(SB_URL,   null,     'POST',   t, b,    '',  'cuadrilla');
 
