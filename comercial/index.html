@@ -845,7 +845,7 @@ async function loadInventario(){
 
 async function loadManoObra(){
   try{
-    const d=await sb('/rest/v1/mano_obra_tarifario?select=sku_mo,categoria,subcategoria,nombre,tarifa_usd,metodo');
+    const d=await sb('/rest/v1/mano_obra_tarifario?select=sku_mo,categoria,subcategoria,nombre,tarifa_usd,metodo,epac_margen,ajuste_absoluto');
     manoObraMap={};
     (d||[]).forEach(m=>manoObraMap[m.sku_mo]=m);
   }catch(e){
@@ -1473,6 +1473,16 @@ async function cargarParaEditar(id){
       servicios.push({
         id:'edit-'+i.id,descripcion:i.nombre,precioUsd:parseFloat(i.precio_final_unitario_usd)||0,
         cantidad:parseFloat(i.cantidad)||1,auto:false,deviceCartId:null,deviceNombre:null,skuMo:i.sku||null,
+        // Snapshot de MO ya guardado en esta línea (1B-5): se arrastra tal cual al
+        // re-guardar, nunca se recalcula contra el tarifario vigente — ver por qué
+        // en guardarPresupuesto().
+        _snapshot:{
+          tarifaMoSnapshot:i.tarifa_mo_snapshot!=null?parseFloat(i.tarifa_mo_snapshot):null,
+          metodoMoSnapshot:i.metodo_mo_snapshot||null,
+          referenciaEpacUsd:i.referencia_epac_usd!=null?parseFloat(i.referencia_epac_usd):null,
+          horasEstimadasMo:i.horas_estimadas_mo!=null?parseFloat(i.horas_estimadas_mo):null,
+          horasEstimadasOrigen:i.horas_estimadas_origen||null,
+        },
       });
     });
 
@@ -1608,6 +1618,14 @@ async function guardarPresupuesto(){
         alerta_b2b_imposible: false,
         tipo_dolar: 'oficial',
         notas: null,
+        // Snapshot de MO (1B-5, 14/08/2026) — NULL por defecto: dispositivos y
+        // servicios de inventario no tienen mano de obra tarifada, mandar null y
+        // no 0 (un 0 ensucia cualquier promedio, ver comment de la columna).
+        tarifa_mo_snapshot: null,
+        metodo_mo_snapshot: null,
+        referencia_epac_usd: null,
+        horas_estimadas_mo: null,
+        horas_estimadas_origen: null,
         ...overrides
       };
     }
@@ -1640,6 +1658,34 @@ async function guardarPresupuesto(){
       ...servicios.filter(s=>s.descripcion||s.precioUsd>0).map(s=>{
         // s.precioUsd ya es neto (de calcMoPrice) — se persiste tal cual, el IVA se
         // discrimina aparte (nunca se mezcla con el precio guardado).
+        //
+        // Snapshot de MO (1B-5, 14/08/2026): si la línea ya existía (viene de
+        // cargarParaEditar con s._snapshot), se arrastra TAL CUAL — nunca se
+        // recalcula contra el tarifario vigente al momento de re-guardar, porque
+        // eso pisaría el precio congelado con el que se cotizó originalmente
+        // (comment de tarifa_mo_snapshot: 18/29 líneas históricas ya difieren de
+        // la tarifa actual). Solo una línea NUEVA en esta sesión se calcula desde
+        // manoObraMap. horas_estimadas_* nunca se tocan acá — las carga técnica
+        // después, por un PATCH aparte.
+        let snap;
+        if(s._snapshot){
+          snap=s._snapshot;
+        }else{
+          const mo=s.skuMo?manoObraMap[s.skuMo]:null;
+          const tarifaUsd=mo&&mo.tarifa_usd!=null?parseFloat(mo.tarifa_usd):null;
+          const metodo=mo?mo.metodo||null:null;
+          const epacMargen=mo&&mo.epac_margen!=null?parseFloat(mo.epac_margen):null;
+          const ajusteAbsoluto=mo&&mo.ajuste_absoluto!=null?parseFloat(mo.ajuste_absoluto):0;
+          snap={
+            tarifaMoSnapshot:tarifaUsd,
+            metodoMoSnapshot:metodo,
+            // Solo EPAC con margen válido — en cualquier otro método la división
+            // sería un número inventado (comment de referencia_epac_usd).
+            referenciaEpacUsd:(metodo==='EPAC'&&epacMargen)?(tarifaUsd/epacMargen-ajusteAbsoluto):null,
+            horasEstimadasMo:null,
+            horasEstimadasOrigen:null,
+          };
+        }
         return buildLinea({
           inventario_id:s.deviceCartId||null,
           tipo_linea:'SERVICIO',
@@ -1651,7 +1697,12 @@ async function guardarPresupuesto(){
           precio_final_unitario_usd:s.precioUsd,
           subtotal_usd:s.precioUsd*(s.cantidad||1),
           iva_rate:facturaA?0.21:0,
-          notas:(s.auto?'MO automática':s.skuMo?'Del tarifario':'Servicio manual')+(facturaA?' — con IVA':' — sin IVA')
+          notas:(s.auto?'MO automática':s.skuMo?'Del tarifario':'Servicio manual')+(facturaA?' — con IVA':' — sin IVA'),
+          tarifa_mo_snapshot:snap.tarifaMoSnapshot,
+          metodo_mo_snapshot:snap.metodoMoSnapshot,
+          referencia_epac_usd:snap.referenciaEpacUsd,
+          horas_estimadas_mo:snap.horasEstimadasMo,
+          horas_estimadas_origen:snap.horasEstimadasOrigen,
         });
       })
     ];
