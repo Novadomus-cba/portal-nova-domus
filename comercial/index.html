@@ -294,12 +294,12 @@ textarea{resize:vertical;min-height:60px}
         <span class="search-icon">🔍</span>
         <input type="text" id="search-inp" placeholder="Buscar producto, SKU o marca..." oninput="onSearch()">
       </div>
-      <div id="search-results"><div class="empty">Escribí para buscar...</div></div>
+      <div id="search-results"><div class="empty">Cargando catálogo...</div></div>
     </div>
 
     <!-- Brand -->
     <div id="bpanel-brand" style="display:none">
-      <div class="brands-grid" id="brands-grid"></div>
+      <div class="brands-grid" id="brands-grid"><div class="empty">Cargando catálogo...</div></div>
       <div id="brand-products" style="display:none">
         <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px">
           <button class="btn btn-secondary btn-sm" onclick="clearBrand()">← Marcas</button>
@@ -318,7 +318,7 @@ textarea{resize:vertical;min-height:60px}
             <option value="">— elegir categoría —</option>
           </select>
         </div>
-        <div id="cat-products"><div class="empty">Elegí una categoría</div></div>
+        <div id="cat-products"><div class="empty">Cargando catálogo...</div></div>
       </div>
     </div>
   </div>
@@ -605,6 +605,7 @@ const CART_BACKUP_KEY='nd_comercial_cart_backup_v1';
 let sesionExpiradaMostrada=false;
 let currentBrand='', savedId=null;
 let manoObraMap={};
+let inventarioEstado='cargando'; // 'cargando' | 'ok' | 'error'
 
 // Helpers
 function pad(n){return String(n).padStart(2,'0')}
@@ -720,6 +721,18 @@ function toast(msg,type=''){
   setTimeout(()=>t.className='toast',3000)
 }
 
+// Evita el doble aviso: si sb() ya cortó por SIN_SESION/401, manejarSesionExpirada()
+// ya mostró el modal — el catch del call site no debe además tirar un toast.
+function esErrorDeSesion(e){
+  return e && (e.message==='SIN_SESION' || e.message==='SESION_EXPIRADA');
+}
+
+// Mismo mensaje y mismo botón de recarga en Buscar/Marca/Categoría — las tres
+// vistas dependen de `inventario` y tienen que quedar consistentes entre sí.
+function htmlCatalogoNoDisponible(){
+  return '<div class="empty">⚠️ No se pudo cargar el catálogo — <a href="#" onclick="location.reload();return false" style="color:var(--info);font-weight:600">recargá la página</a> para reintentar</div>';
+}
+
 // ─── TC ──────────────────────────────────────────────────────
 function onTCChange(val){
   const v=parseFloat(val);
@@ -804,18 +817,30 @@ async function loadComerciales(){
     const hf=document.getElementById('hist-fil-comercial');
     hf.innerHTML='<option value="">Todos los comerciales</option>';
     comerciales.forEach(c=>{hf.innerHTML+=`<option value="${c.id}">${c.nombre}</option>`});
-  }catch(e){console.error(e)}
+  }catch(e){
+    console.error(e);
+    if(!esErrorDeSesion(e))toast('No se pudo cargar la lista de comerciales — recargá la página','err');
+  }
 }
 
 async function loadInventario(){
   try{
     const d=await sb('/rest/v1/inventario?select=id,marca,grupo,nombre,sku,precio_sin_iva,iva,remarque,precio_sugerido_manual,sku_mo&order=marca,nombre');
     inventario=d||[];
+    inventarioEstado='ok';
     buildBrands();
     buildCats();
     buildPLFilters();
     renderPL();
-  }catch(e){console.error('inventario',e)}
+    onCatChange(); // saca a cat-products del placeholder "Cargando catálogo..."
+    onSearch();    // re-corre la búsqueda si el comercial ya había tipeado algo
+  }catch(e){
+    console.error('inventario',e);
+    inventarioEstado='error';
+    document.getElementById('brands-grid').innerHTML=htmlCatalogoNoDisponible();
+    document.getElementById('cat-products').innerHTML=htmlCatalogoNoDisponible();
+    if(!esErrorDeSesion(e))toast('No se pudo cargar el catálogo de productos — recargá la página','err');
+  }
 }
 
 async function loadManoObra(){
@@ -823,7 +848,10 @@ async function loadManoObra(){
     const d=await sb('/rest/v1/mano_obra_tarifario?select=sku_mo,categoria,subcategoria,nombre,tarifa_usd,metodo');
     manoObraMap={};
     (d||[]).forEach(m=>manoObraMap[m.sku_mo]=m);
-  }catch(e){console.error('mano_obra',e)}
+  }catch(e){
+    console.error('mano_obra',e);
+    if(!esErrorDeSesion(e))toast('No se pudo cargar el tarifario de mano de obra — recargá la página','err');
+  }
 }
 
 // ─── PRICING ─────────────────────────────────────────────────
@@ -1054,6 +1082,8 @@ function clearBrand(){
 }
 
 function onCatChange(){
+  if(inventarioEstado==='cargando'){document.getElementById('cat-products').innerHTML='<div class="empty">Cargando catálogo...</div>';return}
+  if(inventarioEstado==='error'){document.getElementById('cat-products').innerHTML=htmlCatalogoNoDisponible();return}
   const cat=document.getElementById('cat-select').value;
   if(!cat){document.getElementById('cat-products').innerHTML='<div class="empty">Elegí una categoría</div>';return}
   let items;
@@ -1064,6 +1094,8 @@ function onCatChange(){
 
 function onSearch(){
   const q=document.getElementById('search-inp').value.toLowerCase().trim();
+  if(inventarioEstado==='cargando'){document.getElementById('search-results').innerHTML='<div class="empty">Cargando catálogo...</div>';return}
+  if(inventarioEstado==='error'){document.getElementById('search-results').innerHTML=htmlCatalogoNoDisponible();return}
   if(!q){document.getElementById('search-results').innerHTML='<div class="empty">Escribí para buscar...</div>';return}
   const words=q.split(/\s+/).filter(Boolean);
   const items=inventario.filter(i=>{
