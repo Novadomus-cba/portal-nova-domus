@@ -1569,13 +1569,20 @@ function addDaysStr(iso, days) {
 async function cargarDatos() {
   const cont = document.getElementById('datos-content');
   cont.innerHTML = '<div class="loader"><div class="spinner"></div> Cargando...</div>';
+  const today = new Date().toISOString().slice(0, 10);
   try {
     const [tecs, tarifas] = await Promise.all([
       supa('/rest/v1/cuadrilla_tecnicos?select=id,nombre,activo&order=nombre'),
-      supa('/rest/v1/cuadrilla_tarifas?select=*&order=fecha_desde.desc'),
+      // Ventana de vigencia (no "la más reciente por fecha_desde" — ver cargarTecnicos()
+      // y liquidacion/index.html:loadCategorias, mismo criterio): una tarifa con
+      // fecha_desde futura no debe tomarse como vigente antes de tiempo.
+      supa(`/rest/v1/cuadrilla_tarifas?select=*&fecha_desde=lte.${today}&or=(fecha_hasta.is.null,fecha_hasta.gte.${today})`),
     ]);
     const tarifaMap = {};
-    (tarifas || []).forEach(t => { if (!tarifaMap[t.tecnico_id]) tarifaMap[t.tecnico_id] = t; });
+    (tarifas || []).forEach(t => {
+      if (!tarifaMap[t.tecnico_id] || t.fecha_desde > tarifaMap[t.tecnico_id].fecha_desde)
+        tarifaMap[t.tecnico_id] = t;
+    });
     TECNICOS_ALL = (tecs || []).map(t => ({ ...t, tarifa: tarifaMap[t.id] || null }));
     renderDatos();
   } catch (e) {
