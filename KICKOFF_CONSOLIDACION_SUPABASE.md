@@ -177,7 +177,53 @@ por rol, siguiendo la tabla de roles de la sección de contexto original):
   error de red a `voowjwzlkhdknpapkhxc.supabase.co` (si aparece, algo quedó sin migrar) ni ningún
   `401`/`403` inesperado contra `vvwnyszcfindtuvojqgs.supabase.co`.
 
-**Recién después de que Fase 7 confirme que todo anda:**
+**Fase 6 — DEPLOYADA Y VERIFICADA EN PRODUCCIÓN, 14/08/2026 21:46-21:52 UTC.** Commit `ca00834`
+pusheado a `main` (autorizado por Agustín), Cloudflare Pages lo desplegó solo. Verificación en
+`https://portalnovadomus.pages.dev` leyendo el archivo servido (con cache-buster, no el commit):
+las 11 rutas devuelven contenido sin ninguna referencia a `voowjwzlkhdknpapkhxc`. Con sesión real
+de Agustín (admin), `/cuadrilla/` confirmado pegándole solo a Comercial (`performance
+.getEntriesByType('resource')`), consultando `cuadrilla_tecnicos`/`cuadrilla_tarifas` con el
+filtro de vigencia correcto.
+
+**Cuatro fixes adicionales, encontrados en la verificación en vivo del 14/08 (mismo commit
+`ca00834`):**
+1. `gerencial/index.html` (`sbObras`/`sbObrasPatch`): ya no caen a la anon key ni mandan un token
+   nulo — si no hay `cuadrillaToken` o el server devuelve 401, llaman a `manejarSesionExpirada()`
+   (de `auth-bridge.js`) y tiran. Se agregó el modal `#modal-sesion` (CSS + HTML) a este archivo,
+   que no lo tenía.
+2. `gerencial/index.html` (`sbAuth`): mismo criterio, se sacó el fallback `|| AUTH_KEY`.
+3. `galeria/index.html` (`fetchJson`): mismo patrón en las dos ramas (Obras y Comercial). Se
+   agregó el mismo modal. No se portó el backup de carrito de `comercial/index.html` a propósito
+   (galeria tiene un `File` seleccionado no serializable).
+4. `comercial/index.html:1593`: `addDays(30)` → `addDays(15)` en `guardarPresupuesto()` — el
+   front mandaba `fecha_vencimiento` explícito en el INSERT, así que el default de columna
+   corregido en la base (`current_date + '15 days'`) quedaba inerte para presupuestos nuevos. Los
+   97 presupuestos existentes quedan a 30 días — decisión de Agustín, ya documentada en el
+   `COMMENT` de la columna.
+
+**Cerrado sin cambios:** el repo `novadomus-presupuestos` (documento público de presupuesto,
+GitHub Pages, fuera de este repo) apunta a `vvwnyszcfindtuvojqgs` (Comercial) — siempre fue su
+proyecto, la consolidación no lo afecta.
+
+**Pendiente, no soy quien lo puede cerrar:**
+- El modal de sesión expirada en `gerencial/index.html`/`galeria/index.html` no se puede probar
+  con una sesión válida (los dos caminos se ven idénticos hasta que la sesión caduca de verdad).
+  Verificado por lectura de código; falta la prueba visual real, en una ventana que no le corte
+  el trabajo a nadie.
+- **Storage — RESUELTO 14/08/2026 (123 de 126 objetos).** Los 2 buckets públicos (`galeria`: 5
+  objetos, `productos`: 118 objetos) se descargaron completos vía la API pública de Storage
+  (`.../storage/v1/object/public/{bucket}/{path}`) a
+  `C:\Users\agust\novadomus-paneles-backups\storage_20260814\` (34 MB), **verificado por tamaño
+  contra `storage.objects.metadata`, 123/123 coinciden** — no es solo "se descargó", se comparó.
+  Manifiesto de origen en `storage_manifest_20260814.json` en la misma carpeta.
+  **Quedan 3 objetos sin backup**: el bucket `planos-instalacion` (privado, 3 archivos HTML chicos
+  de planos de instalación, ~91 KB en total) exige sesión real de `admin`/`supervisor`/
+  `programacion` vía RLS — no descargable sin credenciales de usuario. Bajo impacto (3 archivos
+  chicos, no son fotos irreemplazables), pendiente de que alguien con sesión los baje a mano desde
+  el dashboard si se quiere backup 100% completo antes de la Fase 8. `mapas-instalacion` está
+  vacío (0 objetos), no aplica.
+
+**Recién después de resolver Storage:**
 1. Borrar la Edge Function `exchange-jwt` de Obras (dashboard, manual).
 2. Fase 8: definir con Agustín la ventana de corte y cuántos días se deja pausado (no borrado) el
    proyecto Obras como red de salida.
