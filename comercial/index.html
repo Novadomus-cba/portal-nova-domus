@@ -1582,10 +1582,10 @@ async function guardarPresupuesto(){
       cabecera.estado='BORRADOR';
       cabecera.fecha_emision=today();
       cabecera.fecha_vencimiento=addDays(30);
-      await sb('/rest/v1/presupuestos_comerciales',{method:'POST',prefer:'return=minimal',body:JSON.stringify(cabecera)});
-      const inserted=await sb(`/rest/v1/presupuestos_comerciales?numero=eq.${encodeURIComponent(numero)}&select=id&limit=1`);
+      const inserted=await sb('/rest/v1/presupuestos_comerciales?select=id,numero',{method:'POST',prefer:'return=representation',body:JSON.stringify(cabecera)});
       if(!inserted||!inserted[0])throw new Error('No se pudo recuperar el presupuesto guardado');
       pid=inserted[0].id;
+      numero=inserted[0].numero;
     }
 
     function buildLinea(overrides){
