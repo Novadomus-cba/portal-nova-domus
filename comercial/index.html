@@ -2220,6 +2220,7 @@ async function abrirModalVincular(origen,origenId){
     }
     document.getElementById('mv-confirm').disabled=false;
   }catch(e){
+    document.getElementById('mv-nombre').value='';
     document.getElementById('mv-error').textContent='Error al cargar: '+e.message;
     document.getElementById('mv-error').style.display='block';
   }
