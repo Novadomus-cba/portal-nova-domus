@@ -216,18 +216,43 @@ proyecto, la consolidación no lo afecta.
   `C:\Users\agust\novadomus-paneles-backups\storage_20260814\` (34 MB), **verificado por tamaño
   contra `storage.objects.metadata`, 123/123 coinciden** — no es solo "se descargó", se comparó.
   Manifiesto de origen en `storage_manifest_20260814.json` en la misma carpeta.
-  **Quedan 3 objetos sin backup**: el bucket `planos-instalacion` (privado, 3 archivos HTML chicos
-  de planos de instalación, ~91 KB en total) exige sesión real de `admin`/`supervisor`/
-  `programacion` vía RLS — no descargable sin credenciales de usuario. Bajo impacto (3 archivos
-  chicos, no son fotos irreemplazables), pendiente de que alguien con sesión los baje a mano desde
-  el dashboard si se quiere backup 100% completo antes de la Fase 8. `mapas-instalacion` está
-  vacío (0 objetos), no aplica.
+  **Quedan 3 objetos sin backup**: el bucket `planos-instalacion` es privado *para el portal*
+  (`admin`/`supervisor`/`programacion` vía RLS) — pero **corregido 18/08/2026**: desde el
+  dashboard, como dueño del proyecto, se bajan sin ninguna sesión del portal, los roles no
+  intervienen ahí. Bajo impacto (3 archivos chicos, ~91 KB, no son fotos irreemplazables),
+  pendiente de bajarlos a mano desde el dashboard si se quiere backup 100% completo; no depende de
+  ninguna sesión de usuario ni bloquea la Fase 8. `mapas-instalacion` está vacío (0 objetos), no
+  aplica.
 
-**Recién después de resolver Storage:**
-1. Borrar la Edge Function `exchange-jwt` de Obras (dashboard, manual).
-2. Fase 8: definir con Agustín la ventana de corte y cuántos días se deja pausado (no borrado) el
-   proyecto Obras como red de salida.
-u Obras.
+**Reverificado el 18/08/2026 (repaso de estado, sin cambios respecto del 14/08):** los dos
+proyectos siguen `ACTIVE_HEALTHY`, el grant de solo lectura sobre `authenticated` en Obras sigue
+en pie, `get_advisors` no tiene hallazgos nuevos, y los conteos de las 31 tablas compartidas
+coinciden con el baseline **salvo `panel_agenda_snapshot`/`panel_inbox_snapshot`**, que seguían
+creciendo en Obras — explicado y cerrado en `DECISIONES.md` §8 (una sesión de Claude Project con
+el `project_id` viejo en sus instrucciones, escribiendo como `postgres`; se corrige en las
+instrucciones del Project, no acá). Las 3 Edge Functions de Obras siguen `ACTIVE`, sin borrar. Los
+3 objetos de `planos-instalacion` siguen sin backup.
+
+**Fase 8 — decidido con Agustín el 18/08/2026, corregido el mismo día:**
+1. Pausar `voowjwzlkhdknpapkhxc` **recién cuando la Fase 7 esté confirmada** (verificación por rol
+   en el portal real, checklist arriba) — no antes. No depende de terminar el backup de Storage
+   ni de borrar las Edge Functions.
+2. Una vez pausado, se deja pausado **INDEFINIDAMENTE — no se agenda borrado**. Plan Free, org con
+   un solo proyecto activo además de éste: un proyecto pausado no ocupa slot ni cuesta nada, así
+   que borrar no devuelve recursos. La plataforma da 90 días de restauración con un click, y
+   después de esos 90 el backup y Storage siguen descargables desde el dashboard para restaurar en
+   un proyecto nuevo — cortar a un plazo fijo tira cobertura gratis sin necesidad, y el borrado de
+   proyecto es permanente e irreversible.
+3. Borrar la Edge Function `exchange-jwt` de Obras (dashboard, manual) sigue pendiente, en
+   paralelo, sin bloquear ni ser bloqueada por lo anterior.
+4. **Cron desagendado 18/08/2026 ~22:45 UTC**, adelantado a la pausa: `select
+   cron.unschedule('rentabilidad-semanal')` en `voowjwzlkhdknpapkhxc` (`true`), para que no
+   siguiera escribiendo `analisis_obra` en la copia congelada — el job había corrido 7 viernes
+   seguidos desde el 03/07, sin generar divergencia. El de `vvwnyszcfindtuvojqgs` sigue activo e
+   intacto. Reactivar en un rollback: `select cron.schedule('rentabilidad-semanal','0 18 * * 5','SELECT public.refresh_all_obra_balances()')`
+   — el rollback ahora son dos reversiones (grants + este cron), no una. **Apagar esta fuente de
+   actividad hace probable que Free pause solo el proyecto antes de que termine la Fase 7:
+   encontrarlo pausado la semana que viene es lo esperado, no una falla.**
 
 ---
 

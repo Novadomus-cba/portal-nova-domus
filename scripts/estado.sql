@@ -11,7 +11,10 @@
 -- Para comparar los dos proyectos: correr el BLOQUE 6 en ambos y diffear
 -- la salida. Cualquier diferencia entre vvwnyszcfindtuvojqgs (vigente) y
 -- voowjwzlkhdknpapkhxc (rollback) significa que algo escribió en la base
--- huérfana y hay que reconciliar esa fila a mano.
+-- huérfana y hay que reconciliar esa fila a mano — EXCEPTO
+-- panel_agenda_snapshot/panel_inbox_snapshot, excluidas permanentemente
+-- de esta comparación (ver BLOQUE 6): para esas dos, "reconciliar a mano"
+-- es exactamente lo que NO hay que hacer.
 -- =====================================================================
 
 
@@ -92,7 +95,12 @@ order by 1;
 select jobid, schedule, command, active
 from cron.job
 order by jobid;
--- Esperado: 1 job activo, '0 18 * * 5' -> SELECT public.refresh_all_obra_balances()
+-- Esperado — DISTINTO POR PROYECTO desde el 18/08/2026:
+--   vvwnyszcfindtuvojqgs (vigente): 1 job activo, 'rentabilidad-semanal',
+--     '0 18 * * 5' -> SELECT public.refresh_all_obra_balances().
+--   voowjwzlkhdknpapkhxc (congelado): 0 jobs — desagendado el 18/08/2026 a propósito
+--     (select cron.unschedule('rentabilidad-semanal')), para que no siguiera escribiendo
+--     analisis_obra en la copia congelada. Si aparece un job ahí, algo lo reagendó — mirarlo.
 
 
 -- ---------------------------------------------------------------------
@@ -152,6 +160,17 @@ order by 1;
 --   panel_inbox_snapshot 19 · planes_pago 0 · planes_pago_cuotas 0
 --   plantilla_costos_fijos 15 · recibos 147 · recibos_cobros 0 · recibos_lineas 439
 --   tarifario_base 239 · tipo_cambio 1
+--
+-- EXCLUSION PERMANENTE (desde 18/08/2026): panel_agenda_snapshot y panel_inbox_snapshot quedan
+-- FUERA de la comparación de divergencia para siempre, no solo mientras dure un problema. Son
+-- snapshots derivados de una sincronización de Gmail/Calendar que corre por proyecto y nunca se
+-- copian entre bases: aunque se corrija el Project de Claude.ai que hoy escribe en el
+-- voowjwzlkhdknpapkhxc congelado (project_id viejo en sus instrucciones, escribiendo como
+-- `postgres`, no cubierto por el revoke de `authenticated` — ver DECISIONES.md §8), el resultado
+-- no es que las dos bases vuelvan a coincidir: el viejo queda fijo en 27/2 (o lo que tenga en ese
+-- momento) y el vigente sigue creciendo con su propia sincronización, cada uno con su fuente. Para
+-- estas dos tablas, ver una diferencia es lo esperado, no una señal de alerta — no reconciliar a
+-- mano, no re-investigar desde este lado.
 
 
 -- ---------------------------------------------------------------------

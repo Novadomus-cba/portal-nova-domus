@@ -12,7 +12,7 @@ viejo.**
 que llegó por chat, gana este. Si contradice a la base o al repo, **gana la base o el repo** —
 y entonces este archivo se corrige en el mismo commit.
 
-Última actualización: 14/08/2026
+Última actualización: 18/08/2026
 
 ---
 
@@ -178,7 +178,9 @@ urgencia, no como corte real.
 | Tema | Decisión |
 |---|---|
 | **Un solo proyecto Supabase** | `vvwnyszcfindtuvojqgs`. La consolidación Obras → Comercial (Opción A) se ejecutó el 14/08/2026. `voowjwzlkhdknpapkhxc` queda como **rollback, solo lectura, no se borra** |
-| **Rollback del proyecto viejo** | Es de **solo lectura**. La migración `20260814223240_mitigacion_corte_revocar_escritura_authenticated` (14/08 22:32 UTC) dejó a `authenticated` con solo `SELECT` en `voowjwzlkhdknpapkhxc` (36 objetos `public` + 6 `cuadrilla`, tablas y vistas). Cierra la vía de escritura de una pestaña con código pre-deploy: aunque consiga token por `exchange-jwt`, cualquier `INSERT`/`UPDATE`/`DELETE` muere en `permission denied`. **Consecuencia: el rollback ya no es de un paso** — para volver a apuntar el front a Obras hay que revertir esa migración primero |
+| **Rollback del proyecto viejo** | Es de **solo lectura para `authenticated`**. La migración `20260814223240_mitigacion_corte_revocar_escritura_authenticated` (14/08 22:32 UTC) dejó a `authenticated` con solo `SELECT` en `voowjwzlkhdknpapkhxc` (36 objetos `public` + 6 `cuadrilla`, tablas y vistas). Cierra la vía de escritura de una pestaña con código pre-deploy: aunque consiga token por `exchange-jwt`, cualquier `INSERT`/`UPDATE`/`DELETE` muere en `permission denied`. **No cubre `postgres`/`service_role`** (ver fila siguiente). **Consecuencia: el rollback ahora requiere DOS reversiones, no una** — revertir la migración `20260814223240` (grants de `authenticated`) **Y** volver a agendar el cron `rentabilidad-semanal` (desagendado el 18/08, ver fila de "Cron de Obras desagendado") antes de volver a apuntar el front a Obras |
+| **Fase 8 — pausa de Obras (decidido 18/08/2026, corregido el mismo día)** | Se pausa (no se borra) `voowjwzlkhdknpapkhxc` **recién cuando la Fase 7 (verificación por rol en el portal real) esté confirmada**, no antes. Una vez pausado se deja pausado **INDEFINIDAMENTE. NO se agenda borrado.** Verificado: org `gadsfdppmfrywlmwshea`, plan Free, una sola organización — en Free los proyectos pausados son gratis e ilimitados y no ocupan slot activo, así que borrar no devuelve nada. El plazo real de plataforma es 90 días de restauración con un click, y pasados los 90 el backup y los objetos de Storage siguen descargables desde el dashboard para restaurar en un proyecto nuevo. Borrar el proyecto es permanente e irreversible, ni soporte lo recupera — no hay motivo para agendarlo. Al día de hoy (18/08) el proyecto sigue `ACTIVE_HEALTHY`, sin pausar. **Apagar el cron de este proyecto (ver fila siguiente) le sacó una de las pocas fuentes de actividad semanal que tenía — es esperable que Free lo pause solo antes de que termine la Fase 7; encontrarlo pausado la semana que viene no es una falla** |
+| **Cron de Obras desagendado (18/08/2026 ~22:45 UTC)** | `select cron.unschedule('rentabilidad-semanal')` corrido en `voowjwzlkhdknpapkhxc` (proyecto congelado) — devolvió `true`. Vigente (`vvwnyszcfindtuvojqgs`): el mismo job sigue activo e intacto. El job en Obras había corrido 7 veces, todos los viernes desde el 03/07, la última el 14/08 18:00 UTC — ya disparó una vez post-dump sin generar divergencia (`analisis_obra` = 136 en ambas bases). Para reactivarlo en un rollback: `select cron.schedule('rentabilidad-semanal','0 18 * * 5','SELECT public.refresh_all_obra_balances()')` (ver también la fila "Rollback del proyecto viejo") |
 | **Plan Free** | Se queda. Un dump manual tomado minutos antes de un corte es mejor que un backup diario con hasta 24 h de atraso. Se acepta perder log de 7 días, protección de contraseñas filtradas y la red de seguridad de un daño silencioso descubierto días después |
 | **Método de backup** | `supabase db dump` en 3 archivos (`--role-only`, schema, `--use-copy --data-only`). **No `pg_dump` directo**: incluye internos de Supabase y falla al restaurar. Requiere Docker |
 | **Backup de Storage** | El dump captura `storage.objects` (metadata) pero **no los binarios**. Se bajan aparte. `supabase storage cp` y `functions delete` requieren un **personal access token de cuenta** (no de proyecto): para volúmenes chicos conviene el dashboard antes que crear un PAT |
@@ -249,16 +251,31 @@ Martín tiene fila en `comerciales` (id 6) **sin `user_id`, a propósito**.
 - Grant de `anon` sobre `comerciales` (`SELECT(id, nombre)`) — confirmado resto de antes de
   `v_presupuesto_publico` (el público solo consulta la vista, nunca `/rest/v1/comerciales`
   directo) y revocado el 14/08/2026.
+- **Divergencia de filas en `panel_agenda_snapshot`/`panel_inbox_snapshot` (encontrada y
+  explicada el 18/08/2026).** El reverificado de conteos (`estado.sql` BLOQUE 6) mostró que estas
+  dos tablas seguían creciendo en `voowjwzlkhdknpapkhxc` (huérfano) después del 14/08, mientras
+  `vvwnyszcfindtuvojqgs` quedó congelado. No es una fuga de credenciales ni un bypass del repo:
+  es una **sesión de Claude en un Project de Claude.ai** (Gmail + Calendar + MCP de Supabase) con
+  el `project_id` viejo todavía en sus instrucciones, escribiendo por management API como
+  `postgres` — por eso no aparecía en `edge_logs` y por eso el revoke de `authenticated` no lo
+  frenó (`postgres`/`service_role` no están cubiertos por esa migración). **La corrección va en
+  las instrucciones de ese Project, no en este repo.** No se investiga más de este lado.
 
-**Pendientes operativos (no bloquean nada, quedan para cuando haya un rato):**
+**Pendientes operativos:**
+- **Fase 7 — verificación por rol en el portal real.** Todavía no se hizo. **Bloquea la pausa de
+  Obras** (ver Fase 8 en §4): no se pausa `voowjwzlkhdknpapkhxc` hasta confirmar los 5 roles
+  contra `vvwnyszcfindtuvojqgs` en el navegador real. Checklist en
+  `KICKOFF_CONSOLIDACION_SUPABASE.md`.
 - Las 3 Edge Functions de `voowjwzlkhdknpapkhxc` (`exchange-jwt`, `cuadrilla`, `analyze-image`)
-  siguen `ACTIVE` — el borrado no se ejecutó todavía. **Ya no es urgente**: la escritura está
-  cerrada por grants (ver fila de "Rollback del proyecto viejo" en §4), verificado con un INSERT
-  de prueba que murió en `permission denied`, y `function_edge_logs` no tiene hits nuevos desde
-  las 21:22:44 UTC del 14/08. Sigue valiendo la pena borrarlas por la **lectura**: con
-  `exchange-jwt` vivo, una pestaña con código pre-deploy puede leer del proyecto huérfano y
-  mostrar datos desactualizados sin ningún error visible — sin el puente, ese camino termina en
-  el modal de sesión expirada. Fuentes archivadas fuera de Supabase
-  (`novadomus-paneles-backups/fase8-ventana-de-corte_20260814/`). Se borran por dashboard cuando
-  haya tiempo.
+  siguen `ACTIVE` (reverificado 18/08/2026) — el borrado no se ejecutó todavía. **No es urgente
+  para escritura** (cerrada por grants, ver "Rollback del proyecto viejo" en §4), pero sí para la
+  **lectura**: con `exchange-jwt` vivo, una pestaña con código pre-deploy puede leer del proyecto
+  huérfano y mostrar datos desactualizados sin ningún error visible. Se borran por dashboard
+  cuando haya tiempo (no depende de la Fase 7/8).
+- Backup de Storage: quedan los mismos **3 objetos de `planos-instalacion`** (bucket privado, 89
+  kB) sin bajar — reverificado 18/08/2026, sin cambios. **Corregido (esto ya se había corregido
+  antes y volvió a aparecer el diagnóstico viejo): no requiere ninguna sesión del portal.** El
+  bucket es privado para el portal (roles `admin`/`supervisor`/`programacion` vía RLS), pero desde
+  el dashboard, como dueño del proyecto, se bajan sin ninguna sesión — los roles del portal no
+  intervienen ahí. Bajo impacto, no bloquea la Fase 8.
 - Aviso pendiente al equipo: Ctrl+Shift+R antes de arrancar el lunes.
