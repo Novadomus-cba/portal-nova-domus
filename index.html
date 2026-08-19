@@ -289,6 +289,41 @@
     .home-nav-btn:hover { color: var(--text); }
 
     /* PANEL PERSONAL */
+    .panel-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .refresh-btn:hover:not(:disabled) { color: var(--text); border-color: var(--accent-dim); }
+    .refresh-btn:disabled { opacity: 0.6; cursor: default; }
+
+    .refresh-icon { display: inline-block; font-size: 13px; }
+    .refresh-icon.spinning { animation: refresh-spin 0.8s linear infinite; }
+    @keyframes refresh-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .refresh-status { font-size: 11px; color: var(--muted); }
+
     .panel-grid {
       display: flex;
       flex-direction: column;
@@ -501,6 +536,12 @@
   </div>
 
   <div id="panelPersonal" style="display:none">
+    <div class="panel-toolbar">
+      <button class="refresh-btn" id="refreshBtn" onclick="refreshPanelPersonal()" title="Releer agenda, mail, propuestas, financiero y cheques desde Supabase">
+        <span class="refresh-icon" id="refreshIcon">🔄</span> Actualizar
+      </button>
+      <span class="refresh-status" id="refreshStatus"></span>
+    </div>
     <div class="panel-grid">
       <section class="panel-card" id="cardAgenda">
         <div class="panel-card-header">
@@ -1017,6 +1058,29 @@
         <span>${f$(c.monto)} · ${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</span>
       </div>
     `).join('');
+  }
+
+  // Vuelve a leer agenda/mail/propuestas/financiero/cheques desde Supabase.
+  // No dispara ninguna sincronizacion nueva contra Gmail/Calendar (esa sigue
+  // siendo manual, via chat) -- solo repinta el panel con lo que ya este
+  // guardado en las tablas al momento del click.
+  async function refreshPanelPersonal() {
+    const btn = document.getElementById('refreshBtn');
+    const icon = document.getElementById('refreshIcon');
+    const status = document.getElementById('refreshStatus');
+    btn.disabled = true;
+    icon.classList.add('spinning');
+    status.textContent = 'Actualizando…';
+    try {
+      await initPanelPersonal();
+      status.textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      console.error('refreshPanelPersonal error:', e);
+      status.textContent = 'No se pudo actualizar.';
+    } finally {
+      btn.disabled = false;
+      icon.classList.remove('spinning');
+    }
   }
 
   async function initPanelPersonal() {
