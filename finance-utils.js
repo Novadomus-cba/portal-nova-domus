@@ -67,9 +67,13 @@ function calcularSemaforoFinanciero(saldoActual, chequesEmitidosPendientes, cheq
     c.fecha_efectivo <= limiteVentana2d
   );
   const totalRecibidoVentana2d = chequesRecibidosVentana2d.reduce((s, c) => s + Number(c.monto), 0);
-  const proyectado = saldoActual - totalVentana2d + totalRecibidoVentana2d;
+  // saldoActual==null (sin fila en v_cuenta_saldo_actual) no puede dar un
+  // proyectado numerico -- `null - x` coacciona a 0 - x en JS y devolveria un
+  // numero con pinta de real. proyectado y semaforo se propagan null en vez
+  // de inventar un calculo de respaldo.
+  const proyectado = saldoActual == null ? null : saldoActual - totalVentana2d + totalRecibidoVentana2d;
 
-  const semaforo = limiteDescubierto == null
+  const semaforo = (proyectado == null || limiteDescubierto == null)
     ? null
     : (proyectado < limiteDescubierto ? 'ROJO' : (proyectado < 0 ? 'AMARILLO' : 'VERDE'));
 
