@@ -492,14 +492,6 @@
         <div class="panel-card-body" id="agendaBody">Cargando…</div>
       </section>
 
-      <section class="panel-card" id="cardPropuestas">
-        <div class="panel-card-header">
-          <span class="panel-card-title">📤 Seguimiento de Propuestas</span>
-          <span class="panel-card-updated" id="propuestasUpdated"></span>
-        </div>
-        <div class="panel-card-body" id="propuestasBody">Cargando…</div>
-      </section>
-
       <section class="panel-card" id="cardFinanciero">
         <div class="panel-card-header">
           <span class="panel-card-title">💵 Financiero</span>
@@ -513,6 +505,14 @@
           <span class="panel-card-title">🧾 Cheques por vencer (7 días)</span>
         </div>
         <div class="panel-card-body" id="chequesBody">Cargando…</div>
+      </section>
+
+      <section class="panel-card" id="cardPropuestas">
+        <div class="panel-card-header">
+          <span class="panel-card-title">📤 Seguimiento de Propuestas</span>
+          <span class="panel-card-updated" id="propuestasUpdated"></span>
+        </div>
+        <div class="panel-card-body" id="propuestasBody">Cargando…</div>
       </section>
 
       <section class="panel-card" id="cardInbox">
@@ -807,6 +807,28 @@
     return diffAnio === 1 ? 'hace 1 año' : `hace ${diffAnio} años`;
   }
 
+  const UN_DIA_MS = 24 * 60 * 60 * 1000;
+
+  function propuestaRowHtml(p) {
+    return `
+      <div class="propuesta-row">
+        <span class="propuesta-dot ${p.estado_seguimiento === 'ACTIVA' ? 'propuesta-dot-activa' : 'propuesta-dot-inactiva'}"></span>
+        <div class="propuesta-main">
+          <div class="propuesta-nombre">${p.html_url ? `<a href="${p.html_url}" target="_blank" rel="noopener">${p.nombre}</a>` : p.nombre}<span class="propuesta-numero">${p.numero}</span></div>
+          <div class="propuesta-meta">${p.aperturas_totales} ${p.aperturas_totales === 1 ? 'apertura' : 'aperturas'} · ${relativoEs(p.ultima_apertura)}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function togglePropuestasResto() {
+    const el = document.getElementById('propuestasResto');
+    const btn = document.getElementById('propuestasToggleBtn');
+    const isHidden = el.style.display === 'none';
+    el.style.display = isHidden ? 'block' : 'none';
+    btn.textContent = isHidden ? 'Ver menos ▴' : btn.dataset.restoLabel;
+  }
+
   function renderPropuestas(rows) {
     const el = document.getElementById('propuestasBody');
     if (!rows.length) {
@@ -819,15 +841,22 @@
       if (o !== 0) return o;
       return new Date(b.ultima_apertura || 0) - new Date(a.ultima_apertura || 0);
     });
-    el.innerHTML = sorted.map(p => `
-      <div class="propuesta-row">
-        <span class="propuesta-dot ${p.estado_seguimiento === 'ACTIVA' ? 'propuesta-dot-activa' : 'propuesta-dot-inactiva'}"></span>
-        <div class="propuesta-main">
-          <div class="propuesta-nombre">${p.html_url ? `<a href="${p.html_url}" target="_blank" rel="noopener">${p.nombre}</a>` : p.nombre}<span class="propuesta-numero">${p.numero}</span></div>
-          <div class="propuesta-meta">${p.aperturas_totales} ${p.aperturas_totales === 1 ? 'apertura' : 'aperturas'} · ${relativoEs(p.ultima_apertura)}</div>
-        </div>
-      </div>
-    `).join('');
+    const ahora = Date.now();
+    const recientes = sorted.filter(p => p.ultima_apertura && (ahora - parseDate(p.ultima_apertura).getTime()) < UN_DIA_MS);
+    const resto = sorted.filter(p => !recientes.includes(p));
+
+    let html = recientes.length
+      ? recientes.map(propuestaRowHtml).join('')
+      : '<div class="panel-card-empty" style="padding:8px 0">Sin novedades en las últimas 24 horas.</div>';
+
+    if (resto.length) {
+      const restoLabel = `Ver ${resto.length} más ▾`;
+      html += `
+        <div id="propuestasResto" style="display:none">${resto.map(propuestaRowHtml).join('')}</div>
+        <button id="propuestasToggleBtn" data-resto-label="${restoLabel}" onclick="togglePropuestasResto()" style="background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;padding:0;margin-top:10px;font-family:inherit">${restoLabel}</button>
+      `;
+    }
+    el.innerHTML = html;
   }
 
   function badgeClass(p) {
