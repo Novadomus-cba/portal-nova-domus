@@ -1103,7 +1103,11 @@
     const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, limiteVigente] = await Promise.allSettled([
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
-      cuadrillaGet('panel_propuestas_snapshot', `?select=numero,nombre,estado,html_url,aperturas_totales,primera_apertura,ultima_apertura,estado_seguimiento,actualizado_en&order=ultima_apertura.desc.nullslast`),
+      // v_seguimiento_propuestas es una vista en vivo sobre propuesta_vistas,
+      // no una foto -- se prefiere sobre panel_propuestas_snapshot (el cron
+      // panel-propuestas-diario solo la recalcula 1 vez por dia) para que el
+      // boton de refresh muestre aperturas reales, no las de ayer.
+      cuadrillaGet('v_seguimiento_propuestas', `?select=numero,nombre,estado,html_url,aperturas_totales,primera_apertura,ultima_apertura,estado_seguimiento&order=ultima_apertura.desc.nullslast`),
       cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
       cuentaPrincipal
         ? cuadrillaGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.desc,created_at.desc&limit=1000&select=fecha,importe,saldo`)
@@ -1123,8 +1127,9 @@
 
     if (propuestas.status === 'fulfilled') {
       renderPropuestas(propuestas.value);
-      const updated = propuestas.value.reduce((max, r) => (r.actualizado_en > max ? r.actualizado_en : max), propuestas.value[0]?.actualizado_en || '');
-      if (updated) document.getElementById('propuestasUpdated').textContent = 'Actualizado: ' + fdt(updated);
+      // La vista no trae actualizado_en (es en vivo) -- el sello es el momento
+      // de esta consulta, no el de un recalculo periodico.
+      document.getElementById('propuestasUpdated').textContent = 'Actualizado: ' + fdt(new Date().toISOString());
     } else {
       document.getElementById('propuestasBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el seguimiento de propuestas.</div>';
     }
