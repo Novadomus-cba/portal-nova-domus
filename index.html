@@ -290,8 +290,8 @@
 
     /* PANEL PERSONAL */
     .panel-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 16px;
       margin-bottom: 40px;
     }
@@ -424,9 +424,32 @@
     .cheque-row:last-child { border-bottom: none; }
     .cheque-row.warn { color: var(--accent); }
 
+    .propuesta-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .propuesta-row:last-child { border-bottom: none; }
+    .propuesta-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .propuesta-dot-activa    { background: var(--accent); }
+    .propuesta-dot-inactiva  { background: var(--muted); }
+    .propuesta-main { flex: 1; min-width: 0; }
+    .propuesta-nombre { font-size: 13px; font-weight: 600; }
+    .propuesta-nombre a { color: var(--text); text-decoration: none; }
+    .propuesta-nombre a:hover { color: var(--accent); text-decoration: underline; }
+    .propuesta-numero { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+    .propuesta-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
     @media (max-width: 640px) {
       main { padding: 32px 16px 60px; }
-      .panel-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -469,13 +492,12 @@
         <div class="panel-card-body" id="agendaBody">Cargando…</div>
       </section>
 
-      <section class="panel-card" id="cardInbox">
+      <section class="panel-card" id="cardPropuestas">
         <div class="panel-card-header">
-          <span class="panel-card-title">📥 Bandeja de entrada</span>
-          <span class="panel-card-counts" id="inboxCounts"></span>
+          <span class="panel-card-title">📤 Seguimiento de Propuestas</span>
+          <span class="panel-card-updated" id="propuestasUpdated"></span>
         </div>
-        <div class="panel-card-body" id="inboxBody">Cargando…</div>
-        <div class="panel-card-footnote">Clasificación hecha por Claude según remitente/contenido — no es un filtro nativo de Gmail.</div>
+        <div class="panel-card-body" id="propuestasBody">Cargando…</div>
       </section>
 
       <section class="panel-card" id="cardFinanciero">
@@ -491,6 +513,15 @@
           <span class="panel-card-title">🧾 Cheques por vencer (7 días)</span>
         </div>
         <div class="panel-card-body" id="chequesBody">Cargando…</div>
+      </section>
+
+      <section class="panel-card" id="cardInbox">
+        <div class="panel-card-header">
+          <span class="panel-card-title">📥 Bandeja de entrada</span>
+          <span class="panel-card-counts" id="inboxCounts"></span>
+        </div>
+        <div class="panel-card-body" id="inboxBody">Cargando…</div>
+        <div class="panel-card-footnote">Clasificación hecha por Claude según remitente/contenido — no es un filtro nativo de Gmail.</div>
       </section>
     </div>
   </div>
@@ -756,6 +787,49 @@
     document.getElementById('agendaUpdated').textContent = 'Actualizado: ' + fdt(updated);
   }
 
+  const ESTADO_SEGUIMIENTO_ORDEN = { ACTIVA: 0, SIN_ACTIVIDAD_RECIENTE: 1, NUNCA_ABIERTA: 2 };
+
+  // primera_apertura/ultima_apertura/actualizado_en son timestamptz (vienen con
+  // hora+offset) -> parseDate() los deja pasar tal cual a `new Date(...)`.
+  function relativoEs(dateStr) {
+    if (!dateStr) return 'nunca abierta';
+    const diffMs = Date.now() - parseDate(dateStr).getTime();
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'recién';
+    if (diffMin < 60) return `hace ${diffMin} min`;
+    const diffH = Math.floor(diffMin / 60);
+    if (diffH < 24) return diffH === 1 ? 'hace 1 hora' : `hace ${diffH} horas`;
+    const diffD = Math.floor(diffH / 24);
+    if (diffD < 30) return diffD === 1 ? 'hace 1 día' : `hace ${diffD} días`;
+    const diffMes = Math.floor(diffD / 30);
+    if (diffMes < 12) return diffMes === 1 ? 'hace 1 mes' : `hace ${diffMes} meses`;
+    const diffAnio = Math.floor(diffMes / 12);
+    return diffAnio === 1 ? 'hace 1 año' : `hace ${diffAnio} años`;
+  }
+
+  function renderPropuestas(rows) {
+    const el = document.getElementById('propuestasBody');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">No hay propuestas registradas en el seguimiento.</div>';
+      document.getElementById('propuestasUpdated').textContent = '';
+      return;
+    }
+    const sorted = [...rows].sort((a, b) => {
+      const o = ESTADO_SEGUIMIENTO_ORDEN[a.estado_seguimiento] - ESTADO_SEGUIMIENTO_ORDEN[b.estado_seguimiento];
+      if (o !== 0) return o;
+      return new Date(b.ultima_apertura || 0) - new Date(a.ultima_apertura || 0);
+    });
+    el.innerHTML = sorted.map(p => `
+      <div class="propuesta-row">
+        <span class="propuesta-dot ${p.estado_seguimiento === 'ACTIVA' ? 'propuesta-dot-activa' : 'propuesta-dot-inactiva'}"></span>
+        <div class="propuesta-main">
+          <div class="propuesta-nombre">${p.html_url ? `<a href="${p.html_url}" target="_blank" rel="noopener">${p.nombre}</a>` : p.nombre}<span class="propuesta-numero">${p.numero}</span></div>
+          <div class="propuesta-meta">${p.aperturas_totales} ${p.aperturas_totales === 1 ? 'apertura' : 'aperturas'} · ${relativoEs(p.ultima_apertura)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
   function badgeClass(p) {
     return p === 'CRITICO' ? 'badge-critico' : p === 'ATENCION' ? 'badge-atencion' : 'badge-oportunidad';
   }
@@ -890,9 +964,10 @@
       console.error('No se pudo cargar cuentas_bancarias:', e);
     }
 
-    const [agenda, inbox, cheques7d, movimientos, chequesEmitidos] = await Promise.allSettled([
+    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos] = await Promise.allSettled([
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
+      cuadrillaGet('panel_propuestas_snapshot', `?select=numero,nombre,estado,html_url,aperturas_totales,primera_apertura,ultima_apertura,estado_seguimiento,actualizado_en&order=ultima_apertura.desc.nullslast`),
       cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
       cuentaPrincipal
         ? cuadrillaGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.desc,created_at.desc&limit=1000&select=fecha,importe,saldo`)
@@ -905,6 +980,14 @@
 
     if (inbox.status === 'fulfilled') renderInbox(inbox.value);
     else document.getElementById('inboxBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la bandeja.</div>';
+
+    if (propuestas.status === 'fulfilled') {
+      renderPropuestas(propuestas.value);
+      const updated = propuestas.value.reduce((max, r) => (r.actualizado_en > max ? r.actualizado_en : max), propuestas.value[0]?.actualizado_en || '');
+      if (updated) document.getElementById('propuestasUpdated').textContent = 'Actualizado: ' + fdt(updated);
+    } else {
+      document.getElementById('propuestasBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el seguimiento de propuestas.</div>';
+    }
 
     if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
     else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
