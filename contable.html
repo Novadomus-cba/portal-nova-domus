@@ -400,6 +400,9 @@ tr:last-child td{border-bottom:none}
     </div>
   </div>
   <div id="chequesList"><div class="empty">Cargando…</div></div>
+
+  <div class="section-hdr"><span class="section-title">No figuran en el último listado del banco — conciliar</span></div>
+  <div id="chequesNoFiguran"><div class="empty">Cargando…</div></div>
 </div>
 
 <!-- ═══ REPORTES ═══ -->
@@ -607,6 +610,234 @@ tr:last-child td{border-bottom:none}
 <div id="toast"></div>
 <script src="auth-bridge.js"></script>
 <script src="finance-utils.js"></script>
+<script>
+/**
+ * Parser de listados ECHEQ de Banco Macro (emitidos y recibidos).
+ *
+ * Por que mapea por NOMBRE de encabezado y no por posicion:
+ * los dos reportes tienen columnas distintas, en orden distinto, y con nombres
+ * que difieren en mayusculas y espacios ('Emisor banco' vs 'Emisor Banco',
+ * ' Enviado por CUIT' con espacio adelante). Ademas el banco agrego columnas
+ * en agosto/2026 sin avisar. Un indice fijo se rompe; un nombre normalizado no.
+ */
+const BANCOS = {
+  'BANCO MACRO S.A.': 'Macro',
+  'BANCO SANTANDER RIO S.A.': 'Santander',
+  'BANCO PATAGONIA S.A.': 'Patagonia',
+  'BANCO SUPERVIELLE S.A.': 'Supervielle',
+  'BANCO DE GALICIA Y BUENOS AIRES S.A.U.': 'Galicia',
+  'BANCO COMAFI SOCIEDAD ANONIMA': 'Comafi',
+  'INDUSTRIAL AND COMMERCIAL BANK OF CHINA': 'ICBC',
+  'BANCO DE LA NACION ARGENTINA': 'Nacion',
+  'BANCO BBVA ARGENTINA S.A.': 'BBVA',
+  'BANCO CREDICOOP COOPERATIVO LIMITADO': 'Credicoop',
+  'HSBC BANK ARGENTINA S.A.': 'HSBC',
+  'BANCO DE LA PROVINCIA DE CORDOBA S.A.': 'Bancor',
+};
+
+/** Estados conocidos. Uno nuevo NO rompe la importacion: se reporta. */
+const ESTADOS_CONOCIDOS = [
+  'ACTIVO', 'CUSTODIA', 'DEPOSITADO', 'PRESENTADO',
+  'PAGADO', 'REPUDIADO', 'ANULADO', 'RECHAZADO',
+];
+
+/** minusculas, sin acentos, sin puntos, espacios colapsados. */
+function normHeader(s) {
+  return String(s ?? '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/\./g, '').replace(/\s+/g, ' ').trim();
+}
+
+/** campo canonico -> encabezados posibles (ya normalizados). */
+const ALIAS = {
+  fecha_emision:      ['fecha emision'],
+  fecha_efectivo:     ['fecha pago'],
+  numero_cheque:      ['nro cheque', 'numero de cheque', 'nro de cheque'],
+  monto:              ['importe'],
+  estado_banco:       ['estado'],
+  cheque_id_banco:    ['id de cheque'],
+  tipo_cheque:        ['tipo cheque'],
+  caracter:           ['caracter'],
+  cmc7:               ['cmc7'],
+  fecha_estado_banco: ['fecha ult estado', 'fecha ultimo estado'],
+  concepto:           ['concepto'],
+  motivo_pago:        ['motivo pago'],
+  motivo_rechazo:     ['motivo rechazo'],
+  banco_raw:          ['emisor banco'],
+  emisor_razon_social:['emisor razon social'],
+  emisor_cuit:        ['emisor cuit'],
+  // EMITIDOS: la contraparte es el beneficiario.
+  benef_razon_social: ['benef inicial', 'beneficiario'],
+  benef_cuit:         ['benef inicial cuit', 'beneficiario cuit'],
+  // RECIBIDOS: la contraparte es quien nos lo envio (puede no ser el emisor
+  // si el cheque viene endosado).
+  enviado_razon_social: ['enviado por razon social'],
+  enviado_cuit:         ['enviado por cuit'],
+};
+
+const VACIOS_CHQ = new Set(['', '-', '.', 'n/a', 's/d']);
+
+function limpiarChq(v) {
+  if (v === null || v === undefined) return null;
+  if (typeof v !== 'string') return v;
+  const t = v.replace(/\s+/g, ' ').trim();
+  return VACIOS_CHQ.has(t.toLowerCase()) ? null : t;
+}
+
+/** Serial de Excel -> 'YYYY-MM-DD'. Las fechas vienen con hora incluida. */
+function serialAFecha(v, date1904) {
+  if (v === null || v === undefined || v === '') return null;
+  if (v instanceof Date) return v.toISOString().slice(0, 10);
+  if (typeof v === 'string') {
+    const m = v.trim().match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})/);
+    if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+    const iso = v.trim().match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return iso ? iso[0] : null;
+  }
+  const d = XLSX.SSF.parse_date_code(v, { date1904: !!date1904 });
+  if (!d) return null;
+  return `${d.y}-${String(d.m).padStart(2, '0')}-${String(d.d).padStart(2, '0')}`;
+}
+
+function aNumeroChq(v) {
+  if (typeof v === 'number') return v;
+  if (v === null || v === undefined) return null;
+  const t = String(v).replace(/[^\d,.-]/g, '');
+  // formato AR: 1.234.567,89
+  const n = t.includes(',') ? Number(t.replace(/\./g, '').replace(',', '.')) : Number(t);
+  return Number.isFinite(n) ? n : null;
+}
+
+function normalizarBanco(raw) {
+  if (!raw) return null;
+  const key = String(raw).trim().toUpperCase();
+  if (BANCOS[key]) return BANCOS[key];
+  // fallback: saca prefijos y sufijos societarios, deja el nombre
+  return String(raw).trim()
+    .replace(/^BANCO\s+(DE\s+)?/i, '')
+    .replace(/\s+(S\.?A\.?U?\.?|SOCIEDAD ANONIMA|COOPERATIVO LIMITADO)\.?$/i, '')
+    .replace(/\s+/g, ' ').trim() || null;
+}
+
+/**
+ * @param {ArrayBuffer} buffer  contenido del .xls
+ * @returns {{tipo, filas, meta, avisos}}
+ */
+function parsearListadoCheques(buffer) {
+  const wb = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+  const date1904 = !!(wb.Workbook && wb.Workbook.WBProps && wb.Workbook.WBProps.date1904);
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const aoa = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: null, blankrows: true });
+
+  const avisos = [];
+
+  // ---- 1. tipo de listado, leido del titulo del propio archivo ----
+  // No confiamos en el selector del formulario: el usuario puede elegir mal
+  // y meter recibidos como emitidos.
+  const cabecera = aoa.slice(0, 5).flat().filter(Boolean).map((x) => String(x).toLowerCase()).join(' | ');
+  let tipo = null;
+  if (cabecera.includes('emitidos')) tipo = 'EMITIDO';
+  else if (cabecera.includes('recibidos')) tipo = 'RECIBIDO';
+  if (!tipo) throw new Error('No se pudo determinar si el listado es de cheques emitidos o recibidos. Revisa que sea el archivo original del banco, sin editar.');
+
+  // ---- 2. fila de encabezados: la que contiene "Nro. Cheque" ----
+  let filaHdr = -1;
+  for (let r = 0; r < Math.min(aoa.length, 30); r++) {
+    const fila = (aoa[r] || []).map(normHeader);
+    if (fila.some((h) => ALIAS.numero_cheque.includes(h))) { filaHdr = r; break; }
+  }
+  if (filaHdr === -1) throw new Error('No se encontro la fila de encabezados (falta la columna "Nro. Cheque").');
+
+  // ---- 3. mapa encabezado -> indice, ignorando columnas sin nombre ----
+  // El reporte trae 2 columnas vacias intercaladas; por eso NO se usa indice fijo.
+  const porNombre = {};
+  const crudos = [];
+  (aoa[filaHdr] || []).forEach((h, i) => {
+    const n = normHeader(h);
+    if (n) { porNombre[n] = i; crudos.push(n); }
+  });
+
+  const idx = {};
+  for (const [campo, nombres] of Object.entries(ALIAS)) {
+    const hit = nombres.find((n) => n in porNombre);
+    if (hit !== undefined) idx[campo] = porNombre[hit];
+  }
+
+  const usados = new Set(Object.values(ALIAS).flat());
+  const noReconocidos = crudos.filter((h) => !usados.has(h));
+  if (noReconocidos.length) {
+    avisos.push(`Columnas nuevas que el parser ignora: ${noReconocidos.join(', ')}`);
+  }
+
+  const obligatorias = ['numero_cheque', 'monto', 'fecha_emision', 'fecha_efectivo', 'estado_banco'];
+  const faltan = obligatorias.filter((c) => !(c in idx));
+  if (faltan.length) {
+    throw new Error(`Faltan columnas obligatorias: ${faltan.join(', ')}. Encabezados encontrados: ${crudos.join(' | ')}`);
+  }
+
+  const val = (fila, campo) => (campo in idx ? limpiarChq(fila[idx[campo]]) : null);
+
+  // ---- 4. filas ----
+  const filas = [];
+  const estadosVistos = new Set();
+  for (let r = filaHdr + 1; r < aoa.length; r++) {
+    const fila = aoa[r] || [];
+    const numero = val(fila, 'numero_cheque');
+    // Descarta el pie del reporte ("Fecha de descarga:", "Empresa:", "Operador:")
+    // y cualquier fila en blanco: solo pasan numeros de cheque.
+    if (numero === null || !/^\d+$/.test(String(numero))) continue;
+
+    const estadoBanco = String(val(fila, 'estado_banco') ?? '').toUpperCase();
+    estadosVistos.add(estadoBanco);
+
+    const esRecibido = tipo === 'RECIBIDO';
+    const contraparte = esRecibido
+      ? (val(fila, 'enviado_razon_social') ?? val(fila, 'emisor_razon_social'))
+      : val(fila, 'benef_razon_social');
+    const contraparteCuit = esRecibido
+      ? (val(fila, 'enviado_cuit') ?? val(fila, 'emisor_cuit'))
+      : val(fila, 'benef_cuit');
+
+    filas.push({
+      numero_cheque: String(numero),
+      monto: aNumeroChq(val(fila, 'monto')),
+      fecha_emision: serialAFecha(fila[idx.fecha_emision], date1904),
+      fecha_efectivo: serialAFecha(fila[idx.fecha_efectivo], date1904),
+      fecha_estado_banco: 'fecha_estado_banco' in idx
+        ? serialAFecha(fila[idx.fecha_estado_banco], date1904) : null,
+      estado_banco: estadoBanco,
+      contraparte_razon_social: contraparte,
+      contraparte_cuit: contraparteCuit,
+      emisor_razon_social: esRecibido ? val(fila, 'emisor_razon_social') : 'NDWD SAS',
+      emisor_cuit: esRecibido ? val(fila, 'emisor_cuit') : '30718589149',
+      banco: normalizarBanco(val(fila, 'banco_raw')) ?? 'Macro',
+      tipo_cheque: val(fila, 'tipo_cheque'),
+      caracter: val(fila, 'caracter'),
+      cheque_id_banco: val(fila, 'cheque_id_banco'),
+      cmc7: val(fila, 'cmc7'),
+    });
+  }
+
+  if (!filas.length) throw new Error('El archivo no tiene ninguna fila de cheques.');
+
+  const desconocidos = [...estadosVistos].filter((e) => !ESTADOS_CONOCIDOS.includes(e));
+  if (desconocidos.length) {
+    avisos.push(`Estados que el banco no usaba antes: ${desconocidos.join(', ')}. Se importan como PENDIENTE hasta definir como tratarlos.`);
+  }
+
+  // ---- 5. metadata del pie ----
+  const pie = aoa.slice(-5).flat().filter(Boolean).map(String);
+  const meta = {
+    fecha_descarga: (pie.find((l) => l.startsWith('Fecha de descarga:')) || '').replace('Fecha de descarga:', '').trim() || null,
+    empresa: (pie.find((l) => l.startsWith('Empresa:')) || '').replace('Empresa:', '').trim() || null,
+    operador: (pie.find((l) => l.startsWith('Operador:')) || '').replace('Operador:', '').trim() || null,
+    total_filas: filas.length,
+    monto_total: filas.reduce((a, f) => a + (f.monto || 0), 0),
+  };
+
+  return { tipo, filas, meta, avisos };
+}
+</script>
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -845,7 +1076,7 @@ const pendingDel = new Set();
 let reporteData = [], reporteChart = null;
 let posicionLoaded = false, posChart = null;
 let cuentasBancarias = [];
-let extState = { tipo: null, filas: [], cuenta: null };
+let extState = { tipo: null, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [] };
 
 // ── AUTH ──────────────────────────────────────────────────────
 async function handleLogout() {
@@ -1164,6 +1395,23 @@ async function saveEditCuota() {
 }
 
 // ── CHEQUES ──────────────────────────────────────────────────
+const ESTADO_BANCO_INFO = {
+  ACTIVO:     { color: '#8b93a7' },
+  CUSTODIA:   { color: 'var(--accent)' },
+  DEPOSITADO: { color: '#4ade80' },
+  PRESENTADO: { color: '#4ade80' },
+  PAGADO:     { color: '#4ade80' },
+  REPUDIADO:  { color: '#f87171' },
+  ANULADO:    { color: '#f87171' },
+};
+function estadoBancoBadge(estadoBanco) {
+  if (!estadoBanco) return '';
+  const info = ESTADO_BANCO_INFO[estadoBanco];
+  const color = info ? info.color : '#8b93a7';
+  const label = info ? estadoBanco : `⚠ ${estadoBanco}`;
+  return `<span class="badge" style="background:none;border:1px solid ${color};color:${color}">${label}</span>`;
+}
+
 function setChequeTipo(tipo) {
   chequeTipo = tipo;
   document.getElementById('cBtnEmitido').style.cssText=`flex:1;border-radius:0;background:${tipo==='EMITIDO'?'var(--primary);color:var(--text);border:1px solid var(--accent)':'var(--surface2);color:var(--muted)'}`;
@@ -1175,6 +1423,7 @@ async function loadCheques() {
   try {
     cheques = await sbGet('cheques_vista','?order=fecha_efectivo.asc&limit=200');
     renderCheques();
+    renderChequesNoFiguran();
   } catch(e) {
     document.getElementById('chequesList').innerHTML=`<div class="empty">${e.message}</div>`;
   }
@@ -1199,7 +1448,9 @@ function renderCheques() {
             <span class="badge ${tipoCls}">${c.tipo}</span>
             ${c.banco?`<span>${c.banco}</span>`:''}
             ${c.numero_cheque?`<span>#${c.numero_cheque}</span>`:''}
+            ${c.tipo_cheque?`<span class="badge b-gray" style="font-size:9px">${c.tipo_cheque}</span>`:''}
             <span>Efectivo: ${fd(c.fecha_efectivo)}</span>
+            ${estadoBancoBadge(c.estado_banco)}
           </div>
         </div>
         <div class="item-right">
@@ -1215,6 +1466,31 @@ function renderCheques() {
       </div>`:``}
     </div>`;
   }).join('');
+}
+
+// Cuando un cheque emitido se paga, desaparece del listado ECHEQ del banco.
+// Un emitido pendiente que quedo "atras" del ultimo import (importado_en viejo)
+// es la señal de que hay que conciliarlo a mano contra el extracto.
+function renderChequesNoFiguran() {
+  const el = document.getElementById('chequesNoFiguran');
+  if (!el) return;
+  const conImportacion = cheques.filter(c => c.tipo === 'EMITIDO' && c.importado_en);
+  if (!conImportacion.length) { el.innerHTML = '<div class="empty">Sin cheques emitidos importados de listado todavía.</div>'; return; }
+  const ultimaImportacion = conImportacion.reduce((max, c) => c.importado_en > max ? c.importado_en : max, conImportacion[0].importado_en);
+  const list = conImportacion
+    .filter(c => c.estado === 'PENDIENTE' && c.importado_en < ultimaImportacion)
+    .sort((a,b) => a.fecha_efectivo.localeCompare(b.fecha_efectivo));
+  if (!list.length) { el.innerHTML = '<div class="empty">Todos los cheques emitidos pendientes figuran en el último listado.</div>'; return; }
+  el.innerHTML = list.map(c => `
+    <div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${c.beneficiario_librador}${c.numero_cheque?` <span style="font-size:10px;font-weight:400;color:var(--muted)">#${c.numero_cheque}</span>`:''}</div>
+          <div class="item-meta"><span>Efectivo: ${fd(c.fecha_efectivo)}</span>${estadoBancoBadge(c.estado_banco)}</div>
+        </div>
+        <div class="item-right"><div class="item-monto">${f$(c.monto)}</div></div>
+      </div>
+    </div>`).join('');
 }
 
 async function submitCheque() {
@@ -1762,91 +2038,9 @@ function parseMovimientos(rows) {
   return filas;
 }
 
-// CUSTODIA/ACTIVO/PAGADO -> estado + certeza. certeza es informacion real de
-// certeza de cobro/debito (confirmado por Agustin, no un detalle cosmetico).
-function mapEstadoCheque(estadoRaw) {
-  const e = (estadoRaw || '').toString().trim().toUpperCase();
-  if (e === 'CUSTODIA') return { estado: 'PENDIENTE', certeza: 'CIERTO' };
-  if (e === 'ACTIVO') return { estado: 'PENDIENTE', certeza: 'INCIERTO' };
-  if (e === 'PAGADO') return { estado: 'COBRADO', certeza: null };
-  return { estado: 'PENDIENTE', certeza: 'INCIERTO' };
-}
-
-function parseChequesEmitidos(rows) {
-  const hIdx = findHeaderRowIndex(rows);
-  if (hIdx < 0) throw new Error('No se encontró la fila de encabezado');
-  const map = buildColumnMap(rows[hIdx]);
-  const need = ['Fecha de Emisión', 'Fecha de Pago', 'Nro. de Cheque', 'Importe', 'Beneficiario Inicial', 'Razón Social Beneficiario Inicial', 'Estado'];
-  for (const k of need) if (!(k in map)) throw new Error(`Falta la columna "${k}"`);
-
-  const filas = [];
-  for (let i = hIdx + 1; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row || isFooterRow(row)) break;
-    const numero_cheque = textOrNull(row[map['Nro. de Cheque']]);
-    if (!numero_cheque) continue;
-    const { estado, certeza } = mapEstadoCheque(row[map['Estado']]);
-    const fechaEmision = excelDateToISO(row[map['Fecha de Emisión']]);
-    const fechaPago = excelDateToISO(row[map['Fecha de Pago']]);
-    filas.push({
-      tipo: 'EMITIDO',
-      numero_cheque: numero_cheque.replace(/\.0$/, ''),
-      banco: 'Macro',
-      beneficiario_cuit: textOrNull(row[map['Beneficiario Inicial']]),
-      beneficiario_librador: (row[map['Razón Social Beneficiario Inicial']] || '').toString().trim(),
-      monto: limpiarMonto(row[map['Importe']]),
-      fecha_emision: fechaEmision,
-      fecha_efectivo: fechaPago,
-      estado, certeza,
-      fecha_cobro_real: estado === 'COBRADO' ? fechaPago : null,
-      notas: null,
-    });
-  }
-  return filas;
-}
-
-function parseChequesRecibidos(rows) {
-  const hIdx = findHeaderRowIndex(rows);
-  if (hIdx < 0) throw new Error('No se encontró la fila de encabezado');
-  const map = buildColumnMap(rows[hIdx]);
-  const need = ['Fecha Emisión', 'Fecha Pago', 'Nro. Cheque', 'Importe', 'Emisor razón social', 'Emisor CUIT', 'Emisor Banco', 'Estado'];
-  for (const k of need) if (!(k in map)) throw new Error(`Falta la columna "${k}" — revisar encabezados del archivo (pueden venir con espacio inicial)`);
-
-  const filas = [];
-  for (let i = hIdx + 1; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row || isFooterRow(row)) break;
-    const numero_cheque = textOrNull(row[map['Nro. Cheque']]);
-    if (!numero_cheque) continue;
-    let { estado, certeza } = mapEstadoCheque(row[map['Estado']]);
-    let notas = null;
-    if ('Motivo rechazo' in map) {
-      // El placeholder de "sin rechazo" es literalmente " - ", no vacio.
-      const motivo = textOrNull(row[map['Motivo rechazo']]);
-      if (motivo && motivo !== '-') { estado = 'RECHAZADO'; certeza = null; notas = motivo; }
-    }
-    const fechaEmision = excelDateToISO(row[map['Fecha Emisión']]);
-    const fechaPago = excelDateToISO(row[map['Fecha Pago']]);
-    filas.push({
-      tipo: 'RECIBIDO',
-      numero_cheque,
-      banco: (row[map['Emisor Banco']] || '').toString().trim(),
-      beneficiario_cuit: textOrNull(row[map['Emisor CUIT']]),
-      beneficiario_librador: (row[map['Emisor razón social']] || '').toString().trim(),
-      monto: limpiarMonto(row[map['Importe']]),
-      fecha_emision: fechaEmision,
-      fecha_efectivo: fechaPago,
-      estado, certeza,
-      fecha_cobro_real: estado === 'COBRADO' ? fechaPago : null,
-      notas,
-    });
-  }
-  return filas;
-}
-
 function onExtTipoChange() {
   const tipo = document.getElementById('extTipo').value;
-  extState = { tipo, filas: [], cuenta: null };
+  extState = { tipo, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [] };
   document.getElementById('extFileWrap').style.display = tipo ? 'block' : 'none';
   document.getElementById('extFile').value = '';
   document.getElementById('extPreviewWrap').style.display = 'none';
@@ -1858,23 +2052,39 @@ async function onExtFileSelected() {
   if (!file) return;
   document.getElementById('extResult').innerHTML = '';
   try {
-    const rows = await readWorkbookRows(file);
-    let filas;
     if (extState.tipo === 'movimientos') {
-      filas = parseMovimientos(rows);
+      const rows = await readWorkbookRows(file);
+      const filas = parseMovimientos(rows);
       if (!cuentasBancarias.length) cuentasBancarias = await sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
       extState.cuenta = cuentasBancarias.find(c => c.es_cuenta_principal) || cuentasBancarias[0];
       if (!extState.cuenta) throw new Error('No hay cuentas bancarias cargadas para asociar los movimientos');
-    } else if (extState.tipo === 'cheques_emitidos') {
-      filas = parseChequesEmitidos(rows);
-    } else if (extState.tipo === 'cheques_recibidos') {
-      filas = parseChequesRecibidos(rows);
+      if (!filas.length) { toast('El archivo no tiene filas de datos reconocibles', 'err'); return; }
+      extState.filas = filas;
+      extState.meta = null;
+      extState.avisos = [];
+    } else if (extState.tipo === 'cheques_emitidos' || extState.tipo === 'cheques_recibidos') {
+      const buffer = await file.arrayBuffer();
+      const { tipo, filas, meta, avisos } = parsearListadoCheques(buffer);
+
+      // El tipo sale del titulo dentro del archivo, no del selector: si el
+      // usuario elige mal, el signo del cheque en la proyeccion de saldo queda invertido.
+      const esperado = extState.tipo === 'cheques_recibidos' ? 'RECIBIDO' : 'EMITIDO';
+      if (tipo !== esperado) {
+        throw new Error(
+          `El archivo es de cheques ${tipo === 'EMITIDO' ? 'EMITIDOS' : 'RECIBIDOS'} ` +
+          `pero seleccionaste ${esperado === 'EMITIDO' ? 'EMITIDOS' : 'RECIBIDOS'}. ` +
+          `Cambiá el tipo de archivo o subí el listado correcto.`
+        );
+      }
+
+      extState.chequeTipo = tipo;
+      extState.filas = filas;
+      extState.meta = meta;
+      extState.avisos = avisos;
     } else {
       return;
     }
 
-    if (!filas.length) { toast('El archivo no tiene filas de datos reconocibles', 'err'); return; }
-    extState.filas = filas;
     renderExtPreview();
   } catch (e) {
     toast('Error al parsear: ' + e.message, 'err');
@@ -1906,16 +2116,22 @@ function renderExtPreview() {
       <tbody>${rows}</tbody>
     </table></div>${masFilas}`;
   } else {
-    subEl.textContent = '';
+    const metaInfo = extState.meta
+      ? `${extState.meta.total_filas} filas · ${f$(extState.meta.monto_total)}${extState.meta.fecha_descarga ? ` · descargado ${extState.meta.fecha_descarga}` : ''}`
+      : '';
+    const avisosHTML = (extState.avisos||[]).length
+      ? `<div style="font-size:11px;color:var(--accent);margin-top:6px">${extState.avisos.map(a=>`⚠ ${a}`).join('<br>')}</div>`
+      : '';
+    subEl.innerHTML = metaInfo + avisosHTML;
     const rows = extState.filas.slice(0, MAX_PREVIEW).map(c => `<tr>
       <td>${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</td>
-      <td>${c.beneficiario_librador}${c.banco ? ` <span style="color:var(--muted);font-size:10px">(${c.banco})</span>` : ''}</td>
+      <td>#${c.numero_cheque}${c.tipo_cheque ? ` <span style="color:var(--muted);font-size:10px">(${c.tipo_cheque})</span>` : ''}</td>
+      <td>${c.contraparte_razon_social||'—'}${c.banco ? ` <span style="color:var(--muted);font-size:10px">(${c.banco})</span>` : ''}</td>
       <td style="text-align:right">${f$(c.monto)}</td>
-      <td><span class="badge ${c.estado === 'COBRADO' ? 'b-ok' : c.estado === 'RECHAZADO' ? 'b-danger' : 'b-pend'}">${c.estado}</span></td>
-      <td>${c.certeza ? `<span class="badge ${c.certeza === 'CIERTO' ? 'b-ok' : 'b-gray'}" style="font-size:9px">${c.certeza}</span>` : '—'}</td>
+      <td>${estadoBancoBadge(c.estado_banco)}</td>
     </tr>`).join('');
     tableEl.innerHTML = `<div class="tw"><table>
-      <thead><tr><th>Fecha efectivo</th><th>Beneficiario/Librador</th><th style="text-align:right">Monto</th><th>Estado</th><th>Certeza</th></tr></thead>
+      <thead><tr><th>Fecha efectivo</th><th>Cheque</th><th>Contraparte</th><th style="text-align:right">Monto</th><th>Estado banco</th></tr></thead>
       <tbody>${rows}</tbody>
     </table></div>${masFilas}`;
   }
@@ -1923,7 +2139,7 @@ function renderExtPreview() {
 
 function resetExtracto() {
   const tipo = document.getElementById('extTipo').value;
-  extState = { tipo, filas: [], cuenta: null };
+  extState = { tipo, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [] };
   document.getElementById('extFile').value = '';
   document.getElementById('extPreviewWrap').style.display = 'none';
   document.getElementById('extResult').innerHTML = '';
@@ -1933,28 +2149,41 @@ async function confirmarCargaExtracto() {
   const btn = document.getElementById('extBtnConfirmar');
   btn.disabled = true; btn.innerHTML = '<div class="spin"></div> Guardando…';
   try {
-    let table, conflictCols, payload;
     if (extState.tipo === 'movimientos') {
-      table = 'movimientos_bancarios';
-      conflictCols = 'hash_dedupe';
-      payload = extState.filas.map(f => ({ ...f, cuenta_id: extState.cuenta.id }));
+      const payload = extState.filas.map(f => ({ ...f, cuenta_id: extState.cuenta.id }));
+      const inserted = await sbUpsert('movimientos_bancarios', payload, 'hash_dedupe');
+      const dup = payload.length - inserted.length;
+      document.getElementById('extResult').innerHTML =
+        `<span style="color:var(--ok)">${inserted.length} filas nuevas cargadas</span>` +
+        (dup > 0 ? ` · ${dup} ya existían (omitidas)` : '');
+      toast(`✅ ${inserted.length} filas cargadas`, 'ok');
+      posicionLoaded = false; // fuerza recarga de Posición Bancaria con los datos nuevos
     } else {
-      table = 'cheques';
-      conflictCols = 'tipo,banco,numero_cheque';
-      payload = extState.filas;
-    }
+      // El browser ya no decide el estado interno del cheque: ese mapeo vive
+      // en la RPC de Postgres para que haya una sola fuente de verdad.
+      const { data, error } = await authClient.rpc('importar_cheques', {
+        p_tipo: extState.chequeTipo,
+        p_filas: extState.filas,
+      });
+      if (error) throw error;
 
-    const inserted = await sbUpsert(table, payload, conflictCols);
-    const dup = payload.length - inserted.length;
-    document.getElementById('extResult').innerHTML =
-      `<span style="color:var(--ok)">${inserted.length} filas nuevas cargadas</span>` +
-      (dup > 0 ? ` · ${dup} ya existían (omitidas)` : '');
-    toast(`✅ ${inserted.length} filas cargadas`, 'ok');
+      const avisos = [...(extState.avisos||[])];
+      if (data.estados_desconocidos && data.estados_desconocidos.length) {
+        avisos.push(`Estados nuevos del banco: ${data.estados_desconocidos.join(', ')}`);
+      }
+      const metaInfo = extState.meta
+        ? ` · ${extState.meta.total_filas} filas del listado${extState.meta.fecha_descarga ? ` (descargado ${extState.meta.fecha_descarga})` : ''}`
+        : '';
+      document.getElementById('extResult').innerHTML =
+        `<span style="color:var(--ok)">${data.insertados} insertados · ${data.actualizados} actualizados · ${data.total} total</span>${metaInfo}` +
+        (avisos.length ? `<div style="color:var(--accent);margin-top:6px">${avisos.map(a=>`⚠ ${a}`).join('<br>')}</div>` : '');
+      toast(`✅ ${data.total} cheques importados`, 'ok');
+      posicionLoaded = false; // fuerza recarga de Posición Bancaria con los datos nuevos
+      await loadCheques(); // refresca el tab de Cheques tambien
+    }
     document.getElementById('extPreviewWrap').style.display = 'none';
     document.getElementById('extFile').value = '';
     extState.filas = [];
-    posicionLoaded = false; // fuerza recarga de Posición Bancaria con los datos nuevos
-    if (table === 'cheques') await loadCheques(); // refresca el tab de Cheques tambien
   } catch (e) {
     toast('Error al guardar: ' + e.message, 'err');
   } finally {
