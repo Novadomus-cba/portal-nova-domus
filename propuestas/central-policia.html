@@ -8,6 +8,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/central-policia.html">
+<meta name="py-codigo" content="PY-2026-027">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Central de Policía — Nova Domus | Instalación Eléctrica</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -205,7 +206,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <div id="heroLogo"></div>
     <div class="lp-word">NOVA DOMUS<small>OBRA ELÉCTRICA</small></div>
   </div>
-  <div class="py-tag">PY-2026-024 · PROPUESTA COMERCIAL</div>
+  <div class="py-tag">PY-2026-027 · PROPUESTA COMERCIAL</div>
   <h1>CENTRAL DE POLICÍA</h1>
   <div class="descriptor">INSTALACIÓN ELÉCTRICA</div>
   <p class="tagline">Un solo responsable, de la acometida a la boca terminada</p>
@@ -360,13 +361,13 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     <input type="checkbox" id="accept-terms" onchange="document.getElementById('btn-accept').disabled=!this.checked">
     <label for="accept-terms">Entiendo que este presupuesto es válido por 30 días, que los materiales están sujetos a cómputo definitivo, y que la forma de pago es la detallada más arriba.</label>
   </div>
-  <button class="btn-accept" id="btn-accept" disabled onclick="aceptarPropuesta()">Aceptar propuesta — PY-2026-024</button>
+  <button class="btn-accept" id="btn-accept" disabled onclick="aceptarPropuesta()">Aceptar propuesta — PY-2026-027</button>
 </section>
 
 <footer>
   <div class="foot-logo" id="footlogo"></div>
   <div>Nova Domus — NDWD SAS · Córdoba, Argentina</div>
-  <div class="py-foot">PY-2026-024</div>
+  <div class="py-foot">PY-2026-027</div>
 </footer>
 
 <script>
@@ -567,14 +568,17 @@ function renderInversion(){
 function renderPago(t){
   const totalConOpcionales = t.total;
   const facturaA = document.getElementById('factura-a').checked;
-  const anticipo = totalConOpcionales*0.10;
-  const saldo = totalConOpcionales*0.90;
-  document.getElementById('pay-anticipo').innerHTML = fmt2Both(anticipo);
-  document.getElementById('pay-saldo').innerHTML = fmt2Both(saldo);
+  const totalARS = Math.ceil(totalConOpcionales*TC);
+  const anticipo = Math.round(totalConOpcionales*0.10);
+  const saldo = totalConOpcionales - anticipo;
+  const anticipoARS = Math.round(totalARS*0.10);
+  const saldoARS = totalARS - anticipoARS;
+  document.getElementById('pay-anticipo').innerHTML = `${fmt(anticipo)} <span class="ars">(ARS ${anticipoARS.toLocaleString('es-AR')})</span>`;
+  document.getElementById('pay-saldo').innerHTML = `${fmt(saldo)} <span class="ars">(ARS ${saldoARS.toLocaleString('es-AR')})</span>`;
   const ivaRow = document.getElementById('pay-iva-row');
   if(facturaA){
     ivaRow.style.display='flex';
-    document.getElementById('pay-iva').innerHTML = fmt2Both(totalConOpcionales*0.21);
+    document.getElementById('pay-iva').innerHTML = fmtBoth(totalConOpcionales*0.21);
   } else {
     ivaRow.style.display='none';
   }
@@ -615,7 +619,7 @@ function aceptarPropuesta(){
   const t = calcularTotales();
   let opts = [];
   for(const k in OPCIONALES){ if(OPCIONALES[k].active) opts.push(OPCIONALES[k].label); }
-  const msg = `Hola Nova Domus! Quiero aceptar la propuesta PY-2026-024 (Central de Policía).%0A%0ATotal: ${fmt(t.total)}%0AOpcionales incluidos: ${opts.length?opts.join(', '):'ninguno'}`;
+  const msg = `Hola Nova Domus! Quiero aceptar la propuesta PY-2026-027 (Central de Policía).%0A%0ATotal: ${fmt(t.total)}%0AOpcionales incluidos: ${opts.length?opts.join(', '):'ninguno'}`;
   window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
@@ -651,6 +655,30 @@ document.getElementById('progress-badge').addEventListener('click', ()=>window.s
 
 // init
 renderInversion();
+</script>
+
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
 </script>
 </body>
 </html>

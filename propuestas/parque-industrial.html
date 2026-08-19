@@ -8,6 +8,7 @@
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/parque-industrial.html">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-022">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parque Industrial — Propuesta Técnica | Nova Domus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -472,6 +473,30 @@ function toggleBrand(id){
   document.querySelectorAll('.chip:not(.fixed)').forEach(function(c){ c.classList.remove('active'); });
   event.target.classList.add('active');
 }
+</script>
+
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
