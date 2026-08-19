@@ -982,15 +982,20 @@
   // programada. addBusinessDays/calcularSemaforoFinanciero/netoEnVentana viven
   // en finance-utils.js, compartido con contable.html para que el criterio de
   // dias habiles/semaforo no se desincronice entre los dos.
-  function computeFinanciero(cuenta, movimientos, chequesEmitidosPendientes, chequesRecibidosPendientes, hoyISO, limiteDescubierto) {
+  function computeFinanciero(cuenta, movimientos, chequesEmitidosPendientes, chequesRecibidosPendientes, hoyISO, saldoActualRow, limiteDescubierto) {
     if (!cuenta || !movimientos.length) return null;
-    const saldoActual = Number(movimientos[0].saldo);
+    // saldoActual/saldoFecha/saldoAGirar salen de v_cuenta_saldo_actual, no de
+    // movimientos -- si la vista no trajo fila, quedan null (sin datos), no
+    // se calculan a partir de movimientos como respaldo.
+    const saldoActual = saldoActualRow ? Number(saldoActualRow.saldo) : null;
+    const saldoFecha = saldoActualRow ? saldoActualRow.fecha_saldo : null;
+    const saldoAGirar = saldoActualRow && saldoActualRow.saldo_a_girar != null ? Number(saldoActualRow.saldo_a_girar) : null;
     const neto30 = netoEnVentana(movimientos, 30, hoyISO);
     const neto60 = netoEnVentana(movimientos, 60, hoyISO);
     const neto90 = netoEnVentana(movimientos, 90, hoyISO);
     const semaforoInfo = calcularSemaforoFinanciero(saldoActual, chequesEmitidosPendientes, chequesRecibidosPendientes, hoyISO, limiteDescubierto);
     const referencia15d = chequesEmitidosPendientes.filter(c => c.fecha_efectivo > semaforoInfo.limiteVentana2dFecha);
-    return { saldoActual, neto30, neto60, neto90, semaforoInfo, referencia15d };
+    return { saldoActual, saldoFecha, saldoAGirar, neto30, neto60, neto90, semaforoInfo, referencia15d };
   }
 
   function renderChequesVentana(rows, titulo) {
@@ -1020,25 +1025,30 @@
       el.innerHTML = '<div class="panel-card-empty">Todavía no hay movimientos cargados para la cuenta principal — es el estado real, no un dato faltante.</div>';
       return;
     }
-    const { saldoActual, neto30, neto60, neto90, semaforoInfo, referencia15d } = fin;
-    const negativo = saldoActual < 0;
+    const { saldoActual, saldoAGirar, neto30, neto60, neto90, semaforoInfo, referencia15d } = fin;
+    const negativo = saldoActual != null && saldoActual < 0;
     const motivoRojo = semaforoInfo.semaforo === 'ROJO'
       ? `Con los cheques que se descuentan en los próximos 2 días hábiles (hasta ${fd(semaforoInfo.limiteVentana2dFecha)}), el saldo proyectado es de ${f$(semaforoInfo.proyectado)}, por debajo del límite de descubierto de ${f$(semaforoInfo.limiteDescubierto)}.`
       : null;
-    const sinLimite = semaforoInfo.semaforo === null
+    const sinSaldo = saldoActual == null
+      ? 'Sin datos de saldo actual para esta cuenta (v_cuenta_saldo_actual).'
+      : null;
+    const sinLimite = saldoActual != null && semaforoInfo.semaforo === null
       ? 'Sin límite de descubierto cargado para esta cuenta — no se puede calcular el semáforo.'
       : null;
 
     el.innerHTML = `
       <div class="fin-kpi">
         <span class="semaforo-dot semaforo-${semaforoInfo.semaforo}"></span>
-        <span class="fin-saldo${negativo ? ' neg' : ''}">${f$(saldoActual)}</span>
+        <span class="fin-saldo${negativo ? ' neg' : ''}">${saldoActual != null ? f$(saldoActual) : 'Sin datos'}</span>
       </div>
+      ${sinSaldo ? `<div class="fin-detail" style="color:var(--muted);margin-bottom:6px">${sinSaldo}</div>` : ''}
       ${motivoRojo ? `<div class="fin-detail" style="color:#ff8a80;margin-bottom:6px">${motivoRojo}</div>` : ''}
       ${sinLimite ? `<div class="fin-detail" style="color:var(--muted);margin-bottom:6px">${sinLimite}</div>` : ''}
-      <div class="fin-detail">Neto 30d: <b>${f$(neto30)}</b></div>
+      ${saldoAGirar != null ? `<div class="fin-detail">Saldo a girar: <b>${f$(saldoAGirar)}</b></div>` : ''}
+      <div class="fin-detail" title="Suma real de ingresos y egresos de movimientos_bancarios en los últimos 30 días -- no es una proyección.">Flujo neto 30d: <b>${f$(neto30)}</b></div>
       <div id="finDetailMore" style="display:none">
-        <div class="fin-detail" style="margin-top:8px">Neto 60d: <b>${f$(neto60)}</b> · 90d: <b>${f$(neto90)}</b></div>
+        <div class="fin-detail" style="margin-top:8px" title="Flujo real de caja, no proyección.">Flujo neto 60d: <b>${f$(neto60)}</b> · 90d: <b>${f$(neto90)}</b></div>
         ${renderChequesVentana(semaforoInfo.chequesVentana2d, 'Cheques en la ventana de 2 días hábiles')}
         ${referencia15d.length ? renderChequesVentana(referencia15d, 'Referencia — próximos 15 días (no afecta el semáforo)') : ''}
       </div>
@@ -1100,7 +1110,7 @@
       console.error('No se pudo cargar cuentas_bancarias:', e);
     }
 
-    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, limiteVigente] = await Promise.allSettled([
+    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, saldoActualResult] = await Promise.allSettled([
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
       // v_seguimiento_propuestas es una vista en vivo sobre propuesta_vistas,
@@ -1115,7 +1125,7 @@
       cuadrillaGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&fecha_efectivo=lte.${hoyMas15Str}&order=fecha_efectivo.asc&select=monto,fecha_efectivo,certeza,beneficiario_librador`),
       cuadrillaGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`),
       cuentaPrincipal
-        ? cuadrillaGet('v_cuenta_limite_vigente', `?cuenta_id=eq.${cuentaPrincipal.id}&select=limite`)
+        ? cuadrillaGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`)
         : Promise.resolve([]),
     ]);
 
@@ -1137,12 +1147,16 @@
     if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
     else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
 
-    if (movimientos.status === 'fulfilled' && chequesEmitidos.status === 'fulfilled' && chequesRecibidos.status === 'fulfilled' && limiteVigente.status === 'fulfilled') {
-      // Sin fila vigente en v_cuenta_limite_vigente no hay umbral conocido --
-      // se deja null y calcularSemaforoFinanciero devuelve semaforo:null en
-      // vez de asumir un limite permisivo que nunca da ROJO.
-      const limiteDescubierto = limiteVigente.value[0] ? -Math.abs(Number(limiteVigente.value[0].limite)) : null;
-      renderFinanciero(computeFinanciero(cuentaPrincipal, movimientos.value, chequesEmitidos.value, chequesRecibidos.value, hoy, limiteDescubierto));
+    if (movimientos.status === 'fulfilled' && chequesEmitidos.status === 'fulfilled' && chequesRecibidos.status === 'fulfilled' && saldoActualResult.status === 'fulfilled') {
+      const saldoActualRow = saldoActualResult.value[0] || null;
+      // Sin fila en v_cuenta_saldo_actual no hay saldo ni limite conocidos --
+      // se dejan null y se propagan en cascada (computeFinanciero,
+      // calcularSemaforoFinanciero) en vez de derivar un saldo de respaldo
+      // desde movimientosPrincipal.
+      const limiteDescubierto = saldoActualRow && saldoActualRow.limite_descubierto != null
+        ? -Math.abs(Number(saldoActualRow.limite_descubierto))
+        : null;
+      renderFinanciero(computeFinanciero(cuentaPrincipal, movimientos.value, chequesEmitidos.value, chequesRecibidos.value, hoy, saldoActualRow, limiteDescubierto));
     } else {
       document.getElementById('financieroBody').innerHTML = '<div class="panel-card-empty">No se pudo calcular el resumen financiero.</div>';
     }
