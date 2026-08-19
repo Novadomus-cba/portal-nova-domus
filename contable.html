@@ -1753,17 +1753,26 @@ async function loadPosicion() {
 
     let movimientosPrincipal = [];
     let chequesEmitidosPendientes = [];
+    let chequesRecibidosPendientes = [];
+    let limiteDescubierto = null;
     if (cuentaPrincipal) {
       // Semaforo calculado en el cliente (Opcion B) -- panel_financiero_resumen
       // ya no se escribe desde ningun lado, calcularSemaforoFinanciero vive en
       // finance-utils.js, compartido con el mismo calculo del Home admin.
-      [movimientosPrincipal, chequesEmitidosPendientes] = await Promise.all([
+      let limiteVigenteRows;
+      [movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, limiteVigenteRows] = await Promise.all([
         sbGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto`),
-        sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&order=fecha_efectivo.asc&select=monto,fecha_efectivo`),
+        sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&order=fecha_efectivo.asc&select=monto,fecha_efectivo`),
+        sbGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`),
+        sbGet('v_cuenta_limite_vigente', `?cuenta_id=eq.${cuentaPrincipal.id}&select=limite`),
       ]);
+      // Sin fila vigente en v_cuenta_limite_vigente no hay umbral conocido --
+      // se deja null y calcularSemaforoFinanciero devuelve semaforo:null en
+      // vez de asumir un limite permisivo que nunca da ROJO.
+      limiteDescubierto = limiteVigenteRows[0] ? -Math.abs(Number(limiteVigenteRows[0].limite)) : null;
     }
 
-    renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendientes, cuentaPrincipal, hoy);
+    renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, limiteDescubierto, cuentaPrincipal, hoy);
     renderPosChart(movimientosPrincipal);
     renderPosCategorias(movimientosPrincipal);
     await renderPosCobros(movimientosPrincipal);
@@ -1774,7 +1783,7 @@ async function loadPosicion() {
   }
 }
 
-function renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendientes, cuentaPrincipal, hoy) {
+function renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, limiteDescubierto, cuentaPrincipal, hoy) {
   const el = document.getElementById('posCuentasList');
   if (!cuentas.length) { el.innerHTML = '<div class="empty">No hay cuentas bancarias cargadas.</div>'; return; }
 
@@ -1783,7 +1792,7 @@ function renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendient
     if (cuentaPrincipal && c.id === cuentaPrincipal.id && movimientosPrincipal.length) {
       const ultimo = movimientosPrincipal[movimientosPrincipal.length - 1];
       saldo = ultimo.saldo; saldoFecha = ultimo.fecha;
-      semaforo = calcularSemaforoFinanciero(Number(saldo), chequesEmitidosPendientes, hoy).semaforo;
+      semaforo = calcularSemaforoFinanciero(Number(saldo), chequesEmitidosPendientes, chequesRecibidosPendientes, hoy, limiteDescubierto).semaforo;
     }
     const bCls = semaforo==='ROJO'?'b-danger':semaforo==='AMARILLO'?'b-pend':semaforo==='VERDE'?'b-ok':'b-gray';
     return `<div class="item">
@@ -1794,7 +1803,7 @@ function renderPosCuentas(cuentas, movimientosPrincipal, chequesEmitidosPendient
         </div>
         <div class="item-right">
           ${saldo !== null
-            ? `<div class="item-monto">${f$(saldo)}</div><div style="margin-top:4px">${semaforo?`<span class="badge ${bCls}">${semaforo}</span>`:''}${saldoFecha?`<span style="font-size:10px;color:var(--muted);margin-left:6px">al ${fd(saldoFecha)}</span>`:''}</div>`
+            ? `<div class="item-monto">${f$(saldo)}</div><div style="margin-top:4px">${semaforo?`<span class="badge ${bCls}">${semaforo}</span>`:`<span style="font-size:10px;color:var(--muted)">Sin límite de descubierto cargado</span>`}${saldoFecha?`<span style="font-size:10px;color:var(--muted);margin-left:6px">al ${fd(saldoFecha)}</span>`:''}</div>`
             : `<div style="font-size:11px;color:var(--muted)">Sin movimientos registrados</div>`}
         </div>
       </div>

@@ -4,8 +4,6 @@
 // semaforo no se desincronice entre los dos. Reusable por cualquier modulo
 // que necesite el mismo calculo.
 
-const LIMITE_DESCUBIERTO = -4500000;
-
 function esFinDeSemana(date) {
   const day = date.getDay(); // 0=domingo, 6=sabado
   return day === 0 || day === 6;
@@ -39,22 +37,41 @@ function addCalendarDays(fechaISO, n) {
   return `${yy}-${mm}-${dd}`;
 }
 
-// Regla acordada con Agustin (no negociable, ver kickoff):
-// proyectado_2d_habiles = saldo_actual - suma(monto de cheques EMITIDO/PENDIENTE
-// que vencen entre hoy y hoy+2 dias habiles, ambos inclusive).
-// ROJO si ese proyectado cae bajo el limite de descubierto (manda sobre el
-// signo de saldo_actual). AMARILLO si saldo_actual<0 sin llegar al limite.
-// VERDE si saldo_actual>=0. Solo EMITIDO entra en la cuenta -- RECIBIDO se
-// gestiona aparte al depositarlo.
-function calcularSemaforoFinanciero(saldoActual, chequesEmitidosPendientes, hoyISO) {
+// Regla vigente desde 2026-08-19 (reemplaza la version anterior con
+// LIMITE_DESCUBIERTO fijo en el codigo, "no negociable" segun el kickoff
+// original -- se renegocio con Agustin). El limite de descubierto ya no es
+// una constante: se lee por cuenta desde la vista v_cuenta_limite_vigente en
+// Supabase y el caller lo pasa como parametro. Si no hay fila vigente para la
+// cuenta, el caller pasa limiteDescubierto=null -- no hay umbral conocido
+// para ROJO, asi que el semaforo entero se devuelve null (no un color que
+// nunca puede dar rojo).
+// proyectado_2d_habiles = saldo_actual
+//   - suma(monto de cheques EMITIDO/PENDIENTE con vencimiento hasta hoy+2 dias
+//     habiles -- incluye los YA vencidos y no cobrados, no solo los que
+//     vencen de hoy en adelante)
+//   + suma(monto de cheques RECIBIDO/PENDIENTE con esa misma fecha de corte,
+//     a favor -- misma ventana que los emitidos, no todos los recibidos
+//     pendientes sin importar cuando se cobran).
+// ROJO si ese proyectado cae bajo el limite de descubierto. AMARILLO si
+// proyectado<0 sin llegar al limite (antes se miraba el signo de
+// saldo_actual, no del proyectado -- un saldo_actual positivo con cheques
+// emitidos pendientes que lo llevan a negativo ya no se mostraba VERDE).
+// VERDE si proyectado>=0.
+function calcularSemaforoFinanciero(saldoActual, chequesEmitidosPendientes, chequesRecibidosPendientes, hoyISO, limiteDescubierto) {
   const limiteVentana2d = addBusinessDays(hoyISO, 2);
   const chequesVentana2d = chequesEmitidosPendientes.filter(c =>
-    c.fecha_efectivo >= hoyISO && c.fecha_efectivo <= limiteVentana2d
+    c.fecha_efectivo <= limiteVentana2d
   );
   const totalVentana2d = chequesVentana2d.reduce((s, c) => s + Number(c.monto), 0);
-  const proyectado = saldoActual - totalVentana2d;
+  const chequesRecibidosVentana2d = chequesRecibidosPendientes.filter(c =>
+    c.fecha_efectivo <= limiteVentana2d
+  );
+  const totalRecibidoVentana2d = chequesRecibidosVentana2d.reduce((s, c) => s + Number(c.monto), 0);
+  const proyectado = saldoActual - totalVentana2d + totalRecibidoVentana2d;
 
-  const semaforo = proyectado < LIMITE_DESCUBIERTO ? 'ROJO' : (saldoActual < 0 ? 'AMARILLO' : 'VERDE');
+  const semaforo = limiteDescubierto == null
+    ? null
+    : (proyectado < limiteDescubierto ? 'ROJO' : (proyectado < 0 ? 'AMARILLO' : 'VERDE'));
 
   return {
     semaforo,
@@ -62,7 +79,7 @@ function calcularSemaforoFinanciero(saldoActual, chequesEmitidosPendientes, hoyI
     totalVentana2d,
     chequesVentana2d,
     limiteVentana2dFecha: limiteVentana2d,
-    limiteDescubierto: LIMITE_DESCUBIERTO,
+    limiteDescubierto,
   };
 }
 
