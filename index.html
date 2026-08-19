@@ -367,6 +367,23 @@
     .agenda-next-meta { font-size: 12px; color: var(--muted); }
     .agenda-count { font-size: 12px; color: var(--muted); margin-top: 6px; }
 
+    .agenda-row { border-left: 2px solid var(--border); padding-left: 12px; margin-bottom: 12px; }
+    .agenda-row:last-of-type { margin-bottom: 0; }
+    .agenda-row.agenda-alert { border-left-color: #e74c3c; }
+    .agenda-row-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .agenda-row-meta { font-size: 12px; color: var(--muted); }
+    .agenda-alert-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(231,76,60,0.18);
+      color: #ff8a80;
+    }
+
     .inbox-row {
       display: flex;
       align-items: flex-start;
@@ -764,6 +781,24 @@
     document.getElementById('navModulosBtn').classList.toggle('active', !isPanel);
   }
 
+  const DOS_HORAS_MS = 2 * 60 * 60 * 1000;
+
+  // fecha_evento (date) + hora_inicio (time, puede venir null para eventos de
+  // todo el dia) combinados en un Date local -- ver parseDate() mas arriba
+  // sobre por que no se puede usar new Date(fecha_evento) a secas.
+  function eventoDateTime(r) {
+    const hora = r.hora_inicio ? r.hora_inicio.slice(0, 8) : '00:00:00';
+    return parseDate(`${r.fecha_evento}T${hora}`);
+  }
+
+  function faltanteEs(diffMs) {
+    const min = Math.round(diffMs / 60000);
+    if (min < 60) return `en ${min} min`;
+    const h = Math.floor(min / 60);
+    const m = min % 60;
+    return m > 0 ? `en ${h}h ${m}min` : `en ${h}h`;
+  }
+
   function renderAgenda(rows) {
     const el = document.getElementById('agendaBody');
     if (!rows.length) {
@@ -771,18 +806,21 @@
       document.getElementById('agendaUpdated').textContent = '';
       return;
     }
-    const next = rows[0];
+    const ahora = Date.now();
     const hoyStr = new Date().toISOString().slice(0, 10);
     const hoyCount = rows.filter(r => r.fecha_evento === hoyStr).length;
-    el.innerHTML = `
-      <div class="agenda-next">
-        <div class="agenda-next-title">${next.titulo}</div>
-        <div class="agenda-next-meta">${fd(next.fecha_evento)}${next.hora_inicio ? ' · ' + next.hora_inicio.slice(0, 5) : ''}${next.lugar ? ' · ' + next.lugar : ''}</div>
-        ${next.descripcion ? `<div class="agenda-next-meta" style="margin-top:4px">${next.descripcion}</div>` : ''}
-        ${next.calendar_url ? `<a class="mini-link" href="${next.calendar_url}" target="_blank" rel="noopener">Ver en Calendar →</a>` : ''}
-      </div>
-      <div class="agenda-count">${rows.length} evento${rows.length === 1 ? '' : 's'} próximo${rows.length === 1 ? '' : 's'}${hoyCount ? ` · ${hoyCount} hoy` : ''}</div>
-    `;
+    el.innerHTML = rows.map(r => {
+      const diffMs = eventoDateTime(r).getTime() - ahora;
+      const esInminente = diffMs > 0 && diffMs <= DOS_HORAS_MS;
+      return `
+        <div class="agenda-row${esInminente ? ' agenda-alert' : ''}">
+          <div class="agenda-row-title">${r.titulo}${esInminente ? `<span class="agenda-alert-badge">⏰ ${faltanteEs(diffMs)}</span>` : ''}</div>
+          <div class="agenda-row-meta">${fd(r.fecha_evento)}${r.hora_inicio ? ' · ' + r.hora_inicio.slice(0, 5) : ''}${r.lugar ? ' · ' + r.lugar : ''}</div>
+          ${r.descripcion ? `<div class="agenda-row-meta" style="margin-top:2px">${r.descripcion}</div>` : ''}
+          ${r.calendar_url ? `<a class="mini-link" href="${r.calendar_url}" target="_blank" rel="noopener">Ver en Calendar →</a>` : ''}
+        </div>
+      `;
+    }).join('') + `<div class="agenda-count">${rows.length} evento${rows.length === 1 ? '' : 's'} próximo${rows.length === 1 ? '' : 's'}${hoyCount ? ` · ${hoyCount} hoy` : ''}</div>`;
     const updated = rows.reduce((max, r) => (r.actualizado_en > max ? r.actualizado_en : max), rows[0].actualizado_en);
     document.getElementById('agendaUpdated').textContent = 'Actualizado: ' + fdt(updated);
   }
