@@ -1798,7 +1798,7 @@ async function abrirModalPres(id){
     let itHtml='';
     devices.forEach(i=>{
       itHtml+=`<div style="padding:7px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px">
-        <div><b>${i.marca} — ${i.nombre}</b><br><span style="color:var(--muted)">×${i.cantidad} · ${i.descuento_aplicado||0}% off lista</span></div>
+        <div><b>${i.marca} — ${i.nombre}</b><br><span style="color:var(--muted)">×${i.cantidad} · ${Math.round((i.descuento_aplicado||0)*100)}% off lista</span></div>
         <div style="text-align:right;white-space:nowrap"><b>${fUSD(i.subtotal_usd||0)}</b></div>
       </div>`;
     });
@@ -1965,7 +1965,7 @@ _Domótica e Integración Tecnológica_
 `;
       txt+=`  + IVA 21%: \`U$S ${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: U$S ${ceil(total).toLocaleString('es-AR')}*
 `;
-      txt+=`  _Precio lista: U$S ${ceil(i.precio_sugerido_usd||0).toLocaleString('es-AR')} | ${i.descuento_aplicado||0}% off lista_
+      txt+=`  _Precio lista: U$S ${ceil(i.precio_sugerido_usd||0).toLocaleString('es-AR')} | ${Math.round((i.descuento_aplicado||0)*100)}% off lista_
 
 `;
     });
