@@ -1635,13 +1635,14 @@ async function guardarPresupuesto(){
         const finalPriceSinIva=getItemPriceSinIva(item);
         const iva=parseFloat(item.iva)||0.21;
         const costo=parseFloat(item.precio_sin_iva)||0;
-        let lineaDescuento=descuento, lineaMargenPct=markup*100, lineaAlerta=alertaB2B||false;
+        let lineaDescuento=(descuento||0)/100, lineaMargenPct=markup*100, lineaAlerta=alertaB2B||false;
         if(item.precioOverride!=null){
           // Precio manual (prerrogativa de Agustín): el margen/alerta se recalculan
           // contra el precio realmente cobrado, no contra el que hubiera calculado el
           // algoritmo — antes quedaban en 0/false sin importar el precio manual.
+          // descuento_aplicado guarda FRACCIÓN (CHECK -1..1), no porcentaje.
           const sugeridoSinIva=getSugeridoSinIva(item);
-          lineaDescuento=sugeridoSinIva>0?Math.round((1-finalPriceSinIva/sugeridoSinIva)*100):0;
+          lineaDescuento=sugeridoSinIva>0?Math.round((1-finalPriceSinIva/sugeridoSinIva)*10000)/10000:0;
           lineaMargenPct=costo>0?((finalPriceSinIva-costo)/costo)*100:0;
           lineaAlerta=costo>0?((finalPriceSinIva-costo)/costo)<MARGEN_MINIMO:false;
         }
