@@ -393,6 +393,7 @@ tr:last-child td{border-bottom:none}
         <option value="">Todos</option>
         <option value="PENDIENTE">Pendiente</option>
         <option value="VENCIDO_SIN_COBRAR">Vencido sin cobrar</option>
+        <option value="DESCONTADO">Descontado</option>
         <option value="COBRADO">Cobrado</option>
         <option value="RECHAZADO">Rechazado</option>
       </select>
@@ -442,6 +443,17 @@ tr:last-child td{border-bottom:none}
   <div class="card">
     <div class="card-title">Saldo por cuenta</div>
     <div id="posCuentasList"><div class="empty">Cargando…</div></div>
+  </div>
+
+  <div class="card" id="posProyeccion30Card" style="display:none">
+    <div class="card-title">Proyección a 30 días — cuenta principal</div>
+    <div id="posProyeccion30"><div class="empty">Cargando…</div></div>
+  </div>
+
+  <div class="card" id="posExposicionCard" style="display:none">
+    <div class="card-title">Exposición por cheques descontados</div>
+    <div style="font-size:11px;color:var(--muted);margin:-4px 0 10px">Cheques recibidos ya vendidos al banco (la plata entró) pero con recurso: si el librador no paga al vencimiento, el banco los debita. No es un ingreso futuro ni se resta del saldo — es contingencia.</div>
+    <div id="posExposicion"></div>
   </div>
 
   <div class="chart-wrap" id="posChartWrap" style="display:none">
@@ -1438,7 +1450,7 @@ function renderCheques() {
   const el = document.getElementById('chequesList');
   if (!list.length) { el.innerHTML='<div class="empty">No hay cheques.</div>'; return; }
   el.innerHTML = list.map(c => {
-    const eCls = c.estado_calculado==='COBRADO'?'b-ok':c.estado_calculado.includes('VENCIDO')?'b-danger':c.estado_calculado==='RECHAZADO'?'b-danger':'b-pend';
+    const eCls = c.estado_calculado==='COBRADO'?'b-ok':c.estado_calculado.includes('VENCIDO')?'b-danger':c.estado_calculado==='RECHAZADO'?'b-danger':c.estado_calculado==='DESCONTADO'?'b-info':'b-pend';
     const tipoCls = c.tipo==='EMITIDO'?'b-danger':'b-ok';
     return `<div class="item">
       <div class="item-top">
@@ -1459,6 +1471,12 @@ function renderCheques() {
         </div>
       </div>
       ${c.notas?`<div style="font-size:11px;color:var(--muted);margin-top:8px">${c.notas}</div>`:''}
+      ${c.estado_calculado==='DESCONTADO'?`
+      <div style="font-size:11px;color:var(--muted);margin-top:8px">
+        Vendido al banco el ${fd(c.fecha_descuento)} (op. ${c.operacion_descuento||'—'}) ·
+        acreditado ${f$(c.monto_acreditado)} · costo ${f$(c.costo_descuento)}
+        ${c.en_riesgo_descuento?` · <span style="color:var(--warn)">con recurso hasta el ${fd(c.fecha_efectivo)} — si el librador no paga, el banco lo debita</span>`:''}
+      </div>`:''}
       ${c.estado_calculado==='PENDIENTE'||c.estado_calculado==='VENCIDO_SIN_COBRAR'?`
       <div class="item-actions">
         <button class="btn btn-ok btn-sm" onclick="marcarEstadoCheque('${c.id}','COBRADO')">✓ Cobrado</button>
@@ -1754,6 +1772,7 @@ async function loadPosicion() {
     let movimientosPrincipal = [];
     let chequesEmitidosPendientes = [];
     let chequesRecibidosPendientes = [];
+    let chequesRecibidosDescontados = [];
     let saldoActualRow = null;
     let limiteDescubierto = null;
     if (cuentaPrincipal) {
@@ -1763,10 +1782,16 @@ async function loadPosicion() {
       // El saldo actual y el limite de descubierto salen de v_cuenta_saldo_actual
       // (una fila por cuenta) -- ya NO se derivan del ultimo movimiento cargado.
       let saldoActualRows;
-      [movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, saldoActualRows] = await Promise.all([
+      [movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, chequesRecibidosDescontados, saldoActualRows] = await Promise.all([
         sbGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto`),
         sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&order=fecha_efectivo.asc&select=monto,fecha_efectivo`),
         sbGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`),
+        // DESCONTADO viene de cheques_vista, no de cheques -- es la unica que
+        // expone en_riesgo_descuento (true mientras estado=DESCONTADO y
+        // fecha_efectivo >= hoy). Un descontado no es ingreso proyectado: la
+        // plata ya entro por movimientos_bancarios. Esto es solo para la
+        // linea de exposicion/contingencia, separada de la proyeccion.
+        sbGet('cheques_vista', `?tipo=eq.RECIBIDO&estado=eq.DESCONTADO&select=beneficiario_librador,monto,fecha_efectivo,fecha_descuento,en_riesgo_descuento`),
         sbGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`),
       ]);
       saldoActualRow = saldoActualRows[0] || null;
@@ -1779,6 +1804,8 @@ async function loadPosicion() {
     }
 
     renderPosCuentas(cuentas, chequesEmitidosPendientes, chequesRecibidosPendientes, saldoActualRow, limiteDescubierto, cuentaPrincipal, hoy);
+    renderPosProyeccion30(saldoActualRow, chequesEmitidosPendientes, chequesRecibidosPendientes, limiteDescubierto, cuentaPrincipal, hoy);
+    renderPosExposicion(chequesRecibidosDescontados, cuentaPrincipal);
     renderPosChart(movimientosPrincipal);
     renderPosCategorias(movimientosPrincipal);
     await renderPosCobros(movimientosPrincipal);
@@ -1818,6 +1845,76 @@ function renderPosCuentas(cuentas, chequesEmitidosPendientes, chequesRecibidosPe
       </div>
     </div>`;
   }).join('');
+}
+
+// Proyeccion a 30 dias corridos, misma logica que el semaforo de 2 dias
+// habiles (calcularSemaforoFinanciero) pero con otra ventana y sin tocar esa
+// funcion -- el semaforo queda como esta, deployado y correcto.
+// Un DESCONTADO no entra en chequesRecibidosPendientes porque ya no tiene
+// estado=PENDIENTE en la base (migracion cheques_add_descontado_state,
+// 20/08/2026) -- no hace falta filtrarlo aparte, ya no esta en la fuente.
+function calcularProyeccion30(saldoActual, chequesEmitidosPendientes, chequesRecibidosPendientes, hoyISO) {
+  const limite30 = addCalendarDays(hoyISO, 30);
+  const emitidos30 = chequesEmitidosPendientes.filter(c => c.fecha_efectivo <= limite30);
+  const totalEmitidos30 = emitidos30.reduce((s, c) => s + Number(c.monto), 0);
+  const recibidos30 = chequesRecibidosPendientes.filter(c => c.fecha_efectivo <= limite30);
+  const totalRecibidos30 = recibidos30.reduce((s, c) => s + Number(c.monto), 0);
+  // saldoActual==null (sin fila en v_cuenta_saldo_actual) no puede dar un
+  // proyectado numerico -- mismo criterio que calcularSemaforoFinanciero.
+  const proyectado = saldoActual == null ? null : saldoActual - totalEmitidos30 + totalRecibidos30;
+  return { proyectado, totalEmitidos30, totalRecibidos30, limite30 };
+}
+
+function renderPosProyeccion30(saldoActualRow, chequesEmitidosPendientes, chequesRecibidosPendientes, limiteDescubierto, cuentaPrincipal, hoy) {
+  const card = document.getElementById('posProyeccion30Card');
+  const el = document.getElementById('posProyeccion30');
+  if (!cuentaPrincipal) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  const saldoActual = saldoActualRow ? Number(saldoActualRow.saldo) : null;
+  if (saldoActual == null) {
+    el.innerHTML = '<div class="empty">Sin saldo actual cargado — no se puede proyectar.</div>';
+    return;
+  }
+  const { proyectado, totalEmitidos30, totalRecibidos30, limite30 } = calcularProyeccion30(saldoActual, chequesEmitidosPendientes, chequesRecibidosPendientes, hoy);
+  const cruzaPiso = limiteDescubierto != null && proyectado < limiteDescubierto;
+  const bajoCero = proyectado < 0;
+  const color = cruzaPiso ? 'var(--danger)' : bajoCero ? 'var(--warn)' : 'var(--ok)';
+  el.innerHTML = `
+    <div class="item-monto" style="color:${color};font-size:22px">${f$(proyectado)}</div>
+    ${cruzaPiso ? `<div style="margin-top:4px"><span class="badge b-danger">CRUZA EL PISO DEL ACUERDO (${f$(limiteDescubierto)})</span></div>` : ''}
+    <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">
+      Saldo actual ${f$(saldoActual)}<br>
+      − Cheques emitidos pendientes a vencer hasta ${fd(limite30)}: ${f$(totalEmitidos30)}<br>
+      + Cheques recibidos pendientes a cobrar hasta ${fd(limite30)}: ${f$(totalRecibidos30)}
+    </div>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px">Los cheques recibidos DESCONTADOS no suman acá — ya se cobraron y están en el saldo actual, no son ingreso futuro.</div>
+  `;
+}
+
+function renderPosExposicion(chequesDescontados, cuentaPrincipal) {
+  const card = document.getElementById('posExposicionCard');
+  const el = document.getElementById('posExposicion');
+  if (!cuentaPrincipal || !chequesDescontados.length) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  const enRiesgo = chequesDescontados.filter(c => c.en_riesgo_descuento);
+  const totalRiesgo = enRiesgo.reduce((s, c) => s + Number(c.monto), 0);
+  el.innerHTML = `
+    <div class="item-monto" style="color:var(--warn);font-size:22px">${f$(totalRiesgo)}</div>
+    <div style="font-size:11px;color:var(--muted);margin:6px 0 12px">nominal en riesgo de ${enRiesgo.length} cheque${enRiesgo.length===1?'':'s'} — con recurso hasta su vencimiento</div>
+    ${chequesDescontados.map(c => `
+      <div class="item">
+        <div class="item-top">
+          <div class="item-left">
+            <div class="item-title">${c.beneficiario_librador}</div>
+            <div class="item-meta"><span>Vendido al banco ${fd(c.fecha_descuento)}</span><span>Vence ${fd(c.fecha_efectivo)}</span></div>
+          </div>
+          <div class="item-right">
+            <div class="item-monto">${f$(c.monto)}</div>
+            <div style="margin-top:4px">${c.en_riesgo_descuento ? '<span class="badge b-pend">CON RIESGO</span>' : '<span class="badge b-gray">VENTANA CERRADA</span>'}</div>
+          </div>
+        </div>
+      </div>`).join('')}
+  `;
 }
 
 function renderPosChart(movimientos) {
