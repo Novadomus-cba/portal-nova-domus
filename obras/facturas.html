@@ -67,6 +67,11 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 /* ── CARGA POR FOTO ── */
 .imagen-preview-wrap { margin-top: 10px; }
 .imagen-preview-wrap img { max-width: 100%; max-height: 260px; border-radius: 8px; border: 1px solid var(--border); display: block; }
+.pdf-preview-card { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.pdf-preview-icon { font-size: 28px; flex-shrink: 0; }
+.pdf-preview-info { min-width: 0; }
+.pdf-preview-name { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pdf-preview-size { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .imagen-status { margin-top: 8px; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 
 /* ── TOGGLE ── */
@@ -157,11 +162,18 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
     <div class="card">
       <div class="card-title">Cargar desde foto (opcional)</div>
       <div class="field">
-        <label>Foto del comprobante</label>
-        <input type="file" id="fImagenInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="onImagenSelected(event)">
+        <label>Foto o PDF del comprobante</label>
+        <input type="file" id="fImagenInput" accept="image/jpeg,image/png,image/webp,image/gif,application/pdf" onchange="onImagenSelected(event)">
       </div>
       <div class="imagen-preview-wrap" id="imagenPreviewWrap" style="display:none">
         <img id="imagenPreview" alt="Vista previa del comprobante">
+        <div class="pdf-preview-card" id="pdfPreviewCard" style="display:none">
+          <span class="pdf-preview-icon">📄</span>
+          <div class="pdf-preview-info">
+            <div class="pdf-preview-name" id="pdfPreviewName"></div>
+            <div class="pdf-preview-size" id="pdfPreviewSize"></div>
+          </div>
+        </div>
         <div class="imagen-status" id="imagenStatus"></div>
       </div>
     </div>
@@ -350,6 +362,8 @@ const SB_URL   = AUTH_URL;
 let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin', 'supervisor', 'comercial'];
 const ANALYZE_IMAGE_URL = AUTH_URL + '/functions/v1/analyze-image';
+const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 
 const TIPO_COMPROBANTE_IA_A_LABEL = {
   FACTURA_A:    'Factura A',
@@ -552,15 +566,46 @@ function flagIfLowConfidence(fieldId, confianza) {
 
 async function onImagenSelected(event) {
   const file = event.target.files[0];
-  if (!file) return;
-
-  clearAiConfidenceFlags();
   const previewWrap = document.getElementById('imagenPreviewWrap');
   const previewImg  = document.getElementById('imagenPreview');
+  const pdfCard      = document.getElementById('pdfPreviewCard');
   const statusEl    = document.getElementById('imagenStatus');
 
-  previewImg.src = URL.createObjectURL(file);
+  // limpiar estado de una selección anterior antes de procesar la nueva
+  previewImg.style.display = 'none';
+  previewImg.src = '';
+  pdfCard.style.display = 'none';
+  statusEl.textContent = '';
+
+  if (!file) { previewWrap.style.display = 'none'; return; }
+
+  if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+    statusEl.textContent = 'Formato no soportado. Subí una imagen (JPG, PNG, WEBP) o un PDF.';
+    toast('Formato no soportado. Subí una imagen (JPG, PNG, WEBP) o un PDF.', 'err');
+    event.target.value = '';
+    previewWrap.style.display = 'none';
+    return;
+  }
+  if (file.size > MAX_FILE_SIZE_BYTES) {
+    statusEl.textContent = 'El archivo supera los 10 MB. Reducilo o sacá una foto más liviana.';
+    toast('El archivo supera los 10 MB. Reducilo o sacá una foto más liviana.', 'err');
+    event.target.value = '';
+    previewWrap.style.display = 'none';
+    return;
+  }
+
+  clearAiConfidenceFlags();
   previewWrap.style.display = 'block';
+
+  if (file.type === 'application/pdf') {
+    document.getElementById('pdfPreviewName').textContent = file.name;
+    document.getElementById('pdfPreviewSize').textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+    pdfCard.style.display = 'flex';
+  } else {
+    previewImg.src = URL.createObjectURL(file);
+    previewImg.style.display = 'block';
+  }
+
   statusEl.innerHTML = '<div class="spin"></div> Analizando con IA…';
 
   try {
@@ -741,6 +786,9 @@ function resetForm() {
   document.getElementById('fImagenInput').value = '';
   document.getElementById('imagenPreviewWrap').style.display = 'none';
   document.getElementById('imagenStatus').textContent = '';
+  document.getElementById('imagenPreview').style.display = 'none';
+  document.getElementById('imagenPreview').src = '';
+  document.getElementById('pdfPreviewCard').style.display = 'none';
   // obra stays selected so the user can load more facturas for the same obra
 }
 
