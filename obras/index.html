@@ -2781,10 +2781,24 @@ async function generar(){
     // resetear sRecId), hay que limpiar las CERTIFICADO/EXCEDENTE de esa corrida previa
     // antes de reinsertarlas — si no, se duplican cada reintento. Las MATERIAL nunca se
     // tocan acá: están referenciadas desde facturas_obra.recibo_linea_id.
-    await sbDel('recibos_lineas',`?recibo_id=eq.${recId}&tipo=in.(CERTIFICADO,EXCEDENTE)`);
-    for(const l of construirLineasRecibo(sItems))
-      await sbPost('recibos_lineas',{recibo_id:recId,tipo:l.tipo,descripcion:l.descripcion,
-        monto_pesos:l.monto_pesos,cantidad:l.cantidad});
+    //
+    // El DELETE previo cubre el caso normal, pero recibos_lineas_certificado_unico
+    // (índice único parcial en la base, agregado tras el incidente del recibo 27 de
+    // Los Boulevares) es la red de seguridad para el caso concurrente: dos corridas
+    // de generar() sobre el mismo recibo entrelazadas (doble click, dos pestañas).
+    // Si igual llega el 23505, se traduce a un mensaje legible en vez del error crudo
+    // de Postgres.
+    try{
+      await sbDel('recibos_lineas',`?recibo_id=eq.${recId}&tipo=in.(CERTIFICADO,EXCEDENTE)`);
+      for(const l of construirLineasRecibo(sItems))
+        await sbPost('recibos_lineas',{recibo_id:recId,tipo:l.tipo,descripcion:l.descripcion,
+          monto_pesos:l.monto_pesos,cantidad:l.cantidad});
+    }catch(e){
+      if(e.message && e.message.includes('recibos_lineas_certificado_unico')){
+        throw new Error('Este recibo ya tiene cargada la mano de obra de este certificado.');
+      }
+      throw e;
+    }
     for(const f of sFacts)
       await sbPost('recibos_lineas',{recibo_id:recId,tipo:'MATERIAL',
         descripcion:`${f.razon} · ${f.nro}`,monto_pesos:f.conIva||0,
@@ -2800,6 +2814,15 @@ async function generar(){
     toast('✅ Guardado en Supabase','ok');
     sRecId=null;sCandidatas=[];sCandidatasChecked=new Set();
   }catch(e){
+    // Si el certificado/recibo ya quedaron guardados en Supabase y solo chocó la
+    // restricción de líneas duplicadas, no corresponde el fallback local (crearía
+    // un certificado fantasma solo-local encima de datos reales que ya están bien
+    // guardados del lado del servidor) — se corta acá con el mensaje claro.
+    if(e.message==='Este recibo ya tiene cargada la mano de obra de este certificado.'){
+      toast(e.message,'err');
+      btn.disabled=false;btn.innerHTML='⚡ Generar y guardar';
+      return;
+    }
     toast('Sin Supabase: guardando local. '+e.message,'err');
     const cid=uid(),rid=uid();
     const lc=cache.certs();
