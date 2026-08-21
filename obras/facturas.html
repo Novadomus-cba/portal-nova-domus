@@ -853,24 +853,26 @@ function renderList() {
       : '<span class="badge badge-empresa">Empresa</span>';
     const obraBadge  = !selectedObra && f.obras?.nombre
       ? `<span>${f.obras.nombre}</span>` : '';
-    // Puede borrar/vincular/desvincular quien cargó la factura, o un admin — igual
-    // que en la carga (RLS ya lo exige del lado de la base, esto es solo la UI).
-    const canManage = isAdmin || f.cargado_por === currentUser?.id;
+    // Borrar: quien cargó la factura, o un admin (RLS lo exige del lado de la base).
+    // Vincular/Desvincular: requiere lectura de recibos en RLS, que hoy solo tienen
+    // admin y supervisor — comercial no, aunque haya cargado la factura.
+    const canDelete = isAdmin || f.cargado_por === currentUser?.id;
+    const canLinkRecibos = isAdmin || currentUser?.role === 'supervisor';
 
     let vinculoBadge = '';
     let vinculoBtn = '';
     if (f.estado_vinculacion === 'VINCULADA') {
       vinculoBadge = `<span class="badge badge-vinculada">Recibo N°${f.recibo_numero ?? '—'}</span>`;
-      if (canManage) vinculoBtn = `<button class="btn btn-ghost btn-sm" onclick="askDesvincular(${f.id})">Desvincular</button>`;
+      if (canLinkRecibos) vinculoBtn = `<button class="btn btn-ghost btn-sm" onclick="askDesvincular(${f.id})">Desvincular</button>`;
     } else if (f.estado_vinculacion === 'PENDIENTE') {
-      if (canManage) vinculoBtn = `<button class="btn btn-ghost btn-sm" onclick="openVincular(${f.id})">Vincular a recibo</button>`;
+      if (canLinkRecibos) vinculoBtn = `<button class="btn btn-ghost btn-sm" onclick="openVincular(${f.id})">Vincular a recibo</button>`;
     } else if (f.estado_vinculacion === 'SIN_RECIBO_BORRADOR') {
       vinculoBadge = '<span class="badge badge-sinrecibo">Sin recibo en borrador</span>';
     }
 
     const editBtn = isAdmin
       ? `<button class="btn btn-ghost btn-sm" onclick="openEdit(${f.id})">✏ Editar</button>` : '';
-    const deleteBtn = (canManage && f.estado_vinculacion !== 'VINCULADA')
+    const deleteBtn = (canDelete && f.estado_vinculacion !== 'VINCULADA')
       ? `<button class="btn btn-danger btn-sm" onclick="askDelete(${f.id})">🗑 Eliminar</button>` : '';
     const actions = (editBtn || vinculoBtn || deleteBtn)
       ? `<div class="fc-actions">${editBtn}${vinculoBtn}${deleteBtn}</div>` : '';
@@ -963,10 +965,10 @@ async function openVincular(id) {
   document.getElementById('vincularModal').classList.add('open');
   try {
     const recibos = await sbGet('recibos',
-      `?obra_id=eq.${f.obra_id}&estado=eq.BORRADOR&select=id,numero&order=numero`);
+      `?obra_id=eq.${f.obra_id}&estado=eq.BORRADOR&select=id,numero,fecha_emision&order=fecha_emision.desc`);
     sel.innerHTML = recibos.length
       ? '<option value="">— seleccionar recibo —</option>' +
-        recibos.map(r => `<option value="${r.id}">Recibo N°${r.numero}</option>`).join('')
+        recibos.map(r => `<option value="${r.id}">Recibo N°${r.numero} — ${fd(r.fecha_emision)}</option>`).join('')
       : '<option value="">No hay recibos en borrador para esta obra</option>';
   } catch (e) {
     sel.innerHTML = '<option value="">Error al cargar recibos</option>';
