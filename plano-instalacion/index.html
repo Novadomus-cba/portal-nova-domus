@@ -263,6 +263,25 @@ body {
 .toast.success { background: var(--success); color: #0B132B; }
 .toast.error   { background: var(--danger); color: #fff; }
 .toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Modal sesión expirada ── */
+#modal-sesion {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.6); z-index: 400;
+  align-items: center; justify-content: center;
+}
+#modal-sesion.open { display: flex; }
+#modal-sesion .box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; max-width: 340px; width: 90%;
+}
+#modal-sesion .box h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+#modal-sesion .box p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+#modal-sesion .box button {
+  width: 100%; background: var(--primary); color: var(--text);
+  border: 1px solid var(--accent); border-radius: 8px;
+  padding: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+}
 </style>
 </head>
 <body>
@@ -303,6 +322,15 @@ body {
 
 <div class="toast" id="toast"></div>
 
+<div id="modal-sesion">
+  <div class="box">
+    <h3>Sesión expirada</h3>
+    <p id="modal-sesion-msg"></p>
+    <button onclick="irAReingresar()">🔐 Reingresar</button>
+  </div>
+</div>
+
+<script src="../auth-bridge.js"></script>
 <script>
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -573,6 +601,7 @@ async function subirPlano(proyectoId) {
       })
     });
 
+    if (insertRes.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
     if (!insertRes.ok) {
       const errText = await insertRes.text();
       throw new Error(errText);
@@ -590,7 +619,10 @@ async function subirPlano(proyectoId) {
     render();
   } catch (e) {
     console.error('subirPlano', e);
-    showToast('No se pudo subir el plano. Intentá de nuevo.', 'error');
+    // manejarSesionExpirada() ya mostró el modal de sesión — no duplicar el aviso.
+    if (e.message !== 'SESION_EXPIRADA') {
+      showToast('No se pudo subir el plano. Intentá de nuevo.', 'error');
+    }
     btn.disabled = false;
     btn.textContent = 'Subir plano';
   }
