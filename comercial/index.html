@@ -602,7 +602,6 @@ let TC=0, inventario=[], comerciales=[], cart=[], servicios=[], clienteTipo='B2C
 let editingPresupuestoId=null, editingNumero=null;
 const MARGEN_MINIMO=0.20;
 const CART_BACKUP_KEY='nd_comercial_cart_backup_v1';
-let sesionExpiradaMostrada=false;
 let currentBrand='', savedId=null;
 let manoObraMap={};
 let inventarioEstado='cargando'; // 'cargando' | 'ok' | 'error'
@@ -623,12 +622,12 @@ async function sb(path,opts={}){
   // explícito y dispara el aviso de sesión expirada (1B-3, 14/08/2026).
   const { data: { session } } = await authClient.auth.getSession();
   if(!session){
-    manejarSesionExpirada();
+    manejarSesionExpirada({ hayTrabajoEnCurso: () => !!(cart.length||servicios.length), backup: guardarBackupCarrito });
     throw new Error('SIN_SESION');
   }
   const r=await fetch(SURL+path,{...opts,headers:{'apikey':SKEY,'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
   if(r.status===401){
-    manejarSesionExpirada();
+    manejarSesionExpirada({ hayTrabajoEnCurso: () => !!(cart.length||servicios.length), backup: guardarBackupCarrito });
     throw new Error('SESION_EXPIRADA');
   }
   if(!r.ok){const e=await r.text();throw new Error(e)}
@@ -685,31 +684,25 @@ function restaurarBackupCarrito(){
   }catch(e){console.error('restaurarBackupCarrito',e)}
 }
 
-function manejarSesionExpirada(){
-  if(sesionExpiradaMostrada)return;
-  sesionExpiradaMostrada=true;
-  const tieneCarrito=cart.length||servicios.length;
-  if(tieneCarrito)guardarBackupCarrito();
-  document.getElementById('modal-sesion-msg').textContent=tieneCarrito
-    ?'Se cerró tu sesión, pero tu presupuesto en curso quedó guardado. Reingresá para retomarlo donde lo dejaste.'
-    :'Se cerró tu sesión. Volvé a iniciar sesión para seguir trabajando.';
-  document.getElementById('modal-sesion').classList.add('open');
-}
-
-function cerrarModalSesion(){
-  document.getElementById('modal-sesion').classList.remove('open');
-  sesionExpiradaMostrada=false;
-}
-
-function irAReingresar(){
-  const next=encodeURIComponent(location.pathname+location.search);
-  window.location.href=`/login?next=${next}`;
-}
+// manejarSesionExpirada()/cerrarModalSesion()/irAReingresar() ahora los pone
+// auth-bridge.js (compartido entre módulos) — este archivo fue el origen del
+// patrón (1B-3, 14/08/2026) pero ya no necesita su propia copia. El backup de
+// carrito sigue acá porque es específico de este formulario.
 
 // ─── OBRAS, consolidado en este mismo proyecto (Comercial) desde 14/08/2026 ──
-let cuadrillaToken=null;
+// Mismo motivo que sb(): sin sesión no hay fallback silencioso, y un 401
+// dispara el aviso de sesión expirada en vez de fallar mudo.
 async function sbC(path,opts={}){
-  const r=await fetch(AUTH_URL+path,{...opts,headers:{'apikey':AUTH_KEY,'Authorization':'Bearer '+cuadrillaToken,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  const { data: { session } } = await authClient.auth.getSession();
+  if(!session){
+    manejarSesionExpirada({ hayTrabajoEnCurso: () => !!(cart.length||servicios.length), backup: guardarBackupCarrito });
+    throw new Error('SIN_SESION');
+  }
+  const r=await fetch(AUTH_URL+path,{...opts,headers:{'apikey':AUTH_KEY,'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  if(r.status===401){
+    manejarSesionExpirada({ hayTrabajoEnCurso: () => !!(cart.length||servicios.length), backup: guardarBackupCarrito });
+    throw new Error('SESION_EXPIRADA');
+  }
   const text=await r.text();
   const data=text?JSON.parse(text):null; // regla del proyecto: nunca .json() directo
   if(!r.ok) throw new Error((data&&data.message)||r.statusText);
@@ -796,7 +789,6 @@ window.onload = async () => {
   document.getElementById('app-loading').style.display = 'none';
   document.getElementById('app-header').style.display  = 'block';
   document.getElementById('app-content').style.display = 'block';
-  cuadrillaToken = session.access_token;
   await Promise.all([fetchTC(), loadComerciales(), loadInventario(), loadManoObra()]);
   restaurarBackupCarrito();
   const tabParam = new URLSearchParams(window.location.search).get('tab');
