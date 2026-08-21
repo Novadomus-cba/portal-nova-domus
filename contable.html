@@ -225,14 +225,30 @@ tr:last-child td{border-bottom:none}
 
   <div class="section-hdr">
     <span class="section-title" id="egresosTitle">Últimos egresos</span>
-    <div style="display:flex;gap:6px">
-      <select id="eFilterEstado" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto">
-        <option value="">Todos los estados</option>
-        <option value="PENDIENTE">Pendiente</option>
-        <option value="PAGADO">Pagado</option>
-      </select>
-      <button class="btn btn-ghost btn-sm" onclick="loadEgresos()">↻</button>
-    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadEgresos()">↻</button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin:-6px 0 10px">
+    <select id="eFilterCategoria" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto"></select>
+    <select id="eFilterPeriodo" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto">
+      <option value="">Todos los períodos</option>
+    </select>
+    <select id="eFilterEstado" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto">
+      <option value="">Todos los estados</option>
+      <option value="PENDIENTE">Pendiente</option>
+      <option value="PAGADO">Pagado</option>
+    </select>
+    <select id="eFilterTipoCosto" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto">
+      <option value="">Fijo y variable</option>
+      <option value="FIJO">Fijo</option>
+      <option value="VARIABLE">Variable</option>
+    </select>
+    <select id="eFilterDestinoCosto" onchange="renderEgresos()" style="font-size:11px;padding:4px 8px;width:auto">
+      <option value="">Todo destino de costo</option>
+      <option value="DIRECTO_OBRA">Directo a obra</option>
+      <option value="ESTRUCTURA">Estructura</option>
+      <option value="FINANCIERO">Financiero</option>
+      <option value="__SIN_DEFINIR__">Sin definir</option>
+    </select>
   </div>
   <div id="egresosList"><div class="empty">Cargando…</div></div>
 </div>
@@ -1146,20 +1162,64 @@ function calcMontoTotal() {
   document.getElementById('eMontoTotal').value = (neto*(1+iva)).toFixed(2);
 }
 
+const DESTINO_COSTO_LABEL = { DIRECTO_OBRA: 'Directo a obra', ESTRUCTURA: 'Estructura', FINANCIERO: 'Financiero' };
+
 async function loadEgresos() {
   try {
-    egresos = await sbGet('egresos_generales','?order=fecha_emision.desc&limit=100');
+    // No limit chico: hay 269 filas auto + las manuales, y los filtros son
+    // del lado del cliente sobre el set completo, no paginados.
+    egresos = await sbGet('egresos_generales','?order=fecha_emision.desc&limit=2000');
+    buildEgresosFilterSelects();
     renderEgresos();
   } catch(e) {
     document.getElementById('egresosList').innerHTML=`<div class="empty">${e.message}</div>`;
   }
 }
 
+function buildEgresosFilterSelects() {
+  const catSel = document.getElementById('eFilterCategoria');
+  const prevCat = catSel.value;
+  let catHtml = '<option value="">Todas las categorías</option>';
+  let currentGrupo = null;
+  categoriasAll.slice().sort((a,b)=> a.grupo.localeCompare(b.grupo) || a.nombre_display.localeCompare(b.nombre_display))
+    .forEach(c => {
+      if (c.grupo !== currentGrupo) {
+        if (currentGrupo !== null) catHtml += '</optgroup>';
+        catHtml += `<optgroup label="${c.grupo}">`;
+        currentGrupo = c.grupo;
+      }
+      catHtml += `<option value="${c.codigo}">${c.nombre_display}</option>`;
+    });
+  if (currentGrupo !== null) catHtml += '</optgroup>';
+  catSel.innerHTML = catHtml;
+  catSel.value = prevCat;
+
+  const perSel = document.getElementById('eFilterPeriodo');
+  const prevPer = perSel.value;
+  const periodos = [...new Set(egresos.map(e=>e.periodo_fiscal).filter(Boolean))].sort().reverse();
+  perSel.innerHTML = '<option value="">Todos los períodos</option>' + periodos.map(p=>`<option value="${p}">${p}</option>`).join('');
+  perSel.value = prevPer;
+}
+
 function renderEgresos() {
-  const filtroEstado = document.getElementById('eFilterEstado').value;
-  const list = filtroEstado ? egresos.filter(e=>e.estado===filtroEstado) : egresos;
+  const filtroCategoria     = document.getElementById('eFilterCategoria').value;
+  const filtroPeriodo       = document.getElementById('eFilterPeriodo').value;
+  const filtroEstado        = document.getElementById('eFilterEstado').value;
+  const filtroTipoCosto     = document.getElementById('eFilterTipoCosto').value;
+  const filtroDestinoCosto  = document.getElementById('eFilterDestinoCosto').value;
+
+  // Los cinco filtros son independientes entre si (AND), tipo_costo y
+  // destino_costo son ejes distintos y no se cruzan en un solo select.
+  const list = egresos.filter(e =>
+    (!filtroCategoria || e.categoria === filtroCategoria) &&
+    (!filtroPeriodo || e.periodo_fiscal === filtroPeriodo) &&
+    (!filtroEstado || e.estado === filtroEstado) &&
+    (!filtroTipoCosto || e.tipo_costo === filtroTipoCosto) &&
+    (!filtroDestinoCosto || (filtroDestinoCosto === '__SIN_DEFINIR__' ? e.destino_costo == null : e.destino_costo === filtroDestinoCosto))
+  );
+
   const el = document.getElementById('egresosList');
-  if (!list.length) { el.innerHTML='<div class="empty">No hay egresos registrados.</div>'; return; }
+  if (!list.length) { el.innerHTML='<div class="empty">No hay egresos que coincidan con los filtros.</div>'; return; }
   el.innerHTML = list.map(e => {
     const bCls = e.estado==='PAGADO'?'b-ok':'b-pend';
     return `<div class="item" id="eg-${e.id}">
@@ -1170,6 +1230,7 @@ function renderEgresos() {
             <span>${fd(e.fecha_emision)}</span>
             <span>${categoriaLabel(e.categoria)}</span>
             ${e.tipo_costo?`<span class="badge ${e.tipo_costo==='FIJO'?'b-info':'b-gray'}" style="font-size:9px">${e.tipo_costo}</span>`:''}
+            ${e.destino_costo?`<span class="badge b-gray" style="font-size:9px">${DESTINO_COSTO_LABEL[e.destino_costo]||e.destino_costo}</span>`:''}
             ${e.numero_comprobante?`<span>${e.tipo_comprobante||''} ${e.numero_comprobante}</span>`:''}
             ${e.periodo_fiscal?`<span>Período ${e.periodo_fiscal}</span>`:''}
           </div>
