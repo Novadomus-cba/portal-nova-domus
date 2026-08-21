@@ -1920,7 +1920,7 @@ async function loadPosicion() {
       // (una fila por cuenta) -- ya NO se derivan del ultimo movimiento cargado.
       let saldoActualRows;
       [movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, chequesRecibidosDescontados, saldoActualRows] = await Promise.all([
-        sbGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto`),
+        sbGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto,egreso_id,conciliado`),
         sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&order=fecha_efectivo.asc&select=monto,fecha_efectivo`),
         sbGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`),
         // DESCONTADO viene de cheques_vista, no de cheques -- es la unica que
@@ -1946,7 +1946,7 @@ async function loadPosicion() {
     renderPosChart(movimientosPrincipal);
     renderPosCategorias(movimientosPrincipal);
     await renderPosCobros(movimientosPrincipal);
-    renderPosEgresos();
+    renderPosEgresos(movimientosPrincipal);
     renderPosCheques();
   } catch (e) {
     document.getElementById('posCuentasList').innerHTML = `<div class="empty">${e.message}</div>`;
@@ -2151,9 +2151,74 @@ async function renderPosCobros(movimientos) {
   }).join('');
 }
 
-function renderPosEgresos() {
-  document.getElementById('posEgresos').innerHTML =
-    '<div class="empty">Sin candidatos — pendiente backfill de egresos generales.</div>';
+function renderPosEgresos(movimientos) {
+  const el = document.getElementById('posEgresos');
+  if (!movimientos.length) { el.innerHTML = '<div class="empty">Sin movimientos cargados.</div>'; return; }
+
+  const conciliados = movimientos.filter(m => m.egreso_id != null);
+  const sinEgreso = movimientos.filter(m => m.egreso_id == null);
+  // Los cheques ya tienen su propia tabla y su propia conciliacion (ver
+  // Cheques) -- no se cruzan contra egresos_generales, ni los que salen
+  // (debito) ni la acreditacion de una remesa (credito).
+  const cheques = sinEgreso.filter(m => (m.categoria_sugerida||'').toUpperCase().includes('CHEQUE'));
+  const resto = sinEgreso.filter(m => !(m.categoria_sugerida||'').toUpperCase().includes('CHEQUE'));
+  // El pendiente real a conciliar contra egresos_generales son los egresos
+  // (importe negativo) del resto -- los positivos son ingresos sin
+  // clasificar, ya cubiertos por "Conciliacion de cobros" mas arriba.
+  const pendientesReales = resto.filter(m => Number(m.importe) < 0);
+  const ingresosSinClasificar = resto.filter(m => Number(m.importe) >= 0);
+  const totalPendiente = pendientesReales.reduce((s,m)=>s+Math.abs(Number(m.importe)),0);
+  const totalCheques = cheques.reduce((s,m)=>s+Math.abs(Number(m.importe)),0);
+
+  el.innerHTML = `
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">
+      ${conciliados.length} de ${movimientos.length} movimientos ya conciliados con egresos_generales.
+      Quedan ${sinEgreso.length} sin egreso asociado.
+    </div>
+
+    <div class="item" style="border-left:3px solid var(--danger)">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">Pendiente real a conciliar</div>
+          <div class="item-meta"><span>${pendientesReales.length} movimiento${pendientesReales.length===1?'':'s'}</span></div>
+        </div>
+        <div class="item-right"><div class="item-monto" style="color:var(--danger)">${f$(totalPendiente)}</div></div>
+      </div>
+    </div>
+
+    <div class="item" style="margin-top:8px">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">Cheques</div>
+          <div class="item-meta"><span>${cheques.length} movimiento${cheques.length===1?'':'s'} — tienen tabla propia, se concilian en la pestaña Cheques, no acá</span></div>
+        </div>
+        <div class="item-right"><div class="item-monto" style="color:var(--muted)">${f$(totalCheques)}</div></div>
+      </div>
+    </div>
+
+    ${ingresosSinClasificar.length ? `
+    <div class="item" style="margin-top:8px">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">Ingresos sin clasificar</div>
+          <div class="item-meta"><span>${ingresosSinClasificar.length} movimiento${ingresosSinClasificar.length===1?'':'s'} — no son egreso, ver "Conciliación de cobros"</span></div>
+        </div>
+        <div class="item-right"><div class="item-monto" style="color:var(--ok)">${f$(ingresosSinClasificar.reduce((s,m)=>s+Number(m.importe),0))}</div></div>
+      </div>
+    </div>` : ''}
+
+    <div class="section-hdr" style="margin-top:14px"><span class="section-title" style="font-size:10px">Detalle — pendiente real</span></div>
+    ${pendientesReales.length ? pendientesReales.sort((a,b)=>a.fecha.localeCompare(b.fecha)).map(m => `
+      <div class="item">
+        <div class="item-top">
+          <div class="item-left">
+            <div class="item-title">${m.concepto||'Sin concepto'}</div>
+            <div class="item-meta"><span>${fd(m.fecha)}</span><span>${(m.categoria_sugerida||'SIN_CLASIFICAR').replace(/_/g,' ')}</span></div>
+          </div>
+          <div class="item-right"><div class="item-monto" style="color:var(--danger)">${f$(Math.abs(Number(m.importe)))}</div></div>
+        </div>
+      </div>`).join('') : '<div class="empty">Nada pendiente.</div>'}
+  `;
 }
 
 function renderPosCheques() {
