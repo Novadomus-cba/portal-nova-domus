@@ -249,6 +249,12 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
       </div>
 
       <div class="field">
+        <label>IVA (importe) — opcional</label>
+        <input type="number" id="fIvaImporte" step="0.01" min="0" placeholder="Monto de IVA impreso en el comprobante" oninput="this.classList.remove('ai-low-confidence')">
+        <div class="field-hint">Dejalo vacío si no lo tenés. No se calcula solo (Con IVA − Sin IVA puede incluir percepciones).</div>
+      </div>
+
+      <div class="field">
         <label>¿Quién pagó?</label>
         <div class="toggle-wrap" style="margin-bottom:10px">
           <button class="toggle-btn active" id="btnEmpresa" onclick="setPago('empresa')">Empresa</button>
@@ -330,6 +336,10 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
         <label>Con IVA $ *</label>
         <input type="number" id="eConIva" step="0.01">
       </div>
+    </div>
+    <div class="field">
+      <label>IVA (importe) — opcional</label>
+      <input type="number" id="eIvaImporte" step="0.01" min="0">
     </div>
     <div class="field">
       <label>¿Quién pagó?</label>
@@ -589,6 +599,14 @@ function ivaValueOrDefault(rawValue) {
   return isNaN(parsed) ? 0.21 : parsed;
 }
 
+// ── IVA (importe, opcional — nunca se calcula ni se prellena con conIva-sinIva) ──
+function optionalAmount(rawValue) {
+  const trimmed = String(rawValue ?? '').trim();
+  if (trimmed === '') return null;
+  const parsed = parseFloat(trimmed);
+  return isNaN(parsed) ? null : parsed;
+}
+
 // ── CARGA POR FOTO (IA) ───────────────────────────────────────
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -600,7 +618,7 @@ function fileToBase64(file) {
 }
 
 function clearAiConfidenceFlags() {
-  ['fProveedor', 'fTipo', 'fNumero', 'fFecha', 'fMateriales', 'fSinIva', 'fIva', 'fConIva']
+  ['fProveedor', 'fTipo', 'fNumero', 'fFecha', 'fMateriales', 'fSinIva', 'fIva', 'fConIva', 'fIvaImporte']
     .forEach(id => document.getElementById(id).classList.remove('ai-low-confidence'));
 }
 
@@ -733,12 +751,19 @@ function applyAiResult(result) {
   // dato que ya extrajo la IA. Si no hay IVA discriminado (no_aplica / no legible),
   // la tasa queda en 0, tal como pidió Agustín.
   const ivaNum = Number(iva.valor);
-  if (iva.valor == null || isNaN(ivaNum)) {
+  const ivaOk  = iva.valor != null && !isNaN(ivaNum);
+  if (!ivaOk) {
     document.getElementById('fIva').value = '0';
   } else if (sinIvaOk && sinIvaNum > 0) {
     document.getElementById('fIva').value = (ivaNum / sinIvaNum).toFixed(4);
   }
   flagIfLowConfidence('fIva', iva.confianza); // "no_aplica" no marca advertencia: es esperado, no una duda
+
+  // iva_importe: el monto de IVA tal como lo extrajo la IA del comprobante, sin
+  // derivarlo de nada — es el mismo dato que arriba se usa para la tasa, pero acá
+  // va directo al campo de importe real (editable).
+  if (ivaOk) document.getElementById('fIvaImporte').value = ivaNum.toFixed(2);
+  flagIfLowConfidence('fIvaImporte', iva.confianza);
 
   const conIvaNum = Number(conIva.valor);
   if (conIva.valor != null && !isNaN(conIvaNum)) {
@@ -750,6 +775,9 @@ function applyAiResult(result) {
 }
 
 async function submitFactura() {
+  const btn = document.getElementById('btnSubmit');
+  if (btn.disabled) return;
+
   const obraId     = document.getElementById('fObra').value;
   const proveedor  = document.getElementById('fProveedor').value.trim();
   const materiales = document.getElementById('fMateriales').value.trim();
@@ -765,28 +793,31 @@ async function submitFactura() {
   if (!conIva || conIva <= 0) { toast('Ingresá el monto con IVA', 'err'); return; }
   if (origenPago === 'tecnico' && !tecnicoId) { toast('Seleccioná el técnico', 'err'); return; }
 
-  const semanaId = await getSemanaId(fecha).catch(() => null);
-
-  const payload = {
-    obra_id:            obraId,
-    proveedor,
-    tipo_comprobante:   document.getElementById('fTipo').value,
-    numero_comprobante: document.getElementById('fNumero').value.trim() || null,
-    fecha_compra:       fecha,
-    materiales,
-    monto_sin_iva:      parseFloat(document.getElementById('fSinIva').value) || 0,
-    iva:                ivaValueOrDefault(document.getElementById('fIva').value),
-    monto_con_iva:      conIva,
-    origen_pago:        origenPago,
-    tecnico_id:         tecnicoId,
-    semana_id:          semanaId,
-    cargado_por:        currentUser.id,
-  };
-
-  const btn = document.getElementById('btnSubmit');
+  // Deshabilitar ANTES del primer await: si no, dos clicks separados por ~300ms
+  // pasan ambos la validación (sync) y entran a getSemanaId antes de que este
+  // botón se deshabilite, generando dos inserciones.
   btn.disabled = true;
   btn.innerHTML = '<div class="spin"></div> Cargando…';
   try {
+    const semanaId = await getSemanaId(fecha).catch(() => null);
+
+    const payload = {
+      obra_id:            obraId,
+      proveedor,
+      tipo_comprobante:   document.getElementById('fTipo').value,
+      numero_comprobante: document.getElementById('fNumero').value.trim() || null,
+      fecha_compra:       fecha,
+      materiales,
+      monto_sin_iva:      parseFloat(document.getElementById('fSinIva').value) || 0,
+      iva:                ivaValueOrDefault(document.getElementById('fIva').value),
+      iva_importe:        optionalAmount(document.getElementById('fIvaImporte').value),
+      monto_con_iva:      conIva,
+      origen_pago:        origenPago,
+      tecnico_id:         tecnicoId,
+      semana_id:          semanaId,
+      cargado_por:        currentUser.id,
+    };
+
     await sbPost('facturas_obra', payload);
     toast('✅ Factura cargada', 'ok');
     resetForm();
@@ -821,7 +852,7 @@ async function getSemanaId(fechaCompra) {
 }
 
 function resetForm() {
-  ['fProveedor','fNumero','fMateriales','fSinIva','fConIva'].forEach(id => {
+  ['fProveedor','fNumero','fMateriales','fSinIva','fConIva','fIvaImporte'].forEach(id => {
     document.getElementById(id).value = '';
   });
   document.getElementById('fIva').value   = '0.21';
@@ -1015,6 +1046,7 @@ function openEdit(id) {
   document.getElementById('eSinIva').value      = f.monto_sin_iva ?? '';
   document.getElementById('eIva').value         = f.iva ?? 0.21;
   document.getElementById('eConIva').value      = f.monto_con_iva ?? '';
+  document.getElementById('eIvaImporte').value  = f.iva_importe ?? '';
   setPagoE(f.origen_pago || 'empresa');
   if (f.tecnico_id) document.getElementById('eTecnico').value = f.tecnico_id;
   document.getElementById('editModal').classList.add('open');
@@ -1050,6 +1082,7 @@ async function saveEdit() {
     materiales,
     monto_sin_iva:      parseFloat(document.getElementById('eSinIva').value) || 0,
     iva:                ivaValueOrDefault(document.getElementById('eIva').value),
+    iva_importe:        optionalAmount(document.getElementById('eIvaImporte').value),
     monto_con_iva:      conIva,
     origen_pago:        origenPagoE,
     tecnico_id:         tecnicoId,
