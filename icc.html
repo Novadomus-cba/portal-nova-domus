@@ -94,6 +94,8 @@ tfoot td:first-child{text-align:left;color:var(--text2)}
 
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:500}
 #modal.open{display:flex}
+#modal-sesion{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:500}
+#modal-sesion.open{display:flex}
 .modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:420px;width:90%}
 .modal-title{font-size:16px;font-weight:600;margin-bottom:8px}
 .modal-body{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.65}
@@ -216,46 +218,74 @@ tfoot td:first-child{text-align:left;color:var(--text2)}
   </div>
 </div>
 
+<div id="modal-sesion">
+  <div class="modal-box">
+    <div class="modal-title">Sesión expirada</div>
+    <div class="modal-body" id="modal-sesion-msg"></div>
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="irAReingresar()">🔐 Reingresar</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script src="auth-bridge.js"></script>
 <script>
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
-// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL ya
+// no es un proyecto distinto, es un alias de la sesión de siempre — por eso cada
+// función de fetch pide el access_token en cada llamada en vez de cachearlo una
+// sola vez al cargar la página (ese cacheo dejaba a un usuario con la sesión
+// vencida viendo una pantalla muda: el token de 1h expiraba y los fetch fallaban
+// con 401 sin que nadie se enterara).
 const SB_URL  = AUTH_URL;
-let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin', 'supervisor'];
 
 const { createClient } = supabase;
 const authClient = createClient(AUTH_URL, AUTH_KEY);
-function HDR() {
-  return { 'apikey': AUTH_KEY, 'Authorization': `Bearer ${cuadrillaToken}`, 'Content-Type': 'application/json' };
+function HDR(token) {
+  return { 'apikey': AUTH_KEY, 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+}
+async function getAccessToken() {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
+  return session.access_token;
 }
 
 async function sbGet(path, qs = '') {
-  const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, { headers: HDR() });
-  return JSON.parse(await r.text());
+  const token = await getAccessToken();
+  const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, { headers: HDR(token) });
+  if (r.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
+  const t = await r.text();
+  if (!r.ok) throw new Error(t);
+  return t ? JSON.parse(t) : [];
 }
 async function sbPost(path, body, prefer = 'return=representation') {
+  const token = await getAccessToken();
   const r = await fetch(`${SB_URL}/rest/v1/${path}`, {
-    method: 'POST', headers: { ...HDR(), 'Prefer': prefer }, body: JSON.stringify(body)
+    method: 'POST', headers: { ...HDR(token), 'Prefer': prefer }, body: JSON.stringify(body)
   });
+  if (r.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   const t = await r.text();
   if (!r.ok) throw new Error(t);
   return t ? JSON.parse(t) : null;
 }
 async function sbPatch(path, qs, body) {
+  const token = await getAccessToken();
   const r = await fetch(`${SB_URL}/rest/v1/${path}${qs}`, {
-    method: 'PATCH', headers: { ...HDR(), 'Prefer': 'return=minimal' }, body: JSON.stringify(body)
+    method: 'PATCH', headers: { ...HDR(token), 'Prefer': 'return=minimal' }, body: JSON.stringify(body)
   });
+  if (r.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   if (!r.ok) throw new Error(await r.text());
 }
 async function sbRpc(fn, params) {
+  const token = await getAccessToken();
   const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {
-    method: 'POST', headers: { ...HDR(), 'Prefer': 'return=representation' }, body: JSON.stringify(params)
+    method: 'POST', headers: { ...HDR(token), 'Prefer': 'return=representation' }, body: JSON.stringify(params)
   });
+  if (r.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   const t = await r.text();
   if (!r.ok) throw new Error(t);
   return t ? JSON.parse(t) : null;
@@ -276,7 +306,6 @@ async function init() {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = 'index.html'; return;
   }
-  cuadrillaToken = session.access_token;
   document.getElementById('topbarUser').textContent = profile.full_name;
 
   const now = new Date();
