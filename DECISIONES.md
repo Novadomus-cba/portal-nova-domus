@@ -12,7 +12,7 @@ viejo.**
 que llegó por chat, gana este. Si contradice a la base o al repo, **gana la base o el repo** —
 y entonces este archivo se corrige en el mismo commit.
 
-Última actualización: 18/08/2026
+Última actualización: 21/08/2026
 
 ---
 
@@ -197,6 +197,7 @@ urgencia, no como corte real.
 | **Borrado de certificados/recibos** | Solo en `BORRADOR` y `ENVIADO`. En `PAGADO` se anula |
 | **Gerencial** | Delia (`contable`) debe verlo. Va a reescribirse por completo |
 | **Inventario y presupuestos** | 100% Supabase (`inventario`, `proyectos`, `proyectos_items`, `cotizaciones`). No se usa INVENTARIO.xlsx de Drive ni se generan Excel como entregable de presupuesto |
+| **`egresos_generales` — placeholder en filas `auto:extracto` (20/08/2026)** | La tabla se pobló por backfill derivando cada egreso desde `movimientos_bancarios` (extracto Banco Macro), no por carga manual — el extracto informa el monto total y nada más, el neto y el IVA viven en el comprobante del proveedor, no en el banco. Como `monto_neto` e `iva` son `NOT NULL`, el cargador automático escribe `monto_neto = 0` e `iva = 0.21` como relleno, no como dato observado — se interpretan como "sin dato", no como un neto de cero y un IVA del 21%. El sentinela de "sin dato" es `cargado_por = 'auto:extracto' AND monto_neto = 0`; el valor de `iva` no participa de la detección, porque 0.21 es la alícuota más común y podría ser legítima una vez que alguien complete la fila. Tres comportamientos acoplados en `contable.html` — cambiar la convención implica cambiar los tres: `openEditEgreso()` deja los inputs de Neto e IVA **vacíos** en vez de precargar el placeholder, para que completarlos sea un acto explícito del usuario; `renderEgresos()` muestra **"s/d"** en la lista en lugar de "$0"/"0%", para no exhibir el relleno como si fuera un dato real; `saveEditEgreso()` no incluye `monto_neto` ni `iva` en el payload si el usuario los deja vacíos, conservando el placeholder existente y evitando mandar `NaN` a una columna `NOT NULL`. **Verificado el 21/08/2026** contra `vvwnyszcfindtuvojqgs`: 269 de 269 filas de la tabla son `auto:extracto` y las 269 tienen el placeholder exacto (`monto_neto = 0` e `iva = 0.21`) — no hay ninguna fila manual todavía, así que hoy el sentinela no puede pisar un dato legítimo. **Límite conocido:** no hay columna que distinga "completado por un humano" de "placeholder", se infiere de `monto_neto > 0`; una fila `auto:extracto` cuyo neto real sea genuinamente 0 volvería a leerse como "sin dato" — si ese caso aparece, la solución es una columna de estado explícita, no ajustar el sentinela. **Alcance de la tabla** (mismo kickoff del 20/08/2026): representa todo lo que sale de la cuenta **excepto cheques**, que tienen tabla y pestaña de conciliación propias |
 
 ---
 
