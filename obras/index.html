@@ -856,15 +856,24 @@ const fd  = iso=>{ if(!iso)return''; const[y,m,d]=iso.split('-'); return`${d}/${
 async function sbFetch(method,table,body=null,query=''){
   const { data:{session} } = await authClient.auth.getSession();
   if(!session){ manejarSesionExpirada(); throw new Error('SIN_SESION'); }
-  const r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{
-    method,
-    headers:{
-      'apikey':AUTH_KEY,'Authorization':`Bearer ${session.access_token}`,
-      'Content-Type':'application/json',
-      'Prefer':method==='POST'?'return=representation':''
-    },
-    ...(body?{body:JSON.stringify(body)}:{})
-  });
+  let r;
+  try{
+    r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{
+      method,
+      headers:{
+        'apikey':AUTH_KEY,'Authorization':`Bearer ${session.access_token}`,
+        'Content-Type':'application/json',
+        'Prefer':method==='POST'?'return=representation':''
+      },
+      ...(body?{body:JSON.stringify(body)}:{})
+    });
+  }catch(err){
+    // fetch() solo tira acá cuando la red está realmente caída (nunca llegó a haber
+    // respuesta) — se distingue con este prefijo para que el fallback "sin Supabase,
+    // guardo local" de generar() no dispare también con errores reales del backend
+    // (409, RLS, enum inválido), que antes terminaban igual en un "guardado" falso.
+    throw new Error('SIN_CONEXION: '+err.message);
+  }
   if(r.status===401){ manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||r.statusText); }
   if(method==='DELETE'||r.status===204) return true;
@@ -2166,25 +2175,53 @@ async function goS(n){
   }
 }
 
+// Recalcula el próximo numero de certificado/recibo justo antes de insertar, en vez
+// de confiar en el valor que se calculó al entrar al wizard (paso 1) — si pasó tiempo
+// y se creó otro certificado/recibo de la misma obra mientras tanto (otra pestaña,
+// otro usuario), ese valor cacheado ya está tomado y el INSERT choca con la
+// constraint UNIQUE(obra_id,numero) (ver incidente 21/08 Zanoli/Los Boulevares: 409
+// en bucle). Si Supabase está realmente inalcanzable, se cae al valor del campo como
+// mejor estimación posible — igual que el resto del fallback offline de generar().
+async function freshNumero(table,obraId,domFieldId){
+  try{
+    const rows=await sbGet(table,`?obra_id=eq.${obraId}&select=numero&order=numero.desc&limit=1`);
+    return rows.length?rows[0].numero+1:1;
+  }catch(e){
+    if(e.message && e.message.startsWith('SIN_CONEXION'))
+      return parseInt(document.getElementById(domFieldId).value)||1;
+    throw e;
+  }
+}
+
 // Crea el recibo BORRADOR apenas se entra al paso 3 (no al confirmar "Generar y
 // guardar") porque facturas_candidatas_recibo necesita un recibo_id real para
 // poder buscar candidatas. Si ya existe (id guardado en sRecId), se actualiza en
 // vez de duplicar — cubre el caso de volver al paso 1/2 a corregir un campo.
 async function ensureRecibo(){
   if(!sObra)return;
-  const payload={
-    obra_id:sObra.id,
-    numero:parseInt(document.getElementById('sNumR').value),
-    fecha_emision:document.getElementById('sFecha').value,
-    tipo_cambio_usd:parseFloat(document.getElementById('sTC').value)||1430,
-    detalle_descripcion:document.getElementById('sDet').value,
-    iva_mano_obra_pct:document.getElementById('sIvaMO').checked?0.21:0,
-    estado:'BORRADOR'
-  };
   try{
     if(sRecId){
+      // El numero ya quedó fijado al crear el recibo — no se re-envía en cada
+      // actualización, para que un valor stale en el campo no intente pisarlo y
+      // choque con la constraint UNIQUE(obra_id,numero).
+      const payload={
+        fecha_emision:document.getElementById('sFecha').value,
+        tipo_cambio_usd:parseFloat(document.getElementById('sTC').value)||1430,
+        detalle_descripcion:document.getElementById('sDet').value,
+        iva_mano_obra_pct:document.getElementById('sIvaMO').checked?0.21:0,
+      };
       await sbPatch('recibos',payload,`?id=eq.${sRecId}`);
     }else{
+      const numero=await freshNumero('recibos',sObra.id,'sNumR');
+      document.getElementById('sNumR').value=numero;
+      const payload={
+        obra_id:sObra.id,numero,
+        fecha_emision:document.getElementById('sFecha').value,
+        tipo_cambio_usd:parseFloat(document.getElementById('sTC').value)||1430,
+        detalle_descripcion:document.getElementById('sDet').value,
+        iva_mano_obra_pct:document.getElementById('sIvaMO').checked?0.21:0,
+        estado:'BORRADOR'
+      };
       const rr=await sbPost('recibos',payload);
       sRecId=rr[0].id;
     }
@@ -2753,16 +2790,24 @@ function buildDR(src){
 async function generar(){
   const btn=document.getElementById('btnGen');
   btn.disabled=true;btn.innerHTML='<div class="spin"></div> Guardando...';
-  buildDC();buildDR();
-  const numC=parseInt(document.getElementById('sNumC').value);
-  const numR=parseInt(document.getElementById('sNumR').value);
   const tc=parseFloat(document.getElementById('sTC').value)||1430;
+  let numC=parseInt(document.getElementById('sNumC').value);
+  let numR=parseInt(document.getElementById('sNumR').value);
   try{
+    numC=await freshNumero('certificados',sObra.id,'sNumC');
+    document.getElementById('sNumC').value=numC;
+
     // El recibo ya se creó (BORRADOR) al entrar al paso 3 — acá se lo actualiza y
-    // completa en vez de crearlo de nuevo, para no duplicarlo.
+    // completa en vez de crearlo de nuevo, para no duplicarlo. Si por lo que sea
+    // todavía no existe, ensureRecibo() ya recalcula su numero fresco (freshNumero)
+    // antes de crearlo.
     if(!sRecId) await ensureRecibo();
     if(!sRecId) throw new Error('No se pudo preparar el recibo');
     const recId=sRecId;
+    numR=parseInt(document.getElementById('sNumR').value);
+
+    buildDC();buildDR();
+
     const cr=await sbPost('certificados',{
       obra_id:sObra.id,numero:numC,
       fecha_emision:document.getElementById('sFecha').value,
@@ -2823,7 +2868,19 @@ async function generar(){
       btn.disabled=false;btn.innerHTML='⚡ Generar y guardar';
       return;
     }
-    toast('Sin Supabase: guardando local. '+e.message,'err');
+    // El fallback local (guardar en localStorage y seguir como si hubiera salido
+    // bien, incluida la descarga de los documentos) es SOLO para cuando Supabase
+    // está realmente inalcanzable (SIN_CONEXION, ver sbFetch). Cualquier otro error
+    // — 409 de numero duplicado, enum inválido, RLS, sesión vencida — es real y no
+    // puede terminar en un "guardado" falso: se corta acá mostrando el error posta.
+    // (Antes esto no distinguía y un 409 real terminaba igual en "✅ guardado y
+    // descargado" sin haber persistido nada — incidente 21/08 Zanoli/Los Boulevares.)
+    if(!e.message || !e.message.startsWith('SIN_CONEXION')){
+      toast('Error al guardar: '+e.message,'err');
+      btn.disabled=false;btn.innerHTML='⚡ Generar y guardar';
+      return;
+    }
+    toast('Sin conexión: guardando local. '+e.message,'err');
     const cid=uid(),rid=uid();
     const lc=cache.certs();
     lc.push({id:cid,obra_id:sObra.id,numero:numC,fecha_emision:document.getElementById('sFecha').value,
