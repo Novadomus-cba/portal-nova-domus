@@ -619,6 +619,17 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
+<!-- Modal sesión expirada -->
+<div class="mbg" id="modal-sesion">
+  <div class="modal" style="max-width:380px">
+    <div class="mhdr"><h3>Sesión expirada</h3><button class="cx" onclick="cerrarModalSesion()">✕</button></div>
+    <div id="modal-sesion-msg" style="font-size:12px;color:var(--muted);line-height:1.6"></div>
+    <div class="mftr">
+      <button class="btn btn-primary" onclick="irAReingresar()" style="width:auto">🔐 Reingresar</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 <script src="auth-bridge.js"></script>
 <script src="finance-utils.js"></script>
@@ -854,10 +865,13 @@ function parsearListadoCheques(buffer) {
 // ── CONFIG ─────────────────────────────────────────────────────
 const AUTH_URL = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
-// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL ya
+// no es un proyecto distinto, es un alias de la sesión de siempre — por eso
+// apiFetch pide el access_token en cada llamada en vez de cachearlo una sola vez
+// al cargar la página (ese cacheo dejaba a un usuario con la sesión vencida
+// viendo una pantalla muda: el token de 1h expiraba y los fetch fallaban con
+// 401 sin que nadie se enterara).
 const SB_URL   = AUTH_URL;
-let cuadrillaToken = null;
 const ALLOWED_ROLES = ['admin','contable'];
 
 const { createClient } = supabase;
@@ -865,15 +879,18 @@ const authClient = createClient(AUTH_URL, AUTH_KEY);
 
 // ── FETCH ─────────────────────────────────────────────────────
 async function apiFetch(baseUrl, apiKey, method, table, body=null, query='') {
+  const { data:{session} } = await authClient.auth.getSession();
+  if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
   const res = await fetch(`${baseUrl}/rest/v1/${table}${query}`, {
     method,
     headers: {
-      'apikey': AUTH_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
+      'apikey': AUTH_KEY, 'Authorization': `Bearer ${session.access_token}`,
       'Content-Type': 'application/json',
       'Prefer': method==='POST'?'return=representation':method==='PATCH'?'return=minimal':''
     },
     ...(body?{body:JSON.stringify(body)}:{})
   });
+  if (res.status===401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   if (!res.ok) {
     const t = await res.text();
     let msg = res.statusText;
@@ -892,15 +909,18 @@ const sbDel   = (table, q)    => apiFetch(SB_URL, null, 'DELETE', table, null, q
 // Upsert con dedupe: onConflict + ignore-duplicates. Devuelve solo las filas
 // realmente insertadas (las duplicadas se omiten silenciosamente por Postgres).
 async function sbUpsert(table, rows, onConflict) {
+  const { data:{session} } = await authClient.auth.getSession();
+  if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
   const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=${onConflict}`, {
     method: 'POST',
     headers: {
-      'apikey': AUTH_KEY, 'Authorization': `Bearer ${cuadrillaToken}`,
+      'apikey': AUTH_KEY, 'Authorization': `Bearer ${session.access_token}`,
       'Content-Type': 'application/json',
       'Prefer': 'resolution=ignore-duplicates,return=representation',
     },
     body: JSON.stringify(rows),
   });
+  if (res.status===401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   if (!res.ok) {
     const t = await res.text();
     let msg = res.statusText;
@@ -2312,8 +2332,6 @@ window.onload = async () => {
   if (!session) { window.location.href='login.html'; return; }
   const { data:profile } = await authClient.from('user_profiles').select('full_name,role').eq('id',session.user.id).single();
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) { window.location.href='index.html'; return; }
-
-  cuadrillaToken = session.access_token;
 
   currentUser = { ...profile, email: session.user.email };
   document.getElementById('userName').textContent = profile.full_name;
