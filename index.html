@@ -504,6 +504,25 @@
     @media (max-width: 640px) {
       main { padding: 32px 16px 60px; }
     }
+
+    /* ── Modal sesión expirada ── */
+    #modal-sesion {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.6); z-index: 300;
+      align-items: center; justify-content: center;
+    }
+    #modal-sesion.open { display: flex; }
+    #modal-sesion .box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px; max-width: 340px; width: 90%;
+    }
+    #modal-sesion .box h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    #modal-sesion .box p { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+    #modal-sesion .box button {
+      width: 100%; background: var(--primary); color: var(--text);
+      border: 1px solid var(--accent); border-radius: 8px;
+      padding: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
   </style>
 </head>
 <body>
@@ -594,6 +613,14 @@
     </div>
   </div>
 </main>
+
+<div id="modal-sesion">
+  <div class="box">
+    <h3>Sesión expirada</h3>
+    <p id="modal-sesion-msg"></p>
+    <button onclick="irAReingresar()">🔐 Reingresar</button>
+  </div>
+</div>
 
 <script>
   const SUPABASE_URL     = 'https://vvwnyszcfindtuvojqgs.supabase.co';
@@ -804,11 +831,16 @@
   }
 
   // Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: ya no hace falta
-  // un cliente ni un token distinto, se usa la misma sesión de "client".
+  // un cliente ni un token distinto, se usa la misma sesión de "client". Se pide
+  // getSession() en cada llamada (se refresca sola si hace falta) en vez de caer a
+  // la anon key sin sesión — la RLS está scopeada a "authenticated", así que esa
+  // caída solo producía un 401 mudo en vez de un aviso claro de sesión expirada.
   async function cuadrillaGet(table, query) {
     const { data: { session } } = await client.auth.getSession();
-    const headers = { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${session?.access_token || SUPABASE_ANON_KEY}` };
+    if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
+    const headers = { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${session.access_token}` };
     const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${query}`, { headers });
+    if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
     const text = await res.text(); // regla del proyecto: nunca .json() directo
     const data = JSON.parse(text);
     if (!res.ok) throw new Error((data && (data.message || data.error)) || `Error consultando ${table}`);
@@ -1171,9 +1203,10 @@
 
     try {
       const { data: { session } } = await client.auth.getSession();
+      if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
       const headers = {
         apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${session?.access_token || SUPABASE_ANON_KEY}`,
+        Authorization: `Bearer ${session.access_token}`,
         'Content-Type': 'application/json',
         Prefer: 'return=representation',
       };
@@ -1185,6 +1218,7 @@
           body: JSON.stringify({ revisado: true, revisado_en: new Date().toISOString() }),
         }
       );
+      if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
       const text = await res.text();
       const data = JSON.parse(text);
       if (!res.ok || !Array.isArray(data) || data.length === 0) {
@@ -1207,7 +1241,10 @@
       else parent.appendChild(rowEl);
       const check = rowEl.querySelector('.inbox-check');
       if (check) check.checked = false;
-      alert('No se pudo marcar como revisado. Intentá de nuevo.');
+      // manejarSesionExpirada() ya mostró el modal de sesión — no duplicar el aviso.
+      if (err.message !== 'SIN_SESION' && err.message !== 'SESION_EXPIRADA') {
+        alert('No se pudo marcar como revisado. Intentá de nuevo.');
+      }
     }
   }
 
