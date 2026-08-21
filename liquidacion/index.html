@@ -502,6 +502,14 @@
     }
     .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
 
+    /* ── Modal sesión expirada ── */
+    #modal-sesion {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); z-index: 300;
+      align-items: center; justify-content: center;
+    }
+    #modal-sesion.open { display: flex; }
+
     .btn-secondary {
       background: var(--bg); color: var(--text);
       border: 1.5px solid var(--border);
@@ -897,6 +905,14 @@
   </div>
 </div>
 
+<div id="modal-sesion">
+  <div style="background:var(--surface);border-radius:16px;padding:20px;max-width:340px;width:90%">
+    <div style="font-size:16px;font-weight:700;margin-bottom:6px">Sesión expirada</div>
+    <div id="modal-sesion-msg" style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:16px"></div>
+    <button class="btn-primary" onclick="irAReingresar()" style="width:100%">🔐 Reingresar</button>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast" class="toast"></div>
 
@@ -917,10 +933,13 @@
   /* ══════════════════════════════════════════════
      Config
   ══════════════════════════════════════════════ */
-  // Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SUPA_URL/cuadrillaToken
-  // ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+  // Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SUPA_URL ya
+  // no es un proyecto distinto, es un alias de la sesión de siempre — por eso los
+  // wrappers sb* piden el access_token en cada llamada en vez de cachearlo una
+  // sola vez al cargar la página (ese cacheo dejaba a un usuario con la sesión
+  // vencida viendo una pantalla muda: el token de 1h expiraba y los fetch
+  // fallaban con 401 sin que nadie se enterara).
   var SUPA_URL = AUTH_URL;
-  var cuadrillaToken = null;
   var MIN_HORAS = 6;
   var SUPERVISOR_COMMISSION_RATE = 0.03; // 3%
 
@@ -1016,10 +1035,10 @@
      Supabase fetch wrappers
   ══════════════════════════════════════════════ */
 
-  function sbHeaders(extra) {
+  function sbHeaders(token, extra) {
     var h = {
       'apikey': AUTH_KEY,
-      'Authorization': 'Bearer ' + cuadrillaToken,
+      'Authorization': 'Bearer ' + token,
       'Accept': 'application/json'
     };
     if (extra) {
@@ -1028,42 +1047,59 @@
     return h;
   }
 
+  function getAccessToken() {
+    return authClient.auth.getSession().then(function(sres) {
+      var session = sres.data.session;
+      if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
+      return session.access_token;
+    });
+  }
+
   function sbGet(path) {
-    return fetch(SUPA_URL + '/rest/v1/' + path, { headers: sbHeaders() })
-      .then(function(res) {
-        return res.text().then(function(text) {
-          var data = JSON.parse(text);
-          if (!res.ok) throw new Error((data && data.message) || 'HTTP ' + res.status);
-          return data;
+    return getAccessToken().then(function(token) {
+      return fetch(SUPA_URL + '/rest/v1/' + path, { headers: sbHeaders(token) })
+        .then(function(res) {
+          if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
+          return res.text().then(function(text) {
+            var data = JSON.parse(text);
+            if (!res.ok) throw new Error((data && data.message) || 'HTTP ' + res.status);
+            return data;
+          });
         });
-      });
+    });
   }
 
   function sbPatch(path, body) {
-    return fetch(SUPA_URL + '/rest/v1/' + path, {
-      method: 'PATCH',
-      headers: sbHeaders({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }),
-      body: JSON.stringify(body)
-    }).then(function(res) {
-      return res.text().then(function(text) {
-        if (!res.ok) {
-          var data = text ? JSON.parse(text) : {};
-          throw new Error((data && data.message) || 'HTTP ' + res.status);
-        }
+    return getAccessToken().then(function(token) {
+      return fetch(SUPA_URL + '/rest/v1/' + path, {
+        method: 'PATCH',
+        headers: sbHeaders(token, { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(body)
+      }).then(function(res) {
+        if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
+        return res.text().then(function(text) {
+          if (!res.ok) {
+            var data = text ? JSON.parse(text) : {};
+            throw new Error((data && data.message) || 'HTTP ' + res.status);
+          }
+        });
       });
     });
   }
 
   function sbDelete(path) {
-    return fetch(SUPA_URL + '/rest/v1/' + path, {
-      method: 'DELETE',
-      headers: sbHeaders({ 'Prefer': 'return=minimal' })
-    }).then(function(res) {
-      return res.text().then(function(text) {
-        if (!res.ok) {
-          var data = text ? JSON.parse(text) : {};
-          throw new Error((data && data.message) || 'HTTP ' + res.status);
-        }
+    return getAccessToken().then(function(token) {
+      return fetch(SUPA_URL + '/rest/v1/' + path, {
+        method: 'DELETE',
+        headers: sbHeaders(token, { 'Prefer': 'return=minimal' })
+      }).then(function(res) {
+        if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
+        return res.text().then(function(text) {
+          if (!res.ok) {
+            var data = text ? JSON.parse(text) : {};
+            throw new Error((data && data.message) || 'HTTP ' + res.status);
+          }
+        });
       });
     });
   }
@@ -1867,14 +1903,11 @@
     if (!profile || ALLOWED_ROLES.indexOf(profile.role) === -1) {
       window.location.href = '../index.html'; return;
     }
-    return authClient.auth.getSession().then(function(sres) {
-      cuadrillaToken = sres.data.session.access_token;
-      document.getElementById('portal-username').textContent = profile.full_name;
-      document.getElementById('app-loading').style.display = 'none';
-      return loadTecnicos()
-        .catch(function(e){ console.warn('No se cargaron técnicos:', e.message); })
-        .then(function()  { loadSemana(); });
-    });
+    document.getElementById('portal-username').textContent = profile.full_name;
+    document.getElementById('app-loading').style.display = 'none';
+    return loadTecnicos()
+      .catch(function(e){ console.warn('No se cargaron técnicos:', e.message); })
+      .then(function()  { loadSemana(); });
   }).catch(function() {
     window.location.href = '../login.html';
   });
