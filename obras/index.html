@@ -1605,10 +1605,10 @@ async function abrirDetalleCert(certId){
 async function renderCdRecDoc(){
   if(cdRec){
     const lineas=(cdRec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo),qty:l.cantidad||1}));
-    const matFacts=await getMatFacts(cdObra.id,cdCert.periodo_desde,cdCert.periodo_hasta);
+      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo),qty:l.cantidad||1,
+        proveedor:l.proveedor,factura_referencia:l.factura_referencia}));
     buildDR({obra:cdObra,numR:cdRec.numero,fecha:cdRec.fecha_emision,tc:cdRec.tipo_cambio_usd,det:cdRec.detalle_descripcion,
-      lineas,matFacts,target:'cdRawR'});
+      lineas,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
       .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
@@ -1673,7 +1673,8 @@ async function editarCertificado(id){
     ...todasLineas.filter(l=>l.tipo==='CERTIFICADO'||l.tipo==='EXCEDENTE').map(l=>({_key:l.id,_id:l.id,_new:false,
       _deleted:true,orden:l.orden||0,tipo:l.tipo,desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1})),
     ...matLineas.map((l,idx)=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
-      tipo:'MATERIAL',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_srcFactKey:edFacts[idx].id})),
+      tipo:'MATERIAL',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,
+      proveedor:l.proveedor,factura_referencia:l.factura_referencia,_srcFactKey:edFacts[idx].id})),
     ...otroLineas.map(l=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
       tipo:'OTRO',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_locked:true})),
   ];
@@ -1845,10 +1846,10 @@ async function previewEdicionCert(){
     .replace('id="cdRawC"','class="doc-print" style="background:#FDFBF0"');
 
   if(edRec){
-    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo),qty:l.qty||1}));
-    const matFacts=await getMatFacts(edObra.id,edCert.periodo_desde,edCert.periodo_hasta);
+    const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo),qty:l.qty||1,
+      proveedor:l.proveedor,factura_referencia:l.factura_referencia}));
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
-      lineas,matFacts,target:'cdRawR'});
+      lineas,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
       .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
@@ -2085,7 +2086,7 @@ async function guardarRubro(){
 // ═══════════════════════════════════════════════════════════════
 //  SEGUIMIENTO
 // ═══════════════════════════════════════════════════════════════
-let sItems=[],sFacts=[],sObra=null,sMatFacts=[];
+let sItems=[],sFacts=[],sObra=null;
 let sRecId=null,sCandidatas=[],sCandidatasChecked=new Set();
 
 function populateSegObras(){
@@ -2121,27 +2122,6 @@ async function onSObraChange(){
     document.getElementById('sNumR').value=1;
   }
   document.getElementById('sTC').value=tcLastRecord?Math.round(tcLastRecord.valor):(gs('tc')||'1430');
-}
-
-async function getMatFacts(obraId,desde,hasta){
-  if(!obraId||!desde||!hasta)return[];
-  try{
-    const rows=await sbGet('facturas_obra',
-      '?select=proveedor,materiales,monto_con_iva,fecha_compra' +
-      '&obra_id=eq.'+obraId+
-      '&fecha_compra=gte.'+desde+
-      '&fecha_compra=lte.'+hasta+
-      '&order=fecha_compra.asc');
-    return Array.isArray(rows)?rows:[];
-  }catch{ return[]; }
-}
-
-async function loadMatFacts(){
-  sMatFacts=[];
-  if(!sObra)return;
-  const desde=document.getElementById('sDesde').value;
-  const hasta=document.getElementById('sHasta').value;
-  sMatFacts=await getMatFacts(sObra.id,desde,hasta);
 }
 
 async function goS(n){
@@ -2556,7 +2536,6 @@ function showPV(w,el){
 }
 
 async function buildPreviews(){
-  await loadMatFacts();
   buildDC();buildDR();
   document.getElementById('pvCDoc').innerHTML=document.getElementById('DC').outerHTML
     .replace('id="DC"','class="doc-print" style="background:#FDFBF0"');
@@ -2620,7 +2599,6 @@ function buildDR(src){
   const fecha=fd(src?src.fecha:document.getElementById('sFecha').value);
   const tc=src?(src.tc||1430):(parseFloat(document.getElementById('sTC').value)||1430);
   const det=src?(src.det||''):document.getElementById('sDet').value;
-  const matFacts=src?(src.matFacts||[]):sMatFacts;
   const ivaMOOn=src?!!src.ivaMO:document.getElementById('sIvaMO').checked;
 
   let lineas;
@@ -2651,13 +2629,15 @@ function buildDR(src){
   const totalMO=subtotalMO+ivaMOMonto;
   const hasUSD=moLineas.some(l=>l.usd);
 
-  // Materiales: une las facturas tipeadas a mano en el paso 2 (sFacts, solo en un recibo
-  // nuevo — no aplica al reimprimir uno ya guardado) con las auto-cargadas desde
-  // facturas_obra por rango de fechas (matFacts) y las de un recibo histórico (matLineasHist).
+  // Materiales: la única fuente es recibos_lineas tipo MATERIAL (matLineasHist) —
+  // la vinculación factura→recibo ya está resuelta ahí, no se vuelve a buscar en
+  // facturas_obra por rango de fechas al imprimir (eso duplicaba materiales: ver
+  // bug del recibo 27 de Los Boulevares, 8 líneas reales vs. 15 renderizadas).
+  // sFacts son las facturas tipeadas a mano en el paso 2 del wizard — solo existen
+  // en un recibo nuevo todavía no guardado, nunca al reimprimir uno ya guardado.
   const matAll=[
-    ...matLineasHist.map(l=>({proveedor:l.desc||'',detalle:l.extra||'',monto:l.monto||0})),
-    ...(src?[]:sFacts).map(f=>({proveedor:f.razon||'',detalle:f.nro?`N° ${f.nro}`:'',monto:f.conIva||0})),
-    ...matFacts.map(f=>({proveedor:f.proveedor||'',detalle:f.materiales||'',monto:f.monto_con_iva||0})),
+    ...matLineasHist.map(l=>({proveedor:l.proveedor||'',detalle:l.desc||'',factura:l.factura_referencia||'',monto:l.monto||0})),
+    ...(src?[]:sFacts).map(f=>({proveedor:f.razon||'',detalle:f.nro?`N° ${f.nro}`:'',factura:'',monto:f.conIva||0})),
   ];
   const totalMat=matAll.reduce((s,f)=>s+(f.monto||0),0);
   const totalRecibo=totalMO+totalMat;
@@ -2719,7 +2699,7 @@ function buildDR(src){
       </tr></thead>
       <tbody>
         ${matAll.map(f=>`<tr>
-          <td>${f.proveedor}</td>
+          <td>${f.proveedor}${f.factura?`<br><span style="font-size:9px;color:#8a8fb0">${f.factura}</span>`:''}</td>
           <td style="font-size:10px;color:#6b6f8c">${f.detalle}</td>
           <td style="text-align:right;font-weight:700">$ ${Math.round(f.monto||0).toLocaleString('es-AR')}</td>
         </tr>`).join('')}
@@ -2738,7 +2718,6 @@ function buildDR(src){
 async function generar(){
   const btn=document.getElementById('btnGen');
   btn.disabled=true;btn.innerHTML='<div class="spin"></div> Guardando...';
-  await loadMatFacts();
   buildDC();buildDR();
   const numC=parseInt(document.getElementById('sNumC').value);
   const numR=parseInt(document.getElementById('sNumR').value);
