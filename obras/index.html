@@ -2741,6 +2741,12 @@ async function generar(){
         descripcion:i.desc,precio_usd_unitario:i.usd||null,rubro_id:i.tId||null,
         porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||null});
     await sbPatch('recibos',{certificado_id:certId},`?id=eq.${recId}`);
+    // Si esta corrida es un reintento sobre el mismo recibo BORRADOR (p.ej. una corrida
+    // anterior falló después de insertar estas líneas pero antes de terminar, sin
+    // resetear sRecId), hay que limpiar las CERTIFICADO/EXCEDENTE de esa corrida previa
+    // antes de reinsertarlas — si no, se duplican cada reintento. Las MATERIAL nunca se
+    // tocan acá: están referenciadas desde facturas_obra.recibo_linea_id.
+    await sbDel('recibos_lineas',`?recibo_id=eq.${recId}&tipo=in.(CERTIFICADO,EXCEDENTE)`);
     for(const l of construirLineasRecibo(sItems))
       await sbPost('recibos_lineas',{recibo_id:recId,tipo:l.tipo,descripcion:l.descripcion,
         monto_pesos:l.monto_pesos,cantidad:l.cantidad});
