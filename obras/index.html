@@ -1608,7 +1608,7 @@ async function renderCdRecDoc(){
       .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo),qty:l.cantidad||1,
         proveedor:l.proveedor,factura_referencia:l.factura_referencia}));
     buildDR({obra:cdObra,numR:cdRec.numero,fecha:cdRec.fecha_emision,tc:cdRec.tipo_cambio_usd,det:cdRec.detalle_descripcion,
-      lineas,target:'cdRawR'});
+      ivaMOPct:cdRec.iva_mano_obra_pct,lineas,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
       .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
@@ -1744,6 +1744,14 @@ function renderEditForm(){
     </div>
     ${edRec?`
     <div class="card">
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:400;
+        text-transform:none;letter-spacing:0;color:var(--text);cursor:${edRec.estado==='BORRADOR'?'pointer':'not-allowed'}">
+        <input type="checkbox" id="edIvaMO" style="width:auto" ${edRec.iva_mano_obra_pct>0?'checked':''}
+          ${edRec.estado!=='BORRADOR'?'disabled':''}> IVA mano de obra (21%)
+      </label>
+      ${edRec.estado!=='BORRADOR'?`<div style="font-size:10px;color:var(--text3);margin-top:4px">Solo se puede cambiar con el recibo en BORRADOR (estado actual: ${edRec.estado})</div>`:''}
+    </div>
+    <div class="card">
       <div class="sh"><div class="sh-t">Facturas / Materiales</div></div>
       <div id="edFactsWrap"></div>
       <button class="btn btn-g btn-sm" style="margin-top:10px" onclick="addEF()">+ Factura</button>
@@ -1848,8 +1856,9 @@ async function previewEdicionCert(){
   if(edRec){
     const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo),qty:l.qty||1,
       proveedor:l.proveedor,factura_referencia:l.factura_referencia}));
+    const ivaMOPct=document.getElementById('edIvaMO').checked?0.21:0;
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
-      lineas,target:'cdRawR'});
+      ivaMOPct,lineas,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
       .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
@@ -1891,6 +1900,9 @@ async function confirmarGuardarCert(){
         if(l._new) await sbPost('recibos_lineas',{...payload,recibo_id:edRec.id});
         else await sbPatch('recibos_lineas',payload,`?id=eq.${l._id}`);
       }
+      await sbPatch('recibos',
+        {iva_mano_obra_pct:document.getElementById('edIvaMO').checked?0.21:0},
+        `?id=eq.${edRec.id}`);
     }
     toast('✅ Certificado actualizado','ok');
     closeM('mCertDetalle');
@@ -1925,7 +1937,9 @@ async function confirmarRectificarCert(){
       const rr=await sbPost('recibos',{
         obra_id:edObra.id,certificado_id:newCertId,numero:numR,
         fecha_emision:new Date().toISOString().slice(0,10),tipo_cambio_usd:edTC,
-        detalle_descripcion:edRec.detalle_descripcion,estado:'BORRADOR',rectifica_id:edRec.id
+        detalle_descripcion:edRec.detalle_descripcion,
+        iva_mano_obra_pct:document.getElementById('edIvaMO').checked?0.21:0,
+        estado:'BORRADOR',rectifica_id:edRec.id
       });
       const newRecId=rr[0].id;
       let ordenL=0;
@@ -2150,6 +2164,7 @@ async function ensureRecibo(){
     fecha_emision:document.getElementById('sFecha').value,
     tipo_cambio_usd:parseFloat(document.getElementById('sTC').value)||1430,
     detalle_descripcion:document.getElementById('sDet').value,
+    iva_mano_obra_pct:document.getElementById('sIvaMO').checked?0.21:0,
     estado:'BORRADOR'
   };
   try{
@@ -2599,7 +2614,9 @@ function buildDR(src){
   const fecha=fd(src?src.fecha:document.getElementById('sFecha').value);
   const tc=src?(src.tc||1430):(parseFloat(document.getElementById('sTC').value)||1430);
   const det=src?(src.det||''):document.getElementById('sDet').value;
-  const ivaMOOn=src?!!src.ivaMO:document.getElementById('sIvaMO').checked;
+  // Guardado en recibos.iva_mano_obra_pct como alícuota (0.21), no como booleano —
+  // con 0 el cálculo da exactamente lo mismo que antes de que existiera esta columna.
+  const ivaMOPct=src?(src.ivaMOPct||0):(document.getElementById('sIvaMO').checked?0.21:0);
 
   let lineas;
   if(src&&src.lineas){
@@ -2625,7 +2642,11 @@ function buildDR(src){
   const moLineas=lineas.filter(l=>l.tipo!=='MAT');
   const matLineasHist=lineas.filter(l=>l.tipo==='MAT');
   const subtotalMO=moLineas.reduce((s,l)=>s+(l.monto||0),0);
-  const ivaMOMonto=ivaMOOn?subtotalMO*0.21:0;
+  // El IVA de mano de obra se calcula solo sobre CERTIFICADO/EXCEDENTE — las OTRO
+  // (líneas legacy de antes de esta unificación) quedan afuera de la base, aunque
+  // sigan sumando al sub-total de mano de obra que se muestra arriba.
+  const ivaBase=moLineas.filter(l=>l.tipo==='CERT'||l.tipo==='EXC').reduce((s,l)=>s+(l.monto||0),0);
+  const ivaMOMonto=ivaBase*ivaMOPct;
   const totalMO=subtotalMO+ivaMOMonto;
   const hasUSD=moLineas.some(l=>l.usd);
 
@@ -2681,7 +2702,7 @@ function buildDR(src){
         <tr class="rtot"><td colspan="${hasUSD?4:2}"><b>SUB-TOTAL</b></td>
           <td style="text-align:right;font-size:13px"><b>$ ${Math.round(subtotalMO).toLocaleString('es-AR')}</b><br>
             <span style="font-size:9px;font-weight:500;color:#6b6f8c">${fUsd(subtotalMO/tc)}</span></td></tr>
-        <tr><td colspan="${hasUSD?4:2}">IVA${ivaMOOn?' (21%)':''}</td>
+        <tr><td colspan="${hasUSD?4:2}">IVA${ivaMOPct?` (${Math.round(ivaMOPct*100)}%)`:''}</td>
           <td style="text-align:right;font-weight:700">$ ${Math.round(ivaMOMonto).toLocaleString('es-AR')}<br>
             <span style="font-size:9px;font-weight:500;color:#8a8fa0">${fUsd(ivaMOMonto/tc)}</span></td></tr>
         <tr class="rtot"><td colspan="${hasUSD?4:2}"><b>TOTAL MANO DE OBRA</b></td>
