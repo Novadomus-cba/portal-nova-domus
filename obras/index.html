@@ -414,6 +414,10 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
           <button class="btn btn-p" id="btnGen" onclick="generar()">⚡ Generar y guardar</button>
         </div>
       </div>
+      <div class="card" id="sCandidatasWrap" style="display:none">
+        <div class="sh"><div class="sh-t">Facturas pendientes de vincular</div></div>
+        <div id="sCandidatasList"></div>
+      </div>
       <div id="pvC" class="pv-wrap"><div class="pv-doc" id="pvCDoc"></div></div>
       <div id="pvR" style="display:none" class="pv-wrap"><div class="pv-doc" id="pvRDoc"></div></div>
     </div>
@@ -1895,6 +1899,7 @@ async function guardarRubro(){
 //  SEGUIMIENTO
 // ═══════════════════════════════════════════════════════════════
 let sItems=[],sFacts=[],sObra=null,sMatFacts=[];
+let sRecId=null,sCandidatas=[],sCandidatasChecked=new Set();
 
 function populateSegObras(){
   const obs=cache.obras().filter(o=>o.estado==='EN_CURSO');
@@ -1911,6 +1916,9 @@ function populateSegObras(){
 
 async function onSObraChange(){
   const id=document.getElementById('sObra').value;
+  // Cambiar de obra invalida el recibo BORRADOR que se haya creado para el paso 3
+  // de una obra anterior — se crea uno nuevo la próxima vez que se entre al paso 3.
+  sRecId=null;sCandidatas=[];sCandidatasChecked=new Set();
   if(!id){sObra=null;document.getElementById('sObraInfo').style.display='none';return;}
   sObra=cache.obras().find(o=>o.id===id);
   document.getElementById('sObraInfo').style.display='block';
@@ -1949,14 +1957,86 @@ async function loadMatFacts(){
   sMatFacts=await getMatFacts(sObra.id,desde,hasta);
 }
 
-function goS(n){
+async function goS(n){
   if(n===2&&!sObra){toast('Seleccioná una obra','err');return;}
   [1,2,3].forEach(i=>{
     document.getElementById(`ss${i}`).style.display=i===n?'block':'none';
     const sn=document.getElementById(`sn${i}`);
     sn.className='sn'+(i===n?' active':i<n?' done':'');
   });
-  if(n===3) buildPreviews();
+  if(n===3){
+    await ensureRecibo();
+    await buildPreviews();
+    await loadCandidatas();
+  }
+}
+
+// Crea el recibo BORRADOR apenas se entra al paso 3 (no al confirmar "Generar y
+// guardar") porque facturas_candidatas_recibo necesita un recibo_id real para
+// poder buscar candidatas. Si ya existe (id guardado en sRecId), se actualiza en
+// vez de duplicar — cubre el caso de volver al paso 1/2 a corregir un campo.
+async function ensureRecibo(){
+  if(!sObra)return;
+  const payload={
+    obra_id:sObra.id,
+    numero:parseInt(document.getElementById('sNumR').value),
+    fecha_emision:document.getElementById('sFecha').value,
+    tipo_cambio_usd:parseFloat(document.getElementById('sTC').value)||1430,
+    detalle_descripcion:document.getElementById('sDet').value,
+    estado:'BORRADOR'
+  };
+  try{
+    if(sRecId){
+      await sbPatch('recibos',payload,`?id=eq.${sRecId}`);
+    }else{
+      const rr=await sbPost('recibos',payload);
+      sRecId=rr[0].id;
+    }
+  }catch(e){
+    toast('Error al preparar el recibo: '+e.message,'err');
+  }
+}
+
+// ── FACTURAS CANDIDATAS A VINCULAR (paso 3) ──────────────────────
+async function loadCandidatas(){
+  sCandidatas=[];sCandidatasChecked=new Set();
+  const wrap=document.getElementById('sCandidatasWrap');
+  if(!sRecId){wrap.style.display='none';return;}
+  try{
+    const rows=await sbRpc('facturas_candidatas_recibo',{p_recibo_id:sRecId});
+    sCandidatas=Array.isArray(rows)?rows:[];
+  }catch(e){
+    toast('Error al buscar facturas candidatas: '+e.message,'err');
+  }
+  if(!sCandidatas.length){
+    wrap.style.display='none';
+    document.getElementById('sCandidatasList').innerHTML='';
+    return;
+  }
+  // Todas arrancan tildadas — el usuario destilda las que no quiere vincular ahora.
+  sCandidatas.forEach(c=>sCandidatasChecked.add(c.factura_id));
+  wrap.style.display='block';
+  renderCandidatas();
+}
+
+function renderCandidatas(){
+  document.getElementById('sCandidatasList').innerHTML=sCandidatas.map(c=>{
+    const neg=c.monto_linea<0;
+    return `<div class="fr" style="align-items:center;gap:10px">
+      <input type="checkbox" style="width:auto" ${sCandidatasChecked.has(c.factura_id)?'checked':''}
+        onchange="toggleCandidata(${c.factura_id},this.checked)">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:700">${c.proveedor}${c.numero_comprobante?' · '+c.numero_comprobante:''}</div>
+        <div style="font-size:10px;color:var(--text3)">${fd(c.fecha_compra)}</div>
+      </div>
+      <div style="font-weight:800;white-space:nowrap${neg?';color:var(--danger)':''}">${neg?'-':''}${f$(Math.abs(c.monto_linea))}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCandidata(facturaId,checked){
+  if(checked)sCandidatasChecked.add(facturaId);
+  else sCandidatasChecked.delete(facturaId);
 }
 
 const CM={
@@ -2477,6 +2557,11 @@ async function generar(){
   const numR=parseInt(document.getElementById('sNumR').value);
   const tc=parseFloat(document.getElementById('sTC').value)||1430;
   try{
+    // El recibo ya se creó (BORRADOR) al entrar al paso 3 — acá se lo actualiza y
+    // completa en vez de crearlo de nuevo, para no duplicarlo.
+    if(!sRecId) await ensureRecibo();
+    if(!sRecId) throw new Error('No se pudo preparar el recibo');
+    const recId=sRecId;
     const cr=await sbPost('certificados',{
       obra_id:sObra.id,numero:numC,
       fecha_emision:document.getElementById('sFecha').value,
@@ -2489,13 +2574,7 @@ async function generar(){
       await sbPost('certificados_items',{certificado_id:certId,tipo:unmapCertTipo(i.cls),
         descripcion:i.desc,precio_usd_unitario:i.usd||null,rubro_id:i.tId||null,
         porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||null});
-    const rr=await sbPost('recibos',{
-      obra_id:sObra.id,certificado_id:certId,numero:numR,
-      fecha_emision:document.getElementById('sFecha').value,
-      tipo_cambio_usd:tc,detalle_descripcion:document.getElementById('sDet').value,
-      estado:'BORRADOR'
-    });
-    const recId=rr[0].id;
+    await sbPatch('recibos',{certificado_id:certId},`?id=eq.${recId}`);
     for(const l of construirLineasRecibo(sItems))
       await sbPost('recibos_lineas',{recibo_id:recId,tipo:l.tipo,descripcion:l.descripcion,
         monto_pesos:l.monto_pesos,cantidad:l.cantidad});
@@ -2503,7 +2582,16 @@ async function generar(){
       await sbPost('recibos_lineas',{recibo_id:recId,tipo:'MATERIAL',
         descripcion:`${f.razon} · ${f.nro}`,monto_pesos:f.conIva||0,
         factura_referencia:f.nro,proveedor:f.razon});
+    for(const c of sCandidatas){
+      if(!sCandidatasChecked.has(c.factura_id))continue;
+      try{
+        await sbRpc('vincular_factura_a_recibo',{p_factura_id:c.factura_id,p_recibo_id:recId});
+      }catch(e){
+        toast(`Error al vincular factura de ${c.proveedor}: ${e.message}`,'err');
+      }
+    }
     toast('✅ Guardado en Supabase','ok');
+    sRecId=null;sCandidatas=[];sCandidatasChecked=new Set();
   }catch(e){
     toast('Sin Supabase: guardando local. '+e.message,'err');
     const cid=uid(),rid=uid();

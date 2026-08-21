@@ -106,6 +106,8 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
 .badge { display: inline-flex; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; white-space: nowrap; }
 .badge-empresa { background: #0d2035; color: #60a5fa; }
 .badge-tecnico { background: #1e0d35; color: #a78bfa; }
+.badge-vinculada { background: #0d2a1a; color: #4ade80; }
+.badge-sinrecibo { background: #1e1e0d; color: #a3a36b; }
 
 /* ── MODAL (bottom-sheet) ── */
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 100; align-items: flex-end; justify-content: center; }
@@ -349,6 +351,39 @@ textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
   </div>
 </div>
 
+<!-- CONFIRM MODAL (borrar / desvincular) -->
+<div class="modal-bg" id="confirmModal" onclick="onConfirmBgClick(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="confirmTitle">Confirmar</h3>
+      <button class="modal-close" onclick="closeConfirm()">✕</button>
+    </div>
+    <div id="confirmBody" style="font-size:12px;color:var(--muted);line-height:1.6"></div>
+    <div class="modal-ftr">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger" id="confirmBtn" style="flex:2;justify-content:center" onclick="runConfirm()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- VINCULAR A RECIBO MODAL -->
+<div class="modal-bg" id="vincularModal" onclick="onVincularBgClick(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>Vincular a recibo</h3>
+      <button class="modal-close" onclick="closeVincular()">✕</button>
+    </div>
+    <div class="field">
+      <label>Recibo en borrador</label>
+      <select id="vRecibo"></select>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn btn-ghost" onclick="closeVincular()">Cancelar</button>
+      <button class="btn btn-primary" id="vincularBtn" onclick="confirmVincular()">Vincular</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script src="../auth-bridge.js"></script>
@@ -385,7 +420,8 @@ let facturas     = [];
 let editingId    = null;
 let origenPago   = 'empresa';
 let origenPagoE  = 'empresa';
-const pendingDel = new Set();
+let confirmCtx      = null; // { type: 'delete'|'desvincular', id }
+let vincularFacturaId = null;
 
 // ── FETCH ─────────────────────────────────────────────────────
 async function apiFetch(baseUrl, apiKey, method, table, body = null, query = '', schema = '') {
@@ -416,6 +452,7 @@ const sbGet       = (t, q='') => apiFetch(SB_URL,   null,     'GET',    t, null,
 const sbPost      = (t, b)    => apiFetch(SB_URL,   null,     'POST',   t, b);
 const sbPatch     = (t, b, q) => apiFetch(SB_URL,   null,     'PATCH',  t, b,    q);
 const sbDel       = (t, q)    => apiFetch(SB_URL,   null,     'DELETE', t, null, q);
+const sbRpc       = (fn, params) => apiFetch(SB_URL, null,    'POST',   `rpc/${fn}`, params);
 const cuadrillGet = (t, q='') => apiFetch(SB_URL,   null,     'GET',    t, null, q, 'cuadrilla');
 const cuadrillPost= (t, b)    => apiFetch(SB_URL,   null,     'POST',   t, b,    '',  'cuadrilla');
 
@@ -485,7 +522,16 @@ async function loadFacturas() {
     ? `?select=*,obras(nombre)&obra_id=eq.${selectedObra.id}&order=created_at.desc&limit=30`
     : `?select=*,obras(nombre)&order=created_at.desc&limit=30`;
   try {
-    facturas = await sbGet('facturas_obra', q);
+    const rows = await sbGet('facturas_obra', q);
+    const ids  = rows.map(r => r.id);
+    // El estado de vinculación (VINCULADA/PENDIENTE/SIN_RECIBO_BORRADOR) sale de
+    // v_facturas_estado_recibo, no se reimplementa la lógica acá.
+    const estados = ids.length
+      ? await sbGet('v_facturas_estado_recibo',
+          `?factura_id=in.(${ids.join(',')})&select=factura_id,recibo_id,recibo_numero,recibo_estado,estado_vinculacion`)
+      : [];
+    const estadoMap = new Map(estados.map(e => [e.factura_id, e]));
+    facturas = rows.map(f => ({ ...f, ...(estadoMap.get(f.id) || {}) }));
     renderList();
   } catch (e) {
     document.getElementById('facturasList').innerHTML =
@@ -805,16 +851,30 @@ function renderList() {
     const pagoLabel  = f.origen_pago === 'tecnico'
       ? `<span class="badge badge-tecnico">Técnico${tecnico ? ': ' + tecnico.nombre : ''}</span>`
       : '<span class="badge badge-empresa">Empresa</span>';
-    const importadaBadge = f.importada_en_recibo
-      ? '<span class="badge" style="background:#0d2a1a;color:#4ade80">Importada</span>'
-      : '<span class="badge" style="background:#1e1e0d;color:#a3a36b">Pendiente</span>';
     const obraBadge  = !selectedObra && f.obras?.nombre
       ? `<span>${f.obras.nombre}</span>` : '';
-    const actions = isAdmin ? `
-      <div class="fc-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEdit(${f.id})">✏ Editar</button>
-        <button class="btn btn-danger btn-sm" id="del-${f.id}" onclick="deleteFactura(${f.id})">🗑 Eliminar</button>
-      </div>` : '';
+    // Puede borrar/vincular/desvincular quien cargó la factura, o un admin — igual
+    // que en la carga (RLS ya lo exige del lado de la base, esto es solo la UI).
+    const canManage = isAdmin || f.cargado_por === currentUser?.id;
+
+    let vinculoBadge = '';
+    let vinculoBtn = '';
+    if (f.estado_vinculacion === 'VINCULADA') {
+      vinculoBadge = `<span class="badge badge-vinculada">Recibo N°${f.recibo_numero ?? '—'}</span>`;
+      if (canManage) vinculoBtn = `<button class="btn btn-ghost btn-sm" onclick="askDesvincular(${f.id})">Desvincular</button>`;
+    } else if (f.estado_vinculacion === 'PENDIENTE') {
+      if (canManage) vinculoBtn = `<button class="btn btn-ghost btn-sm" onclick="openVincular(${f.id})">Vincular a recibo</button>`;
+    } else if (f.estado_vinculacion === 'SIN_RECIBO_BORRADOR') {
+      vinculoBadge = '<span class="badge badge-sinrecibo">Sin recibo en borrador</span>';
+    }
+
+    const editBtn = isAdmin
+      ? `<button class="btn btn-ghost btn-sm" onclick="openEdit(${f.id})">✏ Editar</button>` : '';
+    const deleteBtn = (canManage && f.estado_vinculacion !== 'VINCULADA')
+      ? `<button class="btn btn-danger btn-sm" onclick="askDelete(${f.id})">🗑 Eliminar</button>` : '';
+    const actions = (editBtn || vinculoBtn || deleteBtn)
+      ? `<div class="fc-actions">${editBtn}${vinculoBtn}${deleteBtn}</div>` : '';
+
     return `<div class="fc" id="fc-${f.id}">
       <div class="fc-top">
         <div class="fc-left">
@@ -827,7 +887,7 @@ function renderList() {
         </div>
         <div class="fc-right">
           <div class="fc-monto">${f$(f.monto_con_iva)}</div>
-          <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${pagoLabel}${importadaBadge}</div>
+          <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${pagoLabel}${vinculoBadge}</div>
         </div>
       </div>
       ${f.materiales ? `<div class="fc-desc">${f.materiales}</div>` : ''}
@@ -836,27 +896,107 @@ function renderList() {
   }).join('');
 }
 
-// ── DELETE ────────────────────────────────────────────────────
-async function deleteFactura(id) {
-  const btn = document.getElementById(`del-${id}`);
-  if (!pendingDel.has(id)) {
-    pendingDel.add(id);
-    if (btn) { btn.textContent = '¿Confirmar?'; btn.style.background = '#4a0d0d'; }
-    setTimeout(() => {
-      pendingDel.delete(id);
-      if (document.getElementById(`del-${id}`)) {
-        btn.innerHTML = '🗑 Eliminar'; btn.style.background = '';
-      }
-    }, 3500);
-    return;
-  }
-  pendingDel.delete(id);
+// ── CONFIRM (borrar / desvincular) ───────────────────────────
+function askDelete(id) {
+  const f = facturas.find(x => x.id === id);
+  if (!f) return;
+  confirmCtx = { type: 'delete', id };
+  document.getElementById('confirmTitle').textContent = 'Eliminar factura';
+  document.getElementById('confirmBody').innerHTML =
+    `¿Eliminar la factura de <b>${f.proveedor}</b>` +
+    `${f.numero_comprobante ? ' N° ' + f.numero_comprobante : ''}` +
+    ` por <b>${f$(f.monto_con_iva)}</b>? Esta acción no se puede deshacer.`;
+  document.getElementById('confirmBtn').textContent = 'Sí, eliminar';
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+function askDesvincular(id) {
+  const f = facturas.find(x => x.id === id);
+  if (!f) return;
+  confirmCtx = { type: 'desvincular', id };
+  document.getElementById('confirmTitle').textContent = 'Desvincular factura';
+  document.getElementById('confirmBody').innerHTML =
+    `¿Desvincular la factura de <b>${f.proveedor}</b> del recibo N°${f.recibo_numero ?? '—'}? ` +
+    `Va a quedar pendiente para vincularse a otro recibo.`;
+  document.getElementById('confirmBtn').textContent = 'Sí, desvincular';
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+function closeConfirm() {
+  confirmCtx = null;
+  document.getElementById('confirmModal').classList.remove('open');
+}
+
+function onConfirmBgClick(e) {
+  if (e.target === document.getElementById('confirmModal')) closeConfirm();
+}
+
+async function runConfirm() {
+  if (!confirmCtx) return;
+  const { type, id } = confirmCtx;
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = true;
   try {
-    await sbDel('facturas_obra', `?id=eq.${id}`);
-    toast('Factura eliminada', 'ok');
+    if (type === 'delete') {
+      await sbDel('facturas_obra', `?id=eq.${id}`);
+      toast('Factura eliminada', 'ok');
+    } else if (type === 'desvincular') {
+      await sbRpc('desvincular_factura', { p_factura_id: id });
+      toast('Factura desvinculada', 'ok');
+    }
+    closeConfirm();
     await loadFacturas();
   } catch (e) {
-    toast('Error: ' + e.message, 'err');
+    toast(e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── VINCULAR A RECIBO ────────────────────────────────────────
+async function openVincular(id) {
+  const f = facturas.find(x => x.id === id);
+  if (!f) return;
+  vincularFacturaId = id;
+  const sel = document.getElementById('vRecibo');
+  sel.innerHTML = '<option value="">Cargando…</option>';
+  document.getElementById('vincularModal').classList.add('open');
+  try {
+    const recibos = await sbGet('recibos',
+      `?obra_id=eq.${f.obra_id}&estado=eq.BORRADOR&select=id,numero&order=numero`);
+    sel.innerHTML = recibos.length
+      ? '<option value="">— seleccionar recibo —</option>' +
+        recibos.map(r => `<option value="${r.id}">Recibo N°${r.numero}</option>`).join('')
+      : '<option value="">No hay recibos en borrador para esta obra</option>';
+  } catch (e) {
+    sel.innerHTML = '<option value="">Error al cargar recibos</option>';
+    toast(e.message, 'err');
+  }
+}
+
+function closeVincular() {
+  vincularFacturaId = null;
+  document.getElementById('vincularModal').classList.remove('open');
+}
+
+function onVincularBgClick(e) {
+  if (e.target === document.getElementById('vincularModal')) closeVincular();
+}
+
+async function confirmVincular() {
+  const recId = document.getElementById('vRecibo').value;
+  if (!recId) { toast('Seleccioná un recibo', 'err'); return; }
+  const btn = document.getElementById('vincularBtn');
+  btn.disabled = true;
+  try {
+    await sbRpc('vincular_factura_a_recibo', { p_factura_id: vincularFacturaId, p_recibo_id: recId });
+    toast('Factura vinculada', 'ok');
+    closeVincular();
+    await loadFacturas();
+  } catch (e) {
+    toast(e.message, 'err');
+  } finally {
+    btn.disabled = false;
   }
 }
 
