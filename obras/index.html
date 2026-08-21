@@ -83,6 +83,46 @@ body{background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direc
   transition:background .1s;display:flex;flex-direction:column;gap:2px;flex-shrink:0}
 .sb-item:hover{background:var(--bg3)}.sb-item.active{background:var(--primary);border-left:3px solid var(--accent)}
 .sb-name{font-weight:700;font-size:12px}.sb-sub{font-size:10px;color:var(--text3)}
+/* SIDEBAR — search, toggle, layers, archive accordion */
+.sb-search-wrap{padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sb-search-wrap input{font-size:12px;padding:6px 9px}
+.sb-toggle-wrap{display:flex;gap:6px;padding:8px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sb-toggle-btn{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text2);
+  font-size:10px;font-weight:800;letter-spacing:.3px;padding:6px 4px;border-radius:20px;cursor:pointer;
+  font-family:inherit;transition:all .15s}
+.sb-toggle-btn.active{background:var(--primary);border-color:var(--accent);color:var(--accent)}
+.sb-layer-hdr{padding:8px 14px 4px;font-size:9px;font-weight:800;color:var(--text3);
+  letter-spacing:.8px;text-transform:uppercase}
+.sb-item-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.sb-item-row .sb-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.sb-item-muted .sb-name{color:var(--text2);font-weight:600}
+.sb-time{font-size:10px;color:var(--text3);white-space:nowrap;flex-shrink:0}
+.sb-time-warn{color:var(--warn)}
+.sb-acc-hdr{padding:9px 14px;cursor:pointer;display:flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border);
+  background:var(--bg2);border-top:1px solid var(--border)}
+.sb-acc-hdr:hover{color:var(--text)}
+.sb-acc-chev{display:inline-block;transition:transform .15s;font-size:9px;color:var(--text3)}
+.sb-acc-hdr.open .sb-acc-chev{transform:rotate(90deg)}
+.sb-acc-count{margin-left:auto;color:var(--text3);font-weight:400}
+.sb-empty{padding:16px;text-align:center;color:var(--text3);font-size:11px}
+/* MOBILE SIDEBAR (panel Obras) */
+.obras-mobile-bar{display:none}
+.sb-overlay{display:none}
+@media (max-width:768px){
+  .obras-mobile-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;
+    border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0}
+  .obras-hamburger{background:none;border:1px solid var(--border);color:var(--text);
+    font-size:16px;padding:5px 10px;border-radius:4px;cursor:pointer;flex-shrink:0;font-family:inherit}
+  .obras-mobile-title{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;color:var(--text2);min-width:0}
+  #panel-obras .split{position:relative}
+  #panel-obras .sidebar{position:fixed;top:0;left:0;height:100dvh;width:82vw;max-width:320px;
+    transform:translateX(-100%);transition:transform .25s ease;z-index:200;
+    box-shadow:2px 0 16px rgba(0,0,0,.4)}
+  #panel-obras .sidebar.open{transform:translateX(0)}
+  .sb-overlay.show{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150}
+}
 /* FORMS */
 .fr{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:110px}
@@ -242,7 +282,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   <span class="topbar-module-name">Obras</span>
   <div class="nt-scroll">
     <div class="nt active" onclick="showP('tarifario',this)">💱 Tarifario</div>
-    <div class="nt" onclick="showP('obras',this)">🏗 Obras</div>
+    <div class="nt" id="ntObras" onclick="showP('obras',this)">🏗 Obras</div>
     <div class="nt" onclick="showP('seguimiento',this)">📋 Carga Semanal</div>
     <div class="nt" onclick="showP('icc',this)">📈 Actualización</div>
     <div class="nt" onclick="showP('supervisor',this)">📊 Supervisor</div>
@@ -292,16 +332,28 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 
 <!-- ══ PANEL: OBRAS ═══════════════════════════════════════════ -->
 <div class="panel" id="panel-obras">
+  <div class="obras-mobile-bar">
+    <button class="obras-hamburger" onclick="toggleSidebar()">☰</button>
+    <span class="obras-mobile-title" id="obrasMobileTitle">Seleccioná una obra</span>
+  </div>
   <div class="split">
-    <div class="sidebar">
+    <div class="sidebar" id="obrasSidebar">
       <div class="sb-hdr">Obras
         <div style="display:flex;gap:6px">
           <button class="btn btn-g btn-sm" onclick="openMObraEsp()">+ Espontánea</button>
           <button class="btn btn-p btn-sm" onclick="openMObra()">+ Nueva</button>
         </div>
       </div>
+      <div class="sb-search-wrap">
+        <input type="text" id="obraSearch" placeholder="Buscar obra o cliente…" oninput="renderObras()">
+      </div>
+      <div class="sb-toggle-wrap">
+        <button class="sb-toggle-btn active" id="btnFiltroActivas" onclick="setObrasFiltro('activas')">Activas</button>
+        <button class="sb-toggle-btn" id="btnFiltroTodas" onclick="setObrasFiltro('todas')">Todas</button>
+      </div>
       <div id="listaObras"></div>
     </div>
+    <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
     <div class="main" id="obraDetalle">
       <div style="text-align:center;padding:60px;color:var(--text3)">
         <div style="font-size:32px;margin-bottom:10px">🏗</div>
@@ -821,6 +873,8 @@ const cache={
   setTarifario: v=>lss('nd_tar',v),
   obras: ()=>ls('nd_obras')||[],
   setObras: v=>lss('nd_obras',v),
+  obrasSidebar: ()=>ls('nd_obras_sidebar')||[],
+  setObrasSidebar: v=>lss('nd_obras_sidebar',v),
   rubros: ()=>ls('nd_rubros')||[],
   setRubros: v=>lss('nd_rubros',v),
   certs: ()=>ls('nd_certs')||[],
@@ -857,7 +911,13 @@ window.onload = async () => {
   await conectar();
   await loadCachedTC();
   refreshTC(true);
-  showP('tarifario',document.querySelector('.nt'));
+  const deepObraId=new URLSearchParams(location.search).get('obra');
+  if(deepObraId && cache.obras().some(o=>o.id===deepObraId)){
+    showP('obras',document.getElementById('ntObras'));
+    await selObra(deepObraId);
+  }else{
+    showP('tarifario',document.querySelector('.nt'));
+  }
 };
 
 async function conectar(){
@@ -892,6 +952,8 @@ async function loadObras(){
     cache.setObras(obs);
     const rubs=await sbGet('obras_rubros','?select=*&order=orden,codigo');
     cache.setRubros(rubs);
+    const sb=await sbGet('v_obras_sidebar','?select=*&order=capa,dias_sin_movimiento.asc.nullslast,nombre');
+    cache.setObrasSidebar(sb);
     renderObras();
     populateSegObras();
   }catch(e){ renderObras(); populateSegObras(); }
@@ -1015,30 +1077,120 @@ async function delTar(id){
 //  OBRAS
 // ═══════════════════════════════════════════════════════════════
 let selObraId=null;
+let obrasFiltro='activas'; // 'activas' | 'todas' — sólo gobierna el bloque ARCHIVO
+let archAccOpen={PAUSADA:false,FINALIZADA:false,CANCELADA:false};
+
+const normTxt=s=>(s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+function setObrasFiltro(f){
+  obrasFiltro=f;
+  document.getElementById('btnFiltroActivas').classList.toggle('active',f==='activas');
+  document.getElementById('btnFiltroTodas').classList.toggle('active',f==='todas');
+  renderObras();
+}
+
+function toggleArchAcc(estado){
+  archAccOpen[estado]=!archAccOpen[estado];
+  renderObras();
+}
+
+function tiempoDesde(dias){
+  if(dias==null)return'';
+  return dias===0?'hoy':dias+' d';
+}
 
 function renderObras(){
-  const obs=cache.obras();
   const el=document.getElementById('listaObras');
+  const obs=cache.obrasSidebar();
+  const qraw=document.getElementById('obraSearch')?.value.trim()||'';
+  const q=normTxt(qraw);
+  const searching=q.length>0;
+
+  const cntActivas=obs.filter(o=>o.capa==='ACTIVA').length;
+  const cntTodas=obs.length;
+  const bA=document.getElementById('btnFiltroActivas'),bT=document.getElementById('btnFiltroTodas');
+  if(bA)bA.textContent=`Activas (${cntActivas})`;
+  if(bT)bT.textContent=`Todas (${cntTodas})`;
+
   if(!obs.length){
-    el.innerHTML='<div style="padding:20px;text-align:center;color:var(--text3);font-size:11px">Sin obras</div>';
+    el.innerHTML='<div class="sb-empty">Sin obras</div>';
     return;
   }
-  const item=o=>`<div class="sb-item ${o.id===selObraId?'active':''}" onclick="selObra('${o.id}')">
-      <div class="sb-name">${o.datos_confiables===false?'<span title="Datos no confiables">⚠</span> ':''}${o.nombre}</div>
-      <div class="sb-sub">${o.cliente_razon_social||''} · ${eBadge(o.estado)}</div>
+
+  const matches=o=>!searching||normTxt(o.nombre).includes(q)||normTxt(o.cliente).includes(q);
+
+  const item=(o,muted)=>{
+    const warnIcon=o.datos_confiables===false?'<span title="Datos no confiables">⚠ </span>':'';
+    const espIcon=o.tipo_obra==='ESPONTANEA'?'⚡ ':'';
+    let timeHtml='';
+    if(o.capa==='ACTIVA'){
+      timeHtml=`<span class="sb-time">${tiempoDesde(o.dias_sin_movimiento)}</span>`;
+    }else if(o.capa==='SIN_MOVIMIENTO'){
+      const t=o.ultimo_movimiento==null?'sin certs':`${o.dias_sin_movimiento} d`;
+      timeHtml=`<span class="sb-time sb-time-warn">⚠ ${t}</span>`;
+    }
+    return`<div class="sb-item ${muted?'sb-item-muted':''} ${o.id===selObraId?'active':''}" onclick="selObra('${o.id}')">
+      <div class="sb-item-row">
+        <div class="sb-name">${warnIcon}${espIcon}${o.nombre}</div>
+        ${timeHtml}
+      </div>
+      <div class="sb-sub">${o.cliente||''} · ${o.cant_certificados||0} cert${o.cant_certificados===1?'':'s'}</div>
     </div>`;
-  const header=t=>`<div class="sb-hdr" style="border-top:1px solid var(--border)">${t}</div>`;
-  const formales=obs.filter(o=>o.tipo_obra!=='ESPONTANEA');
-  const espontaneas=obs.filter(o=>o.tipo_obra==='ESPONTANEA');
-  el.innerHTML=
-    (formales.length?header('— Obras —')+formales.map(item).join(''):'')+
-    (espontaneas.length?header('— Trabajos Espontáneos —')+espontaneas.map(item).join(''):'');
+  };
+
+  let html='';
+
+  const activas=obs.filter(o=>o.capa==='ACTIVA'&&matches(o));
+  if(activas.length){
+    html+='<div class="sb-layer-hdr">Con movimiento · últimos 30 días</div>';
+    html+=activas.map(o=>item(o,false)).join('');
+  }
+
+  const sinMovTotal=obs.filter(o=>o.capa==='SIN_MOVIMIENTO').length;
+  const sinMov=obs.filter(o=>o.capa==='SIN_MOVIMIENTO'&&matches(o));
+  if(sinMov.length){
+    html+=`<div class="sb-layer-hdr">En curso sin movimiento · ${sinMovTotal}</div>`;
+    html+=sinMov.map(o=>item(o,true)).join('');
+  }
+
+  if(obrasFiltro==='todas'||searching){
+    const archEstados=[['PAUSADA','Pausadas'],['FINALIZADA','Finalizadas'],['CANCELADA','Canceladas']];
+    archEstados.forEach(([est,label])=>{
+      const totalEst=obs.filter(o=>o.capa==='ARCHIVO'&&o.estado===est).length;
+      if(!totalEst)return;
+      const items=obs.filter(o=>o.capa==='ARCHIVO'&&o.estado===est&&matches(o));
+      const open=searching?items.length>0:archAccOpen[est];
+      html+=`<div class="sb-acc-hdr ${open?'open':''}" onclick="toggleArchAcc('${est}')">
+        <span class="sb-acc-chev">▶</span>${label}<span class="sb-acc-count">${totalEst}</span>
+      </div>`;
+      if(open){
+        html+=items.length?items.map(o=>item(o,false)).join(''):'<div class="sb-empty">Sin resultados</div>';
+      }
+    });
+  }
+
+  el.innerHTML=html||'<div class="sb-empty">Sin resultados</div>';
 }
+
+function toggleSidebar(){
+  document.getElementById('obrasSidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('obrasSidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeSidebar(); });
 
 async function selObra(id){
   selObraId=id;
   renderObras();
   await renderObraDetalle(id);
+  history.replaceState(null,'','?obra='+id);
+  const o=cache.obras().find(x=>x.id===id);
+  const t=document.getElementById('obrasMobileTitle');
+  if(t)t.textContent=o?o.nombre:'';
+  if(window.innerWidth<=768)closeSidebar();
 }
 
 async function renderObraDetalle(id){
@@ -1057,12 +1209,12 @@ async function renderObraDetalle(id){
   const totalFact=recs.reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
   const totalCob=recs.filter(r=>r.estado==='PAGADO').reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
 
-  const TRANSITIONS={EN_CURSO:['PAUSADA','FINALIZADA','CANCELADA'],PAUSADA:['EN_CURSO','CANCELADA'],FINALIZADA:[],CANCELADA:[]};
+  const TRANSITIONS={EN_CURSO:['PAUSADA','FINALIZADA','CANCELADA'],PAUSADA:['EN_CURSO','CANCELADA'],FINALIZADA:['EN_CURSO'],CANCELADA:['EN_CURSO']};
   const BTN_CFG={
     PAUSADA:   {label:'Pausar obra',   cls:'btn-warn',sty:''},
     FINALIZADA:{label:'Finalizar obra',cls:'btn-g',   sty:'color:var(--info);border-color:var(--info)'},
     CANCELADA: {label:'Cancelar obra', cls:'btn-d',   sty:''},
-    EN_CURSO:  {label:'Reanudar obra', cls:'btn-ok',  sty:''},
+    EN_CURSO:  {label:'Reactivar obra',cls:'btn-ok',  sty:''},
   };
   const transButtons=(TRANSITIONS[obra.estado]||[]).map(t=>{
     const c=BTN_CFG[t];
@@ -3209,11 +3361,11 @@ let pendingEstado=null;
 const ESTADO_MSGS={
   PAUSADA:    n=>`¿Pausar la obra <b>${n}</b>? Las jornadas y certificados seguirán accesibles pero la obra no aparecerá en el panel de rentabilidad.`,
   FINALIZADA: n=>`¿Marcar la obra <b>${n}</b> como finalizada? Ingresá la fecha de finalización real:`,
-  CANCELADA:  n=>`¿Cancelar la obra <b>${n}</b>? Esta acción es irreversible.`,
-  EN_CURSO:   n=>`¿Reanudar la obra <b>${n}</b>?`,
+  CANCELADA:  n=>`¿Cancelar la obra <b>${n}</b>? Podés reactivarla más adelante si es necesario.`,
+  EN_CURSO:   n=>`¿Reactivar la obra <b>${n}</b>? Volverá a figurar como obra en curso.`,
 };
 const ESTADO_MODAL_TITLES={
-  PAUSADA:'Pausar obra',FINALIZADA:'Finalizar obra',CANCELADA:'Cancelar obra',EN_CURSO:'Reanudar obra',
+  PAUSADA:'Pausar obra',FINALIZADA:'Finalizar obra',CANCELADA:'Cancelar obra',EN_CURSO:'Reactivar obra',
 };
 const ESTADO_CONFIRM_CLS={
   PAUSADA:'btn btn-warn',FINALIZADA:'btn btn-g',CANCELADA:'btn btn-d',EN_CURSO:'btn btn-ok',
