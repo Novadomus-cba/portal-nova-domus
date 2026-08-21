@@ -923,8 +923,8 @@
     </div>
     <div class="btns">
       <a class="btn btn-primary disabled" id="btn-accept" href="#" target="_blank" rel="noopener">Aceptar propuesta por WhatsApp</a>
-      <a class="btn btn-ghost" id="btn-consulta" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revisamos%20la%20propuesta%20de%20Brasil%20121%20y%20queremos%20hacer%20algunas%20consultas." target="_blank" rel="noopener">Tengo consultas</a>
-      <a class="btn btn-ghost" id="btn-mail" href="mailto:novadomuscba@gmail.com?subject=Propuesta%20Brasil%20121">Email</a>
+      <a class="btn btn-ghost" id="btn-consulta" href="https://wa.me/5493518643455?text=Hola%20Nova%20Domus%2C%20revisamos%20la%20propuesta%20de%20Brasil%20121%20y%20queremos%20hacer%20algunas%20consultas." target="_blank" rel="noopener">Tengo consultas</a>
+      <a class="btn btn-ghost" id="btn-mail" href="mailto:admin@nova-domus.com.ar?subject=Propuesta%20Brasil%20121">Email</a>
     </div>
   </div>
 </section>
@@ -934,8 +934,8 @@
     <div class="col">
       <b>Nova Domus</b>
       Av. Colón 3835, Córdoba<br>
-      novadomuscba@gmail.com<br>
-      +549&nbsp;351&nbsp;674&nbsp;7513
+      admin@nova-domus.com.ar<br>
+      +549&nbsp;351&nbsp;864&nbsp;3455
     </div>
     <div class="col">
       <b>CEDIA Member</b>
@@ -1250,8 +1250,8 @@ function updateAcceptLink(){
   const T = TIERS[currentTier];
   const total = "USD " + T.totalDisplay.toLocaleString("es-AR") + (T.extra ? " más ampliación a cotizar" : "");
   const msg = `Hola Nova Domus, confirmo la propuesta del Edificio Brasil 121 en su configuración ${T.label} por ${total}. Coordinemos la visita a obra y el inicio del plan de ejecución.`;
-  btnAccept.href = "https://wa.me/5493516747513?text=" + encodeURIComponent(msg);
-  document.getElementById("btn-mail").href = "mailto:novadomuscba@gmail.com?subject=" +
+  btnAccept.href = "https://wa.me/5493518643455?text=" + encodeURIComponent(msg);
+  document.getElementById("btn-mail").href = "mailto:admin@nova-domus.com.ar?subject=" +
     encodeURIComponent("Aceptación propuesta Brasil 121 — " + T.label) + "&body=" + encodeURIComponent(msg);
 }
 acceptChk.addEventListener("change", ()=> btnAccept.classList.toggle("disabled", !acceptChk.checked));
