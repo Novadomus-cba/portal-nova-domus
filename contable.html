@@ -526,28 +526,47 @@ tr:last-child td{border-bottom:none}
 <div class="mbg" id="mEditEgreso" onclick="onBgClick(event,'mEditEgreso')">
   <div class="modal">
     <div class="mhdr"><h3>Editar egreso</h3><button class="cx" onclick="closeM('mEditEgreso')">✕</button></div>
-    <div class="fg"><label>Proveedor / Organismo *</label><input type="text" id="meProveedor"></div>
-    <div class="fg"><label>Monto total $ *</label><input type="number" id="meMontoTotal" step="0.01"></div>
-    <div class="fg"><label>Estado</label>
-      <select id="meEstado">
-        <option value="PENDIENTE">Pendiente</option>
-        <option value="PAGADO">Pagado</option>
+    <div id="meAutoNotice" style="display:none;font-size:11px;color:var(--muted);margin-bottom:10px">Fila cargada automáticamente desde el extracto bancario — solo se completan los datos que faltan (neto, IVA, CUIT, comprobante, destino de costo). El resto no se edita.</div>
+    <div id="meLockedFields">
+      <div class="fg"><label>Proveedor / Organismo *</label><input type="text" id="meProveedor"></div>
+      <div class="fg"><label>Monto total $ *</label><input type="number" id="meMontoTotal" step="0.01"></div>
+      <div class="fg"><label>Estado</label>
+        <select id="meEstado">
+          <option value="PENDIENTE">Pendiente</option>
+          <option value="PAGADO">Pagado</option>
+        </select>
+      </div>
+      <div class="fg" id="meFechaPagoWrap" style="display:none">
+        <label>Fecha de pago</label><input type="date" id="meFechaPago">
+      </div>
+      <div class="fg"><label>Forma de pago</label>
+        <select id="meFormaPago">
+          <option value="">— sin especificar —</option>
+          <option value="TRANSFERENCIA">Transferencia</option>
+          <option value="EFECTIVO">Efectivo</option>
+          <option value="CHEQUE">Cheque</option>
+          <option value="TARJETA">Tarjeta</option>
+          <option value="OTRO">Otro</option>
+        </select>
+      </div>
+      <div class="fg"><label>Notas</label><textarea id="meNotas" rows="2"></textarea></div>
+    </div>
+    <div class="row">
+      <div class="fg"><label>Monto neto $</label><input type="number" id="meMontoNeto" step="0.01" min="0" placeholder="0.00"></div>
+      <div class="fg" style="max-width:90px"><label>IVA</label><input type="number" id="meIva" step="0.01" min="0" max="1" placeholder="0.21"></div>
+    </div>
+    <div class="row">
+      <div class="fg"><label>CUIT</label><input type="text" id="meCuit" placeholder="20-12345678-9"></div>
+      <div class="fg"><label>N° comprobante</label><input type="text" id="meNumComp" placeholder="0001-00012345"></div>
+    </div>
+    <div class="fg"><label>Destino de costo</label>
+      <select id="meDestinoCosto">
+        <option value="">— sin definir —</option>
+        <option value="DIRECTO_OBRA">Directo a obra</option>
+        <option value="ESTRUCTURA">Estructura</option>
+        <option value="FINANCIERO">Financiero</option>
       </select>
     </div>
-    <div class="fg" id="meFechaPagoWrap" style="display:none">
-      <label>Fecha de pago</label><input type="date" id="meFechaPago">
-    </div>
-    <div class="fg"><label>Forma de pago</label>
-      <select id="meFormaPago">
-        <option value="">— sin especificar —</option>
-        <option value="TRANSFERENCIA">Transferencia</option>
-        <option value="EFECTIVO">Efectivo</option>
-        <option value="CHEQUE">Cheque</option>
-        <option value="TARJETA">Tarjeta</option>
-        <option value="OTRO">Otro</option>
-      </select>
-    </div>
-    <div class="fg"><label>Notas</label><textarea id="meNotas" rows="2"></textarea></div>
     <div class="mftr">
       <button class="btn btn-ghost" onclick="closeM('mEditEgreso')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveEditEgreso()" style="width:auto">Guardar</button>
@@ -1222,10 +1241,15 @@ function renderEgresos() {
   if (!list.length) { el.innerHTML='<div class="empty">No hay egresos que coincidan con los filtros.</div>'; return; }
   el.innerHTML = list.map(e => {
     const bCls = e.estado==='PAGADO'?'b-ok':'b-pend';
+    const esAuto = e.cargado_por === 'auto:extracto';
+    // En las filas auto, monto_neto=0 e iva=0.21 son placeholders de carga
+    // (la columna no admite NULL), no un dato observado -- no se muestran
+    // como "$0" real. Ver DECISIONES: convención acordada 20/08/2026.
+    const netoSinDato = esAuto && Number(e.monto_neto) === 0;
     return `<div class="item" id="eg-${e.id}">
       <div class="item-top">
         <div class="item-left">
-          <div class="item-title">${e.proveedor_organismo}</div>
+          <div class="item-title">${e.proveedor_organismo}${esAuto?' <span class="badge b-gray" style="font-size:9px">AUTO</span>':''}</div>
           <div class="item-meta">
             <span>${fd(e.fecha_emision)}</span>
             <span>${categoriaLabel(e.categoria)}</span>
@@ -1233,6 +1257,11 @@ function renderEgresos() {
             ${e.destino_costo?`<span class="badge b-gray" style="font-size:9px">${DESTINO_COSTO_LABEL[e.destino_costo]||e.destino_costo}</span>`:''}
             ${e.numero_comprobante?`<span>${e.tipo_comprobante||''} ${e.numero_comprobante}</span>`:''}
             ${e.periodo_fiscal?`<span>Período ${e.periodo_fiscal}</span>`:''}
+            ${e.cuit?`<span>CUIT ${e.cuit}</span>`:''}
+          </div>
+          <div class="item-meta" style="margin-top:4px">
+            <span>Neto: ${netoSinDato ? 's/d' : f$(e.monto_neto)}</span>
+            <span>IVA: ${netoSinDato ? 's/d' : (Number(e.iva)*100).toFixed(0)+'%'}</span>
           </div>
         </div>
         <div class="item-right">
@@ -1306,10 +1335,14 @@ async function marcarPagadoEgreso(id) {
   } catch(e) { toast('Error: '+e.message,'err'); }
 }
 
+let editingEgresoEsAuto = false;
+
 function openEditEgreso(id) {
   const e = egresos.find(x=>x.id===id);
   if (!e) return;
   editingEgresoId=id;
+  editingEgresoEsAuto = e.cargado_por === 'auto:extracto';
+
   document.getElementById('meProveedor').value=e.proveedor_organismo||'';
   document.getElementById('meMontoTotal').value=e.monto_total||'';
   document.getElementById('meEstado').value=e.estado||'PENDIENTE';
@@ -1320,12 +1353,28 @@ function openEditEgreso(id) {
   document.getElementById('meEstado').onchange = function() {
     document.getElementById('meFechaPagoWrap').style.display=this.value==='PAGADO'?'block':'none';
   };
+
+  // En las filas auto, monto_neto=0 / iva=0.21 son placeholder de carga, no
+  // un dato real -- no se precargan en el input, se dejan vacios para que
+  // completarlos sea un acto explicito, no editar un "0.21" que parece dato.
+  const netoEsPlaceholder = editingEgresoEsAuto && Number(e.monto_neto) === 0;
+  document.getElementById('meMontoNeto').value = netoEsPlaceholder ? '' : (e.monto_neto ?? '');
+  document.getElementById('meIva').value = netoEsPlaceholder ? '' : (e.iva ?? '');
+  document.getElementById('meCuit').value = e.cuit||'';
+  document.getElementById('meNumComp').value = e.numero_comprobante||'';
+  document.getElementById('meDestinoCosto').value = e.destino_costo||'';
+
+  document.getElementById('meAutoNotice').style.display = editingEgresoEsAuto ? 'block' : 'none';
+  document.getElementById('meLockedFields').style.display = editingEgresoEsAuto ? 'none' : 'block';
+
   openM('mEditEgreso');
 }
 
 async function saveEditEgreso() {
   if (!editingEgresoId) return;
-  const payload = {
+  const meMontoNeto = document.getElementById('meMontoNeto').value;
+  const meIva = document.getElementById('meIva').value;
+  const payload = editingEgresoEsAuto ? {} : {
     proveedor_organismo: document.getElementById('meProveedor').value.trim(),
     monto_total: parseFloat(document.getElementById('meMontoTotal').value)||0,
     estado: document.getElementById('meEstado').value,
@@ -1333,6 +1382,13 @@ async function saveEditEgreso() {
     forma_pago: document.getElementById('meFormaPago').value||null,
     notas: document.getElementById('meNotas').value.trim()||null,
   };
+  // monto_neto no admite NULL -- si se deja vacio en una fila auto, se
+  // conserva el placeholder 0 en vez de escribir NaN.
+  if (meMontoNeto !== '') payload.monto_neto = parseFloat(meMontoNeto)||0;
+  if (meIva !== '') payload.iva = parseFloat(meIva)||0;
+  payload.cuit = document.getElementById('meCuit').value.trim()||null;
+  payload.numero_comprobante = document.getElementById('meNumComp').value.trim()||null;
+  payload.destino_costo = document.getElementById('meDestinoCosto').value||null;
   try {
     await sbPatch('egresos_generales', payload, `?id=eq.${editingEgresoId}`);
     toast('Egreso actualizado','ok');
