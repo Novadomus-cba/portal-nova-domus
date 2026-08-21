@@ -798,6 +798,16 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-sesion">
+  <div class="modal">
+    <div class="modal-title">Sesión expirada</div>
+    <div class="modal-sub" id="modal-sesion-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="irAReingresar()" style="flex:1">🔐 Reingresar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="../auth-bridge.js"></script>
@@ -816,10 +826,13 @@ async function handleLogout() {
 }
 
 // ── PANEL DATA ────────────────────────────────────────────────
-// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SUPA_URL/cuadrillaToken
-// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SUPA_URL ya
+// no es un proyecto distinto, es un alias de la sesión de siempre — por eso supa()
+// pide el access_token en cada llamada en vez de cachearlo una sola vez al cargar
+// la página (ese cacheo dejaba a un usuario con la sesión vencida viendo una
+// pantalla muda: el token de 1h expiraba y los fetch fallaban con 401 sin que
+// nadie se enterara).
 const SUPA_URL    = AUTH_URL;
-let cuadrillaToken = null;
 const MIN_HORAS   = 6;
 const VALOR_PEAJE = 3000;
 
@@ -844,16 +857,19 @@ function buildTimeOpts() {
 const TIME_OPTS = buildTimeOpts();
 
 async function supa(path, opts = {}) {
+  const { data: { session } } = await authClient.auth.getSession();
+  if (!session) { manejarSesionExpirada(); throw new Error('SIN_SESION'); }
   const res = await fetch(SUPA_URL + path, {
     ...opts,
     headers: {
       'apikey': AUTH_KEY,
-      'Authorization': 'Bearer ' + cuadrillaToken,
+      'Authorization': 'Bearer ' + session.access_token,
       'Content-Type': 'application/json',
       'Prefer': opts.prefer || '',
       ...(opts.headers || {})
     }
   });
+  if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   if (!res.ok) { const e = await res.text(); throw new Error(e); }
   const ct = res.headers.get('content-type') || '';
   return ct.includes('json') ? res.json() : null;
@@ -874,8 +890,6 @@ async function init() {
     window.location.href = '../index.html';
     return;
   }
-
-  cuadrillaToken = session.access_token;
 
   // Portal header
   document.getElementById('portal-username').textContent = profile.full_name;
