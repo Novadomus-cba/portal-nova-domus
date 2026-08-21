@@ -806,6 +806,15 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 
 <!-- DOCUMENTOS OFFSCREEN -->
 <div class="dw"><div id="DC"></div><div id="DR"></div><div id="cdRawC"></div><div id="cdRawR"></div></div>
+
+<div class="mbg" id="modal-sesion">
+  <div class="modal" style="width:420px">
+    <div class="mhdr"><h3>Sesión expirada</h3><button class="cx" onclick="cerrarModalSesion()">✕</button></div>
+    <div class="mbody"><div id="modal-sesion-msg" style="font-size:12px;color:var(--text2);line-height:1.6"></div></div>
+    <div class="mftr"><button class="btn btn-p" onclick="irAReingresar()">🔐 Reingresar</button></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script src="../auth-bridge.js"></script>
@@ -825,9 +834,13 @@ async function handleLogout() {
 // ═══════════════════════════════════════════════════════════════
 //  CONFIG & SUPABASE
 // ═══════════════════════════════════════════════════════════════
-// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL/cuadrillaToken
-// ya no son un proyecto ni un token distinto, son alias de la sesión de siempre.
-let SB_URL=AUTH_URL, cuadrillaToken=null, sbOK=false;
+// Obras se consolidó en este mismo proyecto (Comercial) el 14/08/2026: SB_URL ya
+// no es un proyecto distinto, es un alias de la sesión de siempre — por eso
+// sbFetch pide el access_token en cada llamada en vez de cachearlo una sola vez
+// al cargar la página (ese cacheo era lo que dejaba a un usuario con la sesión
+// vencida viendo una pantalla muda: el token de 1h expiraba y los fetch fallaban
+// con 401 sin que nadie se enterara).
+let SB_URL=AUTH_URL, sbOK=false;
 let currentUserId=null, currentUserRole=null;
 
 const ls  = k=>{ try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null} };
@@ -841,16 +854,18 @@ const fd  = iso=>{ if(!iso)return''; const[y,m,d]=iso.split('-'); return`${d}/${
 
 // SUPABASE FETCH
 async function sbFetch(method,table,body=null,query=''){
-  if(!SB_URL||!cuadrillaToken) throw new Error('Sin configuración Supabase');
+  const { data:{session} } = await authClient.auth.getSession();
+  if(!session){ manejarSesionExpirada(); throw new Error('SIN_SESION'); }
   const r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{
     method,
     headers:{
-      'apikey':AUTH_KEY,'Authorization':`Bearer ${cuadrillaToken}`,
+      'apikey':AUTH_KEY,'Authorization':`Bearer ${session.access_token}`,
       'Content-Type':'application/json',
       'Prefer':method==='POST'?'return=representation':''
     },
     ...(body?{body:JSON.stringify(body)}:{})
   });
+  if(r.status===401){ manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
   if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||r.statusText); }
   if(method==='DELETE'||r.status===204) return true;
   return r.json();
@@ -897,7 +912,6 @@ window.onload = async () => {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html'; return;
   }
-  cuadrillaToken = session.access_token;
   currentUserId = session.user.id;
   currentUserRole = profile.role;
   document.getElementById('portal-username').textContent = profile.full_name;
