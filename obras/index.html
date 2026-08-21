@@ -1656,13 +1656,16 @@ function showCdPV(w,el){
 
 // ── Edición de certificado/recibo (BORRADOR / ENVIADO) ──────────
 //    y rectificación (PAGADO) — comparten el mismo formulario de ítems/líneas.
-let edMode='edit',edCert=null,edRec=null,edObra=null,edItems=[],edFacts=[],edLineas=[],edTC=1430;
+let edMode='edit',edCert=null,edRec=null,edObra=null,edItems=[],edFacts=[],edLineas=[],edTC=1430,
+  edIvaMO=false,edSavedOnce=false;
 
 async function editarCertificado(id){
   if(!cdCert||cdCert.id!==id){ toast('Error interno: certificado no cargado','err'); return; }
   edMode='edit';
   edCert=cdCert;edRec=cdRec;edObra=cdObra;
   edTC=edCert.tipo_cambio_usd||1430;
+  edIvaMO=edRec?edRec.iva_mano_obra_pct>0:false;
+  edSavedOnce=false;
   edItems=(edCert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
     .map(i=>{
       const rub=i.rubro_id?cache.rubros().find(r=>r.id===i.rubro_id):null;
@@ -1701,6 +1704,12 @@ async function editarCertificado(id){
     ...otroLineas.map(l=>({_key:l.id,_id:l.id,_new:false,_deleted:false,orden:l.orden||0,
       tipo:'OTRO',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_locked:true})),
   ];
+  // Se corren los sync una vez ya al poblar, no solo cuando el usuario toca un ítem/
+  // factura — si no, guardar sin haber editado ningún ítem (p.ej. solo tocar el IVA)
+  // borraba las líneas CERTIFICADO/EXCEDENTE (quedan _deleted:true arriba) sin volver
+  // a crearlas, porque syncEdLineasFromItems() nunca corría.
+  syncEdLineasFromItems();
+  syncEdLineasFromFacts();
   renderEditForm();
 }
 
@@ -1710,6 +1719,8 @@ function rectificarCertificado(id){
   edMode='rectify';
   edCert=cdCert;edRec=cdRec;edObra=cdObra;
   edTC=edCert.tipo_cambio_usd||1430;
+  edIvaMO=edRec?edRec.iva_mano_obra_pct>0:false;
+  edSavedOnce=false;
   // Los ítems/líneas se copian como nuevos: van a un certificado/recibo nuevo, el original no se toca.
   edItems=(edCert.certificados_items||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
     .map(i=>{
@@ -1730,6 +1741,11 @@ function rectificarCertificado(id){
   // legacy se copian como nuevas (mismo criterio que edItems).
   edLineas=otroLineas.map(l=>({_key:uid(),_id:null,_new:true,_deleted:false,orden:l.orden||0,
     tipo:'OTRO',desc:l.descripcion||'',monto:l.monto_pesos||0,qty:l.cantidad||1,_locked:true}));
+  // Igual que en editarCertificado(): correr los sync una vez al poblar para que una
+  // rectificación confirmada sin tocar ítems/facturas no salga con el recibo vacío de
+  // mano de obra/materiales (los sync son los que efectivamente los generan).
+  syncEdLineasFromItems();
+  syncEdLineasFromFacts();
   renderEditForm();
 }
 
@@ -1749,9 +1765,11 @@ function renderEditForm(){
   const isRect=edMode==='rectify';
   document.getElementById('cdTitle').textContent=
     (isRect?`Rectificar Certificado N°${edCert.numero}`:`Editar Certificado N°${edCert.numero}`)+` — ${edObra.nombre}`;
-  document.getElementById('cdEstadoBadge').innerHTML=isRect
-    ?'<span class="bd b-warn">📄 Se creará una versión nueva — el original quedará RECTIFICADO</span>'
-    :eBadge(edCert.estado);
+  // #cdEstadoBadge vive dentro de .mbody y el template de este formulario no lo
+  // incluye (la edición no muestra esa fila de tabs/badge) — el template de abajo
+  // reemplaza .mbody entero, así que escribirle acá no tendría ningún efecto visible
+  // ni en la primera llamada; en la segunda (p.ej. renderEditForm() de nuevo después
+  // de guardar) el elemento ya no existe y esto tiraba TypeError.
   const body=document.querySelector('#mCertDetalle .mbody');
   body.innerHTML=`
     <div class="card">
@@ -1769,8 +1787,8 @@ function renderEditForm(){
     <div class="card">
       <label style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:400;
         text-transform:none;letter-spacing:0;color:var(--text);cursor:${edRec.estado==='BORRADOR'?'pointer':'not-allowed'}">
-        <input type="checkbox" id="edIvaMO" style="width:auto" ${edRec.iva_mano_obra_pct>0?'checked':''}
-          ${edRec.estado!=='BORRADOR'?'disabled':''}> IVA mano de obra (21%)
+        <input type="checkbox" id="edIvaMO" style="width:auto" ${edIvaMO?'checked':''}
+          ${edRec.estado!=='BORRADOR'?'disabled':''} onchange="edIvaMO=this.checked"> IVA mano de obra (21%)
       </label>
       ${edRec.estado!=='BORRADOR'?`<div style="font-size:10px;color:var(--text3);margin-top:4px">Solo se puede cambiar con el recibo en BORRADOR (estado actual: ${edRec.estado})</div>`:''}
     </div>
@@ -1796,9 +1814,16 @@ function renderEditForm(){
   recalcEd();
 
   const actions=document.getElementById('cdActions');
-  actions.innerHTML=`
-    <button class="btn btn-g" onclick="cancelarEdicionCert()">${isRect?'Cancelar rectificación':'Cancelar edición'}</button>
-    <button class="btn btn-p" onclick="previewEdicionCert()">👁 Vista previa y guardar</button>`;
+  // Guardar y Vista previa van separados: guardar persiste de una, sin depender del
+  // render de la preview (ver incidente 21/08 — un TypeError en el render tiraba
+  // abajo el guardado completo porque estaban en la misma función). Vista previa
+  // queda deshabilitada hasta el primer guardado exitoso de esta sesión de edición.
+  actions.innerHTML=isRect?`
+    <button class="btn btn-g" onclick="cancelarEdicionCert()">Cancelar rectificación</button>
+    <button class="btn btn-p" onclick="previewEdicionCert()">👁 Vista previa y confirmar</button>`:`
+    <button class="btn btn-g" onclick="cancelarEdicionCert()">Cancelar edición</button>
+    <button class="btn btn-p" id="edBtnGuardar" onclick="guardarEdicionCert()">💾 Guardar cambios</button>
+    <button class="btn btn-g" id="edBtnPreview" ${edSavedOnce?'':'disabled'} onclick="previewEdicionCert()">👁 Vista previa</button>`;
 }
 
 function cancelarEdicionCert(){
@@ -1861,6 +1886,11 @@ function recalcEd(){
   setU('edTCu',tC);setU('edTEu',tE);setU('edTSu',tS);setU('edTFu',tF);setU('edTTu',tT);
 }
 
+// Vista previa de solo-lectura — nunca persiste nada. En modo edición se llega acá
+// solo después de un guardado exitoso (ver edSavedOnce en renderEditForm) y se
+// arma con edItems/edLineas/edIvaMO en memoria; en modo rectificación es al revés,
+// se llega ANTES de confirmar, porque ahí sí tiene sentido revisar antes de crear
+// el certificado/recibo nuevo (acción irreversible sobre el original).
 async function previewEdicionCert(){
   const isRect=edMode==='rectify';
   resetCdViewSkeleton();
@@ -1868,7 +1898,7 @@ async function previewEdicionCert(){
     (isRect?`Vista previa — Rectificación de Certificado N°${edCert.numero}`:`Vista previa — Certificado N°${edCert.numero}`)+` — ${edObra.nombre}`;
   document.getElementById('cdEstadoBadge').innerHTML=isRect
     ?'<span class="bd b-warn">⚠ Se creará un certificado y recibo nuevos — el original pasará a RECTIFICADO</span>'
-    :'<span class="bd b-warn">⚠ Revisá antes de guardar</span>';
+    :'<span class="bd b-ok">✓ Vista previa de lo ya guardado</span>';
 
   const items=edItems.filter(i=>!i._deleted).map(i=>({cls:i.cls,desc:i.desc}));
   buildDC({obra:edObra,numC:edCert.numero,fecha:edCert.fecha_emision,desde:edCert.periodo_desde,hasta:edCert.periodo_hasta,
@@ -1879,9 +1909,8 @@ async function previewEdicionCert(){
   if(edRec){
     const lineas=edLineas.filter(l=>!l._deleted).map(l=>({desc:l.desc,monto:l.monto,tipo:mapRecTipo(l.tipo),qty:l.qty||1,
       proveedor:l.proveedor,factura_referencia:l.factura_referencia}));
-    const ivaMOPct=document.getElementById('edIvaMO').checked?0.21:0;
     buildDR({obra:edObra,numR:edRec.numero,fecha:edRec.fecha_emision,tc:edTC,det:edRec.detalle_descripcion,
-      ivaMOPct,lineas,target:'cdRawR'});
+      ivaMOPct:edIvaMO?0.21:0,lineas,target:'cdRawR'});
     document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
       .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
   }else{
@@ -1895,12 +1924,24 @@ async function previewEdicionCert(){
   actions.innerHTML=isRect?`
     <button class="btn btn-g" onclick="renderEditForm()">← Volver a editar</button>
     <button class="btn btn-p" onclick="confirmarRectificarCert()">✅ Confirmar rectificación</button>`:`
-    <button class="btn btn-g" onclick="renderEditForm()">← Volver a editar</button>
-    <button class="btn btn-p" onclick="confirmarGuardarCert()">✅ Confirmar y guardar</button>`;
+    <button class="btn btn-g" onclick="renderEditForm()">← Volver a editar</button>`;
 }
 
-async function confirmarGuardarCert(){
+// Persiste certificado + recibo. Independiente de previewEdicionCert() a propósito
+// (ver incidente 21/08: un TypeError en el render de la preview tiraba abajo el
+// guardado completo porque compartían la misma función) — este botón no renderiza
+// nada, así que un error de UI nunca puede volver a bloquear el guardado.
+async function guardarEdicionCert(){
+  const btn=document.getElementById('edBtnGuardar');
+  const origLabel=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.innerHTML='<div class="spin"></div> Guardando...';}
   try{
+    // Por si se guarda sin haber tocado ningún ítem (p.ej. solo el IVA o una
+    // factura): las líneas CERTIFICADO/EXCEDENTE quedan _deleted:true desde que se
+    // abrió el formulario y solo se regeneran acá — sin este llamado se borrarían
+    // sin volver a crearse.
+    syncEdLineasFromItems();
+
     let orden=0;
     for(const i of edItems){
       if(i._deleted){
@@ -1909,9 +1950,13 @@ async function confirmarGuardarCert(){
       }
       const payload={tipo:unmapCertTipo(i.cls),descripcion:i.desc,precio_usd_unitario:i.usd||null,
         porcentaje_etapa:i.pct||null,cantidad:i.qty||1,monto_pesos_calculado:i.sub||0,rubro_id:i.tId||null,orden:orden++};
-      if(i._new) await sbPost('certificados_items',{...payload,certificado_id:edCert.id});
-      else await sbPatch('certificados_items',payload,`?id=eq.${i._id}`);
+      if(i._new){
+        const rr=await sbPost('certificados_items',{...payload,certificado_id:edCert.id});
+        i._id=rr[0].id;i._new=false;
+      }else await sbPatch('certificados_items',payload,`?id=eq.${i._id}`);
     }
+    edItems=edItems.filter(i=>!i._deleted);
+
     if(edRec){
       let ordenL=0;
       for(const l of edLineas){
@@ -1920,19 +1965,29 @@ async function confirmarGuardarCert(){
           continue;
         }
         const payload={tipo:l.tipo,descripcion:l.desc,monto_pesos:l.monto||0,cantidad:l.qty||1,orden:ordenL++};
-        if(l._new) await sbPost('recibos_lineas',{...payload,recibo_id:edRec.id});
-        else await sbPatch('recibos_lineas',payload,`?id=eq.${l._id}`);
+        if(l._new){
+          const rr=await sbPost('recibos_lineas',{...payload,recibo_id:edRec.id});
+          l._id=rr[0].id;l._new=false;
+        }else await sbPatch('recibos_lineas',payload,`?id=eq.${l._id}`);
       }
-      await sbPatch('recibos',
-        {iva_mano_obra_pct:document.getElementById('edIvaMO').checked?0.21:0},
-        `?id=eq.${edRec.id}`);
+      edLineas=edLineas.filter(l=>!l._deleted);
+      await sbPatch('recibos',{iva_mano_obra_pct:edIvaMO?0.21:0},`?id=eq.${edRec.id}`);
     }
-    toast('✅ Certificado actualizado','ok');
-    closeM('mCertDetalle');
-    await loadObras();
-    selObra(selObraId);
+
+    toast('✅ Cambios guardados','ok');
+    edSavedOnce=true;
+    // El modal se queda abierto (Vista previa recién se habilita ahora), pero la
+    // lista/detalle de la obra que queda detrás tiene que reflejar el guardado para
+    // cuando se cierre — antes esto lo cubría el closeM()+loadObras() de la función
+    // que ya no existe (confirmarGuardarCert), que cerraba el modal de una. Si este
+    // refresco de fondo falla, no corresponde reportarlo como error de guardado: lo
+    // que se guardó, ya se guardó — arriba de este punto no queda ningún await que
+    // pueda fallar.
+    try{ await loadObras(); if(selObraId) selObra(selObraId); }catch{}
+    renderEditForm();
   }catch(e){
     toast('Error al guardar: '+e.message,'err');
+    if(btn){btn.disabled=false;btn.innerHTML=origLabel;}
   }
 }
 
@@ -1961,7 +2016,7 @@ async function confirmarRectificarCert(){
         obra_id:edObra.id,certificado_id:newCertId,numero:numR,
         fecha_emision:new Date().toISOString().slice(0,10),tipo_cambio_usd:edTC,
         detalle_descripcion:edRec.detalle_descripcion,
-        iva_mano_obra_pct:document.getElementById('edIvaMO').checked?0.21:0,
+        iva_mano_obra_pct:edIvaMO?0.21:0,
         estado:'BORRADOR',rectifica_id:edRec.id
       });
       const newRecId=rr[0].id;
