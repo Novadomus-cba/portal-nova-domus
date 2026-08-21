@@ -1326,19 +1326,25 @@ async function renderObraDetalle(id){
       <table><thead><tr><th>Cert.</th><th>Período</th><th>Estado</th><th>Total recibo</th><th>Recibo estado</th><th></th></tr></thead>
       <tbody>
         ${certs.map(c=>{
-          const rec=recs.find(r=>r.certificado_id===c.id);
-          const tot=rec?(rec.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0):0;
-          return`<tr>
-            <td><b>N°${c.numero}</b> <span style="color:var(--text3);font-size:10px">${fd(c.fecha_emision)}</span></td>
-            <td style="font-size:10px;color:var(--text2)">${c.periodo_desde?fd(c.periodo_desde)+' → '+fd(c.periodo_hasta):''}</td>
-            <td>${eBadge(c.estado)}</td>
-            <td>${rec?f$(tot):'—'}</td>
-            <td>${rec?`<select style="font-size:10px;padding:2px 5px;width:auto"
-              onchange="cambiarEstRec('${rec.id}',this.value)">
-              ${['BORRADOR','ENVIADO','PAGADO'].map(e=>`<option ${rec.estado===e?'selected':''}>${e}</option>`).join('')}
-            </select>`:'—'}</td>
-            <td><button class="btn btn-g btn-sm" onclick="abrirDetalleCert('${c.id}')">👁 Ver</button></td>
-          </tr>`;
+          // certificado_id -> recibos es 1:N (ver recibo 27 de Los Boulevares): un
+          // certificado puede tener más de un recibo vivo. Cada recibo es su propia
+          // fila; el certificado se repite como columna informativa, no agrupa.
+          const certRecs=recs.filter(r=>r.certificado_id===c.id);
+          const rows=certRecs.length?certRecs:[null];
+          return rows.map(rec=>{
+            const tot=rec?(rec.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0):0;
+            return`<tr>
+              <td><b>N°${c.numero}</b> <span style="color:var(--text3);font-size:10px">${fd(c.fecha_emision)}</span></td>
+              <td style="font-size:10px;color:var(--text2)">${c.periodo_desde?fd(c.periodo_desde)+' → '+fd(c.periodo_hasta):''}</td>
+              <td>${eBadge(c.estado)}</td>
+              <td>${rec?f$(tot):'—'}</td>
+              <td>${rec?`<select style="font-size:10px;padding:2px 5px;width:auto"
+                onchange="cambiarEstRec('${rec.id}',this.value)">
+                ${['BORRADOR','ENVIADO','PAGADO'].map(e=>`<option ${rec.estado===e?'selected':''}>${e}</option>`).join('')}
+              </select>`:'—'}</td>
+              <td><button class="btn btn-g btn-sm" onclick="abrirDetalleCert('${c.id}')">👁 Ver</button></td>
+            </tr>`;
+          }).join('');
         }).join('')}
       </tbody></table>
     </div>`:
@@ -1514,7 +1520,7 @@ function construirLineasRecibo(items){
   }));
 }
 
-let cdCert=null,cdRec=null,cdObra=null;
+let cdCert=null,cdRec=null,cdObra=null,cdRecs=[];
 
 function resetCdViewSkeleton(){
   document.querySelector('#mCertDetalle .mbody').innerHTML=`
@@ -1524,6 +1530,7 @@ function resetCdViewSkeleton(){
           style="border-color:var(--accent);color:var(--accent)">📋 Certificado</button>
         <button class="btn btn-g" id="cdPvRB" onclick="showCdPV('r',this)">🧾 Recibo</button>
       </div>
+      <select id="cdRecSelect" style="display:none;font-size:10px;padding:3px 8px;width:auto" onchange="onCdRecSelect(this.value)"></select>
       <div style="display:flex;gap:6px">
         <button class="btn btn-g" onclick="dlCdImg(this)">🖼️ Imagen</button>
         <button class="btn btn-g" onclick="dlCdPDF(this)">📄 PDF</button>
@@ -1535,17 +1542,21 @@ function resetCdViewSkeleton(){
 }
 
 async function abrirDetalleCert(certId){
-  let cert,rec;
+  let cert;
   try{
     const cs=await sbGet('certificados',`?id=eq.${certId}&select=*,certificados_items(*)`);
     cert=cs[0];
-    const rs=await sbGet('recibos',`?certificado_id=eq.${certId}&select=*,recibos_lineas(*)`);
-    rec=rs[0];
+    // certificado_id -> recibos es 1:N (un certificado PAGADO puede tener un recibo
+    // rectificado/histórico y otro BORRADOR vivo al mismo tiempo, ver recibo 27 de
+    // Los Boulevares) — se trae la lista completa, nunca un solo registro.
+    cdRecs=await sbGet('recibos',`?certificado_id=eq.${certId}&select=*,recibos_lineas(*)&order=numero.asc`);
   }catch(e){ toast('Error al cargar el certificado: '+e.message,'err'); return; }
   if(!cert){ toast('Certificado no encontrado','err'); return; }
   const obra=cache.obras().find(o=>o.id===cert.obra_id);
   if(!obra){ toast('Obra no encontrada','err'); return; }
-  cdCert=cert;cdRec=rec;cdObra=obra;
+  cdCert=cert;cdObra=obra;
+  // Por defecto se muestra el recibo de número más alto; el selector deja elegir otro.
+  cdRec=cdRecs.length?cdRecs[cdRecs.length-1]:null;
 
   resetCdViewSkeleton();
 
@@ -1558,18 +1569,17 @@ async function abrirDetalleCert(certId){
   document.getElementById('cdDocC').innerHTML=document.getElementById('cdRawC').outerHTML
     .replace('id="cdRawC"','class="doc-print" style="background:#FDFBF0"');
 
-  if(rec){
-    const lineas=(rec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
-      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo),qty:l.cantidad||1}));
-    const matFacts=await getMatFacts(obra.id,cert.periodo_desde,cert.periodo_hasta);
-    buildDR({obra,numR:rec.numero,fecha:rec.fecha_emision,tc:rec.tipo_cambio_usd,det:rec.detalle_descripcion,
-      lineas,matFacts,target:'cdRawR'});
-    document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
-      .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
+  const sel=document.getElementById('cdRecSelect');
+  if(cdRecs.length>1){
+    sel.innerHTML=cdRecs.map(r=>
+      `<option value="${r.id}" ${r.id===cdRec.id?'selected':''}>Recibo N°${r.numero} — ${r.estado}</option>`
+    ).join('');
+    sel.style.display='';
   }else{
-    document.getElementById('cdDocR').innerHTML=
-      '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
+    sel.innerHTML='';
+    sel.style.display='none';
   }
+  await renderCdRecDoc();
 
   document.getElementById('cdTitle').textContent=`Certificado N°${cert.numero} — ${obra.nombre}`;
   document.getElementById('cdEstadoBadge').innerHTML=eBadge(cert.estado);
@@ -1587,6 +1597,31 @@ async function abrirDetalleCert(certId){
 
   showCdPV('c',document.getElementById('cdPvCB'));
   openM('mCertDetalle');
+}
+
+// Redibuja solo el documento de recibo a partir de cdRec — la llaman tanto
+// abrirDetalleCert() al abrir el modal como onCdRecSelect() al cambiar de recibo
+// en el selector, sin volver a pedir el certificado ni sus ítems.
+async function renderCdRecDoc(){
+  if(cdRec){
+    const lineas=(cdRec.recibos_lineas||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))
+      .map(l=>({desc:l.descripcion,monto:l.monto_pesos,tipo:mapRecTipo(l.tipo),qty:l.cantidad||1}));
+    const matFacts=await getMatFacts(cdObra.id,cdCert.periodo_desde,cdCert.periodo_hasta);
+    buildDR({obra:cdObra,numR:cdRec.numero,fecha:cdRec.fecha_emision,tc:cdRec.tipo_cambio_usd,det:cdRec.detalle_descripcion,
+      lineas,matFacts,target:'cdRawR'});
+    document.getElementById('cdDocR').innerHTML=document.getElementById('cdRawR').outerHTML
+      .replace('id="cdRawR"','class="doc-print" style="background:#FDFBF0"');
+  }else{
+    document.getElementById('cdDocR').innerHTML=
+      '<div style="padding:20px;color:#999;text-align:center">Sin recibo asociado</div>';
+  }
+}
+
+function onCdRecSelect(recId){
+  const rec=cdRecs.find(r=>r.id===recId);
+  if(!rec)return;
+  cdRec=rec;
+  renderCdRecDoc();
 }
 
 function showCdPV(w,el){
