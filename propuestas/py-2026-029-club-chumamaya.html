@@ -22,7 +22,7 @@
 --fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-html{overflow-x:clip}
+html{overflow-x:hidden}
 body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
 font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
 h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
@@ -216,7 +216,7 @@ font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:
 .stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
 display:flex;justify-content:space-between;gap:14px;align-items:baseline}
 .stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
-white-space:nowrap}
+overflow-wrap:anywhere}
 .chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
 border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
 .chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
@@ -275,6 +275,95 @@ footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px
 color:var(--grey)}
 footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
 
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
 @media (prefers-reduced-motion:reduce){
 *{animation:none!important;transition:none!important}}
 @media print{
@@ -285,6 +374,9 @@ nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
 header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
 p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 .dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
 *{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
 </style></head><body>
 
@@ -389,14 +481,21 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <table class="tbl">
     <thead><tr><th></th><th>Con Nova Domus</th><th>Integradores tradicionales</th></tr></thead>
     <tbody>
-      <tr><td>Proveedores a coordinar</td><td>Uno</td><td>Tres o más</td></tr>
-      <tr><td>Responsable ante una falla</td><td>Nova Domus</td>
-        <td>A definir entre las partes</td></tr>
-      <tr><td>Equipo de trabajo</td><td>Propio, en relación de dependencia</td>
-        <td>Subcontratado por rubro</td></tr>
-      <tr><td>Garantía</td><td>12 meses sobre el sistema completo</td>
-        <td>Por equipo y por proveedor</td></tr>
-      <tr><td>Documentación de entrega</td><td>Incluida</td><td>Habitualmente no</td></tr>
+      <tr><td>Proveedores a coordinar</td>
+        <td data-label="Con Nova Domus">Uno</td>
+        <td data-label="Integradores tradicionales">Tres o más</td></tr>
+      <tr><td>Responsable ante una falla</td>
+        <td data-label="Con Nova Domus">Nova Domus</td>
+        <td data-label="Integradores tradicionales">A definir entre las partes</td></tr>
+      <tr><td>Equipo de trabajo</td>
+        <td data-label="Con Nova Domus">Propio, en relación de dependencia</td>
+        <td data-label="Integradores tradicionales">Subcontratado por rubro</td></tr>
+      <tr><td>Garantía</td>
+        <td data-label="Con Nova Domus">12 meses sobre el sistema completo</td>
+        <td data-label="Integradores tradicionales">Por equipo y por proveedor</td></tr>
+      <tr><td>Documentación de entrega</td>
+        <td data-label="Con Nova Domus">Incluida</td>
+        <td data-label="Integradores tradicionales">Habitualmente no</td></tr>
     </tbody>
   </table>
 </section>
