@@ -31,6 +31,10 @@ h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
 p{color:var(--body);margin:0 0 12px}
 a{color:var(--gold);text-decoration:none}
 .eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--gold)!important}
 .lead{color:var(--grey);font-size:15px;max-width:640px}
 .hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
@@ -147,6 +151,29 @@ background:#fff}
 .rub-name{flex:1;font-weight:600}
 .rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
 .section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+.dc-qty{color:var(--gold);font-size:12px;font-weight:600;margin-top:2px}
+.section-light .dc-qty{color:var(--navy)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.04)!important}
+
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
 .rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
@@ -251,7 +278,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <i style="width:54vw;height:54vw;border-radius:34%"></i>
   </div>
   <div class="wrap" style="position:relative">
-    <div class="brand">
+    <div class="brand logo-plate">
       <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
       <span><span class="wordmark">NOVA DOMUS</span>
         <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
@@ -318,7 +345,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     finales y ajustar el presupuesto antes de comprar un solo equipo.</p>
 </section>
 
-<section class="sec" id="responsable">
+<section class="sec section-light" id="responsable">
   <p class="eyebrow">Por qué nosotros</p>
   <h2>Un solo responsable</h2>
   <p>En una obra con domótica normalmente coordinás tres proveedores distintos: el electricista,
@@ -360,231 +387,131 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <section class="sec" id="s01">
       <p class="eyebrow">01 — Sistema</p>
       <h2>Iluminación</h2>
-      <p class="lead">48 puntos de luz · 47 efectos · 32 cajas de comando</p>
-      <p class="hint">👆 Tocá cada punto para ver el detalle</p>
-      <div class="devs">
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Módulos de comando en cada caja de llave</span><span class="tap-badge">Tocá para abrir</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Detrás de cada llave de la casa va un módulo Shelly. La llave sigue funcionando exactamente como siempre — se suma el control desde el celular, la voz y las escenas.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Regulación de intensidad en dormitorios y estar</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>En las zonas de descanso el módulo es un dimmer: la luz se regula en lugar de tener solo encendido y apagado. Habilita la escena de lectura, la de cine y la luz mínima de noche.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Encendido automático por presencia</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Pasillos, escaleras, baños, lavadero y cochera encienden solos al detectar movimiento o apertura de puerta, y se apagan solos. La llave manual se conserva siempre.</p></div>
-        </article></div>
-      <div class="strip"><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1pm-mini-gen4.jpg" alt="Shelly 1PM Mini Gen4" loading="lazy" decoding="async"><figcaption>Shelly 1PM Mini Gen4</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-dimmer-gen4.png" alt="Shelly Dimmer Gen4" loading="lazy" decoding="async"><figcaption>Shelly Dimmer Gen4</figcaption></figure><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg" alt="Shelly Plus 2PM Gen4" loading="lazy" decoding="async"><figcaption>Shelly Plus 2PM Gen4</figcaption></figure><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235265079.jpg" alt="Shelly Plus i4" loading="lazy" decoding="async"><figcaption>Shelly Plus i4</figcaption></figure></div>
+      <p class="lead">48 puntos de luz · 47 efectos · 32 cajas de comando. Kit de Seguridad Shelly
+        XL para automatizar pasillos y zonas de poca estadía: la luz se enciende sola al abrir la
+        puerta o detectar movimiento, sin depender de la llave manual. Probá el simulador: así se
+        siente controlar la casa según el momento del día.</p>
+      <p class="hint">👆 Tocá cada pestaña para cambiar de escena, y arrastrá el slider — o tocá
+        cada dispositivo para ver el detalle</p>
+      <div class="sw" role="tablist">
+        <button class="on" onclick="esc(0,this)">Mañana</button>
+        <button onclick="esc(1,this)">Día</button>
+        <button onclick="esc(2,this)">Noche</button>
+        <button onclick="esc(3,this)">Cine</button>
+      </div>
+      <div class="scene">
+        <div class="scene-view" id="sv"></div>
+        <div class="scene-body">
+          <h3 id="st">Mañana</h3>
+          <p id="sd">Las cortinas del dormitorio suben solas con el despertador y la luz arranca
+            tibia y baja. El aire se pone en marcha antes de que te levantes.</p>
+          <div class="slabel"><span>Brillo</span><span id="bv">60%</span></div>
+          <input class="slider" type="range" min="0" max="100" value="60" id="br"
+                 aria-label="Brillo de la escena">
+        </div>
+      </div>
+      <div class="device-grid" id="grid-iluminacion"></div>
     </section>
-    <section class="sec" id="s02">
+    <section class="sec section-light" id="s02">
       <p class="eyebrow">02 — Sistema</p>
       <h2>Confort</h2>
-      <p class="lead">10 paños de cortina · 5 equipos de aire acondicionado</p>
-      <p class="hint">👆 Tocá cada punto para ver el detalle</p>
-      <div class="devs">
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Cortinas motorizadas — 10 paños</span><span class="tap-badge">Tocá para abrir</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Comedor y dormitorios. Suben y bajan desde el celular, por horario o integradas a una escena: al despertador, al atardecer, o todas juntas al salir de la casa.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Climatización inteligente — 5 equipos</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Cada split suma control por celular, programación horaria y sensor de presencia real. El aire deja de quedar encendido en una habitación vacía.</p></div>
-        </article></div>
-      <div class="strip"><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg" alt="Shelly Plus 2PM Gen4 — módulo de cortina" loading="lazy" decoding="async"><figcaption>Shelly Plus 2PM Gen4 — módulo de cortina</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sen-air-crl-01-b2b.jpg" alt="Sensibo Air — control inteligente de aire acondicionado" loading="lazy" decoding="async"><figcaption>Sensibo Air — control inteligente de aire acondicionado</figcaption></figure></div>
+      <p class="lead">10 paños de cortina motorizados y un Sensibo por cada uno de los 5 equipos
+        de aire acondicionado — geolocalización y sensor de temperatura ambiente real, no del
+        equipo. Movés el slider y mirás el efecto estimado:</p>
+      <p class="hint">👆 Arrastrá el slider y tocá el switch para comparar — o tocá cada
+        dispositivo para ver el detalle</p>
+      <div class="calc-box" id="confort-calc">
+        <div class="slabel"><span>Temperatura objetivo</span><span id="ctv">24°C</span></div>
+        <input class="slider" type="range" min="18" max="28" value="24" id="ct"
+               oninput="confortT(this.value)" aria-label="Temperatura objetivo">
+        <div class="slabel" style="margin-top:16px">
+          <span>Ahorro estimado vs. uso manual sin sensores</span>
+          <span id="cav" style="color:var(--gold);font-weight:600">~18%</span></div>
+        <p style="font-size:11px;color:var(--grey);margin-top:8px">Estimación referencial de
+          consumo, no una promesa de retorno — varía según aislación, uso real y equipo.</p>
+      </div>
+      <div class="sw">
+        <button class="on" id="cf0" onclick="confortView(0)">Sin Sensibo</button>
+        <button id="cf1" onclick="confortView(1)">Con Sensibo</button>
+      </div>
+      <div class="cmp" id="cfbox">
+        <h3>Sin Sensibo</h3>
+        <ul>
+          <li>✕ Aire prendido de más, sin nadie en el ambiente</li>
+          <li>✕ Sin sensor de presencia real</li>
+          <li>✕ Temperatura del equipo, no del ambiente real</li>
+          <li>✕ Control manual únicamente</li>
+        </ul>
+      </div>
+      <div class="device-grid" id="grid-confort"></div>
     </section>
-    <section class="sec" id="s03">
+    <section class="sec section-light" id="s03">
       <p class="eyebrow">03 — Sistema</p>
       <h2>Seguridad</h2>
-      <p class="lead">12 cámaras · grabación 8TB · alarma inalámbrica</p>
-      <p class="hint">👆 Tocá cada punto para ver el detalle</p>
-      <div class="devs">
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Videovigilancia perimetral — 12 cámaras</span><span class="tap-badge">Tocá para abrir</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Cobertura de todo el perímetro, accesos y cochera. Detección inteligente que distingue una persona de un animal o de una rama moviéndose, con luz y sirena de disuasión en la propia cámara.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Grabación local de 8TB</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Grabador dedicado en el subsuelo con disco de videovigilancia. Aproximadamente dos meses de historial grabando por evento, accesible desde el celular.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Alarma inalámbrica</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Central inalámbrica con detectores de movimiento de techo en los salones grandes y contacto de apertura en todas las puertas de acceso, más sirena exterior y teclado.</p></div>
-        </article></div>
-      <div class="strip"><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg" alt="Cámara Hikvision AcuSense 4MP con luz dual y sirena" loading="lazy" decoding="async"><figcaption>Cámara Hikvision AcuSense 4MP con luz dual y sirena</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png" alt="NVR Hikvision AcuSense 16 canales" loading="lazy" decoding="async"><figcaption>NVR Hikvision AcuSense 16 canales</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg" alt="Disco Seagate SkyHawk 8TB para videovigilancia" loading="lazy" decoding="async"><figcaption>Disco Seagate SkyHawk 8TB para videovigilancia</figcaption></figure><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg" alt="Central de alarma Hikvision AX PRO inalámbrica" loading="lazy" decoding="async"><figcaption>Central de alarma Hikvision AX PRO inalámbrica</figcaption></figure></div>
+      <p class="lead">12 cámaras con detección inteligente en todo el perímetro, grabación local
+        de 8TB y alarma inalámbrica en el interior.</p>
+      <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el
+        detalle</p>
+      <div class="sw">
+        <button class="on" id="c0" onclick="cmp(0)">Cámara común</button>
+        <button id="c1" onclick="cmp(1)">Con Nova Domus</button>
+      </div>
+      <div class="cmp" id="cbox">
+        <h3>Cámara común</h3>
+        <ul>
+          <li>✕ Te avisa cada vez que se mueve una rama o pasa un gato</li>
+          <li>✕ Tantas notificaciones falsas que terminás silenciando la app</li>
+          <li>✕ De noche, blanco y negro y sin detalle útil</li>
+          <li>✕ Buscar un evento es mirar horas de grabación</li>
+        </ul>
+      </div>
+      <div class="device-grid" id="grid-seguridad"></div>
     </section>
     <section class="sec" id="s04">
       <p class="eyebrow">04 — Sistema</p>
       <h2>Entretenimiento</h2>
-      <p class="lead">Audio embutido en el living, ampliable a una segunda zona</p>
-      <p class="hint">👆 Tocá cada punto para ver el detalle</p>
-      <div class="devs">
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Audio embutido en el living</span><span class="tap-badge">Tocá para abrir</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Parlantes embutidos en el cielorraso del estar-comedor, invisibles, con amplificador en el rack. Se manda música desde el celular sin apps propietarias.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Preparado para una segunda zona</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>El amplificador es de dos canales y queda con un canal libre. Sumar audio en la galería o el quincho más adelante es agregar parlantes, sin cambiar el equipo.</p></div>
-        </article></div>
-      <div class="strip"><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png" alt="VSSL MA.1 — amplificador de streaming 2 canales" loading="lazy" decoding="async"><figcaption>VSSL MA.1 — amplificador de streaming 2 canales</figcaption></figure><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/es-core-36-ic.jpg" alt="Episode CORE 3 — parlantes de embutir en techo 6" (par)" loading="lazy" decoding="async"><figcaption>Episode CORE 3 — parlantes de embutir en techo 6" (par)</figcaption></figure></div>
+      <p class="lead">Audio embutido en el living, ampliable a una segunda zona sin cambiar el
+        equipo.</p>
+      <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
+      <div class="device-grid" id="grid-entretenimiento"></div>
     </section>
-    <section class="sec" id="s05">
+    <section class="sec section-light" id="s05">
       <p class="eyebrow">05 — Sistema</p>
       <h2>Redes</h2>
-      <p class="lead">Router gestionado · switch PoE 24 puertos · 4 access points · rack con UPS</p>
-      <p class="hint">👆 Tocá cada punto para ver el detalle</p>
-      <div class="devs">
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Red profesional gestionada</span><span class="tap-badge">Tocá para abrir</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Router, controlador y switch de línea profesional. El tráfico de domótica y seguridad queda separado del de invitados, y la videovigilancia tiene ancho de banda garantizado.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Cobertura WiFi 6 en toda la casa</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Tres puntos de acceso interiores más uno exterior para galería y pileta, con roaming real: el celular cambia de antena sin cortar la llamada.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Rack organizado con respaldo de energía</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Gabinete de 12U en el subsuelo, todo rotulado y accesible, con UPS que sostiene el sistema durante un corte de luz.</p></div>
-        </article></div>
-      <div class="strip"><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png" alt="Router TP-Link Omada ER605 VPN Gigabit" loading="lazy" decoding="async"><figcaption>Router TP-Link Omada ER605 VPN Gigabit</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/oc200.jpg" alt="Controlador TP-Link Omada OC200" loading="lazy" decoding="async"><figcaption>Controlador TP-Link Omada OC200</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg2428p.jpg" alt="Switch TP-Link Omada 24 puertos PoE+" loading="lazy" decoding="async"><figcaption>Switch TP-Link Omada 24 puertos PoE+</figcaption></figure><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/eap650.jpg" alt="Access Point TP-Link Omada EAP650 WiFi 6" loading="lazy" decoding="async"><figcaption>Access Point TP-Link Omada EAP650 WiFi 6</figcaption></figure></div>
+      <p class="lead">Router gestionado, switch PoE de 24 puertos, 4 access points WiFi 6 y rack
+        con UPS — el cimiento del que dependen los otros cinco sistemas.</p>
+      <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el
+        detalle</p>
+      <div class="sw">
+        <button class="on" id="r0" onclick="rcmp(0)">WiFi doméstico</button>
+        <button id="r1" onclick="rcmp(1)">Red Omada</button>
+      </div>
+      <div class="cmp" id="rbox">
+        <h3>WiFi doméstico común</h3>
+        <ul>
+          <li>✕ Un solo router para toda la casa, el subsuelo y el quincho</li>
+          <li>✕ Las cámaras compiten con el streaming de la familia</li>
+          <li>✕ Los invitados están en la misma red que la domótica</li>
+          <li>✕ Caminar de un ambiente a otro corta la conexión</li>
+        </ul>
+      </div>
+      <div class="vbox">
+        <h3>Por qué las redes van primero</h3>
+        <p>Los otros cinco sistemas dependen de este. Una red mal dimensionada no se nota el
+          primer día: se nota el día que hay doce cámaras grabando, cinco aires reportando y la
+          casa llena de gente. Por eso la red es el único rubro que no conviene ajustar para
+          abajo.</p>
+      </div>
+      <div class="device-grid" id="grid-redes"></div>
     </section>
     <section class="sec" id="s06">
       <p class="eyebrow">06 — Sistema</p>
       <h2>Core</h2>
-      <p class="lead">Automatización local · antena Zigbee · panel en el ingreso</p>
-      <p class="hint">👆 Tocá cada punto para ver el detalle</p>
-      <div class="devs">
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Servidor de automatización local</span><span class="tap-badge">Tocá para abrir</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>El cerebro del sistema corre dentro de la casa, no en la nube. Las escenas y los automatismos siguen funcionando aunque se caiga el internet del country.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Antena Zigbee dedicada</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Alimentada por red, ubicada en el centro de la casa para que la malla de dispositivos llegue parejo al subsuelo y al quincho.</p></div>
-        </article>
-        <article class="dev">
-          <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-            <span class="dev-title">Panel de control en el ingreso</span>
-            <span class="arr" aria-hidden="true">▾</span>
-          </button>
-          <div class="dev-body"><p>Pantalla en el acceso principal para ver el estado de la casa y activar escenas sin sacar el celular del bolsillo.</p></div>
-        </article></div>
-      <div class="strip"><figure><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/209.jpg" alt="Home Assistant Green — servidor de automatización" loading="lazy" decoding="async"><figcaption>Home Assistant Green — servidor de automatización</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/slzb-06p10.jpg" alt="Coordinador Zigbee/Thread SMLIGHT PoE" loading="lazy" decoding="async"><figcaption>Coordinador Zigbee/Thread SMLIGHT PoE</figcaption></figure><figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-wall-display-xl.png" alt="Shelly Wall Display XL — panel de control en pared" loading="lazy" decoding="async"><figcaption>Shelly Wall Display XL — panel de control en pared</figcaption></figure></div>
+      <p class="lead">Automatización local, antena Zigbee dedicada y panel de control en el
+        ingreso principal.</p>
+      <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
+      <div class="device-grid" id="grid-core"></div>
     </section>
-
-<section class="sec" id="escenas">
-  <p class="eyebrow">Cómo se siente</p>
-  <h2>Simulador de escenas</h2>
-  <p class="lead">Cuatro momentos del día, la misma casa. Tocá y arrastrá.</p>
-  <p class="hint">👆 Tocá cada momento y movés el brillo con el deslizador</p>
-  <div class="sw" role="tablist">
-    <button class="on" onclick="esc(0,this)">Mañana</button>
-    <button onclick="esc(1,this)">Día</button>
-    <button onclick="esc(2,this)">Noche</button>
-    <button onclick="esc(3,this)">Cine</button>
-  </div>
-  <div class="scene">
-    <div class="scene-view" id="sv"></div>
-    <div class="scene-body">
-      <h3 id="st">Mañana</h3>
-      <p id="sd">Las cortinas del dormitorio suben solas con el despertador y la luz arranca
-        tibia y baja. El aire se pone en marcha antes de que te levantes.</p>
-      <div class="slabel"><span>Brillo</span><span id="bv">60%</span></div>
-      <input class="slider" type="range" min="0" max="100" value="60" id="br"
-             aria-label="Brillo de la escena">
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="seguridad-cmp">
-  <p class="eyebrow">La diferencia</p>
-  <h2>Cámara común vs. detección inteligente</h2>
-  <p class="hint">👆 Tocá para ver la diferencia</p>
-  <div class="sw">
-    <button class="on" id="c0" onclick="cmp(0)">Cámara común</button>
-    <button id="c1" onclick="cmp(1)">Con Nova Domus</button>
-  </div>
-  <div class="cmp" id="cbox">
-    <h3>Cámara común</h3>
-    <ul>
-      <li>✕ Te avisa cada vez que se mueve una rama o pasa un gato</li>
-      <li>✕ Tantas notificaciones falsas que terminás silenciando la app</li>
-      <li>✕ De noche, blanco y negro y sin detalle útil</li>
-      <li>✕ Buscar un evento es mirar horas de grabación</li>
-    </ul>
-  </div>
-</section>
-
-<section class="sec" id="redes-cmp">
-  <p class="eyebrow">El cimiento</p>
-  <h2>WiFi doméstico vs. red profesional</h2>
-  <p class="hint">👆 Tocá para ver la diferencia</p>
-  <div class="sw">
-    <button class="on" id="r0" onclick="rcmp(0)">WiFi doméstico</button>
-    <button id="r1" onclick="rcmp(1)">Red Omada</button>
-  </div>
-  <div class="cmp" id="rbox">
-    <h3>WiFi doméstico común</h3>
-    <ul>
-      <li>✕ Un solo router para toda la casa, el subsuelo y el quincho</li>
-      <li>✕ Las cámaras compiten con el streaming de la familia</li>
-      <li>✕ Los invitados están en la misma red que la domótica</li>
-      <li>✕ Caminar de un ambiente a otro corta la conexión</li>
-    </ul>
-  </div>
-  <div class="vbox">
-    <h3>Por qué las redes van primero</h3>
-    <p>Los otros cinco sistemas dependen de este. Una red mal dimensionada no se nota el primer
-      día: se nota el día que hay doce cámaras grabando, cinco aires reportando y la casa llena
-      de gente. Por eso la red es el único rubro que no conviene ajustar para abajo.</p>
-  </div>
-</section>
 
 </div>
 
@@ -975,6 +902,89 @@ function rcmp(i){
   document.getElementById('r0').classList.toggle('on',i===0);
   document.getElementById('r1').classList.toggle('on',i===1);
   var b=document.getElementById('rbox'), d=RCMP[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
+    return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+
+
+// ===== DEVICE CARDS por sistema (33 SKU reales, mismos datos que Inversion) =====
+var DEVICES = {
+ iluminacion:[
+  {n:'Shelly 1PM Mini Gen4',q:22,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1pm-mini-gen4.jpg",desc:'Detrás de cada llave de la casa va un módulo Shelly. La llave sigue funcionando exactamente como siempre — se suma el control desde el celular, la voz y las escenas.'},
+  {n:'Shelly Dimmer Gen4',q:11,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-dimmer-gen4.png",desc:'En dormitorios y el estar regula intensidad en vez de solo encendido/apagado — habilita la escena de lectura, la de cine y la luz mínima de noche.'},
+  {n:'Shelly Plus 2PM Gen4',q:13,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg",desc:'Dos efectos de iluminación por módulo, para cajas de llave con dos puntos de comando.'},
+  {n:'Shelly Plus i4',q:4,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235265079.jpg",desc:'Lectura de la llave física (input) en cajas de 3 o más efectos — nunca controla el relé directo, se vincula por programación al efecto real en Home Assistant.'},
+  {n:'Shelly Pro 2PM DIN',q:3,foto:null,desc:'Módulo de riel DIN para cargas de mayor exigencia, montado en el tablero.'},
+  {n:'Kit de sensores Shelly (Smart Security Bundle)',q:2,foto:null,desc:'3 sensores de movimiento + 3 de puerta por kit — enciende solo en pasillos, baños y zonas de poca estadía, sin depender de la llave manual.'},
+  {n:'Sensor de movimiento Shelly BLU Motion',q:6,foto:null,desc:'Sensores sueltos donde el kit no alcanza, para cubrir cada circulación.'},
+  {n:'Sensor de apertura Shelly BLU Door/Window',q:1,foto:null,desc:'Detecta apertura de puerta para un encendido automático puntual.'},
+ ],
+ confort:[
+  {n:'Shelly Plus 2PM Gen4 — módulo de cortina',q:11,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg",desc:'Comedor y dormitorios. Suben y bajan desde el celular, por horario o integradas a una escena.'},
+  {n:'Sensibo Air',q:6,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sen-air-crl-01-b2b.jpg",desc:'Un controlador por split — geolocalización y sensor de presencia real, no del equipo de fábrica.'},
+ ],
+ seguridad:[
+  {n:'Cámara Hikvision AcuSense 4MP con luz dual y sirena',q:12,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg",desc:'Cobertura de todo el perímetro, accesos y cochera. Distingue una persona de un animal o rama, con luz y sirena de disuasión propias.'},
+  {n:'NVR Hikvision AcuSense 16 canales',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png",desc:'Grabador dedicado en el subsuelo, dimensionado con margen sobre las 12 cámaras.'},
+  {n:'Disco Seagate SkyHawk 8TB',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg",desc:'Diseñado para grabación continua 24/7 — aproximadamente dos meses de historial por evento.'},
+  {n:'Central de alarma Hikvision AX PRO inalámbrica',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg",desc:'Central inalámbrica que orquesta detectores, contactos, sirena y teclado.'},
+  {n:'Sirena exterior inalámbrica AX PRO',q:1,foto:null,desc:'Disuasión sonora y visual ante intrusión.'},
+  {n:'Teclado inalámbrico AX PRO',q:1,foto:null,desc:'Armado y desarmado manual del sistema.'},
+  {n:'Detector de movimiento 360° de techo AX PRO',q:4,foto:null,desc:'Salones grandes — cobertura de techo a 360°.'},
+  {n:'Contacto magnético de apertura AX PRO',q:8,foto:null,desc:'En todas las puertas de acceso de la vivienda.'},
+ ],
+ entretenimiento:[
+  {n:'VSSL MA.1',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png",desc:'Amplificador de streaming de 2 canales en el rack — música desde el celular sin apps propietarias.'},
+  {n:'Episode CORE 3',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/es-core-36-ic.jpg",desc:'Parlantes de embutir en el cielorraso del estar-comedor, invisibles.'},
+ ],
+ redes:[
+  {n:'Router TP-Link Omada ER605 VPN Gigabit',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png",desc:'Router Omada Gigabit VPN — reemplaza al ER7212PC, discontinuado por el fabricante.'},
+  {n:'Controlador TP-Link Omada OC200',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/oc200.jpg",desc:'Gestiona router, switch y APs desde una sola plataforma.'},
+  {n:'Switch TP-Link Omada 24 puertos PoE+',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg2428p.jpg",desc:'Alimenta cámaras y access points sin fuentes sueltas.'},
+  {n:'Access Point TP-Link Omada EAP650 WiFi 6',q:3,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/eap650.jpg",desc:'Interiores, con roaming real entre ambientes.'},
+  {n:'Access Point exterior TP-Link Omada EAP610-OUT',q:1,foto:null,desc:'Cobertura para galería y pileta.'},
+  {n:'Gabinete de rack GLC 12U',q:1,foto:null,desc:'En el subsuelo, todo rotulado y accesible.'},
+  {n:'Bandeja de rack GLC 1U',q:2,foto:null,desc:'Soporte para equipos no rackeables.'},
+  {n:'Canal de tensión GLC 5 tomas',q:1,foto:null,desc:'Protección de sobrecarga para todo el rack.'},
+  {n:'Organizador de cable GLC 1U',q:2,foto:null,desc:'Prolijidad y mantenimiento futuro del cableado.'},
+  {n:'UPS Eaton 1500VA',q:1,foto:null,desc:'El sistema sigue funcionando durante un corte de luz.'},
+ ],
+ core:[
+  {n:'Home Assistant Green',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/209.jpg",desc:'El cerebro del sistema — corre local, no depende de la nube.'},
+  {n:'Coordinador Zigbee/Thread SMLIGHT PoE',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/slzb-06p10.jpg",desc:'Alimentado por red, en el centro de la casa para que la malla llegue pareja.'},
+  {n:'Shelly Wall Display XL',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-wall-display-xl.png",desc:'En el ingreso principal — pantalla de control física, siempre disponible.'},
+ ],
+};
+function renderDeviceGrid(id,key){
+  var el=document.getElementById(id); if(!el) return;
+  el.innerHTML=DEVICES[key].map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?'<span class="tap-badge">Tocá para abrir</span>':'';
+    return '<article class="dev" id="'+id+'-'+i+'">'
+     +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+badge+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
+     +'</article>';
+  }).join('');
+}
+['iluminacion','confort','seguridad','entretenimiento','redes','core'].forEach(function(k){renderDeviceGrid('grid-'+k,k);});
+
+// ===== CALCULADORA CONFORT (Sensibo) =====
+function confortT(v){
+  document.getElementById('ctv').textContent=v+'°C';
+  var dist=Math.abs(v-24), ahorro=Math.max(10,22-dist*1.5).toFixed(0);
+  document.getElementById('cav').textContent='~'+ahorro+'%';
+}
+var CCMP=[
+ ['Sin Sensibo',false,['Aire prendido de más, sin nadie en el ambiente','Sin sensor de presencia real','Temperatura del equipo, no del ambiente real','Control manual únicamente']],
+ ['Con Sensibo',true,['Geofencing — se ajusta según si hay alguien en casa','Sensor de temperatura ambiente real, no del equipo','Control remoto desde el celular, dentro o fuera de casa','Integrado a Home Assistant junto al resto de la casa']]
+];
+function confortView(i){
+  document.getElementById('cf0').classList.toggle('on',i===0);
+  document.getElementById('cf1').classList.toggle('on',i===1);
+  var b=document.getElementById('cfbox'), d=CCMP[i];
   b.classList.toggle('good',d[1]);
   b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
     return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
