@@ -33,8 +33,9 @@ a{color:var(--gold);text-decoration:none}
 .eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
 .logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
 .logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
 .logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
-.logo-plate .descriptor{color:var(--gold)!important}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
 .lead{color:var(--grey);font-size:15px;max-width:640px}
 .hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
@@ -755,7 +756,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   </div>
 </section>
 
-<section class="sec" id="faq">
+<section class="sec section-light" id="faq">
   <p class="eyebrow">FAQ</p>
   <h2>Antes de que preguntes</h2>
   <p class="lead">Las dudas más comunes sobre integrar tecnología a una vivienda.</p>
@@ -763,7 +764,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <div class="devs">
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿El sistema queda obsoleto en unos años?</span>
-      <span class="tap-badge">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>El cerebro del sistema es Home Assistant, de código abierto, con
         soporte activo de miles de fabricantes. Si una marca puntual discontinúa un producto —como
         pasó con el router original de este mismo presupuesto—, se reemplaza esa pieza sin tocar
@@ -962,9 +963,10 @@ var DEVICES = {
 };
 function renderDeviceGrid(id,key){
   var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
   el.innerHTML=DEVICES[key].map(function(d,i){
     var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
-    var badge=i===0?'<span class="tap-badge">Tocá para abrir</span>':'';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
     return '<article class="dev" id="'+id+'-'+i+'">'
      +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
      +'<span class="dev-title">'+d.n+badge+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
