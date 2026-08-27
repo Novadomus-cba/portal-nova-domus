@@ -159,6 +159,7 @@ background:#fff}
 @media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
 .dc-qty{color:var(--gold);font-size:12px;font-weight:600;margin-top:2px}
 .section-light .dc-qty{color:var(--navy)}
+.section-light .device-grid .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
 .dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
 .dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
 .dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
@@ -934,14 +935,14 @@ var DEVICES = {
   {n:'Sensibo Air',q:6,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sen-air-crl-01-b2b.jpg",desc:'Un controlador por split — geolocalización y sensor de presencia real, no del equipo de fábrica.'},
  ],
  seguridad:[
-  {n:'Cámara Hikvision AcuSense 4MP con luz dual y sirena',q:12,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg",desc:'Cobertura de todo el perímetro, accesos y cochera. Distingue una persona de un animal o rama, con luz y sirena de disuasión propias.'},
-  {n:'NVR Hikvision AcuSense 16 canales',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png",desc:'Grabador dedicado en el subsuelo, dimensionado con margen sobre las 12 cámaras.'},
-  {n:'Disco Seagate SkyHawk 8TB',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg",desc:'Diseñado para grabación continua 24/7 — aproximadamente dos meses de historial por evento.'},
-  {n:'Central de alarma Hikvision AX PRO inalámbrica',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg",desc:'Central inalámbrica que orquesta detectores, contactos, sirena y teclado.'},
-  {n:'Sirena exterior inalámbrica AX PRO',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp",desc:'Disuasión sonora y visual ante intrusión.'},
-  {n:'Teclado inalámbrico AX PRO',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp",desc:'Armado y desarmado manual del sistema.'},
-  {n:'Detector de movimiento 360° de techo AX PRO',q:4,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDCL12-EG2-WB.jpg",desc:'Salones grandes — cobertura de techo a 360°.'},
-  {n:'Contacto magnético de apertura AX PRO',q:8,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCS-EG2-WB(B)ne.png",desc:'En todas las puertas de acceso de la vivienda.'},
+  {n:'Cámara Hikvision AcuSense 4MP con luz dual y sirena (DS-2CD1043G2-LIU/SL)',q:12,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg",desc:'Cobertura de todo el perímetro, accesos y cochera. Distingue una persona de un animal o rama, con luz y sirena de disuasión propias.'},
+  {n:'NVR Hikvision AcuSense 16 canales (DS-7616NXI-K1(D))',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png",desc:'Grabador dedicado en el subsuelo, dimensionado con margen sobre las 12 cámaras.'},
+  {n:'Disco Seagate SkyHawk 8TB (ST8000VE001)',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg",desc:'Diseñado para grabación continua 24/7 — aproximadamente dos meses de historial por evento.'},
+  {n:'Central de alarma Hikvision AX PRO inalámbrica (DS-PWA48-Kit-WB(ARG))',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg",desc:'Central inalámbrica que orquesta detectores, contactos, sirena y teclado.'},
+  {n:'Sirena exterior inalámbrica AX PRO (DS-PS1-E-WB)',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp",desc:'Disuasión sonora y visual ante intrusión.'},
+  {n:'Teclado inalámbrico AX PRO (DS-PK1-E-WB)',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp",desc:'Armado y desarmado manual del sistema.'},
+  {n:'Detector de movimiento 360° de techo AX PRO (DS-PDCL12-EG2-WB)',q:4,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDCL12-EG2-WB.jpg",desc:'Salones grandes — cobertura de techo a 360°.'},
+  {n:'Contacto magnético de apertura AX PRO (DS-PDMCS-EG2-WB(B)ne)',q:8,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCS-EG2-WB(B)ne.png",desc:'En todas las puertas de acceso de la vivienda.'},
  ],
  entretenimiento:[
   {n:'VSSL MA.1',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png",desc:'Amplificador de streaming de 2 canales en el rack — música desde el celular sin apps propietarias.'},
