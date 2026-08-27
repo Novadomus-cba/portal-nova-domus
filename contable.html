@@ -636,14 +636,52 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
-<!-- Modal editar monto cuota -->
+<!-- Modal editar cuota -->
 <div class="mbg" id="mEditCuota" onclick="onBgClick(event,'mEditCuota')">
   <div class="modal" style="max-width:340px">
     <div class="mhdr"><h3 id="mEditCuotaT">Editar cuota</h3><button class="cx" onclick="closeM('mEditCuota')">✕</button></div>
+    <div class="fg"><label>Fecha de vencimiento *</label><input type="date" id="mCuotaFecha"></div>
     <div class="fg"><label>Monto $ *</label><input type="number" id="mCuotaMonto" step="0.01" min="0"></div>
+    <div class="fg"><label>Estado</label>
+      <select id="mCuotaEstado" onchange="onCuotaEstadoChange()">
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="PAGADO">Pagado</option>
+        <option value="VENCIDO">Vencido</option>
+      </select>
+    </div>
+    <div class="fg" id="mCuotaFechaPagoWrap" style="display:none">
+      <label>Fecha de pago</label><input type="date" id="mCuotaFechaPago">
+    </div>
     <div class="mftr">
       <button class="btn btn-ghost" onclick="closeM('mEditCuota')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveEditCuota()" style="width:auto">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar plan de pago -->
+<div class="mbg" id="mEditPlan" onclick="onBgClick(event,'mEditPlan')">
+  <div class="modal">
+    <div class="mhdr"><h3>Editar plan de pago</h3><button class="cx" onclick="closeM('mEditPlan')">✕</button></div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;padding:8px;background:var(--surface2);border-radius:6px">
+      Monto total, cantidad de cuotas y fecha de la 1ª cuota son de solo lectura: cambiarlos acá no
+      regenera ni ajusta las cuotas ya cargadas. Para eso, editá cada cuota individualmente.
+    </div>
+    <div class="row">
+      <div class="fg"><label>Monto total</label><div style="padding:9px 0;font-weight:700" id="mepMontoTotal"></div></div>
+      <div class="fg"><label>Cuotas</label><div style="padding:9px 0;font-weight:700" id="mepCantidadCuotas"></div></div>
+      <div class="fg"><label>1ª cuota</label><div style="padding:9px 0;font-weight:700" id="mepFechaPrimera"></div></div>
+    </div>
+    <div class="fg"><label>Concepto *</label><input type="text" id="mepConcepto"></div>
+    <div class="fg"><label>Organismo / Proveedor *</label><input type="text" id="mepOrganismo"></div>
+    <div class="row">
+      <div class="fg"><label>Categoría</label><select id="mepCategoria"><option value="">— sin categoría —</option></select></div>
+      <div class="fg"><label>Cuenta bancaria</label><select id="mepCuenta"><option value="">— sin definir —</option></select></div>
+    </div>
+    <div class="fg"><label>Notas</label><textarea id="mepNotas" rows="2"></textarea></div>
+    <div class="mftr">
+      <button class="btn btn-ghost" onclick="closeM('mEditPlan')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEditPlan()" style="width:auto">Guardar</button>
     </div>
   </div>
 </div>
@@ -992,6 +1030,7 @@ async function refreshCategorias() {
   buildCategoriaSelect('pCategoria', true);
   buildCategoriaSelect('fcCategoria');
   buildCategoriaSelect('mcfCategoria');
+  buildCategoriaSelect('mepCategoria', true);
   document.getElementById('rCategoria').innerHTML = '<option value="">Todas las categorías</option>' +
     categorias.map(c=>`<option value="${c.codigo}">${c.nombre_display}</option>`).join('');
 }
@@ -1455,7 +1494,8 @@ async function renderPlanes() {
               <span class="badge ${eCls}" style="font-size:9px">${c.estado_calculado}</span>
               <div class="cuota-actions">
                 ${c.estado_calculado!=='PAGADO'?`<button class="btn btn-ok btn-sm" onclick="marcarCuotaPagada('${c.id}','${p.id}')">✓</button>`:''}
-                ${p.cuotas_variables&&c.estado_calculado!=='PAGADO'?`<button class="btn btn-ghost btn-sm" onclick="openEditCuota('${c.id}',${c.monto},${c.numero_cuota})">✏</button>`:''}
+                <button class="btn btn-ghost btn-sm" onclick="openEditCuota('${c.id}',${c.numero_cuota},${c.monto},'${c.fecha_vencimiento}','${c.estado}','${c.fecha_pago||''}')">✏</button>
+                ${currentUser.role==='admin'?`<button class="btn btn-danger btn-sm" id="delCuota-${c.id}" onclick="deleteCuota('${c.id}')">🗑</button>`:''}
               </div>
             </div>`;
           }).join('')}
@@ -1479,8 +1519,10 @@ async function renderPlanes() {
           <div style="margin-top:4px;font-size:10px;color:var(--muted)">Total plan</div>
         </div>
       </div>
-      <div style="margin-top:8px">
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <button class="expand-btn" onclick="togglePlan('${p.id}')">${expanded?'▲ Ocultar':'▼ Ver cuotas'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="openEditPlan('${p.id}')">✏ Editar plan</button>
+        ${currentUser.role==='admin'?`<button class="btn btn-danger btn-sm" id="delPlan-${p.id}" onclick="deletePlan('${p.id}')">🗑 Eliminar plan</button>`:''}
       </div>
       ${cuotasHTML}
     </div>`;
@@ -1534,22 +1576,113 @@ async function marcarCuotaPagada(cuotaId, planId) {
   } catch(e) { toast('Error: '+e.message,'err'); }
 }
 
-function openEditCuota(cuotaId, monto, numero) {
+function openEditCuota(cuotaId, numero, monto, fechaVenc, estado, fechaPago) {
   editingCuotaId = cuotaId;
   document.getElementById('mEditCuotaT').textContent=`Editar cuota ${numero}`;
-  document.getElementById('mCuotaMonto').value=monto;
+  document.getElementById('mCuotaFecha').value = fechaVenc;
+  document.getElementById('mCuotaMonto').value = monto;
+  document.getElementById('mCuotaEstado').value = estado;
+  document.getElementById('mCuotaFechaPago').value = fechaPago || '';
+  onCuotaEstadoChange();
   openM('mEditCuota');
+}
+
+function onCuotaEstadoChange() {
+  document.getElementById('mCuotaFechaPagoWrap').style.display =
+    document.getElementById('mCuotaEstado').value === 'PAGADO' ? 'block' : 'none';
 }
 
 async function saveEditCuota() {
   if (!editingCuotaId) return;
-  const m = parseFloat(document.getElementById('mCuotaMonto').value);
-  if (!m || m<=0) { toast('Ingresá un monto válido','err'); return; }
+  const fecha = document.getElementById('mCuotaFecha').value;
+  const monto = parseFloat(document.getElementById('mCuotaMonto').value);
+  const estado = document.getElementById('mCuotaEstado').value;
+  const fechaPago = document.getElementById('mCuotaFechaPago').value || null;
+  if (!fecha) { toast('Ingresá la fecha de vencimiento','err'); return; }
+  if (!monto || monto<=0) { toast('Ingresá un monto válido','err'); return; }
   try {
-    await sbPatch('planes_pago_cuotas',{monto:m},`?id=eq.${editingCuotaId}`);
+    await sbPatch('planes_pago_cuotas', {
+      fecha_vencimiento: fecha, monto, estado,
+      fecha_pago: estado === 'PAGADO' ? (fechaPago || today()) : null,
+    }, `?id=eq.${editingCuotaId}`);
     toast('Cuota actualizada','ok');
     closeM('mEditCuota');
     await renderPlanes();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+async function deleteCuota(cuotaId) {
+  const btn = document.getElementById(`delCuota-${cuotaId}`);
+  if (!pendingDel.has(cuotaId)) {
+    pendingDel.add(cuotaId);
+    if (btn) { btn.textContent='¿Seguro?'; btn.style.background='#4a0d0d'; }
+    setTimeout(()=>{ pendingDel.delete(cuotaId); const b=document.getElementById(`delCuota-${cuotaId}`); if(b){b.innerHTML='🗑';b.style.background='';} },3500);
+    return;
+  }
+  pendingDel.delete(cuotaId);
+  try {
+    await sbDel('planes_pago_cuotas',`?id=eq.${cuotaId}`);
+    toast('Cuota eliminada','ok');
+    await renderPlanes();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+// ── PLANES DE PAGO: editar/eliminar datos generales ───────────
+let editingPlanId = null;
+
+async function openEditPlan(planId) {
+  const p = planes.find(pl => pl.id === planId);
+  if (!p) return;
+  editingPlanId = planId;
+  document.getElementById('mepMontoTotal').textContent = f$(p.monto_total);
+  document.getElementById('mepCantidadCuotas').textContent = p.cantidad_cuotas;
+  document.getElementById('mepFechaPrimera').textContent = fd(p.fecha_primera_cuota);
+  document.getElementById('mepConcepto').value = p.concepto;
+  document.getElementById('mepOrganismo').value = p.organismo_proveedor;
+  document.getElementById('mepNotas').value = p.notas || '';
+  document.getElementById('mepCategoria').value = p.categoria || '';
+
+  if (!cuentasBancarias.length) cuentasBancarias = await sbGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
+  const cuentaSel = document.getElementById('mepCuenta');
+  cuentaSel.innerHTML = '<option value="">— sin definir —</option>' +
+    cuentasBancarias.map(c => `<option value="${c.id}">${c.banco} — ${c.tipo_cuenta.replace('_',' ')}</option>`).join('');
+  cuentaSel.value = p.cuenta_id || '';
+
+  openM('mEditPlan');
+}
+
+async function saveEditPlan() {
+  if (!editingPlanId) return;
+  const concepto = document.getElementById('mepConcepto').value.trim();
+  const organismo = document.getElementById('mepOrganismo').value.trim();
+  if (!concepto || !organismo) { toast('Completá concepto y organismo','err'); return; }
+  const payload = {
+    concepto, organismo_proveedor: organismo,
+    categoria: document.getElementById('mepCategoria').value || null,
+    cuenta_id: document.getElementById('mepCuenta').value || null,
+    notas: document.getElementById('mepNotas').value.trim() || null,
+  };
+  try {
+    await sbPatch('planes_pago', payload, `?id=eq.${editingPlanId}`);
+    toast('Plan actualizado','ok');
+    closeM('mEditPlan');
+    await loadPlanes();
+  } catch(e) { toast('Error: '+e.message,'err'); }
+}
+
+async function deletePlan(planId) {
+  const btn = document.getElementById(`delPlan-${planId}`);
+  if (!pendingDel.has(planId)) {
+    pendingDel.add(planId);
+    if (btn) { btn.textContent='¿Confirmar?'; btn.style.background='#4a0d0d'; }
+    setTimeout(()=>{ pendingDel.delete(planId); const b=document.getElementById(`delPlan-${planId}`); if(b){b.innerHTML='🗑 Eliminar plan';b.style.background='';} },3500);
+    return;
+  }
+  pendingDel.delete(planId);
+  try {
+    await sbDel('planes_pago', `?id=eq.${planId}`);
+    toast('Plan eliminado (con sus cuotas)','ok');
+    await loadPlanes();
   } catch(e) { toast('Error: '+e.message,'err'); }
 }
 
