@@ -1644,7 +1644,16 @@ async function delObra(id){
 }
 
 async function cambiarEstRec(id,estado){
-  try{ await sbPatch('recibos',{estado},`?id=eq.${id}`); await loadObras(); selObra(selObraId); }
+  try{
+    // certificados.estado comparte BORRADOR/ENVIADO/PAGADO con recibos.estado por diseño
+    // (la columna "Estado" de la tabla de certificados) — sin este PATCH, quedaba pisada
+    // en BORRADOR para siempre aunque el recibo ya estuviera PAGADO.
+    const rec=await sbGet('recibos',`?id=eq.${id}&select=certificado_id`);
+    const certId=rec[0]?.certificado_id;
+    await sbPatch('recibos',{estado},`?id=eq.${id}`);
+    if(certId) await sbPatch('certificados',{estado},`?id=eq.${certId}`);
+    await loadObras(); selObra(selObraId);
+  }
   catch(e){ toast('Error: '+e.message,'err'); }
 }
 
