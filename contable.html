@@ -488,6 +488,10 @@ tr:last-child td{border-bottom:none}
   <div class="section-hdr"><span class="section-title">Conciliación de egresos</span></div>
   <div id="posEgresos"><div class="empty">Cargando…</div></div>
 
+  <div class="section-hdr"><span class="section-title">Agenda de Débitos</span></div>
+  <div id="agendaDebitosTotal" style="font-size:11px;color:var(--muted);margin:-4px 0 10px"></div>
+  <div id="agendaDebitosList"><div class="empty">Cargando…</div></div>
+
   <div class="section-hdr"><span class="section-title">Cheques por vencer (≤7 días)</span></div>
   <div id="posCheques"><div class="empty">Cargando…</div></div>
 </div>
@@ -1916,6 +1920,7 @@ async function loadPosicion() {
     let chequesEmitidosPendientes = [];
     let chequesRecibidosPendientes = [];
     let chequesRecibidosDescontados = [];
+    let cuotasPlanesPendientes = [];
     let saldoActualRow = null;
     let limiteDescubierto = null;
     if (cuentaPrincipal) {
@@ -1925,9 +1930,9 @@ async function loadPosicion() {
       // El saldo actual y el limite de descubierto salen de v_cuenta_saldo_actual
       // (una fila por cuenta) -- ya NO se derivan del ultimo movimiento cargado.
       let saldoActualRows;
-      [movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, chequesRecibidosDescontados, saldoActualRows] = await Promise.all([
+      [movimientosPrincipal, chequesEmitidosPendientes, chequesRecibidosPendientes, chequesRecibidosDescontados, saldoActualRows, cuotasPlanesPendientes] = await Promise.all([
         sbGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.asc&limit=1000&select=fecha,importe,categoria_sugerida,saldo,concepto,egreso_id,conciliado`),
-        sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&order=fecha_efectivo.asc&select=monto,fecha_efectivo`),
+        sbGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&order=fecha_efectivo.asc&select=monto,fecha_efectivo,beneficiario_librador`),
         sbGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`),
         // DESCONTADO viene de cheques_vista, no de cheques -- es la unica que
         // expone en_riesgo_descuento (true mientras estado=DESCONTADO y
@@ -1936,6 +1941,11 @@ async function loadPosicion() {
         // linea de exposicion/contingencia, separada de la proyeccion.
         sbGet('cheques_vista', `?tipo=eq.RECIBIDO&estado=eq.DESCONTADO&select=beneficiario_librador,monto,fecha_efectivo,fecha_descuento,en_riesgo_descuento`),
         sbGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`),
+        // Agenda de Debitos: cuotas de planes de pago aun no pagadas (estado
+        // crudo, no el calculado -- una cuota vencida sin pagar sigue siendo
+        // PENDIENTE en la base hasta que alguien la marca PAGADO, y sigue
+        // siendo un debito futuro real que hay que mostrar).
+        sbGet('planes_pago_cuotas_vista', '?estado=eq.PENDIENTE&order=fecha_vencimiento.asc&limit=500&select=id,plan_id,fecha_vencimiento,monto,concepto,organismo_proveedor'),
       ]);
       saldoActualRow = saldoActualRows[0] || null;
       // Sin fila en v_cuenta_saldo_actual no hay saldo ni limite conocidos --
@@ -1948,6 +1958,7 @@ async function loadPosicion() {
 
     renderPosCuentas(cuentas, chequesEmitidosPendientes, chequesRecibidosPendientes, saldoActualRow, limiteDescubierto, cuentaPrincipal, hoy);
     renderPosProyeccion30(saldoActualRow, chequesEmitidosPendientes, chequesRecibidosPendientes, limiteDescubierto, cuentaPrincipal, hoy);
+    renderAgendaDebitos(chequesEmitidosPendientes, cuotasPlanesPendientes, hoy);
     renderPosExposicion(chequesRecibidosDescontados, cuentaPrincipal);
     renderPosChart(movimientosPrincipal);
     renderPosCategorias(movimientosPrincipal);
@@ -2225,6 +2236,59 @@ function renderPosEgresos(movimientos) {
         </div>
       </div>`).join('') : '<div class="empty">Nada pendiente.</div>'}
   `;
+}
+
+// Agenda de Debitos: cheques EMITIDO pendientes + cuotas de planes de pago
+// pendientes, intercalados por fecha en una sola lista (no dos tablas
+// separadas). Usa estado crudo (no estado_calculado): una cuota o cheque
+// vencido sin resolver sigue siendo un debito real pendiente, no deja de
+// mostrarse porque ya paso la fecha.
+function renderAgendaDebitos(chequesEmitidosPendientes, cuotasPlanesPendientes, hoy) {
+  const totalEl = document.getElementById('agendaDebitosTotal');
+  const el = document.getElementById('agendaDebitosList');
+
+  const itemsCheques = chequesEmitidosPendientes.map(c => ({
+    fecha: c.fecha_efectivo, monto: Number(c.monto), descripcion: c.beneficiario_librador,
+    tipoItem: 'CHEQUE', cuentaLabel: null,
+  }));
+  const itemsCuotas = cuotasPlanesPendientes.map(c => {
+    const plan = planes.find(p => p.id === c.plan_id);
+    const cuenta = plan && plan.cuenta_id ? cuentasBancarias.find(cb => cb.id === plan.cuenta_id) : null;
+    return {
+      fecha: c.fecha_vencimiento, monto: Number(c.monto),
+      descripcion: `${c.concepto} — ${c.organismo_proveedor}`,
+      tipoItem: 'PLAN_PAGO', cuentaLabel: cuenta ? cuenta.banco : null,
+    };
+  });
+  const items = [...itemsCheques, ...itemsCuotas].sort((a, b) => a.fecha.localeCompare(b.fecha));
+
+  const hoyMas30 = new Date(); hoyMas30.setDate(hoyMas30.getDate() + 30);
+  const hoyMas30Str = hoyMas30.toISOString().slice(0, 10);
+  const en30d = items.filter(i => i.fecha >= hoy && i.fecha <= hoyMas30Str);
+  const total30d = en30d.reduce((a, i) => a + i.monto, 0);
+  const vencidos = items.filter(i => i.fecha < hoy);
+  totalEl.innerHTML = `Próximos 30 días: <b style="color:var(--text)">${f$(total30d)}</b> (${en30d.length} ítem${en30d.length===1?'':'s'})` +
+    (vencidos.length ? ` · <span style="color:var(--danger)">${vencidos.length} vencido${vencidos.length===1?'':'s'} sin resolver — ${f$(vencidos.reduce((a,i)=>a+i.monto,0))}</span>` : '');
+
+  if (!items.length) { el.innerHTML = '<div class="empty">Sin débitos pendientes.</div>'; return; }
+  el.innerHTML = items.map(i => {
+    const vencido = i.fecha < hoy;
+    const tipoCls = i.tipoItem === 'CHEQUE' ? 'b-danger' : 'b-info';
+    return `<div class="item">
+      <div class="item-top">
+        <div class="item-left">
+          <div class="item-title">${i.descripcion}</div>
+          <div class="item-meta">
+            <span class="badge ${tipoCls}">${i.tipoItem === 'CHEQUE' ? 'Cheque' : 'Plan de pago'}</span>
+            <span>${diaAbrev(i.fecha)} ${fd(i.fecha)}</span>
+            ${vencido ? '<span class="badge b-danger">Vencido</span>' : ''}
+            ${i.cuentaLabel ? `<span class="badge b-gray" style="font-size:9px">${i.cuentaLabel}</span>` : ''}
+          </div>
+        </div>
+        <div class="item-right"><div class="item-monto">${f$(i.monto)}</div></div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderPosCheques() {
