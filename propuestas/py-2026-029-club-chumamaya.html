@@ -6,9 +6,10 @@
 <meta property="og:title" content="Club Chumamaya — Proyecto Ejecutivo de Tecnológica Integral">
 <meta property="og:description" content="Iluminación, cortinas, climatización, seguridad, audio y redes. PY-2026-029 · Nova Domus.">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-029-club-chumamaya.html">
-<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/club-chumamaya.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-029-club-chumamaya.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-029">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Club Chumamaya · PY-2026-029 · Nova Domus</title>
@@ -21,6 +22,7 @@
 --fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html{overflow-x:clip}
 body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
 font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
 h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
@@ -39,7 +41,7 @@ a{color:var(--gold);text-decoration:none}
 .lead{color:var(--grey);font-size:15px;max-width:640px}
 .hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08)}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
 button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
 color:inherit;font:inherit;cursor:pointer}
 
@@ -60,6 +62,7 @@ color:var(--grey);margin-top:4px;white-space:nowrap}
 .py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
 margin-bottom:14px}
 .claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
 .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
 .meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
 padding:6px 14px;font-size:12px;color:var(--body)}
@@ -87,8 +90,12 @@ margin:26px 0}
 background:rgba(255,255,255,.02)}
 .dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
 min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
 .dev-title{flex:1;font-weight:600;font-size:15px}
-.arr{color:var(--gold);font-size:15px;transition:transform .3s;animation:bob 1.6s ease-in-out infinite}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
 .open .arr{transform:rotate(180deg);animation:none}
 @keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
 .dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
@@ -131,6 +138,8 @@ background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
 
 /* inversion */
 .section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
 .section-light p{color:#3a3d4a}
 .section-light h2,.section-light h3{color:var(--navy)}
 .section-light .eyebrow{color:var(--navy);opacity:.65}
@@ -155,14 +164,17 @@ background:#fff}
 /* DEVICE CARDS por sistema - foto visible solo al desplegar */
 .device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
 @media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
-.dc-qty{color:var(--gold);font-size:12px;font-weight:600;margin-top:2px}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
 .section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
 .dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
 .dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
 .dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
 .dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
 .section-light .dc-desc{color:#5d6078}
-.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
 .section-light .calc-box{border-color:rgba(20,30,97,.14)}
 /* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
 .section-light .step{border-left-color:var(--navy)}
@@ -173,7 +185,7 @@ background:#fff}
 .section-light .tbl td:nth-child(3){color:#5d6078}
 .section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
 .section-light .cmp.good h3{color:var(--navy)}
-.section-light .vbox{background:rgba(20,30,97,.04)!important}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
 .section-light .vbox h3{color:var(--navy)}
 .section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
 .cav-val{color:var(--gold);font-weight:600}
@@ -210,9 +222,9 @@ border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
 .chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
 
 /* responsable */
-.flow{display:grid;gap:10px;margin:22px 0}
+.flow{display:grid;gap:0;margin:22px 0}
 .step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
-padding:4px 0 4px 16px}
+padding:10px 0 10px 16px}
 .step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
 flex:0 0 26px}
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
@@ -291,6 +303,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <p class="py">PY-2026-029 · PROPUESTA COMERCIAL</p>
     <h1>Club Chumamaya</h1>
     <p class="claim">La casa que responde.</p>
+    <p class="tagline">Del cable a la app</p>
     <p class="lead" style="margin-top:16px">Proyecto Ejecutivo de Tecnológica Integral para
       vivienda unifamiliar en Country Club Chumamaya, Merlo, San Luis. Iluminación, cortinas,
       climatización, seguridad, audio y redes, bajo un solo responsable.</p>
@@ -343,7 +356,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     y automatismos por presencia. La seguridad se resuelve con Hikvision: cámaras en el
     perímetro y alarma inalámbrica en el interior. La red es de línea profesional gestionada,
     porque es el cimiento del que dependen los otros cinco sistemas.</p>
-  <p><b>Inversión.</b> U$D 21.960 por el proyecto completo — equipos, mano de obra
+  <p><b>Inversión.</b> U$D 22.040 por el proyecto completo — equipos, mano de obra
     especializada por punto, programación, y la visita técnica con la logística del traslado
     a Merlo.</p>
   <p><b>Próximo paso.</b> Una visita técnica a la obra para confirmar en sitio las cantidades
@@ -450,7 +463,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       </div>
       <div class="device-grid" id="grid-confort"></div>
     </section>
-    <section class="sec section-light" id="s03">
+    <section class="sec" id="s03">
       <p class="eyebrow">03 — Sistema</p>
       <h2>Seguridad</h2>
       <p class="lead">12 cámaras con detección inteligente en todo el perímetro, grabación local
@@ -523,53 +536,53 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 <div class="section-light">
 <div class="wrap">
 <section class="sec" id="inversion" style="border-top:0">
-  <p class="eyebrow">05 — Inversión</p>
+  <p class="eyebrow">07 — Inversión</p>
   <h2>Detalle de la inversión</h2>
-  <p class="lead">Todos los valores en dólares. El IVA está discriminado por ítem según la
-    alícuota real de cada producto.</p>
-  <div class="bar"><span class="seg" style="flex:3658.37" title="Iluminación: U$D 3.659"></span><span class="seg" style="flex:2086.35" title="Confort: U$D 2.087"></span><span class="seg" style="flex:3537.20" title="Seguridad: U$D 3.538"></span><span class="seg" style="flex:1307.16" title="Entretenimiento: U$D 1.308"></span><span class="seg" style="flex:1489.54" title="Redes: U$D 1.490"></span><span class="seg" style="flex:1342.81" title="Core: U$D 1.343"></span></div>
-  <ul class="legend"><li><i class="dot d0"></i>Iluminación <b>U$D 3.659</b></li><li><i class="dot d1"></i>Confort <b>U$D 2.087</b></li><li><i class="dot d2"></i>Seguridad <b>U$D 3.538</b></li><li><i class="dot d3"></i>Entretenimiento <b>U$D 1.308</b></li><li><i class="dot d4"></i>Redes <b>U$D 1.490</b></li><li><i class="dot d5"></i>Core <b>U$D 1.343</b></li></ul>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total general, más abajo.</p>
+  <div class="bar"><span class="seg" style="flex:3698" title="Iluminación: U$D 3.698"></span><span class="seg" style="flex:2096" title="Confort: U$D 2.096"></span><span class="seg" style="flex:3559" title="Seguridad: U$D 3.559"></span><span class="seg" style="flex:1308" title="Entretenimiento: U$D 1.308"></span><span class="seg" style="flex:1496" title="Redes: U$D 1.496"></span><span class="seg" style="flex:1344" title="Core: U$D 1.344"></span></div>
+  <ul class="legend"><li><i class="dot d0"></i>Iluminación <b>U$D 3.698</b></li><li><i class="dot d1"></i>Confort <b>U$D 2.096</b></li><li><i class="dot d2"></i>Seguridad <b>U$D 3.559</b></li><li><i class="dot d3"></i>Entretenimiento <b>U$D 1.308</b></li><li><i class="dot d4"></i>Redes <b>U$D 1.496</b></li><li><i class="dot d5"></i>Core <b>U$D 1.344</b></li></ul>
   <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
   
       <article class="rub">
         <button class="rub-head" onclick="tog(this)" aria-expanded="false">
           <span class="rub-name">Iluminación</span><span class="tap-badge dark">Tocá para abrir</span>
-          <span class="rub-val">U$D 3.659</span>
+          <span class="rub-val">U$D 3.698</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="rub-body"><div class="tw">
           <table>
             <thead><tr><th>Ítem</th><th class="num">Cant.</th>
               <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Shelly 1PM Mini Gen4</td><td class="num">22</td><td class="num">36<span class="iva"> + IVA 21%</span></td><td class="num">778</td></tr><tr><td>Shelly Dimmer Gen4</td><td class="num">11</td><td class="num">82<span class="iva"> + IVA 21%</span></td><td class="num">899</td></tr><tr><td>Shelly Plus 2PM Gen4</td><td class="num">13</td><td class="num">52<span class="iva"> + IVA 21%</span></td><td class="num">667</td></tr><tr><td>Shelly Plus i4</td><td class="num">4</td><td class="num">30<span class="iva"> + IVA 21%</span></td><td class="num">117</td></tr><tr><td>Shelly Pro 2PM DIN</td><td class="num">3</td><td class="num">189<span class="iva"> + IVA 21%</span></td><td class="num">565</td></tr><tr><td>Kit de sensores Shelly (Smart Security Bundle)</td><td class="num">2</td><td class="num">184<span class="iva"> + IVA 21%</span></td><td class="num">368</td></tr><tr><td>Sensor de movimiento Shelly BLU Motion</td><td class="num">6</td><td class="num">40<span class="iva"> + IVA 21%</span></td><td class="num">235</td></tr><tr><td>Sensor de apertura Shelly BLU Door/Window</td><td class="num">1</td><td class="num">33<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr></tbody>
+            <tbody><tr><td>Shelly 1PM Mini Gen4</td><td class="num">22</td><td class="num">36<span class="iva"> · IVA 21% incl.</span></td><td class="num">792</td></tr><tr><td>Shelly Dimmer Gen4</td><td class="num">11</td><td class="num">82<span class="iva"> · IVA 21% incl.</span></td><td class="num">902</td></tr><tr><td>Shelly Plus 2PM Gen4</td><td class="num">13</td><td class="num">52<span class="iva"> · IVA 21% incl.</span></td><td class="num">676</td></tr><tr><td>Shelly Plus i4</td><td class="num">4</td><td class="num">30<span class="iva"> · IVA 21% incl.</span></td><td class="num">120</td></tr><tr><td>Shelly Pro 2PM DIN</td><td class="num">3</td><td class="num">189<span class="iva"> · IVA 21% incl.</span></td><td class="num">567</td></tr><tr><td>Kit de sensores Shelly (Smart Security Bundle)</td><td class="num">2</td><td class="num">184<span class="iva"> · IVA 21% incl.</span></td><td class="num">368</td></tr><tr><td>Sensor de movimiento Shelly BLU Motion</td><td class="num">6</td><td class="num">40<span class="iva"> · IVA 21% incl.</span></td><td class="num">240</td></tr><tr><td>Sensor de apertura Shelly BLU Door/Window</td><td class="num">1</td><td class="num">33<span class="iva"> · IVA 21% incl.</span></td><td class="num">33</td></tr></tbody>
           </table>
         </div></div>
       </article>
       <article class="rub">
         <button class="rub-head" onclick="tog(this)" aria-expanded="false">
           <span class="rub-name">Confort</span>
-          <span class="rub-val">U$D 2.087</span>
+          <span class="rub-val">U$D 2.096</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="rub-body"><div class="tw">
           <table>
             <thead><tr><th>Ítem</th><th class="num">Cant.</th>
               <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Shelly Plus 2PM Gen4 — módulo de cortina</td><td class="num">11</td><td class="num">52<span class="iva"> + IVA 21%</span></td><td class="num">565</td></tr><tr><td>Sensibo Air — control inteligente de aire acondicionado</td><td class="num">6</td><td class="num">254<span class="iva"> + IVA 21%</span></td><td class="num">1.523</td></tr></tbody>
+            <tbody><tr><td>Shelly Plus 2PM Gen4 — módulo de cortina</td><td class="num">11</td><td class="num">52<span class="iva"> · IVA 21% incl.</span></td><td class="num">572</td></tr><tr><td>Sensibo Air — control inteligente de aire acondicionado</td><td class="num">6</td><td class="num">254<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.524</td></tr></tbody>
           </table>
         </div></div>
       </article>
       <article class="rub">
         <button class="rub-head" onclick="tog(this)" aria-expanded="false">
           <span class="rub-name">Seguridad</span>
-          <span class="rub-val">U$D 3.538</span>
+          <span class="rub-val">U$D 3.559</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="rub-body"><div class="tw">
           <table>
             <thead><tr><th>Ítem</th><th class="num">Cant.</th>
               <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Cámara Hikvision AcuSense 4MP con luz dual y sirena</td><td class="num">12</td><td class="num">136<span class="iva"> + IVA 21%</span></td><td class="num">1.621</td></tr><tr><td>NVR Hikvision AcuSense 16 canales</td><td class="num">1</td><td class="num">409<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Disco Seagate SkyHawk 8TB para videovigilancia</td><td class="num">1</td><td class="num">506<span class="iva"> + IVA 10,5%</span></td><td class="num">—</td></tr><tr><td>Central de alarma Hikvision AX PRO inalámbrica</td><td class="num">1</td><td class="num">394<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Sirena exterior inalámbrica AX PRO</td><td class="num">1</td><td class="num">99<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Teclado inalámbrico AX PRO</td><td class="num">1</td><td class="num">83<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Detector de movimiento 360° de techo AX PRO</td><td class="num">4</td><td class="num">51<span class="iva"> + IVA 21%</span></td><td class="num">204</td></tr><tr><td>Contacto magnético de apertura AX PRO</td><td class="num">8</td><td class="num">29<span class="iva"> + IVA 10,5%</span></td><td class="num">225</td></tr></tbody>
+            <tbody><tr><td>Cámara Hikvision AcuSense 4MP con luz dual y sirena (DS-2CD1043G2-LIU/SL)</td><td class="num">12</td><td class="num">136<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.632</td></tr><tr><td>NVR Hikvision AcuSense 16 canales (DS-7616NXI-K1(D))</td><td class="num">1</td><td class="num">409<span class="iva"> · IVA 21% incl.</span></td><td class="num">409</td></tr><tr><td>Disco Seagate SkyHawk 8TB para videovigilancia (ST8000VE001)</td><td class="num">1</td><td class="num">506<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">506</td></tr><tr><td>Central de alarma Hikvision AX PRO inalámbrica (DS-PWA48-Kit-WB(ARG))</td><td class="num">1</td><td class="num">394<span class="iva"> · IVA 21% incl.</span></td><td class="num">394</td></tr><tr><td>Sirena exterior inalámbrica AX PRO (DS-PS1-E-WB)</td><td class="num">1</td><td class="num">99<span class="iva"> · IVA 21% incl.</span></td><td class="num">99</td></tr><tr><td>Teclado inalámbrico AX PRO (DS-PK1-E-WB)</td><td class="num">1</td><td class="num">83<span class="iva"> · IVA 21% incl.</span></td><td class="num">83</td></tr><tr><td>Detector de movimiento 360° de techo AX PRO (DS-PDCL12-EG2-WB)</td><td class="num">4</td><td class="num">51<span class="iva"> · IVA 21% incl.</span></td><td class="num">204</td></tr><tr><td>Contacto magnético de apertura AX PRO (DS-PDMCS-EG2-WB(B)ne)</td><td class="num">8</td><td class="num">29<span class="iva"> · IVA 21% incl.</span></td><td class="num">232</td></tr></tbody>
           </table>
         </div></div>
       </article>
@@ -583,45 +596,45 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
           <table>
             <thead><tr><th>Ítem</th><th class="num">Cant.</th>
               <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>VSSL MA.1 — amplificador de streaming 2 canales</td><td class="num">1</td><td class="num">944<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Episode CORE 3 — parlantes de embutir en techo 6" (par)</td><td class="num">1</td><td class="num">364<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr></tbody>
+            <tbody><tr><td>VSSL MA.1 — amplificador de streaming 2 canales</td><td class="num">1</td><td class="num">944<span class="iva"> · IVA 21% incl.</span></td><td class="num">944</td></tr><tr><td>Episode CORE 3 — parlantes de embutir en techo 6" (par)</td><td class="num">1</td><td class="num">364<span class="iva"> · IVA 21% incl.</span></td><td class="num">364</td></tr></tbody>
           </table>
         </div></div>
       </article>
       <article class="rub">
         <button class="rub-head" onclick="tog(this)" aria-expanded="false">
           <span class="rub-name">Redes</span>
-          <span class="rub-val">U$D 1.490</span>
+          <span class="rub-val">U$D 1.496</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="rub-body"><div class="tw">
           <table>
             <thead><tr><th>Ítem</th><th class="num">Cant.</th>
               <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Router TP-Link Omada ER605 VPN Gigabit</td><td class="num">1</td><td class="num">67<span class="iva"> + IVA 10,5%</span></td><td class="num">—</td></tr><tr><td>Controlador TP-Link Omada OC200</td><td class="num">1</td><td class="num">214<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Switch TP-Link Omada 24 puertos PoE+</td><td class="num">1</td><td class="num">307<span class="iva"> + IVA 10,5%</span></td><td class="num">—</td></tr><tr><td>Access Point TP-Link Omada EAP650 WiFi 6</td><td class="num">3</td><td class="num">114<span class="iva"> + IVA 10,5%</span></td><td class="num">342</td></tr><tr><td>Access Point exterior TP-Link Omada EAP610-OUT</td><td class="num">1</td><td class="num">127<span class="iva"> + IVA 10,5%</span></td><td class="num">—</td></tr><tr><td>Gabinete de rack GLC 12U</td><td class="num">1</td><td class="num">157<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Bandeja de rack GLC 1U</td><td class="num">2</td><td class="num">17<span class="iva"> + IVA 21%</span></td><td class="num">34</td></tr><tr><td>Canal de tensión GLC 5 tomas</td><td class="num">1</td><td class="num">57<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Organizador de cable GLC 1U</td><td class="num">2</td><td class="num">9<span class="iva"> + IVA 21%</span></td><td class="num">18</td></tr><tr><td>UPS Eaton 1500VA — respaldo de energía</td><td class="num">1</td><td class="num">173<span class="iva"> + IVA 10,5%</span></td><td class="num">—</td></tr></tbody>
+            <tbody><tr><td>Router TP-Link Omada ER605 VPN Gigabit</td><td class="num">1</td><td class="num">67<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">67</td></tr><tr><td>Controlador TP-Link Omada OC200</td><td class="num">1</td><td class="num">214<span class="iva"> · IVA 21% incl.</span></td><td class="num">214</td></tr><tr><td>Switch TP-Link Omada 24 puertos PoE+</td><td class="num">1</td><td class="num">307<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">307</td></tr><tr><td>Access Point TP-Link Omada EAP650 WiFi 6</td><td class="num">3</td><td class="num">114<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">342</td></tr><tr><td>Access Point exterior TP-Link Omada EAP610-OUT</td><td class="num">1</td><td class="num">127<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">127</td></tr><tr><td>Gabinete de rack GLC 12U</td><td class="num">1</td><td class="num">157<span class="iva"> · IVA 21% incl.</span></td><td class="num">157</td></tr><tr><td>Bandeja de rack GLC 1U</td><td class="num">2</td><td class="num">17<span class="iva"> · IVA 21% incl.</span></td><td class="num">34</td></tr><tr><td>Canal de tensión GLC 5 tomas</td><td class="num">1</td><td class="num">57<span class="iva"> · IVA 21% incl.</span></td><td class="num">57</td></tr><tr><td>Organizador de cable GLC 1U</td><td class="num">2</td><td class="num">9<span class="iva"> · IVA 21% incl.</span></td><td class="num">18</td></tr><tr><td>UPS Eaton 1500VA — respaldo de energía</td><td class="num">1</td><td class="num">173<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">173</td></tr></tbody>
           </table>
         </div></div>
       </article>
       <article class="rub">
         <button class="rub-head" onclick="tog(this)" aria-expanded="false">
           <span class="rub-name">Core</span>
-          <span class="rub-val">U$D 1.343</span>
+          <span class="rub-val">U$D 1.344</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="rub-body"><div class="tw">
           <table>
             <thead><tr><th>Ítem</th><th class="num">Cant.</th>
               <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Home Assistant Green — servidor de automatización</td><td class="num">1</td><td class="num">501<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Coordinador Zigbee/Thread SMLIGHT PoE</td><td class="num">1</td><td class="num">109<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr><tr><td>Shelly Wall Display XL — panel de control en pared</td><td class="num">1</td><td class="num">734<span class="iva"> + IVA 21%</span></td><td class="num">—</td></tr></tbody>
+            <tbody><tr><td>Home Assistant Green — servidor de automatización</td><td class="num">1</td><td class="num">501<span class="iva"> · IVA 21% incl.</span></td><td class="num">501</td></tr><tr><td>Coordinador Zigbee/Thread SMLIGHT PoE</td><td class="num">1</td><td class="num">109<span class="iva"> · IVA 21% incl.</span></td><td class="num">109</td></tr><tr><td>Shelly Wall Display XL — panel de control en pared</td><td class="num">1</td><td class="num">734<span class="iva"> · IVA 21% incl.</span></td><td class="num">734</td></tr></tbody>
           </table>
         </div></div>
       </article>
   <div class="totals">
     <div class="trow"><span>Subtotal equipos (neto)</span>
-      <b>U$D 11.230</b></div>
+      <b>U$D 11.277</b></div>
     <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span>
-      <span>U$D 2.193</span></div>
+      <span>U$D 2.224</span></div>
     <div class="trow"><span>Subtotal equipos (con IVA)</span>
-      <b>U$D 13.422</b></div>
+      <b>U$D 13.501</b></div>
     <div class="trow"><span>Mano de obra especializada por punto
       (92 puntos)</span><b>U$D 5.156</b></div>
     <div class="trow"><span>Programación y comisionado</span>
@@ -629,7 +642,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <div class="trow"><span>Visita técnica, traslado y viáticos</span>
       <b>U$D 1.525</b></div>
     <div class="trow big"><span>Total del proyecto</span>
-      <span>U$D 21.960</span></div>
+      <span>U$D 22.040</span></div>
   </div>
 </section>
 </div></div>
@@ -637,7 +650,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 <div class="wrap">
 
 <section class="sec" id="pago">
-  <p class="eyebrow">06 — Ejecución</p>
+  <p class="eyebrow">08 — Ejecución</p>
   <h2>Forma de pago</h2>
   <p class="lead">Cada etapa atada a un hito verificable, no a una fecha.</p>
   <div class="pay">
@@ -646,7 +659,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       sitio y el ajuste del presupuesto.</span><b>U$D 1.525</b></div>
     <div class="stage"><span><b style="display:block">Equipos — 100%</b>
       Por anticipado, una vez ajustado el presupuesto. Asegura el precio y la disponibilidad de
-      importación de cada equipo.</span><b>U$D 13.422</b></div>
+      importación de cada equipo.</span><b>U$D 13.501</b></div>
     <div class="stage"><span><b style="display:block">Mano de obra y programación — 30%</b>
       Antes de que la cuadrilla arranque en obra.</span>
       <b>U$D 2.104</b></div>
@@ -664,18 +677,18 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       <span>IVA 21% sobre mano de obra, programación y visita</span>
       <span id="fa-val"></span></div>
     <div class="trow big" style="color:var(--gold)"><span>Total</span>
-      <span id="gt">U$D 21.960</span></div>
+      <span id="gt">U$D 22.040</span></div>
   </div>
 </section>
 
-<section class="sec" id="condiciones">
-  <p class="eyebrow">07</p>
+<section class="sec section-light" id="condiciones">
+  <p class="eyebrow">09 — Condiciones</p>
   <h2>Condiciones generales</h2>
   <p class="hint">👆 Tocá cada condición para leerla</p>
   <div class="devs">
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
-      <span class="tap-badge">Tocá para abrir</span><span class="arr">▾</span></button>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr">▾</span></button>
       <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión. Todos los
         precios están expresados en dólares estadounidenses. La referencia de conversión a pesos
         es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del
@@ -810,7 +823,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <input type="checkbox" id="ok" onchange="conf()">
     <label for="ok">Leí la propuesta y quiero avanzar con la visita técnica.</label>
   </div>
-  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-029%20de%20Club%20Chumamaya%20por%20U%24D%2021960%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica." aria-disabled="true" target="_blank"
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-029%20de%20Club%20Chumamaya%20por%20U%24D%2022.040%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica." aria-disabled="true" target="_blank"
      rel="noopener">Avanzar por WhatsApp</a>
   <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
 </section>
@@ -835,7 +848,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 </button>
 
 <script>
-var TOT=21959.41, MO=5155.31, PR=1857.67, VI=1525.00;
+var TOT=22040, MO=5156, PR=1858, VI=1525;
 
 function fmt(v){return 'U$D '+Math.ceil(v).toLocaleString('es-AR');}
 
@@ -862,7 +875,7 @@ var ESC=[
   'Un solo toque: las luces del estar bajan al 10%, las cortinas cierran y el audio queda listo. Al terminar, todo vuelve a como estaba.']
 ];
 function esc(i,btn){
-  document.querySelectorAll('#escenas .sw button').forEach(function(b){b.classList.remove('on');});
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on');
   document.getElementById('sv').style.background=ESC[i][1];
   document.getElementById('st').textContent=ESC[i][0];
@@ -930,14 +943,14 @@ var DEVICES = {
   {n:'Sensibo Air',q:6,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sen-air-crl-01-b2b.jpg",desc:'Un controlador por split — geolocalización y sensor de presencia real, no del equipo de fábrica.'},
  ],
  seguridad:[
-  {n:'Cámara Hikvision AcuSense 4MP con luz dual y sirena',q:12,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg",desc:'Cobertura de todo el perímetro, accesos y cochera. Distingue una persona de un animal o rama, con luz y sirena de disuasión propias.'},
-  {n:'NVR Hikvision AcuSense 16 canales',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png",desc:'Grabador dedicado en el subsuelo, dimensionado con margen sobre las 12 cámaras.'},
-  {n:'Disco Seagate SkyHawk 8TB',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg",desc:'Diseñado para grabación continua 24/7 — aproximadamente dos meses de historial por evento.'},
-  {n:'Central de alarma Hikvision AX PRO inalámbrica',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg",desc:'Central inalámbrica que orquesta detectores, contactos, sirena y teclado.'},
-  {n:'Sirena exterior inalámbrica AX PRO',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp",desc:'Disuasión sonora y visual ante intrusión.'},
-  {n:'Teclado inalámbrico AX PRO',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp",desc:'Armado y desarmado manual del sistema.'},
-  {n:'Detector de movimiento 360° de techo AX PRO',q:4,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDCL12-EG2-WB.jpg",desc:'Salones grandes — cobertura de techo a 360°.'},
-  {n:'Contacto magnético de apertura AX PRO',q:8,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCS-EG2-WB(B)ne.png",desc:'En todas las puertas de acceso de la vivienda.'},
+  {n:'Cámara Hikvision AcuSense 4MP con luz dual y sirena (DS-2CD1043G2-LIU/SL)',q:12,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg",desc:'Cobertura de todo el perímetro, accesos y cochera. Distingue una persona de un animal o rama, con luz y sirena de disuasión propias.'},
+  {n:'NVR Hikvision AcuSense 16 canales (DS-7616NXI-K1(D))',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png",desc:'Grabador dedicado en el subsuelo, dimensionado con margen sobre las 12 cámaras.'},
+  {n:'Disco Seagate SkyHawk 8TB (ST8000VE001)',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg",desc:'Diseñado para grabación continua 24/7 — aproximadamente dos meses de historial por evento.'},
+  {n:'Central de alarma Hikvision AX PRO inalámbrica (DS-PWA48-Kit-WB(ARG))',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg",desc:'Central inalámbrica que orquesta detectores, contactos, sirena y teclado.'},
+  {n:'Sirena exterior inalámbrica AX PRO (DS-PS1-E-WB)',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp",desc:'Disuasión sonora y visual ante intrusión.'},
+  {n:'Teclado inalámbrico AX PRO (DS-PK1-E-WB)',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp",desc:'Armado y desarmado manual del sistema.'},
+  {n:'Detector de movimiento 360° de techo AX PRO (DS-PDCL12-EG2-WB)',q:4,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDCL12-EG2-WB.jpg",desc:'Salones grandes — cobertura de techo a 360°.'},
+  {n:'Contacto magnético de apertura AX PRO (DS-PDMCS-EG2-WB(B)ne)',q:8,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCS-EG2-WB(B)ne.png",desc:'En todas las puertas de acceso de la vivienda.'},
  ],
  entretenimiento:[
   {n:'VSSL MA.1',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png",desc:'Amplificador de streaming de 2 canales en el rack — música desde el celular sin apps propietarias.'},
@@ -949,7 +962,7 @@ var DEVICES = {
   {n:'Switch TP-Link Omada 24 puertos PoE+',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg2428p.jpg",desc:'Alimenta cámaras y access points sin fuentes sueltas.'},
   {n:'Access Point TP-Link Omada EAP650 WiFi 6',q:3,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/eap650.jpg",desc:'Interiores, con roaming real entre ambientes.'},
   {n:'Access Point exterior TP-Link Omada EAP610-OUT',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/eap610-out.jpg",desc:'Cobertura para galería y pileta.'},
-  {n:'Gabinete de rack GLC 12U',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/116.jpg",desc:'En el subsuelo, todo rotulado y accesible.'},
+  {n:'Gabinete de rack GLC 12U',q:1,foto:null,desc:'En el subsuelo, todo rotulado y accesible.'},
   {n:'Bandeja de rack GLC 1U',q:2,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/109.jpg",desc:'Soporte para equipos no rackeables.'},
   {n:'Canal de tensión GLC 5 tomas',q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/111.jpg",desc:'Protección de sobrecarga para todo el rack.'},
   {n:'Organizador de cable GLC 1U',q:2,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/108.jpg",desc:'Prolijidad y mantenimiento futuro del cableado.'},
@@ -961,16 +974,21 @@ var DEVICES = {
   {n:'Shelly Wall Display XL',q:1,foto:"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-wall-display-xl.png",desc:'En el ingreso principal — pantalla de control física, siempre disponible.'},
  ],
 };
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
 function renderDeviceGrid(id,key){
   var el=document.getElementById(id); if(!el) return;
   var isLight=!!el.closest('.section-light');
   el.innerHTML=DEVICES[key].map(function(d,i){
-    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
     var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
     return '<article class="dev" id="'+id+'-'+i+'">'
      +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
-     +'<span class="dev-title">'+d.n+badge+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
-     +'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
      +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
      +'</article>';
   }).join('');
@@ -1041,5 +1059,28 @@ function onScroll(){
   links.forEach(function(a){a.classList.toggle('on',a===cur);});
 }
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
 </script>
 </body></html>
