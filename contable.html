@@ -131,6 +131,7 @@ tr:last-child td{border-bottom:none}
   <div class="tab" onclick="showTab('planes')">Planes de pago</div>
   <div class="tab" onclick="showTab('cheques')">Cheques</div>
   <div class="tab" onclick="showTab('reportes')">Reportes</div>
+  <div class="tab" onclick="showTab('carga')">Carga</div>
   <div class="tab" onclick="showTab('posicion')">Posición Bancaria</div>
 </div>
 
@@ -489,8 +490,11 @@ tr:last-child td{border-bottom:none}
 
   <div class="section-hdr"><span class="section-title">Cheques por vencer (≤7 días)</span></div>
   <div id="posCheques"><div class="empty">Cargando…</div></div>
+</div>
 
-  <div class="card" style="margin-top:14px">
+<!-- ═══ CARGA DE DOCUMENTOS ═══ -->
+<div class="section" id="sec-carga">
+  <div class="card">
     <div class="card-title">Carga de extractos, cheques y comprobantes fiscales</div>
     <div class="fg">
       <label>Tipo de archivo</label>
@@ -1156,7 +1160,7 @@ async function handleLogout() {
 // ── TABS ──────────────────────────────────────────────────────
 function showTab(name) {
   document.querySelectorAll('.tab').forEach((t,i) => {
-    const names=['egresos','costosfijos','planes','cheques','reportes','posicion'];
+    const names=['egresos','costosfijos','planes','cheques','reportes','carga','posicion'];
     t.classList.toggle('active', names[i]===name);
   });
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
