@@ -445,6 +445,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
           <div class="tr2"><span>Facturas/materiales</span><span style="text-align:right"><span id="tF">$ 0</span><br><span id="tFu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
           <div class="tf"><span>TOTAL RECIBO</span><span style="text-align:right"><span id="tT">$ 0</span><br><span id="tTu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
         </div>
+        <div id="sExcWarn" style="display:none;font-size:11px;color:var(--warn);background:#3a2500;border:1px solid #6b4200;border-radius:6px;padding:8px 10px;margin-top:10px"></div>
       </div>
       <div style="display:flex;justify-content:space-between">
         <button class="btn btn-g" onclick="goS(1)">← Volver</button>
@@ -672,6 +673,54 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
     <div class="mftr">
       <button class="btn btn-g" onclick="closeM('mObra')">Cancelar</button>
       <button class="btn btn-p" onclick="guardarObra()">Guardar obra</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ampliación de obra -->
+<div class="mbg" id="mAmpliacion">
+  <div class="modal" style="width:640px">
+    <div class="mhdr"><h3 id="mAmpliacionT">Nueva ampliación</h3><button class="cx" onclick="closeM('mAmpliacion')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="ampId"><input type="hidden" id="ampObraId"><input type="hidden" id="ampCotizId">
+      <div class="fg" style="margin-bottom:10px"><label>Descripción del pedido *</label>
+        <textarea id="ampDesc" placeholder="Qué pidió el cliente"></textarea></div>
+      <div class="fr">
+        <div class="fg" style="max-width:170px"><label>Fecha de emisión</label><input type="date" id="ampFecha"></div>
+        <div class="fg" style="max-width:170px"><label>Vencimiento (opcional)</label><input type="date" id="ampVenc"></div>
+      </div>
+      <div class="ct" style="margin-top:14px">Ítems (USD)</div>
+      <div id="ampItemsWrap"></div>
+      <button class="btn btn-g btn-sm" style="margin-top:6px" onclick="addAmpItem()">+ Ítem</button>
+      <div class="tbox" style="margin-top:14px">
+        <div class="tf"><span>TOTAL AMPLIACIÓN</span><span id="ampTotal">U$D 0,00</span></div>
+      </div>
+      <div class="fg" style="margin-top:10px"><label>Notas (opcional)</label><input type="text" id="ampNotas"></div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mAmpliacion')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarAmpliacion()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cotización exploratoria -->
+<div class="mbg" id="mCotizExplor">
+  <div class="modal" style="width:520px">
+    <div class="mhdr"><h3>Nueva cotización exploratoria</h3><button class="cx" onclick="closeM('mCotizExplor')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="ceObraId">
+      <div class="fg" style="margin-bottom:10px"><label>Descripción del pedido *</label>
+        <textarea id="ceDesc" placeholder="Qué pidió explorar el cliente, sin compromiso todavía"></textarea></div>
+      <div class="fr">
+        <div class="fg"><label>Monto USD estimado</label><input type="number" id="ceMonto" step="0.01" placeholder="0.00"></div>
+        <div class="fg" style="max-width:170px"><label>Fecha</label><input type="date" id="ceFecha"></div>
+      </div>
+      <div class="fg"><label>Notas (opcional)</label><input type="text" id="ceNotas"></div>
+    </div>
+    <div class="mftr">
+      <button class="btn btn-g" onclick="closeM('mCotizExplor')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarCotizExplor()">Guardar</button>
     </div>
   </div>
 </div>
@@ -907,6 +956,10 @@ const cache={
   setRecs: v=>lss('nd_recs',v),
   icc: ()=>ls('nd_icc')||[],
   setIcc: v=>lss('nd_icc',v),
+  ampliaciones: ()=>ls('nd_ampliaciones')||[],
+  setAmpliaciones: v=>lss('nd_ampliaciones',v),
+  cotizExplor: ()=>ls('nd_cotiz_explor')||[],
+  setCotizExplor: v=>lss('nd_cotiz_explor',v),
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -1227,6 +1280,19 @@ async function renderObraDetalle(id){
     certs=cache.certs().filter(c=>c.obra_id===id);
     recs=cache.recs().filter(r=>r.obra_id===id);
   }
+  let ampliaciones=[],cotizExplor=[];
+  try{
+    ampliaciones=await sbGet('obras_ampliaciones',`?obra_id=eq.${id}&select=*,obras_ampliaciones_items(*)&order=numero.desc`);
+    cotizExplor =await sbGet('cotizaciones_obra_exploratorias',`?obra_id=eq.${id}&select=*&order=fecha.desc`);
+  }catch{
+    ampliaciones=cache.ampliaciones().filter(a=>a.obra_id===id);
+    cotizExplor=cache.cotizExplor().filter(c=>c.obra_id===id);
+  }
+  let analisis=null;
+  try{
+    const ao=await sbGet('analisis_obra',`?obra_id=eq.${id}&select=certificado_acumulado_pesos,excedentes_acumulado_pesos&order=created_at.desc&limit=1`);
+    analisis=ao[0]||null;
+  }catch{}
   const rubros=cache.rubros().filter(r=>r.obra_id===id);
   const tarBase=cache.tarifario();
   const totalFact=recs.reduce((s,r)=>s+(r.recibos_lineas||[]).reduce((ss,l)=>ss+(l.monto_pesos||0),0),0);
@@ -1342,6 +1408,65 @@ async function renderObraDetalle(id){
           }).join('')}
         </tbody></table>
       </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin rubros cargados para esta obra.</div>'}
+      ${analisis&&obra.presupuesto_total_pesos?`
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
+        <div class="tbox"><div class="tr2"><span>Certificado acumulado</span></div><div class="tf" style="font-size:12px">${f$(analisis.certificado_acumulado_pesos||0)}</div></div>
+        <div class="tbox"><div class="tr2"><span>Excedente acumulado</span></div><div class="tf" style="font-size:12px">${f$(analisis.excedentes_acumulado_pesos||0)}</div></div>
+        <div class="tbox"><div class="tr2"><span>Saldo de presupuesto</span></div><div class="tf" style="font-size:12px">${f$(obra.presupuesto_total_pesos-(analisis.certificado_acumulado_pesos||0)-(analisis.excedentes_acumulado_pesos||0))}</div></div>
+      </div>`:''}
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Ampliaciones de obra</span>
+        <button class="btn btn-p btn-sm" onclick="openMAmpliacion('${id}')">+ Nueva ampliación</button>
+      </div>
+      ${ampliaciones.length?`
+      <div class="tw">
+        <table><thead><tr><th>N°</th><th>Descripción</th><th>Estado</th><th>Monto USD</th><th>Fecha</th><th></th></tr></thead>
+        <tbody>
+          ${ampliaciones.map(a=>`
+            <tr>
+              <td><b>AMP${a.numero}</b></td>
+              <td style="font-size:10px">${(a.descripcion||'').slice(0,60)}</td>
+              <td>${AMP_BADGE[a.estado]||`<span class="bd b-gray">${a.estado}</span>`}</td>
+              <td>${fUsd(a.monto_total_usd)}</td>
+              <td style="font-size:10px;color:var(--text2)">${fd(a.fecha_emision)}</td>
+              <td style="white-space:nowrap">
+                ${a.estado==='COTIZADO'?`
+                <button class="btn btn-ok btn-sm" onclick="aceptarAmpliacion('${a.id}')">✓ Aceptar</button>
+                <button class="btn btn-d btn-sm" onclick="rechazarAmpliacion('${a.id}')">✕</button>`:''}
+              </td>
+            </tr>`).join('')}
+        </tbody></table>
+      </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin ampliaciones cargadas para esta obra.</div>'}
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Cotizaciones exploratorias</span>
+        <button class="btn btn-g btn-sm" onclick="openMCotizExplor('${id}')">+ Nueva cotización</button>
+      </div>
+      ${cotizExplor.length?`
+      <div class="tw">
+        <table><thead><tr><th>Fecha</th><th>Descripción</th><th>Monto USD est.</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          ${cotizExplor.map(c=>`
+            <tr>
+              <td style="font-size:10px;color:var(--text2)">${fd(c.fecha)}</td>
+              <td style="font-size:10px">${(c.descripcion||'').slice(0,60)}</td>
+              <td>${c.monto_usd_estimado!=null?fUsd(c.monto_usd_estimado):'—'}</td>
+              <td>${CE_BADGE[c.estado]||`<span class="bd b-gray">${c.estado}</span>`}</td>
+              <td style="white-space:nowrap">
+                ${c.estado==='COTIZADA'?`
+                <button class="btn btn-ok btn-sm" onclick="marcarCotizExplor('${c.id}','ACEPTADA')">Aceptar</button>
+                <button class="btn btn-d btn-sm" onclick="marcarCotizExplor('${c.id}','DESCARTADA')">Descartar</button>`:''}
+                ${c.estado==='ACEPTADA'&&!c.ampliacion_id?`
+                <button class="btn btn-p btn-sm" onclick="convertirCotizAmpliacion('${c.id}')">Convertir en ampliación →</button>`:''}
+              </td>
+            </tr>`).join('')}
+        </tbody></table>
+      </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin cotizaciones exploratorias para esta obra.</div>'}
     </div>
 
     ${certs.length?`
@@ -1523,6 +1648,184 @@ async function cambiarEstRec(id,estado){
   catch(e){ toast('Error: '+e.message,'err'); }
 }
 
+// ── Ampliaciones de obra (pedidos del cliente que superan el margen de
+//    excedente y ameritan un presupuesto nuevo) ──────────────────────
+let ampItems=[];
+
+function openMAmpliacion(obraId,cotizId=null,prefill=null){
+  document.getElementById('ampId').value='';
+  document.getElementById('ampObraId').value=obraId;
+  document.getElementById('ampCotizId').value=cotizId||'';
+  document.getElementById('ampDesc').value=prefill?.descripcion||'';
+  document.getElementById('ampFecha').value=new Date().toISOString().slice(0,10);
+  document.getElementById('ampVenc').value='';
+  document.getElementById('ampNotas').value='';
+  ampItems=prefill
+    ?[{id:uid(),descripcion:prefill.descripcion||'',precio_usd_unitario:prefill.monto_usd_estimado||0,cantidad:1,usa_porcentaje_etapa:true}]
+    :[];
+  document.getElementById('mAmpliacionT').textContent='Nueva ampliación';
+  renderAmpItems();
+  openM('mAmpliacion');
+}
+
+function addAmpItem(){
+  ampItems.push({id:uid(),descripcion:'',precio_usd_unitario:0,cantidad:1,usa_porcentaje_etapa:true});
+  renderAmpItems();
+}
+function rmAmpItem(id){
+  ampItems=ampItems.filter(i=>i.id!==id);
+  renderAmpItems();
+}
+function updAmpItem(id,f,v){
+  const it=ampItems.find(i=>i.id===id);
+  if(!it)return;
+  it[f]=(f==='descripcion')?v:(f==='usa_porcentaje_etapa'?v:(parseFloat(v)||0));
+  calcAmpTotal();
+}
+function renderAmpItems(){
+  const wrap=document.getElementById('ampItemsWrap');
+  wrap.innerHTML=ampItems.length?ampItems.map(it=>`
+    <div class="iblk">
+      <div class="fg" style="margin-bottom:6px"><input type="text" placeholder="Descripción del ítem" value="${(it.descripcion||'').replace(/"/g,'&quot;')}"
+        oninput="updAmpItem('${it.id}','descripcion',this.value)"></div>
+      <div class="fr">
+        <div class="fg" style="max-width:130px"><label>Precio USD unit.</label>
+          <input type="number" step="0.01" value="${it.precio_usd_unitario||0}" oninput="updAmpItem('${it.id}','precio_usd_unitario',this.value)"></div>
+        <div class="fg" style="max-width:100px"><label>Cantidad</label>
+          <input type="number" step="1" value="${it.cantidad||1}" oninput="updAmpItem('${it.id}','cantidad',this.value)"></div>
+        <div class="fg" style="max-width:150px"><label>Usa % etapa</label>
+          <select onchange="updAmpItem('${it.id}','usa_porcentaje_etapa',this.value==='true')">
+            <option value="true" ${it.usa_porcentaje_etapa?'selected':''}>Sí (60/30/10%)</option>
+            <option value="false" ${!it.usa_porcentaje_etapa?'selected':''}>No</option>
+          </select></div>
+        <button class="btn btn-d btn-sm" style="margin-left:auto;align-self:flex-end" onclick="rmAmpItem('${it.id}')">🗑</button>
+      </div>
+    </div>`).join('') : '<div style="text-align:center;padding:16px;color:var(--text3);font-size:11px">Agregá ítems a la ampliación</div>';
+  calcAmpTotal();
+}
+function calcAmpTotal(){
+  const total=ampItems.reduce((s,i)=>s+(i.precio_usd_unitario||0)*(i.cantidad||1),0);
+  const el=document.getElementById('ampTotal');
+  if(el)el.textContent=fUsd(total);
+  return total;
+}
+
+async function guardarAmpliacion(){
+  const obraId=document.getElementById('ampObraId').value;
+  const desc=document.getElementById('ampDesc').value.trim();
+  if(!desc){toast('Completá la descripción del pedido','err');return;}
+  if(!ampItems.length){toast('Agregá al menos un ítem','err');return;}
+  const montoTotal=calcAmpTotal();
+  try{
+    const existentes=await sbGet('obras_ampliaciones',`?obra_id=eq.${obraId}&select=numero&order=numero.desc&limit=1`);
+    const numero=existentes.length?existentes[0].numero+1:1;
+    const r=await sbPost('obras_ampliaciones',{
+      obra_id:obraId,numero,descripcion:desc,
+      fecha_emision:document.getElementById('ampFecha').value||new Date().toISOString().slice(0,10),
+      fecha_vencimiento:document.getElementById('ampVenc').value||null,
+      notas:document.getElementById('ampNotas').value.trim()||null,
+      monto_total_usd:montoTotal,
+    });
+    const ampId=r[0].id;
+    for(const it of ampItems){
+      await sbPost('obras_ampliaciones_items',{
+        ampliacion_id:ampId,descripcion:it.descripcion,precio_usd_unitario:it.precio_usd_unitario||0,
+        cantidad:it.cantidad||1,usa_porcentaje_etapa:it.usa_porcentaje_etapa!==false,orden:0,
+      });
+    }
+    const cotizId=document.getElementById('ampCotizId').value;
+    if(cotizId){ await sbPatch('cotizaciones_obra_exploratorias',{ampliacion_id:ampId},`?id=eq.${cotizId}`); }
+    closeM('mAmpliacion');
+    selObra(obraId);
+    toast('Ampliación creada','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+async function aceptarAmpliacion(id){
+  if(!confirm('¿Aceptar esta ampliación? Se sumará al presupuesto vigente de la obra y se generarán sus rubros para certificar.'))return;
+  try{
+    const rows=await sbGet('obras_ampliaciones',`?id=eq.${id}&select=*,obras_ampliaciones_items(*)`);
+    const amp=rows[0];
+    if(!amp){toast('Ampliación no encontrada','err');return;}
+    const obra=cache.obras().find(o=>o.id===amp.obra_id);
+    const tc=parseFloat(document.getElementById('tcG').value)||1430;
+    await sbPatch('obras_ampliaciones',
+      {estado:'ACEPTADO',fecha_aceptado:new Date().toISOString().slice(0,10),tipo_cambio_usd:tc},
+      `?id=eq.${id}`);
+    const items=amp.obras_ampliaciones_items||[];
+    for(let i=0;i<items.length;i++){
+      const it=items[i];
+      await sbPost('obras_rubros',{
+        obra_id:amp.obra_id,codigo:`AMP${amp.numero}-${i+1}`,descripcion:it.descripcion,
+        precio_usd_unitario:it.precio_usd_unitario||0,precio_usd_obra:null,
+        usa_porcentaje_etapa:it.usa_porcentaje_etapa!==false,tarifario_base_id:null,
+        ampliacion_item_id:it.id,orden:900+i,
+      });
+    }
+    const nuevoUsd=(obra?.presupuesto_total_usd||0)+(amp.monto_total_usd||0);
+    const nuevoPesos=(obra?.presupuesto_total_pesos||0)+(amp.monto_total_usd||0)*tc;
+    await sbPatch('obras',{presupuesto_total_usd:nuevoUsd,presupuesto_total_pesos:nuevoPesos},`?id=eq.${amp.obra_id}`);
+    await loadObras();
+    selObra(amp.obra_id);
+    toast('Ampliación aceptada — presupuesto y rubros actualizados','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+async function rechazarAmpliacion(id){
+  if(!confirm('¿Rechazar esta ampliación?'))return;
+  try{
+    await sbPatch('obras_ampliaciones',{estado:'RECHAZADO'},`?id=eq.${id}`);
+    selObra(selObraId);
+    toast('Ampliación rechazada','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+// ── Cotizaciones exploratorias (sin compromiso, no tocan presupuesto ni
+//    certificados hasta que se convierten en ampliación o se cargan como
+//    excedente por el flujo normal de Carga Semanal) ─────────────────
+function openMCotizExplor(obraId){
+  document.getElementById('ceObraId').value=obraId;
+  document.getElementById('ceDesc').value='';
+  document.getElementById('ceMonto').value='';
+  document.getElementById('ceFecha').value=new Date().toISOString().slice(0,10);
+  document.getElementById('ceNotas').value='';
+  openM('mCotizExplor');
+}
+
+async function guardarCotizExplor(){
+  const obraId=document.getElementById('ceObraId').value;
+  const desc=document.getElementById('ceDesc').value.trim();
+  if(!desc){toast('Completá la descripción del pedido','err');return;}
+  try{
+    await sbPost('cotizaciones_obra_exploratorias',{
+      obra_id:obraId,descripcion:desc,
+      monto_usd_estimado:parseFloat(document.getElementById('ceMonto').value)||null,
+      fecha:document.getElementById('ceFecha').value||new Date().toISOString().slice(0,10),
+      notas:document.getElementById('ceNotas').value.trim()||null,
+    });
+    closeM('mCotizExplor');
+    selObra(obraId);
+    toast('Cotización exploratoria guardada','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+async function marcarCotizExplor(id,estado){
+  try{
+    await sbPatch('cotizaciones_obra_exploratorias',{estado},`?id=eq.${id}`);
+    selObra(selObraId);
+    toast(estado==='ACEPTADA'?'Cotización marcada como aceptada':'Cotización descartada','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
+async function convertirCotizAmpliacion(cotizId){
+  try{
+    const rows=await sbGet('cotizaciones_obra_exploratorias',`?id=eq.${cotizId}&select=*`);
+    const cotiz=rows[0];
+    if(!cotiz){toast('Cotización no encontrada','err');return;}
+    openMAmpliacion(cotiz.obra_id,cotizId,{descripcion:cotiz.descripcion,monto_usd_estimado:cotiz.monto_usd_estimado});
+  }catch(e){ toast('Error: '+e.message,'err'); }
+}
+
 // ═══════════════════════════════════════════════════════════════
 //  DETALLE / EDICIÓN DE CERTIFICADOS
 // ═══════════════════════════════════════════════════════════════
@@ -1657,12 +1960,13 @@ function showCdPV(w,el){
 // ── Edición de certificado/recibo (BORRADOR / ENVIADO) ──────────
 //    y rectificación (PAGADO) — comparten el mismo formulario de ítems/líneas.
 let edMode='edit',edCert=null,edRec=null,edObra=null,edItems=[],edFacts=[],edLineas=[],edTC=1430,
-  edIvaMO=false,edSavedOnce=false;
+  edIvaMO=false,edSavedOnce=false,edExcedentePrevioPesos=0;
 
 async function editarCertificado(id){
   if(!cdCert||cdCert.id!==id){ toast('Error interno: certificado no cargado','err'); return; }
   edMode='edit';
   edCert=cdCert;edRec=cdRec;edObra=cdObra;
+  edExcedentePrevioPesos=await fetchExcedentePrevioPesos(edObra?.id);
   edTC=edCert.tipo_cambio_usd||1430;
   edIvaMO=edRec?edRec.iva_mano_obra_pct>0:false;
   edSavedOnce=false;
@@ -1713,11 +2017,12 @@ async function editarCertificado(id){
   renderEditForm();
 }
 
-function rectificarCertificado(id){
+async function rectificarCertificado(id){
   if(!cdCert||cdCert.id!==id){ toast('Error interno: certificado no cargado','err'); return; }
   if(cdCert.estado!=='PAGADO'){ toast('Solo se pueden rectificar certificados PAGADOS','err'); return; }
   edMode='rectify';
   edCert=cdCert;edRec=cdRec;edObra=cdObra;
+  edExcedentePrevioPesos=await fetchExcedentePrevioPesos(edObra?.id);
   edTC=edCert.tipo_cambio_usd||1430;
   edIvaMO=edRec?edRec.iva_mano_obra_pct>0:false;
   edSavedOnce=false;
@@ -1806,6 +2111,7 @@ function renderEditForm(){
         <div class="tr2"><span>Facturas/materiales</span><span style="text-align:right"><span id="edTF">$ 0</span><br><span id="edTFu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
         <div class="tf"><span>TOTAL RECIBO</span><span style="text-align:right"><span id="edTT">$ 0</span><br><span id="edTTu" style="font-size:9px;color:var(--text3)">U$D 0,00</span></span></div>
       </div>
+      <div id="edExcWarn" style="display:none;font-size:11px;color:var(--warn);background:#3a2500;border:1px solid #6b4200;border-radius:6px;padding:8px 10px;margin-top:10px"></div>
     </div>`:`
     <div class="ct" style="margin-top:14px">Sin recibo asociado a este certificado.</div>`}`;
 
@@ -1884,6 +2190,7 @@ function recalcEd(){
   const setU=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=fUsd(v/edTC);};
   set('edTC',tC);set('edTE',tE);set('edTS',tS);set('edTF',tF);set('edTT',tT);
   setU('edTCu',tC);setU('edTEu',tE);setU('edTSu',tS);setU('edTFu',tF);setU('edTTu',tT);
+  checkExcedenteUmbral('edExcWarn',edObra,edExcedentePrevioPesos,tE,tS);
 }
 
 // Vista previa de solo-lectura — nunca persiste nada. En modo edición se llega acá
@@ -2178,7 +2485,7 @@ async function guardarRubro(){
 // ═══════════════════════════════════════════════════════════════
 //  SEGUIMIENTO
 // ═══════════════════════════════════════════════════════════════
-let sItems=[],sFacts=[],sObra=null;
+let sItems=[],sFacts=[],sObra=null,sExcedentePrevioPesos=0;
 let sRecId=null,sCandidatas=[],sCandidatasChecked=new Set();
 
 function populateSegObras(){
@@ -2199,11 +2506,12 @@ async function onSObraChange(){
   // Cambiar de obra invalida el recibo BORRADOR que se haya creado para el paso 3
   // de una obra anterior — se crea uno nuevo la próxima vez que se entre al paso 3.
   sRecId=null;sCandidatas=[];sCandidatasChecked=new Set();
-  if(!id){sObra=null;document.getElementById('sObraInfo').style.display='none';return;}
+  if(!id){sObra=null;sExcedentePrevioPesos=0;document.getElementById('sObraInfo').style.display='none';return;}
   sObra=cache.obras().find(o=>o.id===id);
   document.getElementById('sObraInfo').style.display='block';
   document.getElementById('sObraInfo').innerHTML=
     `<b>${sObra.nombre}</b> · ${sObra.cliente_razon_social||''} · ${sObra.tipo}`;
+  sExcedentePrevioPesos=await fetchExcedentePrevioPesos(id);
   try{
     const c=await sbGet('certificados',`?obra_id=eq.${id}&select=numero&order=numero.desc&limit=1`);
     const r=await sbGet('recibos',`?obra_id=eq.${id}&select=numero&order=numero.desc&limit=1`);
@@ -2638,6 +2946,34 @@ function computeTotals(items,facts,tc){
   return {tC,tE,tS,tF,tT:tC+tE+tS+tF};
 }
 
+// Baseline de excedente ya certificado para la obra, para la advertencia blanda de
+// umbral — se pide una sola vez al entrar a Carga Semanal / abrir edición, no en cada
+// tecla. No descuenta el excedente propio del certificado que se está editando (el
+// dato de analisis_obra ya lo incluye si el certificado es viejo) — es una aproximación
+// conservadora aceptable porque la advertencia nunca bloquea, solo sugiere.
+async function fetchExcedentePrevioPesos(obraId){
+  if(!obraId)return 0;
+  try{
+    const rows=await sbGet('analisis_obra',`?obra_id=eq.${obraId}&select=excedentes_acumulado_pesos&order=created_at.desc&limit=1`);
+    return rows[0]?.excedentes_acumulado_pesos||0;
+  }catch{ return 0; }
+}
+
+function checkExcedenteUmbral(warnElId,obra,prevPesos,tE,tS){
+  const warnEl=document.getElementById(warnElId);
+  if(!warnEl)return;
+  const presupuesto=obra?.presupuesto_total_pesos;
+  if(!presupuesto){ warnEl.style.display='none'; return; }
+  const umbral=obra.pct_umbral_excedente!=null?obra.pct_umbral_excedente:0.05;
+  const ratio=(prevPesos+tE+tS)/presupuesto;
+  if(ratio>umbral){
+    warnEl.style.display='block';
+    warnEl.innerHTML=`⚠️ Atención: este excedente llevaría el acumulado de la obra a ${(ratio*100).toFixed(1)}% del presupuesto (umbral ${(umbral*100).toFixed(0)}%) — ¿seguro que no debería ser una ampliación?`;
+  }else{
+    warnEl.style.display='none';
+  }
+}
+
 function recalcS(){
   const tc=parseFloat(document.getElementById('sTC').value)||1430;
   const {tC,tE,tS,tF,tT}=computeTotals(sItems,sFacts,tc);
@@ -2645,6 +2981,7 @@ function recalcS(){
   const setU=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=fUsd(v/tc);};
   set('tC',tC);set('tE',tE);set('tS',tS);set('tF',tF);set('tT',tT);
   setU('tCu',tC);setU('tEu',tE);setU('tSu',tS);setU('tFu',tF);setU('tTu',tT);
+  checkExcedenteUmbral('sExcWarn',sObra,sExcedentePrevioPesos,tE,tS);
 }
 
 function showPV(w,el){
@@ -3521,6 +3858,18 @@ const EB={
   PAGADO:'<span class="bd b-ok">PAGADO</span>',
 };
 function eBadge(e){return EB[e]||`<span class="bd b-gray">${e||'—'}</span>`;}
+
+const AMP_BADGE={
+  COTIZADO:'<span class="bd b-info">COTIZADO</span>',
+  ACEPTADO:'<span class="bd b-ok">ACEPTADO</span>',
+  RECHAZADO:'<span class="bd b-up">RECHAZADO</span>',
+  VENCIDO:'<span class="bd b-gray">VENCIDO</span>',
+};
+const CE_BADGE={
+  COTIZADA:'<span class="bd b-info">COTIZADA</span>',
+  ACEPTADA:'<span class="bd b-ok">ACEPTADA</span>',
+  DESCARTADA:'<span class="bd b-gray">DESCARTADA</span>',
+};
 
 function showP(name,el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
