@@ -1,0 +1,39 @@
+name: Verificar tracking de propuestas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'propuestas/*.html'
+  workflow_dispatch: {}
+
+jobs:
+  check-tracking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar meta py-codigo y beacon propuesta_vistas
+        run: |
+          fail=0
+          checked=0
+          for f in propuestas/*.html; do
+            [ -f "$f" ] || continue
+            # Solo se exige el beacon en archivos que son parte del ciclo de proyectos
+            # (tienen un código PY-2026-NNN en algún lado). Listados de compra/excedentes
+            # de obras en curso (sin código PY) quedan afuera a propósito -- no son parte
+            # del ciclo de propuestas comerciales trackeado en propuesta_vistas.
+            if grep -q 'PY-2026-[0-9]' "$f"; then
+              checked=$((checked+1))
+              if ! grep -q 'name="py-codigo"' "$f"; then
+                echo "::error file=$f::Falta <meta name=\"py-codigo\"> -- ver Sección 1 de la skill nova-domus-propuestas-interactivas"
+                fail=1
+              fi
+              if ! grep -q 'propuesta_vistas' "$f"; then
+                echo "::error file=$f::Falta el bloque de tracking a propuesta_vistas antes de </body> -- ver Sección 1 de la skill nova-domus-propuestas-interactivas"
+                fail=1
+              fi
+            fi
+          done
+          echo "Archivos con código PY-2026 revisados: $checked"
+          exit $fail
