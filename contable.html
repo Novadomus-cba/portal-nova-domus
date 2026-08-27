@@ -491,7 +491,7 @@ tr:last-child td{border-bottom:none}
   <div id="posCheques"><div class="empty">Cargando…</div></div>
 
   <div class="card" style="margin-top:14px">
-    <div class="card-title">Carga de extractos y cheques</div>
+    <div class="card-title">Carga de extractos, cheques y comprobantes fiscales</div>
     <div class="fg">
       <label>Tipo de archivo</label>
       <select id="extTipo" onchange="onExtTipoChange()">
@@ -499,6 +499,8 @@ tr:last-child td{border-bottom:none}
         <option value="movimientos">Movimientos bancarios (Ultimos_Movimientos.xls)</option>
         <option value="cheques_emitidos">Cheques emitidos (Listado_cheques_Emitidos.xls)</option>
         <option value="cheques_recibidos">Cheques recibidos (Listado_cheques_Recibidos.xls)</option>
+        <option value="comprobantes_recibidos">Comprobantes Recibidos (ARCA)</option>
+        <option value="comprobantes_emitidos">Comprobantes Emitidos (ARCA)</option>
       </select>
       <div class="field-hint">Solo se parsean los Excel — el Resumen en PDF no se carga, es únicamente para verificar el saldo consolidado a mano.</div>
     </div>
@@ -1143,7 +1145,7 @@ const pendingDel = new Set();
 let reporteData = [], reporteChart = null;
 let posicionLoaded = false, posChart = null;
 let cuentasBancarias = [];
-let extState = { tipo: null, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [] };
+let extState = { tipo: null, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [], direccion: null, existentesSet: null };
 
 // ── AUTH ──────────────────────────────────────────────────────
 async function handleLogout() {
@@ -2357,11 +2359,107 @@ function parseMovimientos(rows) {
 
 function onExtTipoChange() {
   const tipo = document.getElementById('extTipo').value;
-  extState = { tipo, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [] };
+  extState = { tipo, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [], direccion: null, existentesSet: null };
   document.getElementById('extFileWrap').style.display = tipo ? 'block' : 'none';
   document.getElementById('extFile').value = '';
   document.getElementById('extPreviewWrap').style.display = 'none';
   document.getElementById('extResult').innerHTML = '';
+}
+
+// Header por nombre de columna del Excel de ARCA ("Mis Comprobantes
+// Recibidos/Emitidos"): fila 1 titulo, fila 2 encabezados, datos desde fila 3.
+// findHeaderRowIndex ya busca la fila cuya 1ra columna es "Fecha" -- se reutiliza,
+// funciona igual para este archivo.
+function parseComprobantesFiscales(rows, direccion) {
+  const hIdx = findHeaderRowIndex(rows);
+  if (hIdx < 0) throw new Error('No se encontró la fila de encabezado (buscando "Fecha")');
+  const map = buildColumnMap(rows[hIdx]);
+
+  const esRecibido = direccion === 'RECIBIDO';
+  const tercTipoDocCol = esRecibido ? 'Tipo Doc. Emisor' : 'Tipo Doc. Receptor';
+  const tercCuitCol    = esRecibido ? 'Nro. Doc. Emisor' : 'Nro. Doc. Receptor';
+  const tercDenomCol   = esRecibido ? 'Denominación Emisor' : 'Denominación Receptor';
+
+  const need = ['Fecha', 'Tipo', 'Punto de Venta', 'Número Desde', tercDenomCol, 'Imp. Total'];
+  const faltan = need.filter((k) => !(k in map));
+  if (faltan.length) throw new Error(`Faltan columnas en el archivo: ${faltan.join(', ')}`);
+
+  const val = (row, col) => (col in map ? row[map[col]] : null);
+  const num = (v) => (v === null || v === undefined || v === '') ? null : aNumeroChq(v);
+
+  const filas = [];
+  for (let i = hIdx + 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row) continue;
+    const fechaRaw = val(row, 'Fecha');
+    if (fechaRaw === null || fechaRaw === undefined || fechaRaw === '') continue;
+
+    const fecha = serialAFecha(fechaRaw);
+    const tipoRaw = String(val(row, 'Tipo') ?? '').trim();
+    const [codeStr, ...restTipo] = tipoRaw.split(' - ');
+    const tipo_codigo = parseInt(codeStr, 10);
+    const tipo_descripcion = restTipo.join(' - ').trim();
+    if (!fecha || !Number.isFinite(tipo_codigo)) continue;
+
+    const cae = textOrNull(val(row, 'Cód. Autorización'));
+    const cuitRaw = textOrNull(val(row, tercCuitCol));
+    const tercero_cuit = cuitRaw ? cuitRaw.replace(/\D/g, '') || null : null;
+    const punto_venta = parseInt(val(row, 'Punto de Venta'), 10);
+    const numero = parseInt(val(row, 'Número Desde'), 10);
+
+    filas.push({
+      direccion,
+      fecha,
+      tipo_codigo,
+      tipo_descripcion,
+      punto_venta,
+      numero,
+      cae,
+      tercero_tipo_doc: textOrNull(val(row, tercTipoDocCol)),
+      tercero_cuit,
+      // ARCA deja Denominacion/Tipo Doc/Nro Doc en blanco cuando el receptor es un
+      // consumidor final sin CUIT registrado (visto en la muestra real, Factura B
+      // sin datos de receptor) -- la columna es NOT NULL, no puede quedar vacia.
+      tercero_denominacion: textOrNull(val(row, tercDenomCol)) || 'CONSUMIDOR FINAL',
+      tipo_cambio: num(val(row, 'Tipo Cambio')) ?? 1,
+      moneda: textOrNull(val(row, 'Moneda')) || '$',
+      neto_grav_iva_0: num(val(row, 'Neto Grav. IVA 0%')),
+      iva_2_5: num(val(row, 'IVA 2,5%')),
+      neto_grav_iva_2_5: num(val(row, 'Neto Grav. IVA 2,5%')),
+      iva_5: num(val(row, 'IVA 5%')),
+      neto_grav_iva_5: num(val(row, 'Neto Grav. IVA 5%')),
+      iva_10_5: num(val(row, 'IVA 10,5%')),
+      neto_grav_iva_10_5: num(val(row, 'Neto Grav. IVA 10,5%')),
+      iva_21: num(val(row, 'IVA 21%')),
+      neto_grav_iva_21: num(val(row, 'Neto Grav. IVA 21%')),
+      iva_27: num(val(row, 'IVA 27%')),
+      neto_grav_iva_27: num(val(row, 'Neto Grav. IVA 27%')),
+      neto_gravado_total: num(val(row, 'Neto Gravado Total')),
+      neto_no_gravado: num(val(row, 'Neto No Gravado')),
+      op_exentas: num(val(row, 'Op. Exentas')),
+      otros_tributos: num(val(row, 'Otros Tributos')),
+      total_iva: num(val(row, 'Total IVA')),
+      importe_total: num(val(row, 'Imp. Total')) ?? 0,
+      hash_dedupe: `${direccion}|${tipo_codigo}|${punto_venta}|${numero}|${cae || ''}`,
+    });
+  }
+  if (!filas.length) throw new Error('El archivo no tiene ninguna fila de comprobantes.');
+  return filas;
+}
+
+// Chequea contra la base cuales hash_dedupe ya existen, para poder mostrar en el
+// preview cuantas filas son nuevas antes de confirmar la carga (a diferencia de
+// movimientos/cheques, que solo informan duplicados despues de insertar).
+async function checkExistingHashes(hashes) {
+  const existentes = new Set();
+  const CHUNK = 150;
+  for (let i = 0; i < hashes.length; i += CHUNK) {
+    const chunk = hashes.slice(i, i + CHUNK);
+    const lista = chunk.map((h) => `"${h.replace(/"/g, '\\"')}"`).join(',');
+    const rows = await sbGet('comprobantes_fiscales', `?hash_dedupe=in.(${lista})&select=hash_dedupe`);
+    rows.forEach((r) => existentes.add(r.hash_dedupe));
+  }
+  return existentes;
 }
 
 async function onExtFileSelected() {
@@ -2398,6 +2496,15 @@ async function onExtFileSelected() {
       extState.filas = filas;
       extState.meta = meta;
       extState.avisos = avisos;
+    } else if (extState.tipo === 'comprobantes_recibidos' || extState.tipo === 'comprobantes_emitidos') {
+      const rows = await readWorkbookRows(file);
+      const direccion = extState.tipo === 'comprobantes_recibidos' ? 'RECIBIDO' : 'EMITIDO';
+      const filas = parseComprobantesFiscales(rows, direccion);
+      extState.direccion = direccion;
+      extState.filas = filas;
+      extState.meta = null;
+      extState.avisos = [];
+      extState.existentesSet = await checkExistingHashes(filas.map((f) => f.hash_dedupe));
     } else {
       return;
     }
@@ -2432,7 +2539,7 @@ function renderExtPreview() {
       <thead><tr><th>Fecha</th><th>Concepto</th><th style="text-align:right">Importe</th><th>Categoría</th></tr></thead>
       <tbody>${rows}</tbody>
     </table></div>${masFilas}`;
-  } else {
+  } else if (extState.tipo === 'cheques_emitidos' || extState.tipo === 'cheques_recibidos') {
     const metaInfo = extState.meta
       ? `${extState.meta.total_filas} filas · ${f$(extState.meta.monto_total)}${extState.meta.fecha_descarga ? ` · descargado ${extState.meta.fecha_descarga}` : ''}`
       : '';
@@ -2451,12 +2558,31 @@ function renderExtPreview() {
       <thead><tr><th>Fecha efectivo</th><th>Cheque</th><th>Contraparte</th><th style="text-align:right">Monto</th><th>Estado banco</th></tr></thead>
       <tbody>${rows}</tbody>
     </table></div>${masFilas}`;
+  } else if (extState.tipo === 'comprobantes_recibidos' || extState.tipo === 'comprobantes_emitidos') {
+    const nuevas = extState.filas.filter((f) => !extState.existentesSet.has(f.hash_dedupe));
+    const existentesCount = extState.filas.length - nuevas.length;
+    const sumaNuevas = nuevas.reduce((a, f) => a + (f.importe_total || 0), 0);
+    subEl.textContent = `${nuevas.length} nuevas · ${existentesCount} ya existían (se omiten) · suma de las nuevas: ${f$(sumaNuevas)}`;
+    const rows = extState.filas.slice(0, MAX_PREVIEW).map((f) => {
+      const yaExiste = extState.existentesSet.has(f.hash_dedupe);
+      return `<tr style="${yaExiste ? 'opacity:.45' : ''}">
+        <td>${fd(f.fecha)}</td>
+        <td>${f.tipo_codigo} - ${f.tipo_descripcion}<br><span style="color:var(--muted);font-size:10px">${f.punto_venta}-${String(f.numero).padStart(8, '0')}</span></td>
+        <td>${f.tercero_denominacion}</td>
+        <td style="text-align:right">${f$(f.importe_total)}</td>
+        <td>${yaExiste ? '<span class="badge b-gray">Ya existe</span>' : '<span class="badge b-ok">Nueva</span>'}</td>
+      </tr>`;
+    }).join('');
+    tableEl.innerHTML = `<div class="tw"><table>
+      <thead><tr><th>Fecha</th><th>Tipo / N°</th><th>Tercero</th><th style="text-align:right">Importe total</th><th>Estado</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>${masFilas}`;
   }
 }
 
 function resetExtracto() {
   const tipo = document.getElementById('extTipo').value;
-  extState = { tipo, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [] };
+  extState = { tipo, filas: [], cuenta: null, chequeTipo: null, meta: null, avisos: [], direccion: null, existentesSet: null };
   document.getElementById('extFile').value = '';
   document.getElementById('extPreviewWrap').style.display = 'none';
   document.getElementById('extResult').innerHTML = '';
@@ -2475,7 +2601,7 @@ async function confirmarCargaExtracto() {
         (dup > 0 ? ` · ${dup} ya existían (omitidas)` : '');
       toast(`✅ ${inserted.length} filas cargadas`, 'ok');
       posicionLoaded = false; // fuerza recarga de Posición Bancaria con los datos nuevos
-    } else {
+    } else if (extState.tipo === 'cheques_emitidos' || extState.tipo === 'cheques_recibidos') {
       // El browser ya no decide el estado interno del cheque: ese mapeo vive
       // en la RPC de Postgres para que haya una sola fuente de verdad.
       const { data, error } = await authClient.rpc('importar_cheques', {
@@ -2497,6 +2623,23 @@ async function confirmarCargaExtracto() {
       toast(`✅ ${data.total} cheques importados`, 'ok');
       posicionLoaded = false; // fuerza recarga de Posición Bancaria con los datos nuevos
       await loadCheques(); // refresca el tab de Cheques tambien
+    } else {
+      // comprobantes_recibidos / comprobantes_emitidos
+      const nuevas = extState.filas.filter((f) => !extState.existentesSet.has(f.hash_dedupe));
+      if (!nuevas.length) {
+        document.getElementById('extResult').innerHTML =
+          '<span style="color:var(--muted)">Todas las filas ya existían — no se cargó nada nuevo.</span>';
+        toast('No hay comprobantes nuevos para cargar', 'ok');
+      } else {
+        const { data:{session} } = await authClient.auth.getSession();
+        const payload = nuevas.map((f) => ({ ...f, cargado_por: session.user.id }));
+        const inserted = await sbUpsert('comprobantes_fiscales', payload, 'hash_dedupe');
+        const dup = payload.length - inserted.length;
+        document.getElementById('extResult').innerHTML =
+          `<span style="color:var(--ok)">${inserted.length} comprobantes nuevos cargados</span>` +
+          (dup > 0 ? ` · ${dup} se omitieron (ya existían)` : '');
+        toast(`✅ ${inserted.length} comprobantes cargados`, 'ok');
+      }
     }
     document.getElementById('extPreviewWrap').style.display = 'none';
     document.getElementById('extFile').value = '';
