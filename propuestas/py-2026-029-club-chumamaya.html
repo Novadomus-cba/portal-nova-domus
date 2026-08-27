@@ -60,6 +60,7 @@ color:var(--grey);margin-top:4px;white-space:nowrap}
 .py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
 margin-bottom:14px}
 .claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
 .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
 .meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
 padding:6px 14px;font-size:12px;color:var(--body)}
@@ -155,6 +156,7 @@ background:#fff}
 /* DEVICE CARDS por sistema - foto visible solo al desplegar */
 .device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
 @media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
 .dc-qty{color:var(--gold);font-size:12px;font-weight:600;margin-top:2px}
 .section-light .dc-qty{color:var(--navy)}
 .dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
@@ -162,7 +164,8 @@ background:#fff}
 .dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
 .dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
 .section-light .dc-desc{color:#5d6078}
-.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
 .section-light .calc-box{border-color:rgba(20,30,97,.14)}
 /* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
 .section-light .step{border-left-color:var(--navy)}
@@ -173,7 +176,7 @@ background:#fff}
 .section-light .tbl td:nth-child(3){color:#5d6078}
 .section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
 .section-light .cmp.good h3{color:var(--navy)}
-.section-light .vbox{background:rgba(20,30,97,.04)!important}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
 .section-light .vbox h3{color:var(--navy)}
 .section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
 .cav-val{color:var(--gold);font-weight:600}
@@ -210,9 +213,9 @@ border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
 .chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
 
 /* responsable */
-.flow{display:grid;gap:10px;margin:22px 0}
+.flow{display:grid;gap:0;margin:22px 0}
 .step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
-padding:4px 0 4px 16px}
+padding:10px 0 10px 16px}
 .step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
 flex:0 0 26px}
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
@@ -291,6 +294,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <p class="py">PY-2026-029 · PROPUESTA COMERCIAL</p>
     <h1>Club Chumamaya</h1>
     <p class="claim">La casa que responde.</p>
+    <p class="tagline">Del cable a la app</p>
     <p class="lead" style="margin-top:16px">Proyecto Ejecutivo de Tecnológica Integral para
       vivienda unifamiliar en Country Club Chumamaya, Merlo, San Luis. Iluminación, cortinas,
       climatización, seguridad, audio y redes, bajo un solo responsable.</p>
