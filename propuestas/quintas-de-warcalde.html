@@ -296,7 +296,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
       <div class="card"><h3>La situación</h3><p>La casa ya tiene equipamiento bueno comprado por separado: cámaras Hikvision, cámaras EZVIZ, tres cerraduras digitales, una alarma AXPro y seis parlantes Sonos. Cada cosa vive en su propia app y ninguna se entera de lo que hace la otra. La iluminación, la calefacción y los aires siguen siendo 100% manuales.</p></div>
       <div class="card"><h3>Lo que proponemos</h3><p>Sumar automatización a lo que falta (luz, clima, radiadores) y absorber a la plataforma todo lo que ya está instalado. El resultado es una sola pantalla, un solo juego de escenas y reglas que funcionan aunque se corte internet, porque el cerebro vive dentro de la casa.</p></div>
       <div class="card"><h3>Qué queda funcionando</h3><p>44 efectos de luz automatizados en 19 ambientes. Tres aires y cinco radiadores con temperatura y horario propios por ambiente. Ocho cámaras en una sola vista con grabación local. Alarma, cerraduras y audio integrados al mismo sistema. Red profesional con cobertura en planta baja, planta alta, patio y bloque anexo.</p></div>
-      <div class="card"><h3>La inversión y el paso siguiente</h3><p>La inversión base es de <b style="color:var(--gold)">U$D <span id="hero-total">8.925</span></b> más IVA discriminado por ítem, con cuatro mejoras opcionales que podés activar más abajo y ver el total recalcularse en vivo. Plazo de obra: 10 días. El paso siguiente es la visita técnica de replanteo.</p></div>
+      <div class="card"><h3>La inversión y el paso siguiente</h3><p>La inversión base de Nova Domus es de <b style="color:var(--gold)">U$D <span id="hero-total">8.925</span></b> más IVA discriminado por ítem, con cuatro mejoras opcionales que podés activar más abajo y ver el total recalcularse en vivo. Aparte, sumamos organizada la instalación eléctrica de la ampliación (sección 07), que factura y certifica el electricista de obra. Plazo de obra de Nova Domus: 10 días. El paso siguiente es la visita técnica de replanteo.</p></div>
     </div>
   </div>
 </section>
@@ -511,15 +511,63 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
     </table>
 
     <div class="valuebox">
-      <h4>Lo que en esta obra no hacemos, y lo decimos</h4>
-      <p style="margin-bottom:0">La obra eléctrica de la casa no es nuestra. Nosotros especificamos y certificamos los tendidos de datos que hacen falta, pero el trabajo de canalización lo ejecuta el electricista de la obra según nuestro plano. Somos responsables únicos de todo lo que instalamos y programamos: red, iluminación, confort, seguridad, accesos, audio y automatización.</p>
+      <h4>Lo que hacemos y lo que no, dicho con claridad</h4>
+      <p style="margin-bottom:0">En el resto de la casa la instalación eléctrica ya existe: nosotros especificamos y certificamos los tendidos de datos que hacen falta, pero no ejecutamos obra eléctrica. En la ampliación es distinto: ahí sí hay obra eléctrica nueva, y la ejecuta el electricista de la obra con su propio presupuesto, su propia certificación y su propia factura — la organizamos dentro de esta propuesta para que tengas todo en un solo documento, pero es una contratación aparte. Nova Domus sigue siendo responsable único de todo lo que instala y programa: red, iluminación, confort, seguridad, accesos, audio y automatización.</p>
     </div>
   </div>
 </section>
+
+<!-- ===================== 07 INSTALACION ELECTRICA (AMPLIACION) ===================== -->
+<section>
+  <div class="wrap">
+    <span class="sec-num">07</span>
+    <h2 style="margin-top:8px">Instalación eléctrica — Ampliación</h2>
+    <p class="lead">Presupuesto de obra eléctrica para la ampliación de la casa, preparado por el electricista de obra. Es un contrato aparte del resto de esta propuesta: distinta moneda, distinta forma de pago y distinta facturación.</p>
+
+    <div class="valuebox">
+      <h4>Quién ejecuta y quién cobra esto</h4>
+      <p style="margin-bottom:0">Esta parte la ejecuta y certifica el electricista de obra, no Nova Domus. La incluimos acá organizada para que tengas todo el proyecto en un solo lugar, pero es una relación comercial aparte: se paga en pesos, se certifica semana a semana, y se factura por separado. Nova Domus sigue siendo responsable único de todo lo demás — redes, domótica, seguridad, audio y programación — descripto en el resto de esta propuesta.</p>
+    </div>
+
+    <p class="hint" style="margin-top:26px">👆 Tocá cada rubro para ver el detalle línea por línea</p>
+    <div id="dev-elec"></div>
+
+    <label class="upg" id="desc-canal" style="margin-top:20px;display:flex">
+      <input type="checkbox" id="chk-canal">
+      <span class="t"><b>El canaleteado de la pared ya está hecho</b>
+      <small>Verificado en obra. Aplica 30% de descuento sobre TUG, TUE/IUG e IUG (no sobre llaves de luz ni el resto de los rubros).</small></span>
+      <span class="pr" id="desc-canal-val">−$ 0</span>
+    </label>
+
+    <table class="tot" style="margin-top:18px">
+      <tr class="sub"><td>Subtotal materiales + mano de obra (sin IVA)</td><td>$ <span id="elec-sub">—</span></td></tr>
+      <tr class="sub" id="elec-desc-row" style="display:none"><td>Descuento canaleteado ya hecho (30% s/TUG-TUE-IUG)</td><td>− $ <span id="elec-desc">—</span></td></tr>
+      <tr id="elec-iva-row" style="display:none"><td>IVA 21% (si se factura)</td><td>$ <span id="elec-iva">—</span></td></tr>
+      <tr class="big"><td>Total instalación eléctrica</td><td>$ <span id="elec-total">—</span></td></tr>
+      <tr class="sub"><td>Referencia en dólares (TC BNA 1534, informativa — no vinculante)</td><td>≈ U$D <span id="elec-total-usd">—</span></td></tr>
+    </table>
+
+    <label class="facta" style="margin-top:14px">
+      <input type="checkbox" id="chk-facta-elec">
+      <span><b>Necesito Factura A del electricista</b><br><span style="color:var(--grey);font-size:13.5px">Suma el 21% de IVA sobre el total de esta sección. Los precios base no lo incluyen.</span></span>
+    </label>
+
+    <div class="grid g2" style="margin-top:22px">
+      <div class="card"><h4>Certificación y pago</h4><p style="margin-bottom:0">Certificación semanal: los jueves se entrega el detalle de lo ejecutado en la semana, y se cobra el viernes. Se paga únicamente lo efectivamente realizado y conformado — no hay anticipos sobre trabajo pendiente.</p></div>
+      <div class="card"><h4>Materiales y compra</h4><p style="margin-bottom:0">Este presupuesto incluye el cómputo completo de materiales con cantidades y especificaciones, más recomendación de marcas y proveedores. La gestión de compra y el flete quedan a tu cargo — te acompañamos en las especificaciones para que sea simple.</p></div>
+    </div>
+    <div class="valuebox">
+      <h4>Trabajos excedentes</h4>
+      <p style="margin-bottom:0">Cualquier tarea que se ejecute y no esté en este presupuesto se suma al certificado semanal como excedente, identificada y valorizada aparte — para que siempre tengas visibilidad de qué es lo presupuestado y qué es adicional.</p>
+    </div>
+  </div>
+</section>
+<hr class="rule">
+
 <!-- ===================== INVERSION ===================== -->
 <section class="section-light" id="inversion">
   <div class="wrap">
-    <span class="sec-num">07</span>
+    <span class="sec-num">08</span>
     <h2 style="margin-top:8px">Inversión</h2>
     <p class="lead">Todos los valores en dólares. El IVA va discriminado por ítem porque no todos tributan igual: el equipamiento de red y el disco de videovigilancia tributan 10,5% y el resto 21%.</p>
 
@@ -548,9 +596,9 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 <!-- ===================== PAGOS ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">08</span>
-    <h2 style="margin-top:8px">Ejecución y forma de pago</h2>
-    <p class="lead">Plazo de obra: 10 días hábiles desde la llegada del equipamiento, sujeto a que los tendidos de datos estén ejecutados.</p>
+    <span class="sec-num">09</span>
+    <h2 style="margin-top:8px">Ejecución y forma de pago — Nova Domus</h2>
+    <p class="lead">Plazo de obra: 10 días hábiles desde la llegada del equipamiento, sujeto a que los tendidos de datos estén ejecutados. Esta forma de pago es la de Nova Domus — la instalación eléctrica de la ampliación (sección 07) se certifica y se paga aparte, según sus propios términos.</p>
     <div style="margin-top:26px">
       <div class="stage"><b>Equipos · 100% por anticipado</b><div class="amt">U$D <span id="p1">—</span></div><span style="color:var(--grey);font-size:14px">Asegura la compra y la disponibilidad de importación. Sin esto no se puede fijar el precio ni la fecha.</span></div>
       <div class="stage"><b>Mano de obra e integración · 30% al iniciar</b><div class="amt">U$D <span id="p2">—</span></div><span style="color:var(--grey);font-size:14px">Al arrancar la obra en la casa.</span></div>
@@ -568,8 +616,9 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 <!-- ===================== CONDICIONES ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">09</span>
+    <span class="sec-num">10</span>
     <h2 style="margin-top:8px">Condiciones generales</h2>
+    <p class="lead" style="margin-top:6px">Estas condiciones son las de Nova Domus, para el alcance de redes, domótica, seguridad, audio y programación. La instalación eléctrica de la ampliación tiene sus propias condiciones, detalladas en la sección 07.</p>
     <p class="hint" style="margin-top:16px">👆 Tocá cada condición para leerla</p>
     <div id="cond"></div>
   </div>
@@ -984,6 +1033,7 @@ const FAQ=[
 ['¿Y si se corta la luz?','El UPS sostiene rack, red, grabador y automatización. La duración depende de la carga real, pero está dimensionado con margen sobre el consumo del proyecto. Es la diferencia entre tener registro de lo que pasó durante el corte o no tener nada.'],
 ['¿Puedo seguir usando las llaves de la pared?','Sí, y es una decisión de diseño, no una limitación. Los módulos van detrás de la tecla existente: el interruptor sigue funcionando como siempre. Si el sistema se cayera por completo, la casa sigue siendo una casa con llaves de luz normales.'],
 ['¿Por qué la mano de obra pesa tanto en el total?','Porque es un retrofit. En una casa nueva los módulos se colocan con las cajas abiertas y el cableado a la vista. Acá hay que desmontar cada bastidor, verificar que exista neutro, instalar sin dañar terminaciones y volver a cerrar, caja por caja, 32 veces. Es trabajo de electricista matriculado, no de armado rápido.'],
+['En la ampliación, ¿se puede combinar iluminación y tomas en el mismo circuito para ahorrar cable?','Técnicamente existe esa variante, pero la reglamentación vigente (AEA) la desaconseja y exige condiciones muy específicas para que sea válida. El electricista de obra prefiere mantener los circuitos de iluminación y de tomacorrientes separados: es la práctica más segura y la que evita dolores de cabeza si mañana hay que ampliar o reparar un circuito puntual.'],
 ['¿Qué pasa si algo no funciona después de la entrega?','Nos llamás a nosotros, no al fabricante. 12 meses de garantía sobre la instalación y la programación. Como hicimos la red, la instalación y la integración con equipo propio, no hay a quién derivar el problema.']
 ];
 document.getElementById('faq').innerHTML=FAQ.map((f,i)=>
@@ -1048,6 +1098,54 @@ const BR=[
     window.open('https://wa.me/?text='+encodeURIComponent(m),'_blank');
   });
 })();
+
+/* ---------- 07 Instalacion Electrica (Esteban) ---------- */
+const ELEC = {"tc":1534.0,"bloques":[{"nom":"Tablero","items":[{"n":"Cambio del gabinete","q":1,"pu":100000,"t":100000,"desc":false},{"n":"Acondicionamiento de tablero seccional principal existente","q":1,"pu":230000,"t":230000,"desc":false},{"n":"Vinculación de tablero seccional 1 y 2","q":1,"pu":50000,"t":50000,"desc":false},{"n":"Instalación de gabinete de 16 o 24 polos empotrado en pared","q":1,"pu":80000,"t":80000,"desc":false},{"n":"Colocación de ID (interruptor diferencial)","q":1,"pu":34000,"t":34000,"desc":false},{"n":"Colocación de ITM (interruptor termomagnético)","q":3,"pu":34000,"t":102000,"desc":false},{"n":"Colocación de ITM — circuito de aires acondicionados","q":2,"pu":34000,"t":68000,"desc":false},{"n":"Bornera de puesta a tierra","q":1,"pu":15000,"t":15000,"desc":false}],"sub":679000},{"nom":"Puesta a tierra","items":[{"n":"PAT 1 y 2 — hincado de jabalina con tapa + conexionado a tablero","q":2,"pu":90000,"t":180000,"desc":false}],"sub":180000},{"nom":"Canalización y cableado","items":[{"n":"Canalización y cableado (sin zanjeo) a tablero seccional 2, por metro lineal","q":50,"pu":9000,"t":450000,"desc":false},{"n":"Caja de paso en recorrido de los tableros","q":3,"pu":30000,"t":90000,"desc":false},{"n":"ACU — alimentación para aires acondicionados","q":2,"pu":62000,"t":124000,"desc":false}],"sub":664000},{"nom":"Bocas","items":[{"n":"TUG — interiores en ampliación","q":15,"pu":55000,"t":825000,"desc":true},{"n":"TUE / IUG mixto — iluminación exterior","q":12,"pu":55000,"t":660000,"desc":true},{"n":"IUG — interior de ampliación","q":10,"pu":50000,"t":500000,"desc":true},{"n":"Llaves de luz","q":7,"pu":55000,"t":385000,"desc":false}],"sub":2370000},{"nom":"Colocación de artefactos","items":[{"n":"Artefacto simple tipo plafón (techo o pared)","q":12,"pu":18000,"t":216000,"desc":false},{"n":"Reflector","q":0,"pu":220000,"t":0,"desc":false},{"n":"Artefacto colgante liviano","q":0,"pu":25000,"t":0,"desc":false},{"n":"Estaca de jardín","q":2,"pu":22000,"t":44000,"desc":false},{"n":"Fuente para tira LED","q":2,"pu":18000,"t":36000,"desc":false},{"n":"Tira LED aplicada en superficie, por metro lineal","q":10,"pu":10000,"t":100000,"desc":false},{"n":"Artefacto colgante mediano / 1 punto tres luces","q":2,"pu":40000,"t":80000,"desc":false},{"n":"Artefacto de piso","q":4,"pu":45000,"t":180000,"desc":false},{"n":"Ventilador de techo sin luz","q":0,"pu":95000,"t":0,"desc":false},{"n":"Ventilador de techo con luz","q":0,"pu":105000,"t":0,"desc":false}],"sub":656000}],"total_ars":4549000,"desc_elegible_ars":1985000};
+const FE = n => Math.round(n).toLocaleString('es-AR');
+(function(){
+  const host=document.getElementById('dev-elec'); if(!host)return;
+  function render(){
+    const canal = document.getElementById('chk-canal').checked;
+    let sub=0, desc=0;
+    const bloquesHtml = ELEC.bloques.map((b,idx)=>{
+      let bsub=0;
+      const filas = b.items.map(it=>{
+        const d = (canal && it.desc) ? it.t*0.30 : 0;
+        const tFinal = it.t - d;
+        bsub += tFinal; desc += d;
+        const tag = it.desc ? ' <span class="tag" style="background:var(--gold);color:var(--navy-deep)">canaleteado</span>' : '';
+        return `<div class="itmrow"><div class="d">${it.n}${tag}<small>${it.q>0? it.q+' unidades × $ '+FE(it.pu) : 'No incluido en este alcance (cant. 0)'}</small></div>
+        <div class="p">$ ${FE(tFinal)}${d>0?'<small>antes $ '+FE(it.t)+'</small>':''}</div></div>`;
+      }).join('');
+      sub += bsub;
+      const badge = idx===0 ? '<span class="tapbadge">Tocá para abrir</span>' : '';
+      return `<div class="dev"><button type="button" aria-expanded="false">
+        <span class="qty" style="min-width:14px;height:14px;border-radius:3px;background:#a46a21;display:inline-block"></span>
+        <span class="nm">${b.nom}<small>${b.items.length} ítems</small></span>
+        ${badge}<span class="p" style="font-weight:600;margin-right:8px">$ ${FE(bsub)}</span>
+        <span class="arw ${idx===0?'bounce':''}">▾</span></button>
+        <div class="panel"><div class="panel-in">${filas}</div></div></div>`;
+    }).join('');
+    host.innerHTML = bloquesHtml;
+    bindAcc(host);
+
+    const fa = document.getElementById('chk-facta-elec').checked;
+    const iva = fa ? sub*0.21 : 0;
+    const total = sub + iva;
+    document.getElementById('elec-sub').textContent = FE(ELEC.total_ars);
+    document.getElementById('elec-desc-row').style.display = desc>0 ? '' : 'none';
+    if(desc>0) document.getElementById('elec-desc').textContent = FE(desc);
+    document.getElementById('elec-iva-row').style.display = fa ? '' : 'none';
+    if(fa) document.getElementById('elec-iva').textContent = FE(iva);
+    document.getElementById('elec-total').textContent = FE(total);
+    document.getElementById('elec-total-usd').textContent = FE(total/ELEC.tc);
+    document.getElementById('desc-canal-val').textContent = desc>0 ? ('−$ '+FE(desc)) : '−$ 0';
+  }
+  document.getElementById('chk-canal').addEventListener('change', render);
+  document.getElementById('chk-facta-elec').addEventListener('change', render);
+  render();
+})();
+
 </script>
 <script>
 (function(){
