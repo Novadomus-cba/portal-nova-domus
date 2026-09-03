@@ -12,7 +12,7 @@ viejo.**
 que llegó por chat, gana este. Si contradice a la base o al repo, **gana la base o el repo** —
 y entonces este archivo se corrige en el mismo commit.
 
-Última actualización: 21/08/2026
+Última actualización: 03/09/2026
 
 ---
 
@@ -280,3 +280,28 @@ Martín tiene fila en `comerciales` (id 6) **sin `user_id`, a propósito**.
   el dashboard, como dueño del proyecto, se bajan sin ninguna sesión — los roles del portal no
   intervienen ahí. Bajo impacto, no bloquea la Fase 8.
 - Aviso pendiente al equipo: Ctrl+Shift+R antes de arrancar el lunes.
+
+---
+
+## 9. Pendientes heredados de `nova-domus-maestra` §13
+
+> Migrado acá el 03/09/2026 (kickoff de consolidación de skills): la skill dice de sí misma que
+> "no guarda estado" (su §0), y esta tabla era estado puro — cerrado o no. En la skill queda solo
+> un puntero a esta sección. Los pendientes ya cerrados se migran igual, como historial de la
+> decisión: no se descartan.
+
+| # | Qué | Estado |
+|---|---|---|
+| 1 | EZVIZ con remarque desactualizado | **Corregido 03/09/2026:** no forzar el máximo descuento. Se aplican las reglas B2B normales (§2 de este archivo) — objetivo 25%, piso 20% de margen **sobre venta** (`costo_ars / 0.80`) — igual que cualquier otra marca. Sigue pendiente actualizar el remarque contra la lista y el TC del día. |
+| 2 | SKUs duplicados y vacíos en inventario | Cleanup manual pendiente. |
+| 3 | Cobertura de `sku_mo` | Buena parte de los ítems activos no tiene tarifa de MO asociada, concentrado en ACCESORIOS, RACK, FIBRA ÓPTICA, CABLE, LICENCIAS. Falta definir el criterio de mapeo. |
+| 4 | Repositorio de Planos de obra | Drive vs. Supabase Storage, pendiente. |
+| 5 | Bucket huérfano `mapas-instalacion` | Vacío (pre-rename). Se borra a mano desde el dashboard: `storage.protect_delete()` lo impide por SQL. Ver también §8. |
+| 6 | Routing `/gerencial` sin barra final | Servía una página vieja. Verificar contra el archivo servido antes de asumir el estado. |
+| 7 | Panel Gerencial | Va a **reescribirse por completo**. Mientras la fuente de ingresos esté vacía va a mostrar números catastróficos que son reales, no un bug. |
+| 8 | Rotación de credenciales | `service_role` y `ANTHROPIC_API_KEY` quedaron duplicadas entre proyectos. Rotar y dejar una sola. |
+| 9 | Remarque de Sensibo Air B2B (id 325) | **Corregido 03/09/2026:** `remarque` y `margen_fijo` a 0,37, unificado con los otros 4 Sensibo. Sin efecto retro — los documentos emitidos usan snapshot (1 fila en `proyectos_items`, 2 en `presupuestos_items`). En B2B no cambia ningún precio (los tres tocan el piso); corrige el B2C y el % exhibido. Estándar Air B2B **sin cambios**. Sigue pendiente: ningún Sensibo tiene `pvp_referencia_ars` fechado. |
+| 10 | `sku_mo` de sensores BLU y kits | **Resuelto 03/09/2026 — divergencia intencional**, documentada en la skill `nova-domus-maestra`, `references/seleccion-dispositivos.md` §9.6. No son 4 ids: son 28 ítems activos, y la base no consume el campo (cero vistas/funciones). No se corrige el dato. Residual: grepear `sku_mo` en este repo para confirmar que el front del presupuestador no inyecta MO en el flujo PY. |
+| 11 | Conteo de dependencia de WiFi | **Corregido 03/09/2026:** 18 sobre WiFi, 66% Zigbee (detalle en `nova-domus-maestra`, `references/seleccion-dispositivos.md` §9.9). No verificable contra la base — la causa raíz pasa al pendiente 12. |
+| 12 | BOM de PY-2026-030 sin persistir | El proyecto (id 53) está en `ENTREGADO`, con `total_usd` 20.432, MO 5.319 y programación 1.853, HTML publicado — y **0 filas en `proyectos_items`**. Comparables sí los tienen (id 36: 94 ítems; id 31: 30 ítems). Nada en `storage.objects` ni en `presupuestos_items`. Cargar el BOM: hoy ninguna cifra de equipo de ese proyecto es auditable. |
+| 13 | `margen_fijo` divergente de `remarque` | 47 filas divergentes y 59 en NULL al 03/09/2026. Definir cuál gobierna, alinear, y decidir si la columna sobrevive. Query de control: `select count(*) from inventario where margen_fijo is distinct from remarque;` |
