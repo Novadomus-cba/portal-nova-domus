@@ -1,0 +1,1 @@
+Carpeta obsoleta desde el 03/09/2026 — todas las skills de Nova Domus (reconciliadas y verificadas contra la versión de la app) viven ahora en https://github.com/Novadomus-cba/nova-domus-skills (raíz canónica local: `~/.claude/skills/`); no editar ni recrear nada acá.
