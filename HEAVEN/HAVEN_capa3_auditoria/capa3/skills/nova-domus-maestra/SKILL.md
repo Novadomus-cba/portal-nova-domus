@@ -1,316 +1,459 @@
 ---
 name: nova-domus-maestra
-description: "Skill maestra de Nova Domus (NDWD SAS, Córdoba, Argentina). Consolidación de conocimiento institucional, operativo y comercial de todos los proyectos activos. Usar SIEMPRE ante cualquier consulta sobre el negocio, presupuestos, márgenes, inventario, cuadrilla, obra, estrategia o gestión."
+description: "Skill maestra de Nova Domus (NDWD SAS, Córdoba, Argentina). Conocimiento institucional, operativo y comercial: empresa, equipo, líneas de negocio, precios y márgenes (B2C/B2B, excepción HAVEN), ciclo de proyecto y de presupuesto, cuadrilla, inventario, selección de dispositivos y stack técnico. Usar SIEMPRE ante cualquier consulta sobre el negocio, presupuestos, márgenes, inventario, cuadrilla, obra, estrategia o gestión. Para identidad de marca (colores, logo, slogan) manda `nova-domus-identidad-marca`; para el estado de la base de datos manda `scripts/estado.sql` del repo, no esta skill."
 ---
 
-# Nova Domus — Skill Maestra Consolidada
-> Versión 2.4 — Septiembre 2026 — Sesión PY-2026-030 "La Pankana - Ruda Orpianesi" (La
-> Calera, 02-03/09/2026). **Reemplaza la versión 2.3**, que tenía mal el bloque de
-> topología de módulos de iluminación (mezclaba el criterio de relés de punto de luz con
-> el de tiras LED 24V bajo un mismo §9.2). Cambios: **corrige** el piso de margen B2B en
-> §3.4 (era markup sobre costo, no margen sobre venta — agrega §3.9); **corrige y separa**
-> la topología de relés/dimmers de punto de luz (§9.1, nueva) de la de tiras LED 24V
-> (§9.2, reescrita); **corrige** el default cableado-gana-por-costo en seguridad (§9.4);
-> **corrige** la composición de los kits de sensores Shelly (§9.6). Agrega §9.3 (addenda
-> Sensibo), §9.5 (lectura de planos), §9.7 (Omada vs. Deco), §9.8 (Starlink), §9.9
-> (dependencia real del WiFi), nota UPS en §9, y §7.4 (correcciones de datos ya aplicadas
-> en Supabase).
+# Nova Domus — Skill Maestra
+
+> **Versión 3.4 — 03/09/2026.** Rebase de los 11 bloques de la sesión PY-2026-030
+> ("La Pankana — Ruda Orpianesi", La Calera, 02–03/09/2026) sobre la **3.3**.
 >
-> Versión 2.3 — Septiembre 2026 — Sesión Pankana-Ruda (La Calera, 02/09/2026): agregadas
-> §9.1 (tiras LED 24V, regla de los 90 W por efecto — no 240 W por dispositivo), §9.2
-> (ubicación del módulo Shelly RGBW PM en caja de derivación dedicada + MO-DOM-DIM en vez de
-> MO-DOM-DIN) y §9.3 (criterio Sensibo según el cerebro — corrige el default "Sensibo Air
-> PRO" de la tabla de estándares obligatorios, ver nota de corrección ahí mismo). Agregada
-> regla general de disponibilidad de proveedor en §6.
+> **Aviso de rama.** Esos 11 bloques se habían aplicado por error sobre la 2.2, generando
+> una rama paralela numerada "2.3 / 2.4" que es **posterior en fecha pero anterior en
+> contenido**: perdía la excepción HAVEN, el IVA por ítem, la eliminación del techo B2B, el
+> vencimiento a 15 días, la consolidación a un solo proyecto Supabase y el puntero de marca.
+> **Esa rama queda descartada.** Si aparece un archivo que dice "Versión 2.3" o "2.4" con
+> fecha de septiembre, no es más nuevo que este: es la rama muerta.
 >
-> Versión 2.2 — Julio 2026 — Renombrado "Mapa de Instalación e Integración" → **"Plano de
-> Instalación e Integración"** en toda la skill (en Argentina "mapa" y "plano" son cosas
-> distintas — este documento es un plano técnico, no un mapa). No confundir con "Planos de
-> obra" (los PDF/imágenes del arquitecto — Bocas y Llaves, Iluminación, etc.), que son un
-> concepto aparte. Tabla/bucket de Supabase también renombrados (ver sección 11).
+> Qué trae la 3.4 respecto de la 3.3:
+> - **Corrige el piso B2B** (§3.2, §3.5): el piso del 20% es **margen sobre venta**
+>   (`costo_ars / 0.80`), no markup sobre costo (`× 1.20`). La 3.3 declaraba lo contrario.
+> - **Nuevas §9.1 a §9.9**: topología de relés/dimmers de punto de luz, tiras LED 24V,
+>   Sensibo según el cerebro, cableado vs. inalámbrico en seguridad, lectura de planos,
+>   kits de sensores, Omada vs. mesh doméstico, Starlink, dependencia real del WiFi.
+> - **Nota UPS** en §9 y corrección del estándar de climatización a **Sensibo Air B2B**.
+> - **§7.5**: correcciones de datos ya aplicadas en Supabase y verificadas con SELECT.
+> - Regla de disponibilidad de proveedor en §6, regla de versión de skill en §0, y los dos
+>   teléfonos diferenciados en §1.
+>
+> La 3.3 era: reescritura completa (v3.0) + auditoría de los 8 Projects (v3.1) + eliminación
+> del techo de margen B2B (v3.2) + parche de IVA real y convención de unidades (v3.3).
+
+---
+
+## 0. DÓNDE VIVE LA VERDAD — leer antes que nada
+
+Esta skill guarda **lo que no cambia solo**: reglas de negocio, fórmulas, criterios, ciclos.
+
+**No guarda estado.** Nada de conteos de filas, "el módulo X está deployado", "quedan N ítems
+sin clasificar". Ese tipo de dato se pudre en días y ya causó cuatro errores encadenados el
+14–18/08/2026.
+
+| Qué necesitás | Dónde está | Nunca acá |
+|---|---|---|
+| Estado real de la base (tablas, políticas, grants, jobs, divergencia) | `scripts/estado.sql` del repo `portal-nova-domus` — se corre, no se lee | conteos, "está deployado" |
+| Decisiones técnicas y reglas de método | `DECISIONES.md` del repo, versionado con git | — |
+| Identidad de marca: paleta, logo, tipografía, slogan, tono | skill `nova-domus-identidad-marca` (**tiene prioridad declarada**) | colores, slogan, descriptor |
+| Cómo presentar un precio, manejar objeciones | skill `nova-domus-presupuestos-comercial` | — |
+| Construir propuestas HTML | skill `nova-domus-propuestas-interactivas` | — |
+| Benchmarking y decisiones de inversión comercial | skill `nova-domus-estrategia-comercial` | — |
+
+**Regla anti-duplicación.** Si un dato ya vive en otra skill o en el repo, acá va un puntero, no
+una copia. Un dato duplicado vuelve siempre por la copia que nadie corrigió: pasó con el slogan
+viejo, con el diagnóstico del Storage y con el `project_id`.
+
+**Regla de deriva de configuración.** Cuando cambia un `project_id`, una URL o una credencial, se
+busca la cadena vieja en **todos** los vectores: repo, instrucciones de cada Claude Project,
+archivos cargados a cada Project, skills instaladas, memoria de Claude, copias en Drive. El
+incidente del 18/08 fueron 6 instancias en 4 sistemas distintos — el repo estaba limpio.
+
+**⚠️ Las skills viven en instalaciones separadas que no se ven entre sí.** La app de Claude
+(chat / Cowork) usa las skills del skill store de claude.ai. Claude Code usa las del **repo**,
+como plugin. **Editar una no actualiza la otra.**
+
+Caso testigo, y es la causa raíz de un incidente real: la línea 3.0 → 3.3 se construyó en chat el
+18/08/2026 y se pegó a mano en el editor de claude.ai, porque `/mnt/skills/` es de solo lectura
+desde el contenedor. **Nunca entró al repo.** El 03/09, Claude Code leyó la copia del repo —que
+se había quedado en la 2.2 de julio— y construyó una 2.3/2.4 sobre esa base vieja. Dos líneas de
+la misma skill evolucionando en paralelo, cada una ciega a la otra.
+
+Reglas que salen de ahí:
+
+1. **El repo es la fuente de verdad; la copia de claude.ai es un espejo.** Después de todo cambio,
+   actualizar las dos el mismo día.
+2. Antes de editar, verificar qué versión tiene **cada** instalación, no solo la que se está
+   mirando.
+3. Al comparar dos copias **gana el número de versión mayor, no la fecha más reciente**. Una copia
+   de septiembre puede ser anterior en contenido a una de agosto.
+4. **"No está en git" no significa "nunca existió".** Es literalmente el modo de falla de la regla
+   de deriva de arriba: el 18/08 hubo 6 instancias del dato viejo en 4 sistemas distintos y el
+   repo estaba limpio. Antes de declarar que algo no existe, revisar los seis vectores.
 
 ---
 
 ## 1. LA EMPRESA
 
 **Nova Domus (NDWD SAS)**
-- Rubro: domótica e integración tecnológica — smart home, redes, seguridad, AV
+- Rubro: integración tecnológica — smart home, redes, seguridad, AV, obra eléctrica
 - Sede: Av. Colón 3835, Córdoba, Argentina
 - CUIT: 30-71858914-9
-- Web: nova-domus.com.ar / E-shop: novadomusdomotica.mitiendanube.com
-- Contacto: admin@nova-domus.com.ar · 351 864-3455
-- Slogan: "Habitamos espacios inteligentes"
-- Miembro de CEDIA
+- Web: nova-domus.com.ar · E-shop: novadomusdomotica.mitiendanube.com
+- Contacto: admin@nova-domus.com.ar
+- Teléfonos, **siempre diferenciados**: **351 674-7513** Agustín Davila (administración,
+  representación, obras) · **351 864-3455** línea comercial / ventas
+- Miembro de **CEDIA** desde 2024 · **Partner certificado Hikvision**
+- Distribuidor oficial de **Philips Hue**
+
+> Descriptor de categoría y slogan: ver skill `nova-domus-identidad-marca`. El descriptor
+> vigente es **"INTEGRACIÓN TECNOLÓGICA"** y el slogan **"Del cable a la app"**. Las versiones
+> viejas ("Domótica", "Habitamos espacios inteligentes") **no se usan más**.
 
 ### Equipo interno
 
 | Nombre | Rol portal | Función real |
 |--------|-----------|--------------|
-| Agustín Davila | admin | Dueño. Arma todos los presupuestos de proyectos. Decisiones comerciales y técnicas. |
-| Esteban Blanc | supervisor | Dirección de obra en campo. 3% comisión sobre cuadrilla. |
-| Lucas Cañete | comercial | Carga jornales + gestión administrativa. |
-| Maxi Wiersma | comercial | Ídem Lucas. |
-| Mili | comercial | Equipo comercial (presupuestos menores). |
-| Adolfo | comercial | Equipo comercial. |
-| Martín | comercial* | Programación / commissioning. Se factura por hora. |
-| **Obras** (`obras@nova-domus.com.ar`) | **programacion** | **Cuenta compartida** para instalación y programación (Martín + instaladores de campo). Sin cuentas individuales por persona todavía. Acceso de solo lectura al módulo Plano de Instalación (ver 5.4 y 11). |
+| Agustín Davila | `admin` | Dueño y director. Arma los presupuestos de proyecto. Decisiones comerciales y técnicas. |
+| Adolfo Davila | `admin` | Co-administrador. |
+| Esteban Blanc | `supervisor` | Dirección de obra en campo. Cobra 3% sobre (jornales + almuerzos). |
+| Lucas Cañete | `comercial` | Carga de jornales + gestión administrativa. Responsable de fotos para redes. |
+| Maxi Wiersma | `comercial` | Ídem Lucas. |
+| Mili Neris | `comercial` | Presupuestos menores. |
+| Delia | `contable` | Contadora externa **con acceso al portal**. Impuestos, seguros, bancos. Debe ver el panel Gerencial. |
+| **`obras@`** | `programacion` | **Cuenta compartida** de Martín + instaladores de campo. Sin cuentas individuales todavía. |
 
-*Nota: Martín no tiene cuenta individual en el portal — su acceso operativo es a través de la
-cuenta compartida `obras@nova-domus.com.ar` (rol `programacion`), no del rol `comercial` de la
-fila de arriba. Se deja la fila original sin borrar por trazabilidad histórica.
+Notas de datos:
+- **Martín** no tiene cuenta individual: opera por la cuenta compartida `obras@`. Tiene fila en
+  `comerciales` (id 6) **sin `user_id`, a propósito**.
+- `programacion` **sí** lee `clientes` — decisión explícita, aun siendo cuenta compartida.
 
 ### Colaboradores y proveedores clave
 
 | Nombre/Empresa | Rol |
 |----------------|-----|
-| Delia (contadora externa) | Impuestos, seguros, bancos. Soporte importante. |
-| Esteban (Seguridad Centro) | Proveedor Hikvision |
+| Esteban (Seguridad Centro) | Hikvision |
 | Denise (Masnet) | Networking, rack, UPS, fibra |
 | Dystech | Control4, VSSL, Episode, Araknis, Triad |
-| Homiq | Shelly, Home Assistant |
+| Homiq | Shelly, Home Assistant, coordinadores Zigbee SMLIGHT |
 
 ---
 
 ## 2. LÍNEAS DE NEGOCIO
 
 ### 2.1 Domótica y seguridad — proyectos de instalación (principal)
-Proyectos llave en mano: Nova Domus provee materiales + mano de obra.
-Ticket típico: **$2M – $10M ARS** por proyecto.
+Llave en mano: materiales + mano de obra. Ticket típico **$2M – $10M ARS**.
 Canales: mix parejo entre arquitectos/estudios, clientes directos y desarrolladoras.
-Incluye: domótica, redes, iluminación inteligente, videovigilancia, alarmas.
+Incluye domótica, redes, iluminación inteligente, videovigilancia, alarmas.
+
+**Dos perfiles de proyecto, con tratamiento distinto:**
+- **Domótica** — unidad única (vivienda, oficina, departamento).
+- **Ecosistema Tecnológico Integral** — edificios y desarrollos, multi-torre, multi-unidad
+  (ver 3.6, excepción HAVEN).
 
 ### 2.2 Obra eléctrica
-Dos modalidades:
-- **Integrada**: infraestructura eléctrica dentro de un proyecto mayor de domótica
-- **Independiente**: proyecto eléctrico puro con su propio ciclo de presupuesto, control y supervisión
+- **Integrada**: infraestructura eléctrica dentro de un proyecto mayor de domótica.
+- **Independiente**: proyecto eléctrico puro, con su propio ciclo de presupuesto y supervisión.
 
-Incluye: cableado, tableros, tomas, protecciones (disyuntores, térmicas), puesta a tierra.
-Requiere electricistas matriculados + certificación por arquitectos.
-Misma estructura de márgenes que domótica.
+Cableado, tableros, tomas, protecciones, puesta a tierra. Requiere electricistas matriculados +
+certificación por arquitectos. Misma estructura de márgenes que domótica.
 
-### 2.3 Instalación de cerraduras digitales
-Foco en Yale. Puede ser standalone o parte de un proyecto mayor.
-Misma estructura de márgenes que domótica.
+### 2.3 Cerraduras digitales
+Foco en **Yale**. Standalone o parte de un proyecto mayor. Misma estructura de márgenes.
 
-### 2.4 Desarrollo de software / apps a medida
-Línea nueva, en desarrollo. Sin estructura de costos definida aún.
+### 2.4 Desarrollo de software a medida
+Línea nueva. Sin estructura de costos definida.
 
 ### 2.5 E-commerce
-Tiendanube: novadomusdomotica.mitiendanube.com
-Marcas: Yale, Philips Hue, Shelly, WiZ, Control4.
-El cliente compra sin instalación.
-Nova Domus es **distribuidor oficial de Philips Hue**.
+Tiendanube. Marcas: Yale, Philips Hue, Shelly, WiZ, Control4. Venta sin instalación.
 
 ---
 
-## 3. ESTRUCTURA DE PRECIOS Y MÁRGENES
+## 3. PRECIOS Y MÁRGENES
 
-### 3.1 Presupuesto al cliente (proyectos de instalación)
+### 3.1 Presupuesto de proyecto de instalación
 
-Materiales y mano de obra se presentan **por separado** — nunca precio cerrado único.
+Materiales y mano de obra **siempre por separado** — nunca precio cerrado único.
 
-**Materiales**: solo productos principales (Yale, Shelly, Hue, cableado de red, etc.). NO incluye herramientas ni viáticos de cuadrilla.
-
-**Mano de obra**: 20–30% sobre el costo de materiales según complejidad.
-
-### 3.2 Fórmula de costo y márgenes — proyectos de instalación
+- **Materiales**: solo productos principales. NO incluye herramientas ni viáticos de cuadrilla.
+- **Mano de obra**: 20–30% sobre el costo de materiales según complejidad.
 
 ```
-Mano de obra presupuestada = Materiales × 30%
-Costo total = Materiales + MO presupuestada
-
-Margen sobre dispositivos (Nova Domus): ~20%
-Margen neto sobre MO (después de pagar técnicos): 20–30%
-Margen neto efectivo objetivo: 25–30% SOBRE el costo total
-Precio al cliente = Costo total × (1 + margen objetivo)
+MO presupuestada     = Materiales × 30%
+Costo total          = Materiales + MO presupuestada
+Margen neto objetivo = 25–30% SOBRE el costo total
+Precio al cliente    = Costo total × (1 + margen objetivo)
 ```
 
-**Ejemplo:**
-- Materiales: $1.000.000
-- MO: $300.000 (30%)
-- Costo total: $1.300.000
-- Precio al cliente: ~$1.625.000–$1.690.000
+Ejemplo: materiales $1.000.000 + MO $300.000 = costo $1.300.000 → precio ~$1.625.000–$1.690.000.
 
-### 3.3 Fórmula de precios — presupuestos comerciales (dispositivos)
+### 3.2 Directiva fundamental del IVA
 
-**DIRECTIVA FUNDAMENTAL:** El IVA fluye entre débitos y créditos fiscales. Todos los márgenes y comisiones se calculan sobre valores SIN IVA. El IVA solo aparece en el precio final al cliente.
+El IVA fluye entre débitos y créditos fiscales. **Todos los márgenes y comisiones se calculan
+sobre valores SIN IVA.** El IVA solo aparece en el precio final al cliente.
 
-```
-costo_base = precio_sin_iva (en USD)
-costo_ars = precio_sin_iva × 1.21 × TC
-```
+**El `iva` es por ítem, no por marca.** Tres valores, verificados al 03/09/2026: **0.21**
+(3.014 ítems) · **0.105** (493 ítems — bienes de capital e informática) · **0** (25 ítems —
+servicios NOVA DOMUS). El reducido argentino es 10,5% = `0.105`.
 
-**Si existe precio_sugerido_manual** (con IVA en ARS):
-```
-precio_sugerido_usd = precio_sugerido_manual / TC  ← NO dividir por 1.21
-```
+La misma marca puede tener los dos: **13 marcas están partidas entre 0.21 y 0.105** — TP-Link
+(58/196), Ubiquiti (45/115), Seagate (2/29), Eaton (27/28), WIZ (28/20), PHILIPS HUE (37/20),
+Forza (10/17), Furukawa (138/17), HIKVISION (660/17), Fibra (51/14), Dahua (108/10), VARIOS (4/4),
+NOVA DOMUS (3 en 0.21 + 25 en 0). El IVA reducido corresponde al **tipo de dispositivo**, no a la
+marca. Por eso no se puede corregir ni clasificar por marca.
 
-**Si NO existe precio_sugerido_manual:**
-```
-precio_sugerido_sin_iva_usd = precio_sin_iva × (1 + remarque)
-precio_sugerido_con_iva_usd = precio_sin_iva × (1 + remarque) × 1.21
-precio_sugerido_ars = precio_sin_iva × (1 + remarque) × 1.21 × TC
-```
+**Nunca usar 1.21 como constante en ninguna fórmula: siempre `(1 + iva_real)` leído de la fila.**
 
-**Markup estándar sin precio de referencia:** remarque = 0.35 → margen sobre venta ~25.93%
+**Convención de unidades — declarar siempre la base.** Hay tres métricas que se llaman "margen"
+sobre denominadores distintos, y no declararlo fue lo que hizo invisible el choque entre el
+remarque 0,35, el descuento B2B del 25% y el piso del 20%:
 
-### 3.4 Reglas B2C / B2B
+- `remarque` = **markup sobre costo** = `(pvp − costo) / costo`
+- "margen sobre venta" = `(pvp − costo) / pvp` = `r / (1 + r)`
+- El **piso del 20%** del §3.5 es **margen sobre venta**, no markup sobre costo
+  (**corregido el 03/09/2026** — la 3.3 declaraba lo contrario y por eso la fórmula del piso
+  estaba mal; ver la nota de §3.5)
+- **Todos los porcentajes se guardan en fracción (0–1)**, nunca en escala 0–100. El formateo a
+  porcentaje es responsabilidad de la UI.
 
-**B2C:** precio_final = precio_sugerido_con_iva × 0.95 (5% OFF siempre)
-
-**B2B:**
-- Objetivo: 25% descuento sobre precio sugerido con IVA
-- Margen mínimo: 20% / Margen máximo: 30% — **siempre sobre venta** (ver §3.5), nunca
-  sobre costo
-- Si 25% mantiene margen entre 20–30% s/venta → aplicar 25%
-- Si 25% supera 30% s/venta → ajustar para no pasar del 30%
-- Si 25% baja del 20% s/venta → aplicar el piso:
-  `precio_final = precio_sin_iva × (1 + iva) / 0.80`
-  **(CORREGIDO 03/09/2026 — antes decía `precio_sin_iva × 1.20 × 1.21`. Esa fórmula no da
-  un margen del 20%: da un *markup* del 20% sobre costo, que sobre venta equivale a
-  16,67%. Convivía con la convención de MO del Paso 3 (`margen_mo = precio × 0.20`), que
-  sí es 20% sobre venta — el resumen interno mezclaba dos bases y el margen del proyecto
-  aparecía por debajo del piso cuando en realidad no lo estaba. La fórmula correcta,
-  `/ 0.80`, equivale a costo × 1,25. Efecto práctico: sube ~4% el precio de todos los
-  ítems que tocan el piso.)**
-- Avisos de margen ajustado: **solo internos**, nunca en el documento del cliente
-
-### 3.5 Dos métricas de rentabilidad
+### 3.3 Costo y precio sugerido — dispositivos
 
 ```
-Margen sobre venta (para comisiones): (PVP_ars - costo_ars) / PVP_ars
-Mark-up sobre costo (para descuentos): (PVP_ars / costo_ars) - 1
+costo_base = precio_sin_iva (USD)          ← ES EL COSTO. No se modifica nunca,
+costo_ars  = precio_sin_iva × (1 + iva_real) × TC      salvo lista nueva del proveedor.
 ```
 
-### 3.6 Mano de obra en presupuestos comerciales
+`costo_ars` se calcula **siempre sobre el valor con IVA**, nunca sobre el pelado.
+
+**Si existe `precio_sugerido_manual`** (ARS, IVA ya incluido):
+```
+precio_sugerido_usd = precio_sugerido_manual / TC     ← NO dividir por (1 + iva)
+```
+
+**Si no existe:**
+```
+precio_sugerido_con_iva = precio_sin_iva × (1 + remarque) × (1 + iva_real)
+```
+
+**`remarque`** — es mark-up, no multiplicador: `precio = costo × (1 + remarque)` ✓
+- Con precio de referencia oficial (web del fabricante):
+  `remarque = (pvp_web_ars / (precio_sin_iva × (1 + iva_real) × TC)) − 1`
+- Sin referencia: **`remarque = 0.35`** por defecto (incluye Yale) → margen sobre venta ~25,93%
+
+### 3.4 B2C
+
+```
+precio_final_con_iva = precio_sugerido_con_iva × 0.95      (5% OFF siempre)
+```
+
+### 3.5 B2B
+
+Objetivo 25% de descuento sobre el sugerido con IVA. **Piso del 20% de margen sobre venta.
+Sin techo** — el tope del 30% se eliminó el 18/08/2026.
+
+- Si el 25% deja el margen sobre venta ≥20% → aplicar 25%
+- Si cae debajo del 20% → **no caer al precio B2C**; aplicar el piso exacto:
+  `precio_final_con_iva = costo_ars / 0.80`  (equivale a `costo_ars × 1.25`)
+- ⚠️ **OBSOLETO — pendiente de reemplazo por la guarda G2** (decisión §6.4 abierta al
+  18/08/2026). **Ningún chat nuevo debe aplicar esta regla.** Si el remarque del ítem es
+  **alto (>0.73)**, donde el 25% de descuento dejaría margen >30%: **no se capea.** Se cotiza como
+  **20-25% de descuento sobre el precio B2C** (`precio_sugerido_con_iva × 0.95`) y el margen real
+  flota más arriba.
+
+> **CORREGIDO 03/09/2026.** Antes decía `precio_sin_iva × 1.20 × (1 + iva_real)`. Esa fórmula
+> no da un margen del 20%: da un **markup** del 20% sobre costo, que sobre venta equivale a
+> 16,67%. Convivía con la convención de MO del Paso 3 (`margen_mo = precio × 0.20`), que sí es
+> 20% sobre venta, así que el resumen interno mezclaba dos bases y el margen del proyecto
+> aparecía por debajo del piso cuando en realidad no lo estaba. Efecto práctico: sube ~4,2% el
+> precio de todos los ítems que tocan el piso.
+
+**Por qué se eliminó el techo** (justificación de la regla marcada OBSOLETA arriba — revisar
+junto con la decisión §6.4)**:** un remarque alto sale del PVP oficial del fabricante, así que
+cobrar cerca de ese precio es cobrar a mercado, no cobrar caro. El cliente nunca ve el margen,
+solo el descuento sobre lista — con el tope recibía un descuento *más grande* justo en los ítems
+donde había más aire. Y cotizar como % off del B2C da un descuento consistente entre ítems,
+mientras que el tope lo hacía variar de forma errática, lo cual sí se ve en el documento.
+
+**ALERTA DE REMARQUE ALTO** (reemplaza la función de límite de daño que cumplía el techo sin
+querer): si `remarque > 0.73` el precio **no** se ajusta, pero se avisa antes de cotizar —
+*"este ítem tiene remarque de X%, verificá el precio de referencia antes de mandar"*. Un remarque
+alto por error sale de un costo mal cargado o un precio web mal leído, y sin el techo ese error
+sale a la calle completo. Caso testigo: `YALE DOOR CLOSER 2065 S VIS`, remarque 172% sin precio
+manual. Al 18/08/2026 hay 26 ítems activos sobre 0.73, casi todos Yale y Shelly de línea
+principal. Fechar siempre el precio de referencia: un remarque que envejece es el pendiente de
+EZVIZ.
+
+**Margen objetivo manual:** para remarques puntualmente muy altos, Agustín puede fijar un margen
+objetivo más agresivo caso por caso (ej. Shelly Presence Gen4, remarque 75% → margen 50%). No es
+automático; se registra como director-aprobado.
+
+El aviso de margen ajustado es **información interna**. Nunca en documentos del cliente: ahí va
+solo el precio final y el % de descuento.
+
+**El piso en la práctica.** En el resumen interno del Paso 3 mostrar **siempre dos columnas de
+margen — s/costo y s/venta** — para que no vuelva a pasar la confusión de arriba. La que
+gobierna las decisiones es **s/venta**.
+
+Con el remarque por defecto de 0,35 el objetivo del 25% de descuento casi nunca alcanza a bajar
+hasta el piso, así que casi todo el equipamiento de terceros (TP-Link/Omada, Hikvision, NVR,
+videoportero, Sensibo, UPS, rack, discos) termina **en el piso** y recibe menos descuento que el
+25% nominal. Es esperable, no es un bug — y es estrictamente interno: nunca se le aclara al
+cliente que no se llegó al 25%.
+
+⚠️ **El % de descuento que se le muestra al cliente se calcula contra el sugerido, y el sugerido
+depende del `iva_real`.** En un ítem al 10,5% calculado con 1.21 el sugerido sale 9,5% inflado y
+el descuento exhibido queda al doble del real (ej. ER605: 15,4% exhibido contra 7,4% real). El
+precio final no cambia si el ítem toca el piso, pero el documento del cliente miente. Es la razón
+concreta por la que nunca se hardcodea 1.21 (§3.2).
+
+Caso testigo PY-2026-030: margen de equipo 18,2% → 20,2% s/venta tras la corrección; margen del
+proyecto completo 18,8% → 20,1%.
+
+### 3.6 Excepción HAVEN (Grupo Calypso)
+
+**Margen fijo del 27% sobre `costo_ars`, uniforme para todos los ítems.** Reemplaza por completo
+las reglas B2B de §3.5 (objetivo 25% / piso 20%).
+
+```
+precio_final_con_iva = costo_ars × 1.27
+```
+
+Declarar la base, como manda §3.2: el 27% de HAVEN es **markup sobre costo**, que equivale a
+**21,26% de margen sobre venta**. No confundirlo con el piso del 20% s/venta de §3.5.
+
+### 3.7 Las dos métricas de rentabilidad
+
+```
+margen_sobre_venta = (PVP_ars − costo_ars) / PVP_ars     ← para comisiones
+markup_sobre_costo = (PVP_ars / costo_ars) − 1           ← para descuentos
+```
+
+### 3.8 Programación y comisionado
+
+Se cobra como **línea aparte**, no dentro de mano de obra:
+
+```
+programacion = (equipo con IVA + mano de obra) × 0.10
+```
+
+### 3.9 Mano de obra en presupuestos comerciales
 - Con Factura A → MO con IVA 21%
 - Sin Factura A → MO sin IVA
-- Comisión NUNCA aplica sobre MO, solo sobre dispositivos
+- La comisión **nunca** aplica sobre MO, solo sobre dispositivos
 
-### 3.7 Comisión comercial
+### 3.10 Comisión comercial
+
 ```
-comision = margen_bruto_usd_sin_iva × 0.30
+comision = (precio_venta_sin_iva - costo_sin_iva) × 0.30
 ```
-Siempre visible en el chat. **Nunca** en el documento del cliente ni en texto WhatsApp.
 
-### 3.8 Prerrogativa de Agustín
-Puede fijar precios custom (ej: precio pre-acordado con cliente). Se calcula el margen resultante, se avisa si está bajo el mínimo, se registra como director-aprobado.
+El 30% de la **diferencia** entre venta y costo, ambos SIN IVA, como monto absoluto en USD.
+**No se aplica sobre un porcentaje**: ni sobre el % de markup ni sobre el % de margen.
 
-### 3.9 Piso B2B en la práctica
+Visible en el chat. **Nunca** en el documento del cliente ni en texto de WhatsApp.
 
-En el resumen interno del Paso 3 mostrar **siempre dos columnas de margen — s/costo y
-s/venta** — para que no vuelva a pasar la confusión de §3.4. La que gobierna las
-decisiones es s/venta.
-
-Con el remarque por defecto de 0,35 el objetivo de 25% de descuento casi nunca alcanza a
-bajar hasta el piso, así que casi todo el equipamiento de terceros (TP-Link/Omada,
-Hikvision, NVR, videoportero, Sensibo, UPS, rack GLC, discos Seagate) termina en el piso y
-recibe menos descuento que el 25% nominal. Es esperable, no es un bug — y es
-estrictamente interno: nunca se le aclara al cliente que no se llegó al 25%.
-
-Caso testigo PY-2026-030: margen de equipo 18,2% → 20,2% s/venta tras la corrección;
-margen del proyecto completo 18,8% → 20,1%.
+### 3.11 Prerrogativa de Agustín
+Puede fijar precios custom. Se calcula el margen resultante, se avisa si queda bajo el mínimo y
+se registra como director-aprobado.
 
 ---
 
-## 4. CONDICIÓN FISCAL Y FACTURACIÓN
+## 4. CONDICIÓN FISCAL
 
-- **Condición:** Responsable Inscripto → factura con IVA 21%
-- **Sistema:** directamente desde AFIP (sin software externo)
-- **Comprobantes:** Factura A (a RI) o B (a consumidor final / monotributistas)
-- **No hay software contable propio** — Delia lleva su registro externo
+- **Responsable Inscripto** → factura con IVA 21%
+- Facturación **directamente desde AFIP**, sin software externo
+- Factura A (a RI) o B (consumidor final / monotributistas)
+- Sin software contable propio — Delia lleva registro externo
 
 ---
 
 ## 5. CICLO DE UN PROYECTO
 
 ### 5.1 Ciclo de cobro
-1. **Anticipo de materiales**: el cliente paga los dispositivos antes de que Nova Domus los compre → flujo de caja positivo al inicio
-2. **Certificados de MO**: se cobran por hitos/avance de obra (no todo al final)
+1. **Anticipo de materiales** — el cliente paga los dispositivos antes de que Nova Domus los
+   compre → flujo de caja positivo al inicio.
+2. **Certificados de MO** — se cobran por hitos/avance, no todo al final.
 
-### 5.2 Ciclo de estados
+### 5.2 Ciclo de estados de proyecto
+
 ```
-ENTREGADO → ACEPTADO / MODIFICACION_SOLICITADA → EN_OBRA → OBRA_ENTREGADA → FACTURADO → CERRADO / CANCELADO
+ENTREGADO → ACEPTADO / MODIFICACION_SOLICITADA → EN_OBRA → OBRA_ENTREGADA
+          → FACTURADO → CERRADO / CANCELADO
 ```
-"Entregado" dicho por el equipo = presupuesto entregado al cliente, esperando respuesta.
+
+`ENTREGADO` es el default de un proyecto nuevo: presupuesto entregado, esperando respuesta.
 
 ### 5.3 Ciclo de presupuestos comerciales
+
 ```
 BORRADOR → ENVIADO → ACEPTADO → PAGADO → (copia a ventas)
-                  ↘ RECHAZADO
-                  ↘ VENCIDO (30 días)
+                   ↘ RECHAZADO
+                   ↘ VENCIDO (15 días)
 ```
 
-### 5.4 Documentos disparados por estado ACEPTADO
+**Vencimiento: 15 días.** Los presupuestos ya emitidos antes de la corrección quedan a 30 días y
+**no se backfillean** — el cliente tiene una fecha impresa. El vencimiento funciona como recurso
+comercial de urgencia, no como corte real.
 
-Al pasar `proyectos.estado` a `ACEPTADO`, se disparan dos artefactos en simultáneo
-(mismo trigger, distinto público — no son secuenciales, no llevan numeración de
-"paso X luego paso Y" entre sí):
+### 5.4 Documentos disparados por el estado ACEPTADO
 
-- **Paso 5a — Snapshot comercial**: congela los datos de venta ya existentes
-  (proceso mecánico, ya implementado).
-- **Paso 5b — Plano de Instalación e Integración**: documento técnico interno
-  (NO público, NO cliente-facing, no va a GitHub Pages) para el equipo de
-  instalación/programación. A diferencia del Snapshot, **no se autogenera por
-  sistema** — el cambio de estado habilita/exige su creación, pero se arma en
-  una sesión dedicada con Claude (mismo patrón que el primer caso, El Timbo:
-  `el-timbo-mapa-instalacion-martin.html` — nombre de archivo histórico, previo
-  al rename de terminología).
+Al pasar `proyectos.estado` a `ACEPTADO` se habilitan dos artefactos en simultáneo — mismo
+disparador, distinto público, **no son secuenciales**:
 
-  Reglas fijas:
-  - Siempre se arma a partir del detalle de dispositivos **ya aprobado en el
-    Paso 3** (Resumen interno) de ese proyecto puntual — nunca se inventan
-    cantidades nuevas acá.
-  - Secciones obligatorias: topología de red (diagrama nodo/rama desde el
-    router hasta cada sistema), distribución de rack U por U, plan de
-    VLANs/WiFi, inventario de dispositivos por subsistema con detalle de
-    integración a Home Assistant, reglas de programación, checklist de
-    comisionado.
-  - El `proyectos.numero` correlativo debe figurar tanto en este documento
-    como en el HTML público (Paso 4).
-  - Consumo: visible desde el módulo interno "Plano de Instalación" (ver 11),
-    acceso restringido a roles `admin`, `supervisor` y `programacion` —
-    nunca contiene precios, márgenes ni costos (eso vive exclusivamente en
-    Comercial / Paso 3).
-  - **No confundir con "Planos de obra"** (los PDF/imágenes del arquitecto —
-    Bocas y Llaves, Iluminación, etc. — hoy en Drive, repositorio definitivo
-    pendiente de decisión). Son dos conceptos distintos que conviven en el
-    mismo módulo del portal: un Plano de Instalación por proyecto (topología/
-    rack/VLANs) + una colección de Planos de obra (archivos del arquitecto).
+- **Paso 5a — Snapshot comercial**: congela los datos de venta existentes. Mecánico, ya
+  implementado.
+- **Paso 5b — Plano de Instalación e Integración**: documento técnico **interno** (no público, no
+  cliente-facing, no va a GitHub Pages) para instalación/programación. **No se autogenera**: el
+  cambio de estado lo habilita, pero se arma en una sesión dedicada con Claude.
+
+Reglas fijas del Plano de Instalación:
+- Se arma a partir del detalle de dispositivos **ya aprobado en el Paso 3** (Resumen interno) de
+  ese proyecto. **Nunca se inventan cantidades nuevas.**
+- Secciones obligatorias: topología de red (nodo/rama desde el router hasta cada sistema),
+  distribución de rack U por U, plan de VLANs/WiFi, inventario por subsistema con detalle de
+  integración a Home Assistant, reglas de programación, checklist de comisionado.
+- El `proyectos.numero` correlativo va tanto acá como en el HTML público (Paso 4).
+- Acceso restringido a `admin`, `supervisor` y `programacion`. **Nunca contiene precios,
+  márgenes ni costos** — eso vive exclusivamente en Comercial / Paso 3.
+
+> **Terminología.** "Plano de Instalación e Integración" (documento técnico de Nova Domus) es
+> distinto de **"Planos de obra"** (los PDF/imágenes del arquitecto: Bocas y Llaves, Iluminación,
+> etc.). En Argentina "mapa" y "plano" no son sinónimos: este documento es un plano. Los dos
+> conceptos conviven en el mismo módulo del portal.
 
 ---
 
-## 6. COMPRA DE MATERIALES Y PROVEEDORES
+## 6. COMPRAS Y PROVEEDORES
 
-- Varios distribuidores que **compiten por precio** (no hay proveedor exclusivo)
-- Precios en **dólar oficial BNA o dólar blue** según proveedor; excepcionalmente en ARS
-- Los presupuestos deben registrar el **tipo de cambio al momento de la compra**
-- Forma de pago: mix según proveedor (contado, cuenta corriente, tarjeta)
+- Varios distribuidores que **compiten por precio** — no hay proveedor exclusivo
+- Precios en **dólar oficial BNA**; excepcionalmente en ARS. El inventario está todo en
+  `USD OFICIAL`: el dólar blue quedó **desactivado** (no borrado) porque nada lo consume
+- Los presupuestos registran el **tipo de cambio al momento de la compra**
+- Pago: mix según proveedor (contado, cuenta corriente, tarjeta)
 - No se importa directamente ni se compra en MercadoLibre
-- TC BNA: consultar `https://api.bluelytics.com.ar/v2/latest` → campo `official.value_sell`
-- **La disponibilidad real del proveedor le gana al ahorro teórico.** Verificar stock antes
-  de blindar un SKU en un presupuesto, especialmente si es la variante más económica de una
-  línea — caso real: Sensibo Sky vs. Air B2B, ver §9.3.
+- TC BNA: `https://api.bluelytics.com.ar/v2/latest` → `official.value_sell`
+- **La disponibilidad real del proveedor le gana al ahorro teórico.** Verificar stock antes de
+  blindar un SKU en un presupuesto, sobre todo si es la variante más económica de una línea.
+  Caso real: Sensibo Sky vs. Air B2B, ver §9.3.
 
 ---
 
-## 7. INVENTARIO Y STOCK
+## 7. INVENTARIO
 
-### 7.1 Stock actual
-- **Cerraduras Yale**: stock propio en depósito → reponer cuando baja
-- **Resto** (Shelly, Hue, WiZ, materiales eléctricos): a pedido, se compra con anticipo del cliente
+### 7.1 Stock
+- **Cerraduras Yale**: stock propio en depósito, se repone cuando baja
+- **Resto** (Shelly, Hue, WiZ, materiales eléctricos): a pedido, con anticipo del cliente
 
 ### 7.2 Qué se trackea
-Solo dispositivos (Yale, Shelly, Hue, WiZ, Control4, EZVIZ, Hikvision, Ubiquiti, etc.).
-No incluye materiales eléctricos menores ni herramientas de cuadrilla.
-Hoy registrado en planilla Excel/Sheets → el portal lo reemplaza.
+Solo dispositivos (Yale, Shelly, Hue, WiZ, Control4, EZVIZ, Hikvision, Ubiquiti, TP-Link,
+Furukawa, Dahua, Gabitel…). No incluye materiales eléctricos menores ni herramientas.
 
-### 7.3 Supabase — tabla inventario
-Campos clave: `id` (PK entero), `sku` (string), `nombre`, `marca`, `grupo`, `precio_sin_iva` (USD sin IVA — **NUNCA modificar salvo nueva lista del proveedor**), `iva` (default 0.21), `remarque` (markup), `precio_sugerido_manual` (ARS con IVA, nullable).
+### 7.3 Regla de flujo — importante
 
-**Búsqueda:** usar `ILIKE '%keyword%'` en nombre y marca. Buscar por SKU como string, no entero.
+**Todo el pricing y el trabajo de proyecto va directo a Supabase**, tablas `inventario`,
+`proyectos`, `proyectos_items`, `cotizaciones`.
 
-### 7.4 Correcciones de datos aplicadas (02/09/2026 — sesión PY-2026-030)
+**NO usar `INVENTARIO.xlsx` de Drive. NO generar archivos Excel como entregable de presupuesto.**
+Los proyectos de cliente se cargan en `proyectos` / `proyectos_items`.
+
+### 7.4 Campos clave de `inventario`
+`id` (PK entero) · `sku` (string) · `nombre` · `marca` · `grupo` · `estado` (texto, default
+`activo`, admite `discontinuado`) · `precio_sin_iva` (USD sin IVA, **nunca modificar salvo lista
+nueva**) · `iva` (default `0.21`; también `0.105` y `0` — es **por ítem, no por marca**, ver §3.2) ·
+`remarque` · `precio_sugerido_manual` (ARS con IVA, nullable) · `sku_mo` (referencia al tarifario
+de mano de obra).
+
+**Búsqueda:** `ILIKE '%keyword%'` en nombre y marca. El SKU se busca **como string**, no entero.
+
+### 7.5 Correcciones de datos aplicadas (02/09/2026 — sesión PY-2026-030)
 
 Proyecto `vvwnyszcfindtuvojqgs`, el único vigente. Todas verificadas con SELECT posterior
 — para que la skill no contradiga la base:
@@ -326,49 +469,65 @@ Proyecto `vvwnyszcfindtuvojqgs`, el único vigente. Todas verificadas con SELECT
 - ER7212PC (id 1448) sigue marcado `estado='descontinuado'`. Reemplazo: ER605 + OC200
   como dos ítems separados. El ER605 no tiene PoE, así que todo el PoE sale del switch —
   dimensionar el switch contando cámaras + APs + coordinador Zigbee + videoportero.
+  Ojo con el IVA: el **ER605 (id 1449) está al 10,5%** y el **OC200 (id 1495) al 21%** —
+  el reemplazo cruza las dos tasas, así que se lee `iva` por fila (§3.2).
+
+Divergencia conocida, **sin resolver**: los sensores BLU y los dos kits (ids 360, 361, 373, 374)
+tienen `sku_mo = 'MO-DOM-SENS'` cargado en la base, mientras que la regla de §9.6 dice que en
+obra los sensores no llevan MO de instalación. Hoy la regla vive solo en la prosa. Definir si se
+documenta como divergencia intencional o se corrige el dato (ver §13, pendiente 10).
 
 ---
 
 ## 8. CUADRILLA — REGLAS OPERATIVAS
 
-- Semana laboral: **viernes a jueves** (técnicos reportan el viernes)
-- Mínimo facturable: **6 horas por jornada**
+- Semana laboral: **viernes a jueves** (los técnicos reportan el viernes)
+- Mínimo facturable: **6 horas por jornada**, incrementos de 30 minutos
 - Campos: `jornal, almuerzo, traslados, peaje, km, otros, adelantos, compras, detalle`
-- `neto = jornal + viáticos + otros + compras - adelantos` (compras son reembolsables)
-- Esteban cobra **3% sobre (jornales + almuerzos)** del período
+- `neto = jornal + viáticos + otros + compras − adelantos` (las compras son reembolsables)
+- **Esteban cobra 3% sobre (jornales + almuerzos)** del período
+- Alertas de solapamiento al cargar
 
-### Acceso por rol
-| Módulo | admin | supervisor | comercial |
-|--------|-------|------------|-----------|
-| Carga de jornales | ✅ | ✅ | ✅ (solo carga) |
-| Reportes / histórico | ✅ | ✅ | ❌ |
-| Liquidación | ✅ | ✅ | ❌ |
+### Costo real de obra
+El costo se **recalcula desde los componentes** (jornal + almuerzo + traslados + peaje + otros),
+no se lee de un campo agregado. El trigger `calculate_obra_balance()` ya lo implementa
+correctamente, incluyendo el 3% de Esteban.
 
 ### Liquidación semanal
-- Período libre (selector inicio/fin, no semanas fijas)
+- Período libre (selector inicio/fin), no semanas fijas
 - Campos manuales: Compras/Otros + KM/Peajes
-- Total supervisor: pre-llenado automático (3% sobre jornales+almuerzos + manuales), editable
+- Total supervisor pre-llenado automático (3% + manuales), editable
 - **Costo Nova Domus** = neto cuadrilla + total supervisor
+
+### Acceso por rol
+| Módulo | `admin` | `supervisor` | `comercial` | `contable` | `programacion` |
+|---|---|---|---|---|---|
+| Carga de jornales | ✅ | ✅ | ✅ (solo carga) | ❌ | ❌ |
+| Reportes / histórico | ✅ | ✅ | ❌ | ✅ | ❌ |
+| Liquidación | ✅ | ✅ | ❌ | ✅ | ❌ |
 
 ---
 
 ## 9. SELECCIÓN DE DISPOSITIVOS — JERARQUÍA TÉCNICA
 
-**Protocolo (orden estricto):**
-1. **Zigbee** — primera opción siempre (HA SkyConnect + HA Green, red mesh local, <100ms)
+**Protocolo, orden estricto:**
+1. **Zigbee** — primera opción siempre (red mesh local, <100ms)
 2. **WiFi Gen4** — si no hay variante Zigbee
 3. **WiFi Gen3** — fallback
-4. **Z-Wave — DESCARTADO SIEMPRE** (sin preguntar; solo informar que existía)
+4. **Z-Wave — DESCARTADO SIEMPRE**, sin preguntar. Solo informar que existía.
+
+**Coordinadores Zigbee:** HA SkyConnect / HA Green en proyectos de unidad única. En despliegues
+multi-torre, **SMLIGHT SLZB-06p10** (Ethernet + PoE), uno por instancia.
 
 **Estándares obligatorios por proyecto:**
 
 | Estándar | Cuándo aplica |
-|----------|--------------|
+|---|---|
 | UPS | Todo proyecto con domótica o seguridad |
 | Shelly Wall Display 4" | Proyectos chicos/medianos |
 | Shelly Wall Display XL | Proyectos grandes |
 | Rack de infraestructura | Proyectos grandes |
-| Sensibo Air B2B | 1 por split en proyectos con climatización — **corregido 02/09/2026**, antes decía "Sensibo Air PRO"; criterio técnico y motivo del cambio en §9.3 |
+| Sensibo Air B2B | 1 por split en proyectos con climatización — **corregido 02/09/2026**, antes decía "Air PRO"; criterio y motivo en §9.3 |
 | Teclado de alarma + sirena interior | Departamentos (obligatorio) |
 | Sirena exterior | Viviendas completas (obligatoria) |
 
@@ -378,10 +537,17 @@ está sobre el UPS. Sin UPS se apagan igual que todo lo demás. Es el argumento 
 justifica el UPS y evita que el cliente lo lea como un adicional caprichoso — es un error
 frecuente atribuirlo al PoE. Dimensionar siempre a la carga real del rack.
 
-**Shelly y Philips Hue son complementarios:**
-- Shelly: retrofit de interruptores existentes, circuitos de pared
-- Hue: iluminación nueva con necesidad de color/escenas
-- Un mismo proyecto puede tener ambos, integrados a Home Assistant vía Hue Bridge
+**Shelly y Philips Hue son complementarios**, no alternativos:
+- **Shelly**: retrofit de interruptores existentes, circuitos de pared
+- **Hue**: iluminación nueva con necesidad de color/escenas
+- Un mismo proyecto puede llevar los dos, integrados a Home Assistant vía Hue Bridge
+
+**Stack de referencia:** TP-Link Omada (redes) · Hikvision (CCTV, alarmas, intercomunicadores,
+HikCentral) · Yale (cerraduras digitales, standalone) · Shelly + Home Assistant + Zigbee
+(iluminación y confort) · Sensibo (clima).
+
+**Arquitectura multi-unidad:** Home Assistant **federado** — una instancia por torre, no
+centralizado.
 
 ### 9.1 Topología de instalación — relés y dimmers de punto de luz
 
@@ -437,7 +603,7 @@ Diseñar siempre al 75% del nominal, nunca al 100%:
 | Shelly Pro RGBWW PM | id 411, ~USD 76,65 | DIN, 5 canales, 6A/canal, 16A total → 144 W/canal, 384 W nominal | uso puntual — ver nota de planta abajo, "más canales" no es "más rinde" |
 
 Nota de remarque: el 0/1-10V (id 400) tiene remarque 0,80 con `precio_sugerido_manual`
-cargado — dispara la alerta de remarque alto (§3.4/§13) y es legítimo, sale del PVP igual.
+cargado — dispara la alerta de remarque alto (§3.5) y es legítimo, sale del PVP igual.
 
 **Regla de decisión — por efecto, no por dispositivo:**
 
@@ -589,7 +755,7 @@ aportar. Conteo: movimiento + puerta en ambientes cerrados; solo movimiento en
 circulaciones abiertas.
 
 **MO:** en obra (PY) los sensores **no** llevan MO de instalación, se pegan y nada más; sí
-entran en la base del % de programación. MO-DOM-SENS (USD 27,82) es exclusivo de
+entran en la base del % de programación (§3.8). MO-DOM-SENS (USD 27,82) es exclusivo de
 Presupuestos Comerciales de compra suelta.
 
 ### 9.7 Redes: Omada vs. mesh doméstico (Deco)
@@ -634,7 +800,9 @@ instalador de internet pase su propia fibra.
 ### 9.9 Cuánto del sistema depende realmente del WiFi
 
 No sobrestimar el "casi nada depende del WiFi". Cuenta real de PY-2026-030: 35 módulos
-Gen4 sobre Zigbee (malla propia, independiente del WiFi) contra 20 sobre WiFi — 11
+Gen4 sobre Zigbee (malla propia, independiente del WiFi) contra 20 sobre WiFi
+⚠️ (la enumeración que sigue suma 18, no 20 — reverificar el conteo contra el Paso 3 del
+proyecto antes de usar el número en una propuesta; ver §13, pendiente 11) — 11
 módulos de tira de la línea Plus/Pro (§9.2, que NO son Zigbee), más 6 Sensibo y la
 pantalla. Los sensores BLU van por Bluetooth con gateway y la alarma tiene radio propia;
 cámaras y grabador son cableados. O sea ~60-65% Zigbee, no 80%.
@@ -647,110 +815,169 @@ número real es más creíble que exagerar.
 
 ## 10. FINANZAS Y ADMINISTRACIÓN
 
-- **Cuentas**: varias separadas — empresa, personal, USD
-- **Cobro a clientes**: mix según cliente (transferencia, cheque/e-cheq, efectivo)
-- **Contadora Delia**: maneja impuestos, seguros y bancos — soporte clave
-- **Flujo de caja interno**: hoy informal/intuitivo → el portal lo formaliza progresivamente
-- **No hay software contable propio**
+- **Cuentas** separadas: empresa, personal, USD
+- **Cobro**: mix según cliente (transferencia, cheque/e-cheq, efectivo)
+- **Delia** (`contable`) maneja impuestos, seguros y bancos, y tiene acceso al portal
+- Sin software contable propio
+- El flujo de caja se formaliza progresivamente en el portal
 
 ---
 
 ## 11. STACK TÉCNICO
 
-### Portal interno (portalnovadomus.pages.dev)
-- Frontend: HTML + CSS + JS vanilla, un archivo por módulo, mobile-first
-- Auth + Comercial/Inventario: Supabase `vvwnyszcfindtuvojqgs`
-- Cuadrilla/Obras: Supabase `voowjwzlkhdknpapkhxc`
-- Hosting: Cloudflare Pages (deploy por push a GitHub)
-- Código en inglés; UI en español
-- Fetch: siempre `.text()` + `JSON.parse()`, nunca `.json()` directamente
-- CDN Supabase: `https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2`
+### Portal interno — `portalnovadomus.pages.dev`
+- Frontend: **HTML + CSS + JS vanilla**, un archivo por módulo, mobile-first
+- Hosting: **Cloudflare Pages**, deploy automático por push al repo
+  `Novadomus-cba/portal-nova-domus`
+- **Código en inglés** (variables, funciones, comentarios). **UI en español.**
+- Fetch: siempre `.text()` + `JSON.parse()`, **nunca `.json()` directo**
+- CDN: `https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2`
+- `auth-bridge.js` lo cargan varios módulos: ahí viven las URLs, la publishable key y
+  `manejarSesionExpirada()`. Al tocar auth, grepear también este archivo, no solo el módulo.
+- Cloudflare sirve `index.html` con 200 para rutas inexistentes (fallback SPA): tenerlo en cuenta
+  al validar rutas.
 
-### Panel comercial (presupuestos)
-- GitHub Pages: `https://novadomuscba.github.io/presupuestos/panel.html`
-- Link cliente: `https://novadomuscba.github.io/presupuestos/?id={ID}`
-- TC BNA API: `https://api.bluelytics.com.ar/v2/latest`
+### Base de datos — UN SOLO PROYECTO SUPABASE
 
-### Plano de Instalación + Planos de obra (módulo nuevo — construido, en QA)
-- Carpeta portal: `plano-instalacion/index.html`
-- Objetivo: que Martín/instaladores/Agustín vean el Plano de Instalación (5b) y los
-  Planos de obra (Bocas y Llaves, Iluminación, etc.) de cualquier proyecto en curso, en
-  cualquier momento — no solo al entregarlo una vez.
-- Acceso: Supabase Auth existente, cuenta compartida `obras@nova-domus.com.ar`
-  (rol `programacion`, solo lectura en este módulo) + `admin` + `supervisor`
-  (lectura y escritura). NO usa enlace/contraseña compartida por fuera del sistema de auth.
-- Alcance confirmado: **solo topología (Plano de Instalación) + Planos de obra — nada de
-  precios/márgenes/costos** (eso es exclusivo del módulo Comercial).
-- Supabase (proyecto `vvwnyszcfindtuvojqgs`):
-  - Tabla `proyectos_planos_instalacion (id, proyecto_id → proyectos.id, storage_path,
-    version, generado_por, generado_en, notas)` — RLS: lectura admin/supervisor/programacion,
-    escritura solo admin/supervisor.
-  - Bucket privado `planos-instalacion` (solo `text/html`, 10MB) — mismo criterio de RLS.
-    (Bucket viejo `mapas-instalacion`, de la primera versión antes del rename, quedó vacío y
-    huérfano — pendiente borrarlo a mano desde el dashboard de Supabase, no se puede por SQL.)
-- Planos de obra: hoy en Google Drive (Workspace pago, carpeta raíz
-  `1rgzzZmxFjNuU2cPLTI3qOPMn86Kfp2MF`). Repositorio definitivo (Drive por
-  dominio vs. migración a Supabase Storage) **pendiente de definir** — la sección
-  correspondiente en el módulo hoy es un placeholder ("Planos del proyecto —
-  repositorio en definición, próximamente").
+- **`vvwnyszcfindtuvojqgs`** — único proyecto vigente. Contiene **todo**: Auth, Comercial,
+  Inventario, Obras, Certificados, Recibos, Análisis, Tarifario, Gerencial y el schema
+  `cuadrilla` (jornadas).
+- **`voowjwzlkhdknpapkhxc`** — copia congelada de rollback del 14/08/2026. **SOLO LECTURA. Nunca
+  escribir, tampoco vía MCP de Supabase.** Se va a pausar: no asumir que responde.
 
-### Estado de módulos del portal
-| Módulo | Estado |
-|--------|--------|
-| Auth / login | ✅ Completo |
-| Index / dashboard | ✅ Completo |
-| Cuadrilla | 🔶 Funcional, faltan reportes y validaciones |
-| Liquidación | 🔶 Funcional, falta exportación PDF |
-| Obras | 🔶 Base construida, falta ciclo de estados completo |
-| Comercial | 🔶 Base construida, falta PDF presupuesto y lista de precios |
-| Inventario | ❌ No iniciado |
-| Dashboard gerencial | ❌ No iniciado |
-| Plano de Instalación + Planos de obra | 🔶 Construido y desplegado, sin ningún Plano cargado todavía (QA en curso). Planos de obra: solo placeholder, repositorio pendiente. |
+La consolidación de los dos proyectos se ejecutó el 14/08/2026. Para el estado real de la base
+(tablas, políticas, grants, jobs, divergencia) **correr `scripts/estado.sql`** — no confiar en
+ningún documento.
+
+Job programado: `rentabilidad-semanal` (`0 18 * * 5` → `refresh_all_obra_balances()`), en el
+proyecto vigente únicamente.
+
+### Panel comercial (presupuestos públicos)
+- Repo `Novadomuscba/presupuestos` → GitHub Pages. **No se puede borrar**: los presupuestos ya
+  emitidos apuntan ahí.
+- Link al cliente: `https://novadomuscba.github.io/presupuestos/?id={ID}`
+- El nombre del comercial sale de la vista `v_presupuesto_publico` (`SECURITY DEFINER`), no de
+  una lectura directa de `comerciales`.
+
+### Plano de Instalación + Planos de obra
+- Carpeta del portal: `plano-instalacion/index.html`
+- Objetivo: que Martín, los instaladores y Agustín vean el Plano de Instalación (5b) y los Planos
+  de obra de cualquier proyecto en curso, en cualquier momento
+- Acceso vía Supabase Auth: `obras@` (`programacion`, solo lectura) + `admin` y `supervisor`
+  (lectura y escritura). **No** usa enlace ni contraseña por fuera del sistema de auth
+- Alcance: solo topología y planos. **Nada de precios, márgenes ni costos**
+- Tabla `proyectos_planos_instalacion (id, proyecto_id, storage_path, version, generado_por,
+  generado_en, notas)` — RLS: lectura `admin`/`supervisor`/`programacion`, escritura
+  `admin`/`supervisor`
+- Bucket privado `planos-instalacion` (solo `text/html`, 10 MB). Los HTML son **artefactos
+  derivados** de `proyectos_items`: si se pierden, se regeneran
+- **Planos de obra**: hoy en Google Drive (Workspace pago, carpeta raíz
+  `1rgzzZmxFjNuU2cPLTI3qOPMn86Kfp2MF`). Repositorio definitivo (Drive por dominio vs. Supabase
+  Storage) **pendiente de definir**
+
+### Herramientas de trabajo con Claude
+- **MCP de Supabase**: acceso directo para queries, migraciones y verificación. Entra como
+  `postgres` — **ignora RLS y grants**, así que un `project_id` mal configurado escribe donde no
+  debe sin ninguna barrera.
+- **No hay conector de GitHub ni de Cloudflare Pages**: no se puede ver historial de deploys,
+  logs de build ni código fuente del repo. Para eso, Claude Code con el repo local.
+- Para inspección visual del portal en vivo como usuario logueado: **claude-in-chrome**.
+- Verificar un deploy leyendo el **archivo servido**, no el local:
+  `fetch('/ruta?v='+Date.now())`, grepeando por booleanos.
 
 ---
 
 ## 12. IDENTIDAD DE MARCA
 
-**Paleta de color:**
-- `#141e61` — azul oscuro principal
-- `#787a91` — gris azulado
-- `#0b132b` — negro azulado profundo
-- `#fdfbf0` — blanco cálido
-- `#c8a96e` — gold (portal interno)
+**No está acá.** Vive en la skill `nova-domus-identidad-marca`, que tiene **prioridad declarada**
+sobre cualquier dato de marca de esta skill o de la memoria.
 
-**Design system portal:** `--bg:#0d0f12 / --surface:#151821 / --border:#232733 / --accent:#c8a96e`
+Ahí están: paleta con hex y usos, tipografía, los archivos vectoriales reales del logo (nunca
+recrear el isotipo), descriptor de categoría, slogan, promesa de cierre de obra, tono de voz,
+iconografía y reglas de co-branding.
+
+Dos datos que se repetían mal y conviene tener presentes: el descriptor es **"INTEGRACIÓN
+TECNOLÓGICA"** (no "Domótica") y el slogan es **"Del cable a la app"** (no "Habitamos espacios
+inteligentes"). Cualquier otra cosa de marca, ir a la skill.
 
 ---
 
-## 13. PROBLEMAS CONOCIDOS Y DECISIONES TOMADAS
+## 13. PROBLEMAS CONOCIDOS Y DECISIONES
 
-| # | Problema | Estado / Resolución |
-|---|----------|---------------------|
-| 1 | EZVIZ — remarque desactualizado con TC actual (~$1.498) | Pendiente. **Corregido 03/09/2026:** no forzar siempre el máximo descuento — aplicar las reglas B2B normales (§3.4/§3.9): objetivo 25% de descuento, piso 20% de margen **sobre venta** (`precio_sin_iva × (1+iva) / 0.80`), igual que cualquier otra marca. |
-| 2 | tipo_linea en DB solo acepta `'DISPOSITIVO'` o `'SERVICIO'` (uppercase) | Confirmado. Rechaza `'MO'`, `'MANO_DE_OBRA'`, lowercase. |
-| 3 | Campos numéricos en líneas SERVICIO | Usar `0` (no NULL) para todos los campos de precio/costo. |
-| 4 | cotizaciones — columna `updated_at` ✓ / `fecha_actualizacion` ✗ (no existe) | Confirmado. |
-| 5 | SKUs duplicados en inventario (ej: Shelly Wall Display XL) | Flagear para cleanup manual. |
-| 6 | precio_sugerido_manual ya incluye IVA en ARS | `precio_sugerido_usd = precio_sugerido_manual / TC` — NO dividir por 1.21. |
-| 7 | Venta parcial de presupuesto | Siempre confirmar qué ítems exactos se incluyen antes de registrar. |
-| 8 | remarque es mark-up, no multiplicador directo | `precio = costo × (1 + remarque)` ✓ / `precio = costo × remarque` ✗ |
-| 9 | Yale XTR 226-2.0 (id 631, SKU 16471) | Flagueado como descontinuado. Pendiente decisión eliminar/desactivar. |
-| 10 | Repositorio de Planos de obra (Drive vs. Supabase Storage) | Pendiente. Workspace pago disponible, evaluar compartir por dominio vs. migrar. |
-| 11 | Bucket huérfano `mapas-instalacion` (pre-rename), vacío | Pendiente borrar a mano desde el dashboard de Supabase (no se puede por SQL — protección `storage.protect_delete()`). |
+### Datos legacy que NO se backfillean
+Decisión firme del 13/08/2026. Rellenarlos sería inventar un dato indistinguible de uno real.
+
+- **`recibos_lineas.cantidad`**: la columna tiene default 1 y el formulario nunca la persistía,
+  así que la mayoría de las líneas históricas quedaron en 1. **Los montos (`monto_pesos`) siempre
+  se guardaron bien**, así que los totales facturados al cliente están correctos — el error era
+  solo la columna "Cant" del documento impreso. Los 2 casos ya parchados a mano (Campo Chico
+  Nº19, Chacras 3 Nº32) quedan como están.
+- **`obras_rubros` sin `tarifario_base_id`**, **`certificados_items` sin rubro**, **líneas de MO
+  sin snapshot**, **certificados viejos sin ítems**: se dejan.
+
+### Reglas de datos confirmadas
+| # | Tema | Regla |
+|---|---|---|
+| 1 | `tipo_linea` | Solo `'DISPOSITIVO'` o `'SERVICIO'`, **uppercase**. Rechaza `'MO'`, `'MANO_DE_OBRA'`, minúsculas. |
+| 2 | Campos numéricos en líneas `SERVICIO` | Usar `0`, **no NULL**. |
+| 3 | `cotizaciones` | La columna es `updated_at`. `fecha_actualizacion` **no existe**. |
+| 4 | `precio_sugerido_manual` | Ya incluye IVA en ARS → dividir por TC, **no** por 1.21. |
+| 5 | `remarque` | Es mark-up: `costo × (1 + remarque)`. |
+| 6 | Venta parcial de presupuesto | Confirmar **qué ítems exactos** se incluyen antes de registrar. |
+| 7 | `clientes` vs `canales` | Los revendedores **no** son clientes: van a `canales`, y `canal_id` cuelga del **proyecto**, no del cliente (el canal es por operación). Los estudios (Fanesi-Navarro, JAD) **sí** son clientes: gestionan los pagos. **No hay tabla `contactos`.** |
+| 8 | `tipo_cambio` | **Serie histórica append-only**, dedupe por `(fuente, fecha)` — un valor por día por fuente. Es dato de mercado: `supervisor` puede escribir, **`DELETE` revocado a `authenticated`**. El snapshot a nivel documento (`proyectos.cotizacion_oficial_snapshot`, `proyectos_items.remarque_snapshot`, `presupuestos_items.*`) sigue existiendo y responde **otra** pregunta: qué se cobró, no cuánto valía el mercado. **Nunca derivar la serie de mercado de los snapshots de documento.** |
+| 9 | Borrado de certificados/recibos | Solo en `BORRADOR` y `ENVIADO`. En `PAGADO` se **anula**, no se borra. |
+| 10 | Escritura en `inventario` | Solo `admin`. |
+| 11 | Discontinuados | **Nunca se borra un registro.** En `inventario` se marca `estado = 'descontinuado'`; en el tarifario, `activo = false` + `referencia_codigo` al reemplazo. Un ítem borrado rompe los presupuestos históricos que lo referencian. |
+
+**Por qué cambió la regla 8:** la tabla tenía una sola fila con un trigger que borraba las
+anteriores. El `id 84` significa que hubo 83 inserts previos y los 83 se borraron. Sin serie no hay
+forma de reconstruir con qué tipo de cambio se calculó un remarque, que es la causa raíz del
+proyecto de saneamiento de precios.
+
+### Pendientes abiertos
+| # | Qué | Estado |
+|---|---|---|
+| 1 | EZVIZ con remarque desactualizado | **Corregido 03/09/2026:** no forzar el máximo descuento. Se aplican las reglas B2B normales de §3.5 — objetivo 25%, piso 20% de margen **sobre venta** (`costo_ars / 0.80`) — igual que cualquier otra marca. Sigue pendiente actualizar el remarque contra la lista y el TC del día. |
+| 2 | SKUs duplicados y vacíos en inventario | Cleanup manual pendiente. |
+| 3 | Cobertura de `sku_mo` | Buena parte de los ítems activos no tiene tarifa de MO asociada, concentrado en ACCESORIOS, RACK, FIBRA ÓPTICA, CABLE, LICENCIAS. Falta definir el criterio de mapeo. |
+| 4 | Repositorio de Planos de obra | Drive vs. Supabase Storage, pendiente. |
+| 5 | Bucket huérfano `mapas-instalacion` | Vacío (pre-rename). Se borra a mano desde el dashboard: `storage.protect_delete()` lo impide por SQL. |
+| 6 | Routing `/gerencial` sin barra final | Servía una página vieja. Verificar contra el archivo servido antes de asumir el estado. |
+| 7 | Panel Gerencial | Va a **reescribirse por completo**. Mientras la fuente de ingresos esté vacía va a mostrar números catastróficos que son reales, no un bug. |
+| 8 | Rotación de credenciales | `service_role` y `ANTHROPIC_API_KEY` quedaron duplicadas entre proyectos. Rotar y dejar una sola. |
+| 9 | Remarque de Sensibo Air B2B (id 325) | Tiene `remarque = 0.50` contra `0.37` de los ids 324 y 326. Resultado: el Air B2B sale a ~USD 262 de sugerido y el Air PRO —más caro de costo— a ~USD 246. El estándar obligatorio de §9 es hoy el más caro para el cliente. Revisar el remarque o revisar el estándar. |
+| 10 | `sku_mo` de sensores BLU y kits | Ids 360, 361, 373, 374 en `MO-DOM-SENS`, contra la regla de §9.6 (en obra no llevan MO). Decidir: documentar la divergencia o corregir el dato. |
+| 11 | Conteo de dependencia de WiFi (§9.9) | La cuenta de PY-2026-030 dice 20 dispositivos sobre WiFi pero enumera 18 (11 tiras + 6 Sensibo + pantalla). Con 18 el ratio Zigbee es 66%, no 60-65%. Reverificar contra el Paso 3. |
 
 ---
 
 ## 14. TONO Y ESTILO OPERATIVO
 
-- Español rioplatense, voseo, informal, directo
-- El equipo trabaja desde el celular → respuestas concisas
-- Números siempre sin centavos, redondeados para arriba (ceil)
-- Información interna (márgenes, comisiones, alertas B2B) → solo en el chat, nunca en documentos del cliente ni texto WhatsApp
-- Si algo no cierra → avisar antes de continuar
-- Cuando hay ambigüedad → presentar opciones estructuradas para que el usuario confirme
-- Una vez establecida la dirección → ejecutar autónomamente sin pedir confirmación paso a paso
-- Correcciones de workflow → aceptar y aplicar como regla permanente
+- **Español rioplatense, voseo**, informal y directo. Sin relleno.
+- El equipo trabaja **desde el celular** → respuestas concisas.
+- Números **sin centavos**, redondeados para arriba (ceil).
+- Información interna (márgenes, comisiones, alertas B2B) → **solo en el chat**, nunca en
+  documentos del cliente ni en texto de WhatsApp.
+- **Si algo no cierra, avisar antes de continuar.** No completar con supuestos.
+- Ante ambigüedad → presentar opciones estructuradas para que Agustín confirme.
+- Una vez establecida la dirección → ejecutar de forma autónoma, sin pedir confirmación paso a
+  paso.
+- Correcciones de workflow → aceptar y aplicar como regla permanente.
+- **Reverificar antes de concluir**, no solo antes de actuar. Con varios agentes trabajando en
+  paralelo, un snapshot caduca en minutos.
+- **Nunca una instrucción destructiva sobre un archivo que no se leyó.** Si una instrucción llega
+  basada en un estado que no coincide con lo que se ve, **parar y pedir confirmación**.
+- **Nombrar el `project_id` en la respuesta después de cada escritura.** Todo `INSERT`, `UPDATE`
+  o migración se cierra con un `SELECT`/`COUNT(*)` de verificación que **diga explícitamente
+  contra qué proyecto se escribió**. El MCP recibe el `project_id` por parámetro y no tiene
+  whitelist: nada bloquea técnicamente una escritura al proyecto congelado, y como es un clon,
+  el `UPDATE` devuelve filas afectadas y parece exitoso. Sin error no hay señal — por eso el
+  incidente del 14–18/08 duró 4 días. Hacer visible el destino es la única señal disponible.
+- Si una tarea se resolvería mejor en **Claude Code** (capacidad operativa o consumo de tokens),
+  avisarlo con el motivo concreto — como sugerencia, no como bloqueo. Si Agustín igual la quiere
+  en el chat, seguir adelante.
 
 ---
 
-*Consolidado: 24/07/2026 — Fuentes: Proyecto Portal, Proyecto Comercial, Proyecto Gerencial*
+*Versión 3.2 — 18/08/2026. Reemplaza la 2.2 del 24/07/2026.*
