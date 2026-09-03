@@ -4,6 +4,18 @@ description: "Skill maestra de Nova Domus (NDWD SAS, Córdoba, Argentina). Conso
 ---
 
 # Nova Domus — Skill Maestra Consolidada
+> Versión 2.4 — Septiembre 2026 — Sesión PY-2026-030 "La Pankana - Ruda Orpianesi" (La
+> Calera, 02-03/09/2026). **Reemplaza la versión 2.3**, que tenía mal el bloque de
+> topología de módulos de iluminación (mezclaba el criterio de relés de punto de luz con
+> el de tiras LED 24V bajo un mismo §9.2). Cambios: **corrige** el piso de margen B2B en
+> §3.4 (era markup sobre costo, no margen sobre venta — agrega §3.9); **corrige y separa**
+> la topología de relés/dimmers de punto de luz (§9.1, nueva) de la de tiras LED 24V
+> (§9.2, reescrita); **corrige** el default cableado-gana-por-costo en seguridad (§9.4);
+> **corrige** la composición de los kits de sensores Shelly (§9.6). Agrega §9.3 (addenda
+> Sensibo), §9.5 (lectura de planos), §9.7 (Omada vs. Deco), §9.8 (Starlink), §9.9
+> (dependencia real del WiFi), nota UPS en §9, y §7.4 (correcciones de datos ya aplicadas
+> en Supabase).
+>
 > Versión 2.3 — Septiembre 2026 — Sesión Pankana-Ruda (La Calera, 02/09/2026): agregadas
 > §9.1 (tiras LED 24V, regla de los 90 W por efecto — no 240 W por dispositivo), §9.2
 > (ubicación del módulo Shelly RGBW PM en caja de derivación dedicada + MO-DOM-DIM en vez de
@@ -148,11 +160,19 @@ precio_sugerido_ars = precio_sin_iva × (1 + remarque) × 1.21 × TC
 
 **B2B:**
 - Objetivo: 25% descuento sobre precio sugerido con IVA
-- Margen mínimo: 20% / Margen máximo: 30%
-- Si 25% mantiene margen entre 20–30% → aplicar 25%
-- Si 25% supera 30% → ajustar para no pasar del 30%
-- Si 25% baja del 20% → aplicar máximo posible manteniendo piso del 20%:
-  `precio_final = precio_sin_iva × 1.20 × 1.21`
+- Margen mínimo: 20% / Margen máximo: 30% — **siempre sobre venta** (ver §3.5), nunca
+  sobre costo
+- Si 25% mantiene margen entre 20–30% s/venta → aplicar 25%
+- Si 25% supera 30% s/venta → ajustar para no pasar del 30%
+- Si 25% baja del 20% s/venta → aplicar el piso:
+  `precio_final = precio_sin_iva × (1 + iva) / 0.80`
+  **(CORREGIDO 03/09/2026 — antes decía `precio_sin_iva × 1.20 × 1.21`. Esa fórmula no da
+  un margen del 20%: da un *markup* del 20% sobre costo, que sobre venta equivale a
+  16,67%. Convivía con la convención de MO del Paso 3 (`margen_mo = precio × 0.20`), que
+  sí es 20% sobre venta — el resumen interno mezclaba dos bases y el margen del proyecto
+  aparecía por debajo del piso cuando en realidad no lo estaba. La fórmula correcta,
+  `/ 0.80`, equivale a costo × 1,25. Efecto práctico: sube ~4% el precio de todos los
+  ítems que tocan el piso.)**
 - Avisos de margen ajustado: **solo internos**, nunca en el documento del cliente
 
 ### 3.5 Dos métricas de rentabilidad
@@ -175,6 +195,21 @@ Siempre visible en el chat. **Nunca** en el documento del cliente ni en texto Wh
 
 ### 3.8 Prerrogativa de Agustín
 Puede fijar precios custom (ej: precio pre-acordado con cliente). Se calcula el margen resultante, se avisa si está bajo el mínimo, se registra como director-aprobado.
+
+### 3.9 Piso B2B en la práctica
+
+En el resumen interno del Paso 3 mostrar **siempre dos columnas de margen — s/costo y
+s/venta** — para que no vuelva a pasar la confusión de §3.4. La que gobierna las
+decisiones es s/venta.
+
+Con el remarque por defecto de 0,35 el objetivo de 25% de descuento casi nunca alcanza a
+bajar hasta el piso, así que casi todo el equipamiento de terceros (TP-Link/Omada,
+Hikvision, NVR, videoportero, Sensibo, UPS, rack GLC, discos Seagate) termina en el piso y
+recibe menos descuento que el 25% nominal. Es esperable, no es un bug — y es
+estrictamente interno: nunca se le aclara al cliente que no se llegó al 25%.
+
+Caso testigo PY-2026-030: margen de equipo 18,2% → 20,2% s/venta tras la corrección;
+margen del proyecto completo 18,8% → 20,1%.
 
 ---
 
@@ -275,6 +310,23 @@ Campos clave: `id` (PK entero), `sku` (string), `nombre`, `marca`, `grupo`, `pre
 
 **Búsqueda:** usar `ILIKE '%keyword%'` en nombre y marca. Buscar por SKU como string, no entero.
 
+### 7.4 Correcciones de datos aplicadas (02/09/2026 — sesión PY-2026-030)
+
+Proyecto `vvwnyszcfindtuvojqgs`, el único vigente. Todas verificadas con SELECT posterior
+— para que la skill no contradiga la base:
+
+- `inventario.sku_mo` = `'MO-DOM-DIN'` en los 15 dispositivos Pro/DIN de comando: ids 409,
+  410, 411, 412, 413, 414, 415, 416, 418, 419, 420, 430, 431, 432, 433. Los 5 medidores
+  (365, 366, 417, 421, 422) quedaron en `MO-DOM-MED`, porque ahí el trabajo real es
+  colocar bobinas CT, no armar módulo. El add-on id 408 queda en `MO-NA`.
+- `inventario.sku_mo` = `'MO-DOM-CORE'` en los 4 Home Assistant Strong i5: ids 2923 a
+  2926 (tenían el campo en NULL, era un hueco de datos).
+- `inventario.caracteristicas_principales` de los ids 360 y 361 actualizado con la
+  composición real de cada kit (ver §9.6) y el ahorro contra comprar suelto.
+- ER7212PC (id 1448) sigue marcado `estado='descontinuado'`. Reemplazo: ER605 + OC200
+  como dos ítems separados. El ER605 no tiene PoE, así que todo el PoE sale del switch —
+  dimensionar el switch contando cámaras + APs + coordinador Zigbee + videoportero.
+
 ---
 
 ## 8. CUADRILLA — REGLAS OPERATIVAS
@@ -320,25 +372,69 @@ Campos clave: `id` (PK entero), `sku` (string), `nombre`, `marca`, `grupo`, `pre
 | Teclado de alarma + sirena interior | Departamentos (obligatorio) |
 | Sirena exterior | Viviendas completas (obligatoria) |
 
+**Nota UPS — el argumento comercial real:** las cámaras PoE y el grabador siguen
+funcionando en un corte de luz **no** por ser PoE, sino porque el switch que las alimenta
+está sobre el UPS. Sin UPS se apagan igual que todo lo demás. Es el argumento que
+justifica el UPS y evita que el cliente lo lea como un adicional caprichoso — es un error
+frecuente atribuirlo al PoE. Dimensionar siempre a la carga real del rack.
+
 **Shelly y Philips Hue son complementarios:**
 - Shelly: retrofit de interruptores existentes, circuitos de pared
 - Hue: iluminación nueva con necesidad de color/escenas
 - Un mismo proyecto puede tener ambos, integrados a Home Assistant vía Hue Bridge
 
-### 9.1 Tiras LED 24V — regla de los 90 W
+### 9.1 Topología de instalación — relés y dimmers de punto de luz
+
+**CORREGIDO 03/09/2026** — si una versión anterior de esta skill sugería que el relé va
+en la boca de iluminación como regla general, o que "cada llave lleva su Shelly en la
+caja" sin más matiz, estaba mal/incompleto. Criterio real:
+
+- **Por defecto, el relé/dimmer va en la caja de llave**, detrás de la llave. Es el caso
+  habitual y cubre la gran mayoría de los puntos de una obra.
+- **Regla de oro: un solo módulo por caja.** En caja argentina estándar 10x5 la
+  profundidad admite uno. Probado en obra: dos módulos en una 10x5 generan mucho calor y
+  no queda bien en términos de seguridad eléctrica. Un módulo comanda hasta 2 efectos
+  (2PM), así que una llave de 1 o 2 teclas se resuelve con un solo módulo detrás de ella.
+- **Excepción, no habitual:** cuando el módulo no entra en la caja de llave — llave con
+  más de 2 efectos, o con más de un efecto dimerizable (cada dimmer es un módulo, no
+  entran dos en una 10x5). Ahí los relés/dimmers se mudan a la **boca de iluminación**
+  (la que da inicio al efecto, desde donde se contactan todos los artefactos que se
+  comandan juntos), y en la caja de llave puede quedar el i4 como entrada.
+- **Recomendación habitual al cliente y al estudio:** sumar llaves de luz para que
+  ninguna caja pase de 2 efectos. Así todo queda detrás de la llave, se evita el i4 y se
+  evita mudar módulos a la boca. Conviene plantearlo antes del replanteo.
+- Si igual hay que meter más de un módulo en una caja, pedírselo al electricista **antes
+  de cerrar paredes**:
+  - Mampostería → doble fondo de caja, o caja 10x10 con bastidor 10x5 tapando la otra
+    mitad con tapa ciega y luego yeso para que no se note.
+  - Construcción en seco → dejar la caja 10x5 **sin fondo** para poder "colgar" los
+    módulos detrás.
+
+**Fase y neutro — el pedido más urgente:** pedirle al electricista bajar neutro junto con
+el retorno a TODA caja de llave. Con el módulo detrás de la llave el neutro ahí es
+imprescindible, y también lo es donde va un i4. Cuesta prácticamente nada en obra y es
+carísimo corregirlo después de cerrar paredes. Tiene que quedar destacado en todo
+documento cliente-facing, no escondido en un acordeón.
+
+### 9.2 Tiras LED 24V — regla de los 90 W
+
+**Distinto de §9.1**: esto es exclusivamente para tiras LED sobre driver/fuente 24V, no
+para relés de punto de luz.
 
 El umbral que separa RGBW PM de 0/1-10V **no es el límite de potencia del dispositivo**
-(240 W nominal del Plus RGBW PM) — es **90 W por efecto**, después del derating obligatorio.
+(240 W nominal del Plus RGBW PM) — es **90 W por efecto**, después del derating
+obligatorio.
 
-**Derating obligatorio:** estos módulos van en tablero o caja cerrada. El datasheet declara
-40°C de ambiente máximo, y un gabinete cerrado en verano de Córdoba lo supera. Diseñar
-siempre al 75% del nominal, nunca al 100%:
+**Derating obligatorio:** estos módulos van en tablero o caja cerrada. El datasheet
+declara 40°C de ambiente máximo, y un gabinete cerrado en verano de Córdoba lo supera.
+Diseñar siempre al 75% del nominal, nunca al 100%:
 
 | Módulo | Inventario | Nominal (datasheet) | Techo de diseño (75%) |
 |---|---|---|---|
 | Shelly Plus RGBW PM | id 399, ~USD 29,97 s/IVA | 4 canales, 4A/canal, 10A total, 24V DC → 96 W/canal, 240 W/dispositivo | 72 W/canal, 180 W/dispositivo |
 | Shelly Dimmer 0/1-10V PM Gen3 | id 400, ~USD 32,90 | comanda el driver por señal analógica — la corriente NO pasa por el módulo, sin límite propio | limitado por la fuente, no por el módulo |
-| Shelly Pro RGBWW PM | id 411, ~USD 76,65 | DIN, 5 canales, 6A/canal, 16A total → 144 W/canal, 384 W nominal | uso puntual — no es el estándar de esta regla |
+| Shelly Pro Dimmer 0/1-10V PM (DIN) | id 415, ~USD 102,37 | ídem, versión DIN | ídem |
+| Shelly Pro RGBWW PM | id 411, ~USD 76,65 | DIN, 5 canales, 6A/canal, 16A total → 144 W/canal, 384 W nominal | uso puntual — ver nota de planta abajo, "más canales" no es "más rinde" |
 
 Nota de remarque: el 0/1-10V (id 400) tiene remarque 0,80 con `precio_sugerido_manual`
 cargado — dispara la alerta de remarque alto (§3.4/§13) y es legítimo, sale del PVP igual.
@@ -352,37 +448,39 @@ cargado — dispara la alerta de remarque alto (§3.4/§13) y es legítimo, sale
 | 90–180 W | Dimmer 0/1-10V sobre driver dimerizable | desde acá el RGBW PM necesita dispositivo dedicado (USD 89,71/efecto); el 0/10 sale similar (USD 92,64) pero es mejor técnicamente: sin carga por el módulo, sin límite de potencia, sin riesgo térmico, conserva medición de consumo |
 | > 180 W | 0/1-10V obligatorio | dos RGBW PM en paralelo sobre la misma carga cuesta el doble y es mala praxis |
 
+⚠️ **Los 5 canales del Pro no compran nada por sí solos.** Lo que limita el agrupamiento
+no es la cantidad de canales sino **la planta**: no se agrupan efectos de plantas
+distintas en un mismo módulo. Verificado en PY-2026-030: 23 efectos chicos repartidos 12
+en PB y 11 en PA dan 6 dispositivos tanto con Plus (4 canales) como con Pro (5 canales), y
+el Pro costaba USD 280 más por el mismo resultado.
+
+**Configuración óptima:** Plus RGBW PM en caja plástica dedicada para los efectos chicos,
+y Pro DIN solo para los de alta potencia (>90 W), donde son pocos módulos y el DIN sí
+rinde.
+
 **Contar efectos, no tiras ni fuentes.** Un efecto es un circuito que se comanda como
-unidad. El agrupamiento en dispositivos respeta planta y tablero: no se agrupan efectos de
-plantas distintas en un mismo módulo.
+unidad.
+
+**Ubicación:** como las fuentes de 24V van remotas en tablero, estos módulos **no** van
+detrás de la llave (a diferencia de los relés/dimmers de §9.1). Van en tablero o, mejor,
+en una **caja de derivación plástica dedicada al lado**: resuelve el WiFi (varios módulos
+WiFi dentro de un gabinete metálico cerrado es un problema real de señal), los separa del
+calor de las fuentes (el margen térmico que pide el derating del 75%), y se accede sin
+abrir el tablero de potencia. Se define en la visita técnica.
+
+**MO:** el Plus RGBW PM no es riel DIN (42×37×12mm, bornes a tornillo) →
+**MO-DOM-DIM (USD 59,74)**. Toda la línea Pro DIN (RGBWW PM, Dimmer 0/1-10V PM) →
+**MO-DOM-DIN (USD 95,22)**.
 
 **Dependencia externa:** el 0/10 exige fuente dimerizable 0-10V, y la fuente es del
-proveedor de iluminación, no de Nova Domus. Se pide SIEMPRE por consulta formal al estudio,
-nunca se asume — es un pedido sin riesgo: si lo niegan, se vuelve a RGBW PM dedicado y el
-presupuesto se mueve ~3%.
-
-### 9.2 Ubicación del módulo y mano de obra correspondiente
-
-El Plus RGBW PM **no es riel DIN**: es un módulo de embutir de 42×37×12mm con bornes a
-tornillo. Va del lado del tablero (ahí está la fuente 24V), pero en una **caja de
-derivación plástica dedicada montada al lado del tablero**, no dentro del gabinete
-metálico:
-
-- **WiFi**: varios módulos WiFi dentro de un gabinete metálico cerrado es un problema real
-  de señal — la caja plástica lo resuelve.
-- **Calor**: el calor lo generan las fuentes, no los módulos. Separarlos da el margen
-  térmico que pide el derating del 75% (§9.1).
-- **Acceso**: se revisa o cambia un módulo sin abrir el tablero de potencia.
-
-**Consecuencia de costeo:** el trabajo es módulo-en-caja, no armado de riel DIN → corresponde
-**MO-DOM-DIM (USD 59,74)**, NO MO-DOM-DIN (USD 95,22). MO-DOM-DIN se reserva para
-dispositivos realmente DIN: Shelly Pro 2PM, Pro RGBWW PM, Pro Dimmer. Sumar al BOM la caja
-de derivación y su organización como ítem propio, nunca escondida en el precio del módulo.
+proveedor de iluminación, no de Nova Domus. Se pide SIEMPRE por consulta formal al
+estudio, nunca se asume — es un pedido sin riesgo: si lo niegan, se vuelve a RGBW PM
+dedicado y el presupuesto se mueve ~3%.
 
 **Observación técnica a trasladar al estudio cuando corresponda:** un circuito de 135 W a
-24V son 5,6A, y con la fuente en tablero la corrida de DC hasta la tira puede ser larga. La
-caída de tensión en 24V es severa; si hay corridas largas, el problema es la sección del
-cable de DC (incumbencia del proveedor de iluminación), no el módulo de comando.
+24V son 5,6A, y la caída de tensión en DC es severa en corridas largas. Si el replanteo
+muestra tiradas largas, el problema es la sección del cable de DC (incumbencia del
+proveedor de iluminación), no el módulo de comando.
 
 ### 9.3 Climatización — qué Sensibo según el cerebro
 
@@ -401,13 +499,149 @@ temperatura la leen los Shelly BLU H&T (más barato y local). Hay reportes en HA
 **Air PRO no expone Climate React**, que Sky y Air sí exponen — el modelo más caro no es el
 mejor integrado.
 
-⚠️ **Decisión de Agustín (sep 2026):** en la práctica se cotiza el **id 325 (Air B2B)**,
-porque los proveedores no están trayendo el Sky y no vale el riesgo de faltante de stock
-(regla general en §6). Esto corrige el default "Sensibo Air PRO" que tenía la tabla de
+⚠️ **Decisión de Agustín (sep 2026), caso testigo PY-2026-030:** en la práctica se cotiza
+el **id 325 (Air B2B)**, porque los proveedores no están trayendo el Sky y no vale el
+riesgo de faltante de stock — regla general que prima por encima del criterio técnico de
+arriba, ver §6. Esto corrige el default "Sensibo Air PRO" que tenía la tabla de
 estándares obligatorios de este mismo capítulo.
 
 Nota de precios: el Air B2B (174,74) está a solo USD 5 del Air PRO (180). Si el cliente pide
 específicamente "Air", cotizar directo el PRO.
+
+### 9.4 Seguridad: cableado vs. inalámbrico — mirar la obra, no el equipo
+
+**CORREGIDO 03/09/2026** — si esta skill sugería que el cableado gana por costo, estaba
+mal por incompleto.
+
+En costo de **equipo** el cableado parece ganar por lejos: 27 aberturas dan ~USD 340 en
+cableado contra ~USD 1.593 en inalámbrico. Pero el cableado arrastra mucha más plata de
+**obra**: el cable de cada tirada más lo que cobra el electricista por canalizar y pasar
+todas esas corridas. En el total de obra NO compensa.
+
+**Criterio real de Nova Domus:** se recomienda **inalámbrico por defecto** — menos obra, y
+hoy los inalámbricos tienen cada vez más funciones. Se cotiza cableado únicamente donde el
+**plano lo especifica**, porque el plano prevalece sobre nuestra sugerencia; donde el
+plano no dice nada, va inalámbrico.
+
+Cómo se le explica al cliente: cotizamos lo que pide el plano, y si el estudio acepta
+revisarlo, el inalámbrico probablemente baje el costo total de obra — no el nuestro, el
+de ellos.
+
+### 9.5 Lectura de planos — identificación de sensores y conflicto plano vs. planilla
+
+**"Sensor barrera":** en planos de señales débiles de estudios de arquitectura de
+Córdoba, la etiqueta "sensor barrera" con un cuadrado sobre el muro en cada abertura
+significa detector tipo **cortina** (PIR de haz plano que cubre el plano del vano),
+**no** contacto magnético. Se especifica cuando la carpintería es de vidrio grande o
+corrediza.
+
+| SKU | Tipo | Precio aprox. |
+|---|---|---|
+| DS-PDC15-EG2 | cortina, cableado, 15m | ~USD 12,60 |
+| DS-PDC10AM-EG2-WB | inalámbrico IP65 | ~USD 59 |
+| DS-PDC10DM-EG2-WB | inalámbrico doble tecnología | ~USD 68 |
+
+La etiqueta **"S.V."** con caja 5x5 a h:7cm de cielorraso es un PIR volumétrico de techo.
+
+Central híbrida recomendada: **DS-PWA96-M2H-WB** (16 zonas cableadas en placa + 80
+inalámbricas + 4G, ~USD 318) — en la práctica más barata que DS-PHA64-LP + 4 expansores y
+además trae 4G.
+
+⚠️ Verificar stock real con el proveedor antes de blindar cualquier SKU de esta familia
+(mismo criterio de §6).
+
+**Conflicto plano vs. planilla:** cuando el legajo tiene planos de iluminación Y una
+planilla de luminarias que no cierran entre sí, la fuente de verdad para el BOM es
+**siempre el plano**. Las discrepancias se listan en un PDF de consultas al estudio,
+preguntando explícitamente qué documento prevalece, pero no bloquean el presupuesto.
+
+Corolario: para nuestro BOM el modelo de luminaria no importa; importa el efecto a
+comandar y si es dimerizable o no. Un código de catálogo faltante no impide cotizar el
+Shelly, solo deja sin definir si va relé o dimmer. Criterio por defecto: todo efecto sin
+especificación de control se cotiza como **switch (1PM Mini Gen4)** y queda flaggeado; el
+ajuste posterior es de ~USD 30 por punto, no un replanteo de rubro.
+
+### 9.6 Kits de sensores Shelly — composición real y alcance acotado
+
+**CORREGIDO 03/09/2026** — si esta skill decía que los dos kits traen 3+3, estaba mal:
+
+| Kit | Inventario | Composición |
+|---|---|---|
+| Kit de Seguridad Shelly | id 360, ~USD 121,36 | 3 movimiento + 3 puerta |
+| Kit XL | id 361, ~USD 163,83 | 5 movimiento + 5 puerta |
+| BLU Motion (suelto) | id 374, ~USD 25,87 | — |
+| BLU Door Window (suelto) | id 373, ~USD 21,73 | — |
+
+**Método:** nunca cotizar un kit por ambiente. Contar la necesidad real de cada tipo y
+recién ahí resolver la combinación más barata de kits + sueltos. Contra comprar suelto,
+el XL ahorra ~USD 74 (163,83 contra 238,00) y el común solo ~USD 21 (121,36 contra
+142,80): el XL es casi siempre la mejor compra, arrancar por ahí.
+
+Caso testigo PY-2026-030 (14 movimiento + 9 puerta): 2 XL + 4 BLU Motion = USD 431,14,
+contra USD 462 de 1 XL + 1 común + sueltos, USD 475 de 2 XL + 1 común, y USD 484 de 1 XL +
+todo suelto. Bonus: cuando los kits dejan un sensor de sobra, ese sobrante ya cubre el 10%
+de repuesto.
+
+**Alcance acotado** de la automatización por sensores: va **solo** en baños/toilettes,
+lavaderos, pasillos/pasos, cajas de escalera, hall de ingreso y cochera si está cubierta.
+**No** en dormitorios, estar, comedor, cocina ni oficinas — no es necesario y encarece sin
+aportar. Conteo: movimiento + puerta en ambientes cerrados; solo movimiento en
+circulaciones abiertas.
+
+**MO:** en obra (PY) los sensores **no** llevan MO de instalación, se pegan y nada más; sí
+entran en la base del % de programación. MO-DOM-SENS (USD 27,82) es exclusivo de
+Presupuestos Comerciales de compra suelta.
+
+### 9.7 Redes: Omada vs. mesh doméstico (Deco)
+
+Cuando el cliente propone usar un mesh doméstico que ya tiene, la respuesta **no** es "no
+sirve": es compatible y funciona, y Nova Domus ha usado Deco en viviendas ya habitadas
+donde no se podía llevar cable. Para una casa **en obra** se mantiene la recomendación de
+Omada, con estos argumentos concretos y verificables, en orden de fuerza:
+
+1. **Supervivencia a cortes de luz** — el más fuerte. Los EAP de Omada se alimentan por
+   PoE desde el switch, y el switch está sobre el UPS: en un corte, toda la red WiFi sigue
+   de pie junto con cámaras y grabador. Cada unidad Deco necesita su propio toma de 220V
+   en su ubicación, sobre los circuitos de la casa: en un corte se apaga todo el WiFi
+   salvo, como máximo, la unidad enchufada al rack.
+2. **Tomas.** PoE significa un tomacorriente menos por punto de AP que pedirle al
+   electricista.
+3. **Backhaul y hormigón.** El Deco XE75 usa la banda de 6GHz como enlace entre unidades,
+   y a mayor frecuencia peor penetración: en varios niveles con losa de hormigón la malla
+   por aire rinde poco. Con backhaul por Ethernet anda bien, pero eso exige el mismo
+   cableado UTP que ya se especificó, así que la ventaja de "no cablear" desaparece.
+4. **Segmentación.** Omada separa por VLAN el tráfico de domótica y seguridad del de
+   invitados desde un solo controlador; el mesh doméstico no.
+5. El switch PoE se necesita igual para las cámaras: el Deco no da PoE.
+
+**Nomenclatura a corregir con cuidado:** "EX75" no existe. Existe el **Deco XE75**
+(sistema mesh tri-banda AXE5400, 3 puertos Gigabit por unidad, modo router o AP, backhaul
+Ethernet opcional) y el **Archer AXE75 / AX75** (routers sueltos). Si el cliente dice
+"mesh" y "los tengo" en plural, son Deco XE75.
+
+### 9.8 Starlink: dos cosas a prever siempre
+
+1. Starlink trabaja con **IP compartida (CGNAT)**: no se puede abrir un puerto hacia
+   afuera. El acceso remoto al sistema se resuelve por túnel o servicio de acceso remoto
+   (gratis o muy barato), pero hay que preverlo y decírselo al cliente de entrada. Con
+   fibra de la calle no pasa.
+2. El cable de Starlink es propietario y su conector es grueso: el corrugado tiene que ser
+   generoso, con 3/4" no entra.
+
+Para fibra de calle: corrugado con las menos curvas posibles y tanza guía, para que el
+instalador de internet pase su propia fibra.
+
+### 9.9 Cuánto del sistema depende realmente del WiFi
+
+No sobrestimar el "casi nada depende del WiFi". Cuenta real de PY-2026-030: 35 módulos
+Gen4 sobre Zigbee (malla propia, independiente del WiFi) contra 20 sobre WiFi — 11
+módulos de tira de la línea Plus/Pro (§9.2, que NO son Zigbee), más 6 Sensibo y la
+pantalla. Los sensores BLU van por Bluetooth con gateway y la alarma tiene radio propia;
+cámaras y grabador son cableados. O sea ~60-65% Zigbee, no 80%.
+
+Y los módulos de tira son WiFi **y** van en el tablero, que es justo donde la cobertura es
+peor: es un argumento **a favor** de la red profesional (§9.7), no en contra. Decir el
+número real es más creíble que exagerar.
 
 ---
 
@@ -492,7 +726,7 @@ específicamente "Air", cotizar directo el PRO.
 
 | # | Problema | Estado / Resolución |
 |---|----------|---------------------|
-| 1 | EZVIZ — remarque desactualizado con TC actual (~$1.498) | Pendiente. Mientras tanto: máximo descuento posible manteniendo 20% margen. |
+| 1 | EZVIZ — remarque desactualizado con TC actual (~$1.498) | Pendiente. **Corregido 03/09/2026:** no forzar siempre el máximo descuento — aplicar las reglas B2B normales (§3.4/§3.9): objetivo 25% de descuento, piso 20% de margen **sobre venta** (`precio_sin_iva × (1+iva) / 0.80`), igual que cualquier otra marca. |
 | 2 | tipo_linea en DB solo acepta `'DISPOSITIVO'` o `'SERVICIO'` (uppercase) | Confirmado. Rechaza `'MO'`, `'MANO_DE_OBRA'`, lowercase. |
 | 3 | Campos numéricos en líneas SERVICIO | Usar `0` (no NULL) para todos los campos de precio/costo. |
 | 4 | cotizaciones — columna `updated_at` ✓ / `fecha_actualizacion` ✗ (no existe) | Confirmado. |
