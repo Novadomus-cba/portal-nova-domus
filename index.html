@@ -170,6 +170,25 @@
       gap: 16px;
     }
 
+    .module-group {
+      margin-bottom: 32px;
+    }
+
+    .module-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .module-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
     .module-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -606,7 +625,7 @@
 
   <div id="modulesView">
     <div class="modules-label">Módulos disponibles</div>
-    <div class="modules-grid" id="modulesGrid"></div>
+    <div id="modulesGrid"></div>
 
     <div class="no-access" id="noAccess">
       No tenés módulos asignados. Contactá a Agustín.
@@ -632,12 +651,22 @@
   // Definición de módulos: qué roles tienen acceso a cada uno
   const ALL_MODULES = [
     {
+      id: 'comercial',
+      name: 'Comercial',
+      icon: '📋',
+      desc: 'Proyectos, presupuestos, inventario y cotizaciones.',
+      url: 'comercial/index.html',
+      roles: ['admin', 'comercial'],
+      group: 'sales',
+    },
+    {
       id: 'cuadrilla',
       name: 'Cuadrilla',
       icon: '👷',
       desc: 'Registro de jornales, asistencia y liquidación del equipo de obra.',
       url: 'cuadrilla/index.html',
       roles: ['admin', 'supervisor', 'comercial'],
+      group: 'operations',
     },
     {
       id: 'obras',
@@ -646,6 +675,7 @@
       desc: 'Certificados, tarifarios, materiales y seguimiento de obras.',
       url: 'obras/index.html',
       roles: ['admin', 'supervisor'],
+      group: 'operations',
     },
     {
       id: 'plano-instalacion',
@@ -654,14 +684,7 @@
       desc: 'Plano de instalación e integración y planos de obra por proyecto, desde la aceptación en adelante.',
       url: 'plano-instalacion/index.html',
       roles: ['admin', 'supervisor', 'programacion'],
-    },
-    {
-      id: 'comercial',
-      name: 'Comercial',
-      icon: '📋',
-      desc: 'Proyectos, presupuestos, inventario y cotizaciones.',
-      url: 'comercial/index.html',
-      roles: ['admin', 'comercial'],
+      group: 'operations',
     },
     {
       id: 'galeria',
@@ -670,30 +693,7 @@
       desc: 'Fotos de obras, productos y marcas para presupuestos y certificados.',
       url: 'galeria/index.html',
       roles: ['admin', 'supervisor', 'comercial'],
-    },
-    {
-      id: 'liquidacion',
-      name: 'Liquidación',
-      icon: '💰',
-      desc: 'Liquidación de haberes y resumen financiero del equipo.',
-      url: 'liquidacion/index.html',
-      roles: ['admin', 'supervisor', 'comercial'],
-    },
-    {
-      id: 'rentabilidad',
-      name: 'Rentabilidad y Liquidez',
-      icon: '📊',
-      desc: 'Semáforo de margen MO y de liquidez real (cobrado vs. costo cuadrilla) por obra activa.',
-      url: 'gerencial/index.html',
-      roles: ['admin', 'supervisor'],
-    },
-    {
-      id: 'icc',
-      name: 'Ajuste ICC / TC',
-      icon: '📈',
-      desc: 'Ajuste mensual de precios por índice de costos de construcción o tipo de cambio.',
-      url: 'icc.html',
-      roles: ['admin', 'supervisor'],
+      group: 'operations',
     },
     {
       id: 'facturas',
@@ -702,6 +702,34 @@
       desc: 'Carga y seguimiento de facturas de materiales por obra.',
       url: 'obras/facturas.html',
       roles: ['admin', 'supervisor', 'comercial', 'contable'],
+      group: 'operations',
+    },
+    {
+      id: 'liquidacion',
+      name: 'Liquidación',
+      icon: '💰',
+      desc: 'Liquidación de haberes y resumen financiero del equipo.',
+      url: 'liquidacion/index.html',
+      roles: ['admin', 'supervisor', 'comercial'],
+      group: 'finance',
+    },
+    {
+      id: 'rentabilidad',
+      name: 'Rentabilidad y Liquidez',
+      icon: '📊',
+      desc: 'Semáforo de margen MO y de liquidez real (cobrado vs. costo cuadrilla) por obra activa.',
+      url: 'gerencial/index.html',
+      roles: ['admin', 'supervisor'],
+      group: 'finance',
+    },
+    {
+      id: 'icc',
+      name: 'Ajuste ICC / TC',
+      icon: '📈',
+      desc: 'Ajuste mensual de precios por índice de costos de construcción o tipo de cambio.',
+      url: 'icc.html',
+      roles: ['admin', 'supervisor'],
+      group: 'finance',
     },
     {
       id: 'contable',
@@ -710,6 +738,7 @@
       desc: 'Egresos generales, planes de pago, cheques y reportes contables.',
       url: 'contable.html',
       roles: ['admin', 'contable'],
+      group: 'finance',
     },
     {
       id: 'gerencial',
@@ -718,7 +747,15 @@
       desc: 'Dashboard gerencial de ingresos y egresos por período.',
       url: 'gerencial/',
       roles: ['admin', 'contable'],
+      group: 'finance',
     },
+  ];
+
+  // Un módulo nuevo sin campo `group` no entra en ningún grupo y no se renderiza.
+  const MODULE_GROUPS = [
+    { id: 'sales', label: 'Comercial' },
+    { id: 'operations', label: 'Obra y Campo' },
+    { id: 'finance', label: 'Gerencial y Finanzas' },
   ];
 
   const ROLE_LABELS = {
@@ -765,17 +802,36 @@
     if (visibleModules.length === 0) {
       document.getElementById('noAccess').style.display = 'block';
     } else {
-      visibleModules.forEach(mod => {
-        const card = document.createElement('a');
-        card.href = mod.url;
-        card.className = 'module-card';
-        card.innerHTML = `
-          <span class="module-icon">${mod.icon}</span>
-          <div class="module-name">${mod.name}</div>
-          <div class="module-desc">${mod.desc}</div>
-          <span class="module-arrow">→</span>
-        `;
-        grid.appendChild(card);
+      MODULE_GROUPS.forEach(group => {
+        const groupModules = visibleModules.filter(m => m.group === group.id);
+        if (groupModules.length === 0) return; // rol sin módulos de este grupo: no se pinta ni el título
+
+        const section = document.createElement('div');
+        section.className = 'module-group';
+
+        const title = document.createElement('div');
+        title.className = 'module-group-title';
+        title.textContent = group.label;
+        section.appendChild(title);
+
+        const groupGrid = document.createElement('div');
+        groupGrid.className = 'modules-grid';
+
+        groupModules.forEach(mod => {
+          const card = document.createElement('a');
+          card.href = mod.url;
+          card.className = 'module-card';
+          card.innerHTML = `
+            <span class="module-icon">${mod.icon}</span>
+            <div class="module-name">${mod.name}</div>
+            <div class="module-desc">${mod.desc}</div>
+            <span class="module-arrow">→</span>
+          `;
+          groupGrid.appendChild(card);
+        });
+
+        section.appendChild(groupGrid);
+        grid.appendChild(section);
       });
     }
 
