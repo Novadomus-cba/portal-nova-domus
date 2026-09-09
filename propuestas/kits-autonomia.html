@@ -5,7 +5,6 @@
 <meta property="og:title" content="Kits de Autonomía y Seguridad en el Hogar — Nova Domus">
 <meta property="og:description" content="Dos kits de apoyo tecnológico para personas con discapacidad: control por voz, botón SOS, alarma inalámbrica y luces automáticas. Instalado, programado y con capacitación incluida.">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/kits-autonomia.html">
-<meta name="py-codigo" content="PY-2026-020">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/kits-autonomia.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -118,15 +117,6 @@ table.cmp td.bad{color:var(--grey)}
 .mini-room .lamp{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:#2a2f45;transition:all .8s}
 .mini-room.lit .lamp{background:#ffd996;box-shadow:0 0 26px 10px rgba(255,214,150,.65)}
 .mini-room .room-label{position:absolute;bottom:8px;left:12px;font-size:11px;color:var(--grey);letter-spacing:1px}
-/* dimmer */
-.scene{height:170px;border-radius:14px;position:relative;overflow:hidden;border:1px solid rgba(120,122,145,.25);background:#060a18}
-.scene .glow{position:absolute;inset:0;transition:opacity .2s;background:radial-gradient(ellipse at 50% 15%, var(--scene-c,#ffd9a0) 0%, transparent 70%)}
-.scene .furn{position:absolute;bottom:0;left:0;right:0;height:44px;background:linear-gradient(transparent, rgba(0,0,0,.55))}
-.scene .sofa{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:120px;height:26px;border-radius:8px 8px 4px 4px;background:#1b2340;border:1px solid rgba(120,122,145,.35)}
-.sliders{display:grid;gap:18px;margin-top:20px}
-.sl-row label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--grey);margin-bottom:8px;letter-spacing:.5px}
-.sl-row label b{color:var(--gold);font-weight:600}
-input[type=range]{width:100%;height:44px;accent-color:#C8A96E;background:transparent}
 /* comparativa */
 .vs{display:grid;gap:0;margin-top:26px;border-radius:16px;overflow:hidden;border:1px solid rgba(120,122,145,.3)}
 .vs-btns{display:grid;grid-template-columns:1fr 1fr}
@@ -172,26 +162,6 @@ input[type=range]{width:100%;height:44px;accent-color:#C8A96E;background:transpa
 .section-light h2,.section-light h3{color:var(--navy)}
 .section-light .eyebrow{color:var(--navy);opacity:.65}
 .section-light .lead{color:#5d6078}
-.inv-kit{border:1px solid rgba(20,30,97,.2);border-radius:16px;background:#fff;margin-top:22px;overflow:hidden}
-.inv-head{display:flex;align-items:center;gap:14px;padding:18px 20px;flex-wrap:wrap}
-.inv-head h3{font-size:17px;flex:1;min-width:180px}
-.qty{display:flex;align-items:center;gap:0;border:1px solid rgba(20,30,97,.3);border-radius:10px;overflow:hidden}
-.qty button{width:46px;height:46px;font-size:20px;color:var(--navy);font-weight:600}
-.qty button:hover{background:rgba(20,30,97,.06)}
-.qty .qv{width:52px;text-align:center;font-weight:700;font-size:17px;color:var(--navy)}
-.inv-sub{padding:0 20px 6px;font-size:13px;color:#5d6078}
-.inv-sub b{color:var(--navy)}
-.acc-toggle{width:100%;text-align:left;padding:13px 20px;font-size:13px;font-weight:600;color:var(--navy);border-top:1px solid rgba(20,30,97,.12);display:flex;justify-content:space-between;align-items:center;min-height:48px}
-.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
-table.det{width:100%;border-collapse:collapse;font-size:13px}
-table.det th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#5d6078;text-align:left;padding:8px 20px;border-bottom:1px solid rgba(20,30,97,.12)}
-table.det td{padding:9px 20px;border-bottom:1px solid rgba(20,30,97,.08);color:#3a3d4a;vertical-align:top}
-table.det td.r,table.det th.r{text-align:right;white-space:nowrap}
-table.det tr.tot td{font-weight:700;color:var(--navy)}
-.checkbox-card{display:flex;gap:12px;align-items:flex-start;border:1px dashed rgba(20,30,97,.35);border-radius:12px;padding:14px 16px;margin:14px 20px 18px;cursor:pointer}
-.checkbox-card input{width:20px;height:20px;margin-top:2px;accent-color:var(--navy)}
-.checkbox-card .cc-t{font-size:13.5px;color:#3a3d4a}
-.checkbox-card .cc-t b{color:var(--navy)}
 .bar{display:flex;height:16px;border-radius:8px;overflow:hidden;margin:26px 0 8px;border:1px solid rgba(20,30,97,.2)}
 .bar div{transition:width .4s}
 .bar .b-eq{background:var(--navy)}
@@ -250,6 +220,30 @@ footer .prom{color:#EDEAE0;margin-top:8px}
   .pay,.demo,.device-card,.stat,.pillar,.faq-item{background:#fff!important;border-color:#999!important}
   *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
 }
+
+/* v3: catalogo + combo */
+.specs{list-style:none;margin-top:12px;border-top:1px solid rgba(120,122,145,.25);padding-top:10px;display:grid;gap:5px}
+.specs li{font-size:12.5px;color:#EDEAE0}
+.specs li b{color:var(--gold);font-weight:600}
+.dc-photo-wrap.pend{color:#5d6078;font-size:12px;letter-spacing:.5px;background:repeating-linear-gradient(45deg,#f4f2e8,#f4f2e8 12px,#eceade 12px,#eceade 24px)}
+.presets{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:24px 0}
+.preset{border:1px solid rgba(20,30,97,.35);border-radius:12px;padding:13px 12px;text-align:left;min-height:60px;background:#fff}
+.preset b{display:block;color:var(--navy);font-size:13.5px}
+.preset span{font-size:12px;color:#5d6078}
+.preset.sel{background:var(--navy);border-color:var(--navy)}
+.preset.sel b{color:var(--cream)}.preset.sel span{color:#c9cbe0}
+.preset.vaciar{border-style:dashed}
+.cb-list{display:grid;gap:10px;margin-top:8px}
+.cb-row{display:flex;gap:14px;align-items:center;border:1px solid rgba(20,30,97,.2);border-radius:14px;background:#fff;padding:12px 14px;transition:border-color .2s, box-shadow .2s}
+.cb-row.picked{border-color:var(--navy);box-shadow:0 2px 10px rgba(20,30,97,.12)}
+.cb-thumb{width:54px;height:54px;flex:0 0 auto;object-fit:contain;background:#fff;border:1px solid rgba(20,30,97,.12);border-radius:10px;padding:4px}
+.cb-thumb.pend-mini{background:repeating-linear-gradient(45deg,#f4f2e8,#f4f2e8 8px,#eceade 8px,#eceade 16px)}
+.cb-mid{flex:1;min-width:0}
+.cb-name{font-weight:600;font-size:14px;color:var(--navy)}
+.cb-desc{font-size:12.5px;color:#5d6078;margin-top:2px}
+.cb-price{font-size:12.5px;color:var(--navy);font-weight:600;margin-top:4px}
+.cb-mo{font-weight:500;color:#5d6078;margin-left:6px}
+@media(max-width:560px){.cb-row{flex-wrap:wrap}.cb-mid{min-width:60%}.cb-row .qty{margin-left:auto}}
 </style>
 </head>
 <body>
@@ -319,9 +313,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 </svg><span class="wm">NOVA DOMUS</span></div>
     <div class="nav-links">
       <a href="#resumen">Resumen</a>
-      <a href="#kit1">Kit Autonomía</a>
-      <a href="#kit2">Kit Seguridad</a>
-      <a href="#inversion">Inversión</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#combo">Armá tu combo</a>
       <a href="#faq">FAQ</a>
     </div>
   </div>
@@ -419,18 +412,18 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   <div class="wrap">
     <span class="eyebrow">Resumen ejecutivo · 60 segundos</span>
     <h2>Qué proponemos</h2>
-    <p class="lead">Dos kits estandarizados de apoyo tecnológico para viviendas de personas con discapacidad, priorizando dispositivos IoT portátiles y de colocación simple, con instalación, programación y capacitación al usuario incluidas.</p>
+    <p class="lead">Un catálogo de 8 dispositivos de apoyo tecnológico para viviendas de personas con discapacidad — priorizando equipos portátiles, de colocación simple y aptos para instalaciones eléctricas existentes — y un armador de combo para configurar cada vivienda a medida, con instalación, programación y capacitación incluidas.</p>
     <div class="grid3">
-      <div class="stat"><div class="figure"><span class="count" data-to="504">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Kit Autonomía Personal — equipado, instalado y programado</div></div>
-      <div class="stat"><div class="figure"><span class="count" data-to="359">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Kit Seguridad en el Hogar — equipado, instalado y programado</div></div>
-      <div class="stat"><div class="figure"><span class="count" data-to="833">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Kit Completo — ambos kits juntos, con instalación única (ahorro de USD 30)</div></div>
+      <div class="stat"><div class="figure"><span class="count" data-to="640">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Combo sugerido Autonomía — voz, luces y control de artefactos, instalado</div></div>
+      <div class="stat"><div class="figure"><span class="count" data-to="458">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Combo sugerido Seguridad — alarma, sensor nocturno y una luz, instalado</div></div>
+      <div class="stat"><div class="figure"><span class="count" data-to="1058">0</span> <small style="font-size:14px">USD</small></div><div class="fl">Combo Completo — todo junto, pagando una sola puesta en marcha</div></div>
       <div class="stat"><div class="figure"><span class="count" data-to="12">0</span> <small style="font-size:14px">MESES</small></div><div class="fl">Garantía sobre todo lo instalado, con soporte de equipo propio</div></div>
     </div>
     <ul class="exec-steps">
       <li><span class="dot">1</span><span><b>La necesidad:</b> herramientas de uso cotidiano que estructuren la rutina, simplifiquen el manejo del hogar y prevengan situaciones de peligro — priorizando insumos que sirvan a distintas personas y no requieran colocación compleja.</span></li>
-      <li><span class="dot">2</span><span><b>La propuesta:</b> Kit Autonomía Personal (voz + luces + control de artefactos) y Kit Seguridad en el Hogar (alarma + botón SOS + luz nocturna automática). Cada kit se entrega funcionando, no en cajas.</span></li>
+      <li><span class="dot">2</span><span><b>La propuesta:</b> un catálogo de 8 dispositivos — asistente de voz, luces inteligentes sin obra, control de artefactos, botón SOS, sensor nocturno y alarma profesional — que la Dirección combina por vivienda con el armador de combo. Tres combos sugeridos de un toque para arrancar.</span></li>
       <li><span class="dot">3</span><span><b>El diferencial:</b> un solo responsable provee, instala, programa, capacita al usuario y responde por garantía durante 12 meses.</span></li>
-      <li><span class="dot">4</span><span><b>Próximo paso:</b> definir cantidades por kit en la sección Inversión de esta misma propuesta y confirmar por WhatsApp desde el botón final.</span></li>
+      <li><span class="dot">4</span><span><b>Próximo paso:</b> armar el combo en la sección "Armá tu combo" — las cantidades ajustan el equipo y la instalación al instante — y confirmar por WhatsApp desde el botón final.</span></li>
     </ul>
   </div>
 </section>
@@ -445,7 +438,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <div class="pillar">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></div>
         <h3>IoT primero, obra después</h3>
-        <p style="font-size:13.5px;margin-top:8px">Bombillas que se enroscan, sensores a pilas, botones que se apoyan donde haga falta. Lo único que requiere electricista son los módulos de control de artefactos — y lo hace nuestro propio equipo.</p>
+        <p style="font-size:13.5px;margin-top:8px">Módulos que se esconden detrás de la llave de siempre — elegidos para funcionar sin cable neutro, como son las instalaciones existentes —, sensores a batería y botones que se apoyan donde haga falta. Todo lo instala y programa nuestro propio equipo.</p>
       </div>
       <div class="pillar">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></div>
@@ -485,74 +478,58 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   </div>
 </section>
 
-<!-- KIT 1 -->
-<section id="kit1">
+<!-- CATALOGO -->
+<section id="catalogo">
   <div class="wrap">
-    <div class="kit-head"><span class="kit-num">01</span><div><span class="eyebrow" style="margin-bottom:4px">Kit</span><h2>Autonomía Personal</h2></div></div>
-    <p class="lead">Asistente de voz para estructurar la rutina, luces que se comandan hablando, control inteligente de los artefactos del hogar y un botón SOS portátil de un solo gesto. Y una base ya instalada para crecer a domótica completa el día de mañana.</p>
+    <div class="kit-head"><span class="kit-num">01</span><div><span class="eyebrow" style="margin-bottom:4px">Catálogo</span><h2>Los 8 dispositivos, en detalle</h2></div></div>
+    <p class="lead">Tocá cada dispositivo para ver su foto, qué hace en el día a día y sus características técnicas. Más abajo, en "Armá tu combo", los mismos 8 aparecen en versión corta para elegir cantidades.</p>
 
     <div class="device-list">
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12a4 4 0 0 1 8 0"/><path d="M6 15.5a7 7 0 0 0 12 0"/></svg></span>
-          <span class="dc-name">Amazon Echo Dot — asistente de voz Alexa</span>
-          <span class="dc-qty">× 1</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/amazon/ECHO-DOT-4.jpg" alt="Amazon Echo Dot 4ª Gen"></div>
-          Se le habla y responde: enciende y apaga luces y artefactos, crea recordatorios hablados (medicación, turnos, comidas), organiza rutinas por horario y reproduce música o radio.
-          <p class="why">Por qué está en el kit: es la interfaz universal — no requiere motricidad fina ni saber usar un celular. Toda la vivienda se comanda con la voz.</p>
-        </div></div>
-      </div>
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.5-1 2.5h-6c0-1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/></svg></span>
-          <span class="dc-name">Bombillas inteligentes WiZ — luz blanca regulable</span>
-          <span class="dc-qty">× 4</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/wiz/WIZA608WTWP.jpg" alt="Bombilla inteligente WiZ E27"></div>
-          Se enroscan en el portalámpara existente, sin obra. Se comandan por voz o desde la app: encendido, apagado, intensidad y tono de luz (cálida para descansar, fría para actividades). Horarios automáticos por rutina.
-          <p class="why">Por qué está en el kit: cuatro ambientes clave de la vivienda (dormitorio, comedor, baño, ingreso) quedan controlables sin tocar una llave.</p>
-        </div></div>
-      </div>
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2"/></svg></span>
-          <span class="dc-name">Shelly Plus 2PM Gen4 — control de tomas y circuitos comunes</span>
-          <span class="dc-qty">× 2</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg" alt="Shelly Plus 2PM Gen4"></div>
-          Módulo que se instala dentro de la caja del tomacorriente y convierte en inteligentes dos circuitos comunes: lámparas de pie, ventiladores, la tele. Todo pasa a poder encenderse por voz, por horario o por rutina, y mide el consumo de cada uno.
-          <p class="why">Por qué está en el kit: es la única pieza que requiere instalación — y es la que deja la vivienda preparada para ampliar a domótica completa después, sin rehacer nada.</p>
-        </div></div>
-      </div>
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>
-          <span class="dc-name">Shelly Plus 1PM Gen4 — cargas de alta potencia (16A)</span>
-          <span class="dc-qty">× 2</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717.jpg" alt="Shelly Plus 1PM Gen4"></div>
-          La versión reforzada para los artefactos exigentes: termotanque eléctrico, radiador, aire acondicionado, pava eléctrica, microondas. Permite apagarlos por voz o automáticamente — por ejemplo, cortar el radiador si quedó prendido al salir.
-          <p class="why">Por qué está en el kit: los artefactos de calor son la principal fuente de accidentes domésticos. Poder verificarlos y apagarlos a distancia es seguridad, no solo confort.</p>
-        </div></div>
-      </div>
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span>
-          <span class="dc-name">Shelly Button 1 — botón SOS y de rutinas, portátil</span>
-          <span class="dc-qty">× 1</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266441.png" alt="Shelly Button 1"></div>
-          Un botón físico grande, inalámbrico y recargable, que se lleva en el bolsillo o se apoya en la mesa de luz. Un toque dispara la acción que se programe: pedir ayuda (notificación inmediata a los celulares configurados + todas las luces al 100%), o una rutina cotidiana como apagar toda la casa al acostarse. Funciona de forma independiente del resto del kit.
-          <p class="why">Por qué está en el kit: cuando la voz no alcanza o no sale, la acción tiene que estar a un solo gesto físico — sin desbloquear pantallas ni recordar comandos.</p>
-        </div></div>
-      </div>
-    </div>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12a4 4 0 0 1 8 0"/><path d="M6 15.5a7 7 0 0 0 12 0"/></svg></span><span class="dc-name">Amazon Echo Dot 4ª Gen — asistente de voz Alexa</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/amazon/ECHO-DOT-4.jpg" alt="Amazon Echo Dot 4ª Gen"></div>
+Se le habla y responde: enciende y apaga las luces y artefactos del combo, crea recordatorios hablados (medicación, turnos, comidas), organiza rutinas por horario y reproduce música o radio. Es la interfaz universal de la vivienda: no exige motricidad fina ni saber usar un celular.
+<ul class="specs"><li><b>Conexión:</b> Wi-Fi + Bluetooth</li><li><b>Control:</b> voz, en español</li><li><b>Alimentación:</b> 220 V (se enchufa, sin instalación)</li><li><b>Compatible:</b> módulos Shelly y alarma Hik-Connect</li><li><b>Funciones:</b> rutinas, recordatorios, música, alarmas habladas</li></ul>
+<p class="why">Rol en el combo: el control hablado de todo lo demás. Con uno por vivienda alcanza.</p>
+</div></div>
+</div>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.5-1 2.5h-6c0-1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/></svg></span><span class="dc-name">Shelly Plus 1L — 1 luz inteligente, sin neutro</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap pend">Foto del producto en proceso de carga</div>
+Se instala detrás de la llave de luz existente y esa luz pasa a poder comandarse por voz, por horario o desde la app — y la llave física sigue funcionando exactamente igual que siempre. Está elegido específicamente para instalaciones existentes: funciona <b>sin cable neutro</b> en la caja de la llave, que es la situación típica de las viviendas construidas hace años.
+<ul class="specs"><li><b>Neutro:</b> NO requiere — apto instalación existente</li><li><b>Circuitos:</b> 1 luz</li><li><b>Instalación:</b> detrás de la llave, caja estándar 10×5</li><li><b>La llave física:</b> sigue funcionando siempre</li><li><b>Conexión:</b> Wi-Fi + Bluetooth (puente para sensores BLU)</li><li><b>Alimentación:</b> 110–240 V</li></ul>
+<p class="why">Rol en el combo: una unidad por cada luz que se quiera automatizar (la del dormitorio, el baño, el ingreso). También hace de puente para el sensor BLU Motion.</p>
+</div></div>
+</div>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M8 17h4M8.5 20h3"/><path d="M10 4a5 5 0 0 1 3.3 8.7c-.6.6-.8 1.3-.8 2.3H7.5c0-1-.2-1.7-.8-2.3A5 5 0 0 1 10 4z"/><path d="M17 8h4M17 12h4M17 16h3"/></svg></span><span class="dc-name">Shelly Plus 2L — 2 luces inteligentes, sin neutro</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap pend">Foto del producto en proceso de carga</div>
+La versión doble del anterior: desde una misma caja de llave comanda dos luces independientes. Misma lógica — sin neutro, la llave sigue funcionando, control por voz, horario o app.
+<ul class="specs"><li><b>Neutro:</b> NO requiere — apto instalación existente</li><li><b>Circuitos:</b> 2 luces independientes</li><li><b>Instalación:</b> detrás de la llave, caja estándar 10×5</li><li><b>La llave física:</b> sigue funcionando siempre</li><li><b>Conexión:</b> Wi-Fi + Bluetooth (puente para sensores BLU)</li><li><b>Alimentación:</b> 110–240 V</li></ul>
+<p class="why">Rol en el combo: donde hay llaves dobles (comedor + pasillo, por ejemplo), una unidad resuelve las dos luces y sale menos que dos 1L.</p>
+</div></div>
+</div>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2"/></svg></span><span class="dc-name">Shelly Plus 2PM Gen4 — 2 tomas o circuitos comunes, con medición</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg" alt="Shelly Plus 2PM Gen4"></div>
+Convierte en inteligentes dos circuitos comunes: la lámpara de pie, el ventilador, la tele. Todo pasa a poder encenderse por voz, por horario o por rutina — y además mide el consumo de cada circuito, para detectar un artefacto que quedó prendido.
+<ul class="specs"><li><b>Canales:</b> 2 independientes</li><li><b>Capacidad:</b> hasta 10 A por canal</li><li><b>Medición:</b> consumo en vivo por canal</li><li><b>Neutro:</b> requiere (en tomacorrientes siempre hay)</li><li><b>Conexión:</b> Wi-Fi + Bluetooth + Zigbee</li></ul>
+<p class="why">Rol en el combo: control y monitoreo de los enchufes de uso diario. Se instala en la caja del tomacorriente, donde el neutro siempre está presente.</p>
+</div></div>
+</div>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="dc-name">Shelly Plus 1PM Gen4 — cargas de alta potencia (16 A)</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717.jpg" alt="Shelly Plus 1PM Gen4"></div>
+La versión reforzada para los artefactos exigentes: termotanque eléctrico, radiador, aire acondicionado, pava eléctrica, microondas. Permite verificarlos y apagarlos por voz o automáticamente — por ejemplo, cortar el radiador que quedó prendido al salir de la casa.
+<ul class="specs"><li><b>Canales:</b> 1 reforzado</li><li><b>Capacidad:</b> hasta 16 A</li><li><b>Medición:</b> consumo en vivo</li><li><b>Pensado para:</b> termotanque, aire, pava, microondas, radiador</li><li><b>Conexión:</b> Wi-Fi + Bluetooth + Zigbee</li></ul>
+<p class="why">Rol en el combo: los artefactos de calor son la principal fuente de accidentes domésticos; poder apagarlos a distancia es seguridad, no solo confort.</p>
+</div></div>
+</div>
 
     <!-- DEMO VOZ -->
     <div class="demo">
@@ -564,24 +541,18 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       </div>
       <div class="chat" id="chat"></div>
       <div class="mini-room" id="mini-room"><div class="lamp"></div><span class="room-label">COMEDOR</span></div>
+      <p style="font-size:12.5px;color:var(--grey);margin-top:12px">La luz del comedor es la de siempre — el módulo Plus 1L detrás de la llave es el que obedece.</p>
     </div>
 
-    <!-- DEMO DIMMER -->
-    <div class="demo">
-      <span class="demo-tag">Probalo acá · Así se siente regular la luz</span>
-      <div class="scene" id="scene"><div class="glow" id="glow"></div><div class="furn"></div><div class="sofa"></div></div>
-      <div class="sliders">
-        <div class="sl-row">
-          <label><span>Intensidad</span><b id="briv">70%</b></label>
-          <input type="range" id="bri" min="0" max="100" value="70" aria-label="Intensidad de luz">
-        </div>
-        <div class="sl-row">
-          <label><span>Tono de luz</span><b id="tmpv">Cálida · 3000K</b></label>
-          <input type="range" id="tmp" min="2700" max="6500" value="3000" step="100" aria-label="Temperatura de color">
-        </div>
-      </div>
-      <p style="font-size:12.5px;color:var(--grey);margin-top:14px">Esto mismo se hace por voz (“Alexa, bajá la luz al 30%”) o queda programado por rutina: cálida y baja a la noche, fría y plena a la mañana.</p>
-    </div>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span><span class="dc-name">Shelly Button 1 — botón SOS y de rutinas, portátil</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266441.png" alt="Shelly Button 1"></div>
+Un botón físico grande, inalámbrico y recargable, que se lleva en el bolsillo o se apoya en la mesa de luz. Un toque dispara la acción que se programe: pedir ayuda (notificación inmediata a los celulares configurados + todas las luces al 100%) o una rutina cotidiana, como apagar toda la casa al acostarse.
+<ul class="specs"><li><b>Energía:</b> batería recargable por USB</li><li><b>Portabilidad:</b> bolsillo, mesa de luz o adherido a la pared</li><li><b>Acciones:</b> hasta 4 distintas según la pulsación</li><li><b>Conexión:</b> Wi-Fi</li></ul>
+<p class="why">Rol en el combo: cuando la voz no alcanza o no sale, la acción tiene que estar a un solo gesto físico — sin desbloquear pantallas ni recordar comandos.</p>
+</div></div>
+</div>
 
     <!-- DEMO SOS -->
     <div class="demo">
@@ -596,49 +567,40 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       </div>
     </div>
 
-    <!-- VIDEOS -->
-    <div class="vid" data-yt="idWwXfOrUV8">
-      <img loading="lazy" src="https://i.ytimg.com/vi/idWwXfOrUV8/hqdefault.jpg" alt="Video oficial WiZ">
-      <button class="play"><span class="pb"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vt">Ver video oficial de WiZ (iluminación inteligente)</span></button>
-    </div>
+    <!-- VIDEO SHELLY -->
     <div class="vid" data-yt="3auKyMNMX-s">
       <img loading="lazy" src="https://i.ytimg.com/vi/3auKyMNMX-s/hqdefault.jpg" alt="Video oficial Shelly">
       <button class="play"><span class="pb"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vt">Ver video oficial de Shelly (el ecosistema)</span></button>
     </div>
-  </div>
-</section>
 
-<!-- KIT 2 -->
-<section id="kit2">
-  <div class="wrap">
-    <div class="kit-head"><span class="kit-num">02</span><div><span class="eyebrow" style="margin-bottom:4px">Kit</span><h2>Seguridad en el Hogar</h2></div></div>
-    <p class="lead">Una alarma profesional que avisa al celular de la familia — con botón de pánico en el llavero incluido — y luces que se encienden solas de noche para prevenir caídas.</p>
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 4a6 6 0 0 1 6 6c0 2-1 3.5-2 4.5M12 4a6 6 0 0 0-6 6c0 2 1 3.5 2 4.5M12 4V2"/><circle cx="12" cy="16" r="3"/></svg></span><span class="dc-name">Shelly BLU Motion — sensor de movimiento, luz nocturna automática</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235266700.png" alt="Shelly BLU Motion"></div>
+Sensor a batería que se pega o se apoya donde haga falta — sin obra. Al detectar movimiento de noche enciende automáticamente la luz comandada por un módulo Shelly: el camino al baño queda iluminado sin buscar ninguna llave a oscuras. Mide también el nivel de luz ambiente, así solo actúa cuando está oscuro.
+<ul class="specs"><li><b>Detección:</b> movimiento + nivel de luz ambiente</li><li><b>Energía:</b> batería de larga duración (años, no meses)</li><li><b>Colocación:</b> se pega o apoya, sin obra</li><li><b>Conexión:</b> Bluetooth — requiere un módulo Shelly del combo como puente</li></ul>
+<p class="why">Rol en el combo: las caídas nocturnas son el accidente doméstico más frecuente y el más prevenible. Trabaja en dupla con cualquier módulo Shelly del combo (1L, 2L, 1PM o 2PM), que le hace de puente.</p>
+</div></div>
+</div>
 
-    <div class="device-list">
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></span>
-          <span class="dc-name">Hikvision AXHome — kit de alarma inalámbrica WiFi + 4G</span>
-          <span class="dc-qty">× 1</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201PS-Kit-16WB.jpg" alt="Kit de alarma Hikvision AXHome"></div>
-          La línea residencial de Hikvision, pensada para instalarse sin cablear la vivienda. Ante un evento, avisa al instante al celular de familiares por doble vía: WiFi y chip 4G — si se corta internet, sigue avisando. Con pilas incluidas y batería de respaldo de hasta 12 horas en la central.
-          <p class="why">Por qué está en el kit: seguridad de fabricante profesional (Hikvision es el mayor fabricante de seguridad electrónica del mundo) con la instalación simple que pide el programa. Ver abajo qué trae la caja, pieza por pieza.</p>
-        </div></div>
-      </div>
-      <div class="device-card">
-        <button class="dc-head" aria-expanded="false">
-          <span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 4a6 6 0 0 1 6 6c0 2-1 3.5-2 4.5M12 4a6 6 0 0 0-6 6c0 2 1 3.5 2 4.5M12 4V2"/><path d="M9 18h6M10 21h4"/></svg></span>
-          <span class="dc-name">WiZ Sensor de Movimiento — luz nocturna automática</span>
-          <span class="dc-qty">× 1</span><span class="dc-arrow">▾</span>
-        </button>
-        <div class="dc-body"><div class="dc-body-in">
-          <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/wiz/22672.3.jpg" alt="WiZ Sensor de Movimiento"></div>
-          Sensor inalámbrico a pilas, se apoya o se pega donde haga falta — sin obra. Al detectar movimiento de noche, enciende una luz suave automáticamente: el camino al baño queda iluminado sin buscar ninguna llave a oscuras.
-          <p class="why">Por qué está en el kit: las caídas nocturnas son el accidente doméstico más frecuente y el más prevenible. Trabaja junto a una bombilla WiZ (opcional en este kit, o las del Kit Autonomía si la vivienda recibe ambos).</p>
-        </div></div>
-      </div>
+    <!-- DEMO LUZ NOCTURNA -->
+    <div class="demo">
+      <span class="demo-tag">Probalo acá · La luz nocturna automática</span>
+      <p style="font-size:13.5px">Es la 3 de la mañana. La persona se levanta al baño.</p>
+      <div class="hall" id="hall"><div class="strip"></div><div class="walker"></div><span class="hl">PASILLO · 03:12 AM</span></div>
+      <button id="hall-btn" style="margin-top:16px;border:1px solid var(--gold);color:var(--gold);border-radius:22px;padding:12px 20px;font-size:13px;font-weight:600;min-height:44px">Simular movimiento</button>
+      <p style="font-size:12.5px;color:var(--grey);margin-top:12px">BLU Motion detecta el movimiento → el módulo Shelly enciende la luz existente del pasillo, suave y automática.</p>
+    </div>
+
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></span><span class="dc-name">Kit Hikvision AXHome — alarma inalámbrica Wi-Fi + 4G</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201PS-Kit-16WB.jpg" alt="Kit Hikvision AXHome"></div>
+La línea residencial de Hikvision, pensada para instalarse sin cablear la vivienda. Ante un evento avisa al instante al celular de familiares por doble vía: Wi-Fi y chip 4G — si se corta internet, sigue avisando. Con pilas incluidas y batería de respaldo en la central.
+<ul class="specs"><li><b>Comunicación:</b> Wi-Fi + chip 4G de respaldo</li><li><b>Respaldo:</b> batería en la central, hasta 12 h sin luz</li><li><b>Capacidad:</b> hasta 16 zonas — amplía sensor por sensor</li><li><b>Incluye:</b> central ×1, llavero con botón de pánico ×1, sensor de movimiento ×1, sensor de puerta ×1</li><li><b>Pilas:</b> incluidas en todos los sensores</li></ul>
+<p class="why">Rol en el combo: seguridad de fabricante profesional (Hikvision es el mayor fabricante de seguridad electrónica del mundo) con instalación simple. Abajo, la caja pieza por pieza.</p>
+</div></div>
+</div>
     </div>
 
     <!-- QUE TRAE LA CAJA -->
@@ -666,7 +628,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
           <p style="font-size:13px;margin-top:6px">Contacto magnético para la puerta de ingreso: detecta cada apertura y puede avisar aunque la alarma esté desarmada (modo aviso).</p>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--grey);margin-top:16px"><b style="color:var(--gold)">¿Alcanza con eso?</b> Para una vivienda tipo, sí: queda cubierto el ambiente principal, la puerta de ingreso y el pedido de ayuda desde el llavero. Si el relevamiento de una vivienda puntual indica más ambientes, ventanas o un pulsador SOS adicional, el sistema admite hasta 16 zonas y se amplía sensor por sensor — se cotiza aparte solo lo que haga falta, sin cambiar la central.</p>
+      <p style="font-size:13px;color:var(--grey);margin-top:16px"><b style="color:var(--gold)">¿Alcanza con eso?</b> Para una vivienda tipo, sí: queda cubierto el ambiente principal, la puerta de ingreso y el pedido de ayuda desde el llavero. Si el relevamiento de una vivienda puntual indica más ambientes, ventanas o un pulsador SOS adicional, el sistema admite hasta 16 zonas y se amplía sensor por sensor — se suma al combo solo lo que haga falta, sin cambiar la central.</p>
     </div>
 
     <!-- COMPARATIVA -->
@@ -683,15 +645,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       </div>
     </div>
 
-    <!-- DEMO LUZ NOCTURNA -->
-    <div class="demo">
-      <span class="demo-tag">Probalo acá · La luz nocturna automática</span>
-      <p style="font-size:13.5px">Es la 3 de la mañana. La persona se levanta al baño.</p>
-      <div class="hall" id="hall"><div class="strip"></div><div class="walker"></div><span class="hl">PASILLO · 03:12 AM</span></div>
-      <button id="hall-btn" style="margin-top:16px;border:1px solid var(--gold);color:var(--gold);border-radius:22px;padding:12px 20px;font-size:13px;font-weight:600;min-height:44px">Simular movimiento</button>
-    </div>
-
-    <!-- VIDEO -->
+    <!-- VIDEO AXHOME -->
     <div class="vid" data-yt="2Z0_X2JzHi0">
       <img loading="lazy" src="https://i.ytimg.com/vi/2Z0_X2JzHi0/hqdefault.jpg" alt="Video AXHome Hikvision">
       <button class="play"><span class="pb"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vt">Ver el kit AXHome de Hikvision en acción</span></button>
@@ -699,99 +653,39 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   </div>
 </section>
 
-<!-- INVERSION -->
-<section id="inversion" class="section-light">
+<!-- COMBO -->
+<section id="combo" class="section-light">
   <div class="wrap">
-    <span class="eyebrow">03 · Inversión</span>
-    <h2>Armá la compra</h2>
-    <p class="lead">Elegí cuántas unidades de cada kit necesita el programa. Los totales se recalculan al instante. Cada kit incluye equipos, instalación, programación y capacitación al usuario en la vivienda.</p>
+    <div class="kit-head"><span class="kit-num" style="-webkit-text-stroke-color:var(--navy)">02</span><div><span class="eyebrow" style="margin-bottom:4px">Armá tu combo</span><h2>Elegí dispositivos y cantidades</h2></div></div>
+    <p class="lead">👆 Los mismos 8 del catálogo, en versión corta. Sumá y restá con los botones — el equipo y la instalación se recalculan al instante. O arrancá de un combo sugerido y ajustalo.</p>
 
-    <!-- KIT 1 -->
-    <div class="inv-kit">
-      <div class="inv-head">
-        <h3>Kit 1 · Autonomía Personal</h3>
-        <div class="qty"><button data-k="k1" data-d="-1" aria-label="Quitar un Kit Autonomía">−</button><span class="qv" id="q-k1">1</span><button data-k="k1" data-d="1" aria-label="Agregar un Kit Autonomía">+</button></div>
-      </div>
-      <div class="inv-sub">Equipo <b>USD 354</b> · Instalación y programación <b>USD 150</b> · <b>USD 504 por kit</b></div>
-      <button class="acc-toggle" aria-expanded="false">Ver detalle por dispositivo <span>▾</span></button>
-      <div class="acc-body">
-        <table class="det">
-          <tr><th>Dispositivo</th><th class="r">Precio unitario</th><th class="r">Cant.</th><th class="r">Total</th></tr>
-          <tr><td>Amazon Echo Dot 4ª Gen — asistente de voz Alexa</td><td class="r">U$D 99 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 99</td></tr>
-          <tr><td>WiZ Bombilla E27 8W — blanca regulable Wi-Fi</td><td class="r">U$D 12 · IVA 10,5% inc.</td><td class="r">4</td><td class="r">U$D 48</td></tr>
-          <tr><td>Shelly Plus 2PM Gen4 — control de 2 circuitos comunes</td><td class="r">U$D 52 · IVA 21% inc.</td><td class="r">2</td><td class="r">U$D 104</td></tr>
-          <tr><td>Shelly Plus 1PM Gen4 — cargas de alta potencia 16A</td><td class="r">U$D 37 · IVA 21% inc.</td><td class="r">2</td><td class="r">U$D 74</td></tr>
-          <tr><td>Shelly Button 1 — botón SOS y de rutinas, portátil</td><td class="r">U$D 29 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 29</td></tr>
-          <tr class="tot"><td>Subtotal equipo</td><td class="r"></td><td class="r"></td><td class="r">U$D 354</td></tr>
-          <tr><td>Instalación y programación del kit — ciudad de Córdoba</td><td class="r"></td><td class="r"></td><td class="r">U$D 150</td></tr>
-          <tr class="tot"><td>Total por kit</td><td class="r"></td><td class="r"></td><td class="r">U$D 504</td></tr>
-        </table>
-      </div>
+    <div class="presets">
+      <button class="preset" data-p="autonomia"><b>Combo Autonomía</b><span>U$D 640 instalado</span></button>
+      <button class="preset" data-p="seguridad"><b>Combo Seguridad</b><span>U$D 458 instalado</span></button>
+      <button class="preset" data-p="completo"><b>Combo Completo</b><span>U$D 1.058 instalado</span></button>
+      <button class="preset vaciar" data-p="vaciar"><b>Vaciar</b><span>arrancar de cero</span></button>
     </div>
 
-    <!-- KIT 2 -->
-    <div class="inv-kit">
-      <div class="inv-head">
-        <h3>Kit 2 · Seguridad en el Hogar</h3>
-        <div class="qty"><button data-k="k2" data-d="-1" aria-label="Quitar un Kit Seguridad">−</button><span class="qv" id="q-k2">1</span><button data-k="k2" data-d="1" aria-label="Agregar un Kit Seguridad">+</button></div>
-      </div>
-      <div class="inv-sub">Equipo <b id="k2-eq-lbl">USD 279</b> · Instalación y programación <b>USD 80</b> · <b id="k2-tot-lbl">USD 359 por kit</b></div>
-      <label class="checkbox-card"><input type="checkbox" id="opc-bombilla">
-        <span class="cc-t"><b>Opcional recomendado: + 1 bombilla WiZ (U$D 12 por kit).</b> El sensor de movimiento enciende bombillas WiZ. Si la vivienda recibe también el Kit Autonomía, ya las tiene y no hace falta. Si este kit va solo, esta bombilla lo hace autosuficiente para la luz nocturna.</span>
-      </label>
-      <button class="acc-toggle" aria-expanded="false">Ver detalle por dispositivo <span>▾</span></button>
-      <div class="acc-body">
-        <table class="det">
-          <tr><th>Dispositivo</th><th class="r">Precio unitario</th><th class="r">Cant.</th><th class="r">Total</th></tr>
-          <tr><td>Hikvision AXHome DS-PA201PS-Kit-16WB — kit alarma inalámbrica WiFi + 4G (incluye: central ×1, llavero con botón de pánico ×1, sensor de movimiento ×1, sensor de puerta ×1)</td><td class="r">U$D 255 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 255</td></tr>
-          <tr><td>WiZ Sensor de Movimiento inalámbrico</td><td class="r">U$D 24 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 24</td></tr>
-          <tr id="row-bombilla" style="display:none"><td>WiZ Bombilla E27 8W — para la luz nocturna (opcional)</td><td class="r">U$D 12 · IVA 10,5% inc.</td><td class="r">1</td><td class="r">U$D 12</td></tr>
-          <tr class="tot"><td>Subtotal equipo</td><td class="r"></td><td class="r"></td><td class="r" id="k2-sub">U$D 279</td></tr>
-          <tr><td>Instalación y programación del kit — ciudad de Córdoba</td><td class="r"></td><td class="r"></td><td class="r">U$D 80</td></tr>
-          <tr class="tot"><td>Total por kit</td><td class="r"></td><td class="r"></td><td class="r" id="k2-tot">U$D 359</td></tr>
-        </table>
-      </div>
+    <div class="cb-list" id="combo-list">
+<div class="cb-row" id="row-echo"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/amazon/ECHO-DOT-4.jpg" alt="Echo Dot"><div class="cb-mid"><div class="cb-name">Amazon Echo Dot 4ª Gen</div><div class="cb-desc">El asistente de voz — control hablado de todo el combo</div><div class="cb-price">U$D 99 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="echo" data-d="-1" aria-label="Quitar Amazon Echo Dot 4ª Gen">−</button><span class="qv" id="q-echo">0</span><button data-k="echo" data-d="1" aria-label="Agregar Amazon Echo Dot 4ª Gen">+</button></div></div>
+<div class="cb-row" id="row-l1"><div class="cb-thumb pend-mini"></div><div class="cb-mid"><div class="cb-name">Shelly Plus 1L</div><div class="cb-desc">1 luz inteligente, sin neutro — la llave sigue funcionando</div><div class="cb-price">U$D 58 · IVA 21% inc. <span class="cb-mo">+ U$D 25 instalación c/u</span></div></div><div class="qty"><button data-k="l1" data-d="-1" aria-label="Quitar Shelly Plus 1L">−</button><span class="qv" id="q-l1">0</span><button data-k="l1" data-d="1" aria-label="Agregar Shelly Plus 1L">+</button></div></div>
+<div class="cb-row" id="row-l2"><div class="cb-thumb pend-mini"></div><div class="cb-mid"><div class="cb-name">Shelly Plus 2L</div><div class="cb-desc">2 luces inteligentes, sin neutro, desde una misma llave</div><div class="cb-price">U$D 62 · IVA 21% inc. <span class="cb-mo">+ U$D 30 instalación c/u</span></div></div><div class="qty"><button data-k="l2" data-d="-1" aria-label="Quitar Shelly Plus 2L">−</button><span class="qv" id="q-l2">0</span><button data-k="l2" data-d="1" aria-label="Agregar Shelly Plus 2L">+</button></div></div>
+<div class="cb-row" id="row-pm2"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg" alt="Shelly Plus 2PM"><div class="cb-mid"><div class="cb-name">Shelly Plus 2PM Gen4</div><div class="cb-desc">2 tomas o circuitos comunes, con medición de consumo</div><div class="cb-price">U$D 52 · IVA 21% inc. <span class="cb-mo">+ U$D 30 instalación c/u</span></div></div><div class="qty"><button data-k="pm2" data-d="-1" aria-label="Quitar Shelly Plus 2PM Gen4">−</button><span class="qv" id="q-pm2">0</span><button data-k="pm2" data-d="1" aria-label="Agregar Shelly Plus 2PM Gen4">+</button></div></div>
+<div class="cb-row" id="row-pm1"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717.jpg" alt="Shelly Plus 1PM"><div class="cb-mid"><div class="cb-name">Shelly Plus 1PM Gen4</div><div class="cb-desc">1 carga de alta potencia: termotanque, aire, pava (16 A)</div><div class="cb-price">U$D 37 · IVA 21% inc. <span class="cb-mo">+ U$D 25 instalación c/u</span></div></div><div class="qty"><button data-k="pm1" data-d="-1" aria-label="Quitar Shelly Plus 1PM Gen4">−</button><span class="qv" id="q-pm1">0</span><button data-k="pm1" data-d="1" aria-label="Agregar Shelly Plus 1PM Gen4">+</button></div></div>
+<div class="cb-row" id="row-btn"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266441.png" alt="Shelly Button 1"><div class="cb-mid"><div class="cb-name">Shelly Button 1</div><div class="cb-desc">Botón SOS y de rutinas, portátil y recargable</div><div class="cb-price">U$D 29 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="btn" data-d="-1" aria-label="Quitar Shelly Button 1">−</button><span class="qv" id="q-btn">0</span><button data-k="btn" data-d="1" aria-label="Agregar Shelly Button 1">+</button></div></div>
+<div class="cb-row" id="row-blu"><img class="cb-thumb" loading="lazy" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235266700.png" alt="Shelly BLU Motion"><div class="cb-mid"><div class="cb-name">Shelly BLU Motion</div><div class="cb-desc">Sensor de movimiento a batería — luz nocturna automática</div><div class="cb-price">U$D 40 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="blu" data-d="-1" aria-label="Quitar Shelly BLU Motion">−</button><span class="qv" id="q-blu">0</span><button data-k="blu" data-d="1" aria-label="Agregar Shelly BLU Motion">+</button></div></div>
+<div class="cb-row" id="row-ax"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201PS-Kit-16WB.jpg" alt="Kit AXHome"><div class="cb-mid"><div class="cb-name">Kit Hikvision AXHome</div><div class="cb-desc">Alarma completa Wi-Fi + 4G, con llavero de pánico incluido</div><div class="cb-price">U$D 255 · IVA 21% inc. <span class="cb-mo">+ U$D 40 instalación c/u</span></div></div><div class="qty"><button data-k="ax" data-d="-1" aria-label="Quitar Kit Hikvision AXHome">−</button><span class="qv" id="q-ax">0</span><button data-k="ax" data-d="1" aria-label="Agregar Kit Hikvision AXHome">+</button></div></div>
     </div>
 
-
-    <!-- KIT COMPLETO -->
-    <div class="inv-kit" style="border-color:var(--gold);border-width:2px">
-      <div class="inv-head">
-        <h3>Kit Completo · Autonomía + Seguridad <span style="font-size:11px;color:var(--navy);opacity:.65;font-weight:600;letter-spacing:1px">OPCIONAL RECOMENDADO</span></h3>
-        <div class="qty"><button data-k="k3" data-d="-1" aria-label="Quitar un Kit Completo">−</button><span class="qv" id="q-k3">0</span><button data-k="k3" data-d="1" aria-label="Agregar un Kit Completo">+</button></div>
-      </div>
-      <div class="inv-sub">Equipo <b>USD 633</b> · Instalación y programación única <b>USD 200</b> · <b>USD 833 por kit</b></div>
-      <div style="margin:12px 20px 6px;border:1px solid var(--gold);border-radius:12px;padding:13px 16px;font-size:13px;color:#3a3d4a"><b style="color:var(--navy)">Por qué la instalación única cuesta menos:</b> los dos kits en la misma vivienda son una sola visita, un solo relevamiento y una sola capacitación. Ese ahorro operativo real se traslada al precio: USD 30 menos que instalar los kits por separado (USD 833 vs. 863). Además, las 4 bombillas del lado Autonomía ya le dan luz al sensor nocturno — no hace falta la bombilla opcional.</div>
-      <button class="acc-toggle" aria-expanded="false">Ver detalle por dispositivo <span>▾</span></button>
-      <div class="acc-body">
-        <table class="det">
-          <tr><th>Dispositivo</th><th class="r">Precio unitario</th><th class="r">Cant.</th><th class="r">Total</th></tr>
-          <tr><td>Amazon Echo Dot 4ª Gen — asistente de voz Alexa</td><td class="r">U$D 99 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 99</td></tr>
-          <tr><td>WiZ Bombilla E27 8W — blanca regulable Wi-Fi</td><td class="r">U$D 12 · IVA 10,5% inc.</td><td class="r">4</td><td class="r">U$D 48</td></tr>
-          <tr><td>Shelly Plus 2PM Gen4 — control de 2 circuitos comunes</td><td class="r">U$D 52 · IVA 21% inc.</td><td class="r">2</td><td class="r">U$D 104</td></tr>
-          <tr><td>Shelly Plus 1PM Gen4 — cargas de alta potencia 16A</td><td class="r">U$D 37 · IVA 21% inc.</td><td class="r">2</td><td class="r">U$D 74</td></tr>
-          <tr><td>Shelly Button 1 — botón SOS y de rutinas, portátil</td><td class="r">U$D 29 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 29</td></tr>
-          <tr><td>Hikvision AXHome DS-PA201PS-Kit-16WB — kit alarma inalámbrica WiFi + 4G (incluye: central ×1, llavero con botón de pánico ×1, sensor de movimiento ×1, sensor de puerta ×1)</td><td class="r">U$D 255 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 255</td></tr>
-          <tr><td>WiZ Sensor de Movimiento inalámbrico</td><td class="r">U$D 24 · IVA 21% inc.</td><td class="r">1</td><td class="r">U$D 24</td></tr>
-          <tr class="tot"><td>Subtotal equipo</td><td class="r"></td><td class="r"></td><td class="r">U$D 633</td></tr>
-          <tr><td>Instalación y programación única — ciudad de Córdoba</td><td class="r"></td><td class="r"></td><td class="r">U$D 200</td></tr>
-          <tr class="tot"><td>Total por kit</td><td class="r"></td><td class="r"></td><td class="r">U$D 833</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="bar"><div class="b-eq" id="bar-eq" style="width:70%"></div><div class="b-mo" id="bar-mo" style="width:30%"></div></div>
-    <div class="bar-leg">
-      <span><i style="background:var(--navy)"></i>Equipos: <b id="leg-eq">U$D 633</b></span>
-      <span><i style="background:var(--gold)"></i>Instalación + programación: <b id="leg-mo">U$D 230</b></span>
-    </div>
+    <div id="blu-warn" style="display:none;border:1px solid var(--red);border-radius:12px;padding:13px 16px;margin-top:14px;font-size:13px;color:#7a2e26;background:rgba(181,69,58,.07)"><b>Ojo:</b> el BLU Motion es Bluetooth y necesita al menos un módulo Shelly (1L, 2L, 1PM o 2PM) en el combo que le haga de puente — solo no funciona. Sumá el módulo de la luz que va a encender.</div>
 
     <div class="grand">
-      <div class="row"><span>Subtotal equipos (IVA incluido, discriminado por ítem)</span><b id="g-eq">U$D 633</b></div>
-      <div class="row"><span>Instalación y programación — ciudad de Córdoba</span><b id="g-mo">U$D 230</b></div>
-      <div class="row total"><span>Total proyecto</span><span id="g-total">U$D 863</span></div>
+      <div class="row"><span>Equipo (IVA incluido por ítem)</span><b id="s-eq">U$D 0</b></div>
+      <div class="row"><span>Instalación por dispositivo</span><b id="s-modev">U$D 0</b></div>
+      <div class="row"><span>Puesta en marcha, rutinas y capacitación — única por vivienda</span><b id="s-base">U$D 0</b></div>
+      <div class="row total"><span>Total combo</span><span id="s-total">U$D 0</span></div>
     </div>
-    <p class="note-usd">Valores en dólares estadounidenses, redondeados, IVA de equipos incluido según la alícuota real de cada ítem (21% o 10,5%). Fuera de la ciudad de Córdoba se adicionan viáticos. Presupuesto válido por 15 días.</p>
+    <p class="note-usd">Valores en dólares estadounidenses, redondeados, IVA incluido. Instalación válida dentro de la ciudad de Córdoba; fuera se adicionan viáticos. La puesta en marcha (U$D 40) incluye configuración de apps, rutinas personalizadas y capacitación al usuario en la vivienda, y se cobra una sola vez por combo. Presupuesto válido por 15 días.</p>
   </div>
 </section>
 
@@ -801,7 +695,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <span class="eyebrow">04 · Condiciones generales</span>
     <h2>Lo que firma la letra chica</h2>
     <div class="cond">
-      <div class="c-item"><b>Alcance de instalación</b>Instalación y programación válidas dentro de la ciudad de Córdoba. Fuera de la ciudad se adicionan viáticos, cotizados según localidad antes de confirmar.</div>
+      <div class="c-item"><b>Alcance de instalación</b>La instalación se cotiza por dispositivo según el módulo, más una puesta en marcha única por vivienda (U$D 40) que incluye configuración de apps, programación de rutinas y capacitación al usuario. Válida dentro de la ciudad de Córdoba; fuera de la ciudad se adicionan viáticos, cotizados según localidad antes de confirmar.</div>
       <div class="c-item"><b>Obra eléctrica</b>Este proyecto no incluye obra eléctrica: los kits se instalan sobre la instalación existente de cada vivienda. En el relevamiento previo verificamos que el punto donde va cada módulo esté en condiciones; si una vivienda requiere adecuación eléctrica, se informa y cotiza aparte antes de intervenir.</div>
       <div class="c-item"><b>Requisito de conectividad</b>Las funciones de voz, avisos al celular y control remoto requieren que la vivienda cuente con internet Wi-Fi. La alarma AXHome incluye además chip 4G como vía de respaldo.</div>
       <div class="c-item"><b>Moneda y tipo de cambio</b>Todos los precios se expresan en dólares estadounidenses. Para pagos en pesos se utiliza la cotización BNA oficial del día de pago (tipo de cambio unificado).</div>
@@ -822,14 +716,13 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <div class="pill fixed">NOVA DOMUS</div>
       <div class="pill fixed">CEDIA MEMBER</div>
       <button class="pill" data-brand="shelly">Shelly</button>
-      <button class="pill" data-brand="wiz">WiZ</button>
       <button class="pill" data-brand="hik">Hikvision</button>
       <button class="pill" data-brand="alexa">Amazon Alexa</button>
     </div>
     <div class="pill-detail" id="pd-shelly"><b>Shelly</b> — fabricante europeo (Shelly Group) especializado en módulos de control compactos, una de las marcas de IoT de mayor crecimiento a nivel mundial. La elegimos porque sus módulos funcionan con protocolos abiertos: lo que se instala hoy sirve de base para una domótica completa mañana, sin quedar atado a un fabricante.</div>
-    <div class="pill-detail" id="pd-wiz"><b>WiZ</b> — la línea de iluminación inteligente Wi-Fi de Signify (la ex Philips Lighting, líder mundial en iluminación). La elegimos por la mejor relación precio-producto de su segmento: se enrosca y funciona, compatible con Alexa de fábrica, sin puentes ni equipos adicionales.</div>
+    
     <div class="pill-detail" id="pd-hik"><b>Hikvision</b> — el fabricante de seguridad electrónica más grande del mundo. AXHome es su línea residencial inalámbrica: la elegimos porque combina instalación simple con la robustez de un fabricante profesional, y porque avisa por dos vías (Wi-Fi y 4G).</div>
-    <div class="pill-detail" id="pd-alexa"><b>Amazon Alexa</b> — el asistente de voz más difundido del mercado. Lo elegimos porque el catálogo de comandos en español rioplatense está maduro, y porque WiZ y Shelly se integran de fábrica: la persona habla y la casa responde, sin configuraciones frágiles.</div>
+    <div class="pill-detail" id="pd-alexa"><b>Amazon Alexa</b> — el asistente de voz más difundido del mercado. Lo elegimos porque el catálogo de comandos en español rioplatense está maduro, y porque los módulos Shelly se integran de fábrica: la persona habla y la casa responde, sin configuraciones frágiles.</div>
   </div>
 </section>
 
@@ -841,9 +734,9 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <div class="faq">
       <div class="faq-item"><button class="faq-q">¿Qué pasa si se corta la luz o internet?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Las luces siguen funcionando desde la llave común de siempre — la tecnología suma, nunca bloquea. La alarma AXHome tiene batería de respaldo y chip 4G: sigue avisando aunque se corte el Wi-Fi. Lo único que requiere internet activo es el control por voz y los avisos al celular.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿La persona necesita saber usar un celular?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. El uso diario es por voz (Alexa) y por botones físicos de un solo gesto. El celular con la app queda en manos de la familia o el cuidador, para configurar y recibir avisos. En la capacitación de entrega definimos junto a la persona cuáles comandos le resultan naturales.</div></div></div>
-      <div class="faq-item"><button class="faq-q">¿Hay abonos o costos mensuales?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. Las apps de Alexa, WiZ, Shelly y Hik-Connect son gratuitas y no cobran suscripción por las funciones de estos kits. El único servicio recurrente de la vivienda es su conexión a internet, que ya es un requisito previo. El chip 4G de la alarma usa una línea prepaga de bajo consumo cuya carga se explica en la capacitación.</div></div></div>
-      <div class="faq-item"><button class="faq-q">¿Sirven para cualquier vivienda?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Los kits fueron diseñados para eso: casi todo es portátil o se enrosca. El relevamiento previo a la instalación confirma dos cosas por vivienda: que haya Wi-Fi y que los puntos donde van los módulos Shelly estén en condiciones eléctricas. Si algo no está en condiciones, se informa antes — nunca se instala sobre una falla.</div></div></div>
-      <div class="faq-item"><button class="faq-q">¿Se puede ampliar después a una domótica completa?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Sí, y esa es una decisión de diseño de esta propuesta: los módulos Shelly del Kit Autonomía son exactamente los mismos que usamos en nuestras instalaciones de integración completa. Ampliar significa sumar módulos y programación — no tirar nada de lo ya invertido.</div></div></div>
+      <div class="faq-item"><button class="faq-q">¿Hay abonos o costos mensuales?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. Las apps de Alexa, Shelly y Hik-Connect son gratuitas y no cobran suscripción por las funciones de estos kits. El único servicio recurrente de la vivienda es su conexión a internet, que ya es un requisito previo. El chip 4G de la alarma usa una línea prepaga de bajo consumo cuya carga se explica en la capacitación.</div></div></div>
+      <div class="faq-item"><button class="faq-q">¿Funciona en instalaciones eléctricas viejas?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Sí — es una decisión de diseño de este catálogo: los módulos de iluminación elegidos (línea L de Shelly) funcionan sin cable neutro en la caja de la llave, que es la situación típica de las viviendas construidas hace años. El relevamiento previo confirma dos cosas por vivienda: que haya Wi-Fi y que cada punto esté en condiciones eléctricas. Si algo no está en condiciones, se informa antes — nunca se instala sobre una falla.</div></div></div>
+      <div class="faq-item"><button class="faq-q">¿Se puede ampliar después a una domótica completa?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Sí, y esa es una decisión de diseño de esta propuesta: los módulos Shelly del combo son exactamente los mismos que usamos en nuestras instalaciones de integración completa. Ampliar significa sumar módulos y programación — no tirar nada de lo ya invertido.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿Quién responde si algo falla a los seis meses?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Nova Domus, con equipo propio, durante 12 meses desde la entrega de cada vivienda. Un solo teléfono para todo el kit — sin peloteo entre proveedor, instalador y soporte.</div></div></div>
     </div>
   </div>
@@ -855,8 +748,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <span class="eyebrow">Próximo paso</span>
     <h2>Confirmá la configuración</h2>
     <p class="lead" style="margin:0 auto">El botón arma un mensaje de WhatsApp con las cantidades y el total que elegiste — lo revisás antes de enviar.</p>
-    <p class="ct-total">Configuración actual: <b id="ct-desc">1 × Kit Autonomía + 1 × Kit Seguridad</b> · Total <b id="ct-total">U$D 863</b></p>
-    <label class="conf"><input type="checkbox" id="conf"><span>Confirmo que revisé la configuración de kits, cantidades y condiciones de esta propuesta (PY-2026-020) y quiero avanzar.</span></label>
+    <p class="ct-total">Tu combo: <b id="ct-desc">todavía sin dispositivos elegidos</b> · Total <b id="ct-total">U$D 0</b></p>
+    <label class="conf"><input type="checkbox" id="conf"><span>Confirmo que revisé el combo, las cantidades y las condiciones de esta propuesta (PY-2026-020) y quiero avanzar.</span></label>
     <a class="btn-accept" id="btn-accept" href="#" target="_blank" rel="noopener">Aceptar propuesta por WhatsApp →</a>
   </div>
 </section>
@@ -935,55 +828,82 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 <script>
 (function(){
 "use strict";
-/* ===== CONFIG — única fuente de números del documento ===== */
-var P = {
-  k1: { equipo:354, mo:150 },                 /* 99 + 4*12 + 2*52 + 2*37 + 29 = 354 */
-  k2: { equipo:279, mo:80, opcBombilla:12 },  /* 255 + 24 = 279 */
-  k3: { equipo:633, mo:200 }                  /* kit completo: 354 + 279 equipo, MO unica */
+/* ===== CONFIG — única fuente de números ===== */
+var DEV = {
+  echo:{ n:'Echo Dot 4ª Gen', p:99,  mo:0  },
+  l1:  { n:'Shelly Plus 1L', p:58, mo:25 },
+  l2:  { n:'Shelly Plus 2L', p:62, mo:30 },
+  pm2: { n:'Shelly Plus 2PM Gen4', p:52, mo:30 },
+  pm1: { n:'Shelly Plus 1PM Gen4', p:37, mo:25 },
+  btn: { n:'Shelly Button 1', p:29, mo:0 },
+  blu: { n:'Shelly BLU Motion', p:40, mo:0 },
+  ax:  { n:'Kit Hikvision AXHome', p:255, mo:40 }
 };
-var state = { k1:1, k2:1, k3:0, bombilla:false };
+var MO_BASE = 40;
+var PRESETS = {
+  autonomia:{ echo:1,l1:0,l2:2,pm2:2,pm1:2,btn:1,blu:0,ax:0 },
+  seguridad:{ echo:0,l1:1,l2:0,pm2:0,pm1:0,btn:0,blu:1,ax:1 },
+  completo: { echo:1,l1:1,l2:2,pm2:2,pm1:2,btn:1,blu:1,ax:1 }
+};
+var q = { echo:0,l1:0,l2:0,pm2:0,pm1:0,btn:0,blu:0,ax:0 };
 var fmt = function(n){ return 'U$D ' + Math.ceil(n).toLocaleString('es-AR'); };
-
-function calc(){
-  var k2eq = P.k2.equipo + (state.bombilla ? P.k2.opcBombilla : 0);
-  var eq = state.k1*P.k1.equipo + state.k2*k2eq + state.k3*P.k3.equipo;
-  var mo = state.k1*P.k1.mo + state.k2*P.k2.mo + state.k3*P.k3.mo;
-  return { k2eq:k2eq, eq:eq, mo:mo, total:eq+mo };
-}
 function $(id){ return document.getElementById(id); }
+function calc(){
+  var eq=0, moDev=0, count=0, k;
+  for(k in DEV){ eq += q[k]*DEV[k].p; moDev += q[k]*DEV[k].mo; count += q[k]; }
+  var base = count>0 ? MO_BASE : 0;
+  return { eq:eq, moDev:moDev, base:base, total:eq+moDev+base, count:count };
+}
+function resumenCombo(){
+  var parts=[], k;
+  for(k in DEV){ if(q[k]>0) parts.push(q[k]+'× '+DEV[k].n); }
+  return parts.join(' + ');
+}
+function updateCTA(){
+  var ok = $('conf').checked && calc().count>0;
+  $('btn-accept').classList.toggle('ready', ok);
+}
 function render(){
-  var c = calc();
-  $('q-k1').textContent = state.k1; $('q-k2').textContent = state.k2; $('q-k3').textContent = state.k3;
-  $('k2-eq-lbl').textContent = 'USD ' + c.k2eq;
-  $('k2-tot-lbl').textContent = 'USD ' + (c.k2eq + P.k2.mo) + ' por kit';
-  $('k2-sub').textContent = fmt(c.k2eq);
-  $('k2-tot').textContent = fmt(c.k2eq + P.k2.mo);
-  $('row-bombilla').style.display = state.bombilla ? '' : 'none';
-  var base = c.eq + c.mo; base = base || 1;
-  $('bar-eq').style.width = (c.eq/base*100) + '%';
-  $('bar-mo').style.width = (c.mo/base*100) + '%';
-  $('leg-eq').textContent = fmt(c.eq); $('leg-mo').textContent = fmt(c.mo);
-  $('g-eq').textContent = fmt(c.eq); $('g-mo').textContent = fmt(c.mo);
-  $('g-total').textContent = fmt(c.total);
-  $('ct-desc').textContent = state.k1 + ' × Kit Autonomía + ' + state.k2 + ' × Kit Seguridad + ' + state.k3 + ' × Kit Completo' + (state.bombilla ? ' (con bombilla opcional)' : '');
+  var c = calc(), k;
+  for(k in DEV){
+    $('q-'+k).textContent = q[k];
+    var row = $('row-'+k); if(row) row.classList.toggle('picked', q[k]>0);
+  }
+  $('s-eq').textContent = fmt(c.eq);
+  $('s-modev').textContent = fmt(c.moDev);
+  $('s-base').textContent = fmt(c.base);
+  $('s-total').textContent = fmt(c.total);
+  var relays = q.l1+q.l2+q.pm2+q.pm1;
+  $('blu-warn').style.display = (q.blu>0 && relays===0) ? 'block' : 'none';
+  $('ct-desc').textContent = c.count===0 ? 'todavía sin dispositivos elegidos' : resumenCombo();
   $('ct-total').textContent = fmt(c.total);
-  var msg = 'Hola Nova Domus, confirmamos la propuesta PY-2026-020 (Kits de Autonomía y Seguridad): ' +
-    state.k1 + ' Kit Autonomía Personal + ' + state.k2 + ' Kit Seguridad en el Hogar + ' + state.k3 + ' Kit Completo' +
-    (state.bombilla ? ' con bombilla WiZ opcional' : '') +
-    '. Total: ' + fmt(c.total) + '.';
+  updateCTA();
+  var msg = 'Hola Nova Domus, confirmamos la propuesta PY-2026-020 (combo a medida): ' +
+    (c.count===0 ? 'sin dispositivos' : resumenCombo()) +
+    '. Equipo: ' + fmt(c.eq) + ' + instalación por dispositivo: ' + fmt(c.moDev) +
+    ' + puesta en marcha: ' + fmt(c.base) + '. Total: ' + fmt(c.total) + '.';
   $('btn-accept').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
 }
-document.querySelectorAll('.qty button').forEach(function(b){
+document.querySelectorAll('.qty button[data-k]').forEach(function(b){
   b.addEventListener('click', function(){
-    var k = b.dataset.k, d = parseInt(b.dataset.d,10);
-    state[k] = Math.min(500, Math.max(0, state[k] + d));
+    var k=b.dataset.k, d=parseInt(b.dataset.d,10);
+    q[k]=Math.min(500,Math.max(0,q[k]+d));
+    document.querySelectorAll('.preset').forEach(function(x){ x.classList.remove('sel'); });
     render();
   });
 });
-$('opc-bombilla').addEventListener('change', function(e){ state.bombilla = e.target.checked; render(); });
-$('conf').addEventListener('change', function(e){ $('btn-accept').classList.toggle('ready', e.target.checked); });
+document.querySelectorAll('.preset').forEach(function(p){
+  p.addEventListener('click', function(){
+    var pr = PRESETS[p.dataset.p], k;
+    for(k in q){ q[k] = pr ? (pr[k]||0) : 0; }
+    document.querySelectorAll('.preset').forEach(function(x){ x.classList.remove('sel'); });
+    if(pr) p.classList.add('sel');
+    render();
+  });
+});
+$('conf').addEventListener('change', updateCTA);
 
-/* ===== acordeones (scrollHeight, nunca max-height fijo) ===== */
+/* ===== acordeones (scrollHeight) ===== */
 function bindAcc(headSel, cardSel, bodySel){
   document.querySelectorAll(headSel).forEach(function(h){
     h.addEventListener('click', function(){
@@ -995,31 +915,38 @@ function bindAcc(headSel, cardSel, bodySel){
   });
 }
 bindAcc('.dc-head', '.device-card', '.dc-body');
+bindAcc('.faq-q', '.faq-item', '.faq-a');
+window.addEventListener('resize', function(){
+  document.querySelectorAll('.device-card.open .dc-body, .faq-item.open .faq-a')
+    .forEach(function(b){ b.style.maxHeight = b.scrollHeight + 'px'; });
+});
+
+/* ===== fotos: fallback y recalculo de altura ===== */
 document.querySelectorAll('.dc-photo').forEach(function(img){
   img.addEventListener('load', function(){
     var card = img.closest('.device-card');
     if(card && card.classList.contains('open')){
-      var b = card.querySelector('.dc-body'); b.style.maxHeight = b.scrollHeight + 'px';
+      var b2 = card.querySelector('.dc-body'); b2.style.maxHeight = b2.scrollHeight + 'px';
     }
   });
+  img.addEventListener('error', function(){
+    var w = img.parentElement;
+    w.classList.add('pend'); w.textContent = 'Foto del producto en proceso de carga';
+  });
 });
-bindAcc('.acc-toggle', '.inv-kit', '.acc-body');
-bindAcc('.faq-q', '.faq-item', '.faq-a');
-window.addEventListener('resize', function(){
-  document.querySelectorAll('.device-card.open .dc-body, .inv-kit.open .acc-body, .faq-item.open .faq-a')
-    .forEach(function(b){ b.style.maxHeight = b.scrollHeight + 'px'; });
+document.querySelectorAll('.cb-thumb').forEach(function(img){
+  if(img.tagName !== 'IMG') return;
+  img.addEventListener('error', function(){
+    var d = document.createElement('div'); d.className='cb-thumb pend-mini';
+    img.replaceWith(d);
+  });
 });
-/* al cambiar cantidades dentro de un acordeón abierto, recalcular altura */
-var mo1 = new MutationObserver(function(){
-  document.querySelectorAll('.inv-kit.open .acc-body').forEach(function(b){ b.style.maxHeight = b.scrollHeight + 'px'; });
-});
-document.querySelectorAll('.acc-body').forEach(function(b){ mo1.observe(b, {childList:true, subtree:true, characterData:true}); });
 
 /* ===== demo voz ===== */
 var CMDS = [
   { u:'Alexa, prendé la luz del comedor', a:'Listo. Comedor encendido.', fx:function(){ $('mini-room').classList.add('lit'); } },
   { u:'Alexa, recordame la medicación a las 9', a:'Recordatorio creado: “medicación”, todos los días a las 9:00.', fx:function(){} },
-  { u:'Alexa, apagá todo', a:'Apagando 4 luces.', fx:function(){ $('mini-room').classList.remove('lit'); } }
+  { u:'Alexa, apagá todo', a:'Apagando las luces.', fx:function(){ $('mini-room').classList.remove('lit'); } }
 ];
 document.querySelectorAll('.voice-chips button').forEach(function(b){
   b.addEventListener('click', function(){
@@ -1028,29 +955,12 @@ document.querySelectorAll('.voice-chips button').forEach(function(b){
     var u = document.createElement('div'); u.className='bub user'; u.textContent = c.u; chat.appendChild(u);
     requestAnimationFrame(function(){ u.classList.add('show'); });
     setTimeout(function(){
-      var a = document.createElement('div'); a.className='bub alexa'; a.textContent = c.a; chat.appendChild(a);
-      requestAnimationFrame(function(){ a.classList.add('show'); });
+      var a2 = document.createElement('div'); a2.className='bub alexa'; a2.textContent = c.a; chat.appendChild(a2);
+      requestAnimationFrame(function(){ a2.classList.add('show'); });
       c.fx();
     }, 700);
   });
 });
-
-/* ===== demo dimmer ===== */
-function kelvinToColor(k){
-  var t = (k - 2700) / (6500 - 2700);
-  var r = Math.round(255 - t*35), g = Math.round(214 + t*30), b = Math.round(150 + t*105);
-  return 'rgb(' + r + ',' + g + ',' + Math.min(255,b) + ')';
-}
-function paintScene(){
-  var bri = parseInt($('bri').value,10), k = parseInt($('tmp').value,10);
-  $('glow').style.opacity = (bri/100*0.85).toFixed(2);
-  $('scene').style.setProperty('--scene-c', kelvinToColor(k));
-  $('briv').textContent = bri + '%';
-  $('tmpv').textContent = (k <= 3500 ? 'Cálida' : (k <= 5000 ? 'Neutra' : 'Fría')) + ' · ' + k + 'K';
-}
-$('bri').addEventListener('input', paintScene);
-$('tmp').addEventListener('input', paintScene);
-paintScene();
 
 /* ===== comparativa alarma ===== */
 var VS = {
@@ -1075,7 +985,7 @@ function paintVS(mode){
 }
 $('vs-a').addEventListener('click', function(){ paintVS('a'); });
 $('vs-b').addEventListener('click', function(){ paintVS('b'); });
-paintVS('a'); /* arranca SIEMPRE en el estado problema */
+paintVS('a');
 
 /* ===== demo SOS ===== */
 $('sos').addEventListener('click', function(){
@@ -1131,38 +1041,15 @@ var arc = $('ring-arc'), CIRC = 144.5;
 window.addEventListener('scroll', function(){
   var h = document.documentElement, p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
   arc.style.strokeDashoffset = CIRC * (1 - p);
-  var ids = ['resumen','kit1','kit2','inversion','faq'], cur = '';
+  var ids = ['resumen','catalogo','combo','faq'], cur = '';
   ids.forEach(function(id){ var el = $(id); if(el && el.getBoundingClientRect().top < 140) cur = id; });
-  document.querySelectorAll('.nav-links a').forEach(function(a){
-    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  document.querySelectorAll('.nav-links a').forEach(function(a2){
+    a2.classList.toggle('active', a2.getAttribute('href') === '#' + cur);
   });
 }, {passive:true});
 $('progress-badge').addEventListener('click', function(){ window.scrollTo({top:0, behavior: reduced ? 'auto' : 'smooth'}); });
 
 render();
-})();
-</script>
-<script>
-(function(){
-  try{
-    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
-    var payload = JSON.stringify({
-      propuesta_codigo: codigo,
-      url_path: location.pathname,
-      referrer: document.referrer || null,
-      user_agent: navigator.userAgent
-    });
-    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
-      method: 'POST',
-      keepalive: true,
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
-        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
-      },
-      body: payload
-    }).catch(function(){});
-  }catch(e){}
 })();
 </script>
 </body>
