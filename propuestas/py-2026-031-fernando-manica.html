@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Fernando Manica — Proyecto Ejecutivo de Tecnológica Integral">
+<meta property="og:description" content="Tiras LED en baños y cocina, y automatización de las combinaciones de luz. PY-2026-031 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-031-fernando-manica.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-031-fernando-manica.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-031">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fernando Manica · PY-2026-031 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+/* --- extras PY-2026-031: selector de opcion excluyente --- */
+.optsel{border:1px solid rgba(200,169,110,.45);border-radius:16px;padding:18px 20px;margin:20px 0;
+background:rgba(200,169,110,.05);animation:glow 2.6s ease-in-out infinite}
+.section-light .optsel{background:rgba(20,30,97,.04);border-color:rgba(20,30,97,.22);
+animation:glowN 2.6s ease-in-out infinite}
+.optsel .sw{margin:0 0 12px;animation:none;box-shadow:none}
+.section-light .optsel .sw button{border-color:rgba(20,30,97,.25);color:var(--navy-deep)}
+.section-light .optsel .sw button.on{border-color:var(--navy);color:var(--navy);
+background:rgba(20,30,97,.07)}
+.optsel .osub{margin:0;font-size:13.5px}
+.oval{display:block;margin-top:12px}
+.oval small{display:block;font-family:var(--fb);font-size:11px;text-transform:uppercase;
+letter-spacing:1.4px;color:var(--grey);margin-bottom:2px}
+.oval b{font-family:var(--fd);color:var(--gold);font-size:19px;letter-spacing:1.5px}
+.section-light .oval b{color:var(--navy)}
+.section-light .oval small{color:#5d6078}
+@keyframes glowN{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,0)}
+50%{box-shadow:0 0 0 7px rgba(20,30,97,.09)}}
+.note{border-left:3px solid var(--gold);padding:2px 0 2px 16px;margin:18px 0;font-size:13.5px}
+.section-light .note{border-left-color:var(--navy)}
+@media(max-width:640px){
+  .optsel{padding:15px 16px}
+  .optsel .sw button{flex:1 1 100%}
+  /* medido con las fuentes reales a 320/360/390/412px: ver auditoria de anchos */
+  .oval b{font-size:16px}
+  .stage b{font-size:12.5px;letter-spacing:1px}
+  .rub-name{font-size:14px}
+  .note{font-size:13px;padding-left:14px}
+}
+/* Nombres de rubro largos: la etiqueta toma la linea, la cifra baja.
+   Mismo patron que .trow de la capa mobile. Medido a 320px. */
+@media(max-width:400px){
+  .rub-head{flex-wrap:wrap;row-gap:4px}
+  .rub-name{flex:1 1 100%}
+  .rub-val{margin-left:auto}
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-031</p>
+    <h1>Fernando Manica</h1>
+    <p class="tagline">Del cable a la app.</p>
+    <p class="lead">Iluminación LED en los dos baños y el bajomesada de la cocina, más la
+      automatización de las combinaciones de luz de la casa. Proyecto Ejecutivo de Tecnológica
+      Integral.</p>
+    <p class="claim">La casa que responde.</p>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#s01">Iluminación LED</a></li>
+  <li><a href="#s02">Automatización</a></li>
+  <li><a href="#cocina">La cocina</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#faq">Preguntas</a></li>
+</ul></nav>
+
+<div class="wrap">
+
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">01 — Resumen</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Dos trabajos distintos en la misma obra: sumar luz LED donde hoy no hay, y
+    hacer que las combinaciones de luz existentes se puedan comandar desde el celular sin
+    perder la llave de la pared.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="5">0</span>
+      <small>combinaciones de luz intervenidas</small></div>
+    <div class="kpi"><span class="figure" data-n="3">0</span>
+      <small>de esas cinco van bonificadas: sin costo de mano de obra</small></div>
+    <div class="kpi"><span class="figure" data-n="3">0</span>
+      <small>zonas nuevas con tira LED: dos baños y bajomesada</small></div>
+    <div class="kpi"><span class="figure" data-n="12">0</span>
+      <small>meses de garantía sobre mano de obra y funcionamiento</small></div>
+  </div>
+  <div class="note">Hay <b>una decisión pendiente</b> en esta propuesta: cómo se resuelve la
+    combinación de la cocina. Está más abajo, en su propia sección, y cambia el precio final.
+    Todo lo demás está definido.</div>
+</section>
+
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="responsable">
+  <p class="eyebrow">02 — Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p class="lead">En una obra con domótica normalmente coordinás tres proveedores: el
+    electricista, el de la iluminación y el que programa. Cuando algo no prende, cada uno señala
+    al otro y el problema queda en el medio.</p>
+  <p>Nosotros hacemos las tres cosas con equipo propio: la colocación de la iluminación LED, la
+    instalación de los módulos y la vinculación de cada punto. Un solo responsable del cable a la
+    app. Si algo falla en los primeros 12 meses, lo resolvemos nosotros.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span>Visita técnica: se confirma en sitio la medida real de tira
+      LED, qué cajas tienen neutro y cómo está cableada cada combinación.</span></div>
+    <div class="step"><b>02</b><span>Colocación de perfiles, fuentes y tira LED en los dos baños
+      y el bajomesada.</span></div>
+    <div class="step"><b>03</b><span>Instalación de los módulos detrás de cada llave, sin sacar
+      ninguna llave existente.</span></div>
+    <div class="step"><b>04</b><span>Vinculación y prueba de cada combinación: se comprueba punto
+      por punto desde la pared y desde el celular.</span></div>
+    <div class="step"><b>05</b><span>Entrega documentada: qué quedó en cada caja, cómo está
+      vinculado y las credenciales. Más 12 meses de garantía.</span></div>
+  </div>
+  <div class="tw"><table class="tbl">
+    <thead><tr><th>&nbsp;</th><th>Con Nova Domus</th><th>Del modo tradicional</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno</td>
+        <td data-label="Del modo tradicional">Tres o más</td></tr>
+      <tr><td>Responsable si una luz no prende</td><td data-label="Con Nova Domus">Nosotros</td>
+        <td data-label="Del modo tradicional">A definir entre ellos</td></tr>
+      <tr><td>Quién instala y quién vincula</td>
+        <td data-label="Con Nova Domus">El mismo equipo</td>
+        <td data-label="Del modo tradicional">Distintos, y no se hablan</td></tr>
+      <tr><td>Garantía sobre el conjunto</td><td data-label="Con Nova Domus">12 meses</td>
+        <td data-label="Del modo tradicional">Cada uno la suya, si la da</td></tr>
+      <tr><td>Documentación al terminar</td>
+        <td data-label="Con Nova Domus">Sí, es parte de la entrega</td>
+        <td data-label="Del modo tradicional">Casi nunca</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Para ser claros con el alcance: la instalación eléctrica de base de la
+    vivienda no es nuestra y no la tocamos. Trabajamos sobre lo que ya está y respondemos por
+    todo lo que instalamos nosotros.</div>
+</section>
+</div></div>
+
+<div class="wrap">
+
+<section class="sec" id="s01">
+  <p class="eyebrow">03 — Iluminación</p>
+  <h2>Iluminación LED</h2>
+  <p class="lead">Tira LED en los dos baños y en el bajomesada de la cocina. No es luz decorativa
+    de relleno: es luz de trabajo donde hoy la sombra la tapa el propio cuerpo, y luz de noche
+    donde no querés prender el techo.</p>
+  <p class="hint">👆 Tocá cada pestaña para ver cómo queda cada momento</p>
+  <div class="scene">
+    <div class="scene-view" id="sv" style="background:linear-gradient(160deg,#e8c98a,#7c86c2 70%)"></div>
+    <div class="scene-body">
+      <div class="sw">
+        <button class="on" onclick="esc(0,this)">Baño de noche</button>
+        <button onclick="esc(1,this)">Cocinar</button>
+        <button onclick="esc(2,this)">Recibir</button>
+        <button onclick="esc(3,this)">Salir</button>
+      </div>
+      <h3 id="st">Baño de noche</h3>
+      <p class="dc-desc" id="sd">&nbsp;</p>
+      <label class="slabel" for="br">Intensidad de la tira: <b id="bv">100%</b></label>
+      <input class="slider" type="range" id="br" min="5" max="100" value="100">
+    </div>
+  </div>
+  <p class="hint">👆 Tocá cada material para ver el detalle</p>
+  <div class="device-grid" id="grid-led"></div>
+  <div class="vbox">
+    <h3>Por qué el perfil de aluminio no es opcional</h3>
+    <p>Una tira LED pegada directo a la madera o al revoque hace dos cosas malas: se ve el punto
+      de cada LED en vez de una línea continua, y acumula calor, que es lo que acorta la vida
+      útil. El perfil difunde y disipa. Es la diferencia entre que se vea prolijo por años o que
+      se vea barato a los seis meses.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="s02">
+  <p class="eyebrow">04 — Automatización</p>
+  <h2>Automatización de llaves</h2>
+  <p class="lead">Cinco combinaciones de la casa quedan comandadas también desde el celular:
+    cocina, comedor, la combinada de tres puntos, el vestidor y la habitación.</p>
+  <p>Una combinación es una misma luz que se prende y apaga desde dos lugares distintos.
+    Tradicionalmente eso se resuelve pasando un cable entre las dos cajas. Con módulos no hace
+    falta: cada caja lee su propia llave y se ponen de acuerdo entre ellas. Menos pared abierta,
+    y de paso esa luz queda con control desde el celular.</p>
+  <div class="note"><b>La llave de la pared no se toca.</b> El módulo va detrás de ella. Todo el
+    que hoy prende la luz desde la pared la va a seguir prendiendo igual, sin aprender nada
+    nuevo y sin depender del celular.</div>
+  <p class="hint">👆 Tocá cada dispositivo para ver qué hace</p>
+  <div class="device-grid" id="grid-dom"></div>
+  <div class="note">Las combinaciones de la <b>combinada de tres puntos</b>, el <b>vestidor</b> y
+    la <b>habitación</b> están bonificadas: se cobra el equipo, la mano de obra va sin cargo.</div>
+</section>
+</div></div>
+
+<div class="wrap">
+
+<section class="sec" id="cocina">
+  <p class="eyebrow">05 — Decisión</p>
+  <h2>La cocina</h2>
+  <p class="lead">Es el único punto de esta propuesta con dos caminos posibles, y la elección es
+    tuya. Las dos soluciones dejan la luz de la cocina comandada desde los dos lugares. Lo que
+    cambia es cuánta obra hace falta y qué te queda además.</p>
+  <p class="hint">👆 Tocá una de las dos opciones — el precio de toda la propuesta se recalcula</p>
+  <div class="optsel">
+    <div class="sw" id="optsw-1">
+      <button class="on" onclick="setOpt('B',this)">Con domótica</button>
+      <button onclick="setOpt('A',this)">Con cableado</button>
+    </div>
+    <p class="osub" id="osub-1">&nbsp;</p>
+    <span class="oval"><small>Total con esta opción</small><b id="oval-1">$ 1.279.520</b></span>
+  </div>
+  <div class="tw"><table class="tbl">
+    <thead><tr><th>&nbsp;</th><th>Con domótica</th><th>Con cableado</th></tr></thead>
+    <tbody>
+      <tr><td>Hay que abrir pared</td><td data-label="Con domótica">No</td>
+        <td data-label="Con cableado">Sí, entre las dos cajas</td></tr>
+      <tr><td>Depende de que el recorrido sea posible</td><td data-label="Con domótica">No</td>
+        <td data-label="Con cableado">Sí — se confirma en la visita</td></tr>
+      <tr><td>Control desde el celular en esa luz</td><td data-label="Con domótica">Sí</td>
+        <td data-label="Con cableado">No</td></tr>
+      <tr><td>Medición de consumo del circuito</td><td data-label="Con domótica">Sí</td>
+        <td data-label="Con cableado">No</td></tr>
+      <tr><td>Módulos que suma</td><td data-label="Con domótica">2 i4 + 1 Mini</td>
+        <td data-label="Con cableado">Ninguno</td></tr>
+      <tr><td>Diferencia sobre el total</td><td data-label="Con domótica">$ 203.760 más</td>
+        <td data-label="Con cableado">La opción más económica</td></tr>
+    </tbody>
+  </table></div>
+  <div class="vbox">
+    <h3>Qué haríamos nosotros</h3>
+    <p>Si el presupuesto lo permite, domótica. No por el celular en sí, sino porque el cableado
+      obliga a abrir pared en una cocina terminada y porque depende de que el recorrido entre
+      las dos cajas exista y sea pasable — eso recién se confirma en obra. Con módulos la
+      solución no tiene esa incógnita. Dicho eso, la opción cableada es perfectamente válida y
+      no le quita nada al resto de la propuesta.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="inversion" style="border-top:0">
+  <p class="eyebrow">06 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Todos los valores en pesos, con IVA incluido en cada ítem y en cada rubro. Los
+    materiales y la mano de obra van separados, como siempre.</p>
+  <div class="optsel">
+    <div class="sw" id="optsw-2">
+      <button class="on" onclick="setOpt('B',this)">Cocina con domótica</button>
+      <button onclick="setOpt('A',this)">Cocina con cableado</button>
+    </div>
+    <p class="osub" id="osub-2">&nbsp;</p>
+    <span class="oval"><small>Total con esta opción</small><b id="oval-2">$ 1.279.520</b></span>
+  </div>
+  <div class="bar" id="bar"></div>
+  <ul class="legend" id="legend"></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  <div id="rubros"></div>
+  <div class="totals">
+    <div class="trow"><span>Materiales y equipos (IVA incluido)</span>
+      <b id="t-eq">$ 895.020</b></div>
+    <div class="trow"><span>Mano de obra especializada (IVA incluido)</span>
+      <b id="t-mo">$ 384.500</b></div>
+    <div class="trow big"><span>Total del proyecto</span><span id="t-tot">$ 1.279.520</span></div>
+    <div class="trow sub"><span>Equivalente de referencia al tipo de cambio oficial BNA
+      (1 USD = $ 1.534)</span><span id="t-usd">U$D 835</span></div>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+
+<section class="sec" id="pago">
+  <p class="eyebrow">07 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Cada etapa atada a un hito verificable, no a una fecha.</p>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Visita técnica</b>
+      Sin costo. Antes de cerrar cantidades: se mide la tira real, se verifica el neutro en cada
+      caja de llave y se confirma si el recorrido de la cocina es pasable.</span>
+      <b>Sin cargo</b></div>
+    <div class="stage"><span><b style="display:block">Equipos — 100%</b>
+      Por anticipado, una vez ajustadas las cantidades. Asegura el precio y la disponibilidad de
+      los módulos importados.</span><b id="p-eq">$ 895.020</b></div>
+    <div class="stage"><span><b style="display:block">Mano de obra — 30%</b>
+      Antes de que la cuadrilla arranque en obra.</span><b id="p-mo30">$ 115.350</b></div>
+    <div class="stage"><span><b style="display:block">Mano de obra — 70%</b>
+      Al terminar, contra entrega de la documentación de lo instalado.</span>
+      <b id="p-mo70">$ 269.150</b></div>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow big" style="color:var(--gold)"><span>Total</span>
+      <span id="gt">$ 1.279.520</span></div>
+  </div>
+  <div class="note">Los valores ya incluyen IVA, así que pedir Factura A no cambia el monto:
+    cambia sólo la discriminación en el comprobante. Avisanos antes de emitir.</div>
+</section>
+
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="condiciones">
+  <p class="eyebrow">08 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="lead">Nueve puntos, sin letra chica escondida.</p>
+  <p class="hint">👆 Tocá cada punto para leerlo</p>
+  <div class="devs"><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Precios y moneda</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Todos los valores de este presupuesto están expresados en pesos argentinos y con IVA incluido en cada ítem. El equivalente en dólares es sólo de referencia, al tipo de cambio oficial del Banco Nación al 10/09/2026 (1 USD = $ 1.534).</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Validez</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">15 días corridos desde la fecha de emisión. Los módulos Shelly son equipos importados: pasada la validez, el precio se recalcula al tipo de cambio y a la lista vigentes del día.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Forma de pago</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Equipos y materiales: 100% por anticipado, antes de comprar. Es lo que asegura el precio y la disponibilidad. Mano de obra: 30% antes de que la cuadrilla arranque y 70% al terminar, contra entrega de la documentación de lo instalado.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Facturación</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Si necesitás Factura A, avisanos antes de emitir. Los valores de este presupuesto ya incluyen IVA, así que el monto final no cambia — cambia la discriminación en el comprobante.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Alcance de la obra eléctrica</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Este presupuesto NO incluye obra eléctrica ni cotización por boca completa: se trabaja sobre la instalación eléctrica existente de la vivienda. Nova Domus es responsable de todo lo que ejecuta — colocación de tiras LED, perfiles, fuentes, módulos y su vinculación — y de dejarlo funcionando. La instalación eléctrica de base es de terceros y no está bajo nuestra responsabilidad.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Neutro en las cajas de llave</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Los módulos van detrás de la llave y necesitan neutro en esa caja. Donde no lo haya, hay que bajarlo. Es una tarea del electricista de la obra, cuesta muy poco antes de cerrar paredes y es carísima después. Lo verificamos punto por punto en la visita técnica.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Excedentes y faltantes</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Las cantidades de tira LED y perfil salen de la medición informada. Si en obra la medida real difiere, se ajusta contra metro efectivamente instalado, para arriba o para abajo, y se avisa antes de ejecutar.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Garantía</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">12 meses sobre la mano de obra y sobre el funcionamiento del sistema entregado, más la garantía de fábrica de cada equipo.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Documentación de entrega</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Al terminar se entrega el detalle de qué módulo quedó en cada caja, cómo está vinculado cada punto y las credenciales del sistema. Sin eso la obra no se considera terminada.</p></div></article></div>
+</section>
+</div></div>
+
+<div class="wrap">
+
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Dos nombres nada más en esta obra, y cada uno elegido por un motivo concreto.</p>
+  <p class="hint">👆 Tocá cada marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">SHELLY</button><button class="pill" onclick="marca(1,this)">HOME ASSISTANT</button>
+  </div>
+  <div class="ficha" id="f0"><h3>SHELLY</h3><p>Fabricante europeo de relés y módulos de domótica WiFi/Zigbee, pensados para retrofit sobre instalación eléctrica existente. Lo elegimos por su integración estable con Home Assistant y su buena disponibilidad de repuestos en el mercado local.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/tBUUtSxykeA" loading="lazy" title="SHELLY" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f1"><h3>HOME ASSISTANT</h3><p>Sistema de automatización de código abierto, con soporte para miles de dispositivos de distintos fabricantes. Corre local, en la vivienda — no depende de un servidor en la nube de un tercero para seguir funcionando. Lo elegimos porque no ata al cliente a una sola marca.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/p07oNkemrDk" loading="lazy" title="HOME ASSISTANT" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+  <div class="vbox" style="margin-top:24px">
+    <h3>Garantía y post-venta</h3>
+    <p>12 meses sobre nuestra mano de obra y sobre el funcionamiento de lo entregado, más la
+      garantía de fábrica de cada equipo. Ante cualquier falla en ese período, la resolvemos
+      nosotros sin cargo. Pasado el año seguimos estando: el sistema queda documentado, así que
+      cualquier intervención futura arranca sabiendo qué hay instalado y dónde.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="faq">
+  <p class="eyebrow">Preguntas</p>
+  <h2>Antes de que preguntes</h2>
+  <div class="devs"><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Las llaves de la pared siguen funcionando?</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Sí, y es el punto central de cómo trabajamos: la domótica suma control, nunca lo saca. Cada llave de tu casa queda funcionando exactamente igual que hoy. Si mañana se cae el WiFi o desinstalás la app, las luces se siguen prendiendo desde la pared.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Por qué la combinación de la cocina tiene dos opciones?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Porque hay dos formas de resolver que una misma luz se comande desde dos lugares. Una es pasar cable nuevo entre las dos cajas: más barato en materiales, pero implica abrir pared y depende de que el recorrido sea posible. La otra es poner módulos en cada caja y vincularlos: no se abre nada, y esa luz queda además con control desde el celular. Elegís vos en la sección de la cocina.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Hace falta internet para que funcione?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Para el uso manual desde la pared, no. Para controlar desde el celular estando afuera de casa, sí. Dentro de casa alcanza con la red WiFi local.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Esto queda atado a una sola marca?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">No. Los módulos Shelly hablan con Home Assistant, que es un sistema abierto. En esta obra no hay un hub instalado, así que los módulos se vinculan entre ellos de forma nativa desde la app de Shelly. Si más adelante querés escenas de toda la casa, integrar el aire, las cortinas o las cámaras en un solo lugar, se agrega el hub y todo lo instalado ahora se aprovecha. Te lo cotizamos aparte cuando lo pidas, nunca incluido de forma automática.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Qué pasa si algo falla después de la instalación?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Tenés 12 meses de garantía sobre nuestra mano de obra y sobre el funcionamiento del sistema. Los equipos, además, tienen la garantía del fabricante. Ante una falla llamás a un solo teléfono: el nuestro.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Y las tres combinaciones bonificadas?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p class="dc-desc">Combinada de tres puntos, vestidor y habitación quedan pendientes en obra y van sin costo de mano de obra. Se cobra únicamente el equipo. Están contempladas en las cantidades de módulos de este presupuesto.</p></div></article></div>
+</section>
+</div></div>
+
+<div class="wrap">
+
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Visita técnica</h2>
+  <p class="lead" style="margin:0 auto 8px">El primer paso no es comprar nada: es ir, medir la
+    tira real, ver qué cajas tienen neutro y confirmar si la cocina se puede cablear. Sin costo.
+    Recién después se compra.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y quiero avanzar con la visita técnica.</label>
+  </div>
+  <a class="btn" id="go" href="#" aria-disabled="true" target="_blank"
+     rel="noopener">Avanzar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-031</b> · Fernando Manica<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring"
+            stroke-dasharray="163.4" stroke-dashoffset="163.4"
+            stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var OPT = {"A": {"nom": "Cocina con cableado", "sub": "La combinación de la cocina se resuelve pasando cable nuevo entre las dos cajas.", "eqRub": "<article class=\"rub\"><button class=\"rub-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"rub-name\">Automatización — equipos</span><span class=\"rub-val\">$ 530.260</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"rub-body\"><div class=\"tw\"><table><thead><tr><th>Ítem</th><th class=\"num\">Cant.</th><th class=\"num\">Precio unitario</th><th class=\"num\">Subtotal</th></tr></thead><tbody><tr><td>Shelly Plus i4 — lectura de la llave física</td><td class=\"num\">7</td><td class=\"num\">$ 44.780<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 313.460</td></tr><tr><td>Shelly 1PM Mini Gen4 — módulo de comando</td><td class=\"num\">4</td><td class=\"num\">$ 54.200<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 216.800</td></tr></tbody></table></div></div></article>", "moRub": "<article class=\"rub\"><button class=\"rub-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"rub-name\">Automatización — mano de obra</span><span class=\"rub-val\">$ 180.000</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"rub-body\"><div class=\"tw\"><table><thead><tr><th>Ítem</th><th class=\"num\">Cant.</th><th class=\"num\">Precio unitario</th><th class=\"num\">Subtotal</th></tr></thead><tbody><tr><td>Combinación de tecla de cocina con cableado</td><td class=\"num\">1</td><td class=\"num\">$ 60.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 60.000</td></tr><tr><td>Combinación de comedor con domótica (2 i4 + 1 Mini)</td><td class=\"num\">3</td><td class=\"num\">$ 40.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 120.000</td></tr></tbody></table></div></div></article>", "segEq": 530260, "segMo": 180000, "equipos": 751260, "mo": 324500, "total": 1075760, "mo30": 97350, "mo70": 227150, "usd": 702, "i4": 7, "mini": 4, "autom": 4}, "B": {"nom": "Cocina con domótica", "sub": "La combinación de la cocina se resuelve con módulos, sin abrir paredes ni pasar cable.", "eqRub": "<article class=\"rub\"><button class=\"rub-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"rub-name\">Automatización — equipos</span><span class=\"rub-val\">$ 674.020</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"rub-body\"><div class=\"tw\"><table><thead><tr><th>Ítem</th><th class=\"num\">Cant.</th><th class=\"num\">Precio unitario</th><th class=\"num\">Subtotal</th></tr></thead><tbody><tr><td>Shelly Plus i4 — lectura de la llave física</td><td class=\"num\">9</td><td class=\"num\">$ 44.780<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 403.020</td></tr><tr><td>Shelly 1PM Mini Gen4 — módulo de comando</td><td class=\"num\">5</td><td class=\"num\">$ 54.200<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 271.000</td></tr></tbody></table></div></div></article>", "moRub": "<article class=\"rub\"><button class=\"rub-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"rub-name\">Automatización — mano de obra</span><span class=\"rub-val\">$ 240.000</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"rub-body\"><div class=\"tw\"><table><thead><tr><th>Ítem</th><th class=\"num\">Cant.</th><th class=\"num\">Precio unitario</th><th class=\"num\">Subtotal</th></tr></thead><tbody><tr><td>Combinación de tecla de cocina con domótica (2 i4 + 1 Mini)</td><td class=\"num\">3</td><td class=\"num\">$ 40.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 120.000</td></tr><tr><td>Combinación de comedor con domótica (2 i4 + 1 Mini)</td><td class=\"num\">3</td><td class=\"num\">$ 40.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 120.000</td></tr></tbody></table></div></div></article>", "segEq": 674020, "segMo": 240000, "equipos": 895020, "mo": 384500, "total": 1279520, "mo30": 115350, "mo70": 269150, "usd": 835, "i4": 9, "mini": 5, "autom": 5}};
+var RUB_FIJOS = "<article class=\"rub\"><button class=\"rub-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"rub-name\">Iluminación LED — materiales</span><span class=\"tap-badge dark\">Tocá para abrir</span><span class=\"rub-val\">$ 221.000</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"rub-body\"><div class=\"tw\"><table><thead><tr><th>Ítem</th><th class=\"num\">Cant.</th><th class=\"num\">Precio unitario</th><th class=\"num\">Subtotal</th></tr></thead><tbody><tr><td>Fuente para tira LED 12/24 V</td><td class=\"num\">3</td><td class=\"num\">$ 45.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 135.000</td></tr><tr><td>Rollo de tira LED (5 metros)</td><td class=\"num\">2</td><td class=\"num\">$ 35.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 70.000</td></tr><tr><td>Perfil de aluminio para tira LED (2 metros)</td><td class=\"num\">2</td><td class=\"num\">$ 8.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 16.000</td></tr></tbody></table></div></div></article><article class=\"rub\"><button class=\"rub-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"rub-name\">Iluminación LED — obra</span><span class=\"rub-val\">$ 144.500</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"rub-body\"><div class=\"tw\"><table><thead><tr><th>Ítem</th><th class=\"num\">Cant.</th><th class=\"num\">Precio unitario</th><th class=\"num\">Subtotal</th></tr></thead><tbody><tr><td>Colocación de fuente de tira LED (baño, baño y bajomesada de cocina)</td><td class=\"num\">3</td><td class=\"num\">$ 18.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 54.000</td></tr><tr><td>Aplicado de perfil para tira LED en cocina (metro lineal)</td><td class=\"num\">3,25</td><td class=\"num\">$ 5.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 16.250</td></tr><tr><td>Pegado de tira LED en cocina y baño (metro lineal)</td><td class=\"num\">8,25</td><td class=\"num\">$ 9.000<span class=\"iva\"> · IVA incl.</span></td><td class=\"num\">$ 74.250</td></tr></tbody></table></div></div></article>";
+var SEG_LED_MAT = 221000, SEG_LED_MO = 144500;
+var CUR = 'B';
+
+function ars(v){return '$ '+Math.round(v).toLocaleString('es-AR');}
+
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+
+/* ---------- selector de opcion excluyente ---------- */
+function setOpt(k,btn){
+  CUR=k;
+  if(btn){
+    ['optsw-1','optsw-2'].forEach(function(id){
+      var sw=document.getElementById(id); if(!sw) return;
+      sw.querySelectorAll('button').forEach(function(b){
+        b.classList.toggle('on', b.textContent.indexOf(k==='B'?'domótica':'cableado')>-1);
+      });
+    });
+  }
+  var o=OPT[k];
+  ['1','2'].forEach(function(n){
+    var s=document.getElementById('osub-'+n), v=document.getElementById('oval-'+n);
+    if(s) s.textContent=o.sub;
+    if(v) v.textContent=ars(o.total);
+  });
+
+  document.getElementById('bar').innerHTML=
+    '<span class="seg" style="flex:'+SEG_LED_MAT+'"></span>'
+   +'<span class="seg" style="flex:'+SEG_LED_MO+'"></span>'
+   +'<span class="seg" style="flex:'+o.segEq+'"></span>'
+   +'<span class="seg" style="flex:'+o.segMo+'"></span>';
+  document.getElementById('legend').innerHTML=
+    '<li><i class="dot d0"></i>Iluminación LED — materiales <b>'+ars(SEG_LED_MAT)+'</b></li>'
+   +'<li><i class="dot d1"></i>Iluminación LED — obra <b>'+ars(SEG_LED_MO)+'</b></li>'
+   +'<li><i class="dot d2"></i>Automatización — equipos <b>'+ars(o.segEq)+'</b></li>'
+   +'<li><i class="dot d3"></i>Automatización — obra <b>'+ars(o.segMo)+'</b></li>';
+
+  document.getElementById('rubros').innerHTML = RUB_FIJOS + o.eqRub + o.moRub;
+
+  document.getElementById('t-eq').textContent  = ars(o.equipos);
+  document.getElementById('t-mo').textContent  = ars(o.mo);
+  document.getElementById('t-tot').textContent = ars(o.total);
+  document.getElementById('t-usd').textContent = 'U$D '+o.usd.toLocaleString('es-AR');
+  document.getElementById('p-eq').textContent   = ars(o.equipos);
+  document.getElementById('p-mo30').textContent = ars(o.mo30);
+  document.getElementById('p-mo70').textContent = ars(o.mo70);
+  document.getElementById('gt').textContent      = ars(o.total);
+
+  var txt='Hola Nova Domus, revisé la propuesta PY-2026-031 de Fernando Manica por '
+    +ars(o.total)+' (opción: '+o.nom+') y quiero avanzar con la visita técnica.';
+  document.getElementById('go').href='https://wa.me/5493516747513?text='+encodeURIComponent(txt);
+}
+
+/* --- RENDER CRITICO PRIMERO: los precios no dependen de nada decorativo --- */
+setOpt('B',null);
+
+/* ---------- simulador de escenas ---------- */
+var ESC=[
+ ['Baño de noche','linear-gradient(160deg,#3a3560,#0B132B 72%)',
+  'A las tres de la mañana no querés el plafón del techo en la cara. La tira del zócalo enciende sola al 15% y alcanza perfecto para no chocarte con nada.'],
+ ['Cocinar','linear-gradient(160deg,#f2dfa8,#c9b478 70%)',
+  'La tira del bajomesada tira luz directa sobre la mesada, ahí donde tu propio cuerpo tapa la luz del techo. Es luz de trabajo, no decoración.'],
+ ['Recibir','linear-gradient(160deg,#d8b98a,#6b5f8f 72%)',
+  'Tira al 40% y el comedor comandado desde donde estés parado. La casa se ve más grande y nadie está buscando la llave.'],
+ ['Salir','linear-gradient(160deg,#1b2145,#05070f 70%)',
+  'Un toque desde el celular en la puerta y las cinco combinaciones quedan apagadas. Sin recorrer la casa apagando de a una.']
+];
+function esc(i,btn){
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('sv').style.background=ESC[i][1];
+  document.getElementById('st').textContent=ESC[i][0];
+  document.getElementById('sd').textContent=ESC[i][2];
+}
+esc(0,document.querySelector('#s01 .sw button'));
+var br=document.getElementById('br');
+br.addEventListener('input',function(){
+  document.getElementById('bv').textContent=br.value+'%';
+  document.getElementById('sv').style.opacity=(0.35+br.value/100*0.65).toFixed(2);
+});
+
+/* ---------- device cards ---------- */
+var DEVGRID = {"led": "<article class=\"dev\"><button class=\"dev-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"dev-title\">Tira LED 12/24 V<span class=\"dc-qty\">2 unidades</span></span><span class=\"tap-badge\">Tocá para abrir</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"dev-body\"><div class=\"dev-body-flex\"><div class=\"dc-photo-pend\">Foto<br>pendiente</div><p class=\"dc-desc\">Dos rollos de 5 metros para los dos baños y el bajomesada de la cocina. Luz continua, sin puntos calientes, montada dentro del perfil.</p></div></div></article><article class=\"dev\"><button class=\"dev-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"dev-title\">Perfil de aluminio con difusor<span class=\"dc-qty\">2 unidades</span></span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"dev-body\"><div class=\"dev-body-flex\"><div class=\"dc-photo-pend\">Foto<br>pendiente</div><p class=\"dc-desc\">El perfil hace dos cosas: difunde la luz para que no se vea el punto de cada LED, y disipa el calor. Sin perfil la tira dura mucho menos.</p></div></div></article><article class=\"dev\"><button class=\"dev-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"dev-title\">Fuente de alimentación 12/24 V<span class=\"dc-qty\">3 unidades</span></span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"dev-body\"><div class=\"dev-body-flex\"><div class=\"dc-photo-pend\">Foto<br>pendiente</div><p class=\"dc-desc\">Una fuente por zona, colocada en un lugar accesible y ventilado. Dimensionada con margen sobre el consumo real de cada tramo.</p></div></div></article>", "dom": "<article class=\"dev\"><button class=\"dev-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"dev-title\">Shelly Plus i4<span class=\"dc-qty\">hasta 9 unidades</span></span><span class=\"tap-badge\">Tocá para abrir</span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"dev-body\"><div class=\"dev-body-flex\"><img class=\"dc-photo\" src=\"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235265079.jpg\" alt=\"Shelly Plus i4\" onerror=\"imgErr(this)\"><p class=\"dc-desc\">Lee la llave física de la pared. No comanda la luz directo: le avisa al módulo que sí la comanda. Es lo que permite que una misma luz se prenda desde dos lugares distintos sin pasar cable entre las dos cajas.</p></div></div></article><article class=\"dev\"><button class=\"dev-head\" onclick=\"tog(this)\" aria-expanded=\"false\"><span class=\"dev-title\">Shelly 1PM Mini Gen4<span class=\"dc-qty\">hasta 5 unidades</span></span><span class=\"arr\" aria-hidden=\"true\">▾</span></button><div class=\"dev-body\"><div class=\"dev-body-flex\"><img class=\"dc-photo\" src=\"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1pm-mini-gen4.jpg\" alt=\"Shelly 1PM Mini Gen4\" onerror=\"imgErr(this)\"><p class=\"dc-desc\">El módulo que efectivamente prende y apaga. Va detrás de la llave y mide el consumo del circuito. La llave sigue funcionando igual que siempre — se le suma el control desde el celular.</p></div></div></article>"};
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
+Object.keys(DEVGRID).forEach(function(k){
+  var el=document.getElementById('grid-'+k); if(el) el.innerHTML=DEVGRID[k];
+});
+
+/* ---------- fichas de marca ---------- */
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled',
+    document.getElementById('ok').checked?'false':'true');
+}
+
+/* ---------- contadores (decorativo: con guarda de soporte) ---------- */
+if(!('IntersectionObserver' in window)){
+  document.querySelectorAll('.figure[data-n]').forEach(function(x){
+    x.textContent=x.dataset.n;});
+} else {
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+}
+
+/* ---------- anillo de progreso + nav activa (decorativo) ---------- */
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function _onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+function onScroll(){ try{ _onScroll(); }catch(e){} }
+addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+
+</body></html>
