@@ -517,10 +517,21 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
   </div>
 </section>
 
-<!-- ===================== 07 AMPLIACION DE ALCANCE ===================== -->
+<!-- ===================== 07 RESPUESTAS A CONSULTAS ===================== -->
 <section>
   <div class="wrap">
     <span class="sec-num">07</span>
+    <h2 style="margin-top:8px">Respuestas a tus consultas</h2>
+    <p class="lead">Cada punto que planteaste, respondido. Las definiciones que derivan en equipamiento nuevo están cotizadas en la sección siguiente.</p>
+    <p class="hint" style="margin-top:26px">👆 Tocá cada consulta para leer la respuesta</p>
+    <div id="consultas"></div>
+  </div>
+</section>
+<hr class="rule">
+<!-- ===================== 07 AMPLIACION DE ALCANCE ===================== -->
+<section>
+  <div class="wrap">
+    <span class="sec-num">08</span>
     <h2 style="margin-top:8px">Ampliación de alcance</h2>
     <p class="lead">Equipamiento adicional definido a partir de tus consultas técnicas. Se cotiza aparte de la propuesta base para que puedas decidirlo por separado.</p>
 
@@ -593,7 +604,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 <!-- ===================== INVERSION ===================== -->
 <section class="section-light" id="inversion">
   <div class="wrap">
-    <span class="sec-num">08</span>
+    <span class="sec-num">09</span>
     <h2 style="margin-top:8px">Inversión</h2>
     <p class="lead">Todos los valores en dólares. El IVA va discriminado por ítem porque no todos tributan igual: el equipamiento de red y el disco de videovigilancia tributan 10,5% y el resto 21%.</p>
 
@@ -616,7 +627,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
       <tr class="big"><td>Total del proyecto</td><td>U$D <span id="t-total"></span></td></tr>
     </table>
     <p style="font-size:13px;margin-top:16px;padding:12px 14px;border-left:3px solid var(--navy);background:rgba(20,30,97,.05);border-radius:4px">
-      <b>Si sumás la ampliación de alcance</b> (sección 07, U$D 918), el total del proyecto pasa a <b>U$D 10.176</b>.
+      <b>Si sumás la ampliación de alcance</b> (sección 08, U$D 918), el total del proyecto pasa a <b>U$D 10.176</b>.
       Se cotiza por separado para que puedas decidirla aparte; no está incluida en el total de arriba.</p>
     <p style="font-size:12.5px;margin-top:14px">Presupuesto válido por 15 días. Tipo de cambio de referencia: BNA oficial. Los valores de equipamiento están sujetos a disponibilidad de importación al momento de la compra.</p>
   </div>
@@ -625,7 +636,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 <!-- ===================== PAGOS ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">09</span>
+    <span class="sec-num">10</span>
     <h2 style="margin-top:8px">Ejecución y forma de pago</h2>
     <p class="lead">Plazo de obra: 10 días hábiles desde la llegada del equipamiento, sujeto a que los tendidos de datos estén ejecutados.</p>
     <div style="margin-top:26px">
@@ -645,7 +656,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 <!-- ===================== CONDICIONES ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">10</span>
+    <span class="sec-num">11</span>
     <h2 style="margin-top:8px">Condiciones generales</h2>
     <p class="hint" style="margin-top:16px">👆 Tocá cada condición para leerla</p>
     <div id="cond"></div>
@@ -1124,6 +1135,44 @@ const BR=[
     m+='\nTOTAL: U$D '+F(t.total+(fa?labor*0.21:0))+'\n\nCoordinemos la visita técnica de replanteo.';
     window.open('https://wa.me/?text='+encodeURIComponent(m),'_blank');
   });
+})();
+
+/* ---------- respuestas a consultas de la clienta ---------- */
+const CONSULTAS=[
+['Home Assistant: ¿dejan copias de seguridad automáticas fuera del equipo?',
+ 'Sí, y te recomendamos dos destinos a la vez: una copia en la red local para restaurar rápido, y otra fuera de la casa por si le pasa algo físico al equipo. Van programadas y automáticas, no dependen de que alguien se acuerde.<br><br>La configuración entra en la programación ya cotizada. Lo único que hay que definir es a qué cuenta de nube van, porque son tus datos y queda a tu nombre.<br><br><b>Por qué importa:</b> el servidor guarda toda la configuración y las automatizaciones en su memoria interna. Si el equipo falla y no hay copia, se pierde todo y hay que rehacerlo. Con copia, se restaura en un equipo nuevo en minutos.'],
+
+['Cámaras: ¿seguimos con el equipo del kit o pasamos al grabador con disco?',
+ '<b>Pasar al grabador con disco</b>, y no es preferencia nuestra: es aritmética.<br><br>El equipo del kit admite <b>4 cámaras</b>. Tu cuenta es 3 que vuelven + 1 exterior nueva + 1 del taller = <b>5</b>. Ya no entran.<br><br>Hay dos motivos más:<br>· <b>Graba solo en tarjeta de memoria.</b> Una microSD tiene poca capacidad y se desgasta con la escritura continua: son días de grabación, no semanas, y falla sin avisar. El disco cotizado está diseñado para grabar las 24 horas, todos los días.<br>· <b>El grabador nuevo distingue personas y vehículos</b> del movimiento de una rama. Con cámaras exteriores, esa diferencia es la que hace que los avisos sirvan en lugar de molestar.<br><br><b>Cómo lo resolvemos, para no tener que cablear las tres que ya tenés:</b> las tres exteriores se quedan en su grabador actual con su tarjeta, y las vas a ver junto a todas las demás en una sola pantalla. Las dos nuevas van cableadas al grabador con disco.<br><br><b>El límite honesto de esa decisión:</b> las tres exteriores van a seguir grabando solo en tarjeta. Son las cámaras más importantes para seguridad y quedan con la grabación más limitada. Se ahorra el cableado, pero conviene que lo sepas al decidir.<br><br><b>Alimentación eléctrica:</b> las tres que vuelven probablemente conserven su punto; las dos nuevas no lo tienen. Ese trabajo es del electricista de obra, no está en nuestro presupuesto.'],
+
+['Configuración de Hikvision: ¿qué datos necesitan del instalador?',
+ 'Como vos nos vas a dar las claves y nosotros centralizamos todo en nuestra cuenta profesional para después derivártela configurada, la lista es corta:<br><br>· Usuario y contraseña de <b>administrador</b> de la central de alarma<br>· Credenciales del <b>grabador del kit</b>, para habilitar la transmisión y que el sistema general lo lea<br>· Usuario y contraseña de <b>cada cámara</b><br>· Que el instalador <b>libere los equipos de su cuenta</b>, para que podamos agregarlos a la nuestra<br>· El <b>modelo exacto y la versión de firmware</b> de la central<br><br><b>Y un punto que es urgente, más allá de las claves:</b> la central está comunicando por una línea de teléfono del instalador, y en la aplicación figura desconectada. Eso significa que <b>hoy la alarma no está reportando</b>. Y aunque reportara, depende de una línea que no es tuya: el día que él la dé de baja, la alarma queda muda sin que nadie se entere.<br><br>Hay que poner un chip a tu nombre. Es barato, y es la diferencia entre tener alarma y creer que se tiene.'],
+
+['Alarma: ¿conviene una segunda central en el taller?',
+ '<b>No hace falta.</b> Tu central admite 48 zonas y 8 áreas independientes, y hoy usa 10 zonas. Hay lugar de sobra para la puerta de entrada, el taller y la detección de fuego.<br><br>El taller se configura como <b>área propia</b>: se arma y se desarma solo, sin tocar el resto de la casa, y aparece por separado en la aplicación general. Es exactamente lo que buscabas con una segunda central, pero sin el costo y sin tener dos sistemas para mantener.<br><br><b>Para el taller proponemos un detector de movimiento</b> en vez de contacto en cada una de las cuatro aberturas: un solo equipo cubre el ambiente completo y sale menos.<br><br><i>Una aclaración:</i> mencionaste que la central usa 10 de 16 zonas, y el modelo que figura admite 48. Puede que le hayan configurado un tope. Lo verificamos apenas tengamos acceso — no cambia la recomendación, pero conviene confirmarlo.'],
+
+['Esquema eléctrico: ¿ven viable la división en dos grupos con llave de tres posiciones?',
+ '<b>Sí, y está bien pensado.</b> Los tres puntos que planteás son correctos:<br><br>· <b>Grupo 1 fijo en respaldo con llave manual de tres posiciones.</b> La llave es buena práctica: te permite aislar o forzar red sin depender de nadie, incluso con el inversor en falla o en mantenimiento.<br><br>· <b>Aires y bombas grandes fuera del respaldo.</b> Correcto, y coincide con lo que pide el fabricante del inversor. Una aclaración: <b>la bomba circuladora de la caldera sí puede ir en el grupo 1</b> — es una bomba chica, no del tipo que hay que excluir. La de la pileta, no.<br><br>· <b>Que el sistema no cambie grupos de fuente.</b> Esto es lo mejor del planteo. Conmutar entre red y respaldo es tarea del inversor, que lo hace por hardware en milisegundos. La domótica no tiene que meterse ahí: se ocupa de apagar cargas y de arrancar las desplazables cuando sobra sol. Es la división de responsabilidades correcta, y evita que un problema de software te deje sin energía.<br><br><b>Un punto a tener en cuenta:</b> aunque el rack quede en el grupo respaldado, <b>el equipo de respaldo del rack sigue siendo necesario</b>. La conmutación del inversor es muy rápida, pero un grabador escribiendo en disco puede reiniciarse igual con un corte de milisegundos. Y si el inversor está en falla o mantenimiento, es lo único que queda.'],
+
+['Tableros: ¿pueden coordinar directo con el proveedor solar?',
+ 'Sí, coordinamos directo. Es lo más práctico y lo agradecemos: resolver el punto de unión entre técnicos evita malentendidos que después son caros.<br><br>Lo que necesitamos definir con ellos es el punto exacto de unión, qué circuitos quedan de cada lado, y el orden de las dos obras: nosotros necesitamos el tablero de respaldo armado y los circuitos definidos antes de colocar los módulos de gestión de cargas.'],
+
+['Consumo en espera: ¿cómo lo harían y cuánto suma?',
+ '<b>Por umbral de consumo, no por horario.</b> El módulo detecta que el aparato bajó de cierto consumo durante cierto tiempo y recién ahí corta. Por horario es tosco: apaga cosas que estabas usando.<br><br><b>Módulos en la caja, no enchufes inteligentes.</b> Los enchufes se ven, se desenchufan y quedan sueltos. Detrás del tomacorriente queda invisible y no se puede desconectar por accidente.<br><br><b>Ahora la parte incómoda, y preferimos decírtela:</b> es probable que el ahorro no justifique la inversión. Un televisor moderno en espera consume menos de medio watt — las normas de eficiencia bajaron muchísimo el consumo en reposo de los últimos diez años. Esto tiene sentido solo en los pocos aparatos que realmente consumen en reposo: equipos de audio viejos, algunos decodificadores, fuentes de escritorio, transformadores de iluminación.<br><br><b>Por eso no lo cotizamos todavía.</b> Lo que proponemos es medir en la visita técnica el consumo real en espera de los aparatos candidatos. Si hay tres o cuatro que lo justifican, los cotizamos. Si ninguno pasa de un par de watts, te lo decimos y te ahorrás la plata.<br><br><b>Una excepción donde sí tiene sentido claro:</b> durante un corte largo, cortar todo lo no esencial estira la batería. Pero eso ya lo resuelve el esquema de dos grupos que propusiste, sin necesidad de módulos adicionales.'],
+
+['Circuitos del grupo 1 y cantidad de aires',
+ 'De acuerdo con relevar cómo está dividida la instalación: es parte de la visita técnica.<br><br>Confirmado que en el grupo 1, además de luces y tomas, van <b>heladera, freezer, bomba de la caldera, rack y alarma</b>.<br><br>Y sobre los aires: <b>ya está corregido a cuatro</b>. La propuesta base ahora incluye los cuatro controles y el total está actualizado.'],
+
+['Auto eléctrico: ¿se puede dejar lugar reservado?',
+ 'Sí, y es la decisión correcta hacerlo ahora aunque el auto llegue después. Dejar el espacio reservado en el tablero nuevo y el caño con guía cuesta muy poco durante la obra, y muchísimo si hay que agregarlo con todo terminado.<br><br>El cargador va en el grupo 2, tal como lo planteaste: es una carga grande y no tiene sentido respaldarla con batería.<br><br>Ese trabajo corresponde a la obra eléctrica, no a este presupuesto. Ya está indicado para que quede previsto.']
+];
+(function(){
+  const host=document.getElementById('consultas'); if(!host)return;
+  host.innerHTML=CONSULTAS.map((c,i)=>
+    `<div class="dev"><button type="button" aria-expanded="false"><span class="qty" style="min-width:24px">${String(i+1).padStart(2,'0')}</span>
+     <span class="nm">${c[0]}</span>${i===0?'<span class="tapbadge">Tocá para abrir</span>':''}<span class="arw ${i===0?'bounce':''}">▾</span></button>
+     <div class="panel"><div class="panel-in"><p style="margin:0">${c[1]}</p></div></div></div>`).join('');
+  bindAcc(host);
 })();
 
 </script>
