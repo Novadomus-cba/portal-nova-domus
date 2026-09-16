@@ -486,6 +486,29 @@
     .fin-detail { font-size: 12px; color: var(--muted); }
     .fin-detail b { color: var(--text); }
 
+    .debitos-alert-box {
+      border: 1px solid rgba(231,76,60,0.4);
+      background: rgba(231,76,60,0.08);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .debitos-alert-title { font-size: 12px; font-weight: 700; color: #ff8a80; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .debitos-alert-total { font-family: var(--font-display); font-size: 18px; color: #ff8a80; margin-bottom: 6px; }
+    .debitos-item-row { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; padding: 4px 0; border-bottom: 1px dashed rgba(231,76,60,0.25); }
+    .debitos-item-row:last-child { border-bottom: none; }
+    .debitos-item-row span:first-child { flex: 1; min-width: 0; }
+    .debitos-item-row span:last-child { white-space: nowrap; color: var(--muted); }
+    .debitos-alert-meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+
+    .debitos-day { border-left: 2px solid var(--border); padding-left: 12px; margin-bottom: 12px; }
+    .debitos-day:last-child { margin-bottom: 0; }
+    .debitos-day.highlight { border-left-color: var(--accent); background: rgba(200,169,110,0.08); border-radius: 6px; padding: 8px 12px; margin-left: -1px; }
+    .debitos-day-header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+    .debitos-day-date { font-weight: 600; font-size: 13px; }
+    .debitos-day-total { font-family: var(--font-display); font-size: 14px; white-space: nowrap; }
+    .debitos-day-split { font-size: 11px; color: var(--muted); }
+
     .cheque-row {
       display: flex;
       justify-content: space-between;
@@ -520,8 +543,122 @@
     .propuesta-numero { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 4px; }
     .propuesta-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
+    /* SITIO PÚBLICO (solo Agustín) */
+    .sitio-stats {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .sitio-stat { flex: 1 1 140px; min-width: 140px; }
+    .sitio-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .sitio-stat-value {
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .sitio-stat-delta { font-size: 12px; margin-top: 4px; }
+    .sitio-stat-delta.up { color: #6fe3a0; }
+    .sitio-stat-delta.down { color: #ff8a80; }
+    .sitio-stat-delta.flat { color: var(--muted); }
+    .sitio-stat-breakdown { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+    .sitio-link-box {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .sitio-link-box code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: var(--accent);
+      font-size: 11px;
+      word-break: break-all;
+    }
+
+    .heatmap-scroll { overflow-x: auto; padding-bottom: 4px; }
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: 34px repeat(24, minmax(20px, 1fr));
+      gap: 2px;
+      min-width: 560px;
+    }
+    .heatmap-hour-label, .heatmap-day-label {
+      font-size: 9px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .heatmap-day-label { justify-content: flex-start; padding-right: 4px; }
+    .heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: var(--surface2);
+    }
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .heatmap-legend-swatch { width: 12px; height: 12px; border-radius: 2px; }
+
+    .visitas-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .visitas-toolbar input { accent-color: var(--accent); cursor: pointer; }
+
+    .visita-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .visita-row:last-child { border-bottom: none; }
+    .visita-row.conversion { background: rgba(200,169,110,0.08); border-radius: 6px; padding: 8px 8px; }
+    .visita-device { flex-shrink: 0; width: 18px; text-align: center; }
+    .visita-main { flex: 1; min-width: 0; }
+    .visita-pagina { font-weight: 600; color: var(--text); }
+    .visita-meta { color: var(--muted); margin-top: 2px; }
+    .visita-tiempo { color: var(--muted); white-space: nowrap; font-size: 11px; }
+    .visita-badge-conv {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(200,169,110,0.18);
+      color: var(--accent);
+      margin-left: 6px;
+    }
+    .visita-bot-tag { color: var(--muted); font-size: 10px; margin-left: 6px; }
+
     @media (max-width: 640px) {
       main { padding: 32px 16px 60px; }
+      .sitio-stats { gap: 20px; }
     }
 
     /* ── Modal sesión expirada ── */
@@ -597,6 +734,15 @@
         <a class="panel-card-link" href="contable.html">Ver Posición Bancaria →</a>
       </section>
 
+      <section class="panel-card" id="cardAgendaDebitos">
+        <div class="panel-card-header">
+          <span class="panel-card-title">🗓️ Agenda de Débitos</span>
+          <span class="panel-card-updated" id="agendaDebitosUpdated"></span>
+        </div>
+        <div class="panel-card-body" id="agendaDebitosBody">Cargando…</div>
+        <a class="panel-card-link" href="contable.html">Ver Posición Bancaria →</a>
+      </section>
+
       <section class="panel-card" id="cardCheques">
         <div class="panel-card-header">
           <span class="panel-card-title">🧾 Cheques por vencer (7 días)</span>
@@ -619,6 +765,39 @@
         </div>
         <div class="panel-card-body" id="inboxBody">Cargando…</div>
         <div class="panel-card-footnote">Clasificación hecha por Claude según remitente/contenido — no es un filtro nativo de Gmail.</div>
+      </section>
+
+      <section class="panel-card" id="cardSitioContador">
+        <div class="panel-card-header">
+          <span class="panel-card-title">🌐 Sitio Público — Esta semana</span>
+        </div>
+        <div class="panel-card-body" id="sitioContadorBody">Cargando…</div>
+      </section>
+
+      <section class="panel-card" id="cardSitioHeatmap">
+        <div class="panel-card-header">
+          <span class="panel-card-title">🕐 Sitio Público — Cuándo entran (últimas 4 semanas)</span>
+        </div>
+        <div class="panel-card-body" id="sitioHeatmapBody">Cargando…</div>
+      </section>
+
+      <section class="panel-card" id="cardSitioVisitas">
+        <div class="panel-card-header">
+          <span class="panel-card-title">👣 Sitio Público — Últimas visitas</span>
+        </div>
+        <div class="panel-card-body" id="sitioVisitasBody">
+          <div class="visitas-toolbar">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+              <input type="checkbox" id="sitioMostrarBots" onchange="cargarUltimasVisitasSitio()" /> Mostrar bots/crawlers
+            </label>
+          </div>
+          <div id="sitioVisitasLista">Cargando…</div>
+        </div>
+        <div class="sitio-link-box">
+          Para que tu propia navegación no ensucie estos números, abrí una vez
+          <code>https://nova-domus.com.ar/?nd_interno=1</code> en cada navegador que uses para probar el sitio
+          (se revierte con <code>?nd_interno=0</code>).
+        </div>
       </section>
     </div>
   </div>
@@ -1144,6 +1323,97 @@
     `;
   }
 
+  // Costos fijos no tienen fecha propia -- son una plantilla mensual que
+  // fn_agenda_debitos() proyecta hacia adelante (dia_vencimiento_estimado de
+  // cada fila, todas en dia 10 desde la consolidacion del 15/09/2026).
+  // Atrasados (fecha < hoy, estado='PENDIENTE' crudo) se muestran siempre,
+  // sin importar el rango de dias_adelante pedido -- mismo criterio que la
+  // Agenda de Debitos de contable.html, ver memoria project_agenda_debitos_contable.
+  function diasAtraso(fecha) {
+    return Math.floor((Date.now() - parseDate(fecha).getTime()) / UN_DIA_MS);
+  }
+
+  function renderAgendaDebitos(rows) {
+    const el = document.getElementById('agendaDebitosBody');
+    document.getElementById('agendaDebitosUpdated').textContent = 'Actualizado: ' + fdt(new Date().toISOString());
+
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Sin débitos pendientes cargados.</div>';
+      return;
+    }
+
+    const atrasados = [...rows.filter(r => r.atrasado)].sort((a, b) => a.fecha.localeCompare(b.fecha));
+    const vigentes = rows.filter(r => !r.atrasado);
+
+    const hoy = new Date().toISOString().slice(0, 10);
+    const hoyMas10 = addCalendarDays(hoy, 10);
+    const diario = vigentes.filter(r => r.fecha <= hoyMas10);
+
+    const porDia = {};
+    diario.forEach(r => {
+      if (!porDia[r.fecha]) porDia[r.fecha] = { total: 0, fijo: 0, variable: 0 };
+      porDia[r.fecha].total += Number(r.monto);
+      porDia[r.fecha][r.tipo_costo === 'FIJO' ? 'fijo' : 'variable'] += Number(r.monto);
+    });
+    const fechasDiario = Object.keys(porDia).sort();
+
+    const costosFijos = [...vigentes.filter(r => r.origen === 'costo_fijo')].sort((a, b) => a.fecha.localeCompare(b.fecha));
+    const proximoDia10 = costosFijos.length ? costosFijos[0].fecha : null;
+
+    let html = '';
+
+    if (atrasados.length) {
+      const totalAtrasado = atrasados.reduce((s, r) => s + Number(r.monto), 0);
+      const maxAtraso = Math.max(...atrasados.map(r => diasAtraso(r.fecha)));
+      html += `
+        <div class="debitos-alert-box">
+          <div class="debitos-alert-title">⚠ Atrasados (${atrasados.length})</div>
+          <div class="debitos-alert-total">${f$(totalAtrasado)}</div>
+          <div class="debitos-alert-meta">Hasta ${maxAtraso} día${maxAtraso === 1 ? '' : 's'} de atraso — estado PENDIENTE sin resolver, no se descartan.</div>
+          ${atrasados.map(r => `
+            <div class="debitos-item-row">
+              <span>${r.concepto}</span>
+              <span>${f$(r.monto)} · ${fd(r.fecha)} (${diasAtraso(r.fecha)}d)</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (fechasDiario.length) {
+      html += fechasDiario.map(f => {
+        const d = porDia[f];
+        const isDia10 = f === proximoDia10;
+        return `
+          <div class="debitos-day${isDia10 ? ' highlight' : ''}">
+            <div class="debitos-day-header">
+              <span class="debitos-day-date">${diaAbrev(f)} ${fd(f)}${isDia10 ? ' · día 10 (costos fijos)' : ''}</span>
+              <span class="debitos-day-total">${f$(d.total)}</span>
+            </div>
+            <div class="debitos-day-split">Fijo: ${f$(d.fijo)} · Variable: ${f$(d.variable)}</div>
+          </div>
+        `;
+      }).join('');
+    } else if (!atrasados.length) {
+      html += '<div class="panel-card-empty">Sin débitos proyectados en los próximos 10 días.</div>';
+    }
+
+    if (proximoDia10 && !fechasDiario.includes(proximoDia10)) {
+      const totalDia10 = vigentes.filter(r => r.fecha === proximoDia10).reduce((s, r) => s + Number(r.monto), 0);
+      html += `
+        <div class="debitos-day highlight">
+          <div class="debitos-day-header">
+            <span class="debitos-day-date">Próximo día 10 · ${fd(proximoDia10)} (costos fijos)</span>
+            <span class="debitos-day-total">${f$(totalDia10)}</span>
+          </div>
+          <div class="debitos-day-split">${costosFijos.filter(r => r.fecha === proximoDia10).length} conceptos fijos del mes.</div>
+        </div>
+      `;
+    }
+
+    el.innerHTML = html;
+  }
+
   function renderCheques(rows) {
     const el = document.getElementById('chequesBody');
     if (!rows.length) {
@@ -1156,6 +1426,156 @@
         <span>${f$(c.monto)} · ${diaAbrev(c.fecha_efectivo)} ${fd(c.fecha_efectivo)}</span>
       </div>
     `).join('');
+  }
+
+  // ─────────────── Sitio Público (solo Agustín, ver RLS de site_hits) ───────────────
+
+  function calcDeltaPct(actual, anterior) {
+    if (anterior == null) return null;
+    if (anterior === 0) return actual > 0 ? Infinity : 0;
+    return Math.round(((actual - anterior) / anterior) * 100);
+  }
+
+  function deltaHtmlSitio(actual, anterior) {
+    const pct = calcDeltaPct(actual, anterior);
+    if (pct === null) return '<div class="sitio-stat-delta flat">— sin semana anterior para comparar</div>';
+    if (pct === Infinity) return '<div class="sitio-stat-delta up">▲ nuevo (semana anterior en 0)</div>';
+    if (pct > 0) return `<div class="sitio-stat-delta up">▲ ${pct}% vs. semana anterior</div>`;
+    if (pct < 0) return `<div class="sitio-stat-delta down">▼ ${Math.abs(pct)}% vs. semana anterior</div>`;
+    return '<div class="sitio-stat-delta flat">= sin cambios vs. semana anterior</div>';
+  }
+
+  function renderSitioContador(rows) {
+    const el = document.getElementById('sitioContadorBody');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Todavía no hay datos del sitio público — vas a empezar a ver métricas en cuanto el sitio en producción reciba las primeras visitas reales.</div>';
+      return;
+    }
+    const actual = rows.find(r => r.semana === 'actual') || { pageviews: 0, visitas_unicas: 0, whatsapp: 0, form: 0, contactos: 0 };
+    const anterior = rows.find(r => r.semana === 'anterior') || null;
+    el.innerHTML = `
+      <div class="sitio-stats">
+        <div class="sitio-stat">
+          <div class="sitio-stat-label">Visitas únicas</div>
+          <div class="sitio-stat-value">${actual.visitas_unicas}</div>
+          ${deltaHtmlSitio(Number(actual.visitas_unicas), anterior ? Number(anterior.visitas_unicas) : null)}
+          <div class="sitio-stat-breakdown">${actual.pageviews} pageviews en total</div>
+        </div>
+        <div class="sitio-stat">
+          <div class="sitio-stat-label">Contactos (WhatsApp + formulario)</div>
+          <div class="sitio-stat-value">${actual.contactos}</div>
+          ${deltaHtmlSitio(Number(actual.contactos), anterior ? Number(anterior.contactos) : null)}
+          <div class="sitio-stat-breakdown">${actual.whatsapp} WhatsApp · ${actual.form} formulario</div>
+        </div>
+      </div>
+    `;
+  }
+
+  const DIA_SEMANA_LABELS = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']; // isodow 1..7
+
+  function renderSitioHeatmap(rows) {
+    const el = document.getElementById('sitioHeatmapBody');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Todavía no hay datos del sitio público — vas a empezar a ver el mapa de calor en cuanto haya visitas reales.</div>';
+      return;
+    }
+    const matrix = {};
+    let max = 0;
+    rows.forEach(r => {
+      const v = Number(r.visitas);
+      matrix[`${r.dia_semana}-${r.hora}`] = v;
+      if (v > max) max = v;
+    });
+
+    let hourHeaderHtml = '<div></div>';
+    for (let hora = 0; hora < 24; hora++) {
+      hourHeaderHtml += `<div class="heatmap-hour-label">${hora % 3 === 0 ? hora : ''}</div>`;
+    }
+
+    let cellsHtml = '';
+    for (let dia = 1; dia <= 7; dia++) {
+      cellsHtml += `<div class="heatmap-day-label">${DIA_SEMANA_LABELS[dia - 1]}</div>`;
+      for (let hora = 0; hora < 24; hora++) {
+        const v = matrix[`${dia}-${hora}`] || 0;
+        const intensity = max > 0 ? v / max : 0;
+        const bg = intensity === 0 ? 'var(--surface2)' : `rgba(200,169,110,${(0.12 + intensity * 0.75).toFixed(2)})`;
+        cellsHtml += `<div class="heatmap-cell" style="background:${bg}" title="${DIA_SEMANA_LABELS[dia - 1]} ${String(hora).padStart(2, '0')}:00 — ${v} visita${v === 1 ? '' : 's'}"></div>`;
+      }
+    }
+
+    el.innerHTML = `
+      <div class="heatmap-scroll">
+        <div class="heatmap-grid">
+          ${hourHeaderHtml}
+          ${cellsHtml}
+        </div>
+      </div>
+      <div class="heatmap-legend">
+        <span>Menos</span>
+        <span class="heatmap-legend-swatch" style="background:var(--surface2)"></span>
+        <span class="heatmap-legend-swatch" style="background:rgba(200,169,110,0.4)"></span>
+        <span class="heatmap-legend-swatch" style="background:rgba(200,169,110,0.87)"></span>
+        <span>Más</span>
+      </div>
+    `;
+  }
+
+  const PAGINA_LABEL_SITIO = {
+    '/': 'Inicio', '/index.html': 'Inicio', '/nosotros.html': 'Nosotros', '/servicios.html': 'Servicios',
+    '/marcas.html': 'Marcas', '/obras.html': 'Obras', '/vidriera.html': 'Vidriera',
+    '/contacto.html': 'Contacto', '/participaciones.html': 'Participaciones',
+  };
+
+  const DEVICE_ICON_SITIO = { mobile: '📱', tablet: '📟', desktop: '🖥️' };
+
+  function origenDeReferrerSitio(host) {
+    if (!host) return 'Directo';
+    if (/instagram/i.test(host)) return 'Instagram';
+    if (/google/i.test(host)) return 'Google';
+    if (/facebook/i.test(host)) return 'Facebook';
+    if (/nova-domus/i.test(host)) return 'Interno';
+    return host;
+  }
+
+  function renderUltimasVisitasSitio(rows) {
+    const el = document.getElementById('sitioVisitasLista');
+    if (!rows.length) {
+      el.innerHTML = '<div class="panel-card-empty">Todavía no hay visitas registradas — vas a empezar a verlas en cuanto el sitio en producción reciba tráfico real.</div>';
+      return;
+    }
+    el.innerHTML = rows.map(r => {
+      const esConversion = r.kind === 'whatsapp' || r.kind === 'form';
+      const pagina = PAGINA_LABEL_SITIO[r.path] || r.path;
+      const origen = origenDeReferrerSitio(r.referrer_host);
+      const icon = DEVICE_ICON_SITIO[r.device] || '❔';
+      const convLabel = r.kind === 'whatsapp' ? '📩 WhatsApp' : r.kind === 'form' ? '📝 Formulario' : '';
+      return `
+        <div class="visita-row${esConversion ? ' conversion' : ''}">
+          <span class="visita-device">${icon}</span>
+          <div class="visita-main">
+            <span class="visita-pagina">${pagina}</span>${esConversion ? `<span class="visita-badge-conv">${convLabel}</span>` : ''}${r.is_bot ? '<span class="visita-bot-tag">bot</span>' : ''}
+            <div class="visita-meta">${origen}</div>
+          </div>
+          <span class="visita-tiempo">${relativoEs(r.ts)}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Refetch independiente: la dispara tanto el toggle "mostrar bots" como el
+  // refresh general del panel, sin depender del Promise.allSettled principal.
+  async function cargarUltimasVisitasSitio() {
+    const el = document.getElementById('sitioVisitasLista');
+    el.innerHTML = 'Cargando…';
+    try {
+      const mostrarBots = document.getElementById('sitioMostrarBots').checked;
+      const filtroBot = mostrarBots ? '' : '&is_bot=eq.false';
+      const rows = await cuadrillaGet('site_hits', `?select=ts,kind,path,referrer_host,device,is_bot&order=ts.desc&limit=20${filtroBot}`);
+      renderUltimasVisitasSitio(rows);
+    } catch (e) {
+      console.error('cargarUltimasVisitasSitio error:', e);
+      el.innerHTML = '<div class="panel-card-empty">No se pudieron cargar las últimas visitas.</div>';
+    }
   }
 
   // Vuelve a leer agenda/mail/propuestas/financiero/cheques desde Supabase.
@@ -1198,7 +1618,7 @@
       console.error('No se pudo cargar cuentas_bancarias:', e);
     }
 
-    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, saldoActualResult] = await Promise.allSettled([
+    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, saldoActualResult, agendaDebitos, sitioSemana, sitioHeatmap] = await Promise.allSettled([
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
       // v_seguimiento_propuestas es una vista en vivo sobre propuesta_vistas,
@@ -1215,6 +1635,9 @@
       cuentaPrincipal
         ? cuadrillaGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`)
         : Promise.resolve([]),
+      cuadrillaGet('rpc/fn_agenda_debitos', '?dias_adelante=45'),
+      cuadrillaGet('site_hits_semana', ''),
+      cuadrillaGet('site_hits_hora_dia', ''),
     ]);
 
     if (agenda.status === 'fulfilled') renderAgenda(agenda.value);
@@ -1234,6 +1657,17 @@
 
     if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
     else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
+
+    if (agendaDebitos.status === 'fulfilled') renderAgendaDebitos(agendaDebitos.value);
+    else document.getElementById('agendaDebitosBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la agenda de débitos.</div>';
+
+    if (sitioSemana.status === 'fulfilled') renderSitioContador(sitioSemana.value);
+    else document.getElementById('sitioContadorBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el contador del sitio público.</div>';
+
+    if (sitioHeatmap.status === 'fulfilled') renderSitioHeatmap(sitioHeatmap.value);
+    else document.getElementById('sitioHeatmapBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el mapa de calor del sitio público.</div>';
+
+    await cargarUltimasVisitasSitio();
 
     if (movimientos.status === 'fulfilled' && chequesEmitidos.status === 'fulfilled' && chequesRecibidos.status === 'fulfilled' && saldoActualResult.status === 'fulfilled') {
       const saldoActualRow = saldoActualResult.value[0] || null;
