@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Preinstalación de señales débiles en edificios — Nova Domus">
+<meta property="og:description" content="Manual de preinstalación de señales débiles para electricistas de obra — perfil Edificios. Nova Domus, Córdoba.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/manuales/preinstalacion-edificios.html">
+<meta property="og:site_name" content="Nova Domus">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Manual de preinstalación de señales débiles para electricistas de obra — perfil Edificios. Nova Domus, Córdoba.">
+<title>Preinstalación de señales débiles en edificios — Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#141E61; --deep:#0B132B; --grey:#787A91; --cream:#FDFBF0;
+  --gold:#C8A96E; --body:#EDEAE0; --line:rgba(200,169,110,.28);
+  --card:#111a4d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--deep); color:var(--body);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px; line-height:1.65; overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:900px; margin:0 auto; padding:0 22px}
+h1,h2,h3,.mich{font-family:Michroma,Michroma-fallback,Georgia,serif; text-transform:uppercase; letter-spacing:.06em; font-weight:400}
+a{color:var(--gold)}
+img{max-width:100%; height:auto}
+
+/* ---------- topbar ---------- */
+.top{position:sticky; top:0; z-index:40; background:rgba(11,19,43,.94);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top .wrap{display:flex; align-items:center; gap:12px; padding-top:10px; padding-bottom:10px}
+.top .mark{color:var(--cream); flex:0 0 auto}
+.top .tt{font-size:11px; letter-spacing:.14em; color:var(--cream); line-height:1.3}
+.top .ts{font-size:11px; color:var(--grey); letter-spacing:.08em}
+.top .sp{margin-left:auto}
+.btn{background:transparent; appearance:none; -webkit-appearance:none; border:1px solid var(--line);
+  color:var(--gold); font:inherit; font-size:12.5px; padding:7px 13px; border-radius:999px; cursor:pointer}
+.btn:hover{border-color:var(--gold)}
+
+/* ---------- hero ---------- */
+.hero{padding:54px 0 34px; border-bottom:1px solid var(--line)}
+.hero .kicker{font-size:11px; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:14px}
+.hero h1{font-size:clamp(21px,3.6vw,34px); line-height:1.3; margin:0 0 14px; color:var(--cream)}
+.hero .sub{font-size:17px; color:var(--cream); max-width:60ch; margin:0 0 18px}
+.meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px}
+.pill{border:1px solid var(--line); border-radius:999px; padding:5px 12px; font-size:12px; color:var(--grey)}
+.pill b{color:var(--gold); font-weight:600}
+
+/* ---------- bloque crítico ---------- */
+.crit{background:var(--navy); padding:34px 0; border-bottom:1px solid var(--line)}
+.crit h2{font-size:15px; color:var(--gold); margin:0 0 6px}
+.crit p.lead{margin:0 0 20px; color:var(--cream); font-size:15px}
+.cgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px}
+.ccard{background:rgba(253,251,240,.05); border:1px solid var(--line); border-left:3px solid var(--gold);
+  border-radius:10px; padding:14px 16px}
+.ccard .n{font-family:Michroma,Georgia,serif; font-size:12px; color:var(--gold); letter-spacing:.1em}
+.ccard .t{font-size:14.5px; font-weight:600; color:var(--cream); margin:5px 0 4px; line-height:1.4}
+.ccard .d{font-size:13.5px; color:var(--body); opacity:.88}
+
+/* ---------- índice ---------- */
+.toc{padding:26px 0; border-bottom:1px solid var(--line)}
+.toc h2{font-size:12px; color:var(--grey); margin:0 0 12px; letter-spacing:.16em}
+.toc ol{margin:0; padding-left:20px; columns:2; column-gap:26px}
+.toc li{margin:0 0 7px; font-size:14px; break-inside:avoid}
+.toc a{color:var(--body); text-decoration:none; border-bottom:1px solid transparent}
+.toc a:hover{border-bottom-color:var(--gold); color:var(--gold)}
+
+/* ---------- secciones ---------- */
+section.sec{padding:40px 0; border-bottom:1px solid rgba(120,122,145,.22)}
+section.sec>.wrap>h2{font-size:clamp(14px,2.2vw,18px); color:var(--cream); margin:0 0 6px}
+.secnum{color:var(--gold); margin-right:10px}
+.sectag{font-size:11px; letter-spacing:.14em; color:var(--gold); text-transform:uppercase; margin:0 0 18px}
+h3{font-size:14px; color:var(--cream); margin:30px 0 10px; letter-spacing:.04em}
+p{margin:0 0 13px}
+ul.b{margin:0 0 14px; padding-left:20px}
+ul.b li{margin:0 0 7px}
+
+/* ---------- callouts ---------- */
+.box{border:1px solid var(--line); border-radius:10px; padding:15px 17px; margin:18px 0;
+  background:rgba(253,251,240,.04)}
+.box .bt{font-family:Michroma,Georgia,serif; font-size:11.5px; letter-spacing:.1em; color:var(--gold);
+  text-transform:uppercase; margin-bottom:8px}
+.box p:last-child{margin-bottom:0}
+.box.rule{border-left:3px solid var(--gold)}
+.box.warn{border-left:3px solid #E2574C; background:rgba(226,87,76,.08)}
+.box.warn .bt{color:#F0A49D}
+.box.new{border-left:3px solid #4FB286; background:rgba(79,178,134,.07)}
+.box.new .bt{color:#7FD3AE}
+
+/* ---------- checklist ---------- */
+.ck{list-style:none; margin:16px 0; padding:0}
+.ck li{position:relative; margin:0 0 9px; background:rgba(253,251,240,.04);
+  border:1px solid rgba(120,122,145,.3); border-radius:8px}
+.ck label{display:flex; gap:11px; align-items:flex-start; padding:11px 14px; cursor:pointer; font-size:14.5px}
+.ck input{appearance:none; -webkit-appearance:none; flex:0 0 auto; width:19px; height:19px; margin:2px 0 0;
+  border:1.5px solid var(--gold); border-radius:4px; background:transparent; cursor:pointer; position:relative}
+.ck input:checked{background:var(--gold)}
+.ck input:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center;
+  justify-content:center; color:var(--deep); font-size:13px; font-weight:700}
+.ck input:checked + span{opacity:.5; text-decoration:line-through}
+
+/* ---------- tablas ---------- */
+.tw{overflow-x:auto; margin:16px 0; -webkit-overflow-scrolling:touch}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:440px}
+th,td{border:1px solid rgba(120,122,145,.34); padding:9px 11px; text-align:left; vertical-align:top}
+th{background:rgba(20,30,97,.75); color:var(--gold); font-weight:600; font-size:12.5px;
+  letter-spacing:.04em; text-transform:uppercase}
+td b{color:var(--cream)}
+
+/* ---------- fotos ---------- */
+.gal{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:13px; margin:18px 0}
+.ph{background:rgba(253,251,240,.05); border:1px solid rgba(120,122,145,.3); border-radius:10px;
+  padding:11px; text-align:center}
+.ph .imgbox{background:var(--cream); border-radius:7px; height:110px; display:flex; align-items:center;
+  justify-content:center; overflow:hidden; margin-bottom:9px}
+.ph img{max-height:98px; width:auto; object-fit:contain; mix-blend-mode:multiply}
+.ph .cap{font-size:12px; color:var(--cream); line-height:1.35; font-weight:600}
+.ph .sub{font-size:11px; color:var(--grey); margin-top:3px; line-height:1.35}
+.ph .pend{font-size:11px; color:var(--grey); padding:0 8px; text-align:center}
+
+/* ---------- footer ---------- */
+footer{padding:40px 0 60px; text-align:center}
+footer .mark{color:var(--gold); opacity:.9}
+footer .cl{font-family:Michroma,Georgia,serif; font-size:12px; letter-spacing:.12em; color:var(--gold);
+  margin:16px 0 8px; text-transform:uppercase}
+footer .dt{font-size:12.5px; color:var(--grey); line-height:1.7}
+
+/* ---------- mobile ---------- */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .wrap{padding:0 15px}
+  .hero{padding:34px 0 26px}
+  section.sec{padding:30px 0}
+  .toc ol{columns:1}
+  .cgrid{grid-template-columns:1fr}
+  .gal{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}
+  .top .tt{font-size:11px}
+  .top .ts{display:none}
+  th,td{padding:8px 9px; font-size:13px}
+}
+@media(max-width:360px){
+  .wrap{padding:0 12px}
+  .gal{grid-template-columns:1fr 1fr}
+  .btn{padding:6px 10px; font-size:12px}
+}
+
+/* ---------- print ---------- */
+@media print{
+  body{background:#fff; color:#111; font-size:10.5pt}
+  .top,.btn,.toc{display:none !important}
+  .hero,.crit,section.sec{border-color:#ccc; background:#fff}
+  .hero h1,.hero .sub,h2,h3,.ccard .t,.ph .cap,footer .cl{color:#141E61 !important}
+  .crit{background:#fff}
+  .ccard,.box,.ck li,.ph{background:#fff !important; border-color:#bbb}
+  .ph .imgbox{border:1px solid #ddd}
+  th{background:#eee; color:#141E61}
+  .ck input{border-color:#555}
+  section.sec{page-break-inside:auto}
+  .box,.ccard,.ph,.ck li{page-break-inside:avoid}
+  a{color:#141E61; text-decoration:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 500 500" width="32" height="32" aria-hidden="true" focusable="false"><g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g></svg>
+    <div>
+      <div class="tt">NOVA DOMUS</div>
+      <div class="ts">INTEGRACIÓN TECNOLÓGICA</div>
+    </div>
+    <div class="sp"></div>
+    <button class="btn" id="do-print" type="button">Imprimir / PDF</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Manual de obra · Edificios, barrios y desarrollos</div>
+    <h1>Preinstalación de señales débiles en edificios</h1>
+    <p class="sub">Qué tiene que dejar previsto la instalación eléctrica del edificio para portería IP, redes, videovigilancia, accesos y preinstalación de domótica por unidad.</p>
+    <div class="meta">
+      <span class="pill">Versión <b>2.0</b></span>
+      <span class="pill">Septiembre 2026</span>
+      <span class="pill">Reemplaza a la <b>v1.0</b> de julio 2026</span>
+      <span class="pill">Checklist completado: <b id="ck-count">0 / 0</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="crit">
+  <div class="wrap">
+    <h2>Si solo se lee una página, que sea esta</h2>
+    <p class="lead">Los puntos que, si no quedan resueltos antes de cerrar paredes, obligan a romper después.</p>
+    <div class="cgrid"><div class='ccard'><div class='n'>01</div><div class='t'>Montante continua, sin empalmes</div><div class='d'>Un solo cable desde el switch hasta el punto final. La ficha va solo en las dos puntas.</div></div><div class='ccard'><div class='n'>02</div><div class='t'>Señales débiles separadas de la potencia</div><div class='d'>Canalizaciones independientes por norma. 20 cm en paralelo, 1 m cerca de bombas, ascensor o portón.</div></div><div class='ccard'><div class='n'>03</div><div class='t'>Los nodos de piso se alimentan del UPS</div><div class='d'>Nunca de un tablero seccional. Si no, ese sector se queda sin portería durante un corte.</div></div><div class='ccard'><div class='n'>04</div><div class='t'>Neutro en toda caja de llave de las unidades</div><div class='d'>Si el pliego dice 'listo para domótica', esto es la mitad del pedido — y la que más se olvida.</div></div><div class='ccard'><div class='n'>05</div><div class='t'>Gabinete de cargador y batería del acceso</div><div class='d'>Mínimo 30×30 cm, ventilado, con circuito de 220 V propio y cerca de la puerta.</div></div><div class='ccard'><div class='n'>06</div><div class='t'>Un access point por planta</div><div class='d'>La losa de hormigón no deja pasar el WiFi. Cada AP con su tirada hasta el rack o nodo.</div></div></div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="wrap">
+    <h2>CONTENIDO</h2>
+    <ol><li><a href='#montantes'>1. Montantes de señales débiles</a></li><li><a href='#poe'>2. PoE — alimentación por cable de red</a></li><li><a href='#rack'>3. Nodo principal y alimentación</a></li><li><a href='#nodos'>4. Nodos secundarios</a></li><li><a href='#unidades'>5. Bocas, cómputos y preinstalación por unidad</a></li><li><a href='#wifi'>6. Cobertura WiFi y acometida</a></li><li><a href='#accesos'>7. Control de accesos</a></li><li><a href='#seguridad'>8. Videovigilancia y alarma</a></li><li><a href='#normativa'>9. Normativa de referencia</a></li><li><a href='#cierre'>10. Checklist de cierre de obra</a></li></ol>
+  </div>
+</div>
+
+<section class='sec' id='montantes'><div class='wrap'><h2><span class='secnum'>1</span>Montantes de señales débiles</h2><div class='sectag'>La columna vertebral del edificio</div><p>Todo punto final de señales débiles del edificio — frente de portero IP, cámara, pantalla de videoportero, access point de piso, terminal de accesos — se conecta al rack o al switch de piso correspondiente con un cable <b>UTP Cat 6 continuo</b>, tirado por montante, sin cortes, empalmes ni fichas intermedias.</p><div class='box rule'><div class='bt'>Nova Domus especifica y certifica, no cablea</div><p>El tendido lo ejecuta el gremio eléctrico de obra siguiendo la indicación en plano. Nova Domus define recorridos, cantidad de puntos y tipo de cable, y certifica el resultado antes de conectar equipos.</p></div><h3>1.1 · Regla de continuidad</h3><div class='box warn'><div class='bt'>Exigencia técnica no negociable</div><p>Cada tirada desde el switch hasta el punto final es <b>un solo cable, sin cortes ni empalmes</b> en el trayecto. Un empalme en el medio de una montante es un punto de falla carísimo de ubicar y de reparar una vez cerrada. La ficha RJ45 se monta únicamente en las dos puntas.</p></div><ul class='ck'><li><label><input type='checkbox' data-ck='e1a-0'><span>Cañería de montante dimensionada para pasar todas las tiradas sin apriete ni fricción excesiva.</span></label></li><li><label><input type='checkbox' data-ck='e1a-1'><span>Ninguna tirada tiene empalmes ni cajas de paso no autorizadas en el medio del recorrido.</span></label></li><li><label><input type='checkbox' data-ck='e1a-2'><span>Cada tirada rotulada en ambas puntas (piso / unidad / dispositivo) antes de conectorizar.</span></label></li></ul><h3>1.2 · Distancia máxima y nodos secundarios</h3><p>Un tramo Cat 6 soporta hasta 90 m de cable horizontal (100 m contando latiguillos) manteniendo Gigabit y PoE de forma confiable. Si la distancia entre el rack principal y los pisos superiores supera ese límite, se instala un switch PoE secundario en un piso intermedio en lugar de forzar un tramo más largo.</p><div class='tw'><table><thead><tr><th>Situación</th><th>Solución</th></tr></thead><tbody><tr><td>Edificio bajo (hasta 3-4 pisos desde el rack)</td><td>Cableado directo rack → cada punto, un cable por dispositivo.</td></tr><tr><td>Edificio en altura o distancia mayor a 90 m</td><td>Nodo secundario (switch PoE) en piso intermedio, con su propio respaldo de energía — ver sección 4.</td></tr><tr><td>Palier con varios puntos (cámara + AP + terminal)</td><td>Un cable dedicado por cada dispositivo, nunca compartido.</td></tr></tbody></table></div><h3>1.3 · Interior y exterior no son el mismo cable</h3><p>Todo tramo expuesto a la intemperie — cámaras de fachada, AP en azotea, playa de estacionamiento descubierta — usa cable con cubierta UV y resistencia a la humedad. No es el mismo cable aunque después se conectorice igual.</p><ul class='ck'><li><label><input type='checkbox' data-ck='e1b-0'><span>Cable de exterior usado en cámaras y APs de fachada, azotea y exteriores en general.</span></label></li></ul><h3>1.4 · Separación entre señales débiles y potencia</h3><div class='box warn'><div class='bt'>Regla obligatoria — AEA 90364-7-771</div><p>Los cables de señales débiles (UTP, telefonía, video) y los de energía 220/380 V van en canalizaciones <b>independientes</b>. No es una recomendación de calidad de señal: es una exigencia de seguridad eléctrica, porque una falla de aislación del lado de potencia transfiere tensión a un cable que no está preparado para eso. Si en algún tramo puntual no se puede separar, se resuelve con UTP apantallado, caño metálico puesto a tierra o barrera física — avisar a Nova Domus para definir cuál conviene.</p></div><div class='tw'><table><thead><tr><th>Situación</th><th>Distancia mínima</th></tr></thead><tbody><tr><td>UTP en paralelo a cables de energía en general</td><td><b>0,20 m</b> — mínimo normativo AEA</td></tr><tr><td>UTP cerca de transformadores o motores (bombas, ascensor, portón)</td><td><b>1,00 m</b> — mucho más ruido eléctrico</td></tr><tr><td>UTP cerca de luminarias fluorescentes o balastos</td><td><b>0,30 m</b></td></tr><tr><td>Cables de energía y otros servicios (gas, agua)</td><td><b>0,50 m</b></td></tr></tbody></table></div><ul class='ck'><li><label><input type='checkbox' data-ck='e1c-0'><span>Ninguna montante mezcla UTP con cables de 220 V en la misma cañería.</span></label></li><li><label><input type='checkbox' data-ck='e1c-1'><span>Distancias mínimas de la tabla respetadas donde ambos tendidos corren en paralelo.</span></label></li><li><label><input type='checkbox' data-ck='e1c-2'><span>Cerca de sala de bombas, ascensor o portón: verificado 1 m o resuelto con apantallado o caño metálico.</span></label></li></ul></div></section><section class='sec' id='poe'><div class='wrap'><h2><span class='secnum'>2</span>PoE — alimentación por cable de red</h2><div class='sectag'>Cómo se reparte la energía</div><p>PoE significa que el mismo cable UTP lleva los datos y la alimentación del dispositivo. Por eso a un access point, una cámara o un frente de portero le llega <b>solo</b> un cable — no hace falta tomacorriente al lado. La montante de datos y la de energía del edificio son, en el fondo, dos sistemas de alimentación distintos que conviven en el mismo proyecto.</p><div class='box new'><div class='bt'>Todo el PoE sale del switch, no del router</div><p>El router Omada de línea (ER605) <b>no tiene puertos PoE</b>. Cámaras, access points, coordinadores Zigbee, videoporteros y terminales de acceso se alimentan todos desde el switch. En términos de obra: la cantidad de tiradas que llegan a cada nodo define el tamaño del switch de ese nodo, y por lo tanto su consumo y su respaldo.</p></div><div class='gal'><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png' alt='Router Omada ER605' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Router Omada ER605</div><div class='sub'>sin PoE</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/oc200.jpg' alt='Controlador Omada OC200' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Controlador Omada OC200</div><div class='sub'>gestión centralizada</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg3428mp.jpg' alt='Switch PoE administrable 24p' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Switch PoE administrable 24p</div><div class='sub'>nodo principal</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg2218p.png' alt='Switch PoE 16p' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Switch PoE 16p</div><div class='sub'>nodo secundario de piso</div></div></div><h3>2.1 · Presupuesto de potencia del switch</h3><p>Un switch PoE tiene un total de watts para repartir entre todos sus puertos: no es que cada puerto tenga PoE independiente e ilimitado. Con muchas cámaras o APs de alto consumo hay que verificar que la suma no supere el presupuesto total del equipo.</p><div class='tw'><table><thead><tr><th>Estándar</th><th>Potencia por puerto</th><th>Uso típico</th></tr></thead><tbody><tr><td>PoE (802.3af)</td><td>hasta 15,4 W</td><td>Cámaras IP básicas, teléfonos IP</td></tr><tr><td>PoE+ (802.3at)</td><td>hasta 30 W</td><td>Access points, cámaras PTZ chicas, frente de portero IP</td></tr><tr><td>PoE++ (802.3bt)</td><td>hasta 60-90 W</td><td>Pantallas, APs de alta gama, equipos combinados</td></tr></tbody></table></div><ul class='ck'><li><label><input type='checkbox' data-ck='e2a-0'><span>Cantidad de puertos PoE y presupuesto de potencia de cada nodo verificados con Nova Domus.</span></label></li></ul><h3>2.2 · Cable 100% cobre, nunca CCA</h3><div class='box warn'><div class='bt'>CCA — a evitar siempre en tiradas con PoE</div><p>Existen cables UTP más baratos con conductor CCA (cobre sobre aluminio). Tienen más resistencia eléctrica: más caída de tensión y más calentamiento cuando llevan PoE, justamente lo que no se quiere en una montante embutida con varios cables juntos.</p></div><h3>2.3 · Calor en montantes con mazos grandes</h3><p>Cuando muchas tiradas con PoE van agrupadas en la misma cañería o bandeja, el conjunto genera más calor que un cable individual. En proyectos con muchos puntos PoE por el mismo trayecto, Nova Domus puede pedir cañería de mayor diámetro o dividir el mazo en más de un caño. No es un capricho: es para que el cableado no se degrade con el tiempo.</p><ul class='ck'><li><label><input type='checkbox' data-ck='e2b-0'><span>Cable UTP especificado como 100% cobre en toda tirada que vaya a llevar PoE.</span></label></li><li><label><input type='checkbox' data-ck='e2b-1'><span>Cañerías con mazos grandes dimensionadas holgadas, sin apriete excesivo del conjunto.</span></label></li></ul></div></section><section class='sec' id='rack'><div class='wrap'><h2><span class='secnum'>3</span>Nodo principal y alimentación</h2><div class='sectag'>Rack en subsuelo o sala técnica</div><p>El rack principal centraliza router, switch PoE principal, controlador de accesos, grabador de video y UPS. Ahí converge toda la montante de señales débiles del edificio, y de ahí nace también la alimentación de respaldo que viaja hasta los nodos secundarios.</p><div class='box rule'><div class='bt'>Por qué el UPS no es opcional</div><p>Las cámaras y el grabador siguen funcionando durante un corte <b>no</b> por ser PoE, sino porque el switch que las alimenta está sobre el UPS. Sin UPS, el edificio se queda sin portero, sin apertura eléctrica y sin grabación justo durante el corte. Es el argumento que justifica tanto el UPS como el circuito dedicado que necesita.</p></div><div class='gal'><div class='ph'><div class='imgbox'><img src='https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/116.jpg' alt='Rack mural GLC' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Rack mural GLC</div><div class='sub'>mínimo 9U + margen</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/fdc-1002r-i.jpg' alt='UPS rackeable' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>UPS rackeable</div><div class='sub'>alimenta también los nodos secundarios</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7608nxi-k1-d.png' alt='Grabador NVR' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Grabador NVR</div><div class='sub'>videovigilancia de áreas comunes</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/bandeja-2u40.jpg' alt='Bandeja de rack' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Bandeja de rack</div></div></div><ul class='ck'><li><label><input type='checkbox' data-ck='e3-0'><span>Ubicación del rack definida junto con Nova Domus y el proyecto eléctrico ANTES de tirar montantes.</span></label></li><li><label><input type='checkbox' data-ck='e3-1'><span>Tomacorriente 220 V dedicado en la ubicación del rack, con circuito propio — no compartido con bombas, ascensor u otro consumo de arranque brusco.</span></label></li><li><label><input type='checkbox' data-ck='e3-2'><span>Espacio físico para gabinete de pared o mural (mínimo 9U) más margen de ventilación.</span></label></li><li><label><input type='checkbox' data-ck='e3-3'><span>Puesta a tierra disponible en el sector del rack, conforme a la instalación general del edificio.</span></label></li><li><label><input type='checkbox' data-ck='e3-4'><span>Autonomía del UPS acordada con Nova Domus según la carga real de router, switches, grabador y controlador de accesos.</span></label></li></ul></div></section><section class='sec' id='nodos'><div class='wrap'><h2><span class='secnum'>4</span>Nodos secundarios</h2><div class='sectag'>Switches de piso</div><p>Cuando el edificio requiere un switch PoE secundario en un piso intermedio — para no superar la distancia máxima o para segmentar la red — ese nodo necesita alimentación de 220 V. Es donde más tiempo se pierde si no se previó en obra.</p><div class='box warn'><div class='bt'>Punto crítico de todo el sistema</div><p>Si el rack principal tiene UPS, la alimentación del nodo secundario tiene que salir de <b>ese UPS</b> y llegar por montante hasta el switch de piso <b>sin cortes</b>, en paralelo al cable de datos. Si en cambio el switch secundario se alimenta de un tablero seccional del piso, pierde la protección del UPS: un corte apaga ese switch aunque el resto del edificio siga con respaldo, y la portería de ese sector deja de funcionar.</p></div><ul class='ck'><li><label><input type='checkbox' data-ck='e4a-0'><span>Línea de 220 V dedicada tendida en paralelo al UTP troncal, desde el UPS del rack hasta cada nodo.</span></label></li><li><label><input type='checkbox' data-ck='e4a-1'><span>Esa línea NO depende de ningún tablero seccional de piso — sale directo del UPS central.</span></label></li><li><label><input type='checkbox' data-ck='e4a-2'><span>Verificado con Nova Domus qué pisos llevan nodo secundario antes de definir el recorrido de la montante.</span></label></li></ul><h3>4.1 · En paralelo, pero no juntos</h3><p>La línea de respaldo de 220 V corre en paralelo al UTP troncal en la misma montante, pero eso no significa que compartan cañería: aplican las mismas distancias mínimas de la sección 1.4.</p><ul class='ck'><li><label><input type='checkbox' data-ck='e4b-0'><span>Línea de 220 V del nodo secundario en caño propio, respetando la distancia mínima con el UTP.</span></label></li><li><label><input type='checkbox' data-ck='e4b-1'><span>Espacio para gabinete del switch secundario, con ventilación — no encerrado sin circulación de aire.</span></label></li><li><label><input type='checkbox' data-ck='e4b-2'><span>Puesta a tierra disponible también en el sector del nodo secundario.</span></label></li></ul></div></section><section class='sec' id='unidades'><div class='wrap'><h2><span class='secnum'>5</span>Bocas, cómputos y preinstalación por unidad</h2><div class='sectag'>Departamentos y palieres</div><p>Para presupuestar y coordinar se trabaja con una planilla de cómputos por piso: cantidad de bocas de señales débiles, iluminación y tomas, corrugados según el tipo de boca, cajas octogonales en losa para artefactos empotrados, cajas de derivación en palier.</p><ul class='b'><li><b>Boca de señal débil / termostato:</b> caja y corrugado dedicados, independientes del circuito de iluminación o de tomas.</li><li><b>Bocas de portero en cada unidad:</b> definir de antemano si el monitor lleva UTP propio (recomendado) o depende de la red local del departamento.</li><li><b>Cajas octogonales en losa:</b> coordinar el conteo con el proyecto de iluminación antes del llenado de losa, no después.</li></ul><div class='box rule'><div class='bt'>Porteros sin cableado propio</div><p>Si por decisión de proyecto una unidad <b>no</b> recibe UTP hasta el monitor (solución híbrida por WiFi), el electricista igual debe dejar una boca de 220 V en la ubicación exacta donde se fija el monitor, porque en ese caso el equipo se alimenta de la red eléctrica local y no de PoE. Confirmar con Nova Domus cuál solución aplica a cada unidad — no asumir.</p></div><h3>5.1 · Unidades con preinstalación de domótica</h3><div class='box new'><div class='bt'>Sección nueva en esta versión</div><p>Cuando el pliego dice que las unidades quedan <b>listas para domótica</b>, lo que se pide del gremio eléctrico es sustancialmente distinto de una boca de datos más. Son dos cosas, y la segunda es la que casi siempre se olvida.</p></div><ul class='b'><li><b>Un punto de datos</b> por unidad, hasta la ubicación prevista de la pantalla de control —normalmente el ingreso— y hasta el punto donde irá el equipo de la unidad.</li><li><b>Neutro en TODA caja de llave de la unidad</b>, junto con la fase y el retorno. Los módulos de automatización se instalan después, detrás de las teclas existentes, y se alimentan desde ahí. Sin neutro en la caja no hay preinstalación: hay que abrir pared en un departamento ya terminado y probablemente vendido.</li></ul><div class='box rule'><div class='bt'>Espacio en la caja de llave</div><p>Vale la misma regla que en vivienda: <b>un solo módulo por caja de 10×5</b>, y un módulo comanda hasta 2 efectos. Conviene que ninguna llave de las unidades supere los 2 efectos — se resuelve sumando puntos de llave en el replanteo, antes de embutir. El detalle completo está en el manual de preinstalación para viviendas.</p></div><ul class='ck'><li><label><input type='checkbox' data-ck='e5-0'><span>Un punto de datos por unidad, hasta la ubicación acordada.</span></label></li><li><label><input type='checkbox' data-ck='e5-1'><span>Neutro presente en todas las cajas de llave de cada unidad con preinstalación.</span></label></li><li><label><input type='checkbox' data-ck='e5-2'><span>Ninguna caja de llave de unidad con más de 2 efectos, o resuelta con caja ampliada.</span></label></li><li><label><input type='checkbox' data-ck='e5-3'><span>Bocas de señal débil por unidad coordinadas con el cómputo de proyecto.</span></label></li><li><label><input type='checkbox' data-ck='e5-4'><span>Solución de portería definida unidad por unidad: UTP propio o híbrida con boca de 220 V.</span></label></li></ul></div></section><section class='sec' id='wifi'><div class='wrap'><h2><span class='secnum'>6</span>Cobertura WiFi y acometida</h2><div class='sectag'>Áreas comunes</div><div class='box new'><div class='bt'>Sección nueva en esta versión</div><p>La cobertura WiFi de áreas comunes no se resuelve con un router en el hall.</p></div><ul class='b'><li><b>Un access point por planta como mínimo</b> en construcción de hormigón: la losa no deja pasar la señal, así que se dimensiona como piso y no como techo. Cada AP necesita su tirada de UTP hasta el rack o el nodo de ese sector.</li><li><b>Alimentación por PoE</b> desde el switch, que está sobre el UPS: en un corte la red del edificio sigue de pie. Un equipo enchufado a un toma del palier, no.</li><li><b>Segmentación por VLAN</b> desde un solo controlador: el tráfico de domótica y de seguridad va separado del de invitados. Esto no tiene impacto en obra, pero sí define que los puntos converjan al mismo switch administrable en lugar de a equipos sueltos por piso.</li></ul><div class='gal'><div class='ph'><div class='imgbox'><img src='https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/eap650.jpg' alt='Access Point interior' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Access Point interior</div><div class='sub'>uno por planta · PoE</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/eap610-out.jpg' alt='Access Point exterior' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Access Point exterior</div><div class='sub'>cable UV · azotea y patios</div></div></div><h3>6.1 · Acometida de internet del edificio</h3><ul class='b'><li><b>Fibra de calle:</b> corrugado desde la acometida hasta el rack con la menor cantidad de curvas posible y con <b>tanza guía</b>, para que el proveedor pase su propia fibra sin abrir nada.</li><li><b>Starlink</b> (habitual en countries y barrios sin fibra): el cable es propietario y su conector es grueso — con corrugado de 3/4" no entra. Prever diámetro generoso desde la azotea hasta el rack.</li></ul><ul class='ck'><li><label><input type='checkbox' data-ck='e6-0'><span>Un AP por planta previsto, con tirada propia de UTP hasta el rack o nodo del sector.</span></label></li><li><label><input type='checkbox' data-ck='e6-1'><span>APs de exterior con cable UV.</span></label></li><li><label><input type='checkbox' data-ck='e6-2'><span>Canalización de acometida de internet dimensionada, con tanza guía en el caso de fibra.</span></label></li></ul></div></section><section class='sec' id='accesos'><div class='wrap'><h2><span class='secnum'>7</span>Control de accesos</h2><div class='sectag'>Frente de portero y electrocerradura</div><p>El frente de portero IP trabaja en 12 VDC y controla la apertura de la puerta a través de un relé propio. Ese relé <b>no</b> alimenta la cerradura directamente: hay una central de cargador y batería que alimenta al frente y a la cerradura, y que hay que prever en obra antes de que Nova Domus instale el frente definitivo.</p><div class='gal'><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-kd9203-me6.jpg' alt='Frente de portero IP' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Frente de portero IP</div><div class='sub'>directorio de unidades</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-k1t323mbwx-qre1.jpg' alt='Terminal de acceso facial' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Terminal de acceso facial</div><div class='sub'>acceso diario de residentes</div></div><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/475.jpg' alt='Cerradura electromagnética' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Cerradura electromagnética</div><div class='sub'>consumo continuo</div></div><div class='ph'><div class='imgbox'><img src='https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/PSALIDA_LED.jpg' alt='Pulsador de salida' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Pulsador de salida</div><div class='sub'>obligatorio en vías de escape</div></div><div class='ph'><div class='imgbox'><img src='https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/F121000S.webp' alt='Fuente switching 12 V' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Fuente switching 12 V</div><div class='sub'>va en el gabinete con la batería</div></div></div><h3>7.1 · Gabinete de cargador y batería</h3><p>Es lo que mantiene el acceso funcionando durante un corte. Sin esto, un corte deja al edificio sin portero y sin apertura eléctrica de la puerta.</p><div class='tw'><table><thead><tr><th>Ítem</th><th>Previsión</th></tr></thead><tbody><tr><td>Tamaño de la caja</td><td>Mínimo <b>30×30 cm</b> (frente + una cerradura + batería sellada 7 Ah). Subir a 40×40 cm si la cerradura es electroimán o si hay más de un acceso sobre la misma central.</td></tr><tr><td>Ubicación</td><td>Lo más cerca posible de la puerta: cuanto más lejos, más cae la tensión en 12/24 V. Ideal, cuarto técnico o nicho junto al marco de acceso.</td></tr><tr><td>Altura</td><td>Centro del gabinete a 1,4-1,5 m del piso, lejos de salpicaduras.</td></tr><tr><td>Ventilación</td><td>No usar caja 100% hermética: la batería sellada necesita algo de recambio de aire y temperatura moderada. Evitar sótanos sin ventilación.</td></tr><tr><td>Alimentación</td><td>Circuito de 220 V dedicado hasta el gabinete, con su propia protección.</td></tr></tbody></table></div><ul class='ck'><li><label><input type='checkbox' data-ck='e7a-0'><span>Gabinete o caja estanca de mínimo 30×30 cm previsto junto al acceso, ventilado y a 1,4-1,5 m de altura.</span></label></li><li><label><input type='checkbox' data-ck='e7a-1'><span>Circuito de 220 V dedicado y protegido tendido hasta el gabinete.</span></label></li></ul><h3>7.2 · Electroimán o pestillo — definirlo antes de cablear</h3><p>El mismo frente sirve para los dos tipos de cerradura (cambia el borne y la configuración), pero cada una exige una previsión de obra distinta, y no son intercambiables una vez cerrada la pared.</p><div class='tw'><table><thead><tr><th></th><th>Electroimán / maglock (fail-safe)</th><th>Pestillo eléctrico (fail-secure)</th></tr></thead><tbody><tr><td>Estado sin energía</td><td>La puerta se <b>abre</b> — más simple para egreso e incendio</td><td>La puerta queda <b>cerrada</b> — más seguro contra intrusión durante un corte</td></tr><tr><td>Consumo</td><td>Continuo mientras la puerta está cerrada (~500 mA a 12 V)</td><td>Solo en el instante de apertura (pulso)</td></tr><tr><td>Batería de respaldo</td><td>Imprescindible — sin batería, un corte abre la puerta</td><td>Recomendable, no crítica para la seguridad</td></tr><tr><td>Previsión extra en obra</td><td>Caño y caja para <b>pulsador de salida</b> junto a la puerta, más aviso desde el sistema de incendio si el edificio lo tiene</td><td>Ninguna previsión extra — se abre desde adentro con la manija</td></tr></tbody></table></div><div class='box warn'><div class='bt'>El pulsador de salida no es opcional</div><p>Donde hay electroimán sobre una puerta de egreso, el pulsador de salida es un requisito de la vía de escape: nunca se omite del proyecto ni del presupuesto.</p></div><ul class='ck'><li><label><input type='checkbox' data-ck='e7b-0'><span>Definido con Nova Domus, acceso por acceso, si va electroimán o pestillo, antes de cerrar cañerías.</span></label></li><li><label><input type='checkbox' data-ck='e7b-1'><span>Caño y caja para pulsador de salida previstos en toda puerta de egreso con electroimán.</span></label></li></ul><h3>7.3 · Cableado del sistema de accesos</h3><p>A diferencia de la regla de la sección 1.4, los cables de este sistema son todos de muy baja tensión (UTP de señal del frente + alimentación de 12/24 V de la cerradura): esos <b>sí</b> pueden compartir cañería entre sí. Lo único que no se mezcla es con los 220 V que alimentan la central.</p><ul class='b'><li>Cañería para el UTP de señal del frente, desde el rack o switch — misma regla de continuidad de la sección 1.1.</li><li>Cañería para el cable de alimentación de la cerradura, desde el gabinete hasta el marco. Puede compartir caño con el UTP anterior.</li><li>Cañería de 220 V hasta el gabinete, <b>siempre</b> separada de las dos anteriores.</li></ul><div class='box warn'><div class='bt'>Calibre del cable de cerradura — no usar un calibre genérico</div><p>En 12 V la caída de tensión es mucho más crítica que en 220 V: un 3% son apenas 0,36 V. Un cable fino en tirada larga hace que la cerradura reciba poca tensión y no abra. Regla práctica: hasta 10-15 m alcanza 2×1 a 1,5 mm²; en tiradas más largas o con electroimán, pasar a 2,5 mm², o consultar si conviene alimentar esa puerta en 24 V.</p></div><ul class='ck'><li><label><input type='checkbox' data-ck='e7c-0'><span>Cañería de UTP del frente tendida con la misma regla de continuidad que el resto.</span></label></li><li><label><input type='checkbox' data-ck='e7c-1'><span>Cañería de 220 V hasta el gabinete separada de la de muy baja tensión.</span></label></li><li><label><input type='checkbox' data-ck='e7c-2'><span>Calibre del cable de cerradura verificado contra la distancia real de cada tramo, no asumido.</span></label></li></ul><h3>7.4 · Egreso y normativa</h3><p>No hay una norma argentina específica sobre cerraduras electromagnéticas en puertas de egreso. El principio general (Decreto 351/79, reglamentario de la Ley de Higiene y Seguridad) es que ninguna puerta de escape puede trabar la salida de las personas. La industria adopta como buena práctica la NFPA 101, que exige que un electroimán en puerta de egreso se libere ante pulsador manual, activación de alarma de incendio y corte de energía. Por eso, en cualquier puerta que sea vía de escape, el pestillo es la alternativa más simple: se abre desde adentro sin depender de ningún dispositivo.</p></div></section><section class='sec' id='seguridad'><div class='wrap'><h2><span class='secnum'>8</span>Videovigilancia y alarma</h2><div class='sectag'>Áreas comunes y perímetro</div><div class='box new'><div class='bt'>Sección nueva en esta versión</div><p>La v1.0 cubría accesos pero no decía nada de lo que la videovigilancia y la alarma de áreas comunes le piden a la obra.</p></div><ul class='b'><li><b>Cámaras:</b> una tirada de UTP por cámara hasta el rack o nodo del sector, con cable de exterior en fachada, azotea y estacionamiento descubierto. El perímetro exterior se cubre con cámaras, no con detectores exteriores.</li><li><b>Detectores de interior:</b> los sistemas de alarma son inalámbricos, así que no piden cableado. Lo que sí importa es que la ubicación quede definida antes de las terminaciones.</li><li><b>Detectores tipo cortina en aberturas:</b> cuando el plano de señales débiles marca "sensor barrera" sobre el muro de cada abertura, se trata de un detector tipo cortina que cubre el plano del vano — <b>no</b> es un contacto magnético. Si la versión especificada es cableada, cada uno necesita su tirada de muy baja tensión hasta la central.</li></ul><div class='box rule'><div class='bt'>Cableado o inalámbrico: es una decisión de obra, no de equipo</div><p>En costo de equipo el detector cableado parece mucho más barato. Pero arrastra el cable de cada tirada más lo que cuesta canalizarlas y pasarlas: en el total de obra normalmente no compensa. Nova Domus cotiza <b>lo que el plano especifica</b>; si el estudio acepta revisarlo, pasar a inalámbrico suele bajar el costo de obra — el de la obra, no el nuestro. Conviene plantearlo antes de canalizar.</p></div><div class='gal'><div class='ph'><div class='imgbox'><img src='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1027g3-liu.jpg' alt='Cámara IP exterior' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Cámara IP exterior</div><div class='sub'>un UTP por cámara</div></div><div class='ph'><div class='imgbox'><img src='https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDC15-EG2.png' alt='Detector tipo cortina' loading='lazy' onerror="this.parentElement.innerHTML='<span class=&quot;pend&quot;>Foto pendiente</span>'"></div><div class='cap'>Detector tipo cortina</div><div class='sub'>cableado · cubre el plano del vano</div></div></div><ul class='ck'><li><label><input type='checkbox' data-ck='e8-0'><span>Una tirada de UTP por cámara, con cable de exterior donde corresponde.</span></label></li><li><label><input type='checkbox' data-ck='e8-1'><span>Ubicación de detectores de interior definida antes de las terminaciones.</span></label></li><li><label><input type='checkbox' data-ck='e8-2'><span>Si el plano especifica detectores de cortina cableados: tirada de muy baja tensión hasta la central.</span></label></li></ul></div></section><section class='sec' id='normativa'><div class='wrap'><h2><span class='secnum'>9</span>Normativa de referencia</h2><div class='sectag'>Marco técnico</div><p>La instalación eléctrica de fuerza motriz e iluminación del edificio se rige por su propia memoria de cálculo. Este documento no la reemplaza: es la capa de señales débiles que corre en paralelo y que también hay que dejar prevista dentro del mismo proyecto eléctrico.</p><ul class='b'><li><b>AEA 90364</b> — Reglamentación para la ejecución de instalaciones eléctricas en inmuebles. Parte 7-771: canalizaciones independientes entre energía y señales débiles, distancias mínimas de separación, y clasificación MBTS/MBTF para los circuitos de muy baja tensión del sistema de accesos.</li><li>Especificaciones técnicas y reglamentos de <b>EPEC / ERSeP</b> (Córdoba).</li><li>Materiales normalizados según <b>IRAM</b> o <b>IEC</b> correspondientes.</li><li><b>IRAM 2281 / VDE 0100</b> — puesta a tierra, con continuidad verificada también en el sector de rack y nodos secundarios.</li><li><b>TIA-569</b> — referencia internacional de buenas prácticas de cableado estructurado, para las distancias cerca de motores, transformadores y luminarias fluorescentes.</li><li><b>Decreto 351/79</b> (reglamentario de la Ley de Higiene y Seguridad) — principio general de que ninguna puerta de escape puede trabar el egreso de las personas.</li><li><b>NFPA 101</b> — referencia de buena práctica de la industria (no es ley argentina) para la liberación de electroimanes en puertas de egreso.</li><li><b>IRAM 3687</b> — norma de aplicación voluntaria para herrajes antipánico, salvo que la autoridad local lo exija puntualmente.</li></ul></div></section><section class='sec' id='cierre'><div class='wrap'><h2><span class='secnum'>10</span>Checklist de cierre de obra</h2><div class='sectag'>Antes de repellar o cerrar montantes</div><div class='box warn'><div class='bt'>Regla de oro</div><p>Una montante cerrada con un corte o un empalme escondido en el medio es, en la práctica, una montante que hay que volver a abrir. Revisar todo esto antes de avanzar con revoque o cierre de paso de losa.</p></div><ul class='ck'><li><label><input type='checkbox' data-ck='e10-0'><span>Montantes de UTP Cat 6 sin cortes desde cada punto final hasta el rack o nodo correspondiente.</span></label></li><li><label><input type='checkbox' data-ck='e10-1'><span>Cada tirada rotulada en ambas puntas antes de conectorizar.</span></label></li><li><label><input type='checkbox' data-ck='e10-2'><span>Cable de exterior en todo tramo expuesto a la intemperie.</span></label></li><li><label><input type='checkbox' data-ck='e10-3'><span>Cable UTP 100% cobre en toda tirada con PoE.</span></label></li><li><label><input type='checkbox' data-ck='e10-4'><span>Ninguna montante mezcla UTP con 220 V; distancias mínimas de la sección 1.4 respetadas.</span></label></li><li><label><input type='checkbox' data-ck='e10-5'><span>Presupuesto de potencia PoE de cada switch verificado contra la cantidad y tipo de equipos.</span></label></li><li><label><input type='checkbox' data-ck='e10-6'><span>Rack principal con ubicación, alimentación 220 V dedicada, puesta a tierra y autonomía de UPS confirmadas.</span></label></li><li><label><input type='checkbox' data-ck='e10-7'><span>Nodos secundarios con línea de 220 V propia desde el UPS del rack, sin depender de tableros seccionales, y en caño separado del UTP.</span></label></li><li><label><input type='checkbox' data-ck='e10-8'><span>Un access point por planta previsto, con su tirada de UTP.</span></label></li><li><label><input type='checkbox' data-ck='e10-9'><span>Bocas de señal débil por unidad coordinadas con el cómputo, con la solución de portería definida.</span></label></li><li><label><input type='checkbox' data-ck='e10-10'><span>Unidades con preinstalación de domótica: neutro presente en TODAS sus cajas de llave.</span></label></li><li><label><input type='checkbox' data-ck='e10-11'><span>Gabinete de cargador y batería del control de accesos previsto (mín. 30×30 cm, ventilado, circuito 220 V dedicado).</span></label></li><li><label><input type='checkbox' data-ck='e10-12'><span>Tipo de cerradura definido acceso por acceso, con pulsador de salida previsto donde haya electroimán en vía de escape.</span></label></li><li><label><input type='checkbox' data-ck='e10-13'><span>Calibre del cable de cerradura verificado contra la distancia real de cada acceso.</span></label></li><li><label><input type='checkbox' data-ck='e10-14'><span>Canalización de acometida de internet dimensionada (tanza guía en fibra, diámetro generoso en Starlink).</span></label></li><li><label><input type='checkbox' data-ck='e10-15'><span>Registro fotográfico de montantes y cajas antes de cerrar.</span></label></li><li><label><input type='checkbox' data-ck='e10-16'><span>Nova Domus visitó la obra y validó esta lista.</span></label></li></ul></div></section>
+
+<footer>
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 500 500" width="46" height="46" aria-hidden="true" focusable="false"><g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g></svg>
+    <div class="cl">Del cable a la app</div>
+    <div class="dt">
+      Queda funcionando y documentado.<br>
+      Nova Domus · NDWD SAS · Córdoba, Argentina<br>
+      admin@nova-domus.com.ar<br>
+      <span style="opacity:.7">Preinstalación de señales débiles en edificios — v2.0 · Septiembre 2026</span>
+    </div>
+    <div style="margin-top:18px">
+      <button class="btn" id="ck-reset" type="button">Reiniciar checklist</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY='nd-manual-preinstalacion-edificios';
+  var boxes=document.querySelectorAll('input[data-ck]');
+  var saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ saved={}; }
+  function save(){
+    var o={};
+    boxes.forEach(function(b){ if(b.checked) o[b.dataset.ck]=1; });
+    try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){}
+    count();
+  }
+  function count(){
+    var done=0; boxes.forEach(function(b){ if(b.checked) done++; });
+    var el=document.getElementById('ck-count');
+    if(el) el.textContent=done+' / '+boxes.length;
+  }
+  boxes.forEach(function(b){
+    if(saved[b.dataset.ck]) b.checked=true;
+    b.addEventListener('change',save);
+  });
+  count();
+  var reset=document.getElementById('ck-reset');
+  if(reset) reset.addEventListener('click',function(){
+    boxes.forEach(function(b){ b.checked=false; });
+    save();
+  });
+  var pr=document.getElementById('do-print');
+  if(pr) pr.addEventListener('click',function(){ window.print(); });
+})();
+</script>
+</body>
+</html>
