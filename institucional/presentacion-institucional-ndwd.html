@@ -46,15 +46,6 @@ body{
 .btn:hover{filter:brightness(1.08);}
 .btn:active{transform:translateY(1px);}
 
-/* ---------- aviso interno ---------- */
-.aviso{
-  background:#FFF3D6;border:1px dashed #b98f3f;border-radius:6px;
-  padding:16px 18px;margin:22px 0 0;font-size:13.5px;color:#6b5220;
-}
-.aviso b{color:#4a3814;}
-.aviso ul{margin:8px 0 0;padding-left:18px;}
-.aviso li{margin-bottom:4px;}
-
 /* ---------- portada ---------- */
 .cover{background:var(--navy-deep);color:var(--cream);padding:64px 0 56px;}
 .cover .wrap{text-align:center;}
@@ -134,12 +125,6 @@ ul.clean li{position:relative;padding-left:20px;margin-bottom:8px;font-size:14px
 ul.clean li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:1px;background:var(--gold);}
 .dark ul.clean li::before{background:var(--gold);}
 
-/* ---------- pendientes ---------- */
-.todo{
-  display:inline-block;background:#FFF3D6;border:1px dashed #b98f3f;border-radius:3px;
-  padding:1px 7px;font-size:12.5px;color:#6b5220;font-weight:600;letter-spacing:.2px;
-}
-
 /* ---------- checklist ---------- */
 .chk td:first-child{width:34px;text-align:center;font-weight:700;color:var(--navy);}
 .st{font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap;}
@@ -173,7 +158,7 @@ footer a{color:var(--gold);text-decoration:none;}
 @media print{
   @page{size:A4;margin:14mm 13mm;}
   html,body{background:#fff;font-size:10.5pt;}
-  .no-print,.topbar,.aviso{display:none !important;}
+  .no-print,.topbar{display:none !important;}
   .wrap{max-width:none;padding:0;}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .cover{padding:34mm 0 20mm;break-after:page;}
@@ -269,33 +254,6 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   </div>
 </header>
 
-<!-- ============ AVISO INTERNO (no se imprime) ============ -->
-<div class="wrap">
-  <div class="aviso no-print">
-    <b>Nota interna — no se imprime ni sale en el PDF.</b> Los datos societarios, fiscales y contables ya
-    están cargados desde la documentación legal. Queda pendiente completar a mano solo lo marcado en amarillo
-    (<span class="todo">A COMPLETAR</span>):
-    <ul>
-      <li><b>Obras destacadas</b>: verificar la descripción de cada una (tipo de obra y comitente) antes de mandar.</li>
-      <li><b>Mora</b>: confirmar la declaración de que no hay situaciones de mora antes de firmar.</li>
-    </ul>
-    <b>Tres advertencias antes de publicar:</b>
-    <ul>
-      <li>La <b>sección 09 trae las cifras de los estados contables</b>. Para una versión pública, poné
-      <code>MOSTRAR_SINTESIS_ECONOMICA = false</code> al final del archivo (la quita del documento) o pedí una
-      versión sin esa sección; el flag no borra el contenido del código fuente.</li>
-      <li>La <b>actividad principal en ARCA</b> es "venta al por menor de artículos de iluminación" (475430) y la
-      instalación eléctrica figura como secundaria. El certificado MiPyME por eso dice sector Comercio. No
-      contradice el relato, pero el analista puede preguntarlo.</li>
-      <li>El instrumento constitutivo fija la sede social en Cabana 3239; ARCA y el informe del auditor usan
-      Av. Colón 3835. En el documento figura Colón 3835 — verificar que el cambio de sede esté inscripto en IPJ.</li>
-      <li>La constancia de ARCA tiene alta en el <b>Régimen de Seguridad Social — Empleador</b> desde 07/2024,
-      pero no hay personal en relación de dependencia. Está declarado tal cual figura en la constancia; si el
-      banco lo cruza con el F.931, conviene tener la explicación a mano.</li>
-    </ul>
-  </div>
-</div>
-
 <!-- ============ ÍNDICE ============ -->
 <div class="wrap toc">
   <ol>
@@ -307,7 +265,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <li><a href="#trayectoria"><span class="toc-num">06</span>Trayectoria y obras</a></li>
     <li><a href="#operacion"><span class="toc-num">07</span>Capacidad operativa y gestión</a></li>
     <li><a href="#equipo"><span class="toc-num">08</span>Estructura y equipo</a></li>
-    <li class="confidencial"><a href="#economico"><span class="toc-num">09</span>Síntesis económico-financiera</a></li>
+    <li><a href="#economico"><span class="toc-num">09</span>Síntesis económico-financiera</a></li>
     <li><a href="#ref-comerciales"><span class="toc-num">10</span>Referencias comerciales</a></li>
     <li><a href="#documentacion"><span class="toc-num">11</span>Documentación que acompaña</a></li>
   </ol>
@@ -637,7 +595,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 </section>
 
 <!-- ============ 09 ECONÓMICO-FINANCIERA ============ -->
-<section id="economico" class="confidencial">
+<section id="economico">
   <div class="wrap">
     <div class="hr"></div>
     <p class="eyebrow">09 · Situación patrimonial</p>
@@ -774,7 +732,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     </table>
     </div>
     <p class="tbl-note">La empresa no registra situaciones de mora ni antecedentes desfavorables en el
-    sistema financiero a la fecha de emisión del presente. <span class="todo">Confirmar antes de firmar.</span></p>
+    sistema financiero a la fecha de emisión del presente.</p>
   </div>
 </section>
 
@@ -828,15 +786,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 </footer>
 
 <script>
-// Poner en false para generar la versión pública sin las cifras contables (sección 09).
-var MOSTRAR_SINTESIS_ECONOMICA = true;
-
 (function(){
-  if(!MOSTRAR_SINTESIS_ECONOMICA){
-    Array.prototype.forEach.call(document.querySelectorAll('.confidencial'), function(n){
-      n.parentNode.removeChild(n);
-    });
-  }
   var b = document.getElementById('btn-pdf');
   if(!b) return;
   b.addEventListener('click', function(){ window.print(); });
