@@ -262,6 +262,11 @@ Martín tiene fila en `comerciales` (id 6) **sin `user_id`, a propósito**.
   `postgres` — por eso no aparecía en `edge_logs` y por eso el revoke de `authenticated` no lo
   frenó (`postgres`/`service_role` no están cubiertos por esa migración). **La corrección va en
   las instrucciones de ese Project, no en este repo.** No se investiga más de este lado.
+- `liquidacion/index.html` — Filtro "Pagos por técnico" ahora permite filtrar también por obra
+  (`obra_codigo` de `cuadrilla.jornadas`, ya expuesto en la vista `cuadrilla_jornadas`; sin
+  cambios de Supabase). Checkbox "Sin obra asignada" incluido y tildado por defecto junto con el
+  resto, para que el total sin tocar el filtro siga coincidiendo con el reporte de antes de este
+  cambio (2 de 1808 jornadas sin obra_codigo al 21/09/2026). Commit `cb41dfd`, 21/09/2026.
 
 **Pendientes operativos:**
 - **Fase 7 — verificación por rol en el portal real.** Todavía no se hizo. **Bloquea la pausa de
