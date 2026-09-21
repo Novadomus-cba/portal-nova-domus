@@ -280,7 +280,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <p class="tagline">Del cable a la app</p>
   <p class="lead" style="margin-top:20px;">Vivienda de Bruno Enrici, La Luisita, Córdoba. Alarma AXPro con sensor por abertura, videovigilancia perimetral con IA y red WiFi.</p>
   <div class="stats">
-    <div class="stat"><div class="figure" data-count="27">0</div><div class="stat-label">Dispositivos base incluidos</div></div>
+    <div class="stat"><div class="figure" data-count="23">0</div><div class="stat-label">Dispositivos base incluidos</div></div>
     <div class="stat"><div class="figure" data-count="4">0</div><div class="stat-label">Cámaras AcuSense perimetrales</div></div>
     <div class="stat"><div class="figure" data-count="8">0</div><div class="stat-label">Aberturas con sensor propio</div></div>
     <div class="stat"><div class="figure" data-count="1">0</div><div class="stat-label">Responsable de punta a punta</div></div>
@@ -303,7 +303,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión base</div>
-      <div class="rc-value" id="resumen-total">USD 5.692</div>
+      <div class="rc-value" id="resumen-total">USD 5.326</div>
       <div class="rc-sub">Equipo + mano de obra + programación</div>
     </div>
     <div class="resumen-card">
@@ -396,7 +396,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
 
-  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 5.692</span></div>
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 5.326</span></div>
   <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.513. Materiales sujetos a cotización del proveedor al momento de la compra.</p>
 </section>
 
@@ -577,7 +577,6 @@ const DEVICES = {
     {n:'Sensor shock/tilt — Living/Cocina → Quincho (PV2)', q:1, pu:52.27, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Junto al P1, mismo frente de quincho.'},
     {n:'Sensor shock/tilt — DEP/Lavadero → lateral frente (PV1)', q:1, pu:52.27, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Da al jardín lateral de frente, entre línea de retiro y línea municipal.'},
     {n:'Sensor shock/tilt — DEP → ventilación caldera (V1)', q:1, pu:52.27, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Ventana circular de ventilación, da al jardín de frente.'},
-    {n:'Detector PIR interior DS-PDP15P-EG2-WB', q:4, pu:55.18, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp', desc:'Detección de movimiento interior, inmune a mascotas chicas.'},
     {n:'Sirena interior DS-PS1-I-WB', q:2, pu:66.36, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Alerta sonora dentro de la vivienda.'},
     {n:'Sirena exterior DS-PS1-E-WB', q:2, pu:98.74, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Alerta sonora y disuasión visible desde la calle.'},
   ],
@@ -648,7 +647,7 @@ let extraSensoresOn = false;
 function alarmaEquipoMo(){
   const sum = items => items.reduce((a,i)=>a+i.pu*i.q,0);
   let equipo = sum(DEVICES.alarma);
-  let mo = 85.00+53.51+27.98*2+27.82*(8+4)+49.79*4; // panel+tec+repetidor x2+sensores(8+PIR4)+sirenas x4
+  let mo = 85.00+53.51+27.98*2+27.82*8+49.79*4; // panel+tec+repetidor x2+sensores shock(8)+sirenas x4
   if(extraSensoresOn){
     equipo += sum(ALARMA_SENSORES_EXTRA);
     mo += 27.82*3;
