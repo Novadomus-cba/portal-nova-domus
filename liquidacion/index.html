@@ -871,6 +871,15 @@
         </div>
         <div class="pagos-check-grid" id="pagos-tecnicos-grid"></div>
 
+        <div class="pagos-field-label" style="margin-top:18px;">Obras</div>
+        <div class="pagos-select-all-row">
+          <label class="pagos-check-item pagos-check-strong">
+            <input type="checkbox" id="pagos-obr-todos" checked />
+            Todas
+          </label>
+        </div>
+        <div class="pagos-check-grid" id="pagos-obras-grid"></div>
+
         <div class="pagos-field-label" style="margin-top:18px;">Conceptos</div>
         <div class="pagos-check-grid" id="pagos-conceptos-grid"></div>
 
@@ -947,6 +956,7 @@
   var currentStart   = getWeekStartOf(new Date(), 5); // default: viernes
   var currentEnd     = addDays(currentStart, 6);
   var tecnicos       = {};
+  var obras          = {}; // codigo_obra → nombre, para el filtro de "Pagos por técnico"
   var jornadasMap    = {};
   var editingJornada = null;
   var weekTotalJornalesAlmuerzos = 0; // base para comisión supervisor (excluye categoría SUPERVISOR)
@@ -1133,6 +1143,13 @@
     return sbGet('cuadrilla_tecnicos?select=id,nombre').then(function(rows) {
       tecnicos = {};
       rows.forEach(function(r){ tecnicos[r.id] = r.nombre; });
+    });
+  }
+
+  function loadObras() {
+    return sbGet('obras?select=nombre,codigo_obra&codigo_obra=not.is.null&order=nombre.asc').then(function(rows) {
+      obras = {};
+      rows.forEach(function(r){ obras[r.codigo_obra] = r.nombre; });
     });
   }
 
@@ -1775,6 +1792,35 @@
       document.getElementById('pagos-tec-todos').checked = todosMarcados;
     });
 
+    // Obras: nombre + código, ordenadas por nombre, todas tildadas por defecto.
+    // "__NULL__" = jornadas sin obra asignada (2 de 1808 al 21/09/2026). Tiene que
+    // quedar tildado por defecto junto con el resto: si no, el total sin tocar el
+    // filtro deja de coincidir con el reporte de antes de este cambio.
+    var obrArr = Object.keys(obras).map(function(cod){ return { codigo: cod, nombre: obras[cod] }; });
+    obrArr.sort(function(a, b){ return a.nombre.localeCompare(b.nombre, 'es'); });
+    var obrGrid = document.getElementById('pagos-obras-grid');
+    obrGrid.innerHTML = obrArr.map(function(o) {
+      return '<label class="pagos-check-item">' +
+        '<input type="checkbox" class="pagos-obr-chk" value="' + esc(o.codigo) + '" checked />' +
+        esc(o.nombre) +
+      '</label>';
+    }).join('') +
+      '<label class="pagos-check-item" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px;">' +
+        '<input type="checkbox" class="pagos-obr-chk" value="__NULL__" checked />' +
+        'Sin obra asignada' +
+      '</label>';
+
+    document.getElementById('pagos-obr-todos').addEventListener('change', function() {
+      var marcado = this.checked;
+      document.querySelectorAll('.pagos-obr-chk').forEach(function(chk){ chk.checked = marcado; });
+    });
+    obrGrid.addEventListener('change', function(e) {
+      if (!e.target.classList.contains('pagos-obr-chk')) return;
+      var todas = document.querySelectorAll('.pagos-obr-chk');
+      var todasMarcadas = Array.prototype.every.call(todas, function(c){ return c.checked; });
+      document.getElementById('pagos-obr-todos').checked = todasMarcadas;
+    });
+
     // Conceptos: todos tildados por defecto
     var concGrid = document.getElementById('pagos-conceptos-grid');
     concGrid.innerHTML = PAGOS_CONCEPTOS.map(function(c) {
@@ -1803,21 +1849,44 @@
       document.querySelectorAll('.pagos-tec-chk:checked'),
       function(c){ return c.value; }
     );
+    var obraCodes = Array.prototype.map.call(
+      document.querySelectorAll('.pagos-obr-chk:checked'),
+      function(c){ return c.value; }
+    );
+    var incluirSinObra = obraCodes.indexOf('__NULL__') !== -1;
+    obraCodes = obraCodes.filter(function(v){ return v !== '__NULL__'; });
     var conceptos = Array.prototype.map.call(
       document.querySelectorAll('.pagos-conc-chk:checked'),
       function(c){ return c.value; }
     );
 
-    if (!tecIds.length || !conceptos.length) {
-      resultEl.innerHTML = '<div class="pagos-empty">Seleccioná al menos un técnico y un concepto.</div>';
+    if (!tecIds.length || !conceptos.length || (!obraCodes.length && !incluirSinObra)) {
+      resultEl.innerHTML = '<div class="pagos-empty">Seleccioná al menos un técnico, una obra y un concepto.</div>';
       return;
     }
 
     resultEl.innerHTML = loadingHTML();
 
+    // Comillas dobles en cada código: defensivo por si algún codigo_obra futuro trae
+    // caracteres especiales — hoy son todos alfanuméricos cortos (AJA, CAU2, etc.),
+    // pero PostgREST acepta la sintaxis con comillas para cualquier valor.
+    function pgTextList(arr) {
+      return arr.map(function(v){ return '"' + String(v).replace(/"/g, '\\"') + '"'; }).join(',');
+    }
+
+    var obraFiltro;
+    if (obraCodes.length && incluirSinObra) {
+      obraFiltro = '&or=(obra_codigo.in.(' + pgTextList(obraCodes) + '),obra_codigo.is.null)';
+    } else if (obraCodes.length) {
+      obraFiltro = '&obra_codigo=in.(' + pgTextList(obraCodes) + ')';
+    } else {
+      obraFiltro = '&obra_codigo=is.null';
+    }
+
     var q = 'cuadrilla_jornadas?select=tecnico_id,jornal,almuerzo,traslados,km,peaje,otros,compras,adelantos' +
       '&fecha=gte.' + from + '&fecha=lte.' + to +
-      '&tecnico_id=in.(' + tecIds.join(',') + ')';
+      '&tecnico_id=in.(' + tecIds.join(',') + ')' +
+      obraFiltro;
 
     sbGet(q).then(function(rows) {
       var sums = {};
@@ -1905,9 +1974,10 @@
     }
     document.getElementById('portal-username').textContent = profile.full_name;
     document.getElementById('app-loading').style.display = 'none';
-    return loadTecnicos()
-      .catch(function(e){ console.warn('No se cargaron técnicos:', e.message); })
-      .then(function()  { loadSemana(); });
+    return Promise.all([
+      loadTecnicos().catch(function(e){ console.warn('No se cargaron técnicos:', e.message); }),
+      loadObras().catch(function(e){ console.warn('No se cargaron obras:', e.message); })
+    ]).then(function()  { loadSemana(); });
   }).catch(function() {
     window.location.href = '../login.html';
   });
