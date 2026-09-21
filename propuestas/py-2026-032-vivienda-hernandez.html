@@ -4,7 +4,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nova Domus">
 <meta property="og:title" content="Vivienda Hernández — Proyecto Ejecutivo de Tecnológica Integral">
-<meta property="og:description" content="Videovigilancia perimetral, accesos y red para vivienda multifamiliar en Villa Argüello. PY-2026-032 · Nova Domus.">
+<meta property="og:description" content="Videovigilancia perimetral, accesos y red para vivienda multifamiliar en Villa Argüello. Dos configuraciones. PY-2026-032 · Nova Domus.">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-032-vivienda-hernandez.html">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-032-vivienda-hernandez.png">
 <meta property="og:image:width" content="1200">
@@ -381,6 +381,22 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 *{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
 
 
+/* ===== SELECTOR DE CONFIGURACION ===== */
+#tier-scope{position:relative}
+#tier-scope .sec{scroll-margin-top:112px}
+#tier-bar{position:sticky;top:46px;z-index:39;background:rgba(11,19,43,.96);
+backdrop-filter:blur(8px);border-bottom:1px solid rgba(200,169,110,.28);padding:10px 0}
+#tier-bar .wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#tier-bar .tlab{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);
+flex:1 1 100%}
+.tpill{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.2);border-radius:999px;
+font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:9px}
+.tpill.on{border-color:var(--gold);color:var(--gold);background:rgba(200,169,110,.1);
+box-shadow:0 0 0 3px rgba(200,169,110,.12)}
+.tpill s{text-decoration:none;font-size:12px;opacity:.75;font-weight:400}
+#tier-bar .tnow{margin-left:auto;font-family:var(--fd);font-size:15px;color:var(--gold);
+letter-spacing:1px;white-space:nowrap}
+.tglow{animation:glow 2.6s ease-in-out infinite;border-radius:999px}
 /* ===== MAPA INTERACTIVO ===== */
 .map-box{border:1px solid rgba(200,169,110,.28);border-radius:16px;padding:14px;
 background:rgba(255,255,255,.02);margin:18px 0 0;animation:glow 2.6s ease-in-out infinite}
@@ -406,8 +422,8 @@ background:rgba(255,255,255,.02);margin:18px 0 0;animation:glow 2.6s ease-in-out
 .cam{cursor:pointer}
 .cam .halo{fill:#C8A96E;opacity:0;transition:opacity .25s}
 .cam.on .halo{opacity:.22}
-.cam .dot{fill:#C8A96E;stroke:#0B132B;stroke-width:2;transition:r .2s}
-.cam.on .dot{r:15;stroke:#FDFBF0}
+.cam .dot{fill:#C8A96E;stroke:#0B132B;stroke-width:2}
+.cam.on .dot{stroke:#FDFBF0}
 .cam.dim .dot{opacity:.28}
 .cam.dim .cid{opacity:.3}
 .cid{fill:#0B132B;font-family:var(--fb);font-size:10.5px;font-weight:700;pointer-events:none}
@@ -417,8 +433,7 @@ background:rgba(255,255,255,.02);margin:18px 0 0;animation:glow 2.6s ease-in-out
 font-size:13px;font-weight:600;letter-spacing:.4px;display:inline-flex;align-items:center;gap:7px}
 .chip.on{border-color:var(--gold);color:var(--gold);background:rgba(200,169,110,.08)}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:.65;font-style:normal}
-.chip.g-per i{background:#C8A96E}.chip.g-oes i{background:#7f9fd8}
-.chip.g-acc i{background:#e0b877}.chip.g-com i{background:#8fd0c8}
+.chip.g-oes i{background:#7f9fd8}.chip.g-com i{background:#8fd0c8}
 .map-panel{margin:14px 0 0;border:1px solid rgba(200,169,110,.3);border-left-width:3px;
 border-radius:14px;padding:16px 18px;min-height:112px}
 .map-panel h3{color:var(--gold);margin-bottom:6px}
@@ -426,24 +441,35 @@ border-radius:14px;padding:16px 18px;min-height:112px}
 .map-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:14px 0 0;padding:0;list-style:none;
 font-size:12.5px;color:var(--grey)}
 .map-legend li{display:flex;align-items:center;gap:7px}
-.map-legend s{width:16px;height:0;border-top:2px dashed var(--gold);display:inline-block}
+.map-legend s{width:16px;height:0;border-top:2px dashed var(--gold);display:inline-block;
+text-decoration:none}
 .map-legend s.sv{border-top:3px solid #EDEAE0}
 .map-legend s.sp{border-top:3px solid var(--gold)}
 .map-legend s.sc{border-top:0;width:12px;height:12px;border-radius:50%;background:rgba(200,169,110,.3)}
 .map-note{font-size:12.5px;color:var(--grey);margin:10px 0 0}
-/* ===== paso a paso / detalle ===== */
+.section-light .map-note{color:#5d6078}
+/* ===== comparativa de niveles ===== */
+.cmp-tbl td.act{color:var(--navy);font-weight:600}
+.cmp-tbl td.same{opacity:.85}
+.eq-tag{display:inline-block;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;
+border:1px solid rgba(20,30,97,.35);border-radius:999px;padding:1px 8px;margin-left:6px;
+color:var(--navy);opacity:.7}
+/* ===== detalle ===== */
 .det .dev-body p,.det .dev-body ul,.det .dev-body ol{padding:0 18px 2px;margin:0 0 12px}
 .det .dev-body ul,.det .dev-body ol{padding-left:38px}
 .det .dev-body li{margin:6px 0}
 .det .dev-body>*:last-child{padding-bottom:16px}
-.roles{margin:18px 0 0}
 @media(max-width:640px){
+  #tier-bar{padding:8px 0}
+  #tier-bar .wrap{gap:7px}
+  .tpill{padding:0 13px;font-size:13px}
+  #tier-bar .tnow{font-size:13px;flex:1 1 100%;margin-left:0;text-align:right}
   .map-box{padding:10px}
-  .map-chips{gap:6px}.chip{padding:0 12px;font-size:12.5px}
+  .chip{padding:0 12px;font-size:12.5px}
   .map-panel{padding:14px 15px}
   .rot,.calle{font-size:11px}
 }
-@media print{.map-box{animation:none}.cone{opacity:.18}}
+@media print{.map-box,.tglow{animation:none}.cone{opacity:.18}#tier-bar{position:static}}
 
 </style></head><body>
 
@@ -476,6 +502,7 @@ font-size:12.5px;color:var(--grey)}
 
 <nav><ul>
   <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#compara">Las dos opciones</a></li>
   <li><a href="#responsable">Un solo responsable</a></li>
   <li><a href="#mapa">Mapa de cámaras</a></li>
   <li><a href="#s01">Videovigilancia</a></li>
@@ -489,6 +516,19 @@ font-size:12.5px;color:var(--grey)}
   <li><a href="#faq">FAQ</a></li>
 </ul></nav>
 
+<div id="tier-scope">
+
+<div id="tier-bar">
+  <div class="wrap">
+    <span class="tlab">👆 Elegí la configuración — cambia todo el documento</span>
+    <span class="tglow"><button class="tpill on" id="tp-esencial" onclick="setTier('esencial')">
+      Esencial <s>U$D 6.871</s></button></span>
+    <span class="tglow"><button class="tpill" id="tp-completa" onclick="setTier('completa')">
+      Completa <s>U$D 13.171</s></button></span>
+    <span class="tnow" id="tnow"></span>
+  </div>
+</div>
+
 <div class="wrap">
 
 <section class="sec" id="resumen" style="border-top:0">
@@ -497,13 +537,13 @@ font-size:12.5px;color:var(--grey)}
   <p class="lead">Lo esencial, si no querés leer el resto.</p>
   <div class="kpis">
     <div class="kpi"><span class="figure" data-n="12">12</span>
-      <small>cámaras con detección inteligente, perímetro y accesos</small></div>
+      <small>cámaras en el perímetro, los accesos y los espacios comunes</small></div>
     <div class="kpi"><span class="figure" data-n="166">166</span>
       <small>metros de perímetro con reja calada de 2 m, cubiertos de punta a punta</small></div>
     <div class="kpi"><span class="figure" data-n="7">7</span>
-      <small>unidades con videoportero propio en cada departamento</small></div>
-    <div class="kpi"><span class="figure" data-n="15">15</span>
-      <small>días de grabación continua de las 12 cámaras</small></div>
+      <small>unidades con videoportero y apertura desde el celular</small></div>
+    <div class="kpi"><span class="figure" data-n="4">4</span>
+      <small>accesos cubiertos: dos peatonales y dos portones</small></div>
   </div>
   <p><b>Qué necesita el proyecto.</b> El predio tiene 1.733 m², dos frentes a calle, cuatro accesos
     y una reja calada de 2 metros en todo el perímetro. Una reja así no frena a nadie: se cruza en
@@ -512,19 +552,51 @@ font-size:12.5px;color:var(--grey)}
     ventana para dejar las canalizaciones sin romper después.</p>
   <p><b>Qué proponemos.</b> Doce cámaras que cubren el perímetro desde adentro, con cobertura
     cruzada en los dos tramos largos, más los cuatro accesos y los espacios comunes. Videoportero
-    con pantalla en cada una de las 7 unidades sobre la peatonal de visitantes, y un terminal de
-    rostro, tarjeta y QR en la peatonal que da al quincho. Todo sobre una red profesional
-    gestionada, con UPS, que es lo que mantiene el sistema en pie durante un corte de luz.</p>
-  <p><b>Inversión.</b> U$D 13.171 por el proyecto completo — equipos con IVA incluido, mano de obra
-    especializada por punto, y programación y puesta en marcha. No incluye cableado ni obra
-    eléctrica: eso lo ejecuta el electricista de la obra con nuestro plano.</p>
+    metálico en la peatonal de visitantes y un terminal de rostro, tarjeta y QR en la que da al
+    quincho. Todo sobre una red profesional con UPS, que es lo que mantiene el sistema en pie
+    durante un corte de luz.</p>
+  <p><b>Dos configuraciones.</b> Misma marca, mismas 12 posiciones de cámara, mismo cableado, mismo
+    responsable y la misma garantía. Cambia la gama del equipamiento: <b>Esencial</b> por
+    <b id="rs-e">U$D 6.871</b> y <b>Completa</b> por <b id="rs-c">U$D 13.171</b>.
+    Estás viendo la configuración <b id="rs-now"></b>.</p>
   <p><b>Próximo paso.</b> Recibir el plano de señales débiles y pasarlo al constructor. Se entrega
     esté aprobado o no el presupuesto, porque los caños de los pilaretes hay que pedirlos
     <b>antes de que fabriquen la reja</b>.</p>
 </section>
 
-<section class="sec section-light" id="responsable">
-  <p class="eyebrow">Por qué nosotros</p>
+<section class="sec section-light" id="compara">
+  <p class="eyebrow">01 — Las dos opciones</p>
+  <h2>Qué cambia y qué no</h2>
+  <p class="lead">La diferencia entre las dos configuraciones no es la cobertura ni la marca: es la
+    gama de los equipos. Misma Hikvision, mismo respaldo, mismas posiciones — funciones más
+    acotadas.</p>
+  <div class="tw"><table class="tbl cmp-tbl">
+    <thead><tr><th>&nbsp;</th><th>Esencial</th><th>Completa</th></tr></thead>
+    <tbody>
+<tr><td>Puntos de cámara</td><td class="t-es" data-label="Esencial">12</td><td class="t-co" data-label="Completa">12<span class="eq-tag">igual</span></td></tr>
+<tr><td>Cobertura del perímetro</td><td class="t-es" data-label="Esencial">Completa y cruzada</td><td class="t-co" data-label="Completa">Completa y cruzada<span class="eq-tag">igual</span></td></tr>
+<tr><td>Marca del sistema</td><td class="t-es" data-label="Esencial">Hikvision</td><td class="t-co" data-label="Completa">Hikvision<span class="eq-tag">igual</span></td></tr>
+<tr><td>Resolución del perímetro</td><td class="t-es" data-label="Esencial">4 MP</td><td class="t-co" data-label="Completa">4 MP<span class="eq-tag">igual</span></td></tr>
+<tr><td>Detección inteligente</td><td class="t-es" data-label="Esencial">Detección por movimiento</td><td class="t-co" data-label="Completa">AcuSense: distingue persona de animal</td></tr>
+<tr><td>Disuasión en la cámara</td><td class="t-es" data-label="Esencial">Sirena y flash en las 8 exteriores</td><td class="t-co" data-label="Completa">Luz dual de 40 m</td></tr>
+<tr><td>Cámaras de los accesos</td><td class="t-es" data-label="Esencial">ColorVu 2 MP, color 24/7</td><td class="t-co" data-label="Completa">ColorVu 4 MP, color 24/7</td></tr>
+<tr><td>Historial de grabación</td><td class="t-es" data-label="Esencial">~12 días continuos</td><td class="t-co" data-label="Completa">15 días continuos</td></tr>
+<tr><td>Frente de videoportero</td><td class="t-es" data-label="Esencial">Metálico, con app</td><td class="t-co" data-label="Completa">Metálico, con app<span class="eq-tag">igual</span></td></tr>
+<tr><td>Pantalla en cada unidad</td><td class="t-es" data-label="Esencial">Se atiende por celular</td><td class="t-co" data-label="Completa">7 monitores táctiles</td></tr>
+<tr><td>Acceso por rostro, tarjeta y QR</td><td class="t-es" data-label="Esencial">Sí</td><td class="t-co" data-label="Completa">Sí<span class="eq-tag">igual</span></td></tr>
+<tr><td>UPS de respaldo</td><td class="t-es" data-label="Esencial">Sí</td><td class="t-co" data-label="Completa">Sí<span class="eq-tag">igual</span></td></tr>
+<tr><td>Gestión de la red</td><td class="t-es" data-label="Esencial">Equipo por equipo</td><td class="t-co" data-label="Completa">Controlador único Omada</td></tr>
+<tr><td>Cableado de las 7 pantallas</td><td class="t-es" data-label="Esencial">Queda ejecutado</td><td class="t-co" data-label="Completa">Queda ejecutado<span class="eq-tag">igual</span></td></tr>
+<tr><td>Garantía</td><td class="t-es" data-label="Esencial">12 meses</td><td class="t-co" data-label="Completa">12 meses<span class="eq-tag">igual</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="map-note">Las dos configuraciones son excluyentes: se contrata una. El cableado que se
+    ejecuta en obra es el mismo en los dos casos, incluidos los 7 puntos de las pantallas — por eso
+    se puede empezar por la Esencial y sumar después sin romper una pared.</p>
+</section>
+
+<section class="sec" id="responsable">
+  <p class="eyebrow">02 — Por qué nosotros</p>
   <h2>Un solo responsable</h2>
   <p class="lead">En una obra con seguridad y redes normalmente hay tres proveedores distintos: el
     que vende los equipos, el que los instala y el que los programa. Cuando algo falla, cada uno
@@ -533,17 +605,16 @@ font-size:12.5px;color:var(--grey)}
     configuración y puesta en marcha. En esta obra hay una división clara y la decimos de entrada:
     <b>el cableado de señales débiles y la obra eléctrica los ejecuta el electricista de la obra</b>,
     con nuestro plano y bajo nuestra certificación. Todo lo demás —los 12 puntos de cámara, los dos
-    accesos, los 7 monitores, el rack, la red y la programación— es responsabilidad nuestra, de
-    punta a punta.</p>
-  <div class="steps">
+    accesos, el rack, la red y la programación— es responsabilidad nuestra, de punta a punta.</p>
+  <div class="flow">
     <div class="step"><b>1 · Relevamiento y especificación</b>
       Lectura de plano, definición de puntos y entrega del plano de señales débiles al constructor.</div>
     <div class="step"><b>2 · Certificación del cableado</b>
       Verificamos punto por punto lo que ejecutó el electricista antes de conectar un solo equipo.</div>
     <div class="step"><b>3 · Rack, red y energía</b>
-      Armado del rack, UPS, switch, router y controlador. El cimiento del que dependen los demás.</div>
+      Armado del rack, UPS, switch y router. El cimiento del que dependen los demás.</div>
     <div class="step"><b>4 · Cámaras y accesos</b>
-      Montaje, orientación y ajuste fino de las 12 cámaras, los dos frentes y los 7 monitores.</div>
+      Montaje, orientación y ajuste fino de las 12 cámaras y los dos accesos peatonales.</div>
     <div class="step"><b>5 · Entrega documentada + 12 meses</b>
       Capacitación, documentación completa del sistema y 12 meses de garantía sobre lo ejecutado.</div>
   </div>
@@ -565,10 +636,10 @@ font-size:12.5px;color:var(--grey)}
 </section>
 
 <section class="sec" id="mapa">
-  <p class="eyebrow">01 — Implantación</p>
+  <p class="eyebrow">03 — Implantación</p>
   <h2>Dónde va cada cámara</h2>
   <p class="lead">Las 12 cámaras sobre el esquema del predio. Cada una cubre un tramo definido y
-    ninguna mira hacia la calle.</p>
+    ninguna mira hacia la calle. <b>Estas posiciones son las mismas en las dos configuraciones.</b></p>
   <p class="hint">👆 Tocá una cámara en el plano —o su código abajo— para ver qué cubre</p>
   <div class="map-box">
     <svg class="map-svg" viewBox="0 0 767 721" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema de implantación con las 12 cámaras">
@@ -653,12 +724,7 @@ font-size:12.5px;color:var(--grey)}
 <button class="chip g-com" id="chip-C3" onclick="pick('C3')"><i></i>C3</button>
       <button class="chip" id="chip-all" onclick="pick(null)">Ver todas</button>
     </div>
-    <div class="map-panel" id="mp">
-      <h3>12 cámaras, cuatro grupos</h3>
-      <p>Cuatro sobre pilarete cubren el perímetro con cobertura cruzada; dos sobre estructura
-        cubren las cocheras y la calle interna; cuatro identifican en los accesos; dos cubren los
-        espacios comunes. Tocá cualquiera para ver su cobertura.</p>
-    </div>
+    <div class="map-panel" id="mp"></div>
     <ul class="map-legend">
       <li><s class="sc"></s>Cobertura de la cámara seleccionada</li>
       <li><s></s>Reja calada de 2 m — 166 m de perímetro</li>
@@ -672,184 +738,47 @@ font-size:12.5px;color:var(--grey)}
 </section>
 
 <section class="sec section-light" id="s01">
-  <p class="eyebrow">02 — Videovigilancia</p>
+  <p class="eyebrow">04 — Videovigilancia</p>
   <h2>Ver lo que importa</h2>
-  <p class="lead">El problema de una cámara común en un predio con árboles, animales y 166 metros de
-    perímetro no es que no grabe: es que avisa tanto que nadie le da bola.</p>
+  <p class="lead">El problema de una cámara en un predio con árboles, animales y 166 metros de
+    perímetro no es que no grabe: es cómo avisa.</p>
   <div class="sw" id="sw-cam">
-    <button class="on" id="c0" onclick="cmp(0,this)">Cámara común</button>
+    <button class="on" id="c0" onclick="cmp(0,this)">Cámara de consumo</button>
     <button id="c1" onclick="cmp(1,this)">Con Nova Domus</button>
   </div>
   <div class="cmp" id="cbox"></div>
-  <div class="device-grid">
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Cámara bullet 4 MP AcuSense</span><span class="tap-badge">Tocá para abrir</span>
-          <span class="dev-q">×8</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD2043G2-LI2U.jpg" alt="Cámara bullet 4 MP AcuSense" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Las cuatro del perímetro sobre pilarete, dos sobre estructura mirando las cocheras y dos en los portones. Distinguen una persona de un animal o una rama antes de avisar, y tienen luz dual de 40 metros para ver de noche.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Cámara bullet 4 MP ColorVu</span>
-          <span class="dev-q">×2</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD2047G2-LU%20C.jpg" alt="Cámara bullet 4 MP ColorVu" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Una en cada peatonal. Son las dos cámaras que tienen que dar una cara reconocible de noche, así que graban en color las 24 horas en vez de pasar a blanco y negro.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Cámara domo 4 MP AcuSense</span>
-          <span class="dev-q">×2</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg" alt="Cámara domo 4 MP AcuSense" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Hall del edificio y sector quincho/pileta. En el hall alcanza una sola: sin ascensor y con un núcleo de escalera único, la circulación de las 7 unidades pasa toda por ahí.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">NVR AcuSense de 16 canales</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png" alt="NVR AcuSense de 16 canales" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Grabador dedicado en la sala técnica, con 4 canales libres sobre las 12 cámaras para crecer sin cambiar el equipo.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Disco SkyHawk de 8 TB</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg" alt="Disco SkyHawk de 8 TB" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Diseñado para escribir las 24 horas, todos los días. Con 12 cámaras de 4 MP y compresión inteligente cubre los 15 días de historial con holgura.</p></div></div>
-      </article></div>
+  <div class="device-grid" id="grid-video"></div>
 </section>
 
 <section class="sec" id="s02">
-  <p class="eyebrow">03 — Accesos</p>
+  <p class="eyebrow">05 — Accesos</p>
   <h2>Dos puertas, dos lógicas</h2>
   <p class="lead">El predio tiene dos accesos peatonales que resuelven necesidades distintas. No
     tiene sentido poner el mismo equipo en los dos.</p>
-  <div class="sw roles" id="sw-rol">
+  <div class="sw" id="sw-rol">
     <button class="on" id="rl0" onclick="rol(0,this)">Visitante</button>
     <button id="rl1" onclick="rol(1,this)">Residente</button>
     <button id="rl2" onclick="rol(2,this)">Invitado al quincho</button>
   </div>
   <div class="cmp good" id="rolbox"></div>
-  <div class="device-grid">
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Frente de videoportero IP metálico</span><span class="tap-badge">Tocá para abrir</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-kd9203-me6.jpg" alt="Frente de videoportero IP metálico" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">En la peatonal de Ramón y Cajal, la de visitantes. El visitante llama, la unidad lo ve y lo escucha, y abre desde la pantalla. Gabinete metálico porque está sobre la línea municipal, al alcance de cualquiera desde la vereda.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Monitor interior táctil de 7"</span>
-          <span class="dev-q">×7</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-KH6320-WTE1.jpg" alt="Monitor interior táctil de 7&quot;" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Uno por unidad. Se alimenta por el mismo cable de red, así que no necesita transformador ni un tomacorriente dedicado dentro del departamento.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Terminal de acceso facial, tarjeta y QR</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-k1t323mbwx-qre1.jpg" alt="Terminal de acceso facial, tarjeta y QR" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">En la peatonal de Agustí, la que da al quincho y la pileta. Abre por rostro, tarjeta o código QR — el residente le manda el QR al invitado desde el celular y entra sin molestar a nadie.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Kit de apertura por acceso</span>
-          <span class="dev-q">×2</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/CERRELEC_280L.jpg" alt="Kit de apertura por acceso" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Electromagnética de 280 kg con su herraje, fuente y batería de respaldo. Incluye el pulsador de salida táctil con LED, que es obligatorio por norma de egreso de emergencia — nunca se omite.</p></div></div>
-      </article></div>
+  <div class="device-grid" id="grid-acc"></div>
 </section>
 
 <section class="sec section-light" id="s03">
-  <p class="eyebrow">04 — Red y energía</p>
+  <p class="eyebrow">06 — Red y energía</p>
   <h2>El cimiento</h2>
-  <p class="lead">Las cámaras, el videoportero y los monitores dependen de la misma red. Si la red
-    es doméstica, el sistema de seguridad hereda sus problemas.</p>
+  <p class="lead">Las cámaras y el videoportero dependen de la misma red. Si la red es doméstica, el
+    sistema de seguridad hereda sus problemas.</p>
   <div class="sw" id="sw-red">
     <button class="on" id="r0" onclick="rcmp(0,this)">Red doméstica</button>
     <button id="r1" onclick="rcmp(1,this)">Red profesional Omada</button>
   </div>
   <div class="cmp" id="rbox"></div>
-  <div class="device-grid">
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Switch PoE+ de 24 puertos gestionable</span><span class="tap-badge">Tocá para abrir</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg3428mp.jpg" alt="Switch PoE+ de 24 puertos gestionable" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Alimenta por el mismo cable de red las 12 cámaras, el frente de videoportero y los 7 monitores: 20 puertos PoE ocupados. De 24 puertos y 384 W para que el sistema pueda crecer sin reemplazarlo.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Router Omada VPN Gigabit</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png" alt="Router Omada VPN Gigabit" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Separa por VLAN el tráfico de seguridad del resto y habilita el acceso remoto al sistema desde afuera del predio.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Controlador Omada por hardware</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/oc200.jpg" alt="Controlador Omada por hardware" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Gestiona router y switch desde una sola plataforma, con la configuración respaldada fuera de los equipos.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">UPS 1500 VA / 900 W</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/eaton/5E1500iUSB-AR.jpg" alt="UPS 1500 VA / 900 W" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Es lo que sostiene el sistema en un corte. Las cámaras siguen grabando no por ser PoE, sino porque el switch que las alimenta está sobre el UPS. Sin UPS se apagan las 12 cámaras, el grabador y el videoportero al mismo tiempo.</p></div></div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">Rack mural 12U con accesorios GLC</span>
-          <span class="dev-q">×1</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body"><div class="dev-body-flex"><img class="dc-photo" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/117.jpg" alt="Rack mural 12U con accesorios GLC" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>'">
-          <p class="dc-desc">Bandeja de 400 mm para el UPS, bandeja de 300 mm para router y controlador, canal de tensión y organizadores. Todo rotulado y accesible.</p></div></div>
-      </article></div>
+  <div class="device-grid" id="grid-red"></div>
 </section>
 
 <section class="sec det" id="detalle">
-  <p class="eyebrow">05 — El proyecto en detalle</p>
+  <p class="eyebrow">07 — El proyecto en detalle</p>
   <h2>Todo lo que hay detrás</h2>
   <p class="lead">El relevamiento completo, criterio por criterio. No hace falta leerlo para
     decidir, pero está todo acá.</p>
@@ -868,9 +797,9 @@ solo núcleo de escalera.</p>
 <p>Alrededor del edificio hay un predio grande: 9 cocheras descubiertas en dos grupos, una calle
 interna de adoquines, un quincho independiente con dos baños, una pileta de 21 m² con solárium
 seco de 63 m², y 1.214 m² de superficie libre.</p>
-<p>Está en <b>obra gruesa, con las paredes abiertas</b>. Eso define todo el enfoque de esta
-propuesta: la ventana para dejar las canalizaciones de señales débiles está abierta ahora y se
-cierra en semanas. Después, la misma instalación cuesta varias veces más.</p></div>
+<p>Está en <b>obra gruesa, con las paredes abiertas</b>. Eso define todo el enfoque: la ventana para
+dejar las canalizaciones de señales débiles está abierta ahora y se cierra en semanas. Después, la
+misma instalación cuesta varias veces más.</p></div>
       </article>
 
       <article class="dev">
@@ -880,14 +809,14 @@ cierra en semanas. Después, la misma instalación cuesta varias veces más.</p>
         </button>
         <div class="dev-body">
 <p>El predio tiene <b>166 metros de perímetro, todo con reja calada de 2 metros</b>. Una reja
-transparente de esa altura no es una barrera: se cruza en cuatro segundos. El planteo entonces no
-es disuadir con el cerco, es <b>detectar a quien lo cruza</b>.</p>
+transparente de esa altura no es una barrera: se cruza en cuatro segundos. El planteo no es disuadir
+con el cerco, es <b>detectar a quien lo cruza</b>.</p>
 <p>De esos 166 metros, <b>43,28 son la medianera sudeste</b>: el único tramo largo sin exposición a
 la calle, donde no hay testigo casual. Esa es la cara débil del lote y es donde se concentra el
 diseño.</p>
-<p>El segundo problema es de convivencia, no de intrusión: siete familias compartiendo
-estacionamiento, quincho y pileta, con dos accesos peatonales y dos vehiculares. Sin control, la
-pregunta "¿quién entró y cuándo?" no tiene respuesta.</p></div>
+<p>El segundo problema es de convivencia: siete familias compartiendo estacionamiento, quincho y
+pileta, con dos accesos peatonales y dos vehiculares. Sin control, la pregunta "¿quién entró y
+cuándo?" no tiene respuesta.</p></div>
       </article>
 
       <article class="dev">
@@ -904,13 +833,13 @@ la reja</b>, paralelas a ella.</p>
 frente a una cámara y de espaldas a la otra: no hay ángulo desde el cual entrar dando siempre la
 nuca.</p>
 <p><b>Altura de montaje.</b> Una cámara sobre la reja de 2 metros queda al alcance de la mano y con
-ángulo rasante, que es el peor para identificar a alguien. Van sobre <b>pilaretes de 3,0 a 3,5
-metros</b> en los vértices de los tramos largos. Esto hay que pedirlo <b>antes de que fabriquen la
-reja</b>, no después.</p>
-<p><b>Dónde no hacen falta pilaretes.</b> El eje oeste, sobre Ramón y Cajal, no lleva: quien salta
-esa reja cae adentro del estacionamiento y de la calle interna, que ya están cubiertos por otras
-dos cámaras montadas sobre estructura existente. Poner pilaretes ahí sería pagar dos veces la misma
-cobertura.</p></div>
+ángulo rasante, el peor para identificar a alguien. Van sobre <b>pilaretes de 3,0 a 3,5 metros</b>
+en los vértices de los tramos largos. Esto hay que pedirlo <b>antes de que fabriquen la reja</b>.</p>
+<p><b>Dónde no hacen falta pilaretes.</b> El eje oeste no lleva: quien salta esa reja cae adentro
+del estacionamiento y de la calle interna, que ya están cubiertos por otras dos cámaras montadas
+sobre estructura existente. Poner pilaretes ahí sería pagar dos veces la misma cobertura.</p>
+<p><b>Este criterio no cambia entre las dos configuraciones.</b> Son las mismas 12 posiciones, los
+mismos ángulos y la misma cobertura. Lo que cambia es qué equipo va montado en cada una.</p></div>
       </article>
 
       <article class="dev">
@@ -927,10 +856,9 @@ desde el vértice sur.</p>
 norte, la calle interna y el portón de egreso. W2 sobre la fachada oeste del edificio cubre las 5
 cocheras sur y el portón de ingreso.</p>
 <p><b>Accesos — 4 cámaras de identificación.</b> A1 y A2 en las dos peatonales, ColorVu en color las
-24 horas, para tener una cara reconocible a 1,5–2 metros. A3 y A4 en los portones, para patente y
-conductor. Un detalle del proyecto juega a favor: la circulación vehicular es de un solo sentido
-—entra por el sudoeste, recorre todo el frente y sale por el norte—, así que toda patente que
-ingresa pasa dos veces frente al mismo eje de cámaras.</p>
+24 horas. A3 y A4 en los portones, para patente y conductor. Un detalle del proyecto juega a favor:
+la circulación vehicular es de un solo sentido, así que toda patente que ingresa pasa dos veces
+frente al mismo eje de cámaras.</p>
 <p><b>Comunes — 2 domos.</b> A5 en el hall del edificio y C3 en el quincho, solárium y pileta.</p>
 <p>Las 12 van a un grabador de 16 canales: quedan <b>4 canales libres</b> para sumar cámaras más
 adelante sin cambiar el corazón del sistema.</p></div>
@@ -942,16 +870,17 @@ adelante sin cambiar el corazón del sistema.</p></div>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="dev-body">
-<p><b>Ramón y Cajal — videoportero con 7 monitores.</b> Es el acceso de visitantes. El visitante
-llama, la unidad lo ve y lo escucha, y abre desde la pantalla. Cada departamento tiene su monitor
-táctil de 7", alimentado por el mismo cable de red.</p>
+<p><b>Ramón y Cajal — videoportero.</b> Es el acceso de visitantes. El visitante llama, la unidad lo
+ve y lo escucha, y abre. En la configuración Completa eso ocurre desde el monitor táctil de cada
+departamento; en la Esencial, desde el celular, con la app del fabricante. El frente es el mismo
+equipo metálico en los dos casos.</p>
 <p><b>Agustí — terminal de rostro, tarjeta y QR.</b> Es el acceso al sector quincho y pileta,
 pensado para que los residentes entren por el camino corto y para que un invitado entre con un
-código QR que le mandan desde el celular. Tenerlo claro: <b>ese acceso no tiene llamada</b>, así
-que quien llega sin credencial usa la peatonal de Ramón y Cajal. Por eso esa es la de visitantes.</p>
-<p>Los dos accesos llevan el mismo herraje: electromagnética de 280 kg, herraje, fuente, batería de
-respaldo y <b>pulsador de salida táctil con LED</b>, que es obligatorio por norma de egreso de
-emergencia y no es opcional.</p>
+código QR enviado desde el celular. Tenerlo claro: <b>ese acceso no tiene llamada</b>, así que quien
+llega sin credencial usa la peatonal de Ramón y Cajal. Por eso esa es la de visitantes.</p>
+<p>Los dos accesos llevan el mismo herraje en las dos configuraciones: electromagnética de 280 kg,
+herraje, fuente, batería de respaldo y <b>pulsador de salida táctil con LED</b>, obligatorio por
+norma de egreso de emergencia.</p>
 <p><b>Los portones vehiculares quedan fuera de este alcance</b>: motor, herraje y control los
 resuelve otro proveedor. Nova Domus los filma, pero no provee ni la apertura ni el mando.</p></div>
       </article>
@@ -962,18 +891,17 @@ resuelve otro proveedor. Nova Domus los filma, pero no provee ni la apertura ni 
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="dev-body">
-<p><b>Todo el PoE sale del switch.</b> El presupuesto de puertos es: 12 cámaras + 1 frente de
-videoportero + 7 monitores = <b>20 puertos PoE</b>, más el terminal de acceso que va por WiFi. De
-ahí que el switch sea de 24 puertos y no de 16, y de 384 W: con la carga real estimada, uno de 250 W
-quedaría al 76% sin margen para crecer.</p>
-<p><b>El UPS es lo que sostiene todo en un corte.</b> Vale decirlo con precisión porque se suele
-leer como un adicional caprichoso: las cámaras y el grabador siguen funcionando durante un corte no
-por ser PoE, sino porque el switch que las alimenta está sobre el UPS. Sin UPS se apagan las 12
-cámaras, el grabador y el videoportero al mismo tiempo — justo en el momento en que uno querría que
-funcionaran.</p>
-<p><b>15 días de grabación.</b> Doce cámaras de 4 MP con compresión inteligente promedian unos 3
-Mbps, del orden de 388 GB por día. El disco de 8 TB entra con holgura, y si las cuatro perimetrales
-graban por evento en vez de continuo, sobra bastante más.</p>
+<p><b>Todo el PoE sale del switch.</b> Con las 7 pantallas son 20 puertos PoE; sin ellas, 13. En los
+dos casos el switch es de 24 puertos, justamente para que agregar las pantallas después no obligue a
+cambiarlo.</p>
+<p><b>El UPS está en las dos configuraciones y no se negocia.</b> Las cámaras y el grabador siguen
+funcionando durante un corte no por ser PoE, sino porque el switch que las alimenta está sobre el
+UPS. Sin UPS se apagan las 12 cámaras, el grabador y el videoportero al mismo tiempo — justo cuando
+uno querría que funcionaran.</p>
+<p><b>Historial.</b> Doce cámaras con compresión inteligente promedian unos 3 Mbps cada una. Con el
+disco de 8 TB de la configuración Completa son 15 días continuos con holgura; con el de 4 TB de la
+Esencial, del orden de 12 días, que pasan de 15 configurando las cuatro perimetrales para grabar por
+evento en vez de continuo. Esa configuración no tiene costo: es una decisión de puesta en marcha.</p>
 <p><b>Sala técnica.</b> Rack mural de 12U con bandeja para el UPS, bandeja para router y
 controlador, canal de tensión y organizadores. La ubicación recomendada es el <b>quincho</b>: tiene
 servicios, está a mitad de camino entre los extremos del predio y es espacio común, así que nadie
@@ -990,7 +918,7 @@ del hall: más protegido, pero más lejos del perímetro norte.</p></div>
 <p><b>Lo que hacemos:</b> el proyecto ejecutivo, la especificación, el plano de señales débiles, la
 provisión de los equipos, el montaje, la configuración, la puesta en marcha, la capacitación y la
 documentación del sistema, con 12 meses de garantía.</p>
-<p><b>Lo que no hacemos en esta obra:</b> no cableamos. Los 20 puntos de cable de red los ejecuta el
+<p><b>Lo que no hacemos en esta obra:</b> no cableamos. Los puntos de cable de red los ejecuta el
 electricista de la obra siguiendo nuestro plano, y nosotros los certificamos. Por eso <b>no hay
 cable de red en este presupuesto</b>. Tampoco hacemos la obra eléctrica ni los portones
 vehiculares.</p>
@@ -1004,15 +932,18 @@ ejecutamos: si algo del sistema falla dentro de los 12 meses, no hay a quién de
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="dev-body">
-<p>Esto va independientemente de cuándo se apruebe el presupuesto. Si la obra avanza sin esto, el
-costo de la misma instalación se multiplica:</p>
+<p>Esto va independientemente de la configuración que se elija y de cuándo se apruebe el
+presupuesto. Si la obra avanza sin esto, el costo de la misma instalación se multiplica:</p>
 <ol>
-<li><b>Plano de señales débiles</b> con los 20 puntos de cable y el recorrido hasta la sala técnica.
-Lo entregamos nosotros.</li>
+<li><b>Plano de señales débiles</b> con todos los puntos de cable y el recorrido hasta la sala
+técnica. Lo entregamos nosotros.</li>
 <li><b>Caños en los 3 pilaretes</b> de cámara perimetral, con la columna de la reja prolongada a
 3,0–3,5 m o un pilarete propio. <b>Antes de fabricar la reja.</b></li>
 <li><b>Caño y caja</b> en cada una de las dos peatonales, para el frente, la electromagnética y el
 pulsador de salida.</li>
+<li><b>Los 7 puntos de red de las pantallas, aunque se elija la configuración Esencial.</b> No va
+equipo, pero el caño y el cable quedan ejecutados: el día que una unidad quiera su monitor es
+enchufarlo, sin romper una pared.</li>
 <li><b>Circuito eléctrico dedicado</b> para la sala técnica (rack y UPS).</li>
 <li><b>Caño de acometida de internet</b> hasta la sala técnica, con tanza guía y las menos curvas
 posibles.</li>
@@ -1021,12 +952,34 @@ posibles.</li>
 
       <article class="dev">
         <button class="dev-head" onclick="tog(this)" aria-expanded="false">
+          <span class="dev-title">Cómo se crece después</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="dev-body">
+<p>La configuración Esencial no es una versión recortada que haya que reemplazar entera: es la misma
+infraestructura con equipos de gama más acotada. Todo lo que se puede sumar después se suma sin
+tocar obra:</p>
+<ul>
+<li><b>Las 7 pantallas</b>, una por una o todas juntas, porque el cable ya está y el switch tiene
+puertos libres. No hace falta que las sumen las siete unidades a la vez.</li>
+<li><b>Cámaras con detección inteligente</b> en los puntos que más lo necesiten —los dos vértices de
+la medianera, por ejemplo— sin cambiar las otras diez.</li>
+<li><b>Controlador Omada</b> para gestionar toda la red desde un panel único.</li>
+<li><b>Hasta 4 cámaras más</b>, porque el grabador es de 16 canales y se usan 12.</li>
+<li><b>Más historial</b>, cambiando el disco por uno de mayor capacidad.</li>
+</ul>
+<p>Lo único que no se puede agregar después sin romper paredes es el cableado. Por eso el plano de
+señales débiles contempla el sistema completo, cualquiera sea la configuración que se elija hoy.</p></div>
+      </article>
+
+      <article class="dev">
+        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
           <span class="dev-title">Lo que todavía queda abierto</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="dev-body">
-<p>Se resuelve en la visita técnica o con una definición del cliente. Ninguno de estos puntos
-cambia el alcance ni mueve el presupuesto de forma significativa:</p>
+<p>Se resuelve en la visita técnica o con una definición del cliente. Ninguno de estos puntos cambia
+el alcance ni mueve el presupuesto de forma significativa:</p>
 <ul>
 <li>Posición exacta de la peatonal nueva sobre Agustí, que no figura en el plano municipal.</li>
 <li>Ubicación definitiva de la sala técnica: quincho —recomendada— o conducto técnico del hall.</li>
@@ -1042,84 +995,28 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
 
 </div>
 
+<div class="section-light">
 <div class="wrap">
 
 <section class="sec" id="inversion" style="border-top:0">
-  <p class="eyebrow">06 — Inversión</p>
+  <p class="eyebrow">08 — Inversión</p>
   <h2>Detalle de la inversión</h2>
   <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y en cada rubro según
     la alícuota real de cada producto. El desglose neto / IVA está en el total general, más abajo.</p>
-  <div class="bar"><span class="seg" style="flex:5133" title="Videovigilancia: U$D 5.133"></span><span class="seg" style="flex:3495" title="Accesos y videoportería: U$D 3.495"></span><span class="seg" style="flex:1177" title="Red e infraestructura: U$D 1.177"></span></div>
-  <ul class="legend"><li><i class="dot d0"></i>Videovigilancia <b>U$D 5.133</b></li><li><i class="dot d1"></i>Accesos y videoportería <b>U$D 3.495</b></li><li><i class="dot d2"></i>Red e infraestructura <b>U$D 1.177</b></li></ul>
+  <div class="bar" id="bar"></div>
+  <ul class="legend" id="legend"></ul>
   <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
-  
-      <article class="rub">
-        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
-          <span class="rub-name">Videovigilancia</span><span class="tap-badge dark">Tocá para abrir</span>
-          <span class="rub-val">U$D 5.133</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="rub-body"><div class="tw">
-          <table>
-            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
-              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Cámara Hikvision bullet 4 MP AcuSense, luz dual 40 m y micrófono (DS-2CD2043G2-LI2U)</td><td class="num">8</td><td class="num">341<span class="iva"> · IVA 21% incl.</span></td><td class="num">2.728</td></tr><tr><td>Cámara Hikvision bullet 4 MP ColorVu, color 24/7 (DS-2CD2047G2-LU C)</td><td class="num">2</td><td class="num">403<span class="iva"> · IVA 21% incl.</span></td><td class="num">806</td></tr><tr><td>Cámara Hikvision domo 4 MP AcuSense, luz dual 30 m (DS-2CD2343G2-LI2U)</td><td class="num">2</td><td class="num">323<span class="iva"> · IVA 21% incl.</span></td><td class="num">646</td></tr><tr><td>NVR Hikvision AcuSense 16 canales (DS-7616NXI-K1(D))</td><td class="num">1</td><td class="num">426<span class="iva"> · IVA 21% incl.</span></td><td class="num">426</td></tr><tr><td>Disco Seagate SkyHawk 8 TB para videovigilancia (ST8000VE001)</td><td class="num">1</td><td class="num">527<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">527</td></tr></tbody>
-          </table>
-        </div></div>
-      </article>
-      <article class="rub">
-        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
-          <span class="rub-name">Accesos y videoportería</span>
-          <span class="rub-val">U$D 3.495</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="rub-body"><div class="tw">
-          <table>
-            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
-              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Frente de videoportero IP metálico para edificios, rostro y tarjeta (DS-KD9203-ME6)</td><td class="num">1</td><td class="num">1.008<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.008</td></tr><tr><td>Terminal de acceso facial / tarjeta / QR (DS-K1T323MBWX-QRE1)</td><td class="num">1</td><td class="num">284<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">284</td></tr><tr><td>Monitor interior táctil 7" IP con alimentación PoE (DS-KH6320-WTE1)</td><td class="num">7</td><td class="num">277<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.939</td></tr><tr><td>Cerradura electromagnética 280 kg (Starligh)</td><td class="num">2</td><td class="num">60<span class="iva"> · IVA 21% incl.</span></td><td class="num">120</td></tr><tr><td>Herraje L para electromagnética 280 kg (Starligh)</td><td class="num">2</td><td class="num">14<span class="iva"> · IVA 21% incl.</span></td><td class="num">28</td></tr><tr><td>Fuente switching 12 V 1 A (Starligh)</td><td class="num">2</td><td class="num">10<span class="iva"> · IVA 21% incl.</span></td><td class="num">20</td></tr><tr><td>Batería de gel 12 V 7 Ah de respaldo (Starligh)</td><td class="num">2</td><td class="num">26<span class="iva"> · IVA 21% incl.</span></td><td class="num">52</td></tr><tr><td>Pulsador de salida táctil con LED (Starligh)</td><td class="num">2</td><td class="num">22<span class="iva"> · IVA 21% incl.</span></td><td class="num">44</td></tr></tbody>
-          </table>
-        </div></div>
-      </article>
-      <article class="rub">
-        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
-          <span class="rub-name">Red e infraestructura</span>
-          <span class="rub-val">U$D 1.177</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="rub-body"><div class="tw">
-          <table>
-            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
-              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
-            <tbody><tr><td>Switch TP-Link Omada 24 puertos PoE+ L2 gestionable, 384 W (TL-SG3428MP)</td><td class="num">1</td><td class="num">414<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">414</td></tr><tr><td>Router TP-Link Omada VPN Gigabit (ER605)</td><td class="num">1</td><td class="num">70<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">70</td></tr><tr><td>Controlador Omada por hardware (OC200)</td><td class="num">1</td><td class="num">222<span class="iva"> · IVA 21% incl.</span></td><td class="num">222</td></tr><tr><td>UPS Eaton interactiva 1500 VA / 900 W</td><td class="num">1</td><td class="num">180<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">180</td></tr><tr><td>Gabinete de rack mural GLC 12U 500 mm</td><td class="num">1</td><td class="num">163<span class="iva"> · IVA 21% incl.</span></td><td class="num">163</td></tr><tr><td>Bandeja de rack GLC 2U 400 mm (para el UPS)</td><td class="num">1</td><td class="num">32<span class="iva"> · IVA 21% incl.</span></td><td class="num">32</td></tr><tr><td>Bandeja de rack GLC 1U 300 mm</td><td class="num">1</td><td class="num">18<span class="iva"> · IVA 21% incl.</span></td><td class="num">18</td></tr><tr><td>Canal de tensión GLC 5 tomas</td><td class="num">1</td><td class="num">60<span class="iva"> · IVA 21% incl.</span></td><td class="num">60</td></tr><tr><td>Organizador de cable GLC 1U</td><td class="num">2</td><td class="num">9<span class="iva"> · IVA 21% incl.</span></td><td class="num">18</td></tr></tbody>
-          </table>
-        </div></div>
-      </article>
-  <div class="totals">
-    <div class="trow"><span>Subtotal equipo (neto)</span><span>U$D 8.219</span></div>
-    <div class="trow"><span>IVA sobre equipos (10,5% y 21% según ítem)</span><span>U$D 1.586</span></div>
-    <div class="trow sub"><span>Subtotal equipo (con IVA)</span><span>U$D 9.805</span></div>
-    <div class="trow"><span>Mano de obra especializada por punto</span><span>U$D 2.169</span></div>
-    <div class="trow"><span>Programación, configuración y puesta en marcha</span><span>U$D 1.197</span></div>
-    <div class="trow big"><span>Total del proyecto</span><span>U$D 13.171</span></div>
-  </div>
+  <div id="rubros"></div>
+  <div class="totals" id="totals"></div>
   <p class="map-note">No incluye cableado de señales débiles, obra eléctrica, canalizaciones ni
     automatización de los portones vehiculares.</p>
 </section>
 
-<section class="sec section-light" id="pago">
-  <p class="eyebrow">07 — Ejecución</p>
+<section class="sec" id="pago">
+  <p class="eyebrow">09 — Ejecución</p>
   <h2>Forma de pago</h2>
   <p class="lead">Cada etapa atada a un hito verificable, no a una fecha.</p>
-  <div class="pay">
-    <div class="stage"><span><b style="display:block">Equipos — 100%</b>
-      Por anticipado, una vez confirmadas las cantidades en la visita técnica. Asegura el precio y
-      la disponibilidad de importación de cada equipo.</span><b>U$D 9.805</b></div>
-    <div class="stage"><span><b style="display:block">Mano de obra y programación — 30%</b>
-      Antes de que la cuadrilla arranque en obra.</span><b>U$D 1.010</b></div>
-    <div class="stage"><span><b style="display:block">Mano de obra y programación — 70%</b>
-      Al terminar, contra entrega de la documentación del sistema.</span><b>U$D 2.356</b></div>
-  </div>
+  <div class="pay" id="pay"></div>
   <div class="chk">
     <input type="checkbox" id="fa" onchange="fact()">
     <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre las etapas de mano de obra y
@@ -1128,14 +1025,20 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
   <div class="totals" style="border-top-color:var(--navy)">
     <div class="trow sub" id="fa-row" style="display:none">
       <span>IVA 21% sobre mano de obra y programación</span><span id="fa-val"></span></div>
-    <div class="trow big"><span>Total</span><span id="gt">U$D 13.171</span></div>
+    <div class="trow big"><span>Total</span><span id="gt"></span></div>
   </div>
   <p class="map-note">La visita técnica previa a la compra no tiene costo: la obra está en Córdoba
     capital y no genera logística ni viáticos.</p>
 </section>
 
+</div>
+</div>
+</div>
+
+<div class="wrap">
+
 <section class="sec" id="condiciones">
-  <p class="eyebrow">08 — Condiciones</p>
+  <p class="eyebrow">10 — Condiciones</p>
   <h2>Condiciones generales</h2>
   <p class="lead">Las reglas del acuerdo, sin letra chica.</p>
   
@@ -1145,6 +1048,14 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="dev-body">Este presupuesto tiene una validez de 15 días corridos. Los valores están expresados en dólares estadounidenses y se convierten al tipo de cambio BNA oficial del día del pago. Pasado ese plazo, los precios se revisan contra la lista vigente del proveedor al momento de la compra.</div>
+      </article>
+
+      <article class="dev">
+        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
+          <span class="dev-title">Alcance de las dos configuraciones</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="dev-body">Esencial y Completa son excluyentes: se contrata una de las dos. Comparten el mismo alcance de obra, el mismo plano de señales débiles, las mismas 12 posiciones de cámara y el mismo cableado. Difieren únicamente en la gama del equipamiento instalado.</div>
       </article>
 
       <article class="dev">
@@ -1168,7 +1079,7 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="dev-title">Obra eléctrica y cableado de señales débiles</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">Esta propuesta no incluye obra eléctrica ni cableado. La cotización por Boca Completa no aplica en este proyecto. Los 20 puntos de cable de red los ejecuta el electricista de la obra siguiendo el plano de señales débiles que entrega Nova Domus, que además los certifica antes de conectar los equipos. No se incluye cable de red, cajas ni canalizaciones.</div>
+        <div class="dev-body">Esta propuesta no incluye obra eléctrica ni cableado. La cotización por Boca Completa no aplica en este proyecto. Los puntos de cable de red los ejecuta el electricista de la obra siguiendo el plano de señales débiles que entrega Nova Domus, que además los certifica antes de conectar los equipos. No se incluye cable de red, cajas ni canalizaciones.</div>
       </article>
 
       <article class="dev">
@@ -1184,7 +1095,7 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="dev-title">Condiciones de obra requeridas</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">Para ejecutar se requiere: los caños y cajas indicados en el plano de señales débiles ya ejecutados, un circuito eléctrico dedicado en la sala técnica, acometida de internet disponible, y acceso a las unidades para montar los monitores interiores. Las demoras por trabajos de terceros no ejecutados en tiempo se coordinan sin cargo, pero pueden reprogramar la fecha de entrega.</div>
+        <div class="dev-body">Para ejecutar se requiere: los caños y cajas indicados en el plano de señales débiles ya ejecutados, un circuito eléctrico dedicado en la sala técnica, acometida de internet disponible, y acceso a las unidades para montar los equipos interiores. Las demoras por trabajos de terceros no ejecutados en tiempo se coordinan sin cargo, pero pueden reprogramar la fecha de entrega.</div>
       </article>
 
       <article class="dev">
@@ -1200,14 +1111,15 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="dev-title">Garantía y posventa</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">12 meses de garantía sobre la instalación y la programación, contados desde la entrega documentada. Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier falla del sistema la resolvemos nosotros, sin costo de mano de obra.</div>
+        <div class="dev-body">12 meses de garantía sobre la instalación y la programación, desde la entrega documentada, en las dos configuraciones. Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier falla del sistema la resolvemos nosotros, sin costo de mano de obra.</div>
       </article>
 </section>
 
 <section class="sec section-light" id="respaldo">
-  <p class="eyebrow">09 — Respaldo</p>
+  <p class="eyebrow">11 — Respaldo</p>
   <h2>Con qué trabajamos</h2>
-  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo. Las dos
+    configuraciones usan exactamente las mismas marcas.</p>
   <p class="hint">👆 Tocá una marca para ver por qué la elegimos</p>
   <div class="pills">
     <button class="pill" onclick="marca(0,this)">HIKVISION</button>
@@ -1219,31 +1131,48 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
     <span class="pill fixed">NOVA DOMUS</span>
     <span class="pill fixed">CEDIA MEMBER</span>
   </div>
-  <div class="ficha" id="f0"><h3>HIKVISION</h3><p>Uno de los fabricantes de videovigilancia y seguridad más grandes del mundo. Trabajamos con su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
-<div class="ficha" id="f1"><h3>TP-LINK OMADA</h3><p>Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de domótica y seguridad del de invitados desde un solo controlador.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" title="TP-LINK OMADA" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+  <div class="ficha" id="f0"><h3>HIKVISION</h3><p>Uno de los fabricantes de videovigilancia y seguridad más grandes del mundo. Trabajamos con sus líneas AcuSense y ColorVu por la relación estabilidad/precio y el soporte de repuestos en Argentina. Las dos configuraciones de esta propuesta son Hikvision: cambia la línea de producto, no el fabricante ni el respaldo.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+<div class="ficha" id="f1"><h3>TP-LINK OMADA</h3><p>Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de seguridad del de invitados y crecer sin reemplazar equipos.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" title="TP-LINK OMADA" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
 <div class="ficha" id="f2"><h3>STARLIGH</h3><p>Proveedor de hardware de acceso: electromagnéticas, herrajes, fuentes y pulsadores de salida. Lo elegimos por disponibilidad inmediata en el mercado local, que en un herraje importa más que la marca.</p><p class="pend">Video institucional pendiente de carga.</p></div>
 <div class="ficha" id="f3"><h3>GLC</h3><p>Fabricante argentino de gabinetes y accesorios de rack. Lo elegimos por disponibilidad inmediata de repuestos y accesorios en el país, que en un rack es más importante que la marca.</p><p class="pend">Video institucional pendiente de carga.</p></div>
 <div class="ficha" id="f4"><h3>SEAGATE</h3><p>Línea SkyHawk, diseñada específicamente para grabación continua de videovigilancia. Un disco común de escritorio no está pensado para escribir 24 horas por día los 365 días del año.</p><p class="pend">Video institucional pendiente de carga.</p></div>
 <div class="ficha" id="f5"><h3>EATON</h3><p>Fabricante de sistemas de energía ininterrumpida. El UPS es lo que mantiene la red, las cámaras y el videoportero funcionando durante un corte — sin él, un microcorte deja el predio sin sistema.</p><p class="pend">Video institucional pendiente de carga.</p></div>
-  <div class="valor">
+  <div class="vbox">
     <h3>Garantía y posventa</h3>
-    <p>12 meses de garantía sobre la instalación y la programación, desde la entrega documentada.
-      Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier
-      falla del sistema la resolvemos nosotros, sin costo de mano de obra.</p>
+    <p>12 meses de garantía sobre la instalación y la programación, desde la entrega documentada,
+      en las dos configuraciones. Los equipos mantienen además la garantía de su fabricante.
+      Durante ese período, cualquier falla del sistema la resolvemos nosotros, sin costo de mano de
+      obra.</p>
   </div>
 </section>
 
 <section class="sec" id="faq">
-  <p class="eyebrow">10 — Preguntas</p>
+  <p class="eyebrow">12 — Preguntas</p>
   <h2>Antes de que preguntes</h2>
-  <p class="lead">Las seis que aparecen siempre, respondidas sin vueltas.</p>
+  <p class="lead">Las que aparecen siempre, respondidas sin vueltas.</p>
   
       <article class="dev">
         <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">¿Por qué 12 cámaras y no menos?</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="dev-title">¿Qué pierdo concretamente con la configuración Esencial?</span><span class="tap-badge dark">Tocá para abrir</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">Porque el lote tiene 166 metros de perímetro y dos tramos largos sin exposición a la calle. Se podría bajar la cantidad, pero cada cámara que se saca abre un tramo sin cobertura cruzada, que es exactamente donde entra alguien que mira el predio antes de entrar. Si hay que ajustar, preferimos discutir qué tramo se acepta dejar sin cobertura, y no sacar cámaras al azar.</div>
+        <div class="dev-body">Tres cosas, y ninguna es la cobertura: la detección inteligente, que filtra animales y ramas para que no lleguen notificaciones falsas; las pantallas en cada unidad, porque se atiende desde el celular; y unos días de historial, 12 en vez de 15. La marca, el perímetro cubierto, la cantidad de cámaras, el UPS, la garantía y el responsable son exactamente los mismos.</div>
+      </article>
+
+      <article class="dev">
+        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
+          <span class="dev-title">Sin detección inteligente, ¿el sistema sirve igual?</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="dev-body">Sirve, con una diferencia que conviene saber de antemano: la cámara con inteligencia avisa mejor, y la que no la tiene avisa más. En un predio con árboles eso significa notificaciones por una rama que se mueve o un perro que pasa. El sistema graba y guarda todo igual, y cualquier evento se puede revisar; lo que se resiente es el aviso en tiempo real. Por eso las 8 cámaras exteriores de la Esencial llevan sirena y flash propios: la disuasión en el momento se resuelve en la cámara.</div>
+      </article>
+
+      <article class="dev">
+        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
+          <span class="dev-title">¿Por qué 12 cámaras y no menos?</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="dev-body">Porque el lote tiene 166 metros de perímetro y dos tramos largos sin exposición a la calle. Se podría bajar la cantidad, pero cada cámara que se saca abre un tramo sin cobertura cruzada, que es exactamente donde entra alguien que mira el predio antes de entrar. Preferimos bajar la gama del equipo antes que la cobertura: un equipo se cambia después, una pared cerrada no.</div>
       </article>
 
       <article class="dev">
@@ -1251,7 +1180,15 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="dev-title">¿Qué pasa si se corta la luz?</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">El rack completo —grabador, switch, router y controlador— queda sobre un UPS. Las cámaras y el videoportero se alimentan por el propio cable de red desde ese switch, así que el sistema sigue en pie durante el corte. La autonomía depende de cuánto dure el corte; el equipo está dimensionado para cubrir los cortes breves, que son la enorme mayoría.</div>
+        <div class="dev-body">El rack completo —grabador, switch y router— queda sobre un UPS, en las dos configuraciones. Las cámaras y el videoportero se alimentan por el propio cable de red desde ese switch, así que el sistema sigue en pie durante el corte. El equipo está dimensionado para cubrir los cortes breves, que son la enorme mayoría.</div>
+      </article>
+
+      <article class="dev">
+        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
+          <span class="dev-title">¿Puedo empezar con la Esencial y sumar después?</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="dev-body">Sí, y el proyecto está pensado para eso. El cableado se ejecuta completo ahora —incluidos los 7 puntos de las pantallas— y el switch tiene puertos libres. Sumar un monitor, una cámara con inteligencia o el controlador de red es enchufar y configurar, no romper. Lo único que no se puede agregar después sin obra es el cable.</div>
       </article>
 
       <article class="dev">
@@ -1259,12 +1196,12 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="dev-title">¿Quién administra el sistema una vez entregado?</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">Lo define el consorcio. El sistema soporta usuarios con distintos permisos: la administración puede ver todo y dar de alta credenciales, y cada unidad ve su videoportero. Nosotros entregamos el sistema funcionando, documentado y con la capacitación hecha — no queda nadie dependiendo de una llamada nuestra para operar todos los días.</div>
+        <div class="dev-body">Lo define el consorcio. El sistema soporta usuarios con distintos permisos: la administración puede ver todo y dar de alta credenciales, y cada unidad ve su videoportero. Entregamos el sistema funcionando, documentado y con la capacitación hecha — no queda nadie dependiendo de una llamada nuestra para operar todos los días.</div>
       </article>
 
       <article class="dev">
         <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">¿Quedamos atados a Nova Domus para siempre?</span>
+          <span class="dev-title">¿Quedamos atados a Nova Domus?</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
         <div class="dev-body">No. El equipamiento es estándar de mercado, el acceso administrador queda en manos del cliente y la documentación se entrega completa: contraseñas, direcciones IP, diagrama de rack y de red. Si mañana el consorcio decide trabajar con otro integrador, no tiene que empezar de cero ni cambiar equipos.</div>
@@ -1275,15 +1212,7 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
           <span class="dev-title">¿Hay costos mensuales?</span>
           <span class="arr" aria-hidden="true">▾</span>
         </button>
-        <div class="dev-body">No hay abono obligatorio para que el sistema funcione: graba, abre puertas y se ve en el celular sin pagar nada por mes. Lo único con costo recurrente es el servicio de internet del predio, que el consorcio ya va a contratar igual.</div>
-      </article>
-
-      <article class="dev">
-        <button class="dev-head" onclick="tog(this)" aria-expanded="false">
-          <span class="dev-title">¿Y si el presupuesto se aprueba dentro de tres meses?</span>
-          <span class="arr" aria-hidden="true">▾</span>
-        </button>
-        <div class="dev-body">Los valores se revisan contra la lista vigente al momento de la compra. Lo que no se puede recuperar es la obra civil: si las paredes ya cerraron sin los caños, esa parte pasa a ser una obra distinta y bastante más cara. Por eso el plano de señales débiles se entrega ahora, aunque el presupuesto todavía no esté aprobado.</div>
+        <div class="dev-body">No hay abono obligatorio para que el sistema funcione: graba, abre puertas y se ve en el celular sin pagar nada por mes. Lo único con costo recurrente es el servicio de internet del predio, que el consorcio va a contratar igual.</div>
       </article>
 </section>
 
@@ -1295,7 +1224,7 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
     <input type="checkbox" id="ok" onchange="conf()">
     <label for="ok">Leí la propuesta y quiero avanzar</label>
   </div>
-  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-032%20de%20la%20vivienda%20Hern%C3%A1ndez%20por%20U%24D%2013.171%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica." aria-disabled="true" target="_blank"
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-032%20de%20la%20vivienda%20Hern%C3%A1ndez.%20Me%20interesa%20la%20configuraci%C3%B3n%20Esencial%20por%20U%24D%206.871%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica." aria-disabled="true" target="_blank"
      rel="noopener">Avanzar por WhatsApp</a>
 </section>
 
@@ -1319,9 +1248,14 @@ túnel: no es un problema, pero hay que preverlo de entrada.</li>
 </button>
 
 <script>
-var TOT=13171, MO=2169, PR=1197;
+var TIER={"esencial": {"rub": [{"name": "Videovigilancia", "total": 2116, "items": [{"n": "Cámara Hikvision IP 4 MP bullet, luz dual, flash y sirena (DS-2CD1043G2-LIU/SL)", "c": 8, "u": 141, "iva": 21, "s": 1128}, {"n": "Cámara Hikvision IP 2 MP ColorVu, color 24/7 (DS-2CD1027G2-L)", "c": 2, "u": 126, "iva": 21, "s": 252}, {"n": "Cámara Hikvision IP 2 MP domo, luz dual (DS-2CD1123G2-LIU)", "c": 2, "u": 102, "iva": 21, "s": 204}, {"n": "NVR Hikvision 16 canales, línea Q1 (DS-7616NI-Q1 (D))", "c": 1, "u": 268, "iva": 21, "s": 268}, {"n": "Disco Seagate SkyHawk 4 TB para videovigilancia (ST4000VX016)", "c": 1, "u": 264, "iva": 10.5, "s": 264}]}, {"name": "Accesos y videoportería", "total": 1556, "items": [{"n": "Frente de videoportero IP metálico para edificios, rostro y tarjeta (DS-KD9203-ME6)", "c": 1, "u": 1008, "iva": 21, "s": 1008}, {"n": "Terminal de acceso facial / tarjeta / QR (DS-K1T323MBWX-QRE1)", "c": 1, "u": 284, "iva": 10.5, "s": 284}, {"n": "Cerradura electromagnética 280 kg (Starligh)", "c": 2, "u": 60, "iva": 21, "s": 120}, {"n": "Herraje L para electromagnética 280 kg (Starligh)", "c": 2, "u": 14, "iva": 21, "s": 28}, {"n": "Fuente switching 12 V 1 A (Starligh)", "c": 2, "u": 10, "iva": 21, "s": 20}, {"n": "Batería de gel 12 V 7 Ah de respaldo (Starligh)", "c": 2, "u": 26, "iva": 21, "s": 52}, {"n": "Pulsador de salida táctil con LED (Starligh)", "c": 2, "u": 22, "iva": 21, "s": 44}]}, {"name": "Red e infraestructura", "total": 860, "items": [{"n": "Switch TP-Link Omada 24 puertos PoE+, 250 W (TL-SG2428P)", "c": 1, "u": 319, "iva": 10.5, "s": 319}, {"n": "Router TP-Link Omada VPN Gigabit (ER605)", "c": 1, "u": 70, "iva": 10.5, "s": 70}, {"n": "UPS Eaton interactiva 1500 VA / 900 W", "c": 1, "u": 180, "iva": 10.5, "s": 180}, {"n": "Gabinete de rack mural GLC 12U 500 mm", "c": 1, "u": 163, "iva": 21, "s": 163}, {"n": "Bandeja de rack GLC 2U 400 mm (para el UPS)", "c": 1, "u": 32, "iva": 21, "s": 32}, {"n": "Bandeja de rack GLC 1U 300 mm", "c": 1, "u": 18, "iva": 21, "s": 18}, {"n": "Canal de tensión GLC 5 tomas", "c": 1, "u": 60, "iva": 21, "s": 60}, {"n": "Organizador de cable GLC 1U", "c": 2, "u": 9, "iva": 21, "s": 18}]}], "neto": 3833, "iva": 699, "eq": 4532, "mo": 1714, "prog": 625, "total": 6871, "p30": 702, "p70": 1637, "dev": {"video": [{"n": "Cámara IP 4 MP con luz dual y sirena", "q": 8, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg", "d": "Las cuatro del perímetro sobre pilarete, dos sobre estructura mirando las cocheras y dos en los portones. Graban en 4 MP, iluminan hasta 30 metros y tienen sirena y flash propios: ante una detección hacen ruido en el lugar, no solo en el grabador."}, {"n": "Cámara IP 2 MP ColorVu", "q": 2, "f": null, "d": "Una en cada peatonal. Color las 24 horas en vez de blanco y negro nocturno: a 1,5–2 metros de la puerta da una cara reconocible incluso sin luz de la calle."}, {"n": "Cámara IP 2 MP domo", "q": 2, "f": null, "d": "Hall del edificio y sector quincho/pileta. En el hall alcanza una sola: sin ascensor y con un núcleo de escalera único, la circulación de las 7 unidades pasa toda por ahí."}, {"n": "NVR de 16 canales", "q": 1, "f": null, "d": "Grabador dedicado en la sala técnica, con 4 canales libres sobre las 12 cámaras para crecer sin cambiar el equipo."}, {"n": "Disco SkyHawk de 4 TB", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png", "d": "Diseñado para escribir las 24 horas, todos los días. Cubre del orden de 12 días de grabación continua, y más de 15 configurando el perímetro para grabar por evento."}], "acc": [{"n": "Frente de videoportero IP metálico", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-kd9203-me6.jpg", "d": "En la peatonal de Ramón y Cajal, la de visitantes. El visitante llama y la familia lo ve, lo escucha y le abre <b>desde el celular</b>, esté en la casa o no. Gabinete metálico porque está sobre la línea municipal, al alcance de cualquiera desde la vereda."}, {"n": "Terminal de acceso facial, tarjeta y QR", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-k1t323mbwx-qre1.jpg", "d": "En la peatonal de Agustí, la que da al quincho y la pileta. Abre por rostro, tarjeta o código QR — el residente le manda el QR al invitado desde el celular y entra sin molestar a nadie."}, {"n": "Kit de apertura por acceso", "q": 2, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/CERRELEC_280L.jpg", "d": "Electromagnética de 280 kg con su herraje, fuente y batería de respaldo. Incluye el pulsador de salida táctil con LED, que es obligatorio por norma de egreso de emergencia — nunca se omite."}], "red": [{"n": "Switch PoE+ de 24 puertos", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg2428p.jpg", "d": "Alimenta por el mismo cable de red las 12 cámaras y el frente de videoportero. De 24 puertos para que el sistema pueda crecer —incluidas las pantallas— sin reemplazarlo."}, {"n": "Router Omada VPN Gigabit", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png", "d": "Separa el tráfico de seguridad del resto del predio y habilita el acceso remoto al sistema desde afuera."}, {"n": "UPS 1500 VA / 900 W", "q": 1, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/eaton/5E1500iUSB-AR.jpg", "d": "Es lo que sostiene el sistema en un corte. Las cámaras siguen grabando no por ser PoE, sino porque el switch que las alimenta está sobre el UPS. Sin UPS se apagan las 12 cámaras, el grabador y el videoportero al mismo tiempo."}, {"n": "Rack mural 12U con accesorios GLC", "q": 1, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/117.jpg", "d": "Bandeja de 400 mm para el UPS, bandeja de 300 mm para el router, canal de tensión y organizadores. Todo rotulado y accesible."}]}}, "completa": {"rub": [{"name": "Videovigilancia", "total": 5133, "items": [{"n": "Cámara Hikvision IP 4 MP AcuSense, luz dual 40 m y micrófono (DS-2CD2043G2-LI2U)", "c": 8, "u": 341, "iva": 21, "s": 2728}, {"n": "Cámara Hikvision IP 4 MP ColorVu, color 24/7 (DS-2CD2047G2-LU C)", "c": 2, "u": 403, "iva": 21, "s": 806}, {"n": "Cámara Hikvision IP 4 MP domo AcuSense, luz dual 30 m (DS-2CD2343G2-LI2U)", "c": 2, "u": 323, "iva": 21, "s": 646}, {"n": "NVR Hikvision AcuSense 16 canales (DS-7616NXI-K1(D))", "c": 1, "u": 426, "iva": 21, "s": 426}, {"n": "Disco Seagate SkyHawk 8 TB para videovigilancia (ST8000VE001)", "c": 1, "u": 527, "iva": 10.5, "s": 527}]}, {"name": "Accesos y videoportería", "total": 3495, "items": [{"n": "Frente de videoportero IP metálico para edificios, rostro y tarjeta (DS-KD9203-ME6)", "c": 1, "u": 1008, "iva": 21, "s": 1008}, {"n": "Terminal de acceso facial / tarjeta / QR (DS-K1T323MBWX-QRE1)", "c": 1, "u": 284, "iva": 10.5, "s": 284}, {"n": "Monitor interior táctil 7\" IP con alimentación PoE (DS-KH6320-WTE1)", "c": 7, "u": 277, "iva": 21, "s": 1939}, {"n": "Cerradura electromagnética 280 kg (Starligh)", "c": 2, "u": 60, "iva": 21, "s": 120}, {"n": "Herraje L para electromagnética 280 kg (Starligh)", "c": 2, "u": 14, "iva": 21, "s": 28}, {"n": "Fuente switching 12 V 1 A (Starligh)", "c": 2, "u": 10, "iva": 21, "s": 20}, {"n": "Batería de gel 12 V 7 Ah de respaldo (Starligh)", "c": 2, "u": 26, "iva": 21, "s": 52}, {"n": "Pulsador de salida táctil con LED (Starligh)", "c": 2, "u": 22, "iva": 21, "s": 44}]}, {"name": "Red e infraestructura", "total": 1177, "items": [{"n": "Switch TP-Link Omada 24 puertos PoE+ L2 gestionable, 384 W (TL-SG3428MP)", "c": 1, "u": 414, "iva": 10.5, "s": 414}, {"n": "Router TP-Link Omada VPN Gigabit (ER605)", "c": 1, "u": 70, "iva": 10.5, "s": 70}, {"n": "Controlador Omada por hardware (OC200)", "c": 1, "u": 222, "iva": 21, "s": 222}, {"n": "UPS Eaton interactiva 1500 VA / 900 W", "c": 1, "u": 180, "iva": 10.5, "s": 180}, {"n": "Gabinete de rack mural GLC 12U 500 mm", "c": 1, "u": 163, "iva": 21, "s": 163}, {"n": "Bandeja de rack GLC 2U 400 mm (para el UPS)", "c": 1, "u": 32, "iva": 21, "s": 32}, {"n": "Bandeja de rack GLC 1U 300 mm", "c": 1, "u": 18, "iva": 21, "s": 18}, {"n": "Canal de tensión GLC 5 tomas", "c": 1, "u": 60, "iva": 21, "s": 60}, {"n": "Organizador de cable GLC 1U", "c": 2, "u": 9, "iva": 21, "s": 18}]}], "neto": 8219, "iva": 1586, "eq": 9805, "mo": 2169, "prog": 1197, "total": 13171, "p30": 1010, "p70": 2356, "dev": {"video": [{"n": "Cámara IP 4 MP AcuSense", "q": 8, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD2043G2-LI2U.jpg", "d": "Las mismas ocho posiciones, con detección inteligente: distinguen una persona de un animal o una rama antes de avisar. Luz dual de 40 metros y micrófono incorporado."}, {"n": "Cámara IP 4 MP ColorVu", "q": 2, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD2047G2-LU%20C.jpg", "d": "Una en cada peatonal, en 4 MP y color las 24 horas. El doble de definición sobre el rostro que la versión de 2 MP."}, {"n": "Cámara IP 4 MP domo AcuSense", "q": 2, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg", "d": "Hall del edificio y sector quincho/pileta, con detección inteligente también en los espacios comunes."}, {"n": "NVR AcuSense de 16 canales", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-7616nxi-k1-d.png", "d": "Grabador con analítica propia: además de la cámara, el grabador clasifica los eventos y permite buscar por tipo en vez de mirar horas de video."}, {"n": "Disco SkyHawk de 8 TB", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st8000ve001.jpg", "d": "El doble de historial: 15 días completos de grabación continua de las 12 cámaras, con holgura."}], "acc": [{"n": "Frente de videoportero IP metálico", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-kd9203-me6.jpg", "d": "En la peatonal de Ramón y Cajal, la de visitantes. El visitante llama, la unidad lo ve y lo escucha, y abre desde la pantalla o desde el celular. Gabinete metálico, sobre la línea municipal."}, {"n": "Monitor interior táctil de 7\"", "q": 7, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-KH6320-WTE1.jpg", "d": "Uno por unidad. Se alimenta por el mismo cable de red, sin transformador ni toma dedicada. Atender no depende de tener el celular a mano ni de la señal de datos."}, {"n": "Terminal de acceso facial, tarjeta y QR", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-k1t323mbwx-qre1.jpg", "d": "En la peatonal de Agustí, la que da al quincho y la pileta. Abre por rostro, tarjeta o código QR enviado desde el celular."}, {"n": "Kit de apertura por acceso", "q": 2, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/CERRELEC_280L.jpg", "d": "Electromagnética de 280 kg con su herraje, fuente y batería de respaldo. Incluye el pulsador de salida táctil con LED, obligatorio por norma de egreso de emergencia."}], "red": [{"n": "Switch PoE+ de 24 puertos gestionable", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg3428mp.jpg", "d": "Alimenta las 12 cámaras, el frente y los 7 monitores: 20 puertos PoE ocupados. Línea L2 con 384 W de presupuesto PoE."}, {"n": "Router Omada VPN Gigabit", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png", "d": "Separa por VLAN el tráfico de seguridad del resto y habilita el acceso remoto al sistema."}, {"n": "Controlador Omada por hardware", "q": 1, "f": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/oc200.jpg", "d": "Gestiona router y switch desde una sola plataforma, con la configuración respaldada fuera de los equipos. Sin él, cada equipo se administra por separado."}, {"n": "UPS 1500 VA / 900 W", "q": 1, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/eaton/5E1500iUSB-AR.jpg", "d": "Es lo que sostiene el sistema en un corte. Las cámaras siguen grabando porque el switch que las alimenta está sobre el UPS."}, {"n": "Rack mural 12U con accesorios GLC", "q": 1, "f": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/117.jpg", "d": "Bandeja de 400 mm para el UPS, bandeja de 300 mm para router y controlador, canal de tensión y organizadores. Todo rotulado y accesible."}]}}};
+var WA={"esencial": "https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-032%20de%20la%20vivienda%20Hern%C3%A1ndez.%20Me%20interesa%20la%20configuraci%C3%B3n%20Esencial%20por%20U%24D%206.871%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica.", "completa": "https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-032%20de%20la%20vivienda%20Hern%C3%A1ndez.%20Me%20interesa%20la%20configuraci%C3%B3n%20Completa%20por%20U%24D%2013.171%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica."};
+var LABEL={esencial:'Esencial',completa:'Completa'};
+var cur='esencial';
 
 function fmt(v){return 'U$D '+Math.ceil(v).toLocaleString('es-AR');}
+function num(v){return Math.round(v).toLocaleString('es-AR');}
+function ivaTxt(i){return i===21?'21%':'10,5%';}
 
 function tog(b){
   var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
@@ -1335,9 +1269,90 @@ window.addEventListener('resize',function(){
   });
 });
 
+function devCards(list,light){
+  return list.map(function(d,i){
+    var badge=(i===0)?('<span class="tap-badge'+(light?' dark':'')+'">Tocá para abrir</span>'):'';
+    var pend='<div class="dc-photo-pend">Foto pendiente</div>';
+    var img=d.f?('<img class="dc-photo" src="'+d.f+'" alt="" loading="lazy" '+
+      'onerror="this.outerHTML=\'<div class=&quot;dc-photo-pend&quot;>Foto pendiente</div>\'">'):pend;
+    return '<article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'+
+      '<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+
+      '</span></span>'+badge+'<span class="arr" aria-hidden="true">▾</span></button>'+
+      '<div class="dev-body"><div class="dev-body-flex">'+img+
+      '<p class="dc-desc">'+d.d+'</p></div></div></article>';
+  }).join('');
+}
+
+function render(){
+  var T=TIER[cur];
+  document.getElementById('grid-video').innerHTML=devCards(T.dev.video,true);
+  document.getElementById('grid-acc').innerHTML=devCards(T.dev.acc,false);
+  document.getElementById('grid-red').innerHTML=devCards(T.dev.red,true);
+
+  document.getElementById('bar').innerHTML=T.rub.map(function(r){
+    return '<span class="seg" style="flex:'+r.total+'" title="'+r.name+': '+fmt(r.total)+'"></span>';
+  }).join('');
+  document.getElementById('legend').innerHTML=T.rub.map(function(r,i){
+    return '<li><i class="dot d'+i+'"></i>'+r.name+' <b>'+fmt(r.total)+'</b></li>';
+  }).join('');
+
+  document.getElementById('rubros').innerHTML=T.rub.map(function(r,i){
+    var rows=r.items.map(function(it){
+      return '<tr><td>'+it.n+'</td><td class="num">'+it.c+'</td><td class="num">'+num(it.u)+
+        '<span class="iva"> · IVA '+ivaTxt(it.iva)+' incl.</span></td><td class="num">'+
+        num(it.s)+'</td></tr>';
+    }).join('');
+    var badge=(i===0)?'<span class="tap-badge dark">Tocá para abrir</span>':'';
+    return '<article class="rub"><button class="rub-head" onclick="tog(this)" aria-expanded="false">'+
+      '<span class="rub-name">'+r.name+'</span>'+badge+
+      '<span class="rub-val">'+fmt(r.total)+'</span>'+
+      '<span class="arr" aria-hidden="true">▾</span></button>'+
+      '<div class="rub-body"><div class="tw"><table><thead><tr><th>Ítem</th>'+
+      '<th class="num">Cant.</th><th class="num">Precio unitario</th>'+
+      '<th class="num">Subtotal</th></tr></thead><tbody>'+rows+'</tbody></table></div></div></article>';
+  }).join('');
+
+  document.getElementById('totals').innerHTML=
+    '<div class="trow"><span>Subtotal equipo (neto)</span><span>'+fmt(T.neto)+'</span></div>'+
+    '<div class="trow"><span>IVA sobre equipos (10,5% y 21% según ítem)</span><span>'+fmt(T.iva)+'</span></div>'+
+    '<div class="trow sub"><span>Subtotal equipo (con IVA)</span><span>'+fmt(T.eq)+'</span></div>'+
+    '<div class="trow"><span>Mano de obra especializada por punto</span><span>'+fmt(T.mo)+'</span></div>'+
+    '<div class="trow"><span>Programación, configuración y puesta en marcha</span><span>'+fmt(T.prog)+'</span></div>'+
+    '<div class="trow big"><span>Total del proyecto</span><span>'+fmt(T.total)+'</span></div>';
+
+  document.getElementById('pay').innerHTML=
+    '<div class="stage"><span><b style="display:block">Equipos — 100%</b>'+
+    'Por anticipado, una vez confirmadas las cantidades en la visita técnica. Asegura el precio y '+
+    'la disponibilidad de importación de cada equipo.</span><b>'+fmt(T.eq)+'</b></div>'+
+    '<div class="stage"><span><b style="display:block">Mano de obra y programación — 30%</b>'+
+    'Antes de que la cuadrilla arranque en obra.</span><b>'+fmt(T.p30)+'</b></div>'+
+    '<div class="stage"><span><b style="display:block">Mano de obra y programación — 70%</b>'+
+    'Al terminar, contra entrega de la documentación del sistema.</span><b>'+fmt(T.p70)+'</b></div>';
+
+  document.getElementById('tnow').textContent=LABEL[cur]+' · '+fmt(T.total);
+  document.getElementById('rs-now').textContent=LABEL[cur];
+  document.getElementById('go').href=WA[cur];
+  document.querySelectorAll('.t-es').forEach(function(td){
+    td.classList.toggle('act',cur==='esencial'); td.classList.toggle('same',cur!=='esencial');});
+  document.querySelectorAll('.t-co').forEach(function(td){
+    td.classList.toggle('act',cur==='completa'); td.classList.toggle('same',cur!=='completa');});
+  fact();
+}
+
+function setTier(t){
+  cur=t;
+  document.getElementById('tp-esencial').classList.toggle('on',t==='esencial');
+  document.getElementById('tp-completa').classList.toggle('on',t==='completa');
+  render();
+}
+
 /* ===== mapa ===== */
 var CAMDATA={"P3": ["P3 · Vértice norte", "Bullet 4 MP AcuSense sobre pilarete de 3,0–3,5 m. Barre los 54,90 m de José W. Agustí hacia el sudeste, a lo largo de la reja y nunca hacia la calle."], "P4": ["P4 · Vértice este", "Mismo pilarete que P5. Barre Agustí en sentido contrario a P3: quien salta queda de frente a una cámara y de espaldas a la otra."], "P5": ["P5 · Vértice este (medianera)", "Arranca la medianera sudeste hacia el sudoeste. Es el tramo de 43,28 m sin exposición a la calle — la cara débil del lote."], "P6": ["P6 · Vértice sur", "Cierra la medianera desde el otro extremo y cubre el lado sur. Con P5 no queda ángulo ciego en los 43 m."], "W1": ["W1 · Sobre el quincho", "Cocheras norte (4), calle interna de adoquines, tramo norte de la reja de Ramón y Cajal y portón de egreso."], "W2": ["W2 · Fachada oeste del edificio", "Cocheras sur (5), tramo sur de la reja y portón de ingreso. El eje oeste no lleva pilaretes: quien salta ahí cae en el estacionamiento, que estas dos cámaras ya cubren."], "A1": ["A1 · Peatonal Ramón y Cajal", "ColorVu, color las 24 horas. Rostro a 1,5–2 m del que toca el videoportero. Es el acceso de visitantes."], "A2": ["A2 · Peatonal José W. Agustí", "ColorVu, color las 24 horas. Cubre el acceso al sector pileta y quincho, el que se abre con QR, rostro o tarjeta."], "A3": ["A3 · Portón de ingreso vehicular", "Patente y conductor. La circulación es de un solo sentido, así que toda patente que entra pasa dos veces frente al mismo eje de cámaras."], "A4": ["A4 · Portón de egreso vehicular", "Patente a la salida. Nova Domus filma los dos portones, pero no provee motor, herraje ni control de apertura."], "A5": ["A5 · Hall del edificio", "Domo interior. Sin ascensor y con un solo núcleo de escalera, toda la circulación de las 7 unidades pasa por este punto: una cámara cubre el ingreso de todo el edificio."], "C3": ["C3 · Quincho, solárium y pileta", "Domo bajo alero. Cubre el espacio común de uso compartido y, de paso, el contrafrente norte de 13,20 m."]};
 var CAMIDS=["P3", "P4", "P5", "P6", "W1", "W2", "A1", "A2", "A3", "A4", "A5", "C3"];
+var MPDEF='<h3>12 cámaras, cuatro grupos</h3><p>Cuatro sobre pilarete cubren el perímetro con '+
+'cobertura cruzada; dos sobre estructura cubren las cocheras y la calle interna; cuatro '+
+'identifican en los accesos; dos cubren los espacios comunes. Tocá cualquiera para ver su '+
+'cobertura.</p>';
 function pick(id){
   CAMIDS.forEach(function(k){
     var cam=document.getElementById('cam-'+k),
@@ -1350,27 +1365,20 @@ function pick(id){
     chip.classList.toggle('on',on);
   });
   document.getElementById('chip-all').classList.toggle('on',!id);
-  var p=document.getElementById('mp');
-  if(id){
-    p.innerHTML='<h3>'+CAMDATA[id][0]+'</h3><p>'+CAMDATA[id][1]+'</p>';
-  }else{
-    p.innerHTML='<h3>12 cámaras, cuatro grupos</h3><p>Cuatro sobre pilarete cubren el perímetro '+
-    'con cobertura cruzada; dos sobre estructura cubren las cocheras y la calle interna; cuatro '+
-    'identifican en los accesos; dos cubren los espacios comunes. Tocá cualquiera para ver su '+
-    'cobertura.</p>';
-  }
+  document.getElementById('mp').innerHTML=id?
+    ('<h3>'+CAMDATA[id][0]+'</h3><p>'+CAMDATA[id][1]+'</p>'):MPDEF;
 }
 
 /* ===== comparativas ===== */
 var CMP=[
- ['Cámara común',false,['Te avisa cada vez que se mueve una rama o pasa un perro',
-  'Tantas notificaciones falsas que a la semana se silencia la app',
+ ['Cámara de consumo',false,['Resolución baja: se ve que pasó alguien, no quién',
   'De noche, blanco y negro y sin detalle útil en los accesos',
-  'Buscar un evento de anteayer es mirar horas de grabación']],
- ['Con Nova Domus — AcuSense y ColorVu',true,['Distingue una persona de un animal antes de avisar',
+  'Graba en una tarjeta de memoria que se llena o se rompe',
+  'Se apaga con el corte de luz, igual que el resto de la casa']],
+ ['Con Nova Domus',true,['4 MP en todo el perímetro, con luz de 30 a 40 metros',
   'En los dos accesos peatonales, color las 24 horas: una cara reconocible de noche',
-  'Luz dual de 40 metros en el perímetro, sin zonas negras',
-  'Se busca por tipo de evento y se llega al video en segundos']]
+  'Grabador dedicado con disco de videovigilancia, pensado para escribir 24/7',
+  'Todo sobre UPS: en un corte, las cámaras siguen grabando']]
 ];
 function cmp(i,btn){
   btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
@@ -1384,8 +1392,8 @@ function cmp(i,btn){
 var ROL=[
  ['Un visitante que no conoce a nadie',['Llega a la peatonal de Ramón y Cajal, la que da al hall',
   'Llama a la unidad desde el frente de videoportero',
-  'La familia lo ve y lo escucha desde el monitor de su departamento',
-  'Abre desde la pantalla — y queda grabado quién llegó y a qué hora']],
+  'La familia lo ve y lo escucha, en la pantalla o en el celular',
+  'Abre a distancia — y queda grabado quién llegó y a qué hora']],
  ['Un residente que entra todos los días',['Usa cualquiera de las dos peatonales',
   'En la de Agustí abre por rostro o tarjeta, sin sacar el celular',
   'Si viene en auto, entra por el portón y la cámara registra la patente',
@@ -1404,13 +1412,13 @@ function rol(i,btn){
 }
 
 var RCMP=[
- ['Red doméstica',false,['Un router común para las 12 cámaras, el videoportero y 7 monitores',
+ ['Red doméstica',false,['Un router común para las 12 cámaras y el videoportero',
   'Las cámaras compiten con el streaming de las siete familias',
   'Todo en la misma red: seguridad, administración e invitados',
   'En un corte de luz se apaga todo el sistema al mismo tiempo']],
- ['Red profesional Omada',true,['Switch de 24 puertos que alimenta cámaras y monitores por el mismo cable',
-  'Tráfico de seguridad separado por VLAN del resto del predio',
-  'Router, switch y controlador gestionados desde una sola plataforma',
+ ['Red profesional Omada',true,['Switch de 24 puertos que alimenta las cámaras por el mismo cable',
+  'Tráfico de seguridad separado del resto del predio',
+  'Puertos libres para sumar pantallas o cámaras sin cambiar el equipo',
   'Todo el rack sobre UPS: en un corte, las cámaras siguen grabando']]
 ];
 function rcmp(i,btn){
@@ -1430,10 +1438,10 @@ function marca(i,btn){
 }
 
 function fact(){
-  var on=document.getElementById('fa').checked, iva=(MO+PR)*0.21;
+  var T=TIER[cur], on=document.getElementById('fa').checked, iva=(T.mo+T.prog)*0.21;
   document.getElementById('fa-row').style.display=on?'flex':'none';
   document.getElementById('fa-val').textContent=fmt(iva);
-  document.getElementById('gt').textContent=fmt(TOT+(on?iva:0));
+  document.getElementById('gt').textContent=fmt(T.total+(on?iva:0));
 }
 function conf(){
   document.getElementById('go').setAttribute('aria-disabled',
@@ -1459,12 +1467,12 @@ function onScroll(){
   var h=document.documentElement,
       p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
   ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
-  var cur=null;
+  var cur2=null;
   links.forEach(function(a){
     var s=document.querySelector(a.getAttribute('href'));
-    if(s && s.getBoundingClientRect().top<=120) cur=a;
+    if(s && s.getBoundingClientRect().top<=120) cur2=a;
   });
-  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+  links.forEach(function(a){a.classList.toggle('on',a===cur2);});
 }
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
@@ -1472,6 +1480,7 @@ cmp(0,document.getElementById('c0'));
 rol(0,document.getElementById('rl0'));
 rcmp(0,document.getElementById('r0'));
 pick(null);
+setTier('esencial');
 </script>
 
 <script>

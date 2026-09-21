@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Manuales de preinstalación — Nova Domus">
+<meta property="og:description" content="Documentación técnica de obra para electricistas: qué dejar previsto para domótica, redes, seguridad y accesos.">
+<meta property="og:site_name" content="Nova Domus">
+<title>Manuales de preinstalación — Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#141E61; --deep:#0B132B; --grey:#787A91; --cream:#FDFBF0;
+  --gold:#C8A96E; --body:#EDEAE0; --line:rgba(200,169,110,.28);
+  --card:#111a4d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--deep); color:var(--body);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px; line-height:1.65; overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:900px; margin:0 auto; padding:0 22px}
+h1,h2,h3,.mich{font-family:Michroma,Michroma-fallback,Georgia,serif; text-transform:uppercase; letter-spacing:.06em; font-weight:400}
+a{color:var(--gold)}
+img{max-width:100%; height:auto}
+
+/* ---------- topbar ---------- */
+.top{position:sticky; top:0; z-index:40; background:rgba(11,19,43,.94);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top .wrap{display:flex; align-items:center; gap:12px; padding-top:10px; padding-bottom:10px}
+.top .mark{color:var(--cream); flex:0 0 auto}
+.top .tt{font-size:11px; letter-spacing:.14em; color:var(--cream); line-height:1.3}
+.top .ts{font-size:11px; color:var(--grey); letter-spacing:.08em}
+.top .sp{margin-left:auto}
+.btn{background:transparent; appearance:none; -webkit-appearance:none; border:1px solid var(--line);
+  color:var(--gold); font:inherit; font-size:12.5px; padding:7px 13px; border-radius:999px; cursor:pointer}
+.btn:hover{border-color:var(--gold)}
+
+/* ---------- hero ---------- */
+.hero{padding:54px 0 34px; border-bottom:1px solid var(--line)}
+.hero .kicker{font-size:11px; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:14px}
+.hero h1{font-size:clamp(21px,3.6vw,34px); line-height:1.3; margin:0 0 14px; color:var(--cream)}
+.hero .sub{font-size:17px; color:var(--cream); max-width:60ch; margin:0 0 18px}
+.meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px}
+.pill{border:1px solid var(--line); border-radius:999px; padding:5px 12px; font-size:12px; color:var(--grey)}
+.pill b{color:var(--gold); font-weight:600}
+
+/* ---------- bloque crítico ---------- */
+.crit{background:var(--navy); padding:34px 0; border-bottom:1px solid var(--line)}
+.crit h2{font-size:15px; color:var(--gold); margin:0 0 6px}
+.crit p.lead{margin:0 0 20px; color:var(--cream); font-size:15px}
+.cgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px}
+.ccard{background:rgba(253,251,240,.05); border:1px solid var(--line); border-left:3px solid var(--gold);
+  border-radius:10px; padding:14px 16px}
+.ccard .n{font-family:Michroma,Georgia,serif; font-size:12px; color:var(--gold); letter-spacing:.1em}
+.ccard .t{font-size:14.5px; font-weight:600; color:var(--cream); margin:5px 0 4px; line-height:1.4}
+.ccard .d{font-size:13.5px; color:var(--body); opacity:.88}
+
+/* ---------- índice ---------- */
+.toc{padding:26px 0; border-bottom:1px solid var(--line)}
+.toc h2{font-size:12px; color:var(--grey); margin:0 0 12px; letter-spacing:.16em}
+.toc ol{margin:0; padding-left:20px; columns:2; column-gap:26px}
+.toc li{margin:0 0 7px; font-size:14px; break-inside:avoid}
+.toc a{color:var(--body); text-decoration:none; border-bottom:1px solid transparent}
+.toc a:hover{border-bottom-color:var(--gold); color:var(--gold)}
+
+/* ---------- secciones ---------- */
+section.sec{padding:40px 0; border-bottom:1px solid rgba(120,122,145,.22)}
+section.sec>.wrap>h2{font-size:clamp(14px,2.2vw,18px); color:var(--cream); margin:0 0 6px}
+.secnum{color:var(--gold); margin-right:10px}
+.sectag{font-size:11px; letter-spacing:.14em; color:var(--gold); text-transform:uppercase; margin:0 0 18px}
+h3{font-size:14px; color:var(--cream); margin:30px 0 10px; letter-spacing:.04em}
+p{margin:0 0 13px}
+ul.b{margin:0 0 14px; padding-left:20px}
+ul.b li{margin:0 0 7px}
+
+/* ---------- callouts ---------- */
+.box{border:1px solid var(--line); border-radius:10px; padding:15px 17px; margin:18px 0;
+  background:rgba(253,251,240,.04)}
+.box .bt{font-family:Michroma,Georgia,serif; font-size:11.5px; letter-spacing:.1em; color:var(--gold);
+  text-transform:uppercase; margin-bottom:8px}
+.box p:last-child{margin-bottom:0}
+.box.rule{border-left:3px solid var(--gold)}
+.box.warn{border-left:3px solid #E2574C; background:rgba(226,87,76,.08)}
+.box.warn .bt{color:#F0A49D}
+.box.new{border-left:3px solid #4FB286; background:rgba(79,178,134,.07)}
+.box.new .bt{color:#7FD3AE}
+
+/* ---------- checklist ---------- */
+.ck{list-style:none; margin:16px 0; padding:0}
+.ck li{position:relative; margin:0 0 9px; background:rgba(253,251,240,.04);
+  border:1px solid rgba(120,122,145,.3); border-radius:8px}
+.ck label{display:flex; gap:11px; align-items:flex-start; padding:11px 14px; cursor:pointer; font-size:14.5px}
+.ck input{appearance:none; -webkit-appearance:none; flex:0 0 auto; width:19px; height:19px; margin:2px 0 0;
+  border:1.5px solid var(--gold); border-radius:4px; background:transparent; cursor:pointer; position:relative}
+.ck input:checked{background:var(--gold)}
+.ck input:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center;
+  justify-content:center; color:var(--deep); font-size:13px; font-weight:700}
+.ck input:checked + span{opacity:.5; text-decoration:line-through}
+
+/* ---------- tablas ---------- */
+.tw{overflow-x:auto; margin:16px 0; -webkit-overflow-scrolling:touch}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:440px}
+th,td{border:1px solid rgba(120,122,145,.34); padding:9px 11px; text-align:left; vertical-align:top}
+th{background:rgba(20,30,97,.75); color:var(--gold); font-weight:600; font-size:12.5px;
+  letter-spacing:.04em; text-transform:uppercase}
+td b{color:var(--cream)}
+
+/* ---------- fotos ---------- */
+.gal{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:13px; margin:18px 0}
+.ph{background:rgba(253,251,240,.05); border:1px solid rgba(120,122,145,.3); border-radius:10px;
+  padding:11px; text-align:center}
+.ph .imgbox{background:var(--cream); border-radius:7px; height:110px; display:flex; align-items:center;
+  justify-content:center; overflow:hidden; margin-bottom:9px}
+.ph img{max-height:98px; width:auto; object-fit:contain; mix-blend-mode:multiply}
+.ph .cap{font-size:12px; color:var(--cream); line-height:1.35; font-weight:600}
+.ph .sub{font-size:11px; color:var(--grey); margin-top:3px; line-height:1.35}
+.ph .pend{font-size:11px; color:var(--grey); padding:0 8px; text-align:center}
+
+/* ---------- footer ---------- */
+footer{padding:40px 0 60px; text-align:center}
+footer .mark{color:var(--gold); opacity:.9}
+footer .cl{font-family:Michroma,Georgia,serif; font-size:12px; letter-spacing:.12em; color:var(--gold);
+  margin:16px 0 8px; text-transform:uppercase}
+footer .dt{font-size:12.5px; color:var(--grey); line-height:1.7}
+
+/* ---------- mobile ---------- */
+@media(max-width:640px){
+  body{font-size:15.5px}
+  .wrap{padding:0 15px}
+  .hero{padding:34px 0 26px}
+  section.sec{padding:30px 0}
+  .toc ol{columns:1}
+  .cgrid{grid-template-columns:1fr}
+  .gal{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}
+  .top .tt{font-size:11px}
+  .top .ts{display:none}
+  th,td{padding:8px 9px; font-size:13px}
+}
+@media(max-width:360px){
+  .wrap{padding:0 12px}
+  .gal{grid-template-columns:1fr 1fr}
+  .btn{padding:6px 10px; font-size:12px}
+}
+
+/* ---------- print ---------- */
+@media print{
+  body{background:#fff; color:#111; font-size:10.5pt}
+  .top,.btn,.toc{display:none !important}
+  .hero,.crit,section.sec{border-color:#ccc; background:#fff}
+  .hero h1,.hero .sub,h2,h3,.ccard .t,.ph .cap,footer .cl{color:#141E61 !important}
+  .crit{background:#fff}
+  .ccard,.box,.ck li,.ph{background:#fff !important; border-color:#bbb}
+  .ph .imgbox{border:1px solid #ddd}
+  th{background:#eee; color:#141E61}
+  .ck input{border-color:#555}
+  section.sec{page-break-inside:auto}
+  .box,.ccard,.ph,.ck li{page-break-inside:avoid}
+  a{color:#141E61; text-decoration:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
+
+.cardlink{display:block; text-decoration:none; border:1px solid var(--line); border-left:3px solid var(--gold);
+  border-radius:12px; padding:22px 24px; margin:0 0 16px; background:rgba(253,251,240,.05); color:var(--body)}
+.cardlink:hover{background:rgba(253,251,240,.09)}
+.cardlink .k{font-size:11px; letter-spacing:.18em; color:var(--gold); text-transform:uppercase}
+.cardlink h3{font-size:15px; color:var(--cream); margin:8px 0 8px}
+.cardlink p{font-size:14.5px; margin:0 0 10px}
+.cardlink .go{font-size:12.5px; color:var(--gold); letter-spacing:.08em}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 500 500" width="32" height="32" aria-hidden="true" focusable="false"><g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g></svg>
+    <div>
+      <div class="tt">NOVA DOMUS</div>
+      <div class="ts">INTEGRACIÓN TECNOLÓGICA</div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Documentación de obra</div>
+    <h1>Manuales de preinstalación</h1>
+    <p class="sub">Qué tiene que dejar previsto la instalación eléctrica para que el sistema se
+    instale y se programe después, sin romper pared ni repasar cableado. Para el gremio eléctrico
+    de obra, el estudio de arquitectura y la dirección técnica.</p>
+    <div class="meta">
+      <span class="pill">Versión <b>2.0</b></span>
+      <span class="pill">Septiembre 2026</span>
+    </div>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap">
+    <a class="cardlink" href="preinstalacion-viviendas.html">
+      <div class="k">Perfil Domótica</div>
+      <h3>Preinstalación para obras de domótica</h3>
+      <p>Vivienda unifamiliar o unidad funcional. Llaves, módulos y cajas · tiras LED de 24 V ·
+      redes y señales débiles · rack y alimentación · confort, seguridad y accesos.</p>
+      <div class="go">Abrir manual →</div>
+    </a>
+    <a class="cardlink" href="preinstalacion-edificios.html">
+      <div class="k">Perfil Ecosistema</div>
+      <h3>Preinstalación de señales débiles en edificios</h3>
+      <p>Edificios, barrios y desarrollos. Montantes · PoE · rack y nodos secundarios ·
+      cómputos y preinstalación por unidad · cobertura WiFi · control de accesos · videovigilancia.</p>
+      <div class="go">Abrir manual →</div>
+    </a>
+    <p style="font-size:14px; color:var(--grey); margin-top:24px">
+      Los dos documentos se leen en el celular, se imprimen desde el navegador y llevan un
+      checklist que guarda el avance en el mismo dispositivo. Ante cualquier diferencia entre estos
+      documentos y la obra en particular, consultar a Nova Domus <b>antes</b> de cerrar esa parte de
+      la instalación.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 500 500" width="46" height="46" aria-hidden="true" focusable="false"><g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g></svg>
+    <div class="cl">Del cable a la app</div>
+    <div class="dt">
+      Queda funcionando y documentado.<br>
+      Nova Domus · NDWD SAS · Córdoba, Argentina<br>
+      admin@nova-domus.com.ar
+    </div>
+  </div>
+</footer>
+</body>
+</html>

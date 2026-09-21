@@ -1,1134 +1,132 @@
 <!DOCTYPE html>
-<html lang="es-AR">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta property="og:title" content="Nova Domus — Obra Río IV | Propuesta de Domótica">
-<meta property="og:description" content="Un Día en tu Espacio Inteligente — propuesta de automatización integral para Obra Río IV, Río Cuarto.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/rio-iv.html">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <meta name="py-codigo" content="PY-2026-004">
-<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/rio-iv-og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nova Domus — Obra Río IV">
-<meta name="twitter:description" content="Un Día en tu Espacio Inteligente — propuesta de automatización integral.">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/rio-iv-og.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Domus — Obra Río IV</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Obra Río IV — Propuesta en pausa | Nova Domus">
+<meta property="og:description" content="Esta propuesta quedó en pausa. Escribinos por WhatsApp y la actualizamos para retomarla.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/rio-iv.html">
+<title>Obra Río IV — Propuesta en pausa | Nova Domus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* ===== NOVA DOMUS — MANUAL DE MARCA v2.0 ===== */
-    --azul-profundo:#0b132b;   /* fondo digital nativo */
-    --azul-nova:#141e61;       /* primario */
-    --gris-azulado:#787a91;    /* secundario — SOLO texto grande/secundario */
-    --gris-safe:#9698ad;       /* variante con contraste AA verificado (6.47:1) para texto chico sobre fondo oscuro */
-    --blanco-calido:#fdfbf0;   /* fondo claro / impreso */
-    --dorado:#c8a96e;          /* acento premium — max 5% superficie, NUNCA fondo/relleno, NUNCA texto sobre claro */
-    --dorado-dim:rgba(200,169,110,0.22);
-    --filete:rgba(253,251,240,0.14);
+    --navy:#141E61; --deep:#0B132B; --gris:#787A91;
+    --cream:#FDFBF0; --body:#EDEAE0; --gold:#C8A96E;
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
   body{
-    background:var(--azul-profundo);
-    color:#fff;
-    font-family:'Inter',sans-serif;
-    font-weight:400;
-    line-height:1.6;
-    overflow-x:hidden;
+    margin:0; overflow-x:hidden;
+    background:var(--deep);
+    background-image:radial-gradient(circle at 50% 12%, #1a2550 0%, var(--deep) 62%);
+    color:var(--body);
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    font-size:16px; line-height:1.6;
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:48px 22px;
   }
-  /* Michroma: SOLO wordmark, titulos de sección y cifras destacadas. Siempre mayúsculas, tracking amplio. */
-  .mch{
-    font-family:'Michroma',sans-serif;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-  }
-  h1,h2{font-family:'Michroma',sans-serif; text-transform:uppercase; letter-spacing:0.04em; font-weight:400;}
-  h3{font-family:'Inter',sans-serif; font-weight:600;}
-  .eyebrow{
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    font-size:0.68rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--dorado);
-    display:block;
-    margin-bottom:0.8rem;
-  }
-  .section-num.mch{ color:var(--dorado); font-size:0.85rem; display:block; margin-bottom:0.6rem; }
-  section{padding:5rem 1.5rem; max-width:1100px; margin:0 auto; position:relative;}
-  img{max-width:100%; display:block;}
-  a{color:inherit;}
-  .btn{
-    display:inline-block;
-    background:var(--blanco-calido);
-    color:var(--azul-profundo);
-    font-family:'Inter',sans-serif;
-    font-weight:700;
-    padding:0.9rem 1.8rem;
-    border-radius:4px;
-    text-decoration:none;
-    border:none;
-    cursor:pointer;
-    font-size:0.95rem;
-    min-height:48px;
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(253,251,240,.2);}
-  .btn-outline{
-    background:transparent;
-    border:1.5px solid var(--dorado);
-    color:var(--dorado);
-  }
+  .card{width:100%; max-width:620px; text-align:center; position:relative; z-index:1;}
 
-  /* ===== NAV STICKY ===== */
-  #chapter-nav{
-    position:sticky; top:0; z-index:50;
-    background:rgba(11,19,43,0.94);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--filete);
-    display:flex;
-    overflow-x:auto;
-    scrollbar-width:none;
-    padding:0 0.5rem;
-  }
-  #chapter-nav::-webkit-scrollbar{display:none;}
-  #chapter-nav a{
-    flex:0 0 auto;
-    padding:0.9rem 1rem;
-    font-family:'Inter',sans-serif;
-    font-weight:500;
-    font-size:0.75rem;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    color:var(--gris-safe);
-    text-decoration:none;
-    white-space:nowrap;
-    border-bottom:2px solid transparent;
-    min-height:44px;
-    display:flex;
-    align-items:center;
-  }
-  #chapter-nav a.active{color:var(--dorado); border-bottom-color:var(--dorado);}
-
-  /* ===== SCROLL PROGRESS BADGE ===== */
-  #progress-badge{
-    position:fixed;
-    top:70px; right:16px;
-    width:52px; height:52px;
-    z-index:60;
-    cursor:pointer;
-    opacity:0;
-    transition:opacity .3s ease;
-    pointer-events:none;
-  }
-  #progress-badge.visible{opacity:1; pointer-events:auto;}
-  #progress-badge svg.ring-svg{width:100%; height:100%; transform:rotate(-90deg);}
-  #progress-badge .mark svg{width:100%; height:100%; transform:none;}
-  #progress-badge circle{fill:none; stroke-width:3;}
-  #progress-badge .bg{stroke:rgba(255,255,255,0.15);}
-  #progress-badge .fg{stroke:var(--dorado); stroke-linecap:round; transition:stroke-dashoffset .1s linear;}
-  #progress-badge .mark{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:24px; height:24px;}
-
-  /* ===== HERO ===== */
-  #hero{
-    min-height:100svh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center;
-    padding:6rem 1.5rem 3rem;
-    background:var(--azul-profundo);
-    position:relative;
-    overflow:hidden;
-  }
-  #tunnel-motif{
+  /* motivo decorativo: marcos anidados, NO es el logo */
+  .tunel{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.14;}
+  .tunel span{
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-    width:900px; height:900px; opacity:0.14; pointer-events:none;
-  }
-  .brandmark-card{
-    background:var(--blanco-calido);
-    border-radius:8px;
-    padding:1.5rem 2rem;
-    box-shadow:0 20px 60px rgba(0,0,0,0.4);
-    margin-bottom:2.5rem;
-    position:relative; z-index:1;
-  }
-  .brandmark-card img{width:110px; margin:0 auto;}
-  #hero-logo{width:110px; margin:0 auto;}
-  #hero-logo svg{width:100%; height:auto; display:block;}
-  #progress-mark svg{width:100%; height:100%; display:block;}
-  #hero h1{
-    font-size:clamp(1.6rem, 4.6vw, 2.8rem);
-    line-height:1.25;
-    max-width:18ch;
-    margin-bottom:1.2rem;
-    position:relative; z-index:1;
-  }
-  #hero .eyebrow{position:relative; z-index:1;}
-  #hero p.sub{
-    font-family:'Inter',sans-serif;
-    color:var(--gris-safe);
-    max-width:42ch;
-    margin:0 auto 2.5rem;
-    font-size:1.05rem;
-    position:relative; z-index:1;
-  }
-  #hero p.tagline{
-    font-family:'Inter',sans-serif;
-    font-weight:500;
-    font-style:normal;
-    color:var(--dorado);
-    font-size:1.1rem;
-    margin-bottom:0.6rem;
-    position:relative; z-index:1;
-  }
-  .hero-cta{display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:1;}
-
-  /* Diagrama de ecosistema */
-  #eco-diagram{margin-top:3.5rem; width:100%; max-width:480px; position:relative; z-index:1;}
-  #eco-diagram .node-label{
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    font-size:0.6rem;
-    text-transform:uppercase;
-    letter-spacing:0.03em;
-    fill:var(--gris-safe);
-  }
-  #eco-diagram .node-circle{fill:var(--azul-nova); stroke:var(--dorado); stroke-width:1.2;}
-  #eco-diagram .center-circle{fill:var(--dorado);}
-  #eco-diagram .center-label{fill:var(--azul-profundo); font-family:'Inter',sans-serif; font-weight:700; font-size:0.62rem;}
-  #eco-diagram .link-line{
-    stroke:var(--gris-safe);
-    stroke-width:1;
-    fill:none;
-    stroke-dasharray:5 4;
-    opacity:0.5;
+    border:1px solid var(--gold); border-radius:2px;
   }
 
-  /* ===== RESUMEN EJECUTIVO ===== */
-  .counters-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:1.5rem;
-    margin:2.5rem 0;
-  }
-  .counter-card{
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    border-radius:6px;
-    padding:1.5rem 1rem;
-    text-align:center;
-    border-top:2px solid var(--dorado);
-  }
-  .counter-num{
-    font-family:'Michroma',sans-serif;
-    font-size:1.9rem;
-    color:#fff;
-    display:block;
-  }
-  .counter-label{font-size:0.72rem; color:var(--gris-safe); text-transform:uppercase; letter-spacing:0.03em;}
+  .iso{width:86px; height:86px; display:block; margin:0 auto 26px; fill:var(--cream);}
+  .iso path{fill:var(--cream);}
 
-  .exec-summary-box{
-    background:rgba(253,251,240,0.03);
-    border-left:2px solid var(--dorado);
-    border-radius:0 6px 6px 0;
-    padding:1.5rem;
-    margin-top:2rem;
+  .kicker{
+    font-family:Inter,Arial,sans-serif; font-weight:600; font-size:12px;
+    letter-spacing:1.6px; text-transform:uppercase; color:var(--gold);
+    margin:0 0 14px;
   }
-  .exec-summary-box p{margin-bottom:0.8rem; font-size:0.95rem; color:#e8e8ee;}
-  .exec-summary-box strong{color:#fff; font-weight:600;}
+  h1{
+    font-family:Michroma,Arial,sans-serif; font-weight:400;
+    font-size:clamp(19px, 5.2vw, 30px); line-height:1.35; letter-spacing:2px;
+    text-transform:uppercase; color:var(--cream); margin:0 0 22px;
+  }
+  .proyecto{
+    border-top:1px solid rgba(200,169,110,.34);
+    border-bottom:1px solid rgba(200,169,110,.34);
+    padding:16px 10px; margin:0 0 26px;
+  }
+  .proyecto .nom{
+    font-family:Michroma,Arial,sans-serif; font-size:clamp(13px,3.4vw,16px);
+    letter-spacing:1.4px; text-transform:uppercase; color:var(--cream); line-height:1.5;
+  }
+  .proyecto .py{
+    font-family:Michroma,Arial,sans-serif; font-size:12px; letter-spacing:2px;
+    color:var(--gold); margin-top:9px;
+  }
+  p{margin:0 0 16px; font-size:15px; color:var(--body);}
+  p.chico{font-size:13px; color:var(--gris); margin-top:26px;}
+  strong{color:var(--cream); font-weight:600;}
 
-  /* ===== UN SOLO RESPONSABLE ===== */
-  .pitch-block{
-    color:#e8e8ee;
-    font-size:1rem;
-    line-height:1.7;
-    max-width:72ch;
-    margin-bottom:2.5rem;
+  .cta{
+    display:inline-block; margin:14px 0 4px; padding:15px 30px;
+    border:1px solid var(--gold); border-radius:3px;
+    font-family:Inter,Arial,sans-serif; font-weight:600; font-size:15px;
+    letter-spacing:.4px; color:var(--cream); text-decoration:none;
+    background:transparent; appearance:none; -webkit-appearance:none;
+    transition:background .22s ease, color .22s ease;
   }
-  .pitch-block strong{color:var(--dorado); font-weight:600;}
-  .etapas-diagram{
-    display:flex;
-    align-items:flex-start;
-    overflow-x:auto;
-    gap:0;
-    padding:1.5rem 0;
-    border-top:1px solid var(--filete);
-    border-bottom:1px solid var(--filete);
-  }
-  .etapa{
-    display:flex; flex-direction:column; align-items:center; text-align:center;
-    min-width:110px; flex:1;
-    padding:0 0.5rem;
-  }
-  .etapa-num{
-    width:36px; height:36px; border-radius:50%;
-    border:1.5px solid var(--dorado);
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Michroma',sans-serif; font-size:0.85rem; color:var(--dorado);
-    margin-bottom:0.6rem;
-  }
-  .etapa-final .etapa-num{background:var(--dorado); color:var(--azul-profundo);}
-  .etapa-label{font-size:0.75rem; color:var(--gris-safe); line-height:1.3;}
-  .etapa-final .etapa-label{color:#fff; font-weight:600;}
-  .etapa-line{flex:0 0 30px; height:1.5px; background:var(--filete); margin-top:18px;}
-  .etapas-caption{
-    text-align:center; font-size:0.8rem; color:var(--dorado); margin:1.2rem 0 2.5rem;
-    font-style:italic;
-  }
-  table.comparativo{
-    width:100%; border-collapse:collapse; margin-top:1rem;
-    font-size:0.88rem;
-  }
-  table.comparativo th, table.comparativo td{
-    padding:0.9rem 1rem; text-align:left; border-bottom:1px solid var(--filete);
-  }
-  table.comparativo th{
-    font-family:'Inter',sans-serif; font-weight:700; color:var(--gris-safe);
-    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.03em;
-  }
-  table.comparativo th.highlight{color:var(--dorado);}
-  table.comparativo td{color:#e8e8ee;}
-  table.comparativo td.highlight{color:var(--dorado); font-weight:600;}
-  table.comparativo tr td:first-child{color:var(--gris-safe); font-size:0.82rem;}
+  .cta:hover,.cta:focus-visible{background:var(--gold); color:var(--deep);}
+  .cta svg{width:17px;height:17px;vertical-align:-3px;margin-right:8px;fill:currentColor;}
 
-  /* ===== SECCIONES ===== */
-  .section-header{margin-bottom:2.5rem;}
-  .section-header h2{font-size:clamp(1.3rem,3.4vw,1.7rem); border-bottom:2px solid var(--dorado); display:inline-block; padding-bottom:0.6rem;}
-  .section-header p{color:var(--gris-safe); margin-top:1rem; max-width:60ch; font-size:0.95rem;}
-  .subsystem-icon{width:28px; height:28px; margin-bottom:0.8rem;}
-  h3.subhead{font-size:1rem; margin-bottom:1rem; color:#fff; display:flex; align-items:center; gap:0.6rem;}
+  footer{
+    margin-top:40px; padding-top:22px;
+    border-top:1px solid rgba(253,251,240,.12);
+  }
+  .wordmark{
+    font-family:Michroma,Arial,sans-serif; font-size:13px; letter-spacing:3px;
+    color:var(--cream); text-transform:uppercase;
+  }
+  .descriptor{
+    font-family:Inter,Arial,sans-serif; font-size:12px; font-weight:500;
+    letter-spacing:2.2px; text-transform:uppercase; color:var(--gris); margin-top:7px;
+  }
+  .slogan{font-size:13px; color:var(--gold); margin-top:12px;}
 
-  /* ===== ANTES/DESPUES TOGGLE ===== */
-  .ba-toggle-wrap{margin-bottom:1.5rem;}
-  .ba-tabs{display:flex; border-radius:6px; overflow:hidden; border:1px solid var(--filete);}
-  .ba-tab{
-    flex:1; padding:0.9rem 0.8rem; font-family:'Inter',sans-serif; font-weight:600;
-    font-size:0.82rem; border:none; background:rgba(225,90,90,0.12); color:var(--gris-safe);
-    cursor:pointer; min-height:48px; transition:all .25s ease; -webkit-appearance:none; appearance:none;
+  @media (max-width:640px){
+    body{padding:34px 18px;}
+    .iso{width:70px;height:70px;margin-bottom:22px;}
+    p{font-size:14px;}
+    .cta{display:block; padding:15px 18px;}
   }
-  .ba-tab.active{background:var(--dorado); color:var(--azul-profundo);}
-  .ba-tab[data-ba="despues"]{background:rgba(200,169,110,0.1);}
-  .ba-panel{
-    background:rgba(253,251,240,0.03); border:1px solid var(--filete); border-top:none;
-    border-radius:0 0 6px 6px; padding:1.2rem 1.3rem;
+  @media (max-width:360px){
+    body{padding:28px 14px;}
+    h1{letter-spacing:1.2px;}
+    .proyecto{padding:14px 4px;}
+    p.chico{font-size:12px;}
+    .descriptor{letter-spacing:1.6px;}
   }
-  .ba-panel ul{list-style:none;}
-  .ba-panel li{padding:0.4rem 0; font-size:0.88rem; color:#e8e8ee; display:flex; gap:0.6rem;}
-  .ba-panel li .mark{flex:0 0 auto; font-weight:700;}
-  .ba-panel.state-antes li .mark{color:#e15a5a;}
-  .ba-panel.state-despues li .mark{color:var(--dorado);}
-
-  /* ===== DEVICE CARDS ===== */
-  .device-list{display:flex; flex-direction:column; gap:0.6rem;}
-  .device-card{
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    border-radius:6px;
-    overflow:hidden;
-  }
-  .device-card summary{
-    padding:1rem 1.2rem;
-    cursor:pointer;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    min-height:48px;
-    list-style:none;
-    font-family:'Inter',sans-serif;
-    font-weight:500;
-    font-size:0.92rem;
-    gap:1rem;
-  }
-  .device-card summary::-webkit-details-marker{display:none;}
-  .device-card summary .qty{
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    color:var(--dorado);
-    font-size:0.82rem;
-    flex:0 0 auto;
-  }
-  .device-card summary .chevron{transition:transform .2s ease; flex:0 0 auto; color:var(--gris-safe);}
-  .device-card[open] summary .chevron{transform:rotate(180deg);}
-  .device-card .detail{
-    padding:0 1.2rem 1.1rem;
-    color:var(--gris-safe);
-    font-size:0.85rem;
-  }
-  .device-card .detail .price-row{
-    display:flex; justify-content:space-between;
-    font-family:'Inter',sans-serif;
-    font-weight:500;
-    margin-top:0.6rem;
-    color:#fff;
-    font-size:0.85rem;
-  }
-
-  /* ===== SIMULADOR DE ESCENAS ===== */
-  #simulador{
-    border-radius:8px;
-    padding:2.5rem 1.5rem;
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    transition:background 1s ease;
-  }
-  .scene-tabs{
-    display:flex; gap:0.5rem; flex-wrap:wrap;
-    margin-bottom:2rem;
-    justify-content:center;
-  }
-  .scene-tab{
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    font-size:0.8rem;
-    text-transform:uppercase;
-    letter-spacing:0.03em;
-    padding:0.7rem 1.2rem;
-    border-radius:4px;
-    border:1px solid var(--filete);
-    background:transparent;
-    color:var(--gris-safe);
-    cursor:pointer;
-    min-height:44px;
-    transition:all .3s ease;
-  }
-  .scene-tab.active{background:var(--dorado); color:var(--azul-profundo); border-color:var(--dorado);}
-  .scene-visual{
-    height:220px;
-    border-radius:6px;
-    display:flex; align-items:center; justify-content:center;
-    transition:background 1s ease;
-    margin-bottom:1.5rem;
-    position:relative;
-    overflow:hidden;
-    background:var(--azul-nova);
-  }
-  .scene-visual svg{width:56px; height:56px;}
-  .scene-desc{text-align:center; color:var(--gris-safe); font-size:0.9rem; max-width:50ch; margin:0 auto;}
-  .scene-desc strong{color:#fff; display:block; font-family:'Inter',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:0.4rem;}
-
-  /* ===== CALCULADORA ===== */
-  .calc-box{
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    border-radius:8px;
-    padding:2rem 1.5rem;
-    margin-top:2rem;
-  }
-  .calc-row{margin-bottom:1.8rem;}
-  .calc-row label{
-    display:flex; justify-content:space-between;
-    font-family:'Inter',sans-serif; font-weight:500;
-    margin-bottom:0.6rem;
-    font-size:0.9rem;
-  }
-  .calc-row .val{color:var(--dorado); font-weight:600;}
-  input[type=range]{
-    width:100%;
-    accent-color:var(--dorado);
-    height:6px;
-    min-height:44px;
-  }
-  .calc-result{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:1rem;
-    margin-top:1.5rem;
-  }
-  .calc-result-card{
-    background:var(--dorado-dim);
-    border:1px solid rgba(200,169,110,0.35);
-    border-radius:6px;
-    padding:1.2rem;
-    text-align:center;
-  }
-  .calc-result-card .num{font-family:'Michroma',sans-serif; font-size:1.3rem; color:var(--dorado); display:block;}
-  .calc-result-card .lbl{font-size:0.7rem; color:var(--gris-safe); text-transform:uppercase;}
-  .calc-caveat{font-size:0.72rem; color:var(--gris-safe); margin-top:1rem; font-style:italic;}
-
-  /* ===== INVERSION (CLARO) ===== */
-  #inversion{
-    background:var(--blanco-calido);
-    color:var(--azul-profundo);
-    margin-top:2rem;
-    max-width:100%;
-    padding:5rem 1.5rem;
-  }
-  #inversion .section-content{max-width:1100px; margin:0 auto;}
-  #inversion p{color:#6b6d7f;}
-  #inversion .section-header h2{color:var(--azul-profundo); border-bottom-color:var(--azul-nova);}
-  #inversion .eyebrow{color:var(--azul-nova);}
-
-  .rubro-bar{
-    display:flex; height:32px; border-radius:4px; overflow:hidden; margin:2rem 0 1.5rem;
-    box-shadow:0 4px 12px rgba(11,19,43,0.08);
-    border:1px solid rgba(11,19,43,0.06);
-  }
-  .rubro-bar-seg{height:100%; border-right:1px solid rgba(253,251,240,0.4);}
-  .rubro-legend{display:flex; flex-wrap:wrap; gap:0.8rem 1.2rem; margin-bottom:2.5rem;}
-  .rubro-legend-item{display:flex; align-items:center; gap:0.5rem; font-size:0.76rem; color:#6b6d7f;}
-  .rubro-legend-dot{width:10px; height:10px; border-radius:2px; flex:0 0 auto;}
-
-  .light-card{
-    background:#fff;
-    border:1px solid rgba(11,19,43,0.08);
-    border-radius:6px;
-    overflow:hidden;
-    margin-bottom:0.6rem;
-  }
-  .light-card summary{
-    padding:1rem 1.2rem;
-    cursor:pointer;
-    display:flex; justify-content:space-between; align-items:center;
-    min-height:48px;
-    list-style:none;
-    font-family:'Inter',sans-serif; font-weight:600;
-    color:var(--azul-profundo);
-  }
-  .light-card summary::-webkit-details-marker{display:none;}
-  .light-card summary .amount{font-family:'Inter',sans-serif; color:var(--azul-nova); font-weight:700;}
-  .light-card .detail-row{
-    display:flex; justify-content:space-between;
-    padding:0.5rem 1.2rem;
-    font-size:0.85rem;
-    color:#6b6d7f;
-    border-top:1px solid rgba(11,19,43,0.06);
-  }
-
-  .total-box{
-    background:var(--azul-profundo);
-    color:#fff;
-    border-radius:8px;
-    padding:2rem;
-    margin-top:2rem;
-  }
-  .total-row{display:flex; justify-content:space-between; padding:0.5rem 0; font-size:0.9rem; color:var(--gris-safe);}
-  .total-row.final{
-    border-top:1px solid var(--filete);
-    margin-top:0.8rem; padding-top:1.2rem;
-    color:#fff; font-size:1.2rem; font-family:'Michroma',sans-serif; font-weight:400;
-  }
-  .total-row.final .amount{color:var(--dorado);}
-  .total-note{font-size:0.73rem; color:var(--gris-safe); margin-top:1rem;}
-
-  /* ===== CONDICIONES ===== */
-  .cond-card{
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    border-radius:6px;
-    margin-bottom:0.6rem;
-    overflow:hidden;
-  }
-  .cond-card summary{
-    padding:1.1rem 1.2rem; cursor:pointer; min-height:48px;
-    display:flex; justify-content:space-between; align-items:center;
-    font-family:'Inter',sans-serif; font-weight:600; list-style:none;
-  }
-  .cond-card summary::-webkit-details-marker{display:none;}
-  .cond-card .detail{padding:0 1.2rem 1.2rem; color:var(--gris-safe); font-size:0.87rem;}
-
-  /* ===== RESPALDO (co-branding: monocromo + filetes) ===== */
-  .partner-wall{
-    display:flex; flex-wrap:wrap; align-items:center;
-    border:1px solid var(--filete);
-    border-radius:6px;
-    overflow:hidden;
-    margin:2rem 0 2.5rem;
-  }
-  .partner-wall .partner-item{
-    padding:1.1rem 1.6rem;
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    font-size:0.8rem;
-    letter-spacing:0.03em;
-    color:var(--blanco-calido);
-    border-right:1px solid var(--filete);
-    flex:1 1 auto;
-    text-align:center;
-  }
-  .partner-wall .partner-item.brand{
-    background:rgba(253,251,240,0.06);
-    color:#fff;
-    font-family:'Michroma',sans-serif;
-    font-size:0.75rem;
-  }
-  .partner-wall button.partner-item{
-    font-family:'Inter',sans-serif;
-    cursor:pointer;
-    border:none;
-    min-height:48px;
-    background:transparent;
-    color:var(--blanco-calido);
-    -webkit-appearance:none;
-    appearance:none;
-    transition:background .2s ease, color .2s ease;
-  }
-  .partner-wall button.partner-item:hover{background:rgba(200,169,110,0.1);}
-  .partner-wall button.partner-item.active{background:var(--dorado); color:var(--azul-profundo); font-weight:700;}
-  .partner-detail{
-    max-height:0;
-    overflow:hidden;
-    transition:max-height .35s ease, opacity .35s ease, margin .35s ease;
-    opacity:0;
-    background:rgba(253,251,240,0.03);
-    border-left:2px solid var(--dorado);
-    border-radius:0 6px 6px 0;
-  }
-  .partner-detail.open{
-    opacity:1;
-    margin:0 0 2.5rem;
-    padding:1.3rem 1.5rem;
-  }
-  .partner-detail strong{
-    display:block; font-family:'Inter',sans-serif; font-weight:700; color:#fff;
-    margin-bottom:0.5rem; font-size:0.95rem;
-  }
-  .partner-detail p{color:var(--gris-safe); font-size:0.88rem; line-height:1.6;}
-  .warranty-box{
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    border-left:2px solid var(--dorado);
-    border-radius:0 6px 6px 0;
-    padding:1.5rem;
-  }
-  .cedia-note{font-size:0.72rem; color:var(--gris-safe); margin-top:1.5rem;}
-
-  /* ===== FAQ ===== */
-  .faq-item{border-bottom:1px solid var(--filete); padding:1.2rem 0;}
-  .faq-item summary{
-    cursor:pointer; list-style:none; font-family:'Inter',sans-serif; font-weight:600;
-    display:flex; justify-content:space-between; align-items:center; min-height:44px;
-  }
-  .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item .detail{color:var(--gris-safe); margin-top:0.8rem; font-size:0.9rem;}
-
-  /* ===== CTA FINAL ===== */
-  #cta-final{text-align:center; padding-bottom:6rem;}
-  .accept-box{
-    background:rgba(253,251,240,0.03);
-    border:1px solid var(--filete);
-    border-top:2px solid var(--dorado);
-    border-radius:8px;
-    padding:2.5rem 1.5rem;
-    max-width:520px;
-    margin:2.5rem auto 0;
-  }
-  .accept-checkbox{display:flex; align-items:flex-start; gap:0.7rem; text-align:left; margin-bottom:1.5rem; font-size:0.85rem; color:var(--gris-safe);}
-  .accept-checkbox input{margin-top:0.3rem; width:18px; height:18px; accent-color:var(--dorado); flex:0 0 auto;}
-  .closing-line{margin-top:2.5rem; color:var(--gris-safe); font-size:0.95rem; line-height:1.8;}
-
-  /* ===== FORMA DE PAGO ===== */
-  .pago-etapa-card{
-    background:rgba(253,251,240,0.03); border:1px solid var(--filete); border-radius:6px;
-    padding:1.2rem 1.3rem; display:flex; justify-content:space-between; align-items:center;
-    gap:1rem; margin-bottom:0.6rem;
-  }
-  .pago-etapa-card .pct{font-family:'Michroma',sans-serif; color:var(--dorado); font-size:1rem; flex:0 0 auto;}
-  .pago-etapa-card .desc{flex:1; font-size:0.88rem; color:#e8e8ee;}
-  .pago-etapa-card .monto{font-family:'Inter',sans-serif; font-weight:700; color:#fff; flex:0 0 auto;}
-  .factura-a-box{
-    background:rgba(253,251,240,0.03); border:1px solid var(--filete); border-radius:6px;
-    padding:1.3rem 1.4rem; margin-top:1.5rem;
-  }
-
-  footer{text-align:center; padding:3rem 1.5rem; color:var(--gris-safe); font-size:0.76rem; border-top:1px solid var(--filete);}
-  footer .cedia-badge{
-    display:inline-block; margin-top:1rem; padding:0.4rem 1rem;
-    border:1px solid var(--filete); border-radius:4px; font-size:0.68rem;
-    letter-spacing:0.05em; color:var(--gris-safe);
-  }
-
-  /* ===== PRINT ===== */
+  @media (prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important;}}
   @media print{
-    body{background:#fff; color:#000;}
-    #chapter-nav, #progress-badge, .scene-tabs, input[type=range], #eco-diagram, #tunnel-motif{display:none !important;}
-    section{padding:1.5rem 0.5rem; page-break-inside:avoid;}
-    details{display:block !important;}
-    details > summary{list-style:none;}
-    .device-card, .light-card, .cond-card{break-inside:avoid; border:1px solid #ccc; background:#fff !important; color:#000 !important;}
-    .device-card summary, .light-card summary, .cond-card summary, .device-card .detail, .light-card .detail-row, .cond-card .detail{color:#000 !important;}
-    #inversion{background:#fff !important;}
-    .total-box{background:#111 !important; color:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    body{background:#fff; color:#000; display:block;}
+    .tunel,.cta{display:none;}
+    .iso path{fill:#0B132B;}
+    h1,.proyecto .nom,.wordmark{color:#0B132B;}
   }
 </style>
 </head>
 <body>
-
-<!-- ===== SCROLL PROGRESS BADGE ===== -->
-<div id="progress-badge" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <svg class="ring-svg" viewBox="0 0 52 52">
-    <circle class="bg" cx="26" cy="26" r="23"></circle>
-    <circle class="fg" id="progress-circle" cx="26" cy="26" r="23"></circle>
-  </svg>
-  <div class="mark" id="progress-mark"></div>
+<div class="tunel" aria-hidden="true">
+  <span style="width:min(88vw,760px);height:min(88vw,760px)"></span>
+  <span style="width:min(66vw,570px);height:min(66vw,570px)"></span>
+  <span style="width:min(44vw,380px);height:min(44vw,380px)"></span>
+  <span style="width:min(22vw,190px);height:min(22vw,190px)"></span>
 </div>
 
-<!-- ===== NAV STICKY ===== -->
-<nav id="chapter-nav">
-  <a href="#hero" class="nav-link" data-target="hero">Inicio</a>
-  <a href="#responsable" class="nav-link" data-target="responsable">Responsable</a>
-  <a href="#resumen" class="nav-link" data-target="resumen">Resumen</a>
-  <a href="#manana" class="nav-link" data-target="manana">Mañana</a>
-  <a href="#dia" class="nav-link" data-target="dia">Día</a>
-  <a href="#simulador-wrap" class="nav-link" data-target="simulador-wrap">Escenas</a>
-  <a href="#seguridad" class="nav-link" data-target="seguridad">Seguridad</a>
-  <a href="#accesos" class="nav-link" data-target="accesos">Accesos</a>
-  <a href="#inversion" class="nav-link" data-target="inversion">Inversión</a>
-  <a href="#condiciones" class="nav-link" data-target="condiciones">Condiciones</a>
-  <a href="#faq" class="nav-link" data-target="faq">FAQ</a>
-</nav>
-
-<!-- ===== HERO ===== -->
-<section id="hero">
-  <svg id="tunnel-motif" viewBox="0 0 400 400">
-    <rect x="20" y="20" width="360" height="360" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
-    <rect x="70" y="70" width="260" height="260" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
-    <rect x="120" y="120" width="160" height="160" fill="none" stroke="#fdfbf0" stroke-width="1.5"/>
-    <rect x="165" y="165" width="70" height="70" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
-  </svg>
-  <div class="brandmark-card">
-    <div id="hero-logo" style="width:110px; margin:0 auto;"></div>
-  </div>
-  <span class="eyebrow">Integración Tecnológica · Río Cuarto</span>
-  <p style="font-family:'Inter',sans-serif; font-weight:600; font-size:0.7rem; letter-spacing:0.06em; color:var(--gris-safe); margin-bottom:0.8rem; position:relative; z-index:1">PY-2026-004</p>
-  <h1>La Casa Que Responde</h1>
-  <p class="tagline">Del cable a la app.</p>
-  <p class="sub">Propuesta de automatización integral para Obra Río IV — iluminación, clima, redes, alarma, video y accesos orquestados desde un solo lugar.</p>
-  <div class="hero-cta">
-    <a href="#resumen" class="btn">Ver la propuesta</a>
-    <a href="#inversion" class="btn btn-outline">Ir a la inversión</a>
-  </div>
-
-  <svg id="eco-diagram" viewBox="0 0 400 260">
-    <line class="link-line" x1="200" y1="130" x2="80" y2="50"></line>
-    <line class="link-line" x1="200" y1="130" x2="320" y2="50"></line>
-    <line class="link-line" x1="200" y1="130" x2="80" y2="210"></line>
-    <line class="link-line" x1="200" y1="130" x2="320" y2="210"></line>
-
-    <circle class="center-circle" cx="200" cy="130" r="34"></circle>
-    <text class="center-label" x="200" y="126" text-anchor="middle">CORE</text>
-    <text class="center-label" x="200" y="140" text-anchor="middle" style="font-size:0.5rem">Home Assistant</text>
-
-    <circle class="node-circle" cx="80" cy="50" r="30"></circle>
-    <text class="node-label" x="80" y="53" text-anchor="middle">Iluminación</text>
-    <circle class="node-circle" cx="320" cy="50" r="30"></circle>
-    <text class="node-label" x="320" y="53" text-anchor="middle">Climatización</text>
-    <circle class="node-circle" cx="80" cy="210" r="30"></circle>
-    <text class="node-label" x="80" y="213" text-anchor="middle">Seguridad</text>
-    <circle class="node-circle" cx="320" cy="210" r="30"></circle>
-    <text class="node-label" x="320" y="213" text-anchor="middle">Redes</text>
-  </svg>
-</section>
-
-<!-- ===== RESUMEN EJECUTIVO ===== -->
-<!-- ===== UN SOLO RESPONSABLE ===== -->
-<section id="responsable">
-  <div class="section-header">
-    <span class="section-num mch">00.1</span>
-    <h2>Un Solo Responsable</h2>
-  </div>
-  <p class="pitch-block">En una obra con domótica normalmente coordinás varios proveedores distintos: el electricista, el de redes, el integrador. Cuando algo falla, cada uno señala al otro y el problema queda en el medio. En Río IV, Nova Domus es responsable único de redes, iluminación, clima, alarma, video, accesos y programación — con equipo propio de punta a punta. La parte eléctrica queda a cargo del electricista de obra, pero la especificamos y certificamos nosotros: <strong>un solo teléfono para todo lo que enciende, protege y conecta la casa.</strong></p>
-
-  <div class="etapas-diagram">
-    <div class="etapa"><span class="etapa-num">1</span><span class="etapa-label">Relevamiento y especificación</span></div>
-    <div class="etapa-line"></div>
-    <div class="etapa"><span class="etapa-num">2</span><span class="etapa-label">Redes e iluminación</span></div>
-    <div class="etapa-line"></div>
-    <div class="etapa"><span class="etapa-num">3</span><span class="etapa-label">Seguridad y accesos</span></div>
-    <div class="etapa-line"></div>
-    <div class="etapa"><span class="etapa-num">4</span><span class="etapa-label">Automatización Home Assistant</span></div>
-    <div class="etapa-line"></div>
-    <div class="etapa etapa-final"><span class="etapa-num">5</span><span class="etapa-label">Entrega documentada + 12 meses de garantía</span></div>
-  </div>
-  <p class="etapas-caption">Del cable a la app — un solo responsable en cada etapa.</p>
-
-  <table class="comparativo">
-    <thead>
-      <tr><th></th><th>Con integradores tradicionales</th><th class="highlight">Con Nova Domus</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Proveedores a coordinar</td><td>3 o más (electricista, redes, integrador)</td><td class="highlight">1</td></tr>
-      <tr><td>Responsable ante una falla</td><td>Se diluye entre proveedores</td><td class="highlight">Nova Domus, siempre</td></tr>
-      <tr><td>Equipo de instalación</td><td>Terceros subcontratados</td><td class="highlight">Propio, matriculado</td></tr>
-      <tr><td>Garantía</td><td>Fragmentada por proveedor</td><td class="highlight">Integral, 12 meses</td></tr>
-    </tbody>
-  </table>
-</section>
-
-<section id="resumen">
-  <div class="section-header">
-    <span class="section-num mch">00</span>
-    <h2>Resumen Ejecutivo</h2>
-    <p>Todo lo que necesitás saber en 60 segundos antes de seguir leyendo.</p>
-  </div>
-
-  <div class="counters-grid">
-    <div class="counter-card"><span class="counter-num" data-count="18">0</span><span class="counter-label">Ambientes relevados</span></div>
-    <div class="counter-card"><span class="counter-num" data-count="32">0</span><span class="counter-label">Disp. de iluminación</span></div>
-    <div class="counter-card"><span class="counter-num" data-count="2">0</span><span class="counter-label">Sistemas de alarma</span></div>
-    <div class="counter-card"><span class="counter-num" data-count="4">0</span><span class="counter-label">Cámaras perimetrales</span></div>
-  </div>
-
-  <div class="exec-summary-box">
-    <p><strong>Qué necesita el proyecto:</strong> Obra Río IV es una vivienda de dos plantas con local Agencia integrado en planta baja, con ingresos independientes. Requiere automatización completa de confort (iluminación y climatización), dos sistemas de seguridad autónomos, control de accesos y conectividad robusta en una planta elongada.</p>
-    <p><strong>Qué se propone:</strong> ecosistema Shelly + Home Assistant como cerebro central, redes Omada de grado profesional, alarma Hikvision AXPro inalámbrica por sistema, videovigilancia perimetral con IA (AcuSense), y accesos con videoportero, cerraduras digitales Yale y automatización de portón.</p>
-    <p><strong>Inversión y valor:</strong> equipo + mano de obra especializada + programación, con margen de repuesto del 10% en dispositivos de iluminación para absorber replanteos de obra sin sobrecostos de último momento.</p>
-    <p><strong>Próximo paso:</strong> aprobar esta propuesta para coordinar la Visita Técnica y dejar cerrados los puntos pendientes antes del inicio de obra.</p>
-  </div>
-</section>
-
-<!-- ===== 01 MAÑANA ===== -->
-<section id="manana">
-  <div class="section-header">
-    <span class="section-num mch">01</span>
-    <h2>Mañana — Despertar Inteligente</h2>
-    <p>El día arranca tocando el Wall Display XL en el ingreso, o simplemente abriendo la persiana: la casa ya sabe que empezaste tu rutina.</p>
-  </div>
-  <div class="device-list" id="list-core"></div>
-</section>
-
-<!-- ===== 02 DIA ===== -->
-<section id="dia">
-  <div class="section-header">
-    <span class="section-num mch">02</span>
-    <h2>Todo el Día — Conectividad Invisible</h2>
-    <p>Redes de grado profesional (Omada) que cubren cada rincón de la vivienda y la Agencia, más climatización que aprende tus horarios.</p>
-  </div>
-  <h3 class="subhead">Redes</h3>
-  <div class="ba-toggle-wrap">
-    <div class="ba-tabs">
-      <button class="ba-tab active" data-ba="antes">WiFi doméstico común</button>
-      <button class="ba-tab" data-ba="despues">Red profesional Omada</button>
-    </div>
-    <div class="ba-panel" id="ba-redes-panel"></div>
-  </div>
-  <div class="device-list" id="list-redes" style="margin-bottom:2rem"></div>
-  <h3 class="subhead">Infraestructura</h3>
-  <div class="device-list" id="list-infra" style="margin-bottom:2rem"></div>
-  <h3 class="subhead">Climatización</h3>
-  <div class="device-list" id="list-clima"></div>
-</section>
-
-<!-- ===== 03 SIMULADOR DE ESCENAS ===== -->
-<section id="simulador-wrap">
-  <div class="section-header">
-    <span class="section-num mch">03</span>
-    <h2>Simulador de Escenas</h2>
-    <p>Tocá cada momento del día y mirá cómo responde la iluminación de tu casa.</p>
-  </div>
-  <div id="simulador">
-    <div class="scene-tabs">
-      <button class="scene-tab active" data-scene="manana">Mañana</button>
-      <button class="scene-tab" data-scene="tarde">Tarde</button>
-      <button class="scene-tab" data-scene="noche">Noche</button>
-      <button class="scene-tab" data-scene="reposo">Reposo</button>
-      <button class="scene-tab" data-scene="afuera">Fuera de casa</button>
-    </div>
-    <div class="scene-visual" id="scene-visual"></div>
-    <div class="scene-desc" id="scene-desc"></div>
-  </div>
-
-  <h3 class="subhead" style="margin-top:2.5rem">Dispositivos de iluminación</h3>
-  <div class="device-list" id="list-iluminacion"></div>
-</section>
-
-<!-- ===== 04 SEGURIDAD ===== -->
-<section id="seguridad">
-  <div class="section-header">
-    <span class="section-num mch">04</span>
-    <h2>Seguridad, Siempre Activa</h2>
-    <p>Dos sistemas de alarma independientes — Vivienda y Agencia — más videovigilancia perimetral con inteligencia artificial que distingue personas de falsas alarmas.</p>
-  </div>
-  <div class="ba-toggle-wrap">
-    <div class="ba-tabs">
-      <button class="ba-tab active" data-ba="antes">Alarma / cámara común</button>
-      <button class="ba-tab" data-ba="despues">AXPro / AcuSense</button>
-    </div>
-    <div class="ba-panel" id="ba-seguridad-panel"></div>
-  </div>
-  <h3 class="subhead">Alarma</h3>
-  <div class="device-list" id="list-alarma" style="margin-bottom:2rem"></div>
-  <h3 class="subhead">Videovigilancia perimetral (AcuSense)</h3>
-  <div class="device-list" id="list-video"></div>
-</section>
-
-<!-- ===== ACCESOS ===== -->
-<section id="accesos">
-  <div class="section-header">
-    <span class="section-num mch">04.1</span>
-    <h2>Accesos y Extras</h2>
-    <p>Videoportero, cerraduras digitales y automatización de portón — más la incorporación de pileta sumada al alcance original.</p>
-  </div>
-  <div class="device-list" id="list-accesos"></div>
-  <p style="color:var(--gris-safe); font-size:0.85rem; margin-top:1rem">⚠️ La pileta fue informada después del relevamiento inicial y no cuenta con plano propio — la ubicación de la bomba y el circuito de iluminación se confirman en la Visita Técnica.</p>
-</section>
-
-<!-- ===== 05 CALCULADORA CONFORT ===== -->
-<section id="calculadora">
-  <div class="section-header">
-    <span class="section-num mch">05</span>
-    <h2>Calculadora de Confort y Ahorro</h2>
-    <p>Ajustá según tus hábitos y mirá el impacto estimado de automatizar clima e iluminación.</p>
-  </div>
-  <div class="calc-box">
-    <div class="calc-row">
-      <label>Horas promedio con AC/calefacción por día <span class="val" id="val-horas">8 hs</span></label>
-      <input type="range" id="slider-horas" min="2" max="16" value="8">
-    </div>
-    <div class="calc-row">
-      <label>Ambientes con uso frecuente de luz artificial <span class="val" id="val-ambientes">6</span></label>
-      <input type="range" id="slider-ambientes" min="2" max="14" value="6">
-    </div>
-    <div class="calc-result">
-      <div class="calc-result-card"><span class="num" id="calc-ahorro-energia">—</span><span class="lbl">Ahorro estimado climatización/mes</span></div>
-      <div class="calc-result-card"><span class="num" id="calc-ahorro-luz">—</span><span class="lbl">Reducción consumo lumínico</span></div>
-    </div>
-    <p class="calc-caveat">* Estimaciones referenciales basadas en promedios de eficiencia de sensores Sensibo y relés Shelly reportados por los fabricantes. No constituyen una promesa de ahorro específico para esta vivienda.</p>
-  </div>
-</section>
-
-<!-- ===== INVERSION ===== -->
-<section id="inversion">
-  <div class="section-content">
-    <div class="section-header">
-      <span class="section-num mch">06</span>
-      <h2>La Inversión</h2>
-      <p>Desglose completo por rubro. Sin sorpresas, sin letra chica.</p>
-    </div>
-
-    <div class="rubro-bar" id="rubro-bar"></div>
-    <div class="rubro-legend" id="rubro-legend"></div>
-
-    <div id="rubro-accordions"></div>
-
-    <div class="total-box">
-      <div class="total-row"><span>Subtotal equipo (neto)</span><span id="total-equipo-row"></span></div>
-      <div class="total-row"><span>IVA equipo (21% / 10.5% según ítem)</span><span id="total-iva-row"></span></div>
-      <div class="total-row" style="color:#fff; font-weight:600"><span>Subtotal equipo (con IVA)</span><span id="total-equipo-con-iva-row"></span></div>
-      <div class="total-row"><span>Mano de obra especializada (por punto)</span><span id="total-mo-row"></span></div>
-      <div class="total-row"><span>Programación y comisionado</span><span id="total-prog-row"></span></div>
-      <div class="total-row" id="factura-a-row" style="display:none"><span>IVA 21% Factura A (sobre mano de obra)</span><span id="factura-a-amount"></span></div>
-      <div class="total-row final"><span>Total proyecto</span><span class="amount" id="total-final-row"></span></div>
-      <p class="total-note" id="total-note-usd"></p>
-      <p class="total-note">Presupuesto válido por 15 días. Materiales sujetos a cotización del momento de compra. No incluye Visita Técnica ni obra eléctrica (a cargo del electricista de obra, según indicaciones de Nova Domus).</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== EJECUCION ===== -->
-<section id="ejecucion">
-  <div class="section-header">
-    <span class="section-num mch">07</span>
-    <h2>Ejecución y Forma de Pago</h2>
-    <p>Equipos por anticipado para asegurar la compra e importación; mano de obra dividida en dos hitos de obra.</p>
-  </div>
-  <div class="device-list" id="pago-etapas"></div>
-
-  <div class="factura-a-box">
-    <label class="accept-checkbox" style="margin-bottom:0">
-      <input type="checkbox" id="factura-a-check">
-      <span>Necesito Factura A (suma 21% IVA sobre las etapas de mano de obra — el equipo ya lleva IVA discriminado por ítem)</span>
-    </label>
-  </div>
-</section>
-
-<!-- ===== CONDICIONES GENERALES ===== -->
-<section id="condiciones">
-  <div class="section-header">
-    <span class="section-num mch">08</span>
-    <h2>Condiciones Generales</h2>
-  </div>
-
-  <details class="cond-card">
-    <summary>Alcance de la obra eléctrica <span class="chevron">▾</span></summary>
-    <div class="detail">La canalización, cableado y bocas eléctricas quedan a cargo del electricista de obra. Nova Domus releva, certifica y entrega indicaciones técnicas en plano tras la Visita Técnica; no ejecuta ni cotiza obra eléctrica en este proyecto.</div>
-  </details>
-  <details class="cond-card">
-    <summary>Logística y Visita Técnica <span class="chevron">▾</span></summary>
-    <div class="detail">La Visita Técnica (relevamiento y certificación de instalación) se cotiza y factura por separado, según distancia y días requeridos. Se coordina una vez aprobada esta propuesta.</div>
-  </details>
-  <details class="cond-card">
-    <summary>Formas de pago <span class="chevron">▾</span></summary>
-    <div class="detail">100% del equipo por anticipado (asegura compra e importación) · Mano de obra (instalación + programación): 30% al inicio de obra, 70% al finalizar contra entrega de documentación del sistema.</div>
-  </details>
-  <details class="cond-card">
-    <summary>Excedentes y ajustes de obra <span class="chevron">▾</span></summary>
-    <div class="detail">Los dispositivos de iluminación incluyen un 10% de margen sobre el conteo relevado para absorber replanteos menores de obra sin generar una revisión de presupuesto. Cambios de alcance mayores (nuevos ambientes, subsistemas no contemplados) se cotizan aparte.</div>
-  </details>
-  <details class="cond-card">
-    <summary>Garantía <span class="chevron">▾</span></summary>
-    <div class="detail">Equipos con garantía de fábrica según fabricante. Mano de obra e instalación con garantía Nova Domus de 12 meses sobre defectos de instalación. Queda funcionando y documentado — si algo falla en los primeros 12 meses, lo resolvemos nosotros.</div>
-  </details>
-</section>
-
-<!-- ===== RESPALDO ===== -->
-<section id="respaldo">
-  <div class="section-header">
-    <span class="section-num mch">09</span>
-    <h2>Respaldo</h2>
-    <p>Trabajamos con las marcas líderes del sector, integradas bajo un mismo sistema.</p>
-  </div>
-  <div class="partner-wall">
-    <div class="partner-item brand">NOVA DOMUS</div>
-    <button class="partner-item" data-partner="shelly">SHELLY</button>
-    <button class="partner-item" data-partner="homeassistant">HOME ASSISTANT</button>
-    <button class="partner-item" data-partner="hikvision">HIKVISION</button>
-    <button class="partner-item" data-partner="omada">OMADA</button>
-    <button class="partner-item" data-partner="sensibo">SENSIBO</button>
-    <button class="partner-item" data-partner="yale">YALE</button>
-  </div>
-  <div id="partner-detail" class="partner-detail"></div>
-  <div class="warranty-box">
-    <strong style="font-family:'Inter',sans-serif; font-weight:700">Post-venta Nova Domus</strong>
-    <p style="margin-top:0.5rem; font-size:0.9rem; color:var(--gris-safe)">Soporte técnico directo por WhatsApp, visitas de ajuste post-instalación y acompañamiento en la puesta en marcha de cada sistema.</p>
-  </div>
-</section>
-
-<!-- ===== FAQ ===== -->
-<section id="faq">
-  <div class="section-header">
-    <span class="section-num mch">10</span>
-    <h2>Preguntas Frecuentes</h2>
-  </div>
-  <details class="faq-item">
-    <summary>¿Qué pasa si se corta internet o WiFi? <span class="chevron">▾</span></summary>
-    <div class="detail">Los relés Shelly mantienen su última orden y siguen funcionando como interruptor físico local sin conexión. Las escenas y el control remoto vuelven apenas se restablece la red.</div>
-  </details>
-  <details class="faq-item">
-    <summary>¿Quién administra el sistema una vez instalado? <span class="chevron">▾</span></summary>
-    <div class="detail">Ustedes, desde la app de Home Assistant o el Wall Display XL. Nova Domus deja el sistema configurado y documentado, con soporte disponible ante cualquier ajuste.</div>
-  </details>
-  <details class="faq-item">
-    <summary>¿Hay dependencia de un solo proveedor (vendor lock-in)? <span class="chevron">▾</span></summary>
-    <div class="detail">No. Home Assistant es una plataforma abierta que integra Shelly, Hikvision, Sensibo y Yale sin atarlos a un ecosistema cerrado. Se puede sumar o reemplazar marcas a futuro sin perder la programación existente.</div>
-  </details>
-  <details class="faq-item">
-    <summary>¿Qué pasa si un dispositivo falla? <span class="chevron">▾</span></summary>
-    <div class="detail">Cada relé es independiente: si uno falla, solo afecta ese punto de luz o circuito, no el resto del sistema. Se reemplaza el módulo puntual sin tocar el resto de la instalación.</div>
-  </details>
-  <details class="faq-item">
-    <summary>¿Los sistemas de Agencia y Vivienda están realmente separados? <span class="chevron">▾</span></summary>
-    <div class="detail">Sí, tanto en alarma (2 centrales AXPro independientes) como en la lógica de accesos. Comparten infraestructura de red pero cada área mantiene su propio control.</div>
-  </details>
-</section>
-
-<!-- ===== CTA FINAL ===== -->
-<section id="cta-final">
-  <div class="section-header" style="text-align:center">
-    <span class="section-num mch">11</span>
-    <h2>¿Avanzamos?</h2>
-    <p style="margin:0 auto">El siguiente paso es coordinar la Visita Técnica y dejar todo listo para el inicio de obra.</p>
-  </div>
-  <div class="accept-box">
-    <label class="accept-checkbox">
-      <input type="checkbox" id="accept-check">
-      <span>Confirmo que revisé el alcance, la inversión y las condiciones generales de esta propuesta para Obra Río IV.</span>
-    </label>
-    <a class="btn" id="whatsapp-cta" href="#" target="_blank" style="width:100%; text-align:center; opacity:0.4; pointer-events:none;">Aceptar y coordinar Visita Técnica</a>
-  </div>
-  <p class="closing-line">Un teléfono, una empresa que responde.<br><span class="mch" style="color:var(--dorado); font-size:0.85rem">DEL CABLE A LA APP</span></p>
-</section>
-
-<footer>
-  <p class="mch" style="font-size:0.7rem; color:#fff; margin-bottom:0.6rem">NOVA DOMUS</p>
-  <p>NDWD SAS · Av. Colón 3835, Córdoba, Argentina</p>
-  <p style="margin-top:0.4rem">Propuesta generada para Obra Río IV · Río Cuarto</p>
-  <p style="margin-top:0.4rem; color:var(--dorado); font-weight:600">PY-2026-004</p>
-  <span class="cedia-badge">MIEMBRO CEDIA</span>
-</footer>
-
-<script>
-const RUBROS = [{"id": "redes", "nombre": "Redes", "icon": "wifi", "items": [{"name": "Router Omada ER7212PC (VPN + 8 POE + Controller)", "cant": 1, "desc": "Router principal con controlador Omada integrado y 8 puertos PoE para alimentar cámaras y access points.", "precioNeto": 317, "ivaPct": 10.5, "precioConIva": 351}, {"name": "Access Point Omada EAP650 WiFi6 (Planta Baja)", "cant": 2, "desc": "Access Point WiFi 6 de alta capacidad para las zonas de mayor uso en Planta Baja.", "precioNeto": 103, "ivaPct": 10.5, "precioConIva": 114}, {"name": "Access Point Omada EAP610 WiFi6 (Planta Alta)", "cant": 2, "desc": "Access Point WiFi 6 para cobertura de dormitorios y áreas de Planta Alta.", "precioNeto": 88, "ivaPct": 10.5, "precioConIva": 98}], "subtotalNeto": 699, "subtotalConIva": 775}, {"id": "infra", "nombre": "Infraestructura / Rack", "icon": "server", "items": [{"name": "Rack GLC Mural 12U (con accesorios: bandejas, canal, organizadores)", "cant": 1, "desc": "Gabinete mural que aloja y ordena todo el equipamiento de red y domótica.", "precioNeto": 113, "ivaPct": 21.0, "precioConIva": 137}, {"name": "UPS Eaton Interactiva 1200VA", "cant": 1, "desc": "Respaldo de energía para que router, NVR y controlador sigan activos ante un corte de luz.", "precioNeto": 94, "ivaPct": 10.5, "precioConIva": 104}], "subtotalNeto": 207, "subtotalConIva": 241}, {"id": "core", "nombre": "CORE — Inteligencia Central", "icon": "cpu", "items": [{"name": "Home Assistant Green (controlador central)", "cant": 1, "desc": "Cerebro central que integra y programa todos los subsistemas de la casa en una sola app.", "precioNeto": 360, "ivaPct": 21.0, "precioConIva": 436}, {"name": "Antena Home Assistant SkyConnect (Zigbee/Thread)", "cant": 1, "desc": "Conecta el controlador central con los dispositivos Zigbee y Thread de la instalación.", "precioNeto": 72, "ivaPct": 21.0, "precioConIva": 88}, {"name": "Shelly Wall Display XL (Ingreso Vivienda)", "cant": 1, "desc": "Panel táctil de pared para controlar luces, clima y alarma sin usar el celular.", "precioNeto": 607, "ivaPct": 21.0, "precioConIva": 735}], "subtotalNeto": 1039, "subtotalConIva": 1259}, {"id": "iluminacion", "nombre": "Iluminación Inteligente", "icon": "lightbulb", "items": [{"name": "Shelly 1PM Mini Gen4 (relé por circuito)", "cant": 24, "desc": "Relé que enciende y apaga un circuito de luz de forma inteligente.", "precioNeto": 30, "ivaPct": 21.0, "precioConIva": 37}, {"name": "Shelly Dimmer Gen4 (dormitorios / escenas)", "cant": 4, "desc": "Relé regulador de intensidad para escenas de luz cálida en dormitorios.", "precioNeto": 68, "ivaPct": 21.0, "precioConIva": 83}, {"name": "Shelly Plus 2PM Gen4 (llave doble)", "cant": 2, "desc": "Relé doble para llaves que comandan dos circuitos desde una misma caja.", "precioNeto": 43, "ivaPct": 21.0, "precioConIva": 53}, {"name": "Shelly Plus i4 (input llave triple+)", "cant": 2, "desc": "Entrada para llaves de 3 o más teclas, dispara el relé de cada circuito.", "precioNeto": 25, "ivaPct": 21.0, "precioConIva": 31}], "subtotalNeto": 1128, "subtotalConIva": 1388}, {"id": "alarma", "nombre": "Alarma — 2 Sistemas Independientes", "icon": "shield", "items": [{"name": "Central AXPro inalámbrica Hikvision (Vivienda + Agencia)", "cant": 2, "desc": "Panel de alarma inalámbrico que gestiona sensores, sirenas y notificaciones de cada sistema.", "precioNeto": 326, "ivaPct": 21.0, "precioConIva": 395}, {"name": "Sensor magnético Hikvision AXPro (ingresos principales)", "cant": 2, "desc": "Detecta apertura de puertas en los ingresos principales.", "precioNeto": 26, "ivaPct": 21.0, "precioConIva": 32}, {"name": "Sensor PIR Hikvision AXPro (resto de ambientes)", "cant": 7, "desc": "Detecta movimiento dentro de cada ambiente protegido.", "precioNeto": 46, "ivaPct": 21.0, "precioConIva": 56}, {"name": "Teclado LCD Hikvision AXPro", "cant": 2, "desc": "Panel para armar y desarmar el sistema con código.", "precioNeto": 66, "ivaPct": 21.0, "precioConIva": 80}, {"name": "Sirena interior Hikvision AXPro", "cant": 2, "desc": "Alerta sonora dentro de la vivienda ante una activación.", "precioNeto": 55, "ivaPct": 21.0, "precioConIva": 67}, {"name": "Sirena exterior Hikvision AXPro", "cant": 2, "desc": "Alerta sonora y disuasión visible desde la calle.", "precioNeto": 82, "ivaPct": 21.0, "precioConIva": 100}], "subtotalNeto": 1432, "subtotalConIva": 1740}, {"id": "video", "nombre": "Videovigilancia Perimetral", "icon": "camera", "items": [{"name": "Cámara Hikvision ColorVu 3.0 AcuSense 2MP (perímetro)", "cant": 4, "desc": "Cámara perimetral con IA que distingue personas y vehículos de falsas alarmas.", "precioNeto": 102, "ivaPct": 21.0, "precioConIva": 124}, {"name": "NVR Hikvision AcuSense 8CH", "cant": 1, "desc": "Grabador central que procesa y almacena la señal de las 4 cámaras.", "precioNeto": 294, "ivaPct": 21.0, "precioConIva": 356}, {"name": "Disco Seagate Skyhawk 8TB (~20 días grabación)", "cant": 1, "desc": "Almacenamiento para aproximadamente 20 días de grabación continua.", "precioNeto": 458, "ivaPct": 10.5, "precioConIva": 507}], "subtotalNeto": 1160, "subtotalConIva": 1359}, {"id": "clima", "nombre": "Climatización Inteligente", "icon": "thermometer", "items": [{"name": "Sensibo Air PRO (control inteligente por split)", "cant": 4, "desc": "Convierte cada split en un equipo inteligente, con sensor de presencia y control por app.", "precioNeto": 217, "ivaPct": 21.0, "precioConIva": 263}], "subtotalNeto": 868, "subtotalConIva": 1052}, {"id": "accesos", "nombre": "Accesos y Extras", "icon": "key", "items": [{"name": "Kit Videoportero Hikvision DS-KIS606-P (pantalla + frente + fuente)", "cant": 1, "desc": "Videoportero IP: ve y abre la puerta de la vivienda desde el celular o la pantalla interior.", "precioNeto": 340, "ivaPct": 21.0, "precioConIva": 412}, {"name": "Cerradura electromagnética Starligh 180kg", "cant": 1, "desc": "Traba electromagnética de la puerta de ingreso, liberada por el videoportero o la app.", "precioNeto": 33, "ivaPct": 21.0, "precioConIva": 40}, {"name": "Herraje de montaje L 180kg", "cant": 1, "desc": "Soporte de fijación del electroimán al marco de la puerta (tipo a confirmar según apertura).", "precioNeto": 8, "ivaPct": 21.0, "precioConIva": 10}, {"name": "Fuente switching 12V 1A (electroimán)", "cant": 1, "desc": "Alimentación eléctrica dedicada para el electroimán.", "precioNeto": 8, "ivaPct": 21.0, "precioConIva": 10}, {"name": "Pulsador de salida táctil con LED", "cant": 1, "desc": "Botón de salida de emergencia, obligatorio junto al electroimán para egreso manual.", "precioNeto": 18, "ivaPct": 21.0, "precioConIva": 22}, {"name": "Shelly 1 Gen4 (automatización de portón)", "cant": 1, "desc": "Relé que pulsa el motor existente del portón para abrir/cerrar de forma remota o programada.", "precioNeto": 30, "ivaPct": 21.0, "precioConIva": 37}, {"name": "Cerradura Yale KIT YMC 420 MORTISE + HUB (puerta de ingreso vivienda)", "cant": 1, "desc": "Cerradura digital con teclado/app para el acceso diario de la familia.", "precioNeto": 279, "ivaPct": 21.0, "precioConIva": 338}, {"name": "Cerradura Yale KIT YRD 256 + HUB (puerta Agencia)", "cant": 1, "desc": "Cerradura digital para el ingreso de la Agencia, con código propio.", "precioNeto": 157, "ivaPct": 21.0, "precioConIva": 190}, {"name": "Shelly Pro 2 DIN (iluminación + bomba de pileta)", "cant": 1, "desc": "Relé doble para automatizar iluminación y bomba de pileta desde la misma app de la casa.", "precioNeto": 110, "ivaPct": 21.0, "precioConIva": 134}], "subtotalNeto": 983, "subtotalConIva": 1193}];
-const MO_ITEMS = [{"name": "Shelly simple (1PM Mini)", "precio": 50, "cant": 24}, {"name": "Shelly multicircuito (2PM Gen4 + i4)", "precio": 70, "cant": 4}, {"name": "Dimmer Gen4", "precio": 60, "cant": 4}, {"name": "Shelly Wall Display XL", "precio": 70, "cant": 1}, {"name": "Punto de red/data (4 Access Points)", "precio": 40, "cant": 4}, {"name": "Cámara IP con canalización", "precio": 107, "cant": 4}, {"name": "Punto rack (router, NVR, HA Green, UPS)", "precio": 10, "cant": 4}, {"name": "Sensor de movimiento/presencia o puerta-ventana", "precio": 28, "cant": 9}, {"name": "Teclado + sirena interior (por sistema de alarma)", "precio": 81, "cant": 2}, {"name": "Sirena exterior", "precio": 50, "cant": 2}, {"name": "Panel AXPro instalado y configurado", "precio": 10, "cant": 2}, {"name": "Portero eléctrico audio/video", "precio": 118, "cant": 1}, {"name": "Cerradura digital Yale (vivienda + agencia)", "precio": 68, "cant": 2}, {"name": "Electroimán instalado (estimado, tarifa proxy de cerradura digital)", "precio": 68, "cant": 1}, {"name": "Shelly simple (portón)", "precio": 50, "cant": 1}, {"name": "Shelly multicircuito (Pro 2 pileta)", "precio": 70, "cant": 1}];
-const TOTAL_EQUIPO_NETO = 7516;
-const TOTAL_EQUIPO_IVA = 1491;
-const TOTAL_EQUIPO_CON_IVA = 9007;
-const TOTAL_MO = 3394;
-const PROGRAMACION = 1241;
-const TOTAL_PROYECTO = 13642;
-const TC = 1495.0;
-const LOGO_COLOR_SVG = `<?xml version="1.0" encoding="UTF-8"?>
-<!-- Generator: visioncortex VTracer 0.6.12 -->
-<svg viewBox="0 0 1021 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="1021" height="1024">
-<path d="M0 0 C64.68 0 129.36 0 196 0 C196 0.66 196 1.32 196 2 C196.99 2 197.98 2 199 2 C201.063 5.912 202.837 9.48 204.164 13.715 C206.932 22.217 210.938 30.298 214.605 38.44 C215.617 40.69 216.623 42.943 217.629 45.195 C217.937 45.875 218.246 46.554 218.563 47.254 C219.914 50.282 221.047 53.166 221.961 56.363 C223.302 61.055 225.133 65.496 227 70 C141.664 70.302 56.325 69.296 -29 68 C-28.34 64.431 -27.48 61.697 -25.75 58.5 C-23.805 54.732 -22.168 50.974 -20.688 47 C-18.616 41.475 -16.335 36.076 -13.938 30.688 C-13.773 30.317 -13.773 30.317 -12.942 28.443 C-11.332 24.849 -9.666 21.299 -7.887 17.785 C-6.389 14.824 -5.065 11.851 -3.875 8.75 C-2.705 5.713 -1.463 2.927 0 0 Z " fill="#0D152C" transform="translate(420,771)"/>
-<path d="M0 0 C20.219 -0.187 40.437 -0.328 60.657 -0.414 C70.045 -0.456 79.433 -0.512 88.822 -0.604 C97.005 -0.683 105.188 -0.735 113.372 -0.753 C117.705 -0.763 122.037 -0.788 126.369 -0.846 C130.45 -0.9 134.529 -0.917 138.61 -0.905 C140.105 -0.907 141.6 -0.923 143.095 -0.954 C154.358 -1.174 154.358 -1.174 158.267 1.62 C160.049 3.654 161.513 5.745 163 8 C163.998 9.093 165.025 10.16 166.082 11.195 C166.588 11.701 167.094 12.207 167.615 12.728 C168.142 13.25 168.668 13.771 169.211 14.308 C169.787 14.883 170.364 15.458 170.958 16.051 C172.193 17.282 173.429 18.513 174.667 19.742 C176.623 21.685 178.576 23.632 180.528 25.579 C184.662 29.701 188.799 33.82 192.938 37.938 C197.759 42.735 202.578 47.534 207.394 52.338 C209.322 54.259 211.253 56.178 213.184 58.096 C214.355 59.263 215.525 60.43 216.695 61.597 C216.965 61.865 216.965 61.865 218.334 63.22 C219.575 64.461 220.791 65.728 222 67 C222 67.33 222 67.66 222 68 C192.846 68.912 163.696 69.284 134.529 69.532 C129.933 69.572 125.336 69.617 120.74 69.661 C90.492 69.949 60.248 70.061 30 70 C29.737 69.332 29.473 68.665 29.202 67.977 C28.85 67.091 28.499 66.205 28.136 65.292 C27.791 64.418 27.445 63.544 27.088 62.644 C25.414 58.576 23.489 54.64 21.562 50.688 C19.055 45.479 16.647 40.32 14.688 34.875 C11.746 26.808 7.819 19.179 4.012 11.492 C3.755 10.966 3.755 10.966 2.449 8.305 C2.214 7.83 2.214 7.83 1.022 5.429 C0 3 0 3 0 0 Z " fill="#0D152C" transform="translate(655,771)"/>
-<path d="M0 0 C51.81 0 103.62 0 157 0 C156.208 3.959 155.677 5.953 153.875 9.312 C148.924 18.944 144.707 28.891 141 39.062 C137.359 49.047 132.752 58.496 128 68 C64.31 68 0.62 68 -65 68 C-65 67.34 -65 66.68 -65 66 C-63.531 64.555 -63.531 64.555 -61.5 62.875 C-57.095 59.133 -53.048 55.12 -49 51 C-48.221 50.23 -47.443 49.461 -46.641 48.668 C-44.793 46.801 -42.991 44.928 -41.215 42.996 C-31.216 32.125 -20.779 21.712 -10.285 11.322 C-9.68 10.722 -9.076 10.122 -8.453 9.503 C-7.304 8.362 -6.153 7.223 -4.999 6.087 C-1.113 2.225 -1.113 2.225 0 0 Z " fill="#0D152D" transform="translate(225,771)"/>
-<path d="M0 0 C7.87 6.746 7.87 6.746 10.719 9.84 C11.341 10.511 11.964 11.182 12.605 11.873 C13.231 12.554 13.856 13.236 14.5 13.938 C26.584 27.031 26.584 27.031 32.75 32.188 C36.573 35.486 39.908 39.116 43.28 42.869 C47.731 47.785 52.378 52.495 57.062 57.188 C57.813 57.943 58.564 58.698 59.338 59.476 C60.042 60.179 60.747 60.881 61.473 61.605 C61.789 61.921 61.789 61.921 63.387 63.516 C65 65 65 65 67 66 C67 113.85 67 161.7 67 211 C44.365 204.827 22.285 197.428 0 190 C0 127.3 0 64.6 0 0 Z " fill="#4F6380" transform="translate(138,176)"/>
-<path d="M0 0 C1.955 22.642 3.262 45.286 4 68 C4.028 68.829 4.055 69.658 4.084 70.511 C6.508 145.215 6.508 145.215 -18.414 172.584 C-22.668 177.005 -27.182 181.054 -31.875 185 C-32.636 185.642 -33.397 186.284 -34.182 186.946 C-59.474 208 -59.474 208 -66 208 C-66.223 183.828 -66.444 159.656 -66.631 135.484 C-66.637 134.801 -66.642 134.119 -66.647 133.416 C-66.7 126.567 -66.753 119.717 -66.804 112.868 C-66.903 99.669 -67.008 86.47 -67.159 73.271 C-67.23 66.956 -67.287 60.641 -67.328 54.325 C-67.351 50.937 -67.382 47.548 -67.434 44.16 C-67.487 40.537 -67.509 36.916 -67.523 33.293 C-67.546 32.268 -67.569 31.242 -67.592 30.186 C-67.584 27.694 -67.528 25.434 -67 23 C-64.939 21.024 -64.939 21.024 -62 20 C-60.843 19.561 -59.685 19.122 -58.493 18.669 C-57.146 18.216 -55.796 17.769 -54.445 17.328 C-53.715 17.085 -52.984 16.841 -52.231 16.59 C-49.865 15.804 -47.495 15.027 -45.125 14.25 C-43.498 13.712 -41.871 13.174 -40.245 12.635 C-28.476 8.754 -16.662 5.043 -4.767 1.566 C-3.147 1.047 -1.691 0 0 0 Z " fill="#222E48" transform="translate(205,601)"/>
-<path d="M0 0 C5.217 0.745 9.308 1.597 14.219 3.215 C14.55 3.323 14.55 3.323 16.224 3.869 C18.317 4.553 20.409 5.245 22.5 5.938 C24.592 6.625 26.684 7.311 28.776 7.995 C30.676 8.618 32.573 9.244 34.471 9.871 C37.958 10.987 41.479 11.994 45 13 C52.26 15.31 59.52 17.62 67 20 C67 65.21 67 110.42 67 157 C45.673 164.464 45.673 164.464 37.133 167.025 C33.58 168.131 30.07 169.34 26.562 170.578 C25.319 171.016 24.075 171.455 22.793 171.906 C20.878 172.583 18.965 173.263 17.053 173.947 C15.163 174.623 13.269 175.288 11.375 175.953 C10.822 176.15 10.822 176.15 8.023 177.146 C5 178 5 178 0 178 C0 119.26 0 60.52 0 0 Z " fill="#32415C" transform="translate(138,405)"/>
-<path d="M0 0 C53.46 0 106.92 0 162 0 C160.185 6.049 158.653 11.148 156.125 16.75 C154.08 21.287 152.33 25.841 150.684 30.539 C147.819 38.651 144.511 46.553 141.154 54.474 C140.379 56.306 139.609 58.141 138.84 59.977 C138.39 61.04 137.94 62.103 137.476 63.198 C135.459 68.395 133.763 73.711 132 79 C98.34 79 64.68 79 30 79 C28.35 74.38 26.7 69.76 25 65 C23.212 60.529 21.406 56.073 19.562 51.625 C16.06 43.107 12.654 34.579 9.48 25.934 C7.302 20.061 4.912 14.267 2.538 8.471 C2.209 7.658 1.879 6.845 1.539 6.008 C1.242 5.282 0.945 4.557 0.639 3.809 C0 2 0 2 0 0 Z " fill="#7089A9" transform="translate(438,252)"/>
-<path d="M0 0 C43.89 0 87.78 0 133 0 C124.78 9.59 116.37 18.759 107.375 27.625 C97.346 37.511 97.346 37.511 93.602 41.898 C88.249 48.146 82.248 53.806 76.397 59.582 C70.371 65.538 64.479 71.528 59 78 C57.155 79.845 54.555 79.12 52.101 79.124 C51.253 79.121 50.406 79.117 49.533 79.114 C48.645 79.114 47.758 79.114 46.843 79.114 C43.894 79.113 40.945 79.105 37.996 79.098 C35.957 79.096 33.918 79.094 31.88 79.093 C26.502 79.09 21.125 79.08 15.747 79.069 C10.264 79.058 4.782 79.054 -0.701 79.049 C-11.467 79.038 -22.234 79.021 -33 79 C-32.536 77.583 -32.07 76.166 -31.603 74.75 C-31.344 73.961 -31.084 73.172 -30.817 72.359 C-29.606 68.862 -28.139 65.5 -26.625 62.125 C-26.472 61.778 -26.472 61.778 -25.696 60.024 C-23.976 56.146 -22.216 52.288 -20.438 48.438 C-18.227 43.611 -16.254 38.701 -14.303 33.766 C-10.48 24.123 -6.341 14.619 -1.98 5.207 C-1 3 -1 3 0 0 Z " fill="#7189A9" transform="translate(640,252)"/>
-<path d="M0 0 C43.56 0 87.12 0 132 0 C133.65 4.29 135.3 8.58 137 13 C138.19 15.411 139.38 17.822 140.613 20.211 C144.536 28.1 148.106 36.24 151 44.562 C153.468 51.607 156.792 58.271 160 65 C160.986 67.08 161.966 69.163 162.938 71.25 C163.338 72.101 163.739 72.952 164.152 73.828 C165 76 165 76 165 79 C153.534 79.186 142.069 79.328 130.602 79.414 C125.277 79.456 119.953 79.513 114.628 79.604 C109.487 79.691 104.346 79.738 99.203 79.759 C97.245 79.774 95.286 79.803 93.328 79.846 C77.977 80.172 77.977 80.172 73.065 77.261 C71.059 75.275 69.542 73.353 68 71 C65.519 68.516 63.036 66.035 60.535 63.57 C56.251 59.333 52.139 55.076 48.289 50.441 C47 49 47 49 44.562 47.062 C42.323 45.26 40.706 43.572 38.861 41.394 C34.993 36.927 30.869 32.776 26.66 28.633 C25.088 27.073 23.516 25.513 21.943 23.953 C19.487 21.522 17.029 19.092 14.569 16.665 C12.178 14.304 9.794 11.938 7.41 9.57 C6.667 8.84 5.923 8.11 5.157 7.358 C4.479 6.683 3.8 6.008 3.102 5.313 C2.501 4.72 1.9 4.127 1.282 3.515 C0 2 0 2 0 0 Z " fill="#7189A9" transform="translate(265,252)"/>
-<path d="M0 0 C0 38.28 0 76.56 0 116 C-14.748 121.53 -29.601 126.902 -44.768 131.176 C-51.638 133.129 -58.386 135.435 -65.136 137.766 C-65.986 138.056 -66.835 138.346 -67.711 138.645 C-68.089 138.775 -68.089 138.775 -70.001 139.437 C-72 140 -72 140 -75 140 C-75.186 131.255 -75.328 122.511 -75.414 113.764 C-75.456 109.702 -75.513 105.642 -75.604 101.581 C-75.691 97.658 -75.738 93.736 -75.759 89.813 C-75.774 88.319 -75.803 86.826 -75.846 85.333 C-76.168 73.778 -76.168 73.778 -73.691 70.006 C-71.884 68.459 -71.884 68.459 -69.675 66.931 C-66.13 64.372 -63.213 61.353 -60.157 58.239 C-58.85 56.924 -57.542 55.61 -56.235 54.297 C-55.895 53.954 -55.895 53.954 -54.178 52.222 C-52.037 50.064 -49.892 47.909 -47.747 45.756 C-41.654 39.638 -35.566 33.514 -29.482 27.386 C-25.749 23.627 -22.011 19.871 -18.27 16.119 C-16.846 14.689 -15.425 13.258 -14.005 11.824 C-12.03 9.83 -10.049 7.842 -8.067 5.856 C-7.479 5.259 -6.891 4.662 -6.285 4.047 C-2.228 0 -2.228 0 0 0 Z " fill="#34425C" transform="translate(797,282)"/>
-<path d="M0 0 C4.125 0.993 7.99 2.459 11.953 3.965 C14.872 4.956 17.798 5.685 20.792 6.408 C24.963 7.526 29.002 9.037 33.062 10.5 C34.782 11.117 36.502 11.731 38.223 12.344 C38.598 12.479 38.598 12.479 40.496 13.162 C43.632 14.211 46.821 15.092 50 16 C57.59 18.64 65.18 21.28 73 24 C73 62.94 73 101.88 73 142 C72.34 142 71.68 142 71 142 C69.681 140.66 69.681 140.66 68.1 138.729 C63.678 133.534 58.868 128.754 54.029 123.954 C52.369 122.307 50.712 120.656 49.056 119.005 C45.54 115.501 42.02 112 38.5 108.5 C34.415 104.439 30.332 100.376 26.253 96.309 C24.634 94.696 23.012 93.086 21.389 91.477 C16.571 86.681 11.847 81.868 7.505 76.627 C5.85 74.838 4.063 73.493 2.094 72.062 C-1.403 68.589 -1.636 65.038 -1.719 60.312 C-1.71 57.205 -1.609 54.105 -1.5 51 C-1.468 49.357 -1.438 47.714 -1.412 46.072 C-1.335 41.871 -1.215 37.673 -1.079 33.475 C-1.002 31.062 -0.935 28.649 -0.871 26.236 C-0.64 17.488 -0.355 8.744 0 0 Z " fill="#212C45" transform="translate(724,564)"/>
-<path d="M0 0 C0.66 0 1.32 0 2 0 C2 37.62 2 75.24 2 114 C-3.301 113.243 -7.078 112.432 -11.973 110.637 C-12.618 110.403 -13.263 110.17 -13.927 109.93 C-15.975 109.189 -18.019 108.439 -20.062 107.688 C-28.877 104.456 -37.643 101.46 -46.698 98.954 C-51.823 97.473 -56.812 95.665 -61.812 93.812 C-62.79 93.457 -63.768 93.102 -64.775 92.736 C-71.863 90.137 -71.863 90.137 -73 89 C-73.094 86.975 -73.117 84.947 -73.114 82.92 C-73.113 81.618 -73.113 80.317 -73.113 78.976 C-73.108 77.545 -73.103 76.115 -73.098 74.684 C-73.096 73.228 -73.094 71.772 -73.093 70.316 C-73.09 66.477 -73.08 62.639 -73.069 58.8 C-73.058 54.885 -73.054 50.971 -73.049 47.057 C-73.038 39.371 -73.021 31.686 -73 24 C-71.743 23.52 -70.486 23.041 -69.228 22.564 C-68.527 22.298 -67.827 22.031 -67.106 21.757 C-64.036 20.654 -60.911 19.86 -57.75 19.062 C-51.917 17.57 -46.244 15.795 -40.586 13.734 C-38 13 -38 13 -35.727 13.141 C-32.182 12.958 -29.697 11.625 -26.511 10.127 C-22.164 8.176 -17.647 6.738 -13.125 5.25 C-12.657 5.092 -12.657 5.092 -10.289 4.293 C-9.84 4.144 -9.84 4.144 -7.57 3.391 C-6.764 3.123 -5.957 2.855 -5.125 2.579 C-3 2 -3 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#2C3953" transform="translate(795,437)"/>
-<path d="M0 0 C0.4 0.002 0.4 0.002 2.426 0.011 C3.265 0.011 4.104 0.011 4.968 0.01 C7.755 0.011 10.541 0.019 13.328 0.027 C15.255 0.029 17.181 0.03 19.108 0.031 C24.19 0.035 29.271 0.045 34.353 0.056 C39.534 0.066 44.715 0.071 49.896 0.076 C60.07 0.086 70.244 0.103 80.418 0.124 C81.385 2.208 82.35 4.292 83.315 6.376 C83.853 7.537 84.391 8.697 84.945 9.893 C86.495 13.294 87.909 16.691 89.23 20.187 C89.629 21.23 90.027 22.273 90.437 23.347 C91.418 26.124 91.418 26.124 92.418 30.124 C56.448 30.124 20.478 30.124 -16.582 30.124 C-14.602 24.844 -12.622 19.564 -10.582 14.124 C-8.27 6.687 -8.27 6.687 -7.344 3.503 C-5.975 -0.771 -4.219 0.008 0 0 Z " fill="#738BAA" transform="translate(454.58209228515625,650.8755798339844)"/>
-<path d="M0 0 C8.771 -0.35 17.539 -0.615 26.316 -0.777 C30.393 -0.855 34.465 -0.96 38.539 -1.132 C67.072 -2.3 67.072 -2.3 73.868 3.149 C76.8 6.19 78.987 9.516 80.993 13.222 C82.318 15.561 83.991 17.353 85.895 19.238 C86.144 19.503 86.144 19.503 87.408 20.842 C88.394 21.874 89.381 22.905 90.369 23.936 C94 27.789 94 27.789 94 30 C66.61 30 39.22 30 11 30 C9.68 26.04 8.36 22.08 7 18 C5.792 15.268 4.581 12.603 3.25 9.938 C0 3.391 0 3.391 0 0 Z " fill="#738BAA" transform="translate(550,651)"/>
-<path d="M0 0 C1.486 0.021 2.973 0.036 4.459 0.047 C8.336 0.089 12.208 0.196 16.083 0.319 C20.052 0.432 24.021 0.482 27.99 0.537 C35.752 0.654 43.51 0.842 51.27 1.074 C50.802 2.509 50.332 3.942 49.861 5.375 C49.6 6.173 49.338 6.972 49.069 7.794 C48.054 10.69 46.755 13.357 45.332 16.074 C42.755 21.023 40.553 25.937 38.27 31.074 C11.21 31.074 -15.85 31.074 -43.73 31.074 C-43.73 30.414 -43.73 29.754 -43.73 29.074 C-42.297 27.699 -42.297 27.699 -40.293 26.074 C-37.072 23.339 -34.213 20.493 -31.418 17.324 C-31.059 16.925 -31.059 16.925 -29.24 14.906 C-27.587 13.041 -25.978 11.137 -24.419 9.193 C-17.1 0.757 -11.002 -0.453 0 0 Z " fill="#738BAA" transform="translate(382.73046875,649.92578125)"/>
-<path d="M0 0 C0.209 8.076 0.369 16.15 0.466 24.228 C0.513 27.98 0.577 31.729 0.679 35.48 C0.777 39.105 0.831 42.728 0.854 46.354 C0.87 47.732 0.903 49.11 0.952 50.487 C1.319 61.274 1.319 61.274 -1.94 65.54 C-4.203 67.542 -6.545 69.246 -9 71 C-10.206 72.298 -11.38 73.627 -12.5 75 C-15.669 78.752 -19.166 81.942 -22.887 85.141 C-25.006 87.005 -27.004 89.004 -29 91 C-29 63.61 -29 36.22 -29 8 C-3 0 -3 0 0 0 Z " fill="#5A6E8C" transform="translate(359,579)"/>
-<path d="M0 0 C4.557 3.906 8.344 7.296 12.25 11.688 C12.665 12.153 12.665 12.153 14.766 14.512 C15.231 15.064 15.697 15.615 16.177 16.184 C18 18 18 18 20.786 19.767 C25.544 23.236 28.448 26.083 29.574 32.033 C30.335 40.536 30.057 49.05 29.755 57.569 C29.642 61.115 29.592 64.662 29.537 68.209 C29.42 75.141 29.233 82.07 29 89 C27.395 88.69 25.791 88.377 24.188 88.062 C23.294 87.888 22.401 87.714 21.48 87.535 C19 87 19 87 16 86 C16 85.34 16 84.68 16 84 C15.608 83.938 15.608 83.938 13.625 83.625 C9.067 82.839 4.535 81.907 0 81 C0 54.27 0 27.54 0 0 Z " fill="#313E58" transform="translate(330,398)"/>
-<path d="M0 0 C10.186 1.67 18.855 4.796 29 8 C29 27.14 29 46.28 29 66 C23.72 67.65 18.44 69.3 13 71 C11.433 71.598 9.865 72.196 8.25 72.812 C5 74 5 74 1 74 C-0.254 58.489 -0.114 42.989 -0.062 27.438 C-0.057 24.769 -0.053 22.1 -0.049 19.432 C-0.038 12.954 -0.021 6.477 0 0 Z " fill="#475975" transform="translate(330,496)"/>
-<path d="M0 0 C21.78 0 43.56 0 66 0 C64 10 64 10 60 18 C42.18 18 24.36 18 6 18 C0 2 0 2 0 0 Z " fill="#0D152D" transform="translate(489,419)"/>
-<path d="M0 0 C17.49 0 34.98 0 53 0 C58 15 58 15 58 18 C52.202 18.249 46.407 18.429 40.605 18.549 C38.636 18.599 36.667 18.667 34.699 18.754 C18.464 19.454 18.464 19.454 12.628 16.011 C10.032 13.47 8.048 10.997 6 8 C4.02 5.36 2.04 2.72 0 0 Z " fill="#0E162E" transform="translate(425,419)"/>
-<path d="M0 0 C0.701 0.193 1.403 0.387 2.125 0.586 C2.599 0.716 2.599 0.716 5 1.375 C5.464 1.503 5.464 1.503 7.812 2.148 C11.531 3.142 15.267 4.067 19 5 C19 22.16 19 39.32 19 57 C17 57 17 57 15.484 55.496 C14.912 54.817 14.34 54.137 13.75 53.438 C13.13 52.71 12.51 51.983 11.871 51.234 C10.695 49.83 9.52 48.424 8.348 47.016 C7.841 46.412 7.334 45.809 6.812 45.188 C6.589 44.916 6.589 44.916 5.457 43.543 C4 42 4 42 1.933 40.955 C-0.633 38.36 -0.455 36.252 -0.453 32.714 C-0.433 31.876 -0.412 31.039 -0.391 30.176 C-0.385 29.314 -0.379 28.453 -0.373 27.565 C-0.351 24.814 -0.301 22.064 -0.25 19.312 C-0.23 17.447 -0.212 15.582 -0.195 13.717 C-0.151 9.144 -0.082 4.572 0 0 Z " fill="#6E84A1" transform="translate(607,542)"/>
-<path d="M0 0 C0 16.5 0 33 0 50 C-16 55 -16 55 -19 55 C-19.199 49.574 -19.343 44.151 -19.439 38.722 C-19.48 36.878 -19.534 35.034 -19.604 33.191 C-20.166 17.868 -20.166 17.868 -17.355 13.365 C-15.327 11.609 -13.331 10.316 -11 9 C-8.586 6.61 -6.233 4.175 -3.883 1.723 C-2 0 -2 0 0 0 Z " fill="#4C5D78" transform="translate(626,428)"/>
-<path d="M0 0 C16.5 0 33 0 50 0 C48.396 3.207 47.624 4.62 45.215 6.945 C44.95 7.205 44.95 7.205 43.607 8.52 C43.056 9.049 42.505 9.579 41.938 10.125 C36.12 15.76 36.12 15.76 35 18 C21.14 18 7.28 18 -7 18 C-6 13 -6 13 0 0 Z " fill="#0F172E" transform="translate(567,419)"/>
-<path d="M0 0 C0.206 32.102 0.206 32.102 -1 48 C-2.501 47.911 -4.001 47.803 -5.5 47.688 C-5.918 47.658 -5.918 47.658 -8.031 47.512 C-11 47 -11 47 -19 44 C-19 31.46 -19 18.92 -19 6 C-4 0 -4 0 0 0 Z " fill="#627692" transform="translate(626,488)"/>
-<path d="M0 0 C11.55 0 23.1 0 35 0 C38 7 38 7 39 13 C25.14 13 11.28 13 -3 13 C-1 4 -1 4 0 0 Z " fill="#151C33" transform="translate(479,586)"/>
-<path d="M0 0 C-0.803 4.979 -2.345 9.034 -4 14 C-14.89 14 -25.78 14 -37 14 C-36.34 12.68 -35.68 11.36 -35 10 C-34.587 9.149 -34.175 8.298 -33.75 7.422 C-26.198 -4.108 -12.215 -0.864 0 0 Z " fill="#0C142C" transform="translate(473,586)"/>
-<path d="M0 0 C24.31 -1.731 24.31 -1.731 29.953 2.121 C36 8.212 36 8.212 36 13 C25.44 13 14.88 13 4 13 C0 2 0 2 0 0 Z " fill="#141C32" transform="translate(521,586)"/>
-<path d="M0 0 C0.145 4.395 0.234 8.79 0.312 13.188 C0.333 13.81 0.333 13.81 0.439 16.963 C0.563 26.192 0.563 26.192 -2.082 29.988 C-2.563 30.32 -2.563 30.32 -5 32 C-7.31 33.98 -9.62 35.96 -12 38 C-12 26.78 -12 15.56 -12 4 C-4 0 -4 0 0 0 Z " fill="#17213A" transform="translate(444,554)"/>
-<path d="M0 0 C4.965 2.483 7.932 5.398 11 10 C11.227 12.911 11.227 12.911 11.195 16.418 C11.192 17.045 11.192 17.045 11.176 20.217 C11.159 21.527 11.142 22.837 11.125 24.188 C11.115 25.523 11.106 26.858 11.098 28.193 C11.074 31.462 11.041 34.731 11 38 C9.541 37.691 8.083 37.378 6.625 37.062 C5.813 36.888 5.001 36.714 4.164 36.535 C2 36 2 36 0 35 C0 23.45 0 11.9 0 0 Z " fill="#5C718F" transform="translate(432,476)"/>
-<path d="M0 0 C4.137 1.034 7.973 2.452 11.953 3.965 C14.872 4.956 17.798 5.685 20.792 6.408 C24.963 7.526 29.002 9.037 33.062 10.5 C38.675 12.513 44.262 14.37 50 16 C52.993 17.002 55.966 18.061 58.938 19.125 C59.717 19.402 60.496 19.679 61.299 19.965 C63.2 20.641 65.1 21.32 67 22 C63.567 23.2 61.903 22.825 58.625 21.348 C45.295 15.859 33.843 14.249 19.562 14.438 C19.155 14.443 19.155 14.443 17.094 14.468 C3.314 14.686 3.314 14.686 2 16 C1.763 18.526 1.578 21.031 1.438 23.562 C1.394 24.273 1.351 24.984 1.307 25.717 C1.2 27.478 1.1 29.239 1 31 C0.67 31 0.34 31 0 31 C0 20.77 0 10.54 0 0 Z " fill="#778DA9" transform="translate(724,564)"/>
-<path d="M0 0 C8.808 1.258 8.808 1.258 12 4 C12.568 6.635 12.568 6.635 12.488 9.762 C12.472 10.88 12.456 11.998 12.439 13.15 C12.398 14.318 12.356 15.485 12.312 16.688 C12.301 17.277 12.301 17.277 12.244 20.26 C12.185 23.174 12.103 26.087 12 29 C7.692 30.351 4.58 31 0 31 C0 20.77 0 10.54 0 0 Z " fill="#232F47" transform="translate(432,518)"/>
-<path d="M0 0 C6.011 1.63 12.017 3.271 18 5 C18.098 11.152 18.098 11.152 18 13 C17 14 17 14 13.402 14.098 C11.914 14.091 10.426 14.079 8.938 14.062 C8.558 14.06 8.558 14.06 6.639 14.049 C4.759 14.037 2.88 14.019 1 14 C0.064 10.845 -0.106 8.034 -0.062 4.75 C-0.053 3.858 -0.044 2.966 -0.035 2.047 C-0.024 1.371 -0.012 0.696 0 0 Z " fill="#111A31" transform="translate(607,542)"/>
-<path d="M0 0 C8.58 0 17.16 0 26 0 C25.34 2.64 24.68 5.28 24 8 C16.74 8 9.48 8 2 8 C1.34 5.36 0.68 2.72 0 0 Z " fill="#778EAC" transform="translate(496,485)"/>
-<path d="M0 0 C0 7.59 0 15.18 0 23 C-2.97 23.66 -5.94 24.32 -9 25 C-10.068 8.977 -10.068 8.977 -7.512 4.246 C-3.23 0 -3.23 0 0 0 Z " fill="#1D2840" transform="translate(552,489)"/>
-<path d="M0 0 C8.808 1.258 8.808 1.258 12 4 C12.568 6.635 12.568 6.635 12.488 9.762 C12.472 10.88 12.456 11.998 12.439 13.15 C12.398 14.318 12.356 15.485 12.312 16.688 C12.301 17.277 12.301 17.277 12.244 20.26 C12.185 23.174 12.103 26.087 12 29 C11.67 29 11.34 29 11 29 C10.939 28.096 10.879 27.193 10.816 26.262 C10.775 25.672 10.775 25.672 10.562 22.688 C10.481 21.516 10.4 20.344 10.316 19.137 C10 16 10 16 9 13 C7 12.957 5 12.959 3 13 C1.417 14.583 1.653 16.38 1.438 18.562 C1.354 19.389 1.27 20.215 1.184 21.066 C1.123 21.704 1.062 22.343 1 23 C0.67 23 0.34 23 0 23 C0 15.41 0 7.82 0 0 Z " fill="#617087" transform="translate(432,518)"/>
-<path d="M0 0 C0 3.96 0 7.92 0 12 C-2.805 12.165 -2.805 12.165 -17 13 C-17 10.36 -17 7.72 -17 5 C-14.355 4.165 -11.709 3.332 -9.062 2.5 C-8.685 2.381 -8.685 2.381 -6.775 1.777 C-1.113 0 -1.113 0 0 0 Z " fill="#101830" transform="translate(625,489)"/>
-<path d="M0 0 C6.93 0 13.86 0 21 0 C15 7 15 7 14 8 C11.137 8.073 8.299 8.092 5.438 8.062 C4.631 8.058 3.825 8.053 2.994 8.049 C0.996 8.037 -1.002 8.019 -3 8 C-1.125 2.25 -1.125 2.25 0 0 Z " fill="#778FAC" transform="translate(525,485)"/>
-<path d="M0 0 C0 8.91 0 17.82 0 27 C-0.33 27 -0.66 27 -1 27 C-1 21.39 -1 15.78 -1 10 C-9 11 -9 11 -10 12 C-10.158 13.925 -10.251 15.855 -10.316 17.785 C-10.358 18.955 -10.4 20.125 -10.443 21.33 C-10.483 22.562 -10.522 23.793 -10.562 25.062 C-10.606 26.298 -10.649 27.534 -10.693 28.807 C-10.8 31.871 -10.902 34.935 -11 38 C-11.33 38 -11.66 38 -12 38 C-12 26.78 -12 15.56 -12 4 C-4 0 -4 0 0 0 Z " fill="#626D81" transform="translate(444,554)"/>
-<path d="M0 0 C6.27 0 12.54 0 19 0 C21 4 21 4 21 8 C18.433 8.217 15.884 8.375 13.312 8.5 C12.952 8.534 12.952 8.534 11.127 8.703 C8.988 8.781 8.988 8.781 5 8 C4.175 6.68 4.175 6.68 0 0 Z " fill="#7B92AE" transform="translate(472,485)"/>
-<path d="M0 0 C0.33 0 0.66 0 1 0 C1.33 24.42 1.66 48.84 2 74 C8.6 71.69 15.2 69.38 22 67 C22.495 67.165 22.495 67.165 25 68 C6.597 76 6.597 76 0 76 C0 50.92 0 25.84 0 0 Z " fill="#C2C9CE" transform="translate(329,496)"/>
-<path d="M0 0 C2.31 0 4.62 0 7 0 C7 6.93 7 13.86 7 21 C2 17 2 17 0 14 C-0.195 10.645 -0.195 10.645 -0.125 6.812 C-0.107 5.54 -0.089 4.268 -0.07 2.957 C-0.047 1.981 -0.024 1.005 0 0 Z " fill="#131B32" transform="translate(543,542)"/>
-<path d="M0 0 C-0.33 1.65 -0.66 3.3 -1 5 C-1.165 4.505 -1.165 4.505 -2 2 C-5.648 1.905 -9.289 1.913 -12.938 1.938 C-13.959 1.91 -14.981 1.882 -16.033 1.854 C-25.934 2.012 -26.024 4.024 -34 12 C-24.1 12.33 -14.2 12.66 -4 13 C-4 13.33 -4 13.66 -4 14 C-14.89 14 -25.78 14 -37 14 C-36.34 12.68 -35.68 11.36 -35 10 C-34.587 9.149 -34.175 8.298 -33.75 7.422 C-26.198 -4.108 -12.215 -0.864 0 0 Z " fill="#5E636E" transform="translate(473,586)"/>
-<path d="M0 0 C0.33 0.165 0.33 0.165 2 1 C1.67 3.64 1.34 6.28 1 9 C6.61 9 12.22 9 18 9 C17.67 10.65 17.34 12.3 17 14 C11.72 14 6.44 14 1 14 C0.148 10.591 -0.108 8.196 -0.062 4.75 C-0.053 3.858 -0.044 2.966 -0.035 2.047 C-0.024 1.371 -0.012 0.696 0 0 Z " fill="#3B4964" transform="translate(607,542)"/>
-<path d="M0 0 C1.98 0 3.96 0 6 0 C6 5.28 6 10.56 6 16 C5.01 15.835 5.01 15.835 0 15 C0 10.05 0 5.1 0 0 Z " fill="#26314A" transform="translate(544,519)"/>
-<path d="M0 0 C0 7.59 0 15.18 0 23 C-0.66 22.67 -1.32 22.34 -2 22 C-1.67 17.71 -1.34 13.42 -1 9 C-2.98 9.33 -4.96 9.66 -7 10 C-7 14.95 -7 19.9 -7 25 C-7.66 25 -8.32 25 -9 25 C-10.068 8.977 -10.068 8.977 -7.512 4.246 C-3.23 0 -3.23 0 0 0 Z " fill="#8995A4" transform="translate(552,489)"/>
-<path d="M0 0 C3.3 0 6.6 0 10 0 C10 2.97 10 5.94 10 9 C8.52 8.692 7.041 8.378 5.562 8.062 C4.739 7.888 3.915 7.714 3.066 7.535 C1 7 1 7 0 6 C-0.041 4 -0.043 2 0 0 Z " fill="#313D56" transform="translate(433,505)"/>
-<path d="M0 0 C0 1.65 0 3.3 0 5 C-2.805 5.165 -2.805 5.165 -17 6 C-17 4.35 -17 2.7 -17 1 C-14.354 0.833 -11.708 0.666 -9.062 0.5 C-8.308 0.452 -7.553 0.405 -6.775 0.355 C-1.113 0 -1.113 0 0 0 Z " fill="#2A3752" transform="translate(625,496)"/>
-<path d="M0 0 C2.31 0 4.62 0 7 0 C7.125 5.75 7.125 5.75 6 8 C3.938 8.625 3.938 8.625 2 9 C1.67 10.65 1.34 12.3 1 14 C0.67 14 0.34 14 0 14 C0 9.38 0 4.76 0 0 Z " fill="#232E46" transform="translate(543,542)"/>
-<path d="M0 0 C1.485 0.33 1.485 0.33 9 2 C9 9.59 9 17.18 9 25 C8.34 24.67 7.68 24.34 7 24 C7.33 17.07 7.66 10.14 8 3 C5.69 3 3.38 3 1 3 C1 7.62 1 12.24 1 17 C0.67 17 0.34 17 0 17 C0 11.39 0 5.78 0 0 Z " fill="#A7AEB5" transform="translate(542,539)"/>
-<path d="M0 0 C3.438 0.188 3.438 0.188 4.438 1.188 C4.579 3.858 4.48 6.512 4.438 9.188 C3.777 8.197 3.118 7.207 2.438 6.188 C-0.642 5.931 -2.774 5.793 -5.562 7.188 C-5.688 4.812 -5.688 4.812 -5.562 2.188 C-3.562 0.188 -3.562 0.188 0 0 Z " fill="#445572" transform="translate(438.5625,524.8125)"/>
-<path d="M0 0 C3.3 0 6.6 0 10 0 C10 1.65 10 3.3 10 5 C8.721 5.144 7.442 5.289 6.125 5.438 C3.743 5.706 2.155 5.922 0 7 C0 4.69 0 2.38 0 0 Z " fill="#35445F" transform="translate(433,559)"/>
-<path d="M0 0 C0 6.6 0 13.2 0 20 C-0.99 19.67 -1.98 19.34 -3 19 C-2.34 19 -1.68 19 -1 19 C-1 13.72 -1 8.44 -1 3 C-2.98 3 -4.96 3 -7 3 C-7 7.95 -7 12.9 -7 18 C-7.33 18 -7.66 18 -8 18 C-8 12.72 -8 7.44 -8 2 C-4 0 -4 0 0 0 Z " fill="#9CA5AF" transform="translate(551,516)"/>
-<path d="M0 0 C0.485 0.01 0.485 0.01 2.938 0.062 C2.938 2.043 2.938 4.022 2.938 6.062 C2.546 6.217 2.546 6.217 0.562 7 C-2.062 8.062 -2.062 8.062 -4.062 9.062 C-4.16 2.91 -4.16 2.91 -4.062 1.062 C-3.062 0.062 -3.062 0.062 0 0 Z " fill="#3E4E6A" transform="translate(548.0625,497.9375)"/>
-<path d="M0 0 C0.66 0 1.32 0 2 0 C2 1.32 2 2.64 2 4 C-3.61 4 -9.22 4 -15 4 C-15 3.34 -15 2.68 -15 2 C-10.05 2 -5.1 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#242F48" transform="translate(623,547)"/>
-<path d="M0 0 C0 2.97 0 5.94 0 9 C-4 8 -4 8 -5 7 C-5.041 5 -5.043 3 -5 1 C-1.125 0 -1.125 0 0 0 Z " fill="#141D35" transform="translate(550,526)"/>
-<path d="M0 0 C5.61 0.33 11.22 0.66 17 1 C16.67 1.66 16.34 2.32 16 3 C10.72 3 5.44 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#1B263F" transform="translate(608,494)"/>
-<path d="M0 0 C4 2 4 2 6 5 C5.175 4.67 5.175 4.67 1 3 C1 10.59 1 18.18 1 26 C0.67 26 0.34 26 0 26 C0 17.42 0 8.84 0 0 Z " fill="#8698AE" transform="translate(432,476)"/>
-<path d="M0 0 C4.557 0.438 7.577 0.85 11 4 C3.25 4.125 3.25 4.125 1 3 C0.67 4.32 0.34 5.64 0 7 C0 4.69 0 2.38 0 0 Z " fill="#8697AC" transform="translate(432,518)"/>
-<path d="M0 0 C-4.565 3.043 -9.452 6.208 -15.062 5.75 C-15.702 5.502 -16.341 5.255 -17 5 C-11.727 2.144 -6.104 -0.572 0 0 Z " fill="#8EA1B6" transform="translate(774,445)"/>
-<path d="M0 0 C-1.477 3.452 -3.438 5.65 -6.125 8.25 C-6.849 8.956 -7.574 9.663 -8.32 10.391 C-8.875 10.922 -9.429 11.453 -10 12 C-10 8.073 -8.721 7.181 -6.125 4.312 C-5.765 3.908 -5.765 3.908 -3.945 1.863 C-2 0 -2 0 0 0 Z " fill="#293044" transform="translate(448,587)"/>
-<path d="M0 0 C1.98 0 3.96 0 6 0 C6 1.32 6 2.64 6 4 C4.02 4.33 2.04 4.66 0 5 C0 3.35 0 1.7 0 0 Z " fill="#475975" transform="translate(544,519)"/>
-<path d="M0 0 C2.31 0 4.62 0 7 0 C7 0.99 7 1.98 7 3 C5.02 3 3.04 3 1 3 C0.67 3.99 0.34 4.98 0 6 C0 4.02 0 2.04 0 0 Z " fill="#4A5B77" transform="translate(543,542)"/>
-<path d="M0 0 C3.3 0 6.6 0 10 0 C10 0.99 10 1.98 10 3 C6.7 2.67 3.4 2.34 0 2 C0 1.34 0 0.68 0 0 Z " fill="#435471" transform="translate(433,559)"/>
-<path d="M0 0 C1.98 0 3.96 0 6 0 C6 0.66 6 1.32 6 2 C5.216 2.309 4.433 2.619 3.625 2.938 C1 4 1 4 -1 5 C-0.67 3.35 -0.34 1.7 0 0 Z " fill="#2E3B55" transform="translate(545,502)"/>
-</svg>
-`;
-const LOGO_CREMA_SVG = `<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
- preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.16, written by Peter Selinger 2001-2019
-</metadata>
-<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+<main class="card">
+  <svg class="iso" viewBox="0 0 500.000000 500.000000" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
 fill="#fdfbf0" stroke="none">
 <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
@@ -1183,389 +181,43 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
-</g>
-</svg>
-`;
+</g></svg>
 
+  <p class="kicker">Estado de la propuesta</p>
+  <h1>Esta propuesta<br>está en pausa</h1>
 
-// ===== HELPERS =====
-function usdFmt(n){
-  return "U$D " + n.toLocaleString('en-US',{minimumFractionDigits:0, maximumFractionDigits:0});
-}
+  <div class="proyecto">
+    <div class="nom">Obra Río IV</div>
+    <div class="py">PY-2026-004</div>
+  </div>
 
-// ===== LOGO =====
-document.getElementById('hero-logo').innerHTML = LOGO_COLOR_SVG;
-document.getElementById('progress-mark').innerHTML = LOGO_CREMA_SVG;
+  <p>Pasó un tiempo desde que te la enviamos y no tuvimos novedades, así que la pusimos en pausa.</p>
+  <p><strong>No se perdió nada.</strong> El relevamiento, el cómputo y el detalle técnico están guardados tal cual. Retomarla no implica volver a empezar.</p>
+  <p>Lo único que hay que revisar son los valores: el equipamiento se cotiza en dólares y se actualiza con la lista del proveedor, así que los precios de la versión anterior ya no están vigentes.</p>
 
-// ===== RENDER DEVICE LISTS BY RUBRO =====
-const RUBRO_MAP = {};
-RUBROS.forEach(r => RUBRO_MAP[r.id] = r);
+  <p style="margin-top:26px"><strong>¿La querés retomar?</strong> Escribinos y la actualizamos.</p>
 
-function renderDeviceList(containerId, rubroId){
-  const container = document.getElementById(containerId);
-  if(!container) return;
-  const rubro = RUBRO_MAP[rubroId];
-  if(!rubro) return;
-  rubro.items.forEach((item) => {
-    const details = document.createElement('details');
-    details.className = 'device-card';
-    const ivaLabel = item.ivaPct % 1 === 0 ? item.ivaPct.toFixed(0) : item.ivaPct.toFixed(1);
-    const subtotalRow = item.cant > 1
-      ? `<div class="price-row"><span>Subtotal (×${item.cant})</span><span>${usdFmt(item.precioConIva*item.cant)}</span></div>`
-      : '';
-    details.innerHTML = `
-      <summary>
-        <span>${item.name}</span>
-        <span class="qty">×${item.cant}</span>
-        <span class="chevron">▾</span>
-      </summary>
-      <div class="detail">
-        <p style="margin-bottom:0.6rem">${item.desc}</p>
-        <div class="price-row"><span>Precio Unitario</span><span>${usdFmt(item.precioNeto)} + IVA ${ivaLabel}%</span></div>
-        ${subtotalRow}
-      </div>`;
-    container.appendChild(details);
-  });
-}
+  <a class="cta" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20quiero%20retomar%20la%20propuesta%20Obra%20R%C3%ADo%20IV%20%28PY-2026-004%29." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.05c-.24.68-1.42 1.31-1.95 1.36-.5.05-.96.23-3.24-.67-2.72-1.07-4.44-3.84-4.58-4.02-.13-.18-1.09-1.45-1.09-2.76 0-1.31.69-1.96.93-2.22.24-.27.53-.33.7-.33.18 0 .35 0 .5.01.16.01.38-.06.59.45.24.57.8 1.98.87 2.12.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.27.72 1.18 1.54 1.92 1.06.94 1.95 1.24 2.23 1.38.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.74 1.85.88.27.14.45.2.52.31.07.12.07.66-.17 1.34z"/></svg>
+    Escribir por WhatsApp
+  </a>
 
-renderDeviceList('list-redes', 'redes');
-renderDeviceList('list-infra', 'infra');
-renderDeviceList('list-core', 'core');
-renderDeviceList('list-iluminacion', 'iluminacion');
-renderDeviceList('list-alarma', 'alarma');
-renderDeviceList('list-video', 'video');
-renderDeviceList('list-clima', 'clima');
-renderDeviceList('list-accesos', 'accesos');
+  <p class="chico">Nova Domus · NDWD SAS · Córdoba, Argentina</p>
 
-// ===== RUBRO BAR + LEGEND — monocromía navy, sin arcoíris (regla de marca) =====
-// Escala de azules de marca (azul-nova como base) + un único acento dorado para el rubro de mayor peso.
-const NAVY_SCALE = ['#141e61','#1c2a7a','#243693','#2c42ac','#3450c2','#4a63cc','#6178d4','#7d90dd'];
+  <footer>
+    <div class="wordmark">Nova Domus</div>
+    <div class="descriptor">Integración Tecnológica</div>
+    <div class="slogan">Del cable a la app</div>
+  </footer>
+</main>
 
-(function(){
-  const bar = document.getElementById('rubro-bar');
-  const legend = document.getElementById('rubro-legend');
-  const sorted = [...RUBROS].sort((a,b)=>b.subtotalConIva-a.subtotalConIva);
-  const maxId = sorted[0].id;
-  RUBROS.forEach((r, idx) => {
-    const pct = (r.subtotalConIva / TOTAL_EQUIPO_CON_IVA * 100).toFixed(1);
-    const color = r.id === maxId ? '#c8a96e' : NAVY_SCALE[idx % NAVY_SCALE.length];
-    const seg = document.createElement('div');
-    seg.className = 'rubro-bar-seg';
-    seg.style.width = pct + '%';
-    seg.style.background = color;
-    seg.title = r.nombre + ' — ' + pct + '%';
-    bar.appendChild(seg);
-
-    const item = document.createElement('div');
-    item.className = 'rubro-legend-item';
-    item.innerHTML = `<span class="rubro-legend-dot" style="background:${color}"></span><span>${r.nombre} (${pct}%)</span>`;
-    legend.appendChild(item);
-  });
-})();
-
-// ===== RUBRO ACCORDIONS (INVERSION) =====
-(function(){
-  const wrap = document.getElementById('rubro-accordions');
-  RUBROS.forEach(r => {
-    const card = document.createElement('details');
-    card.className = 'light-card';
-    let rows = '';
-    r.items.forEach(item => {
-      const label = item.cant > 1 ? `${item.name} ×${item.cant}` : item.name;
-      rows += `<div class="detail-row"><span>${label}</span><span>${usdFmt(item.precioConIva*item.cant)}</span></div>`;
-    });
-    card.innerHTML = `
-      <summary><span>${r.nombre}</span><span class="amount">${usdFmt(r.subtotalConIva)}</span></summary>
-      ${rows}`;
-    wrap.appendChild(card);
-  });
-})();
-
-// ===== TOTALS =====
-document.getElementById('total-equipo-row').textContent = usdFmt(TOTAL_EQUIPO_NETO);
-document.getElementById('total-iva-row').textContent = usdFmt(TOTAL_EQUIPO_IVA);
-document.getElementById('total-equipo-con-iva-row').textContent = usdFmt(TOTAL_EQUIPO_CON_IVA);
-document.getElementById('total-mo-row').textContent = usdFmt(TOTAL_MO);
-document.getElementById('total-prog-row').textContent = usdFmt(PROGRAMACION);
-document.getElementById('total-final-row').textContent = usdFmt(TOTAL_PROYECTO);
-document.getElementById('total-note-usd').textContent = "Todos los precios expresados en dólares estadounidenses (U$D). IVA discriminado según alícuota real de cada equipo (21% o 10.5%).";
-
-// ===== WHATSAPP CTA =====
-const waMsg = encodeURIComponent(
-  "Hola! Confirmo la propuesta de Nova Domus para Obra Río IV. Total: " + usdFmt(TOTAL_PROYECTO) + " (IVA de equipo incluido). Quiero coordinar la Visita Técnica."
-);
-document.getElementById('whatsapp-cta').href = "https://wa.me/5493516747513?text=" + waMsg;
-document.getElementById('accept-check').addEventListener('change', function(){
-  const cta = document.getElementById('whatsapp-cta');
-  if(this.checked){
-    cta.style.opacity = '1';
-    cta.style.pointerEvents = 'auto';
-  } else {
-    cta.style.opacity = '0.4';
-    cta.style.pointerEvents = 'none';
-  }
-});
-
-// ===== COUNT-UP COUNTERS =====
-(function(){
-  const counters = document.querySelectorAll('.counter-num');
-  let done = false;
-  function runCounters(){
-    if(done) return;
-    done = true;
-    counters.forEach(el => {
-      const target = parseInt(el.dataset.count, 10);
-      const duration = 1200;
-      const start = performance.now();
-      function tick(now){
-        const progress = Math.min((now-start)/duration, 1);
-        el.textContent = Math.round(progress*target);
-        if(progress < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    });
-  }
-  const target = document.getElementById('resumen');
-  if('IntersectionObserver' in window){
-    const obs = new IntersectionObserver((entries)=>{
-      entries.forEach(e => { if(e.isIntersecting) runCounters(); });
-    }, {threshold:0.3});
-    obs.observe(target);
-  } else {
-    runCounters();
-  }
-})();
-
-// ===== SCENE SIMULATOR — iconos de línea propios (manual de marca, 1.5pt trazo) =====
-const ICON_SUN = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><circle cx="24" cy="24" r="9"/><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.5 9.5l4.2 4.2M34.3 34.3l4.2 4.2M9.5 38.5l4.2-4.2M34.3 13.7l4.2-4.2"/></svg>';
-const ICON_CLOUD_SUN = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><circle cx="18" cy="16" r="6"/><path d="M18 4v3M9 8l2 2M27 8l-2 2" /><path d="M14 34h20a7 7 0 000-14 9 9 0 00-17-3 6 6 0 00-3 17z"/></svg>';
-const ICON_MOON = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><path d="M30 6a18 18 0 100 36 14 14 0 01-14-14 14 14 0 0114-14 14 14 0 010-8z"/></svg>';
-const ICON_BED = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><path d="M6 30v-8a4 4 0 014-4h28a4 4 0 014 4v8M6 30v6M42 30v6M6 22V14M14 22a4 4 0 100-8 4 4 0 000 8z"/></svg>';
-const ICON_LOCK = '<svg viewBox="0 0 48 48" fill="none" stroke="#fdfbf0" stroke-width="1.5"><rect x="10" y="21" width="28" height="20" rx="2"/><path d="M16 21v-6a8 8 0 0116 0v6"/></svg>';
-
-const SCENES = {
-  manana: {
-    icon: ICON_SUN,
-    title: 'Mañana',
-    desc: 'Las persianas y luces de dormitorio se activan gradualmente. El Wall Display XL saluda con el clima del día y el estado de la Agencia.'
-  },
-  tarde: {
-    icon: ICON_CLOUD_SUN,
-    title: 'Tarde',
-    desc: 'Sensibo ajusta la climatización según ocupación. Las luces de trabajo en Sala de Estar y Agencia se mantienen en tono neutro para foco.'
-  },
-  noche: {
-    icon: ICON_MOON,
-    title: 'Noche',
-    desc: 'Escena de cena: dimmers de Sala de Estar y Comedor bajan intensidad, riel decorativo se enciende, exteriores (Galería) se activan automáticamente al detectar movimiento.'
-  },
-  reposo: {
-    icon: ICON_BED,
-    title: 'Reposo',
-    desc: 'Dimmer Gen4 en Dormitorio Principal y Huéspedes bajan a intensidad mínima. La alarma queda lista para armado nocturno con un toque en el Wall Display.'
-  },
-  afuera: {
-    icon: ICON_LOCK,
-    title: 'Fuera de casa',
-    desc: 'Un solo botón apaga todos los circuitos de iluminación, arma los 2 sistemas de alarma (Vivienda + Agencia) y activa notificaciones de cámaras perimetrales AcuSense.'
-  }
-};
-
-function setScene(key){
-  const scene = SCENES[key];
-  const visual = document.getElementById('scene-visual');
-  const desc = document.getElementById('scene-desc');
-  visual.innerHTML = scene.icon;
-  desc.innerHTML = `<strong>${scene.title}</strong>${scene.desc}`;
-  document.querySelectorAll('.scene-tab').forEach(t => t.classList.toggle('active', t.dataset.scene===key));
-}
-document.querySelectorAll('.scene-tab').forEach(tab => {
-  tab.addEventListener('click', () => setScene(tab.dataset.scene));
-});
-setScene('manana');
-
-// ===== COMPARATIVAS ANTES/DESPUÉS =====
-const BA_CONTENT = {
-  redes: {
-    antes: ['✕ Router único sin segmentar', '✕ Se satura con muchos dispositivos conectados', '✕ Sin prioridad de tráfico (QoS)', '✕ Videovigilancia compite con Netflix por el mismo ancho de banda'],
-    despues: ['✓ Mesh Omada con roaming real entre plantas', '✓ Tráfico de domótica/seguridad separado del de invitados', '✓ Ancho de banda garantizado para cámaras', '✓ Administración centralizada de router, APs y switches']
-  },
-  seguridad: {
-    antes: ['✕ Alarma que no distingue mascotas de intrusos', '✕ Cámara que no avisa a tiempo o satura de falsas alertas', '✕ Sin diferenciar persona de auto o animal', '✕ Grabación local sin respaldo ni notificación'],
-    despues: ['✓ AXPro inalámbrico, 2 sistemas independientes', '✓ AcuSense distingue personas y vehículos de falsas alarmas', '✓ Notificación al celular en tiempo real', '✓ Grabación continua ~20 días, accesible remoto']
-  }
-};
-
-function renderBA(panelId, key, state){
-  const panel = document.getElementById(panelId);
-  if(!panel) return;
-  const items = BA_CONTENT[key][state];
-  panel.className = 'ba-panel state-' + state;
-  panel.innerHTML = '<ul>' + items.map(t => {
-    const mark = t.charAt(0);
-    const rest = t.slice(1);
-    return `<li><span class="mark">${mark}</span><span>${rest}</span></li>`;
-  }).join('') + '</ul>';
-}
-renderBA('ba-redes-panel', 'redes', 'antes');
-renderBA('ba-seguridad-panel', 'seguridad', 'antes');
-
-document.querySelectorAll('.ba-toggle-wrap').forEach(wrap => {
-  const panel = wrap.querySelector('.ba-panel');
-  const key = panel.id.includes('redes') ? 'redes' : 'seguridad';
-  wrap.querySelectorAll('.ba-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      wrap.querySelectorAll('.ba-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      renderBA(panel.id, key, tab.dataset.ba);
-    });
-  });
-});
-
-// ===== FORMA DE PAGO + FACTURA A (recalculo en vivo) =====
-const MO_TOTAL_BASE = TOTAL_MO + PROGRAMACION;
-const facturaACheck = document.getElementById('factura-a-check');
-
-function renderPagoEtapas(){
-  const conFacturaA = facturaACheck.checked;
-  const ivaMO = conFacturaA ? Math.round(MO_TOTAL_BASE * 0.21) : 0;
-  const moConIva = MO_TOTAL_BASE + ivaMO;
-
-  const etapa1 = TOTAL_EQUIPO_CON_IVA;
-  const etapa2 = Math.round(moConIva * 0.30);
-  const etapa3 = moConIva - etapa2;
-
-  const wrap = document.getElementById('pago-etapas');
-  wrap.innerHTML = `
-    <div class="pago-etapa-card"><span class="pct">100%</span><span class="desc">Equipos — anticipado, asegura compra e importación</span><span class="monto">${usdFmt(etapa1)}</span></div>
-    <div class="pago-etapa-card"><span class="pct">30%</span><span class="desc">Mano de obra — al inicio de la instalación en obra</span><span class="monto">${usdFmt(etapa2)}</span></div>
-    <div class="pago-etapa-card"><span class="pct">70%</span><span class="desc">Mano de obra — al finalizar, contra documentación del sistema</span><span class="monto">${usdFmt(etapa3)}</span></div>`;
-
-  const facturaRow = document.getElementById('factura-a-row');
-  const facturaAmount = document.getElementById('factura-a-amount');
-  const totalFinalRow = document.getElementById('total-final-row');
-  if(conFacturaA){
-    facturaRow.style.display = 'flex';
-    facturaAmount.textContent = usdFmt(ivaMO);
-  } else {
-    facturaRow.style.display = 'none';
-  }
-  totalFinalRow.textContent = usdFmt(TOTAL_PROYECTO + ivaMO);
-}
-facturaACheck.addEventListener('change', renderPagoEtapas);
-renderPagoEtapas();
-
-// ===== RESPALDO — fichas de marca interactivas =====
-const PARTNER_INFO = {
-  shelly: {
-    name: 'Shelly',
-    text: 'Fabricante búlgaro especializado en relés WiFi compactos que se instalan detrás de la llave existente, sin cambiar la estética de la pared. Nova Domus lo elige porque cada dispositivo funciona como interruptor físico local incluso sin internet, y se integra nativo a Home Assistant sin depender de la nube del fabricante.'
-  },
-  homeassistant: {
-    name: 'Home Assistant',
-    text: 'La plataforma de automatización de código abierto más adoptada del mundo, con una comunidad global de desarrolladores que la mantiene activa todos los días. Es el cerebro que elegimos porque no ata al cliente a un solo fabricante: hoy integra Shelly, Hikvision, Sensibo y Yale, y el día de mañana puede sumar o reemplazar marcas sin perder la programación existente.'
-  },
-  hikvision: {
-    name: 'Hikvision',
-    text: 'El mayor fabricante de videovigilancia del mundo por participación de mercado (25,7% global, muy por encima del segundo puesto, según JVSG 2025). Nova Domus lo elige por su tecnología AcuSense — inteligencia artificial que distingue personas y vehículos de falsas alarmas — y por la disponibilidad real de repuestos y soporte técnico en Argentina.'
-  },
-  omada: {
-    name: 'Omada (TP-Link)',
-    text: 'Línea profesional de TP-Link, uno de los mayores fabricantes de equipamiento de redes del mundo. Se elige por el control centralizado (SDN): router, switches y access points se administran desde una sola app, algo clave en obras con muchos equipos distribuidos en varias plantas.'
-  },
-  sensibo: {
-    name: 'Sensibo',
-    text: 'Fabricante israelí especializado en climatización inteligente. Se elige porque convierte cualquier split que el cliente ya tiene en un equipo con sensor de presencia y control remoto, sin necesidad de cambiar el aire acondicionado existente.'
-  },
-  yale: {
-    name: 'Yale',
-    text: 'Marca de cerraduras fundada en 1868 en Connecticut, inventora del cilindro de pines que hoy es la base de la mayoría de las cerraduras del mundo. Hoy es parte de ASSA ABLOY, el mayor grupo de soluciones de acceso del planeta. Se elige por sus kits con HUB WiFi que integran directo a Home Assistant, sin intermediarios ni nube propietaria obligatoria.'
-  }
-};
-
-const partnerDetail = document.getElementById('partner-detail');
-document.querySelectorAll('.partner-wall button.partner-item').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const key = btn.dataset.partner;
-    const isActive = btn.classList.contains('active');
-    document.querySelectorAll('.partner-wall button.partner-item').forEach(b => b.classList.remove('active'));
-    if(isActive){
-      partnerDetail.classList.remove('open');
-      partnerDetail.style.maxHeight = '0px';
-      setTimeout(() => { partnerDetail.innerHTML = ''; }, 350);
-      return;
-    }
-    btn.classList.add('active');
-    const info = PARTNER_INFO[key];
-    partnerDetail.innerHTML = `<strong>${info.name}</strong><p>${info.text}</p>`;
-    partnerDetail.classList.add('open');
-    // Altura real del contenido, no un valor fijo -- evita que el texto se corte en pantallas chicas
-    partnerDetail.style.maxHeight = partnerDetail.scrollHeight + 'px';
-  });
-});
-window.addEventListener('resize', () => {
-  if(partnerDetail.classList.contains('open')){
-    partnerDetail.style.maxHeight = partnerDetail.scrollHeight + 'px';
-  }
-});
-
-// ===== CALCULADORA CONFORT =====
-const sliderHoras = document.getElementById('slider-horas');
-const sliderAmbientes = document.getElementById('slider-ambientes');
-function updateCalc(){
-  const horas = parseInt(sliderHoras.value, 10);
-  const ambientes = parseInt(sliderAmbientes.value, 10);
-  document.getElementById('val-horas').textContent = horas + ' hs';
-  document.getElementById('val-ambientes').textContent = ambientes;
-  const ahorroEnergiaPct = 0.18;
-  const costoEstimadoPorHoraUsd = 0.55;
-  const ahorroMes = horas * 30 * costoEstimadoPorHoraUsd * ahorroEnergiaPct;
-  document.getElementById('calc-ahorro-energia').textContent = usdFmt(ahorroMes);
-  const reduccionLuz = Math.min(35, 12 + ambientes * 1.5);
-  document.getElementById('calc-ahorro-luz').textContent = reduccionLuz.toFixed(0) + '%';
-}
-sliderHoras.addEventListener('input', updateCalc);
-sliderAmbientes.addEventListener('input', updateCalc);
-updateCalc();
-
-// ===== SCROLL PROGRESS BADGE + NAV ACTIVE STATE =====
-const progressCircle = document.getElementById('progress-circle');
-const radius = 23;
-const circumference = 2 * Math.PI * radius;
-progressCircle.style.strokeDasharray = circumference;
-progressCircle.style.strokeDashoffset = circumference;
-
-const heroEl = document.getElementById('hero');
-const badge = document.getElementById('progress-badge');
-const navLinks = document.querySelectorAll('.nav-link');
-const sections = Array.from(navLinks).map(a => document.getElementById(a.dataset.target)).filter(Boolean);
-
-function onScroll(){
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = docHeight > 0 ? scrollTop/docHeight : 0;
-  progressCircle.style.strokeDashoffset = circumference * (1-pct);
-
-  const heroBottom = heroEl.offsetTop + heroEl.offsetHeight;
-  badge.classList.toggle('visible', scrollTop > heroBottom - 200);
-
-  let activeIdx = 0;
-  sections.forEach((sec, i) => {
-    if(sec.getBoundingClientRect().top < window.innerHeight*0.4) activeIdx = i;
-  });
-  navLinks.forEach((a,i) => a.classList.toggle('active', i===activeIdx));
-}
-window.addEventListener('scroll', onScroll, {passive:true});
-onScroll();
-
-</script>
 <script>
 (function(){
   try{
     var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
     var payload = JSON.stringify({
       propuesta_codigo: codigo,
-      url_path: location.pathname,
+      url_path: location.pathname + ' [PAUSA]',
       referrer: document.referrer || null,
       user_agent: navigator.userAgent
     });

@@ -617,12 +617,13 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 <section class="section" id="pago">
   <span class="eyebrow">13 — Forma de pago</span>
   <h2>Simple y por etapas</h2>
-  <p class="lead">Equipos 100% por anticipado (asegura la compra e importación). Mano de obra en dos partes: 30% al arrancar la obra, 70% al terminar, contra entrega de documentación.</p>
+  <p class="lead">Equipos 100% por anticipado (asegura la compra e importación). Programación en dos partes: 60% al arrancar, 40% de comisionado en la entrega final. Instalación y cerraduras se certifican en obra según avance real — no se compromete un monto ni una fecha fija de antemano, los montos de abajo son de referencia sobre el total presupuestado.</p>
 
   <div class="pay-stage"><span>Equipos — 100% anticipado</span><span class="pay-amt" id="pay-equipo">USD —</span></div>
-  <div class="pay-stage"><span>Mano de obra — 30% al arrancar</span><span class="pay-amt" id="pay-mo-30">USD —</span></div>
-  <div class="pay-stage"><span>Mano de obra — 70% al terminar</span><span class="pay-amt" id="pay-mo-70">USD —</span></div>
-  <div class="pay-stage"><span>Instalación de cerraduras — 100% al finalizar</span><span class="pay-amt" id="pay-cerr">USD —</span></div>
+  <div class="pay-stage"><span>Programación — 60% al arrancar</span><span class="pay-amt" id="pay-prog-60">USD —</span></div>
+  <div class="pay-stage"><span>Programación — 40% comisionado, en la entrega final</span><span class="pay-amt" id="pay-prog-40">USD —</span></div>
+  <div class="pay-stage"><span>Instalación — certificación semanal por avance de obra (ref.)</span><span class="pay-amt" id="pay-mo-inst">USD —</span></div>
+  <div class="pay-stage"><span>Instalación de cerraduras — certificación por avance de obra (ref.)</span><span class="pay-amt" id="pay-cerr">USD —</span></div>
 
   <div class="iva-toggle">
     <input type="checkbox" id="factura-a" onchange="recalcular()">
@@ -709,8 +710,9 @@ const CONDICIONES = [
   {t:"Actualización del presupuesto", d:"El presupuesto queda fechado, con el valor de dólar a la fecha para el cálculo en pesos. Si el dólar no se actualiza respecto al peso en los mismos porcentajes que el ICC, se usa este índice como factor de actualización mensual."},
   {t:"Tipo de cambio de referencia", d:"Todos los precios en dólares utilizan la cotización BNA oficial (tipo de cambio unificado — ya no se distingue oficial/blue)."},
   {t:"Formas de cobro", d:"Se reciben pesos en efectivo, transferencia o dólares. E-cheq: consultar factibilidad y financiación, siempre con e-cheqs propios."},
+  {t:"Forma de pago — mano de obra", d:"Programación y comisionado: 60% al arrancar, 40% restante (comisionado) en la entrega final. Instalación: se certifica en obra por avance real, mediante certificación semanal — no se compromete un monto ni una fecha fija de antemano."},
   {t:"Facturación", d:"Se puede facturar Factura A. En mano de obra, a los precios indicados se le suma IVA e IIBB."},
-  {t:"Instalación de cerraduras", d:"Se cotiza siempre como línea aparte, adicional a la instalación y programación general de domótica, con su propia tarifa de mano de obra."},
+  {t:"Instalación de cerraduras", d:"Se cotiza siempre como línea aparte, adicional a la instalación y programación general de domótica. Se certifica en obra por avance, igual que el resto de la instalación."},
 ];
 document.getElementById('condiciones-list').innerHTML = CONDICIONES.map((c,i)=>`
   <div class="accordion-item">
@@ -912,13 +914,14 @@ function renderInversion(){
 function renderPago(t){
   const facturaA = document.getElementById('factura-a').checked;
   document.getElementById('pay-equipo').textContent = fmt2(t.equipo);
-  document.getElementById('pay-mo-30').textContent = fmt2(t.mo*0.30);
-  document.getElementById('pay-mo-70').textContent = fmt2(t.mo*0.70);
+  document.getElementById('pay-prog-60').textContent = fmt2(t.prog*0.60);
+  document.getElementById('pay-prog-40').textContent = fmt2(t.prog*0.40);
+  document.getElementById('pay-mo-inst').textContent = fmt2(t.mo);
   document.getElementById('pay-cerr').textContent = fmt2(t.cerraduras);
   const ivaRow = document.getElementById('pay-iva-row');
   if(facturaA){
     ivaRow.style.display='flex';
-    document.getElementById('pay-iva').textContent = fmt2((t.mo+t.cerraduras)*0.21);
+    document.getElementById('pay-iva').textContent = fmt2((t.mo+t.prog+t.cerraduras)*0.21);
   } else {
     ivaRow.style.display='none';
   }
