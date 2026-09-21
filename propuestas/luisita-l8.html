@@ -192,6 +192,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
       <a href="#responsable">Responsable</a>
       <a href="#alarma">Alarma</a>
       <a href="#videovigilancia">Video</a>
+      <a href="#red">Red</a>
       <a href="#opcionales">Opcionales</a>
       <a href="#inversion">Inversión</a>
       <a href="#cta">Aceptar</a>
@@ -217,11 +218,11 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <h1>LA LUISITA L8</h1>
   <div class="descriptor">INTEGRACIÓN TECNOLÓGICA</div>
   <p class="tagline">Del cable a la app</p>
-  <p class="lead" style="margin-top:20px;">Vivienda de Bruno Enrici, La Luisita, Córdoba. Alarma y videovigilancia — con la línea económica como base y upgrade a criterio en cualquiera de las dos.</p>
+  <p class="lead" style="margin-top:20px;">Vivienda de Bruno Enrici, La Luisita, Córdoba. Alarma, videovigilancia y red WiFi — con la línea económica como base en Alarma y Video, y upgrade a criterio en cualquiera de las dos.</p>
   <div class="stats">
-    <div class="stat"><div class="figure" data-count="15">0</div><div class="stat-label">Dispositivos base incluidos</div></div>
+    <div class="stat"><div class="figure" data-count="16">0</div><div class="stat-label">Dispositivos base incluidos</div></div>
     <div class="stat"><div class="figure" data-count="4">0</div><div class="stat-label">Cámaras Hikvision</div></div>
-    <div class="stat"><div class="figure" data-count="2">0</div><div class="stat-label">Subsistemas incluidos</div></div>
+    <div class="stat"><div class="figure" data-count="3">0</div><div class="stat-label">Subsistemas incluidos</div></div>
     <div class="stat"><div class="figure" data-count="1">0</div><div class="stat-label">Responsable de punta a punta</div></div>
   </div>
 </section>
@@ -242,12 +243,12 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión base</div>
-      <div class="rc-value" id="resumen-total">USD 2.172</div>
+      <div class="rc-value" id="resumen-total">USD 2.576</div>
       <div class="rc-sub">Equipo + mano de obra + programación</div>
     </div>
     <div class="resumen-card">
       <div class="rc-label">Próximo paso</div>
-      <div class="rc-value" style="font-size:14px; line-height:1.5;">Confirmar upgrades (Alarma / Video / Red WiFi) y coordinar instalación</div>
+      <div class="rc-value" style="font-size:14px; line-height:1.5;">Confirmar upgrades (Alarma / Video) y coordinar instalación</div>
     </div>
   </div>
 </section>
@@ -257,7 +258,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <span class="eyebrow">01 — Nuestro compromiso</span>
   <h2>Un solo responsable</h2>
   <p class="lead">En una obra con tecnología normalmente coordinás varios proveedores: el de alarma, el de cámaras. Cuando algo falla, cada uno señala al otro y el problema queda en el medio.</p>
-  <p style="margin-top:14px;">Nosotros ejecutamos con equipo propio todo lo que ves en esta propuesta: alarma y videovigilancia. <strong>La instalación eléctrica de esta vivienda no es parte de este presupuesto</strong> — hacemos una visita técnica de control antes de instalar, para certificar que la base existente está apta. La Alarma y la Videovigilancia se administran desde la app oficial Hik-Connect de Hikvision.</p>
+  <p style="margin-top:14px;">Nosotros ejecutamos con equipo propio todo lo que ves en esta propuesta: alarma, videovigilancia y red WiFi. <strong>La instalación eléctrica de esta vivienda no es parte de este presupuesto</strong> — hacemos una visita técnica de control antes de instalar, para certificar que la base existente está apta. La Alarma y la Videovigilancia se administran desde la app oficial Hik-Connect de Hikvision.</p>
 
   <div class="diagram-5">
     <div class="diagram-step"><div class="step-num">01</div><div class="step-label">Relevamiento y especificación</div></div>
@@ -297,18 +298,26 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="device-grid" id="grid-video"></div>
 </section>
 
+<!-- RED -->
+<section class="section section-light" id="red">
+  <span class="eyebrow">04 — Red</span>
+  <h2>La base para que todo lo demás funcione</h2>
+  <p class="lead">Este presupuesto no incluía red de datos — se suma como base, no como opcional: sin una red WiFi que cubra toda la casa, la alarma y las cámaras pierden alcance remoto.</p>
+  <div class="device-grid" id="grid-red"></div>
+</section>
+
 <!-- OPCIONALES -->
 <section class="section" id="opcionales">
-  <span class="eyebrow">04 — Opcionales</span>
+  <span class="eyebrow">05 — Opcionales</span>
   <h2>A tu criterio</h2>
-  <p class="lead">Este proyecto incluye por defecto la línea económica de Alarma y Videovigilancia. Podés subir a la línea premium en cualquiera de las dos, de forma independiente, y sumar Red WiFi.</p>
+  <p class="lead">Este proyecto incluye por defecto la línea económica de Alarma y Videovigilancia. Podés subir a la línea premium en cualquiera de las dos, de forma independiente.</p>
 
   <div class="opt-card">
     <input type="checkbox" id="opt-alarma-premium" onchange="toggleAlarmaPremium()">
     <div class="opt-body">
-      <div class="opt-title"><span>Upgrade Alarma a AXPro</span><span class="opt-price" id="opt-alarma-price">+USD 1.058</span></div>
-      <div class="opt-desc">Reemplaza el kit AXHome por el AXPro, con 2 repetidores de señal y sirena exterior — la línea AXHome no los incluye.</div>
-      <div class="opt-utility">Sin este upgrade, la Alarma AXHome cubre bien los sensores de esta casa, pero queda sin sirena exterior y sin repetidor de señal — y esta vivienda concretamente necesitó 2 repetidores en la línea AXPro por su tamaño, así que hay riesgo real de zonas con señal débil sin ese upgrade. Con el upgrade, sumás disuasión visible desde la calle, cobertura de señal dimensionada a la distancia real de la casa, y comunicación bidireccional entre sensores y panel.</div>
+      <div class="opt-title"><span>Upgrade Alarma a AXPro</span><span class="opt-price" id="opt-alarma-price">+USD 1.101</span></div>
+      <div class="opt-desc">Reemplaza el kit AXHome por el AXPro, con 2 repetidores de señal, sirena exterior y sensores magnéticos con detección de golpe/inclinación (shock & tilt) — la línea AXHome no incluye ninguno de los tres.</div>
+      <div class="opt-utility">Sin este upgrade, la Alarma AXHome cubre bien los sensores de esta casa, pero queda sin sirena exterior, sin repetidor de señal y con contactos magnéticos simples (solo detectan cuando la puerta/ventana ya se abrió). Con el upgrade sumás disuasión visible desde la calle, cobertura de señal dimensionada a la distancia real de la casa, y sensores que disparan la alarma ante un intento de forzar la abertura — antes de que termine de abrirse, no después.</div>
     </div>
   </div>
 
@@ -320,33 +329,24 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
       <div class="opt-utility">Sin este upgrade, las cámaras 2MP graban bien pero notifican ante cualquier movimiento (hojas, autos, animales) sin distinguir qué es relevante, y con menos detalle para hacer zoom sobre una grabación. Con el upgrade, sumás nitidez 4MP y la IA AcuSense que filtra falsas alarmas distinguiendo personas y vehículos.</div>
     </div>
   </div>
-
-  <div class="opt-card">
-    <input type="checkbox" id="opt-deco" onchange="toggleDeco()">
-    <div class="opt-body">
-      <div class="opt-title"><span>Red WiFi 6 whole-home — TP-Link Deco X80</span><span class="opt-price">+USD 288</span></div>
-      <div class="opt-desc">Este presupuesto no incluye red de datos. Kit AX6000 tri-banda, 2 nodos mesh — cubre esta vivienda sin necesidad de un 3er nodo.</div>
-      <div class="opt-utility">Si ya tenés un router que cubre bien toda la casa, no hace falta. Si notás zonas con WiFi débil, este kit resuelve cobertura completa sin necesidad de la línea profesional Omada (que requeriría más equipo del que este proyecto contempla).</div>
-    </div>
-  </div>
 </section>
 
 <!-- INVERSION -->
 <section class="section section-light" id="inversion">
-  <span class="eyebrow">05 — Inversión</span>
+  <span class="eyebrow">06 — Inversión</span>
   <h2>Desglose completo</h2>
   <p class="lead">Por subsistema, con el detalle cuantitativo de cada dispositivo e IVA real por ítem. Tocá cada rubro para ver la tabla completa.</p>
 
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
 
-  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 2.172</span></div>
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 2.576</span></div>
   <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.513. Materiales sujetos a cotización del proveedor al momento de la compra.</p>
 </section>
 
 <!-- FORMA DE PAGO -->
 <section class="section" id="pago">
-  <span class="eyebrow">06 — Forma de pago</span>
+  <span class="eyebrow">07 — Forma de pago</span>
   <h2>Simple y por etapas</h2>
   <p class="lead">Equipos 100% por anticipado (asegura la compra e importación). Mano de obra en dos partes: 30% al arrancar la obra, 70% al terminar, contra entrega de documentación.</p>
 
@@ -363,7 +363,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- RESPALDO -->
 <section class="section section-light" id="respaldo">
-  <span class="eyebrow">07 — Respaldo</span>
+  <span class="eyebrow">08 — Respaldo</span>
   <h2>Las marcas detrás de la propuesta</h2>
   <p class="lead">Tocá cada una para ver por qué la elegimos.</p>
   <div class="pills">
@@ -382,14 +382,14 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- FAQ -->
 <section class="section" id="faq">
-  <span class="eyebrow">08 — Preguntas frecuentes</span>
+  <span class="eyebrow">09 — Preguntas frecuentes</span>
   <h2>Antes de que preguntes</h2>
   <div id="faq-list"></div>
 </section>
 
 <!-- CONDICIONES GENERALES -->
 <section class="section" id="condiciones">
-  <span class="eyebrow">09 — Condiciones generales</span>
+  <span class="eyebrow">10 — Condiciones generales</span>
   <h2>Cómo trabajamos</h2>
   <p class="lead">Por las dudas, todo el detalle de contratación acá abajo.</p>
   <div id="condiciones-list"></div>
@@ -397,7 +397,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- CTA -->
 <section class="section" id="cta">
-  <span class="eyebrow">10 — Siguiente paso</span>
+  <span class="eyebrow">11 — Siguiente paso</span>
   <h2>¿Avanzamos?</h2>
   <p class="lead" style="margin:0 auto;">Confirmá la configuración elegida (línea económica o con upgrades) y coordinamos la Visita Técnica.</p>
   <div class="accept-check">
@@ -519,7 +519,7 @@ const DEVICES = {
     {n:'Kit alarma inalámbrica AXPro WiFi DS-PWA96-Kit-WB', q:1, pu:499.49, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg', desc:'Panel central + control remoto, 96 zonas, comunicación bidireccional real con los sensores.'},
     {n:'Teclado LED DS-PK1-E-WB', q:1, pu:82.76, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado por código en el ingreso principal.'},
     {n:'Repetidor de señal DS-PR1-WB(B)', q:2, pu:107.41, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg', desc:'Extiende la cobertura de radio a los sensores más alejados — 2 unidades por las distancias reales de esta vivienda.'},
-    {n:'Sensor magnético DS-PDMCS-EG2-WB', q:2, pu:30.78, iva:21, foto:null, desc:'Detecta apertura de aberturas perimetrales.'},
+    {n:'Sensor magnético con shock/tilt DS-PDMCK-EG2-WB(B)', q:2, pu:52.27, iva:21, foto:null, desc:'Contacto magnético + detector de golpe e inclinación de 3 ejes en un solo cuerpo — dispara antes de que terminen de forzar la apertura, no solo cuando ya se abrió.'},
     {n:'Detector PIR interior DS-PDP15P-EG2-WB', q:4, pu:55.18, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp', desc:'Detección de movimiento interior, inmune a mascotas chicas.'},
     {n:'Sirena interior DS-PS1-I-WB', q:2, pu:66.36, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Alerta sonora dentro de la vivienda.'},
     {n:'Sirena exterior DS-PS1-E-WB', q:2, pu:98.74, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Alerta sonora y disuasión visible desde la calle — no disponible en la línea AXHome.'},
@@ -535,7 +535,7 @@ const DEVICES = {
     {n:'Disco Seagate SkyHawk 4TB', q:1, pu:252.67, iva:10.5, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png', desc:'Disco de grado videovigilancia 24/7, semanas de grabación local.'},
   ],
 };
-const DECO_ITEM = [
+const RED_ITEM = [
   {n:'TP-Link Deco X80 AX6000 (kit x2)', q:1, pu:288.25, iva:10.5, foto:null, desc:'Tope de gama WiFi 6 de la línea Deco — tri-banda, 2 nodos mesh, cubre esta vivienda sin necesidad de un 3er nodo.'},
 ];
 
@@ -570,6 +570,9 @@ function renderVideoGrid(){
     ? '4 cámaras Hikvision AcuSense con IA — upgrade activo, distingue personas y vehículos de falsas alarmas.'
     : '4 cámaras Hikvision con grabación local dedicada — línea económica de base, con upgrade opcional a AcuSense más abajo.';
 }
+function renderRedGrid(){
+  renderDeviceGrid('grid-red', RED_ITEM);
+}
 function toggleDevice(id){
   const card = document.getElementById(id);
   const body = card.querySelector('.dc-body');
@@ -582,30 +585,27 @@ function toggleDevice(id){
 const TC = 1513;
 let alarmaPremium = false;
 let videoPremium = false;
-let decoOn = false;
 
 function getRubros(){
   const a = alarmaPremium
-    ? {equipo:1409.55, mo:560.55}
+    ? {equipo:1452.53, mo:560.55}
     : {equipo:507.46, mo:405.01};
   const v = videoPremium
     ? {equipo:1944.27, mo:369.40}
     : {equipo:692.63, mo:369.40};
+  const r = RED_ITEM[0];
+  const moRedUsd = 118960/TC;
   const rubros = [
     {id:'alarma', label: alarmaPremium ? 'Alarma — AXPro' : 'Alarma — AXHome', equipo:a.equipo, mo:a.mo, color:'#B5453A'},
     {id:'video', label: videoPremium ? 'Videovigilancia — AcuSense 4MP' : 'Videovigilancia — 2MP', equipo:v.equipo, mo:v.mo, color:'#8698AE'},
+    {id:'red', label:'Red — TP-Link Deco X80', equipo:r.pu*r.q, mo:moRedUsd, color:'#e0a458'},
   ];
-  if(decoOn){
-    const d = DECO_ITEM[0];
-    const moDecoUsd = 118960/TC;
-    rubros.push({id:'deco', label:'Red WiFi 6 — Deco X80', equipo:d.pu*d.q, mo:moDecoUsd, color:'#e0a458'});
-  }
   return rubros;
 }
 function getRubroItems(id){
   if(id==='alarma') return alarmaPremium ? DEVICES.alarma_premium : DEVICES.alarma_econ;
   if(id==='video') return videoPremium ? DEVICES.video_premium : DEVICES.video_econ;
-  if(id==='deco') return DECO_ITEM;
+  if(id==='red') return RED_ITEM;
 }
 
 function fmt(n){ return 'USD ' + n.toLocaleString('en-US',{minimumFractionDigits:0, maximumFractionDigits:0}); }
@@ -660,7 +660,7 @@ function renderInversion(){
 
   document.getElementById('total-final').textContent = fmt(t.total);
   document.getElementById('resumen-total').textContent = fmt(t.total);
-  document.getElementById('opt-alarma-price').textContent = '+' + fmt(1409.55+560.55-507.46-405.01);
+  document.getElementById('opt-alarma-price').textContent = '+' + fmt(1452.53+560.55-507.46-405.01);
   document.getElementById('opt-video-price').textContent = '+' + fmt(1944.27+369.40-692.63-369.40);
   renderPago(t);
 }
@@ -687,10 +687,6 @@ function toggleAlarmaPremium(){
 function toggleVideoPremium(){
   videoPremium = document.getElementById('opt-video-premium').checked;
   renderVideoGrid();
-  renderInversion();
-}
-function toggleDeco(){
-  decoOn = document.getElementById('opt-deco').checked;
   renderInversion();
 }
 function recalcular(){ renderInversion(); }
@@ -785,8 +781,7 @@ function aceptarPropuesta(){
   const t = calcularTotales();
   const alarmaTxt = alarmaPremium ? 'AXPro (upgrade)' : 'AXHome (base)';
   const videoTxt = videoPremium ? 'AcuSense 4MP (upgrade)' : '2MP (base)';
-  const decoTxt = decoOn ? 'Sí' : 'No';
-  const msg = `Hola Nova Domus! Quiero avanzar con la propuesta PY-2026-003 (La Luisita L8).%0A%0AAlarma: ${alarmaTxt}%0AVideovigilancia: ${videoTxt}%0ARed WiFi 6 Deco: ${decoTxt}%0A%0ATotal: ${fmt(t.total)}`;
+  const msg = `Hola Nova Domus! Quiero avanzar con la propuesta PY-2026-003 (La Luisita L8).%0A%0AAlarma: ${alarmaTxt}%0AVideovigilancia: ${videoTxt}%0A%0ATotal: ${fmt(t.total)}`;
   window.open(`https://wa.me/5493516747513?text=${msg}`, '_blank');
 }
 
@@ -821,7 +816,7 @@ window.addEventListener('scroll', ()=>{
 document.getElementById('progress-badge').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
 
 // ===== NAV ACTIVA =====
-const NAV_SECTIONS = ['responsable','alarma','videovigilancia','opcionales','inversion','cta'];
+const NAV_SECTIONS = ['responsable','alarma','videovigilancia','red','opcionales','inversion','cta'];
 window.addEventListener('scroll', ()=>{
   let current = '';
   NAV_SECTIONS.forEach(id=>{
@@ -837,6 +832,7 @@ window.addEventListener('scroll', ()=>{
 renderInversion();
 renderAlarmaGrid();
 renderVideoGrid();
+renderRedGrid();
 setAlarmaView('comun');
 setVideoView('comun');
 </script>
