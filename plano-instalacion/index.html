@@ -563,6 +563,9 @@ async function verPlano(event, planoId) {
     let html;
     if (row.html) {
       html = row.html;
+    } else if (row.storage_path && row.storage_path.startsWith('http')) {
+      win.location.href = row.storage_path;
+      return;
     } else if (row.storage_path) {
       const { data, error } = await authClient.storage
         .from('planos-instalacion')
