@@ -578,7 +578,7 @@ async function verPlano(event, planoId) {
     }
 
     const diagScript = `
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
 <script>
 (function(){
   try {
@@ -588,7 +588,7 @@ async function verPlano(event, planoId) {
     });
   } catch (e) { console.error('[ND diagnóstico sesión] error', e); }
 })();
-</script>`;
+<\/script>`;
     html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, diagScript + '</body>') : html + diagScript;
 
     const blob = new Blob([html], { type: 'text/html' });
