@@ -578,10 +578,7 @@ async function verPlano(event, planoId) {
       throw new Error('Esta versión no tiene contenido (ni html ni storage_path).');
     }
 
-    const blob = new Blob([html], { type: 'text/html' });
-    const blobUrl = URL.createObjectURL(blob);
-    win.location.href = blobUrl;
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+    win.document.open(); win.document.write(html); win.document.close();
   } catch (e) {
     console.error('verPlano', e);
     if (win) win.close();
