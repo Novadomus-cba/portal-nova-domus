@@ -193,8 +193,60 @@ letter-spacing:2px;text-transform:uppercase;padding:17px 30px;border-radius:4px;
 .conf input{width:20px;height:20px;accent-color:var(--gold);flex:none;margin-top:1px}
 footer{padding:34px 0;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:var(--grey);text-align:center}
 footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11px}
+/* ---- alarma AX HOME vs AX PRO + configurador ---- */
+.axh{font-size:19px;margin:6px 0 10px}
+.axwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:16px}
+table.ax{width:100%;border-collapse:collapse;font-size:13.5px}
+table.ax th,table.ax td{padding:11px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table.ax th{font-size:11.5px;text-transform:uppercase;letter-spacing:1.1px;color:var(--grey);font-weight:600}
+table.ax td:first-child{color:var(--body);font-weight:600;width:30%}
+table.ax td.home{color:#b9bccb}
+table.ax tr.win td.pro{color:var(--gold);font-weight:600}
+table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
+.axnote{font-size:12.5px;color:var(--grey);margin:10px 0 0}
+.axpre{display:flex;flex-wrap:wrap;border:1px solid rgba(255,255,255,.16);border-radius:12px;overflow:hidden}
+.axpre button{flex:1 1 150px;background:transparent;appearance:none;-webkit-appearance:none;border:0;border-right:1px solid rgba(255,255,255,.10);color:var(--grey);font:inherit;font-size:13.5px;padding:12px 10px;min-height:48px;cursor:pointer}
+.axpre button:last-child{border-right:0}
+.axpre button[aria-selected="true"]{color:var(--navy-deep);background:var(--gold);font-weight:600}
+.axpre-d{font-size:13.5px;color:var(--body);margin:10px 0 0;min-height:22px}
+.axrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.axrow:last-child{border-bottom:0}
+.axrow.on .axt b{color:var(--gold)}
+.axchk{display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex:none;cursor:pointer;margin-left:-8px}
+.axchk input{width:20px;height:20px;accent-color:#C8A96E;cursor:pointer}
+.axt{flex:1 1 220px;min-width:0}
+.axt b{display:block;font-size:14px;color:var(--body)}
+.axt small{display:block;font-size:12.5px;color:#b9bccb;margin-top:2px}
+.axt .axp{color:var(--grey);font-size:12px;margin-top:4px}
+.axq{display:flex;align-items:center;gap:4px;flex:none}
+.axq button{width:40px;height:40px;background:transparent;appearance:none;-webkit-appearance:none;border:1px solid rgba(255,255,255,.22);border-radius:8px;color:var(--body);font-size:18px;line-height:1;cursor:pointer}
+.axq input{width:52px;height:40px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.22);border-radius:8px;color:var(--body);font:inherit;font-size:15px;-moz-appearance:textfield}
+.axq input::-webkit-outer-spin-button,.axq input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.axs{flex:0 0 86px;text-align:right;font-weight:600;font-size:14px;color:var(--body)}
+.axrow:not(.on) .axs{color:var(--grey);font-weight:400}
+.axtot{margin-top:22px}
+.axwarn{font-size:13.5px;color:#e8a89f;border:1px solid rgba(181,69,58,.6);border-radius:8px;padding:10px 12px;margin:12px 0 0}
+.axlbl{display:block;font-size:13.5px;color:var(--body);margin:22px 0 8px}
+#ax-notas{width:100%;box-sizing:border-box;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);border-radius:10px;color:var(--body);font:inherit;font-size:14px;padding:12px 14px;resize:vertical}
+@media(max-width:640px){
+  .wrap{padding:0 18px}
+  table.ax thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  table.ax,table.ax tbody,table.ax tr,table.ax td{display:block;width:100%;box-sizing:border-box}
+  table.ax tr{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+  table.ax tr.win{border-color:rgba(200,169,110,.5)}
+  table.ax tr.win td:first-child{border-left:0}
+  table.ax td{border:0;padding:3px 0;width:100%!important}
+  table.ax td[data-label]::before{content:attr(data-label);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:var(--grey);font-weight:400}
+  .axs{flex:1 1 auto}
+  .itmrow{flex-wrap:wrap}
+  .itmrow .p{white-space:normal}
+  h1,h2,h3{overflow-wrap:anywhere}
+}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{
+ table.ax,table.ax tbody{display:table}table.ax tr{display:table-row}table.ax td{display:table-cell}table.ax thead{position:static;width:auto;height:auto;clip-path:none}table.ax td[data-label]::before{display:none}
+ .axpre,.axq button,#ax-send,#ax-notas,.axlbl{display:none!important}
  body{background:#fff;color:#111;font-size:11pt}
  .tunnel,#progress-badge,.tabs,.cmp .sw,.scroll-cue,.tapbadge,.hint,.accept,.conf,.facta,input[type=range],.vid,.upg input{display:none!important}
  section{padding:14pt 0;break-inside:avoid}
@@ -293,9 +345,9 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
     <span class="eyebrow">Resumen ejecutivo · 60 segundos</span>
     <h2>Lo que necesita la casa</h2>
     <div class="grid g2" style="margin-top:22px">
-      <div class="card"><h3>La situación</h3><p>La casa ya tiene equipamiento bueno comprado por separado: cámaras Hikvision, cámaras EZVIZ, tres cerraduras digitales, una alarma AXPro y seis parlantes Sonos. Cada cosa vive en su propia app y ninguna se entera de lo que hace la otra. La iluminación, la calefacción y los aires siguen siendo 100% manuales.</p></div>
+      <div class="card"><h3>La situación</h3><p>La casa ya tiene equipamiento bueno comprado por separado: tres cámaras Hikvision, dos cámaras EZVIZ, dos cerraduras digitales, una alarma AX HOME y seis parlantes Sonos. Cada cosa vive en su propia app y ninguna se entera de lo que hace la otra. La iluminación, la calefacción y los aires siguen siendo 100% manuales.</p></div>
       <div class="card"><h3>Lo que proponemos</h3><p>Sumar automatización a lo que falta (luz, clima, radiadores) y absorber a la plataforma todo lo que ya está instalado. El resultado es una sola pantalla, un solo juego de escenas y reglas que funcionan aunque se corte internet, porque el cerebro vive dentro de la casa.</p></div>
-      <div class="card"><h3>Qué queda funcionando</h3><p>44 efectos de luz automatizados en 19 ambientes. Cuatro aires y cinco radiadores con temperatura y horario propios por ambiente. Ocho cámaras en una sola vista con grabación local. Alarma, cerraduras y audio integrados al mismo sistema. Red profesional con cobertura en planta baja, planta alta, patio y bloque anexo.</p></div>
+      <div class="card"><h3>Qué queda funcionando</h3><p>44 efectos de luz automatizados en 19 ambientes. Cuatro aires y cinco radiadores con temperatura y horario propios por ambiente. Cinco cámaras en una sola vista, con las tres Hikvision grabando en la casa. Cerraduras y audio integrados al mismo sistema, y la alarma también si pasás a AX PRO. Red profesional con cobertura en planta baja, planta alta, patio y bloque anexo.</p></div>
       <div class="card"><h3>La inversión y el paso siguiente</h3><p>La inversión base es de <b style="color:var(--gold)">U$D <span id="hero-total">9.258</span></b> más IVA discriminado por ítem, con cuatro mejoras opcionales que podés activar más abajo y ver el total recalcularse en vivo. Plazo de obra: 10 días. El paso siguiente es la visita técnica de replanteo.</p></div>
     </div>
   </div>
@@ -384,7 +436,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 
     <div class="valuebox">
       <h4>Preparación para gestión de cargas</h4>
-      <p style="margin-bottom:0">Sumamos control remoto sobre la pileta (bomba y skimmer) y sobre lavarropas y secarropas. Hoy sirven para cortarlos o prenderlos a distancia y medir su consumo. Son además las tres cargas que primero se van a gestionar el día que se sume el sistema solar: son grandes, no urgentes, y no importa a qué hora del día funcionan — ideales para correr con excedente de sol en vez de con la red o la batería.</p>
+      <p style="margin-bottom:0">Sumamos control remoto sobre la pileta (bomba y skimmer) y sobre lavarropas y secarropas. Hoy sirven para cortarlos o prenderlos a distancia y medir su consumo. Son además las tres cargas que primero se van a gestionar cuando entre en funcionamiento el sistema solar que ya compraste: son grandes, no urgentes, y no importa a qué hora del día funcionan — ideales para correr con excedente de sol en vez de con la red o la batería.</p>
     </div>
 
     <h3 style="margin-top:30px">Equipamiento de este sistema</h3>
@@ -399,7 +451,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
   <div class="wrap">
     <span class="sec-num">03</span>
     <h2 style="margin-top:8px">Seguridad y accesos</h2>
-    <p class="lead">Las ocho cámaras que ya tenés pasan a una sola vista, con grabación en la casa. La alarma AXPro y las tres cerraduras digitales se suman al mismo sistema.</p>
+    <p class="lead">Las cinco cámaras que ya tenés pasan a una sola vista, con las tres Hikvision grabando en la casa. Las cerraduras se suman al mismo sistema. Y la alarma tiene capítulo propio: te mostramos por qué conviene pasar de AX HOME a AX PRO, con los precios de cada equipo para que la armes vos.</p>
 
     <p class="hint" style="margin-top:26px">👆 Tocá para comparar cómo graba un equipo común y cómo graba uno con IA</p>
     <div class="cmp bad glow" id="cmp1">
@@ -408,19 +460,70 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
     </div>
 
     <div class="grid g3" style="margin-top:24px">
-      <div class="card"><h4>Videovigilancia</h4><p style="margin-bottom:0">Cuatro cámaras Hikvision pasan de WiFi a red cableada y graban 24/7 en disco propio. Las cuatro EZVIZ se integran a la misma vista.</p></div>
-      <div class="card"><h4>Alarma</h4><p style="margin-bottom:0">La AXPro sigue funcionando sola, como hasta hoy. Se le suma el estado de zonas en la app general y el disparo de escenas ante evento.</p></div>
-      <div class="card"><h4>Accesos</h4><p style="margin-bottom:0">Las tres cerraduras EZVIZ DL06 informan quién abrió y cuándo, y pueden disparar escenas de bienvenida.</p></div>
+      <div class="card"><h4>Videovigilancia</h4><p style="margin-bottom:0">Las tres cámaras Hikvision pasan al grabador nuevo y graban 24/7 en disco propio. Si cada una va por cable o por WiFi lo definimos cámara por cámara, con precio individual. Las dos EZVIZ se suman a la misma vista.</p></div>
+      <div class="card"><h4>Alarma</h4><p style="margin-bottom:0">Tu central es una AX HOME. Funciona bien sola, pero Hikvision no le abre ninguna puerta hacia afuera: no se puede integrar al sistema general. Más abajo, la comparativa con AX PRO.</p></div>
+      <div class="card"><h4>Accesos</h4><p style="margin-bottom:0">La DL05 de la entrada y la DL06 que pasa al taller informan quién abrió y cuándo, y pueden disparar escenas de bienvenida.</p></div>
     </div>
 
     <div class="valuebox">
       <h4>Un límite que preferimos decirte ahora y no después</h4>
-      <p style="margin-bottom:0">Las cuatro cámaras EZVIZ H1C son de línea doméstica y funcionan contra la nube del fabricante. Las vas a ver junto a todas las demás dentro del sistema, pero no vamos a poder grabarlas en el disco local salvo que su firmware permita habilitar transmisión directa, algo que probamos durante la puesta en marcha y no podemos garantizar de antemano. Las cuatro Hikvision sí graban localmente sin condicionamientos.</p>
+      <p style="margin-bottom:0">Las cámaras EZVIZ son de línea doméstica y funcionan contra la nube del fabricante. Las vas a ver junto a todas las demás dentro del sistema, pero no vamos a poder grabarlas en el disco local salvo que su firmware permita habilitar transmisión directa, algo que probamos durante la puesta en marcha y no podemos garantizar de antemano. Las tres Hikvision sí graban localmente sin condicionamientos.</p>
     </div>
 
     <h3 style="margin-top:30px">Equipamiento de este sistema</h3>
     <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
     <div id="dev-seg"></div>
+
+    <!-- ---------- ALARMA: AX HOME vs AX PRO ---------- -->
+    <span class="eyebrow" style="display:block;margin-top:52px">La alarma</span>
+    <h3 class="axh">AX HOME o AX PRO</h3>
+    <p>Las dos son de Hikvision y las dos funcionan bien. La diferencia no está en la central sino en todo lo que la rodea: cuántos equipos distintos podés sumarle, y si puede hablar con el resto de la casa.</p>
+
+    <div class="axwrap">
+    <table class="ax">
+      <thead><tr><th></th><th>AX HOME · la que tenés</th><th>AX PRO · la que proponemos</th></tr></thead>
+      <tbody id="ax-rows"></tbody>
+    </table>
+    </div>
+    <p class="axnote">Filas en dorado: donde AX PRO es superior. Filas sin color: son iguales, y te lo decimos igual. Los accesorios corresponden a lo que hoy se consigue en Argentina para cada central, según el catálogo de nuestro distribuidor. AX HOME: central DS-PA201PS-16WB. AX PRO: kit DS-PWA48-Kit-WB.</p>
+
+    <div class="valuebox">
+      <h4>Lo que de verdad cuesta el cambio</h4>
+      <p>El kit de la central AX PRO sale <b>U$D 495</b> instalado. Pero ese no es el costo del cambio, y preferimos que lo veas completo.</p>
+      <p>Los seis contactos y los cuatro detectores que tenés hoy son de línea AX HOME, y cada central enrola solamente los accesorios de su propia familia: usan protocolos de radio distintos. Pasar a AX PRO significa reemplazarlos. Reponer uno por uno lo que ya tenés —el kit trae un detector y un contacto, se suman cinco contactos y tres detectores— da <b>U$D <span id="ax-real">1.197</span></b> con la programación incluida. Es el número honesto para comparar.</p>
+      <p style="margin-bottom:0">A cambio: la alarma entra al sistema general con integración local, pasa de 16 a 48 zonas y de 4 a 8 áreas, y se abre todo el catálogo de detección que AX HOME no tiene —fuego, monóxido, agua, exterior, cortina, rotura de cristal—. El chip 4G que ibas a poner sirve igual: la AX PRO tiene ranura SIM. Y el relé que habíamos pensado para leer la AX HOME deja de hacer falta.</p>
+    </div>
+
+    <!-- ---------- CONFIGURADOR ---------- -->
+    <span class="eyebrow" style="display:block;margin-top:44px">Armá tu alarma</span>
+    <h3 class="axh">Todo el ecosistema AX PRO, precio por precio</h3>
+    <p>No es un presupuesto cerrado: es la lista completa para que elijas qué va y cuántos. Tildá cada equipo y ajustá la cantidad. La lista arranca vacía; si preferís partir de algo armado, podés cargar el reemplazo uno a uno de lo que tenés hoy o la versión que sigue tu pliego, y modificarla desde ahí.</p>
+    <p class="hint" style="margin-top:18px">👆 Elegí un punto de partida</p>
+    <div class="axpre glow" id="ax-pre">
+      <button type="button" data-p="cero" aria-selected="true">Empezar de cero</button>
+      <button type="button" data-p="rep" aria-selected="false">Reemplazo 1:1</button>
+      <button type="button" data-p="pli" aria-selected="false">Según tu pliego</button>
+    </div>
+    <p class="axpre-d" id="ax-pre-d"></p>
+
+    <p class="hint" style="margin-top:22px">👆 Tocá cada grupo para ver los equipos</p>
+    <div id="ax-cfg"></div>
+
+    <table class="tot axtot">
+      <tr class="sub"><td>Equipos (IVA incluido)</td><td>U$D <span id="ax-eq">0</span></td></tr>
+      <tr class="sub"><td>Instalación</td><td>U$D <span id="ax-mo">0</span></td></tr>
+      <tr class="sub"><td>Programación e integración (10%)</td><td>U$D <span id="ax-prog">0</span></td></tr>
+      <tr class="big"><td>Tu alarma AX PRO</td><td>U$D <span id="ax-tot">0</span></td></tr>
+    </table>
+    <p class="axwarn" id="ax-warn" style="display:none">Todavía no elegiste central. Los equipos AX PRO solo funcionan con una central AX PRO: sumá el kit de la central, en el primer grupo.</p>
+    <p class="axnote">Precios de referencia, fuera del total de esta propuesta. El equipo lleva su IVA incluido por ítem; la instalación y la programación, sin IVA. Stock y precio se confirman al armar el pedido. El kit de la central ya trae un control remoto, un detector de movimiento y un contacto magnético.</p>
+
+    <label class="axlbl" for="ax-notas">Contanos dónde va cada cosa, o lo que quieras aclarar</label>
+    <textarea id="ax-notas" rows="4" placeholder="Ej.: contacto en la puerta de entrada, detector en el taller, un detector con monóxido cerca de la caldera…"></textarea>
+    <div style="text-align:center;margin-top:18px">
+      <button type="button" class="accept" id="ax-send">Enviar mi configuración</button>
+      <p style="font-size:12px;color:var(--grey);margin-top:12px">Se abre WhatsApp con la lista de lo que elegiste. No compromete ninguna compra.</p>
+    </div>
   </div>
 </section>
 <hr class="rule">
@@ -430,7 +533,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
   <div class="wrap">
     <span class="sec-num">04</span>
     <h2 style="margin-top:8px">Audio</h2>
-    <p class="lead">Los seis Sonos Era 100 quedan montados en su ubicación definitiva, agrupados por zona y conectados al sistema general.</p>
+    <p class="lead">Los seis parlantes Sonos —cuatro Era 100 y dos Beam— quedan montados en su ubicación definitiva, agrupados por zona y conectados al sistema general.</p>
     <div class="grid g2" style="margin-top:24px">
       <div class="card"><h4>◐ Llegás a la casa</h4><p style="margin-bottom:0">La cerradura le avisa al sistema. Vuelve a sonar lo que venías escuchando en el auto, en el ambiente donde entraste.</p></div>
       <div class="card"><h4>◑ Cocinás</h4><p style="margin-bottom:0">Cocina y comedor suenan como una sola zona. El resto de la casa queda en silencio.</p></div>
@@ -496,7 +599,7 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
     <div class="steps" style="margin-top:26px">
       <div class="step"><span class="n">01</span><div><b>Relevamiento y especificación</b><br><span style="color:var(--grey);font-size:14px">Visita técnica, verificación de neutro caja por caja, modelo real de cada equipo existente, plan de tendidos para el electricista.</span></div></div>
       <div class="step"><span class="n">02</span><div><b>Red e iluminación</b><br><span style="color:var(--grey);font-size:14px">Rack, router, access points, UPS. Módulos detrás de cada tecla.</span></div></div>
-      <div class="step"><span class="n">03</span><div><b>Seguridad y accesos</b><br><span style="color:var(--grey);font-size:14px">Grabador, disco, reconversión de las cámaras a red cableada, integración de alarma y cerraduras.</span></div></div>
+      <div class="step"><span class="n">03</span><div><b>Seguridad y accesos</b><br><span style="color:var(--grey);font-size:14px">Grabador, disco, cámaras Hikvision al grabador nuevo, alarma y cerraduras.</span></div></div>
       <div class="step"><span class="n">04</span><div><b>Automatización en Home Assistant</b><br><span style="color:var(--grey);font-size:14px">Escenas, reglas, zonas térmicas, usuarios y permisos, dashboard en celular y pantalla.</span></div></div>
       <div class="step"><span class="n">05</span><div><b>Entrega documentada + 12 meses de garantía</b><br><span style="color:var(--grey);font-size:14px">Topología de red, mapa de dispositivos, inventario, reglas y credenciales. Capacitación de uso.</span></div></div>
     </div>
@@ -522,85 +625,50 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
   <div class="wrap">
     <span class="sec-num">07</span>
     <h2 style="margin-top:8px">Respuestas a tus consultas</h2>
-    <p class="lead">Cada punto que planteaste, respondido. Las definiciones que derivan en equipamiento nuevo están cotizadas en la sección siguiente.</p>
+    <p class="lead">Cada punto que planteaste, respondido. Las definiciones que derivan en equipamiento nuevo están cotizadas en la sección siguiente, y las de alarma en la sección 03.</p>
     <p class="hint" style="margin-top:26px">👆 Tocá cada consulta para leer la respuesta</p>
     <div id="consultas"></div>
   </div>
 </section>
 <hr class="rule">
-<!-- ===================== 07 AMPLIACION DE ALCANCE ===================== -->
+<!-- ===================== 08 AMPLIACION DE ALCANCE ===================== -->
 <section>
   <div class="wrap">
     <span class="sec-num">08</span>
     <h2 style="margin-top:8px">Ampliación de alcance</h2>
-    <p class="lead">Equipamiento adicional definido a partir de tus consultas técnicas. Se cotiza aparte de la propuesta base para que puedas decidirlo por separado.</p>
+    <p class="lead">Trabajo adicional definido a partir de tus consultas. Se cotiza aparte de la propuesta base para que puedas decidirlo por separado.</p>
 
-    <p class="hint" style="margin-top:26px">👆 Tocá cada bloque para ver el detalle y el criterio técnico</p>
-
-    <div class="dev">
-      <button type="button" aria-expanded="false">
-        <span class="qty">2×</span>
-        <span class="nm">Cámaras nuevas cableadas<small>Una exterior y una en el taller</small></span>
-        <span class="tapbadge">Tocá para abrir</span>
-        <span class="p" style="font-weight:600;margin-right:8px">U$D 437</span>
-        <span class="arw bounce">▾</span></button>
-      <div class="panel"><div class="panel-in">
-        <div class="itmrow"><div class="d">Cámara exterior PT con movimiento<small>Hikvision DS-2SE2C400MWG-E/14 · 4MP · IP66 · PoE</small></div><div class="p">U$D 272<small>Equipo 197 + instalación 75</small></div></div>
-        <div class="itmrow"><div class="d">Cámara para el taller<small>Hikvision DS-2CD1341G0-I · 4MP · IR 20 m · IP67 · PoE</small></div><div class="p">U$D 165<small>Equipo 90 + instalación 75</small></div></div>
-        <p style="margin:14px 0 0;font-size:13.5px">Ambas van <b>cableadas</b> y graban en el disco del grabador nuevo, con detección de personas y vehículos.</p>
-        <p style="margin:10px 0 0;font-size:13.5px;color:var(--grey)">La del exterior es equivalente a las que ya tenés, pero con el doble de resolución y alimentada por el mismo cable de red. La del taller es fija: para ese ambiente, una cámara bien ubicada cubre más y cuesta la mitad que una con movimiento.</p>
-      </div></div>
-    </div>
-
-    <div class="dev">
-      <button type="button" aria-expanded="false">
-        <span class="qty">3×</span>
-        <span class="nm">Alarma — cobertura faltante<small>Entrada, taller y detección de fuego</small></span>
-        <span class="p" style="font-weight:600;margin-right:8px">U$D 297</span>
-        <span class="arw">▾</span></button>
-      <div class="panel"><div class="panel-in">
-        <div class="itmrow"><div class="d">Contacto magnético — puerta de entrada<small>Hikvision DS-PDMCS-EG2-WB · inalámbrico</small></div><div class="p">U$D 58<small>Equipo 30 + instalación 28</small></div></div>
-        <div class="itmrow"><div class="d">Detector de movimiento — taller<small>Hikvision DS-PDP15P-EG2-WB · 15 m · inmunidad a mascotas</small></div><div class="p">U$D 86<small>Equipo 58 + instalación 28</small></div></div>
-        <div class="itmrow"><div class="d">Detector de humo, calor y monóxido — cocina<small>Hikvision DS-PD452SMK-WB · inalámbrico</small></div><div class="p">U$D 153<small>Equipo 125 + instalación 28</small></div></div>
-        <p style="margin:14px 0 0;font-size:13.5px"><b>Sobre el taller:</b> un detector de movimiento cubre las cuatro aberturas y el interior con un solo equipo, y cuesta menos que poner contacto en cada puerta y ventana.</p>
-        <p style="margin:10px 0 0;font-size:13.5px"><b>Sobre el detector de la cocina:</b> suma detección de monóxido de carbono por U$D 28 más que la versión de solo humo. Con caldera a gas, el monóxido es el riesgo que no se ve ni se huele. Es complementario al detector de fuga de gas que ya está en la propuesta base: uno detecta gas sin quemar, el otro detecta combustión.</p>
-        <p style="margin:10px 0 0;font-size:13.5px;color:var(--grey)">Se ubica cerca de la cocina pero fuera del paso directo del vapor de cocción, para evitar avisos falsos.</p>
-      </div></div>
-    </div>
+    <p class="hint" style="margin-top:26px">👆 Tocá para ver el detalle</p>
 
     <div class="dev">
       <button type="button" aria-expanded="false">
         <span class="qty">1×</span>
         <span class="nm">Traslado de cerradura digital<small>De la galería a la puerta del taller</small></span>
+        <span class="tapbadge">Tocá para abrir</span>
         <span class="p" style="font-weight:600;margin-right:8px">U$D 100</span>
-        <span class="arw">▾</span></button>
+        <span class="arw bounce">▾</span></button>
       <div class="panel"><div class="panel-in">
         <div class="itmrow"><div class="d">Desmontaje, traslado e instalación de la cerradura EZVIZ DL06<small>Mano de obra · no requiere equipamiento nuevo</small></div><div class="p">U$D 100</div></div>
-        <p style="margin:14px 0 0;font-size:13.5px">Incluye el ajuste de la integración para que el taller informe apertura y pueda disparar escenas.</p>
+        <p style="margin:14px 0 0;font-size:13.5px">Incluye el ajuste de la integración para que el taller informe apertura y pueda disparar escenas. En la galería vuelve la cerradura mecánica con cerrojo, que la ponés vos.</p>
       </div></div>
     </div>
 
     <table class="tot" style="margin-top:18px">
-      <tr class="sub"><td>Equipamiento</td><td>U$D 500</td></tr>
-      <tr class="sub"><td>Instalación</td><td>U$D 334</td></tr>
-      <tr><td>Subtotal de los tres bloques</td><td>U$D 834</td></tr>
-      <tr class="sub"><td>Programación e integración (10%)</td><td>U$D 84</td></tr>
-      <tr class="big"><td>Total de la ampliación</td><td>U$D 918</td></tr>
+      <tr class="sub"><td>Instalación</td><td>U$D 100</td></tr>
+      <tr class="sub"><td>Programación e integración (10%)</td><td>U$D 10</td></tr>
+      <tr class="big"><td>Total de la ampliación</td><td>U$D 110</td></tr>
     </table>
 
     <div class="valuebox">
-      <h4>Dos cosas que conviene saber antes de decidir</h4>
-      <p><b>El grabador reemplaza al equipo del kit para las cámaras nuevas.</b> Las tres cámaras exteriores que ya tenés seguirán funcionando en su grabador actual, con grabación en tarjeta de memoria, y las vas a ver junto a todas las demás en una sola pantalla. Las nuevas graban en el disco del equipo nuevo, con retención mucho mayor y con detección inteligente.</p>
-      <p style="margin-bottom:0"><b>Con estas dos cámaras, el switch de red queda completo.</b> Quedan ocupados sus ocho puertos. Si más adelante querés sumar otro equipo cableado, hace falta ampliar con un switch adicional. No es un problema hoy, pero conviene tenerlo presente.</p>
-    </div>
-
-    <div class="valuebox">
-      <h4>Sobre la central de alarma: no hace falta una segunda</h4>
-      <p style="margin-bottom:0">Tu central admite 48 zonas y 8 áreas independientes, y hoy usa 10 zonas. Hay lugar de sobra para la entrada, el taller y la detección de fuego. El taller se configura como <b>área propia</b>: se arma y desarma solo, sin tocar el resto de la casa, y aparece por separado en la aplicación general. Una segunda central sería más costosa y te dejaría dos sistemas para mantener en lugar de uno.</p>
+      <h4>Qué cambió respecto de la versión anterior</h4>
+      <p><b>Salieron las dos cámaras nuevas.</b> Confirmaste que no va una cuarta cámara exterior, y que el taller lleva una EZVIZ interior por WiFi en lugar de una Hikvision cableada.</p>
+      <p><b>Los sensores de alarma pasaron a la sección 03.</b> Los que habíamos cotizado eran de línea AX PRO y tu central es AX HOME. Ahora están dentro del catálogo completo de AX PRO, con precio por equipo, para que armes la alarma como la quieras.</p>
+      <p style="margin-bottom:0">El resto de tu pliego lo respondemos punto por punto con su código, por WhatsApp o planilla, como pediste.</p>
     </div>
   </div>
 </section>
 <hr class="rule">
+
 <!-- ===================== INVERSION ===================== -->
 <section class="section-light" id="inversion">
   <div class="wrap">
@@ -940,7 +1008,7 @@ const SC=[
 /* ---------- comparativas ---------- */
 const CMP={
  cmp1:[{h:'Grabación sin inteligencia',l:['Cada rama movida por el viento genera un aviso','Buscar un evento es mirar horas de video','El disco se llena con grabación que no sirve','Cámaras WiFi que pierden cuadros cuando la red se satura']},
-       {h:'AcuSense con grabación local',l:['Distingue personas y vehículos del movimiento del follaje','Búsqueda por tipo de objeto: mostrame las personas de anoche','Grabación continua en disco de vigilancia, no en la nube','Las cuatro Hikvision pasan a red cableada: sin pérdida de cuadros']}],
+       {h:'AcuSense con grabación local',l:['Distingue personas y vehículos del movimiento del follaje','Búsqueda por tipo de objeto: mostrame las personas de anoche','Grabación continua en disco de vigilancia, no en la nube','Las tres Hikvision graban en disco propio, las 24 horas']}],
  cmp2:[{h:'Router doméstico único',l:['Las cámaras compiten con Netflix por el mismo ancho de banda','El invitado ve tus cámaras y tus dispositivos en la misma red','Zonas muertas en planta alta y patio','Si se reinicia, se cae la domótica entera']},
        {h:'Red Omada segmentada',l:['Domótica y seguridad en su propia red, separadas del uso general','Red de invitados aislada del resto de la casa','Cobertura WiFi 6 en planta baja, planta alta, patio y anexo','Administración centralizada y monitoreo del estado de cada equipo']}]
 };
@@ -1046,8 +1114,8 @@ const COND=[
 ['Visitas técnicas','La instalación eléctrica existente no fue ejecutada por Nova Domus. Se incluye una visita técnica de replanteo previa al inicio. Si durante la obra aparecen cajas sin conductor neutro, cajas de profundidad insuficiente o circuitos que no corresponden con lo relevado, la adecuación queda a cargo del electricista de la obra y puede afectar el plazo.'],
 ['Tendido de datos','Nova Domus especifica y certifica los tendidos de red y de datos necesarios, y entrega el plano correspondiente. La canalización y el tendido físico los ejecuta el electricista de la obra. La factibilidad de llevar cable a cada punto se confirma en la visita técnica.'],
 ['Alcance de la cobertura WiFi del bloque anexo','La cobertura del bloque anexo se resuelve desde el access point exterior del patio y depende de que existan aberturas abiertas hacia él. No se garantiza cobertura con el anexo completamente cerrado. Si se requiere cobertura propia, se cotiza un access point adicional aparte.'],
-['Equipamiento existente del cliente','Se integran las cuatro cámaras Hikvision, las cuatro cámaras EZVIZ H1C, las tres cerraduras EZVIZ DL06, la central de alarma AXPro y los seis parlantes Sonos Era 100. Nova Domus no provee garantía sobre ese equipamiento, que conserva la de su fabricante. Si algún equipo resultara técnicamente no integrable por limitación de su firmware, se informa y se propone alternativa por separado.'],
-['Grabación de las cámaras EZVIZ','Las cámaras EZVIZ H1C son de línea doméstica y operan contra la nube del fabricante. Se integran a la visualización unificada. La grabación en el disco local queda sujeta a que su firmware habilite transmisión directa, lo que se verifica durante la puesta en marcha y no se garantiza de antemano.'],
+['Equipamiento existente del cliente','Se integran las tres cámaras Hikvision, las dos cámaras EZVIZ, las cerraduras EZVIZ DL05 y DL06 y los seis parlantes Sonos (cuatro Era 100 y dos Beam). La central de alarma AX HOME no admite integración; si se reemplaza por una AX PRO, esa central sí se integra. Nova Domus no provee garantía sobre ese equipamiento, que conserva la de su fabricante. Si algún equipo resultara técnicamente no integrable por limitación de su firmware, se informa y se propone alternativa por separado.'],
+['Grabación de las cámaras EZVIZ','Las cámaras EZVIZ son de línea doméstica y operan contra la nube del fabricante. Se integran a la visualización unificada. La grabación en el disco local queda sujeta a que su firmware habilite transmisión directa, lo que se verifica durante la puesta en marcha y no se garantiza de antemano.'],
 ['Certificación de la obra','Se entrega documentación de la instalación ejecutada por Nova Domus: topología de red, mapa de dispositivos, inventario, direccionamiento, reglas de automatización y credenciales.'],
 ['Responsable de obra','Nova Domus designa un responsable único de obra para todo el alcance descripto en esta propuesta.'],
 ['Excedentes','Los materiales excedentes de instalación quedan en poder de Nova Domus, salvo los módulos de repuesto incluidos en el presupuesto, que se entregan al cliente sin instalar.'],
@@ -1084,11 +1152,11 @@ bindAcc(document.getElementById('faq'));
 const BR=[
 ['Shelly','tBUUtSxykeA','9','Fabricante europeo especializado en módulos de automatización que se instalan detrás de la llave existente, sin reemplazar la instalación eléctrica. Es la línea que permite automatizar una casa terminada sin romper paredes.','La elegimos porque la generación 4 combina WiFi, Bluetooth y Zigbee en el mismo módulo, mide consumo real por circuito, y funciona de forma local: no necesita la nube del fabricante para encender una luz.'],
 ['Home Assistant','p07oNkemrDk','16','La plataforma de automatización de código abierto más usada del mundo, con más de mil integraciones y una comunidad que la sostiene independientemente de cualquier empresa.','Es el motivo por el que podemos integrar seis marcas distintas en una sola pantalla. Y es la garantía de que el sistema no se apaga el día que un fabricante decide discontinuar su app.'],
-['Hikvision','J3ermaYlDv4','16','Uno de los mayores fabricantes de videovigilancia del mundo, con línea AcuSense de análisis de video embebido en el propio equipo.','Ya está en la casa, así que la decisión estaba tomada. Lo que sumamos es el grabador con AcuSense, que es lo que convierte ocho cámaras sueltas en un sistema que avisa cuando pasa algo que importa.'],
+['Hikvision','J3ermaYlDv4','16','Uno de los mayores fabricantes de videovigilancia del mundo, con línea AcuSense de análisis de video embebido en el propio equipo.','Ya está en la casa, así que la decisión estaba tomada. Lo que sumamos es el grabador con AcuSense, que es lo que convierte cinco cámaras sueltas en un sistema que avisa cuando pasa algo que importa.'],
 ['TP-Link Omada','bj3jae3osRo','16','Línea profesional de networking administrado: routers, switches y access points que se configuran y monitorean como un solo sistema.','Es nuestro estándar de red. Da segmentación real de tráfico y roaming entre antenas a un costo que tiene sentido en una vivienda, sin la complejidad de una solución de datacenter.'],
 ['Sensibo','gRa6Vb89U6E','16','Control inteligente para equipos de aire acondicionado tipo split, sin reemplazar el equipo existente.','Aprende el control remoto de cualquier split y lo suma al sistema. Mide temperatura, humedad y calidad de aire por ambiente, que es lo que permite automatizar de verdad en vez de solo encender a distancia.'],
 ['Sonos','DwIdo-4jwNk','16','Referencia global en audio multiroom, con integración local abierta a plataformas de terceros.','Ya están en la casa. Los integramos para que el audio deje de ser una app aparte y pase a formar parte de las escenas: llegar, cocinar, dormir, o cortar la música cuando se dispara la alarma.'],
-['EZVIZ','CJcFcPFIqcM','16','Línea doméstica del grupo Hikvision, orientada a cámaras y cerraduras digitales de instalación simple.','Está en la casa en las cámaras interiores y en las tres cerraduras. Tiene integración real con Home Assistant, que es lo que nos permite absorberla al sistema general en vez de dejarla como una isla más.'],
+['EZVIZ','CJcFcPFIqcM','16','Línea doméstica del grupo Hikvision, orientada a cámaras y cerraduras digitales de instalación simple.','Está en la casa en dos cámaras y en las dos cerraduras. Tiene integración real con Home Assistant, que es lo que nos permite absorberla al sistema general en vez de dejarla como una isla más.'],
 ['Eaton',null,null,'Fabricante global de sistemas de energía ininterrumpida y protección eléctrica.','El UPS es el equipo del que nadie se acuerda hasta que se corta la luz y descubre que no quedó registro de nada. Elegimos Eaton por respaldo de servicio y disponibilidad de baterías en el país.'],
 ['GLC',null,null,'Fabricante nacional de gabinetes, racks y accesorios de infraestructura de red.','Es nuestro estándar de rack. Producción local, repuestos disponibles, y la calidad de terminación necesaria para que el gabinete quede prolijo y accesible dentro de una vivienda.']
 ];
@@ -1137,19 +1205,126 @@ const BR=[
   });
 })();
 
+/* ---------- alarma AX PRO: comparativa + configurador ---------- */
+const AXROWS=[["Zonas", "16 · hoy usás 10", "48", 1], ["Áreas independientes", "4", "8", 1], ["Usuarios", "12", "14 + administrador", 1], ["Teclados", "Hasta 4", "Hasta 8, incluidos lectores de tarjeta", 1], ["Sirenas inalámbricas", "Hasta 4", "Hasta 4 · 2 interiores y 2 exteriores", 0], ["Controles remotos", "Hasta 16", "Hasta 16", 0], ["Comunicación", "WiFi · Ethernet · 4G", "WiFi · Ethernet · 4G con ranura SIM", 0], ["Radio", "433 MHz", "Tri-X 433 MHz bidireccional, cifrado AES-128 con salto de frecuencia", 1], ["Integración con Home Assistant", "No. Hikvision no expone interfaz local en esta línea", "Sí, local, sin pasar por la nube", 1], ["Repetidor de señal", "No disponible en el catálogo local", "Hasta 2 · resuelve el alcance al taller", 1], ["Detectores disponibles", "3 modelos: contacto, movimiento, movimiento con cámara", "18 modelos · ver la lista más abajo", 1], ["Fuego, monóxido, agua, temperatura", "No disponibles", "Sí, los cuatro", 1], ["Detección exterior", "No disponible", "3 modelos, hasta 180°", 1], ["Cortina y rotura de cristal", "No disponibles", "Sí", 1], ["Detector con cámara", "Sí", "Sí, foto a color", 0]];
+const AXCAT=[["central", "Central"], ["int", "Intrusión interior"], ["ext", "Detección exterior"], ["vida", "Fuego, monóxido y agua"], ["ctrl", "Teclado, controles y pánico"], ["sir", "Sirenas y alcance"]];
+const AXP=[{"id": 135, "sku": "DS-PWA48-Kit-WB", "n": "Kit central AX PRO 48 zonas", "det": "Central AX PRO con 4G y ranura SIM, WiFi y Ethernet. Incluye control remoto, un detector de movimiento y un contacto magnético.", "cat": "central", "eq": 410, "iva": 21.0, "mo": 85, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg"}, {"id": 1990, "sku": "DS-PDMC-EG2-WB(B)", "n": "Contacto magnético", "det": "Puertas y ventanas. Avisa apertura aunque la alarma esté desarmada, si lo configurás así.", "cat": "int", "eq": 39, "iva": 10.5, "mo": 28, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdmc-eg2-wb-b.webp"}, {"id": 1988, "sku": "DS-PDMCS-EG2-WB", "n": "Contacto magnético slim", "det": "Versión delgada para marcos de aluminio o carpinterías donde el estándar no entra.", "cat": "int", "eq": 30, "iva": 10.5, "mo": 28, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/1988.jpg"}, {"id": 3780, "sku": "DS-PDMCK-EG2-WB(B)", "n": "Contacto magnético con sensor de golpe", "det": "Además de la apertura, detecta el golpe o la vibración de un intento de forzar la abertura.", "cat": "int", "eq": 55, "iva": 21.0, "mo": 28, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg"}, {"id": 202, "sku": "DS-PDP15P-EG2-WB", "n": "Detector de movimiento interior", "det": "Alcance 15 m, con inmunidad a mascotas. El estándar para ambientes y pasillos.", "cat": "int", "eq": 58, "iva": 21.0, "mo": 28, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp"}, {"id": 2000, "sku": "DS-PDCL12-EG2-WB", "n": "Detector de movimiento 360° de techo", "det": "Cubre un ambiente amplio desde el centro del techo. Útil en living o taller abierto.", "cat": "int", "eq": 53, "iva": 21.0, "mo": 28, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDCL12-EG2-WB.jpg"}, {"id": 1995, "sku": "DS-PDD12P-EG2-WB", "n": "Detector doble tecnología", "det": "Movimiento más microondas: tienen que coincidir los dos para disparar. Para ambientes con corrientes de aire, calefacción o sol directo, donde un detector común da falsas alarmas.", "cat": "int", "eq": 132, "iva": 21.0, "mo": 28, "img": null}, {"id": 205, "sku": "DS-PDPC12PF-EG2-WB", "n": "Detector con cámara (PIRCAM)", "det": "Cuando detecta movimiento saca una secuencia de fotos a color y te la manda. Sabés si es un intruso o el perro antes de llamar a nadie.", "cat": "int", "eq": 170, "iva": 21.0, "mo": 28, "img": null}, {"id": 1989, "sku": "DS-PDPG12P-EG2-WB", "n": "Detector de movimiento y rotura de cristal", "det": "Dos detecciones en un equipo: movimiento y el sonido de un vidrio que se rompe. Para ambientes con ventanales.", "cat": "int", "eq": 84, "iva": 21.0, "mo": 28, "img": null}, {"id": 1973, "sku": "DS-PDBG8-EG2-WB", "n": "Detector de rotura de cristal", "det": "Escucha el sonido característico de un vidrio roto, hasta 8 m. Protege el ventanal sin esperar a que alguien entre.", "cat": "int", "eq": 64, "iva": 21.0, "mo": 28, "img": null}, {"id": 1998, "sku": "DS-PDC10AM-EG2-WB", "n": "Detector tipo cortina", "det": "Genera una barrera invisible sobre el plano de una abertura. Para ventanales grandes o puertas corredizas. IP65.", "cat": "int", "eq": 90, "iva": 21.0, "mo": 28, "img": null}, {"id": 1999, "sku": "DS-PDC10DM-EG2-WB", "n": "Detector cortina doble tecnología", "det": "La cortina con microondas sumado, apta interior y exterior. Menos falsas alarmas en galerías y aleros.", "cat": "int", "eq": 103, "iva": 21.0, "mo": 28, "img": null}, {"id": 1994, "sku": "DS-PDP18-HM-WB", "n": "Detector exterior doble PIR", "det": "Alcance 18 m, IP65. Dos sensores tienen que coincidir para disparar, lo que filtra hojas y gatos.", "cat": "ext", "eq": 97, "iva": 21.0, "mo": 28, "img": null}, {"id": 2007, "sku": "DS-PDTT15AM-LM-WB", "n": "Detector exterior triple tecnología", "det": "Dos PIR más microondas, inmunidad a mascotas, 15 m. El más confiable para jardín abierto.", "cat": "ext", "eq": 264, "iva": 21.0, "mo": 28, "img": null}, {"id": 207, "sku": "DS-PDQP15AM-LM-WB", "n": "Detector exterior 180°", "det": "Cobertura de 180° para fachadas o perímetros amplios con un solo equipo.", "cat": "ext", "eq": 409, "iva": 21.0, "mo": 28, "img": null}, {"id": 1970, "sku": "DS-PD451SMK-WB", "n": "Detector de humo y calor", "det": "Sensor fotoeléctrico de humo más sensor de temperatura. Suena por sí mismo y además avisa por la central, con la alarma armada o no.", "cat": "vida", "eq": 97, "iva": 21.0, "mo": 28, "img": null}, {"id": 1969, "sku": "DS-PD452SMK-WB", "n": "Detector de humo, calor y monóxido", "det": "Lo mismo que el anterior, más detección de monóxido de carbono. El indicado cerca de la caldera y de la cocina a gas.", "cat": "vida", "eq": 125, "iva": 21.0, "mo": 28, "img": null}, {"id": 1997, "sku": "DS-PDWL-E-WB", "n": "Detector de fuga de agua", "det": "Se apoya en el piso junto al lavarropas, la caldera o el termotanque. Avisa antes de que el agua llegue al resto de la casa.", "cat": "vida", "eq": 72, "iva": 21.0, "mo": 28, "img": null}, {"id": 1963, "sku": "DS-PDTPH-E-WB", "n": "Detector de temperatura con pantalla", "det": "Avisa si un ambiente pasa un umbral de frío o de calor. Útil con la casa vacía en invierno.", "cat": "vida", "eq": 81, "iva": 21.0, "mo": 28, "img": null}, {"id": 129, "sku": "DS-PK1-E-WB", "n": "Teclado inalámbrico", "det": "Armar y desarmar con código en la pared, sin depender del celular. Lo usa quien cuida la casa.", "cat": "ctrl", "eq": 87, "iva": 21.0, "mo": 54, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp"}, {"id": 124, "sku": "DS-PKF1-WB(B)", "n": "Control remoto adicional", "det": "Llavero para armar, desarmar y pánico. El kit ya trae uno.", "cat": "ctrl", "eq": 38, "iva": 21.0, "mo": 18, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PKF1-WB(B).png"}, {"id": 184, "sku": "DS-PDEB1-EG2-WB", "n": "Botón de pánico fijo", "det": "Se instala en un lugar discreto, por ejemplo junto a la cama o en el ingreso.", "cat": "ctrl", "eq": 31, "iva": 21.0, "mo": 18, "img": null}, {"id": 123, "sku": "DS-PDEBP1-EG2-WB", "n": "Botón de emergencia portátil", "det": "Se lleva encima. Pensado para una persona mayor o para quien trabaja solo en el taller.", "cat": "ctrl", "eq": 34, "iva": 21.0, "mo": 18, "img": null}, {"id": 203, "sku": "DS-PS1-I-WB", "n": "Sirena interior", "det": "Sirena adicional dentro de la casa. La central ya trae parlante propio.", "cat": "sir", "eq": 75, "iva": 21.0, "mo": 50, "img": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg"}, {"id": 204, "sku": "DS-PS1-E-WB", "n": "Sirena exterior con luz", "det": "Disuade y señaliza hacia afuera. Con la casa vacía, es lo que hace que un vecino se entere.", "cat": "sir", "eq": 103, "iva": 21.0, "mo": 50, "img": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp"}, {"id": 132, "sku": "DS-PR1-WB(B)", "n": "Repetidor de señal", "det": "Extiende el alcance de radio. Es la solución si la señal no llega bien al taller.", "cat": "sir", "eq": 121, "iva": 21.0, "mo": 28, "img": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg"}];
+const AXPRE={"rep": {"d": "Reemplazo uno a uno de tu AX HOME: la central más 6 contactos y 4 detectores de movimiento en total (el kit ya trae uno de cada uno).", "q": {"135": 1, "1990": 5, "202": 3}}, "pli": {"d": "El reemplazo, más lo que pediste en el pliego: contacto en la entrada, detector en el taller y tres detectores de fuego, uno de ellos con monóxido para la cocina.", "q": {"135": 1, "1990": 6, "202": 4, "1970": 2, "1969": 1}}, "cero": {"d": "Nada cargado. Elegí equipo por equipo, empezando por la central.", "q": {}}};
+
+(function(){
+  const tb=document.getElementById('ax-rows'); if(!tb)return;
+  tb.innerHTML=AXROWS.map(r=>`<tr class="${r[3]?'win':''}"><td>${r[0]}</td><td class="home" data-label="AX HOME · la que tenés">${r[1]}</td><td class="pro" data-label="AX PRO · la que proponemos">${r[2]}</td></tr>`).join('');
+})();
+(function(){
+  const host=document.getElementById('ax-cfg'); if(!host)return;
+  const Q={}; AXP.forEach(p=>Q[p.id]=0);
+  const CENTRALES=AXP.filter(p=>p.cat==='central').map(p=>p.id);
+  const ivaTxt=v=>String(v).replace('.0','').replace('.',',');
+  const clamp=v=>{v=parseInt(v,10);return isNaN(v)||v<0?0:(v>48?48:v)};
+  function row(p){
+    return `<div class="axrow" data-id="${p.id}">
+      <label class="axchk" aria-label="Incluir ${p.n}"><input type="checkbox"></label>
+      <div class="axt"><b>${p.n}</b><small>${p.det}</small>
+        <div class="axp">${p.sku} · Equipo U$D ${F(p.eq)} (IVA ${ivaTxt(p.iva)}% incl.) + instalación U$D ${F(p.mo)} = <b style="display:inline;font-size:12px;color:inherit">U$D ${F(p.eq+p.mo)} c/u</b></div></div>
+      <div class="axq"><button type="button" data-d="-1" aria-label="Menos">−</button><input type="number" inputmode="numeric" min="0" max="48" value="0" aria-label="Cantidad de ${p.n}"><button type="button" data-d="1" aria-label="Más">+</button></div>
+      <div class="axs">—</div></div>`;
+  }
+  host.innerHTML=AXCAT.map((c,i)=>{
+    const its=AXP.filter(p=>p.cat===c[0]);
+    return `<div class="dev" data-cat="${c[0]}"><button type="button" aria-expanded="false">
+      <span class="qty" style="min-width:24px">${String(i+1).padStart(2,'0')}</span>
+      <span class="nm">${c[1]}<small class="axcnt">${its.length} equipo${its.length>1?'s':''}</small></span>
+      ${i===0?'<span class="tapbadge">Tocá para abrir</span>':''}<span class="arw ${i===0?'bounce':''}">▾</span></button>
+      <div class="panel"><div class="panel-in">${its.map(row).join('')}</div></div></div>`;
+  }).join('');
+  bindAcc(host);
+  const refit=()=>host.querySelectorAll('.dev.open .panel').forEach(p=>{p.style.maxHeight=p.querySelector('.panel-in').scrollHeight+'px'});
+  function totals(){
+    let eq=0,mo=0; AXP.forEach(p=>{eq+=Q[p.id]*p.eq; mo+=Q[p.id]*p.mo});
+    const prog=Math.ceil((eq+mo)*0.10);
+    return {eq,mo,prog,total:eq+mo+prog};
+  }
+  function paint(){
+    host.querySelectorAll('.axrow').forEach(r=>{
+      const id=+r.dataset.id,p=AXP.find(x=>x.id===id),q=Q[id];
+      r.classList.toggle('on',q>0);
+      r.querySelector('input[type=checkbox]').checked=q>0;
+      const n=r.querySelector('input[type=number]'); if(document.activeElement!==n)n.value=q;
+      r.querySelector('.axs').textContent=q>0?('U$D '+F(q*(p.eq+p.mo))):'—';
+    });
+    host.querySelectorAll('.dev').forEach(d=>{
+      const its=AXP.filter(p=>p.cat===d.dataset.cat),sel=its.reduce((s,p)=>s+Q[p.id],0);
+      d.querySelector('.axcnt').textContent=sel>0?(sel+' elegido'+(sel>1?'s':'')+' · '+its.length+' disponibles'):(its.length+' equipo'+(its.length>1?'s':''));
+    });
+    const t=totals();
+    document.getElementById('ax-eq').textContent=F(t.eq);
+    document.getElementById('ax-mo').textContent=F(t.mo);
+    document.getElementById('ax-prog').textContent=F(t.prog);
+    document.getElementById('ax-tot').textContent=F(t.total);
+    const hasC=CENTRALES.some(c=>Q[c]>0),any=AXP.some(p=>Q[p.id]>0);
+    document.getElementById('ax-warn').style.display=(any&&!hasC)?'':'none';
+  }
+  function setQ(id,q){
+    q=clamp(q);
+    if(CENTRALES.includes(id)){ if(q>0){CENTRALES.forEach(c=>{if(c!==id)Q[c]=0}); q=1;} }
+    Q[id]=q;
+  }
+  host.addEventListener('click',e=>{
+    const b=e.target.closest('.axq button'); if(!b)return;
+    const id=+b.closest('.axrow').dataset.id; setQ(id,Q[id]+(+b.dataset.d)); paint(); markCustom();
+  });
+  host.addEventListener('change',e=>{
+    const r=e.target.closest('.axrow'); if(!r)return; const id=+r.dataset.id;
+    if(e.target.type==='checkbox') setQ(id,e.target.checked?Math.max(1,Q[id]):0);
+    else setQ(id,e.target.value);
+    paint(); markCustom();
+  });
+  host.addEventListener('input',e=>{
+    if(e.target.type!=='number')return; const id=+e.target.closest('.axrow').dataset.id;
+    setQ(id,e.target.value); const n=e.target.value; paint(); e.target.value=n===''?'':Q[id]; markCustom();
+  });
+  const pre=document.getElementById('ax-pre'),pd=document.getElementById('ax-pre-d');
+  let cur='cero';
+  function markCustom(){ if(cur==='custom')return; cur='custom';
+    [...pre.children].forEach(x=>x.setAttribute('aria-selected','false'));
+    pd.textContent='Configuración propia. Tocá un punto de partida para volver a cargarlo.'; }
+  function load(k){
+    cur=k; AXP.forEach(p=>Q[p.id]=0);
+    Object.entries(AXPRE[k].q).forEach(([id,q])=>Q[+id]=q);
+    [...pre.children].forEach(x=>x.setAttribute('aria-selected',x.dataset.p===k?'true':'false'));
+    pd.textContent=AXPRE[k].d; paint(); refit();
+  }
+  pre.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; pre.classList.add('stop'); load(b.dataset.p)});
+  load('cero');
+  /* valor real del cambio = preset de reemplazo, calculado con los mismos precios */
+  (function(){let eq=0,mo=0;
+    Object.entries(AXPRE.rep.q).forEach(([id,q])=>{const p=AXP.find(x=>x.id===+id);eq+=q*p.eq;mo+=q*p.mo});
+    const el=document.getElementById('ax-real'); if(el)el.textContent=F(eq+mo+Math.ceil((eq+mo)*0.10));})();
+  document.getElementById('ax-send').addEventListener('click',()=>{
+    const t=totals(),sel=AXP.filter(p=>Q[p.id]>0);
+    if(!sel.length){alert('Todavía no elegiste ningún equipo.');return}
+    let m='Hola Nova Domus, esta es la alarma AX PRO que quiero armar — PY-2026-028 Quintas de Warcalde.\n\n';
+    sel.forEach(p=>{m+=Q[p.id]+'× '+p.n+' ('+p.sku+') — U$D '+F(Q[p.id]*(p.eq+p.mo))+'\n'});
+    m+='\nEquipos: U$D '+F(t.eq)+'\nInstalación: U$D '+F(t.mo)+'\nProgramación: U$D '+F(t.prog)+'\nTotal de referencia: U$D '+F(t.total)+'\n';
+    if(!CENTRALES.some(c=>Q[c]>0))m+='\n(Sin central elegida)\n';
+    const n=document.getElementById('ax-notas').value.trim(); if(n)m+='\nComentarios: '+n+'\n';
+    window.open('https://wa.me/?text='+encodeURIComponent(m),'_blank');
+  });
+})();
+
 /* ---------- respuestas a consultas de la clienta ---------- */
 const CONSULTAS=[
 ['Home Assistant: ¿dejan copias de seguridad automáticas fuera del equipo?',
  'Sí, y te recomendamos dos destinos a la vez: una copia en la red local para restaurar rápido, y otra fuera de la casa por si le pasa algo físico al equipo. Van programadas y automáticas, no dependen de que alguien se acuerde.<br><br>La configuración entra en la programación ya cotizada. Lo único que hay que definir es a qué cuenta de nube van, porque son tus datos y queda a tu nombre.<br><br><b>Por qué importa:</b> el servidor guarda toda la configuración y las automatizaciones en su memoria interna. Si el equipo falla y no hay copia, se pierde todo y hay que rehacerlo. Con copia, se restaura en un equipo nuevo en minutos.'],
 
 ['Cámaras: ¿seguimos con el equipo del kit o pasamos al grabador con disco?',
- '<b>Pasar al grabador con disco</b>, y no es preferencia nuestra: es aritmética.<br><br>El equipo del kit admite <b>4 cámaras</b>. Tu cuenta es 3 que vuelven + 1 exterior nueva + 1 del taller = <b>5</b>. Ya no entran.<br><br>Hay dos motivos más:<br>· <b>Graba solo en tarjeta de memoria.</b> Una microSD tiene poca capacidad y se desgasta con la escritura continua: son días de grabación, no semanas, y falla sin avisar. El disco cotizado está diseñado para grabar las 24 horas, todos los días.<br>· <b>El grabador nuevo distingue personas y vehículos</b> del movimiento de una rama. Con cámaras exteriores, esa diferencia es la que hace que los avisos sirvan en lugar de molestar.<br><br><b>Cómo lo resolvemos, para no tener que cablear las tres que ya tenés:</b> las tres exteriores se quedan en su grabador actual con su tarjeta, y las vas a ver junto a todas las demás en una sola pantalla. Las dos nuevas van cableadas al grabador con disco.<br><br><b>El límite honesto de esa decisión:</b> las tres exteriores van a seguir grabando solo en tarjeta. Son las cámaras más importantes para seguridad y quedan con la grabación más limitada. Se ahorra el cableado, pero conviene que lo sepas al decidir.<br><br><b>Alimentación eléctrica:</b> las tres que vuelven probablemente conserven su punto; las dos nuevas no lo tienen. Ese trabajo es del electricista de obra, no está en nuestro presupuesto.'],
+ '<b>Grabador con disco para las tres Hikvision</b>, como confirmaste.<br><br>Dos motivos:<br>· <b>El kit graba solo en tarjeta de memoria.</b> Una microSD tiene poca capacidad y se desgasta con la escritura continua: son días de grabación, no semanas, y falla sin avisar. El disco cotizado está diseñado para grabar las 24 horas, todos los días.<br>· <b>El grabador nuevo distingue personas y vehículos</b> del movimiento de una rama. Con cámaras exteriores, esa diferencia es la que hace que los avisos sirvan en lugar de molestar.<br><br><b>Cómo se conecta cada una:</b> la de portón queda donde está; las de depósito y jardín se reubican. Si cada una va por cable o por WiFi lo definimos cámara por cámara en la visita, con el recorrido y un precio individual. La del taller es una EZVIZ interior por WiFi, como pediste.<br><br>Toda cámara WiFi lleva su toma en el grupo 1 y una microSD de respaldo, por si se corta la red.'],
 
 ['Configuración de Hikvision: ¿qué datos necesitan del instalador?',
  'Como vos nos vas a dar las claves y nosotros centralizamos todo en nuestra cuenta profesional para después derivártela configurada, la lista es corta:<br><br>· Usuario y contraseña de <b>administrador</b> de la central de alarma<br>· Credenciales del <b>grabador del kit</b>, para habilitar la transmisión y que el sistema general lo lea<br>· Usuario y contraseña de <b>cada cámara</b><br>· Que el instalador <b>libere los equipos de su cuenta</b>, para que podamos agregarlos a la nuestra<br>· El <b>modelo exacto y la versión de firmware</b> de la central<br><br><b>Y un punto que es urgente, más allá de las claves:</b> la central está comunicando por una línea de teléfono del instalador, y en la aplicación figura desconectada. Eso significa que <b>hoy la alarma no está reportando</b>. Y aunque reportara, depende de una línea que no es tuya: el día que él la dé de baja, la alarma queda muda sin que nadie se entere.<br><br>Hay que poner un chip a tu nombre. Es barato, y es la diferencia entre tener alarma y creer que se tiene.'],
 
 ['Alarma: ¿conviene una segunda central en el taller?',
- '<b>No hace falta.</b> Tu central admite 48 zonas y 8 áreas independientes, y hoy usa 10 zonas. Hay lugar de sobra para la puerta de entrada, el taller y la detección de fuego.<br><br>El taller se configura como <b>área propia</b>: se arma y se desarma solo, sin tocar el resto de la casa, y aparece por separado en la aplicación general. Es exactamente lo que buscabas con una segunda central, pero sin el costo y sin tener dos sistemas para mantener.<br><br><b>Para el taller proponemos un detector de movimiento</b> en vez de contacto en cada una de las cuatro aberturas: un solo equipo cubre el ambiente completo y sale menos.<br><br><i>Una aclaración:</i> mencionaste que la central usa 10 de 16 zonas, y el modelo que figura admite 48. Puede que le hayan configurado un tope. Lo verificamos apenas tengamos acceso — no cambia la recomendación, pero conviene confirmarlo.'],
+ '<b>No hace falta, pero primero una corrección nuestra.</b> En la versión anterior dijimos que tu central admitía 48 zonas y 8 áreas: era un error. Tu central es una <b>AX HOME DS-PA201PS-16WB</b>, de 16 zonas y 4 áreas, tal como nos marcaste.<br><br>Igual alcanza para el taller: hoy usás 10 zonas y quedan 6 libres, y el taller puede ser un <b>área propia</b> que se arma y desarma sin tocar el resto de la casa.<br><br><b>Lo que la AX HOME no permite es integrarse al sistema general</b>, y la línea no tiene detectores de fuego, monóxido ni exterior en el catálogo local. Por eso te recomendamos pasar a <b>AX PRO</b>: en la sección 03 está la comparativa completa y el catálogo con precio por equipo, para que armes la alarma como la quieras.'],
 
 ['Esquema eléctrico: ¿ven viable la división en dos grupos con llave de tres posiciones?',
  '<b>Sí, y está bien pensado.</b> Los tres puntos que planteás son correctos:<br><br>· <b>Grupo 1 fijo en respaldo con llave manual de tres posiciones.</b> La llave es buena práctica: te permite aislar o forzar red sin depender de nadie, incluso con el inversor en falla o en mantenimiento.<br><br>· <b>Aires y bombas grandes fuera del respaldo.</b> Correcto, y coincide con lo que pide el fabricante del inversor. Una aclaración: <b>la bomba circuladora de la caldera sí puede ir en el grupo 1</b> — es una bomba chica, no del tipo que hay que excluir. La de la pileta, no.<br><br>La distribución de las cargas en la instalación preexistente va a depender de cómo estén armados los circuitos.<br><br>· <b>Que el sistema no cambie grupos de fuente.</b> Esto es lo mejor del planteo. Conmutar entre red y respaldo es tarea del inversor, que lo hace por hardware en milisegundos. La domótica no tiene que meterse ahí: se ocupa de apagar cargas y de arrancar las desplazables cuando sobra sol. Es la división de responsabilidades correcta, y evita que un problema de software te deje sin energía.<br><br><b>Un punto a tener en cuenta:</b> aunque el rack quede en el grupo respaldado, <b>el equipo de respaldo del rack sigue siendo necesario</b>. La conmutación del inversor es muy rápida, pero un grabador escribiendo en disco puede reiniciarse igual con un corte de milisegundos. Y si el inversor está en falla o mantenimiento, es lo único que queda.'],
