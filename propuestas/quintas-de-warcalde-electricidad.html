@@ -95,8 +95,32 @@ letter-spacing:2px;text-transform:uppercase;padding:17px 30px;border-radius:4px;
 .conf input{width:20px;height:20px;accent-color:var(--gold);flex:none;margin-top:1px}
 footer{padding:34px 0;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:var(--grey);text-align:center}
 footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11px}
+
+/* ---- tarifario unitario ---- */
+.tar{margin-bottom:22px}
+.tar h3{font-size:15px;margin:0 0 8px;color:var(--gold);font-weight:600}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.tr{width:100%;border-collapse:collapse;font-size:14px}
+table.tr th{font-size:11.5px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);font-weight:600;text-align:right;padding:6px 0 8px 12px;border-bottom:1px solid rgba(255,255,255,.14)}
+table.tr th:first-child{text-align:left;padding-left:0}
+table.tr td{padding:10px 0 10px 12px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;text-align:right;white-space:nowrap}
+table.tr td:first-child{text-align:left;white-space:normal;padding-left:0}
+table.tr td small{display:block;color:var(--grey);font-size:12px;font-weight:400}
+table.tr td.ars{font-weight:600}
+table.tr td .cd{color:var(--gold);font-size:12px;font-weight:600}
+@media(max-width:640px){
+  .wrap{padding:0 18px}
+  table.tr thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  table.tr,table.tr tbody{display:block;width:100%}
+  table.tr tr{display:flex;flex-wrap:wrap;gap:2px 16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+  table.tr td{border:0;padding:0;text-align:left}
+  table.tr td:first-child{flex:1 1 100%;margin-bottom:4px}
+  table.tr td[data-label]::before{content:attr(data-label);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--grey);font-weight:400}
+  h1,h2,h3{overflow-wrap:anywhere}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{
+ table.tr,table.tr tbody{display:table}table.tr tr{display:table-row}table.tr td{display:table-cell}table.tr thead{position:static;width:auto;height:auto;clip-path:none}table.tr td[data-label]::before{display:none}
  body{background:#fff;color:#111}
  .accept,.conf,.facta,.tapbadge,.hint,.backlink{display:none!important}
  .dev .panel{max-height:none!important}
@@ -174,14 +198,30 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 </svg></div>
     <span class="py">PY-2026-028 · Instalación Eléctrica</span>
     <h1>Ampliación<br>Quintas de Warcalde</h1>
-    <p class="lead">Presupuesto de obra eléctrica para la ampliación de la casa, preparado por el electricista de obra. Todos los valores en dólares de referencia — el monto que rige el contrato es en pesos, según el tipo de cambio del día de cada certificación.</p>
+    <p class="lead">Tarifario de precios unitarios del electricista de obra, y una estimación de la ampliación de la casa con cantidades de referencia. El monto que rige es en pesos, sin IVA; los dólares son solo de referencia.</p>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <span class="eyebrow">Antes de los números</span>
-    <h2>Cómo leer este presupuesto</h2>
+    <span class="eyebrow">Tarifario de referencia</span>
+    <h2>Precio por unidad</h2>
+    <p class="lead">Como todavía hay definiciones abiertas sobre por dónde va la obra, arrancamos con los precios unitarios: cada tarea tiene su valor, y cada semana se certifica lo que efectivamente se ejecutó multiplicado por ese valor. No hace falta cerrar las cantidades para empezar.</p>
+    <div class="grid g2" style="margin-top:20px">
+      <div class="card"><h3>Qué rige</h3><p style="margin-bottom:0">El valor en <b>pesos sin IVA</b> es el que se certifica y se cobra. La columna en dólares es solo de referencia, al BNA oficial de <b style="color:var(--gold)">1534</b>.</p></div>
+      <div class="card"><h3>Si el canaleteado lo hace albañilería</h3><p style="margin-bottom:0">En las bocas TUG, TUE/IUG e IUG se descuenta el <b>30% del valor de la boca</b>. El precio con el descuento aplicado figura debajo de cada una.</p></div>
+    </div>
+    <div id="tarifario" style="margin-top:26px"></div>
+    <p style="font-size:12.5px;color:var(--grey);margin-top:14px">Valores sin IVA. Si necesitás Factura A se suma el 21% al facturar. Los materiales no están incluidos: se entrega el cómputo con cantidades, especificaciones y proveedores recomendados. Toda tarea que no figure acá se valoriza como excedente, identificada aparte en el certificado.</p>
+  </div>
+</section>
+<hr class="rule">
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Estimación de la ampliación</span>
+    <h2>Con cantidades de referencia</h2>
+    <p class="lead">Los mismos precios unitarios aplicados a las cantidades que estimamos para la ampliación. Sirve para dimensionar el total; lo que se cobra es lo que se certifica.</p>
     <div class="grid g2" style="margin-top:20px">
       <div class="card"><h3>Moneda</h3><p style="margin-bottom:0">El presupuesto original está en pesos, sin IVA. Acá lo convertimos a dólares como referencia, al tipo de cambio BNA oficial del <b style="color:var(--gold)">1534</b> (día de esta propuesta). El monto real que se certifica y se cobra cada semana es en pesos, al tipo de cambio de ese momento — puede variar respecto a esta referencia.</p></div>
       <div class="card"><h3>Quién ejecuta</h3><p style="margin-bottom:0">Este trabajo lo ejecuta el electricista de obra de Nova Domus, bajo el mismo esquema que usamos en nuestras obras eléctricas: cómputo de materiales, tarifario propio, y certificación semanal de avance real.</p></div>
@@ -192,14 +232,14 @@ footer .pyf{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size
 
     <label class="upg" id="desc-canal" style="margin-top:20px;display:flex">
       <input type="checkbox" id="chk-canal">
-      <span class="t"><b>El canaleteado de la pared ya está hecho</b>
-      <small>Verificado en obra. Aplica 30% de descuento sobre TUG, TUE/IUG e IUG (no sobre llaves de luz ni el resto de los rubros).</small></span>
+      <span class="t"><b>El canaleteado lo hace albañilería</b>
+      <small>Se descuenta el 30% del valor de cada boca TUG, TUE/IUG e IUG. No aplica a llaves de luz ni al resto de los rubros.</small></span>
       <span class="pr" id="desc-canal-val">−U$D 0</span>
     </label>
 
     <table class="tot" style="margin-top:18px">
       <tr class="sub"><td>Subtotal materiales + mano de obra (sin IVA)</td><td>U$D <span id="elec-sub">—</span></td></tr>
-      <tr class="sub" id="elec-desc-row" style="display:none"><td>Descuento canaleteado ya hecho (30% s/TUG-TUE-IUG)</td><td>− U$D <span id="elec-desc">—</span></td></tr>
+      <tr class="sub" id="elec-desc-row" style="display:none"><td>Descuento canaleteado por albañilería (30% del valor de la boca)</td><td>− U$D <span id="elec-desc">—</span></td></tr>
       <tr id="elec-iva-row" style="display:none"><td>IVA 21% (si se factura)</td><td>U$D <span id="elec-iva">—</span></td></tr>
       <tr class="big"><td>Total instalación eléctrica</td><td>U$D <span id="elec-total">—</span></td></tr>
     </table>
@@ -402,6 +442,21 @@ window.addEventListener('resize',()=>{
   render();
 })();
 
+
+/* ---------- tarifario unitario ---------- */
+const TARIF={"tc": 1534, "rubros": [{"nom": "Tablero", "items": [{"n": "Cambio de gabinete", "u": "c/u", "ars": 100000, "desc": 0}, {"n": "Acondicionamiento de tablero seccional principal existente", "u": "c/u", "ars": 230000, "desc": 0}, {"n": "Vinculación entre tablero seccional 1 y 2", "u": "c/u", "ars": 50000, "desc": 0}, {"n": "Instalación de gabinete de 16 o 24 polos, empotrado en pared", "u": "c/u", "ars": 80000, "desc": 0}, {"n": "Colocación de interruptor diferencial (ID) bipolar", "u": "c/u · $17.000 por polo", "ars": 34000, "desc": 0}, {"n": "Colocación de interruptor termomagnético (ITM) bipolar", "u": "c/u · $17.000 por polo", "ars": 34000, "desc": 0}, {"n": "Bornera de puesta a tierra", "u": "c/u", "ars": 15000, "desc": 0}]}, {"nom": "Puesta a tierra", "items": [{"n": "Jabalina: hincado con tapa y conexionado al tablero", "u": "por jabalina", "ars": 90000, "desc": 0}]}, {"nom": "Canalización y cableado", "items": [{"n": "Canalización y cableado entre tableros, sin zanjeo", "u": "por metro lineal", "ars": 9000, "desc": 0}, {"n": "Caja de paso en el recorrido de los tableros", "u": "c/u", "ars": 30000, "desc": 0}, {"n": "ACU — alimentación para aire acondicionado", "u": "por boca", "ars": 62000, "desc": 0}]}, {"nom": "Bocas", "items": [{"n": "TUG — tomacorriente de uso general", "u": "por boca", "ars": 55000, "desc": 1}, {"n": "TUE / IUG mixto — iluminación exterior", "u": "por boca", "ars": 55000, "desc": 1}, {"n": "IUG — boca de iluminación interior", "u": "por boca", "ars": 50000, "desc": 1}, {"n": "Llave de luz", "u": "por boca", "ars": 55000, "desc": 0}]}, {"nom": "Colocación de artefactos", "items": [{"n": "Artefacto simple tipo plafón, techo o pared", "u": "c/u", "ars": 18000, "desc": 0}, {"n": "Reflector", "u": "c/u", "ars": 220000, "desc": 0}, {"n": "Artefacto colgante liviano", "u": "c/u", "ars": 25000, "desc": 0}, {"n": "Artefacto colgante mediano o 1 punto de tres luces", "u": "c/u", "ars": 40000, "desc": 0}, {"n": "Artefacto de piso", "u": "c/u", "ars": 45000, "desc": 0}, {"n": "Estaca de jardín", "u": "c/u", "ars": 22000, "desc": 0}, {"n": "Fuente para tira LED", "u": "c/u", "ars": 18000, "desc": 0}, {"n": "Tira LED aplicada en superficie", "u": "por metro lineal", "ars": 10000, "desc": 0}, {"n": "Ventilador de techo sin luz", "u": "c/u", "ars": 95000, "desc": 0}, {"n": "Ventilador de techo con luz", "u": "c/u", "ars": 105000, "desc": 0}]}]};
+(function(){
+  const host=document.getElementById('tarifario'); if(!host)return;
+  const $=n=>'$ '+Math.round(n).toLocaleString('es-AR');
+  const us=n=>{const v=n/TARIF.tc;return 'U$D '+(v<10?v.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1}):Math.round(v).toLocaleString('es-AR'))};
+  host.innerHTML=TARIF.rubros.map(r=>`<div class="tar"><h3>${r.nom}</h3><div class="tw"><table class="tr">
+    <thead><tr><th>Tarea</th><th>Pesos s/IVA</th><th>Referencia</th></tr></thead><tbody>${
+    r.items.map(it=>`<tr><td>${it.n}<small>${it.u}</small></td>
+      <td class="ars" data-label="Pesos s/IVA">${$(it.ars)}${it.desc?`<small class="cd">−30% si canaletea albañilería: ${$(it.ars*0.7)}</small>`:''}</td>
+      <td data-label="Referencia">${us(it.ars)}${it.desc?`<small>${us(it.ars*0.7)}</small>`:''}</td></tr>`).join('')
+    }</tbody></table></div></div>`).join('');
+})();
+
 (function(){
   const c=document.getElementById('conf'),b=document.getElementById('accept');
   if(!c||!b)return;
@@ -412,7 +467,7 @@ window.addEventListener('resize',()=>{
     const total=document.getElementById('elec-total').textContent;
     let m='Hola Nova Domus, acepto el presupuesto de instalación eléctrica — PY-2026-028 (Ampliación).\n\n';
     m+='Total: U$D '+total+' (referencial, TC '+ELEC.tc.toFixed(0)+')\n';
-    m+=canal?'Con descuento de canaleteado ya hecho\n':'';
+    m+=canal?'Con descuento de canaleteado por albañilería\n':'';
     m+=fa?'Con Factura A\n':'';
     m+='\nCoordinemos el inicio de obra.';
     window.open('https://wa.me/?text='+encodeURIComponent(m),'_blank');
