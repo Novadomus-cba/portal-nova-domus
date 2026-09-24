@@ -2522,10 +2522,12 @@ async function onSObraChange(){
     `<b>${sObra.nombre}</b> · ${sObra.cliente_razon_social||''} · ${sObra.tipo}`;
   sExcedentePrevioPesos=await fetchExcedentePrevioPesos(id);
   try{
-    const c=await sbGet('certificados',`?obra_id=eq.${id}&select=numero&order=numero.desc&limit=1`);
-    const r=await sbGet('recibos',`?obra_id=eq.${id}&select=numero&order=numero.desc&limit=1`);
-    document.getElementById('sNumC').value=c.length?c[0].numero+1:1;
-    document.getElementById('sNumR').value=r.length?r[0].numero+1:1;
+    // Preview solamente — el valor real y definitivo se vuelve a pedir en
+    // ensureRecibo() al entrar al paso 3, por si pasó tiempo y otra pestaña/usuario
+    // ya generó un documento de esta obra mientras tanto.
+    const numero=await sbRpc('fn_next_certificado_recibo_numero',{p_obra_id:id});
+    document.getElementById('sNumC').value=numero;
+    document.getElementById('sNumR').value=numero;
   }catch{
     document.getElementById('sNumC').value=1;
     document.getElementById('sNumR').value=1;
@@ -2544,24 +2546,6 @@ async function goS(n){
     await ensureRecibo();
     await buildPreviews();
     await loadCandidatas();
-  }
-}
-
-// Recalcula el próximo numero de certificado/recibo justo antes de insertar, en vez
-// de confiar en el valor que se calculó al entrar al wizard (paso 1) — si pasó tiempo
-// y se creó otro certificado/recibo de la misma obra mientras tanto (otra pestaña,
-// otro usuario), ese valor cacheado ya está tomado y el INSERT choca con la
-// constraint UNIQUE(obra_id,numero) (ver incidente 21/08 Zanoli/Los Boulevares: 409
-// en bucle). Si Supabase está realmente inalcanzable, se cae al valor del campo como
-// mejor estimación posible — igual que el resto del fallback offline de generar().
-async function freshNumero(table,obraId,domFieldId){
-  try{
-    const rows=await sbGet(table,`?obra_id=eq.${obraId}&select=numero&order=numero.desc&limit=1`);
-    return rows.length?rows[0].numero+1:1;
-  }catch(e){
-    if(e.message && e.message.startsWith('SIN_CONEXION'))
-      return parseInt(document.getElementById(domFieldId).value)||1;
-    throw e;
   }
 }
 
@@ -2584,8 +2568,16 @@ async function ensureRecibo(){
       };
       await sbPatch('recibos',payload,`?id=eq.${sRecId}`);
     }else{
-      const numero=await freshNumero('recibos',sObra.id,'sNumR');
+      // Se recalcula el número justo antes de insertar, en vez de confiar en el
+      // preview cacheado de onSObraChange() — si pasó tiempo y se creó otro
+      // certificado/recibo de la misma obra mientras tanto (otra pestaña, otro
+      // usuario), ese valor cacheado ya está tomado y el INSERT choca con la
+      // constraint UNIQUE(obra_id,numero) (ver incidente 21/08 Zanoli/Los
+      // Boulevares: 409 en bucle). Un solo RPC para las dos tablas: certificado y
+      // recibo comparten numeración desde el fix del 23/09.
+      const numero=await sbRpc('fn_next_certificado_recibo_numero',{p_obra_id:sObra.id});
       document.getElementById('sNumR').value=numero;
+      document.getElementById('sNumC').value=numero;
       const payload={
         obra_id:sObra.id,numero,
         fecha_emision:document.getElementById('sFecha').value,
@@ -3195,16 +3187,16 @@ async function generar(){
   let numC=parseInt(document.getElementById('sNumC').value);
   let numR=parseInt(document.getElementById('sNumR').value);
   try{
-    numC=await freshNumero('certificados',sObra.id,'sNumC');
-    document.getElementById('sNumC').value=numC;
-
     // El recibo ya se creó (BORRADOR) al entrar al paso 3 — acá se lo actualiza y
     // completa en vez de crearlo de nuevo, para no duplicarlo. Si por lo que sea
-    // todavía no existe, ensureRecibo() ya recalcula su numero fresco (freshNumero)
-    // antes de crearlo.
+    // todavía no existe, ensureRecibo() ya recalcula su numero fresco (RPC
+    // fn_next_certificado_recibo_numero) antes de crearlo.
     if(!sRecId) await ensureRecibo();
     if(!sRecId) throw new Error('No se pudo preparar el recibo');
     const recId=sRecId;
+    // El certificado usa el MISMO número que ya se le asignó al recibo en
+    // ensureRecibo() (numeración compartida, fix 23/09) — no se vuelve a pedir.
+    numC=parseInt(document.getElementById('sNumC').value);
     numR=parseInt(document.getElementById('sNumR').value);
 
     buildDC();buildDR();
