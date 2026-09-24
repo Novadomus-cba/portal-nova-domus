@@ -465,6 +465,14 @@ footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11
 @media(max-width:640px){.section-light>.wrap{padding-left:0;padding-right:0}}
 .rub-val{white-space:nowrap}
 @media(max-width:640px){.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:table-cell}.rub-body table{min-width:420px}}
+.premium{border:1px solid rgba(20,30,97,.2);border-left:3px solid var(--navy);border-radius:16px;padding:20px 20px 8px;margin:20px 0 6px;background:rgba(20,30,97,.03)}
+.premium h3{margin:4px 0 6px}
+.premium .opts{margin-top:10px}
+.cta-opt{display:inline-flex;align-items:center;margin-top:10px;min-height:40px;padding:0 16px;border-radius:999px;background:var(--navy);color:var(--cream)!important;font-weight:600;font-size:13.5px}
+.optc.on .cta-opt{background:transparent;color:var(--navy)!important;box-shadow:inset 0 0 0 1px var(--navy)}
+.optc input{position:absolute;opacity:0;width:1px;height:1px}
+.optc{position:relative}
+.optc:focus-within{outline:2px solid var(--navy);outline-offset:3px}
 
 @media (prefers-reduced-motion:reduce){
 *{animation:none!important;transition:none!important}}
@@ -505,11 +513,11 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       unidad. Luces, estufa y música controladas desde una pantalla en el sauna y desde el celular.</p>
     <div class="price-hero">
       <span class="figure js-total">U$D 1.318</span>
-      <small>por sauna · <span class="js-config">versión Básica</span></small>
+      <small>por sauna · <span class="js-config">Segmento Básico</span></small>
     </div>
     <div class="meta">
       <span>Pablo · Vix Pool Argentina</span><span>Kit repetible por unidad</span>
-      <span>Armado en fábrica · Córdoba</span><span>Base + 2 opcionales</span>
+      <span>Armado en fábrica · Córdoba</span><span>Básico o Premium a medida</span>
     </div>
   </div>
 </header>
@@ -544,7 +552,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <div class="kpi"><span class="figure" data-n="1">1</span>
       <small>pantalla de control en el sauna, más la app en el celular</small></div>
     <div class="kpi"><span class="figure" data-n="2">2</span>
-      <small>opcionales para armar la versión Premium: color y música</small></div>
+      <small>extras a elección en el segmento Premium: luces RGB y parlantes embutidos</small></div>
   </div>
   <p><b>Qué necesita el producto.</b> Un sauna de alta gama se diferencia por la experiencia de
     uso, no solo por la madera. El cliente quiere llegar y encontrarlo caliente, regular la luz sin
@@ -553,9 +561,9 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     desde el celular o la pantalla y sostiene sola la temperatura elegida, las luces se regulan de
     0 a 100%, y todo queda en una sola app. Se arma en la fábrica de Vix Pool y se pone en marcha
     en la casa del cliente final.</p>
-  <p><b>Inversión.</b> <span class="js-total">U$D 1.318</span> por sauna en la versión Básica.
-    Con color y música, hasta U$D 3.660. Un precio fijo por unidad, para que Vix Pool lo pueda
-    incluir en su lista.</p>
+  <p><b>Inversión.</b> <span class="js-total">U$D 1.318</span> por sauna en el segmento Básico.
+    El segmento Premium se arma a medida: cada cliente suma luces RGB, parlantes embutidos o las
+    dos cosas. Un precio fijo por unidad y por extra, para que Vix Pool lo pueda incluir en su lista.</p>
   <p><b>Próximo paso.</b> Armar el primer sauna como prototipo, validar todo en uso real y recién
     ahí replicar en serie.</p>
 </section>
@@ -567,8 +575,8 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     que agregamos queda escondido en el tablero o detrás de un panel. Lo único visible es la
     pantalla junto a la puerta.</p>
   <p>Para Vix Pool, el valor está en tener un producto terminado y probado: el mismo kit en cada
-    unidad, con precio fijo, instalación en fábrica y una versión Premium para el cliente que
-    quiere más.</p>
+    unidad, con precio fijo, instalación en fábrica y un segmento Premium que cada cliente arma
+    a su medida.</p>
   <div class="strip renders">
     <figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/frente.jpg" alt="Sauna Vix Pool de frente, con la luz interior encendida" loading="lazy" onerror="this.parentElement.style.display='none'">
       <figcaption>Luz interior regulable</figcaption></figure>
@@ -583,7 +591,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <p class="eyebrow">Demo interactiva</p>
   <h2>Probalo</h2>
   <p class="lead">Así va a usar el sauna tu cliente. Cada punto dorado es una parte del sistema;
-    los puntos huecos son opcionales.</p>
+    los puntos huecos son extras del segmento Premium.</p>
   <p class="hint">👆 Tocá un punto de la imagen, o un botón de abajo, para acercarte. En la pantalla
     podés prender la estufa y mover las luces: el efecto se ve en el sauna.</p>
   <div class="sx-wrap">
@@ -601,7 +609,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
         <button class="hs" data-k="lin" style="left:69%;top:38.7%" aria-label="Luz interior"><span></span></button>
         <button class="hs" data-k="lext" style="left:16.4%;top:28.5%" aria-label="Luz exterior"><span></span></button>
         <button class="hs" data-k="heat" style="left:72.5%;top:64.5%" aria-label="Estufa"><span></span></button>
-        <button class="hs opt" data-k="audio" style="left:60.8%;top:21.5%" aria-label="Música, opcional"><span></span></button>
+        <button class="hs opt" data-k="audio" style="left:60.8%;top:21.5%" aria-label="Parlantes embutidos, segmento Premium"><span></span></button>
       </div>
       <button class="sx-back" id="sx-back">Volver</button>
     </div>
@@ -612,7 +620,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <button data-k="lin" aria-pressed="false">Luz interior</button>
     <button data-k="lext" aria-pressed="false">Luz exterior</button>
     <button data-k="heat" aria-pressed="false">Estufa</button>
-    <button data-k="audio" aria-pressed="false">Música<span class="o">opcional</span></button>
+    <button data-k="audio" aria-pressed="false">Música<span class="o">premium</span></button>
   </div>
   <p style="margin-top:14px;font-size:13px;color:var(--grey)">Simulación sobre el render de Vix Pool.
     La temperatura sube acelerada para que se vea el efecto; un sauna real tarda entre 30 y 60
@@ -664,7 +672,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <p class="eyebrow">01 — Sistema</p>
   <h2>Iluminación</h2>
   <p class="lead">Dos líneas de luz regulables de 0 a 100%: la interior del sauna y el perfil LED
-    del alero. Con el opcional de color, el interior suma una tira RGB para cromoterapia.</p>
+    del alero. En el segmento Premium, el interior puede sumar una tira RGB para cromoterapia.</p>
   <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
   <div class="device-grid" id="grid-iluminacion"></div>
 </section>
@@ -685,7 +693,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 </section>
 
 <section class="sec" id="s03">
-  <p class="eyebrow">03 — Sistema · opcional</p>
+  <p class="eyebrow">03 — Sistema · Segmento Premium</p>
   <h2>Entretenimiento</h2>
   <p class="lead">Música adentro del sauna, con parlantes hechos para ambientes extremos y un
     amplificador que queda afuera, lejos del calor.</p>
@@ -702,8 +710,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <p>Un parlante común no dura en un sauna: el calor y la humedad lo destruyen. Estos parlantes
       son sellados y están hechos para ese ambiente. Además la música se elige desde el celular con
       AirPlay, Spotify o Google Cast, sin aprender una app nueva, y el volumen se maneja también
-      desde la pantalla del sauna. Es el opcional que más suma a la experiencia de una versión
-      Premium.</p>
+      desde la pantalla del sauna. Es el extra que más suma a la experiencia del segmento Premium.</p>
   </div>
   <p class="hint" style="margin-top:22px">👆 Tocá cada dispositivo para ver el detalle</p>
   <div class="device-grid" id="grid-entretenimiento"></div>
@@ -727,19 +734,25 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <h2>Detalle de la inversión</h2>
   <p class="lead">Todos los valores en dólares y <b>por sauna</b>. Los precios de cada ítem son
     netos; el IVA se discrimina en el total. Para varias unidades, multiplicá por la cantidad.</p>
-  <p class="hint">👆 Elegí los opcionales: el total, el desglose y la forma de pago se actualizan
-    en toda la propuesta</p>
+  <div class="premium">
+    <p class="eyebrow">Segmento Premium</p>
+    <h3>Armalo a tu medida</h3>
+    <p>El segmento Básico ya incluye luces regulables, estufa inteligente y pantalla. Para el
+      Premium, cada cliente elige qué sumar: una cosa, la otra o las dos.</p>
+    <p class="hint">👆 Tocá para añadir o quitar: el total, el desglose y la forma de pago se
+      actualizan en toda la propuesta</p>
   <div class="opts">
     <label class="optc" id="oc-rgb"><input type="checkbox" id="opt-rgb" onchange="setOpt()">
       <span><b>Iluminación RGB interior</b>
         <span>Tira de color adentro del sauna, con el tono elegido desde la pantalla o el celular.</span>
-        <span class="add" id="add-rgb"></span></span></label>
+        <span class="add" id="add-rgb"></span><span class="cta-opt" id="cta-rgb">Añadir luces RGB</span></span></label>
     <label class="optc" id="oc-audio"><input type="checkbox" id="opt-audio" onchange="setOpt()">
-      <span><b>Audio en el sauna</b>
+      <span><b>Parlantes embutidos</b>
         <span>Dos parlantes para ambientes extremos y amplificador con streaming.</span>
-        <span class="add" id="add-audio"></span></span></label>
+        <span class="add" id="add-audio"></span><span class="cta-opt" id="cta-audio">Añadir parlantes embutidos</span></span></label>
   </div>
-  <p class="config-line">Configuración elegida: <b class="js-config">versión Básica</b></p>
+  </div>
+  <p class="config-line">Configuración elegida: <b class="js-config">Segmento Básico</b></p>
   <div class="bar" id="bar"></div>
   <ul class="legend" id="legend"></ul>
   <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
@@ -802,7 +815,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       <div class="dev-body"><p>La pantalla es un equipo electrónico: no puede ir adentro del sauna.
         Va afuera, junto a la puerta, bajo el alero y protegida de las salpicaduras de la ducha y del
         sol directo; la ubicación exacta se define con Vix Pool sobre el primer prototipo. Los
-        parlantes del opcional de audio están especificados por su fabricante para operar hasta
+        parlantes embutidos del segmento Premium están especificados por su fabricante para operar hasta
         80 °C: se ubican en el sector más fresco del sauna y la temperatura máxima se ajusta en la
         programación.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
@@ -956,7 +969,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <h2 style="margin-bottom:14px">El primer sauna</h2>
   <p class="lead" style="margin:0 auto 8px">Arrancamos con un prototipo: armamos el kit en el primer
     sauna, lo probamos en uso real y ajustamos antes de producir en serie.</p>
-  <p style="margin:10px auto 0;color:#EDEAE0">Configuración: <b class="js-config">versión Básica</b>
+  <p style="margin:10px auto 0;color:#EDEAE0">Configuración: <b class="js-config">Segmento Básico</b>
     · <b class="js-total">U$D 1.318</b> por sauna</p>
   <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
     <input type="checkbox" id="ok" onchange="conf()">
@@ -987,8 +1000,8 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 <script>
 // ===== DATOS (generados en Python desde precios B2B y mano_obra_tarifario) =====
 var BLOCKS = {"base": {"neto": 693, "iva": 146, "eq": 839, "mo": 359, "prog": 120, "total": 1318}, "rgb": {"neto": 38, "iva": 8, "eq": 46, "mo": 60, "prog": 11, "total": 117}, "audio": {"neto": 1551, "iva": 326, "eq": 1877, "mo": 145, "prog": 203, "total": 2225}};
-var RUBROS = [{"id": "ilu", "b": "base", "name": "Iluminación", "items": [{"n": "Shelly Plus RGBW PM — controlador de tiras LED, 4 canales", "q": 1, "p": 38, "ivaTxt": "21%"}], "val": 38}, {"id": "con", "b": "base", "name": "Confort", "items": [{"n": "Shelly Pro 3 — relé de riel DIN, 3 canales", "q": 1, "p": 155, "ivaTxt": "21%"}, {"n": "Shelly Plus 1 — módulo de lectura de temperatura", "q": 1, "p": 29, "ivaTxt": "21%"}, {"n": "Shelly Plus Add-on — adaptador de sensores", "q": 1, "p": 25, "ivaTxt": "21%"}, {"n": "Sonda de temperatura DS18B20", "q": 1, "p": 16, "ivaTxt": "21%"}], "val": 225}, {"id": "core", "b": "base", "name": "Core", "items": [{"n": "HUB Home Assistant Lite (HOMIQ-HA-LITE)", "q": 1, "p": 174, "ivaTxt": "21%"}, {"n": "Shelly Wall Display", "q": 1, "p": 256, "ivaTxt": "21%"}], "val": 430}, {"id": "rgb", "b": "rgb", "name": "Iluminación RGB · opcional", "items": [{"n": "Shelly Plus RGBW PM — modo color", "q": 1, "p": 38, "ivaTxt": "21%"}], "val": 38}, {"id": "aud", "b": "audio", "name": "Entretenimiento · opcional", "items": [{"n": "Episode ES-XTR-6-IC — parlante de techo Extreme Environment 6\"", "q": 2, "p": 369, "ivaTxt": "21%"}, {"n": "VSSL MA.1 — amplificador de streaming, 2 canales", "q": 1, "p": 813, "ivaTxt": "21%"}], "val": 1551}];
-var DEVICES = {"iluminacion": [{"n": "Shelly Plus RGBW PM", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-plus-rgbw-pm.png", "desc": "Comanda las dos líneas de luz del sauna —la interior y el perfil LED del alero— y las regula de 0 a 100%. Va en una caja plástica al lado del tablero, lejos del calor."}, {"n": "Shelly Plus RGBW PM · modo color", "q": 1, "opt": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-plus-rgbw-pm.png", "desc": "Opcional. Suma una tira de color adentro del sauna: el tono se elige desde la pantalla o el celular, para cromoterapia o para ambientar la sesión."}], "confort": [{"n": "Shelly Pro 3", "q": 1, "foto": null, "desc": "Comanda por separado cada una de las tres resistencias de la estufa, a través de un contactor por resistencia en el tablero: las tres juntas para calentar rápido, una o dos para mantener."}, {"n": "Shelly Plus 1 + Add-on", "q": 1, "foto": null, "desc": "Lee la sonda de temperatura y le pasa el dato al sistema. Con eso la estufa se prende y se apaga sola para sostener la temperatura elegida."}, {"n": "Sonda de temperatura", "q": 1, "foto": null, "desc": "Mide la temperatura real adentro del sauna, a media altura y lejos de la estufa, que es la que siente la persona."}], "entretenimiento": [{"n": "Parlante Episode Extreme Environment 6\"", "q": 2, "opt": 1, "foto": null, "desc": "Opcional. Parlantes de techo sellados, hechos para ambientes con calor y humedad. Van embutidos adentro del sauna, en estéreo."}, {"n": "VSSL MA.1", "q": 1, "opt": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png", "desc": "Opcional. Amplificador con streaming que queda afuera del sauna. La música se elige desde el celular con AirPlay, Spotify o Google Cast, y el volumen se maneja también desde la pantalla."}], "core": [{"n": "HUB Home Assistant Lite", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/HOMIQ-HA-LITE.webp", "desc": "El cerebro del sistema. Va en la casa, conectado al router: corre las escenas, el termostato y los cortes de seguridad, sin depender de internet."}, {"n": "Shelly Wall Display", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235264904.png", "desc": "La pantalla de control, afuera junto a la puerta: precalentar, regular las luces y, con el opcional, manejar la música sin sacar el celular."}]};
+var RUBROS = [{"id": "ilu", "b": "base", "name": "Iluminación", "items": [{"n": "Shelly Plus RGBW PM — controlador de tiras LED, 4 canales", "q": 1, "p": 38, "ivaTxt": "21%"}], "val": 38}, {"id": "con", "b": "base", "name": "Confort", "items": [{"n": "Shelly Pro 3 — relé de riel DIN, 3 canales", "q": 1, "p": 155, "ivaTxt": "21%"}, {"n": "Shelly Plus 1 — módulo de lectura de temperatura", "q": 1, "p": 29, "ivaTxt": "21%"}, {"n": "Shelly Plus Add-on — adaptador de sensores", "q": 1, "p": 25, "ivaTxt": "21%"}, {"n": "Sonda de temperatura DS18B20", "q": 1, "p": 16, "ivaTxt": "21%"}], "val": 225}, {"id": "core", "b": "base", "name": "Core", "items": [{"n": "HUB Home Assistant Lite (HOMIQ-HA-LITE)", "q": 1, "p": 174, "ivaTxt": "21%"}, {"n": "Shelly Wall Display", "q": 1, "p": 256, "ivaTxt": "21%"}], "val": 430}, {"id": "rgb", "b": "rgb", "name": "Luces RGB · Segmento Premium", "items": [{"n": "Shelly Plus RGBW PM — modo color", "q": 1, "p": 38, "ivaTxt": "21%"}], "val": 38}, {"id": "aud", "b": "audio", "name": "Parlantes embutidos · Segmento Premium", "items": [{"n": "Episode ES-XTR-6-IC — parlante de techo Extreme Environment 6\"", "q": 2, "p": 369, "ivaTxt": "21%"}, {"n": "VSSL MA.1 — amplificador de streaming, 2 canales", "q": 1, "p": 813, "ivaTxt": "21%"}], "val": 1551}];
+var DEVICES = {"iluminacion": [{"n": "Shelly Plus RGBW PM", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-plus-rgbw-pm.png", "desc": "Comanda las dos líneas de luz del sauna —la interior y el perfil LED del alero— y las regula de 0 a 100%. Va en una caja plástica al lado del tablero, lejos del calor."}, {"n": "Shelly Plus RGBW PM · modo color", "q": 1, "opt": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-plus-rgbw-pm.png", "desc": "Segmento Premium. Suma una tira de color adentro del sauna: el tono se elige desde la pantalla o el celular, para cromoterapia o para ambientar la sesión."}], "confort": [{"n": "Shelly Pro 3", "q": 1, "foto": null, "desc": "Comanda por separado cada una de las tres resistencias de la estufa, a través de un contactor por resistencia en el tablero: las tres juntas para calentar rápido, una o dos para mantener."}, {"n": "Shelly Plus 1 + Add-on", "q": 1, "foto": null, "desc": "Lee la sonda de temperatura y le pasa el dato al sistema. Con eso la estufa se prende y se apaga sola para sostener la temperatura elegida."}, {"n": "Sonda de temperatura", "q": 1, "foto": null, "desc": "Mide la temperatura real adentro del sauna, a media altura y lejos de la estufa, que es la que siente la persona."}], "entretenimiento": [{"n": "Parlante Episode Extreme Environment 6\"", "q": 2, "opt": 1, "foto": null, "desc": "Segmento Premium. Parlantes de techo sellados, hechos para ambientes con calor y humedad. Van embutidos adentro del sauna, en estéreo."}, {"n": "VSSL MA.1", "q": 1, "opt": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png", "desc": "Segmento Premium. Amplificador con streaming que queda afuera del sauna. La música se elige desde el celular con AirPlay, Spotify o Google Cast, y el volumen se maneja también desde la pantalla."}], "core": [{"n": "HUB Home Assistant Lite", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/HOMIQ-HA-LITE.webp", "desc": "El cerebro del sistema. Va en la casa, conectado al router: corre las escenas, el termostato y los cortes de seguridad, sin depender de internet."}, {"n": "Shelly Wall Display", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235264904.png", "desc": "La pantalla de control, afuera junto a la puerta: precalentar, regular las luces y, con los parlantes del segmento Premium, manejar la música sin sacar el celular."}]};
 var OPT = {rgb:false, audio:false};
 
 function fmt(v){return 'U$D '+Math.round(v).toLocaleString('es-AR');}
@@ -1015,7 +1028,7 @@ function renderDeviceGrid(id,key){
     var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
     return '<article class="dev">'
      +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
-     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+(d.opt?' · opcional':'')+'</span></span>'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+(d.opt?' · segmento Premium':'')+'</span></span>'
      +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
      +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
      +'</article>';
@@ -1034,10 +1047,10 @@ function totals(){
   return t;
 }
 function configName(){
-  if(OPT.rgb&&OPT.audio) return 'versión Premium (color + audio)';
-  if(OPT.rgb) return 'versión Básica + color RGB';
-  if(OPT.audio) return 'versión Básica + audio';
-  return 'versión Básica';
+  if(OPT.rgb&&OPT.audio) return 'Segmento Premium: luces RGB + parlantes embutidos';
+  if(OPT.rgb) return 'Segmento Premium: luces RGB';
+  if(OPT.audio) return 'Segmento Premium: parlantes embutidos';
+  return 'Segmento Básico';
 }
 function setOpt(){
   OPT.rgb=document.getElementById('opt-rgb').checked;
@@ -1051,6 +1064,8 @@ function render(){
   var t=totals(), act=activeBlocks();
   document.getElementById('add-rgb').textContent='+ '+fmt(BLOCKS.rgb.total)+' por sauna';
   document.getElementById('add-audio').textContent='+ '+fmt(BLOCKS.audio.total)+' por sauna';
+  document.getElementById('cta-rgb').textContent=OPT.rgb?'✓ Añadido · tocá para quitar':'Añadir luces RGB';
+  document.getElementById('cta-audio').textContent=OPT.audio?'✓ Añadido · tocá para quitar':'Añadir parlantes embutidos';
   // rubros
   var vis=RUBROS.filter(function(r){return act.indexOf(r.b)>=0;});
   document.getElementById('bar').innerHTML=vis.map(function(r){return '<span class="seg" style="flex:'+r.val+'" title="'+r.name+': '+fmt(r.val)+' + IVA"></span>';}).join('');
@@ -1128,21 +1143,21 @@ function marca(i,btn){
       +'<div class="swatches">'+COLORS.map(function(c){return '<button data-c="'+c+'" style="background:'+c+'" aria-label="Color"></button>';}).join('')+'</div></div>'; }
   function audioCtl(){ return '<div class="ctl"><div class="lab"><span>Música</span><button class="tog" role="switch" data-t="play" aria-label="Reproducir"></button></div></div>'+rng('vol','Volumen',0,100,1)
       +'<p class="opt-note" style="border:0;padding:0;margin-top:4px">La música se elige desde el celular.</p>'; }
-  function upsell(k,txt){ return '<p class="opt-note">'+txt+' <button onclick="addOpt(\''+k+'\')">Sumalo al presupuesto</button></p>'; }
+  function upsell(k,txt){ return '<p class="opt-note">'+txt+' <button onclick="addOpt(\''+k+'\')">'+(k==='rgb'?'Añadir luces RGB':'Añadir parlantes embutidos')+'</button></p>'; }
   function panel(k){
     if(k==='display') return '<div class="wdv"><div class="wdv-s"><div class="wdv-top"><span>Sauna</span><span data-clock></span></div>'
       +'<div class="tnow"><span data-now></span><sup>°C</sup></div><div class="tstat" data-stat></div>'+heatCtl()
       +rng('lin','Luz interior',0,100,1)+rng('lext','Luz exterior',0,100,1)
       +(OPT.rgb?colorCtl():'')+(OPT.audio?audioCtl():'')
       +'<div class="chips"><button data-scene="pre">Precalentar</button><button data-scene="ses">Sesión</button><button data-scene="off">Apagar todo</button></div>'
-      +((!OPT.rgb||!OPT.audio)?upsell(!OPT.rgb?'rgb':'audio',!OPT.rgb?'Con el opcional de color, acá elegís el tono.':'Con el opcional de audio, acá manejás la música.'):'')
+      +((!OPT.rgb||!OPT.audio)?upsell(!OPT.rgb?'rgb':'audio',!OPT.rgb?'Segmento Premium: con luces RGB, acá elegís el tono.':'Segmento Premium: con parlantes embutidos, acá manejás la música.'):'')
       +'</div></div>';
     if(k==='lin') return '<div class="sxcard"><h3>Luz interior</h3><p>Luz cálida regulable de 0 a 100%, para entrar con claridad y bajarla durante la sesión. El módulo que la comanda queda afuera, lejos del calor.</p><div class="try">Probala:</div>'+rng('lin','Luz interior',0,100,1)
-      +(OPT.rgb?colorCtl():upsell('rgb','Opcional: tira de color para cromoterapia.'))+'</div>';
+      +(OPT.rgb?colorCtl():upsell('rgb','Segmento Premium: tira de color para cromoterapia.'))+'</div>';
     if(k==='lext') return '<div class="sxcard"><h3>Luz exterior</h3><p>El perfil LED del alero, regulable. Se puede prender solo al atardecer, o desde la pantalla y el celular.</p><div class="try">Probala:</div>'+rng('lext','Luz exterior',0,100,1)+'</div>';
     if(k==='heat') return '<div class="sxcard"><h3>Estufa</h3><p>Se prende desde la pantalla o el celular antes de llegar. Calienta con las tres resistencias y mantiene la temperatura con una o dos.</p><div class="tstat" data-stat style="margin-top:10px"></div>'+heatCtl()+'</div>';
-    if(k==='audio') return '<div class="sxcard"><h3>Música · opcional</h3><p>Dos parlantes sellados, hechos para ambientes extremos, embutidos en el techo del sauna. El amplificador queda afuera.</p>'
-      +(OPT.audio?audioCtl():upsell('audio','No está incluido en la versión Básica.'))+'</div>';
+    if(k==='audio') return '<div class="sxcard"><h3>Parlantes · Premium</h3><p>Dos parlantes sellados, hechos para ambientes extremos, embutidos en el techo del sauna. El amplificador queda afuera.</p>'
+      +(OPT.audio?audioCtl():upsell('audio','Es un extra del segmento Premium.'))+'</div>';
   }
   function frame(k){
     var p=SPOTS[k];
