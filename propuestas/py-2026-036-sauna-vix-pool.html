@@ -373,8 +373,8 @@ footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11
 .sx{position:relative;width:100%;aspect-ratio:1448/1086;border-radius:16px;overflow:hidden;background:#05070f;touch-action:manipulation;box-shadow:0 0 0 1px rgba(200,169,110,.25)}
 .sx-scene{position:absolute;inset:0;transform-origin:0 0;transition:transform .95s cubic-bezier(.65,0,.25,1)}
 .sx-scene img{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;-webkit-user-select:none;user-select:none}
-.sx-scene .l-base{filter:brightness(.5) saturate(.85)}
-.sx-scene .l-ext{clip-path:polygon(13.8% 30.4%,17.3% 13.8%,29% 6.4%,88.4% 14.7%,89.1% 17.5%,81.8% 81%,79.4% 88.9%,31.1% 88.9%,13.8% 79.2%);filter:brightness(var(--be,.8));transition:filter .25s linear}
+.sx-scene .l-base{filter:brightness(.72) saturate(.9)}
+.sx-scene .l-ext{clip-path:polygon(13.8% 30.4%,17.3% 13.8%,29% 6.4%,88.4% 14.7%,89.1% 17.5%,81.8% 78%,54% 83%,31.1% 87%,13.8% 79.2%);filter:brightness(var(--be,.8));transition:filter .25s linear}
 .sx-scene .l-in{filter:brightness(var(--bi,.9)) saturate(1.1);transition:filter .25s linear}
 .sx-scene .glass{clip-path:polygon(53.2% 13.8%,86.7% 21.6%,86.3% 79.2%,47.7% 80.1%)}
 .sx-scene .door{clip-path:polygon(34.9% 24.1%,44.5% 24.1%,44.5% 77.3%,34.9% 77.3%)}
@@ -473,6 +473,9 @@ footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11
 .optc input{position:absolute;opacity:0;width:1px;height:1px}
 .optc{position:relative}
 .optc:focus-within{outline:2px solid var(--navy);outline-offset:3px}
+.sx-fail{display:none;position:absolute;inset:auto 16px 16px 16px;margin:0;padding:12px 14px;border-radius:10px;background:rgba(11,19,43,.92);color:#EDEAE0;font-size:13px;border:1px solid rgba(200,169,110,.4)}
+.sx-fail.on{display:block}
+.sx-scene img{font-size:0;color:transparent}
 
 @media (prefers-reduced-motion:reduce){
 *{animation:none!important;transition:none!important}}
@@ -489,6 +492,14 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 .tbl td[data-label]::before{display:none}
 *{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
 </style>
+<script>function imgAlt(img,hideFig){
+  var alt=img.getAttribute('data-alt');
+  if(alt && img.src!==alt){ img.src=alt; return; }
+  img.onerror=null;
+  if(hideFig){ img.parentElement.style.display='none'; return; }
+  var f=document.getElementById('sx-fail'); if(f) f.classList.add('on');
+}
+</script>
 </head>
 <body>
 
@@ -578,11 +589,11 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     unidad, con precio fijo, instalación en fábrica y un segmento Premium que cada cliente arma
     a su medida.</p>
   <div class="strip renders">
-    <figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/frente.jpg" alt="Sauna Vix Pool de frente, con la luz interior encendida" loading="lazy" onerror="this.parentElement.style.display='none'">
+    <figure><img src="assets/py-2026-036/frente.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/frente.jpg" alt="Sauna Vix Pool de frente, con la luz interior encendida" loading="lazy" onerror="imgAlt(this,true)">
       <figcaption>Luz interior regulable</figcaption></figure>
-    <figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/perspectiva-oscura.jpg" alt="Sauna Vix Pool con el perfil LED del alero encendido" loading="lazy" onerror="this.parentElement.style.display='none'">
+    <figure><img src="assets/py-2026-036/perspectiva-oscura.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/perspectiva-oscura.jpg" alt="Sauna Vix Pool con el perfil LED del alero encendido" loading="lazy" onerror="imgAlt(this,true)">
       <figcaption>Perfil LED del alero</figcaption></figure>
-    <figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/jardin.jpg" alt="Sauna Vix Pool instalado en un jardín" loading="lazy" onerror="this.parentElement.style.display='none'">
+    <figure><img src="assets/py-2026-036/jardin.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/jardin.jpg" alt="Sauna Vix Pool instalado en un jardín" loading="lazy" onerror="imgAlt(this,true)">
       <figcaption>Pensado para el jardín del cliente</figcaption></figure>
   </div>
 </section>
@@ -597,10 +608,10 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <div class="sx-wrap">
     <div class="sx glow" id="sx">
       <div class="sx-scene" id="sxs">
-        <img class="l-base" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="Sauna Vix Pool de noche en un jardín, con las luces encendidas">
-        <img class="l-ext" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="">
-        <img class="l-in glass" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="">
-        <img class="l-in door" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="">
+        <img class="l-base" onerror="imgAlt(this)" src="assets/py-2026-036/noche.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="Sauna Vix Pool de noche en un jardín, con las luces encendidas">
+        <img class="l-ext" onerror="imgAlt(this)" src="assets/py-2026-036/noche.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="">
+        <img class="l-in glass" onerror="imgAlt(this)" src="assets/py-2026-036/noche.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="">
+        <img class="l-in door" onerror="imgAlt(this)" src="assets/py-2026-036/noche.jpg" data-alt="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/assets/py-2026-036/noche.jpg" alt="">
         <div class="sx-rgb glass"></div>
         <div class="sx-rgb door"></div>
         <div class="sx-heat"></div>
@@ -612,6 +623,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
         <button class="hs opt" data-k="audio" style="left:60.8%;top:21.5%" aria-label="Parlantes embutidos, segmento Premium"><span></span></button>
       </div>
       <button class="sx-back" id="sx-back">Volver</button>
+      <p class="sx-fail" id="sx-fail">No se pudo cargar la imagen del sauna en este navegador. Abrí la propuesta desde el link publicado o probá con otro navegador.</p>
     </div>
     <div class="sx-ui" id="sx-ui" aria-live="polite"></div>
   </div>
