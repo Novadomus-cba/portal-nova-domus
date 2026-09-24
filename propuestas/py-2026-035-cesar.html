@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="César — Propuesta de videovigilancia IP">
+<meta property="og:description" content="Videovigilancia IP ColorVu de 8 cámaras. Migración de analógico a IP. PY-2026-035 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-035-cesar.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-035-cesar.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-035">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>César · PY-2026-035 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10bis Caja de metros: etiqueta y cifra dejan de competir por el ancho */
+  .metros-box{padding:16px 14px}
+  .metros-box .slabel{flex-direction:column;align-items:flex-start;gap:2px}
+  .metros-out{font-size:17px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+/* --- Inversión: control de metros de cable --- */
+.metros-box{background:rgba(200,169,110,.07);border:1px solid rgba(200,169,110,.32);
+  border-radius:14px;padding:20px 22px;margin:22px 0 10px}
+.metros-box h3{margin:0 0 4px;color:var(--gold)}
+.metros-box p{margin:0 0 14px;font-size:14px}
+.metros-out{font-family:var(--font-display);color:var(--gold);font-size:19px;letter-spacing:1px}
+.metros-note{margin-top:12px;font-size:13px;color:var(--grey)}
+.pulse-gold{animation:pg 2.6s ease-in-out infinite}
+@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+  50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+@media(prefers-reduced-motion:reduce){.pulse-gold{animation:none}}
+
+</style></head><body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-035 · PROPUESTA COMERCIAL</p>
+    <h1>César</h1>
+    <p class="claim">Ver de noche, en color.</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Sistema de videovigilancia de ocho cámaras. Misma
+      cobertura y mismo esquema full color que la propuesta original, resuelto íntegramente con
+      tecnología IP en vez de analógica.</p>
+    <div class="meta">
+      <span>Córdoba, Argentina</span><span>8 cámaras ColorVu</span>
+      <span>Grabación IP PoE</span><span>Sistema ampliable</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#analogico">Analógico vs. IP</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#s01">Videovigilancia</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">La propuesta original resolvía ocho cámaras full color con un DVR analógico.
+    Nova Domus no instala analógico: todo lo que sigue mantiene exactamente el mismo esquema de
+    cobertura y la misma visión nocturna en color, resuelto con tecnología IP.</p>
+  <div class="kpis">
+    <div class="kpi"><b class="figure" data-n="8">0</b><small>Cámaras ColorVu 3.0<br>con AcuSense</small></div>
+    <div class="kpi"><b class="figure" data-n="1">0</b><small>Cable por cámara<br>datos y energía juntos</small></div>
+    <div class="kpi"><b class="figure" data-n="0">0</b><small>Fuentes externas<br>y cero baluns</small></div>
+    <div class="kpi"><b class="figure" data-n="12">0</b><small>Meses de garantía<br>sobre la instalación</small></div>
+  </div>
+  <p style="margin-top:22px">Qué cambia en concreto: desaparecen los ocho juegos de baluns y las
+    cuatro fuentes de 2A con sus plugs, porque cada cámara se resuelve con un único cable de red
+    que le lleva los datos y la alimentación desde el grabador. Las cajas estancas se mantienen
+    en las cámaras de exterior, donde se hace el empalme entre el cable y la ficha de la cámara.
+    A cambio se ganan cuatro cosas: el sistema puede seguir grabando durante un corte de luz si
+    se suma un UPS, la imagen es digital y no se degrada con la distancia, cada cámara tiene
+    analítica propia que distingue una persona de un animal, y sumar cámaras o subir la
+    resolución más adelante no implica recablear.</p>
+</section>
+
+<section class="sec section-light" id="analogico">
+  <p class="eyebrow">00 — Por qué cambia</p>
+  <h2>Analógico vs. IP</h2>
+  <p class="lead">Las dos tecnologías muestran ocho cámaras en una pantalla. La diferencia está
+    en lo que hay entre la cámara y el grabador, y en lo que se puede hacer después.</p>
+  <p class="hint">👆 Tocá los dos botones para comparar</p>
+  <div class="sw pulse-gold" id="asw">
+    <button class="on" onclick="acmp(0,this)">Analógico (HD-TVI)</button>
+    <button onclick="acmp(1,this)">IP PoE — nuestra propuesta</button>
+  </div>
+  <div class="cbox" id="abox"></div>
+  <div class="tw"><table class="tbl">
+    <thead><tr><th>Punto</th><th>Analógico</th><th>IP PoE</th></tr></thead>
+    <tbody>
+      <tr><td>Cableado por cámara</td>
+        <td data-label="Analógico">Coaxil + par de alimentación, con un balún en cada punta</td>
+        <td data-label="IP PoE">Un solo cable de red: datos y energía juntos</td></tr>
+      <tr><td>Alimentación</td>
+        <td data-label="Analógico">Cuatro fuentes externas con plugs, cada una un punto de falla</td>
+        <td data-label="IP PoE">PoE desde el grabador, sin fuentes sueltas</td></tr>
+      <tr><td>Empalmes a la intemperie</td>
+        <td data-label="Analógico">Caja estanca por cámara, con los baluns y el empalme de alimentación adentro</td>
+        <td data-label="IP PoE">Caja estanca solo en exteriores, con un único empalme adentro: UTP a la ficha de la cámara</td></tr>
+      <tr><td>Corte de luz</td>
+        <td data-label="Analógico">Cada fuente depende de su propio tomacorriente: se cae todo</td>
+        <td data-label="IP PoE">Un UPS sobre el grabador sostiene las ocho cámaras, porque la energía viaja por el cable de red</td></tr>
+      <tr><td>Calidad de imagen</td>
+        <td data-label="Analógico">Señal analógica que se degrada con la distancia del coaxil</td>
+        <td data-label="IP PoE">Video digital sin pérdida hasta 100 metros, igual en la cámara más lejana que en la más cercana</td></tr>
+      <tr><td>Resolución</td>
+        <td data-label="Analógico">Tope real en 1080 Lite</td>
+        <td data-label="IP PoE">Escalable a 4MP u 8MP sin recablear</td></tr>
+      <tr><td>Analítica</td>
+        <td data-label="Analógico">En el grabador, básica y compartida entre canales</td>
+        <td data-label="IP PoE">AcuSense en cada cámara: separa persona de vehículo de rama al viento</td></tr>
+      <tr><td>Crecer más adelante</td>
+        <td data-label="Analógico">Cambiar el grabador y volver a cablear</td>
+        <td data-label="IP PoE">Sumar la cámara a la red existente</td></tr>
+    </tbody>
+  </table></div>
+  <div class="vbox">
+    <h3>Lo que no te vamos a decir</h3>
+    <p>Que el analógico sea malo. Funciona, y comparando solo la lista de equipos es más barato.
+      Lo que lo empata es el resto de la obra: los baluns, las fuentes, las cajas de empalme y el
+      doble tendido son piezas y horas que el IP no necesita. Y lo que lo define no es el precio
+      de hoy sino cuatro cosas que el analógico no puede dar: que el sistema siga grabando en un
+      corte de luz, que la cámara más lejana se vea igual que la más cercana, que cada cámara
+      tenga analítica propia, y que dentro de tres años puedas sumar una cámara o subir a 4MP
+      sin romper para recablear. Por eso Nova Domus dejó de instalarlo.</p>
+  </div>
+</section>
+
+<section class="sec" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p class="lead">En una instalación de cámaras normalmente hay tres manos distintas: el que
+    vende los equipos, el que pasa el cable y el que configura. Cuando algo falla, cada uno
+    señala al otro y el problema queda en el medio.</p>
+  <div class="steps">
+    <div class="step"><b>1 · Relevamiento</b><span>Visita al sitio, definición de posiciones
+      reales de cámara y de los recorridos de cable. Recién ahí se confirman las cantidades.</span></div>
+    <div class="step"><b>2 · Especificación del cableado</b><span>Nova Domus indica en plano por
+      dónde va cada tendido y certifica el cable una vez pasado.</span></div>
+    <div class="step"><b>3 · Montaje</b><span>Cámaras, grabador y disco, montados y conectados
+      por nuestro equipo.</span></div>
+    <div class="step"><b>4 · Configuración</b><span>Grabación, analítica AcuSense, usuarios y
+      acceso remoto desde el celular.</span></div>
+    <div class="step"><b>5 · Entrega documentada</b><span>Inventario, credenciales y esquema de
+      la instalación, más 12 meses de garantía.</span></div>
+  </div>
+  <div class="tw"><table class="tbl">
+    <thead><tr><th>&nbsp;</th><th>Con Nova Domus</th><th>Instalación tradicional</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno</td>
+        <td data-label="Instalación tradicional">Equipos, cableado y configuración por separado</td></tr>
+      <tr><td>Responsable ante una falla</td><td data-label="Con Nova Domus">Nova Domus, sin intermediarios</td>
+        <td data-label="Instalación tradicional">Cada uno señala al otro</td></tr>
+      <tr><td>Quién configura</td><td data-label="Con Nova Domus">Equipo propio</td>
+        <td data-label="Instalación tradicional">Habitualmente un tercero</td></tr>
+      <tr><td>Garantía</td><td data-label="Con Nova Domus">12 meses sobre la instalación, más la de cada fabricante</td>
+        <td data-label="Instalación tradicional">Solo la del equipo</td></tr>
+    </tbody>
+  </table></div>
+  <p class="metros-note">El tendido físico del cable lo ejecuta el electricista de la obra según
+    nuestra indicación en plano: Nova Domus especifica y certifica el cableado de señales
+    débiles, no lo pasa. Todo lo demás —equipos, montaje, configuración y entrega— es
+    responsabilidad directa nuestra.</p>
+</section>
+
+<section class="sec section-light" id="s01">
+  <p class="eyebrow">01 — Sistema</p>
+  <h2>Videovigilancia</h2>
+  <p class="lead">Ocho cámaras domo ColorVu 3.0 con AcuSense, un grabador de ocho canales con
+    PoE integrado y un disco pensado para grabar sin parar.</p>
+  <p class="hint">👆 Tocá cada dispositivo para ver qué hace</p>
+  <div class="device-grid" id="grid-video"></div>
+  <p class="metros-note">Las ocho cajas estancas están cotizadas asumiendo que las ocho cámaras
+    van a exterior, como en la propuesta original. Las cámaras que finalmente queden en interior
+    no la llevan y se descuentan: se define en la visita técnica.</p>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="inversion" style="border-top:0">
+  <p class="eyebrow">02 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total general, más abajo.</p>
+
+  <div class="metros-box" style="border-color:rgba(200,169,110,.5)">
+    <h3>Opcional recomendado — UPS</h3>
+    <p>El grabador alimenta las ocho cámaras por PoE. Si el grabador queda sobre un UPS, en un
+      corte de luz siguen funcionando las ocho cámaras y la grabación, porque la energía les
+      llega por el mismo cable de red. Sin UPS se apaga todo, y un corte es exactamente el
+      momento en que más te importa tener grabación. Es el único punto de la instalación donde
+      un equipo chico sostiene el sistema entero.</p>
+    <div class="chk" style="margin-top:4px">
+      <input type="checkbox" id="upsck" onchange="setUps(this.checked)">
+      <label for="upsck">Sumar <b>UPS Eaton 5E 1100VA</b> — U$D 95 de equipo más su
+        instalación. Da autonomía de varias horas sobre la carga real de este sistema.</label>
+    </div>
+  </div>
+
+  <div class="metros-box pulse-gold">
+    <h3>Metros de cable</h3>
+    <p>No tenemos todavía el relevamiento del sitio, así que el cable se cotiza por metro y no
+      por bobina. Movió el control y el presupuesto se recalcula entero, incluida la forma de pago.</p>
+    <div class="slabel"><span>Metros de cable UTP exterior</span>
+      <span class="metros-out" id="mv">240 m</span></div>
+    <input class="slider" type="range" min="0" max="600" step="10" value="240" id="mr"
+           oninput="setMetros(this.value)" aria-label="Metros de cable">
+    <div class="slabel" style="margin-top:14px"><span>Subtotal cable</span>
+      <span class="metros-out" id="cv">U$D 300</span></div>
+    <p class="metros-note">Referencia: ocho tiradas de unos 30 metros promedio dan cerca de 240
+      metros. El número definitivo sale de la visita técnica y se factura contra metros
+      realmente tendidos.</p>
+  </div>
+
+  <div class="bar"><span class="seg" id="seg-eq" style="flex:1727" title="Equipos"></span><span class="seg" id="seg-cab" style="flex:300" title="Cableado"></span></div>
+  <ul class="legend"><li><i class="dot d0"></i>Equipos <b id="lg-eq">U$D 1.727</b></li><li><i class="dot d1"></i>Cableado <b id="lg-cab">U$D 300</b></li></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+
+  <article class="rub">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Equipos</span><span class="tap-badge">Tocá para abrir</span>
+      <span class="rub-val" id="rv-eq">U$D 1.727</span>
+      <span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw">
+      <table>
+        <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+          <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+        <tbody><tr><td>NVR Hikvision 8 canales IP con 8 puertos PoE integrados <span style="opacity:.6">(DS-7108NI-Q1/8P/M(C))</span></td><td class="num">1</td><td class="num">342<span class="iva"> · IVA 21% incl.</span></td><td class="num">342</td></tr><tr><td>Disco Seagate SkyHawk 1TB para videovigilancia <span style="opacity:.6">(SEAGATE SKYHAWK 1TB)</span></td><td class="num">1</td><td class="num">137<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">137</td></tr><tr><td>Cámara domo IP ColorVu 3.0 AcuSense 2MP, lente 2,8 mm <span style="opacity:.6">(DS-2CD1327G3-LIU)</span></td><td class="num">8</td><td class="num">140<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.120</td></tr><tr><td>Caja estanca de conexión para exterior <span style="opacity:.6">(VTM09R)</span></td><td class="num">8</td><td class="num">16<span class="iva"> · IVA 21% incl.</span></td><td class="num">128</td></tr><tr id="row-ups" style="display:none"><td>UPS Eaton 5E 1100VA — respaldo de energía <span style="opacity:.6">(5E1100iUSB-AR)</span></td><td class="num">1</td><td class="num">95<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">95</td></tr></tbody>
+      </table>
+    </div></div>
+  </article>
+  <article class="rub">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Cableado</span>
+      <span class="rub-val" id="rv-cab">U$D 300</span>
+      <span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw">
+      <table>
+        <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+          <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+        <tbody><tr><td>Cable UTP CAT6 Gigalan exterior doble vaina <span style="opacity:.6">(FKW 23400175)</span></td>
+          <td class="num" id="cab-q">240 m</td>
+          <td class="num">1,25<span class="iva"> · IVA 21% incl.</span></td>
+          <td class="num" id="cab-sub">300</td></tr></tbody>
+      </table>
+    </div></div>
+  </article>
+
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span><b id="t-neto">U$D 1.580</b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span id="t-iva">U$D 319</span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq">U$D 1.899</b></div>
+    <div class="trow"><span>Mano de obra especializada por punto (10 puntos)</span><b id="t-mo">U$D 667</b></div>
+    <div class="trow"><span>Programación y comisionado</span><b id="t-pr">U$D 257</b></div>
+    <div class="trow big"><span>Total del proyecto</span><span id="t-tot">U$D 2.823</span></div>
+  </div>
+</section>
+
+<section class="sec" id="pago">
+  <p class="eyebrow">03 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Cada etapa atada a un hito verificable, no a una fecha.</p>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Equipos — 100%</b>
+      Por anticipado, una vez ajustadas las cantidades en la visita técnica. Asegura el precio y
+      la disponibilidad de importación de cada equipo.</span><b id="p-eq">U$D 1.899</b></div>
+    <div class="stage"><span><b style="display:block">Configuración — inicio</b>
+      Al arrancar la configuración del sistema.</span><b id="p-p1">U$D 154</b></div>
+    <div class="stage"><span><b style="display:block">Configuración — entrega</b>
+      Contra la entrega final documentada, una vez comisionado el sistema completo.</span>
+      <b id="p-p2">U$D 103</b></div>
+    <div class="stage"><span><b style="display:block">Instalación</b>
+      <em style="font-style:normal;color:var(--gold);font-size:12px">Monto de referencia — se
+      certifica por avance real, con certificación semanal.</em> No se compromete de antemano un
+      monto por etapa ni una fecha: se factura lo efectivamente ejecutado.</span>
+      <b id="p-mo">U$D 667</b></div>
+  </div>
+  <div class="chk">
+    <input type="checkbox" id="fa" onchange="fact()">
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre las etapas de instalación y
+      configuración. Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="fa-row" style="display:none">
+      <span>IVA 21% sobre instalación y configuración</span>
+      <span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total</span>
+      <span id="gt">U$D 2.823</span></div>
+  </div>
+</section>
+
+<section class="sec section-light" id="condiciones">
+  <p class="eyebrow">04 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada punto para leerlo</p>
+  <div class="devs"><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Validez del presupuesto</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Esta propuesta tiene validez de 15 días corridos desde su emisión. Pasado ese plazo los valores se revisan contra la lista vigente de cada proveedor, sin excepción — los equipos son de importación y las listas se mueven.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Tipo de cambio</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Todos los valores están expresados en dólares estadounidenses. La conversión a pesos, si corresponde, se toma al dólar oficial del Banco de la Nación Argentina del día del pago. No se utiliza ninguna cotización paralela.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Obra eléctrica y cableado</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Esta propuesta no incluye obra eléctrica. El tendido físico del cable de señales débiles lo ejecuta el electricista de la obra según la indicación en plano de Nova Domus, que especifica el recorrido y certifica el cableado una vez pasado. La base de cotización por Boca Completa (AAIE) no aplica a este proyecto porque la instalación eléctrica la resuelve un tercero.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Metros de cable y excedentes</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>El cable se cotiza y se factura por metro realmente tendido, medido y certificado en obra. La cifra que figura en esta propuesta es una estimación para dimensionar el presupuesto, no un compromiso de cantidad. Cualquier material excedente queda en poder del cliente.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Visita técnica</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Antes de confirmar cantidades se realiza una visita al sitio para definir posiciones de cámara, recorridos de cable y punto de instalación del grabador. Dentro del ejido urbano de Córdoba no tiene costo adicional. Para localidades fuera de Córdoba se cotiza aparte: jornal de técnico más logística por hora de viaje, ida y vuelta.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Forma de pago</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Equipos: 100% por anticipado, una vez ajustadas las cantidades. Configuración y comisionado: 60% al iniciar y 40% contra la entrega final documentada. Instalación: se certifica por avance real de obra, con certificación semanal — no se compromete de antemano un monto por etapa ni una fecha fija, se factura lo efectivamente ejecutado.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Facturación</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Los equipos se facturan con el IVA discriminado por ítem según la alícuota real de cada producto (21% o 10,5%). Si se requiere Factura A, se suma el 21% de IVA sobre las etapas de instalación y configuración, que en esta propuesta figuran netas.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Garantía</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>12 meses de garantía sobre la instalación y la configuración, sin costo de mano de obra ante cualquier falla del sistema. Los equipos conservan además la garantía propia de cada fabricante. La garantía no cubre daños por descarga eléctrica, cortes de suministro, vandalismo, ni modificaciones hechas por terceros sobre el sistema entregado.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Acceso remoto</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>La visualización desde el celular fuera de la casa depende del servicio de internet del sitio. Si el servicio es Starlink, trabaja con IP compartida y el acceso remoto se resuelve mediante un servicio de túnel, no abriendo un puerto — está previsto y se configura en la entrega, pero conviene tenerlo en cuenta desde ahora.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Lo que no incluye</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>No incluye monitor, cable HDMI, zapatilla ni conectores de conexión al punto de visualización, que quedan a cargo del cliente. Tampoco incluye UPS: si más adelante se quiere que el sistema siga grabando durante un corte de luz, se cotiza aparte.</p></div></article></div>
+</section>
+
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá cada marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button><button class="pill" onclick="marca(1,this)">SEAGATE</button><button class="pill" onclick="marca(2,this)">FURUKAWA</button>
+  </div>
+  <div class="ficha" id="f0"><h3>HIKVISION</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f1"><h3>SEAGATE</h3><p>Línea SkyHawk, diseñada específicamente para grabación continua de videovigilancia. Un disco común de escritorio no está pensado para escribir 24 horas por día los 365 días del año.</p><p class="pend">Video institucional pendiente de carga.</p></div><div class="ficha" id="f2"><h3>FURUKAWA</h3><p>Fabricante de cable estructurado con planta en Argentina. Lo elegimos por la consistencia del cobre y porque la vaina exterior aguanta de verdad la intemperie — en una instalación de cámaras el cable es lo único que no se puede cambiar sin romper nada.</p><p class="pend">Video institucional pendiente de carga.</p></div>
+  <div class="vbox">
+    <h3>Garantía y post-venta</h3>
+    <p>12 meses de garantía sobre la instalación y la configuración, sin costo de mano de obra
+      ante cualquier falla del sistema. Los equipos mantienen además la garantía propia de cada
+      fabricante. Al entregar queda documentado el inventario, el esquema de conexión y las
+      credenciales, para que cualquier técnico —incluso otro— pueda intervenir si hiciera falta.</p>
+  </div>
+</section>
+
+<section class="sec section-light" id="faq">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs"><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Por qué no me cotizan el sistema analógico, que sale más barato?</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Porque en el total de la obra la diferencia se achica mucho y en el mediano plazo se da vuelta. El analógico necesita un balún en cada punta de cada cámara, cuatro fuentes externas con sus plugs y una caja estanca por empalme a la intemperie: todo eso son piezas y horas que el IP no lleva. Y sobre todo, el analógico no se puede ampliar ni mejorar sin recablear la casa entera. Nova Domus dejó de instalar analógico por esos dos motivos, no por precio.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Puedo sumar más cámaras después?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Sí. El grabador tiene ocho canales y ocho puertos PoE ocupados por estas ocho cámaras, así que sumar una novena implica agregar un switch PoE al sistema — no cambiar el grabador ni tocar el cableado existente. Si ya sabés que vas a crecer, decilo ahora y cotizamos el grabador de 16 canales, que es una diferencia chica en esta etapa y grande después.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Cuánto tiempo de grabación guarda el disco de 1TB?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Con ocho cámaras de 2MP grabando por evento (que es como se configura, no grabación continua), el orden es de varias semanas de historial. Si querés grabación continua 24/7 o varios meses de historial, hace falta un disco más grande — se puede cambiar después sin tocar nada más del sistema.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Necesito internet para que funcione?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>No para grabar. El grabador graba local, en el disco, aunque se caiga internet. Lo que sí necesita conexión es ver las cámaras desde el celular estando afuera de la casa. Si el servicio de internet es Starlink, hay un detalle a prever: trabaja con IP compartida y el acceso remoto se resuelve con un servicio de túnel, no abriendo un puerto. Lo decimos de entrada para que no sea una sorpresa.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Quién pasa los cables?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>El tendido de cable de señales débiles lo ejecuta el electricista de la obra según nuestra indicación en plano. Nova Domus especifica y certifica el cableado, y ejecuta el montaje de las cámaras, el grabador y toda la configuración. Si no hay electricista asignado, lo hablamos y vemos cómo resolverlo.</p></div></article></div>
+</section>
+
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Visita técnica</h2>
+  <p class="lead" style="margin:0 auto 8px">El primer paso no es comprar equipos: es ir al sitio,
+    confirmar las posiciones de cámara y los metros de cable reales, y ajustar este presupuesto.
+    Recién después se compra.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y quiero avanzar con la visita técnica.</label>
+  </div>
+  <a class="btn" id="go" href="#" aria-disabled="true" target="_blank"
+     rel="noopener">Avanzar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-035</b> · Videovigilancia IP · César<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring"
+            stroke-dasharray="163.4" stroke-dashoffset="163.4"
+            stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var EQ_FIJO=1727, NETO_FIJO=1437.98, CABLE_U=1.25, CABLE_NETO=1.0331, MO=667;
+var UPS_U=95, UPS_NETO=85.97, UPS_MO=76;
+var metros=240, ups=false;
+
+function fmt(v){return 'U$D '+Math.ceil(v).toLocaleString('es-AR');}
+function num(v){return Math.ceil(v).toLocaleString('es-AR');}
+
+function totals(){
+  var cable  = Math.ceil(metros*CABLE_U);
+  var equipo = EQ_FIJO + cable + (ups?UPS_U:0);
+  var neto   = Math.round(NETO_FIJO + metros*CABLE_NETO + (ups?UPS_NETO:0));
+  var mo     = MO + (ups?UPS_MO:0);
+  var prog   = Math.ceil((equipo+mo)*0.10);
+  var p1     = Math.round(prog*0.6);
+  return {cable:cable, equipo:equipo, neto:neto, iva:equipo-neto, mo:mo, prog:prog,
+           p1:p1, p2:prog-p1, total:equipo+mo+prog};
+}
+
+function setMetros(v){
+  metros=+v;
+  var t=totals();
+  document.getElementById('mv').textContent=metros+' m';
+  document.getElementById('cv').textContent=fmt(t.cable);
+  document.getElementById('cab-q').textContent=metros+' m';
+  document.getElementById('cab-sub').textContent=num(t.cable);
+  document.getElementById('rv-cab').textContent=fmt(t.cable);
+  document.getElementById('lg-cab').textContent=fmt(t.cable);
+  document.getElementById('lg-eq').textContent=fmt(EQ_FIJO+(ups?UPS_U:0));
+  document.getElementById('seg-eq').style.flex=EQ_FIJO+(ups?UPS_U:0);
+  document.getElementById('rv-eq').textContent=fmt(EQ_FIJO+(ups?UPS_U:0));
+  document.getElementById('row-ups').style.display=ups?'table-row':'none';
+  document.getElementById('seg-cab').style.flex=Math.max(t.cable,1);
+  document.getElementById('t-neto').textContent=fmt(t.neto);
+  document.getElementById('t-iva').textContent=fmt(t.iva);
+  document.getElementById('t-eq').textContent=fmt(t.equipo);
+  document.getElementById('t-mo').textContent=fmt(t.mo);
+  document.getElementById('t-pr').textContent=fmt(t.prog);
+  document.getElementById('t-tot').textContent=fmt(t.total);
+  document.getElementById('p-eq').textContent=fmt(t.equipo);
+  document.getElementById('p-p1').textContent=fmt(t.p1);
+  document.getElementById('p-p2').textContent=fmt(t.p2);
+  document.getElementById('p-mo').textContent=fmt(t.mo);
+  fact();
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+}
+
+function setUps(on){ ups=!!on; setMetros(metros); }
+function fact(){
+  var t=totals(), on=document.getElementById('fa').checked, iva=(t.mo+t.prog)*0.21;
+  document.getElementById('fa-row').style.display=on?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(iva);
+  document.getElementById('gt').textContent=fmt(t.total+(on?iva:0));
+  conf();
+}
+function conf(){
+  var ok=document.getElementById('ok').checked, t=totals(), a=document.getElementById('go');
+  a.setAttribute('aria-disabled', ok?'false':'true');
+  a.href='https://wa.me/5493516747513?text='+encodeURIComponent(
+    'Hola Nova Domus, revisé la propuesta PY-2026-035 de videovigilancia IP por '
+    +fmt(t.total)+' (con '+metros+' metros de cable) y quiero avanzar con la visita técnica.');
+}
+
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+
+var ACMP=[
+ ['Analógico (HD-TVI)',false,['Coaxil más par de alimentación, con un balún en cada punta',
+  'Cuatro fuentes externas repartidas por la obra, cada una atada a su tomacorriente',
+  'En un corte de luz se apaga todo, que es cuando más falta hace grabar',
+  'La señal se degrada con la distancia: la cámara lejana se ve peor que la cercana',
+  'La analítica vive en el grabador y se reparte entre los canales',
+  'Ampliar o subir resolución exige romper y recablear']],
+ ['IP PoE — nuestra propuesta',true,['Un solo cable de red por cámara: datos y energía juntos',
+  'Sin fuentes externas: el grabador alimenta las ocho cámaras',
+  'Con un UPS sobre el grabador, las ocho cámaras siguen grabando en un corte',
+  'Video digital sin pérdida: la cámara más lejana se ve igual que la más cercana',
+  'AcuSense en cada cámara: distingue una persona de un animal o una rama',
+  'Sumar cámaras o subir a 4MP sin tocar el cableado existente']]
+];
+function acmp(i,btn){
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  var b=document.getElementById('abox'), d=ACMP[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
+    return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+
+var DEVICES={video:[
+ {n:"Cámara domo IP ColorVu 3.0 AcuSense 2MP (DS-2CD1327G3-LIU)",q:8,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd1327g3-liu.webp",desc:"Color real de noche, no blanco y negro: el sensor ColorVu 3.0 ve en color con muy poca luz. AcuSense separa una persona o un vehículo de una rama que se mueve, así la notificación que te llega es la que importa. Lleva micrófono y se alimenta por el mismo cable de red, sin fuente propia."},
+ {n:"NVR Hikvision 8 canales IP con 8 puertos PoE (DS-7108NI-Q1/8P/M(C))",q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7108NI-Q1/8P/M(C).png",desc:"El grabador alimenta las ocho cámaras por sus propios puertos PoE. Eso elimina las cuatro fuentes externas, los plugs y los baluns del esquema analógico: cada cámara se resuelve con un solo cable de red que lleva datos y energía juntos."},
+ {n:"Disco Seagate SkyHawk 1TB para videovigilancia (ST1000VX005)",q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/seagate/ST1000VX005.jpg",desc:"Serie SkyHawk, diseñada para grabación continua las 24 horas los 365 días del año. Un disco común de escritorio no está pensado para escribir sin parar y es la causa más frecuente de que un sistema pierda grabaciones al año de instalado."},
+ {n:"Caja estanca de conexión para exterior (VTM09R)",q:8,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/dahua/VTM09R.jpg",desc:"En cada cámara de exterior va una caja estanca donde se hace el empalme entre el cable de red que llega y la ficha hembra que trae la cámara. Es la única unión expuesta a la intemperie del recorrido, así que va protegida. En interiores no hace falta: la conexión queda resguardada."},
+ {n:"UPS Eaton 5E 1100VA — opcional recomendado (5E1100iUSB-AR)",q:1,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/eaton/5E1100iUSB-AR.jpg",desc:"Es lo que le da sobrevida al sistema ante un corte de luz. Como el grabador alimenta las ocho cámaras por PoE, poner el grabador sobre un UPS mantiene grabando el sistema entero — no hace falta un respaldo por cámara. En el detalle de inversión podés activarlo y ver el impacto real en el total."},
+ {n:"Cable UTP CAT6 exterior doble vaina (por metro)",q:0,foto:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/furukawa/23400175.jpg",desc:"Un solo tendido por cámara, con vaina exterior resistente a sol y humedad. La cantidad se define en la visita técnica y se factura contra metros realmente tendidos — en el detalle de inversión podés mover los metros y ver cómo cambia el total."}
+]};
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
+function renderDeviceGrid(id,key){
+  var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
+  el.innerHTML=DEVICES[key].map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
+    var qty=d.q>0?('<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span>'):'<span class="dc-qty">según relevamiento</span>';
+    return '<article class="dev" id="'+id+'-'+i+'">'
+     +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+qty+'</span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
+     +'</article>';
+  }).join('');
+}
+renderDeviceGrid('grid-video','video');
+
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red||n===0){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+acmp(0,document.querySelector('#asw button'));
+setMetros(240);
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
