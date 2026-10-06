@@ -501,6 +501,33 @@
     .debitos-item-row span:last-child { white-space: nowrap; color: var(--muted); }
     .debitos-alert-meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
 
+    .debitos-confirm-box {
+      border: 1px solid rgba(200,169,110,0.45);
+      background: rgba(200,169,110,0.08);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .debitos-confirm-title { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .debitos-sug-row { padding: 8px 0; border-bottom: 1px dashed rgba(200,169,110,0.3); font-size: 12px; }
+    .debitos-sug-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .debitos-sug-concepto { font-weight: 600; margin-bottom: 2px; }
+    .debitos-sug-meta { color: var(--muted); margin-bottom: 6px; }
+    .debitos-sug-actions { display: flex; gap: 8px; }
+    .debitos-sug-actions button {
+      font-family: inherit; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer;
+      border: 1px solid var(--border); background: transparent; color: var(--text);
+    }
+    .debitos-sug-actions button.confirmar { border-color: var(--accent); color: var(--accent); }
+    .debitos-sug-actions button:disabled { opacity: 0.5; cursor: default; }
+
+    .panel-toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      max-width: calc(100% - 32px); background: #2b1414; color: #ff8a80;
+      border: 1px solid rgba(231,76,60,0.5); border-radius: 8px;
+      padding: 10px 14px; font-size: 13px; z-index: 1000;
+    }
+
     .debitos-day { border-left: 2px solid var(--border); padding-left: 12px; margin-bottom: 12px; }
     .debitos-day:last-child { margin-bottom: 0; }
     .debitos-day.highlight { border-left-color: var(--accent); background: rgba(200,169,110,0.08); border-radius: 6px; padding: 8px 12px; margin-left: -1px; }
@@ -1333,16 +1360,102 @@
     return Math.floor((Date.now() - parseDate(fecha).getTime()) / UN_DIA_MS);
   }
 
-  function renderAgendaDebitos(rows) {
+  // fn_agenda_debitos() no devuelve ids, asi que para sacar de ATRASADOS lo
+  // que ya tiene sugerencia PENDIENTE se reconstruye su mismo `concepto`
+  // (mismo armado que el SQL de la funcion, cuota y cheque).
+  function claveSugerencia(s) {
+    if (s.planes_pago_cuotas) {
+      const c = s.planes_pago_cuotas;
+      return `cuota|${c.planes_pago.concepto} — cuota ${c.numero_cuota}/${c.planes_pago.cantidad_cuotas}`;
+    }
+    if (s.cheques) return `cheque|${s.cheques.beneficiario_librador || 'Cheque #' + s.cheques.numero_cheque}`;
+    return null;
+  }
+
+  function conceptoSugerencia(s) {
+    const c = s.planes_pago_cuotas;
+    if (c) return `${c.planes_pago.concepto} — cuota ${c.numero_cuota}/${c.planes_pago.cantidad_cuotas}`;
+    if (s.cheques) return s.cheques.beneficiario_librador || 'Cheque #' + s.cheques.numero_cheque;
+    return s.tipo;
+  }
+
+  function renderSugerencias(sugerencias) {
+    if (!sugerencias.length) return '';
+    return `
+      <div class="debitos-confirm-box">
+        <div class="debitos-confirm-title">Para confirmar (${sugerencias.length})</div>
+        ${sugerencias.map(s => {
+          const mov = s.movimientos_bancarios;
+          const esperado = Number(s.monto_esperado);
+          const pct = esperado ? (Number(s.diferencia) / esperado * 100) : null;
+          const signo = Number(s.diferencia) > 0 ? '+' : '';
+          return `
+            <div class="debitos-sug-row">
+              <div class="debitos-sug-concepto">${conceptoSugerencia(s)}</div>
+              <div class="debitos-sug-meta">
+                ${f$(s.monto_esperado)} → ${f$(s.monto_debitado)}${mov ? ` (${mov.concepto || mov.referencia || 'banco'}, ${fd(mov.fecha)})` : ''}
+                · ${signo}${f$(s.diferencia)}${pct !== null ? ` (${signo}${pct.toLocaleString('es-AR', { maximumFractionDigits: 2 })}%)` : ''}${s.motivo ? ' · ' + s.motivo : ''}
+              </div>
+              <div class="debitos-sug-actions">
+                <button class="confirmar" onclick="resolverSugerencia(this, ${s.id}, 'fn_confirmar_sugerencia')">Confirmar</button>
+                <button onclick="resolverSugerencia(this, ${s.id}, 'fn_rechazar_sugerencia')">Rechazar</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'panel-toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 6000);
+  }
+
+  async function resolverSugerencia(btn, id, rpc) {
+    btn.parentElement.querySelectorAll('button').forEach(b => { b.disabled = true; });
+    const { error } = await client.rpc(rpc, { p_id: id });
+    if (error) {
+      showToast(error.message);
+      btn.parentElement.querySelectorAll('button').forEach(b => { b.disabled = false; });
+      return;
+    }
+    await cargarAgendaDebitos();
+  }
+
+  // RLS de conciliacion_sugerencias: solo admin y contable. Para otros roles
+  // la query devuelve [] y el bloque simplemente no se pinta. Si la query
+  // falla, se pinta la agenda igual (sin bloque y sin excluir atrasados).
+  async function cargarAgendaDebitos() {
+    const [agenda, sug] = await Promise.allSettled([
+      cuadrillaGet('rpc/fn_agenda_debitos', '?dias_adelante=45'),
+      client.from('conciliacion_sugerencias')
+        .select(`id, tipo, motivo, monto_esperado, monto_debitado, diferencia,
+                 planes_pago_cuotas(numero_cuota, planes_pago(concepto, cantidad_cuotas)),
+                 cheques(beneficiario_librador, numero_cheque),
+                 movimientos_bancarios(fecha, concepto, referencia)`)
+        .eq('estado', 'PENDIENTE').order('id')
+        .then(({ data, error }) => { if (error) throw error; return data || []; }),
+    ]);
+    if (sug.status === 'rejected') console.error('conciliacion_sugerencias error:', sug.reason);
+    if (agenda.status === 'fulfilled') renderAgendaDebitos(agenda.value, sug.status === 'fulfilled' ? sug.value : []);
+    else document.getElementById('agendaDebitosBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la agenda de débitos.</div>';
+  }
+
+  function renderAgendaDebitos(rows, sugerencias = []) {
     const el = document.getElementById('agendaDebitosBody');
     document.getElementById('agendaDebitosUpdated').textContent = 'Actualizado: ' + fdt(new Date().toISOString());
 
-    if (!rows.length) {
+    if (!rows.length && !sugerencias.length) {
       el.innerHTML = '<div class="panel-card-empty">Sin débitos pendientes cargados.</div>';
       return;
     }
 
-    const atrasados = [...rows.filter(r => r.atrasado)].sort((a, b) => a.fecha.localeCompare(b.fecha));
+    const conSugerencia = new Set(sugerencias.map(claveSugerencia).filter(Boolean));
+    const atrasados = [...rows.filter(r => r.atrasado && !conSugerencia.has(`${r.origen}|${r.concepto}`))].sort((a, b) => a.fecha.localeCompare(b.fecha));
     const vigentes = rows.filter(r => !r.atrasado);
 
     const hoy = new Date().toISOString().slice(0, 10);
@@ -1360,7 +1473,7 @@
     const costosFijos = [...vigentes.filter(r => r.origen === 'costo_fijo')].sort((a, b) => a.fecha.localeCompare(b.fecha));
     const proximoDia10 = costosFijos.length ? costosFijos[0].fecha : null;
 
-    let html = '';
+    let html = renderSugerencias(sugerencias);
 
     if (atrasados.length) {
       const totalAtrasado = atrasados.reduce((s, r) => s + Number(r.monto), 0);
@@ -1618,7 +1731,11 @@
       console.error('No se pudo cargar cuentas_bancarias:', e);
     }
 
-    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, saldoActualResult, agendaDebitos, sitioSemana, sitioHeatmap] = await Promise.allSettled([
+    // Se pinta sola (manejo de errores adentro); Confirmar/Rechazar la recarga
+    // sin repetir todo el panel.
+    const agendaDebitosPromise = cargarAgendaDebitos();
+
+    const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, saldoActualResult, sitioSemana, sitioHeatmap] = await Promise.allSettled([
       cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
       cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
       // v_seguimiento_propuestas es una vista en vivo sobre propuesta_vistas,
@@ -1635,7 +1752,6 @@
       cuentaPrincipal
         ? cuadrillaGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`)
         : Promise.resolve([]),
-      cuadrillaGet('rpc/fn_agenda_debitos', '?dias_adelante=45'),
       cuadrillaGet('site_hits_semana', ''),
       cuadrillaGet('site_hits_hora_dia', ''),
     ]);
@@ -1658,8 +1774,7 @@
     if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
     else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
 
-    if (agendaDebitos.status === 'fulfilled') renderAgendaDebitos(agendaDebitos.value);
-    else document.getElementById('agendaDebitosBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la agenda de débitos.</div>';
+    await agendaDebitosPromise;
 
     if (sitioSemana.status === 'fulfilled') renderSitioContador(sitioSemana.value);
     else document.getElementById('sitioContadorBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el contador del sitio público.</div>';
