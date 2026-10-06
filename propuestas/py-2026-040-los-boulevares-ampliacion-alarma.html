@@ -635,8 +635,9 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     doble infrarrojo en el sector inferior, contactos en el portón vehicular y en las puertas de
     lockers y de baños, dos sirenas exteriores y un repetidor que asegura la señal hasta la
     central. Siete controles remotos para armar y desarmar sin teclado.</p>
-  <p><b>Inversión.</b> <span class="cav-val">U$D 2.077</span> en total, con equipos,
-    mano de obra especializada por punto, programación y comisionado. Sin obra eléctrica: el
+  <p><b>Inversión.</b> <span class="cav-val">U$D 1.905</span> en total, IVA incluido, con
+    equipos, mano de obra especializada por punto, programación y comisionado, con una
+    bonificación del 40% sobre la mano de obra y la programación por tratarse de una ampliación. Sin obra eléctrica: el
     repetidor va enchufado a un toma que ya existe.</p>
   <p><b>Próximo paso.</b> Confirmar la propuesta para comprar los equipos y coordinar la
     instalación.</p>
@@ -805,8 +806,12 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <div class="trow"><span>Subtotal equipos (neto)</span><b id="t-neto"></b></div>
     <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span id="t-iva"></span></div>
     <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq"></b></div>
-    <div class="trow"><span>Mano de obra especializada por punto (17 puntos)</span><b id="t-mo"></b></div>
-    <div class="trow"><span>Programación y comisionado</span><b id="t-prog"></b></div>
+    <div class="trow"><span>Mano de obra especializada por punto (17 puntos)</span><b id="t-motar"></b></div>
+    <div class="trow"><span>Programación y comisionado</span><b id="t-progtar"></b></div>
+    <div class="trow"><span>Bonificación por ampliación (40% sobre mano de obra y programación)</span><b id="t-bonif"></b></div>
+    <div class="trow"><span>Mano de obra y programación (neto)</span><b id="t-moneto"></b></div>
+    <div class="trow sub"><span>IVA 21% sobre mano de obra y programación</span><span id="t-ivamo"></span></div>
+    <div class="trow"><span>Mano de obra y programación (con IVA)</span><b id="t-moc"></b></div>
     <div class="trow big"><span>Total del proyecto</span><span id="t-total"></span></div>
   </div>
 </section>
@@ -825,21 +830,15 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       Por anticipado. Asegura el precio y la disponibilidad de cada equipo.</span>
       <b id="p-eq"></b></div>
     <div class="stage"><span><b style="display:block">Programación — inicio (60%)</b>
-      Al arrancar la programación en la central.</span><b id="p-p1"></b></div>
+      Al arrancar la programación en la central. IVA incluido.</span><b id="p-p1"></b></div>
     <div class="stage"><span><b style="display:block">Programación — entrega (40%)</b>
-      Comisionado: contra la prueba de cada punto y la entrega documentada.</span><b id="p-p2"></b></div>
+      Comisionado: contra la prueba de cada punto y la entrega documentada. IVA incluido.</span><b id="p-p2"></b></div>
     <div class="stage"><span><b style="display:block">Instalación — monto de referencia</b>
       Se certifica por avance real de obra, con certificación semanal. No hay montos ni fechas
-      fijas por etapa.</span><b id="p-in"></b></div>
+      fijas por etapa. IVA incluido.</span><b id="p-in"></b></div>
   </div>
-  <div class="chk">
-    <input type="checkbox" id="fa" onchange="fact()">
-    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre las etapas de programación e
-      instalación. Los equipos ya llevan su IVA discriminado por ítem.</label>
-  </div>
+
   <div class="totals" style="border-top-color:var(--gold)">
-    <div class="trow sub" id="pay-iva-row" style="display:none">
-      <span>IVA 21% sobre programación e instalación</span><span id="fa-val"></span></div>
     <div class="trow big" style="color:var(--gold)"><span>Total</span><span id="gt"></span></div>
   </div>
 </section>
@@ -882,8 +881,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <div class="dev-body"><p>Equipos: 100% por anticipado. Programación y comisionado: 60% al
         iniciar y 40% contra la entrega final. Instalación: se certifica por avance real de obra,
         con certificación semanal, sin montos ni fechas fijos por etapa. Se aceptan
-        transferencia bancaria y efectivo. Si se requiere Factura A, se suma el IVA del 21% sobre
-        las etapas de programación e instalación.</p></div></article>
+        transferencia bancaria y efectivo. La mano de obra y la programación llevan IVA 21%, ya
+        incluido en los montos de esta propuesta; los equipos llevan su IVA discriminado por ítem.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Alcance — obra eléctrica</span><span class="arr">▾</span></button>
       <div class="dev-body"><p>Esta ampliación no incluye obra eléctrica: todos los equipos son
@@ -1070,7 +1069,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 
 <script>
 var ITEMS=[{"k": "mag", "rub": 0, "q": 3, "u": 40, "iva": 0.105, "name": "Contacto magnético de puerta", "full": "Contacto magnético inalámbrico AX PRO (DS-PDMC-EG2-WB(B))", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdmc-eg2-wb-b.webp", "desc": "Va en el marco y en la hoja de cada puerta. Si la puerta se abre con la alarma armada, avisa a la central al instante. Inalámbrico, con pila."}, {"k": "pro", "rub": 0, "q": 2, "u": 268, "iva": 0.21, "name": "Detector de movimiento triple tecnología", "full": "Detector triple tecnología inalámbrico AX PRO, 15 m (DS-PDTT15AM-LM-WB)", "foto": null, "desc": "Para la cochera privada, el espacio más grande. Combina dos sensores infrarrojos y un microondas: solo dispara cuando los tres coinciden, así descarta el calor de un motor recién apagado o una corriente de aire. Antienmascaramiento: avisa si alguien lo tapa."}, {"k": "bas", "rub": 0, "q": 2, "u": 97, "iva": 0.21, "name": "Detector de movimiento doble infrarrojo", "full": "Detector doble infrarrojo inalámbrico AX PRO, 18 m, IP65 (DS-PDP18-HM-WB)", "foto": null, "desc": "Para el sector inferior. Dos sensores infrarrojos que deben coincidir para disparar, carcasa sellada IP65 y 18 m de alcance."}, {"k": "rep", "rub": 1, "q": 1, "u": 121, "iva": 0.21, "name": "Repetidor de señal", "full": "Repetidor inalámbrico AX PRO (DS-PR1-WB(B))", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg", "desc": "Va enchufado al toma existente junto a las cocheras 5 y 6. Lleva la señal de los sensores más alejados hasta la central con margen, sin depender de cuánto atraviese la estructura del galpón."}, {"k": "sir", "rub": 1, "q": 2, "u": 103, "iva": 0.21, "name": "Sirena exterior", "full": "Sirena exterior inalámbrica AX PRO (DS-PS1-E-WB)", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp", "desc": "Sonido y luz estroboscópica hacia afuera, sobre el ingreso vehicular y sobre el frente sur. Disuade en el momento y marca desde dónde viene la alarma."}, {"k": "ctl", "rub": 2, "q": 7, "u": 38, "iva": 0.21, "name": "Control remoto", "full": "Control remoto de 4 botones AX PRO (DS-PKF1-WB(B))", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PKF1-WB(B).png", "desc": "Armar, desarmar, armado parcial y pánico desde el llavero. Cada control queda asignado a una persona y se puede dar de baja si se pierde."}];
-var M={"eq": 1443, "neto": 1202, "iva": 241, "mo": 445, "prog": 189, "prog1": 113, "prog2": 76, "total": 2077, "fa": 134};
+var M={"eq": 1443, "neto": 1202, "iva": 241, "mo_tar": 445, "prog_tar": 189, "bonif": 253, "mo": 267, "prog": 114, "iva_mo": 57, "iva_prog": 24, "mo_c": 324, "prog_c": 138, "prog1": 83, "prog2": 55, "total": 1905, "fa": 0};
 var WA='5493516747513';
 function num(v){return Math.round(v).toLocaleString('es-AR');}
 function fmt(v){return 'U$D '+num(v);}
@@ -1090,22 +1089,17 @@ window.addEventListener('resize',refit);
 /* totals: every variable of the totals object is consumed by the payment UI */
 function totals(){
   var eq=0; ITEMS.forEach(function(i){ eq+=i.u*i.q; });
-  return {eq:eq, mo:M.mo, prog:M.prog, prog1:M.prog1, prog2:M.prog2, total:eq+M.mo+M.prog};
+  return {eq:eq, prog1:M.prog1, prog2:M.prog2, inst:M.mo_c, total:eq+M.mo_c+M.prog_c};
 }
 function renderMoney(){
   var t=totals();
   T('t-neto', fmt(M.neto)); T('t-iva', fmt(M.iva)); T('t-eq', fmt(t.eq));
-  T('t-mo', fmt(t.mo)); T('t-prog', fmt(t.prog)); T('t-total', fmt(t.total));
-  T('p-eq', fmt(t.eq)); T('p-p1', fmt(t.prog1)); T('p-p2', fmt(t.prog2)); T('p-in', fmt(t.mo));
-  fact();
-}
-function fact(){
-  var t=totals(), on=document.getElementById('fa').checked;
-  document.getElementById('pay-iva-row').style.display=on?'flex':'none';
-  T('fa-val', fmt(M.fa));
-  var gt=t.total+(on?M.fa:0);
-  T('gt', fmt(gt));
-  var msg='Hola Nova Domus, revisé la propuesta PY-2026-040 de Los Boulevares (ampliación de alarma) por '+fmt(gt)+(on?' con Factura A':'')+' y quiero avanzar.';
+  T('t-motar', fmt(M.mo_tar)); T('t-progtar', fmt(M.prog_tar)); T('t-bonif', '− '+fmt(M.bonif));
+  T('t-moneto', fmt(M.mo+M.prog)); T('t-ivamo', fmt(M.iva_mo+M.iva_prog)); T('t-moc', fmt(M.mo_c+M.prog_c));
+  T('t-total', fmt(t.total));
+  T('p-eq', fmt(t.eq)); T('p-p1', fmt(t.prog1)); T('p-p2', fmt(t.prog2)); T('p-in', fmt(t.inst));
+  T('gt', fmt(t.total));
+  var msg='Hola Nova Domus, revisé la propuesta PY-2026-040 de Los Boulevares (ampliación de alarma) por '+fmt(t.total)+' y quiero avanzar.';
   document.getElementById('go').setAttribute('href','https://wa.me/'+WA+'?text='+encodeURIComponent(msg));
 }
 function conf(){
