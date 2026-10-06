@@ -341,9 +341,9 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="opt-card">
     <input type="checkbox" id="opt-alarma-premium" onchange="toggleAlarmaPremium()">
     <div class="opt-body">
-      <div class="opt-title"><span>Upgrade Alarma a AXPro (96 zonas)</span><span class="opt-price">+USD 855</span></div>
-      <div class="opt-desc">Reemplaza el kit AXHome (16 zonas) por el AXPro de 96 zonas, con repetidor de señal entre plantas y sirena exterior — la línea AXHome no la incluye.</div>
-      <div class="opt-utility">Sin este upgrade, la Alarma funciona perfecto para esta casa (16 zonas sobran para 5 sensores), pero queda sin sirena exterior y sin margen para ampliar mucho más adelante. Con el upgrade, sumás disuasión visible desde la calle y más margen de crecimiento.</div>
+      <div class="opt-title"><span>Upgrade Alarma a AXPro (48 zonas)</span><span class="opt-price">+USD 734</span></div>
+      <div class="opt-desc">Reemplaza el kit AXHome (16 zonas) por el AXPro de 48 zonas, con repetidor de señal entre plantas y sirena exterior — la línea AXHome no la incluye.</div>
+      <div class="opt-utility">Sin este upgrade, la Alarma funciona perfecto para esta casa (16 zonas sobran para 5 sensores), pero queda sin sirena exterior y sin margen para ampliar mucho más adelante. Con el upgrade, sumás disuasión visible desde la calle y más margen de crecimiento (48 zonas).</div>
     </div>
   </div>
 
@@ -569,7 +569,7 @@ const DEVICES = {
     {n:'Sirena interior DS-PS201-WB/Blue', q:1, pu:42.500000, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PS201-WB/Blue.png', desc:'Disuasión sonora inmediata. Esta línea no incluye sirena exterior.'},
   ],
   alarma_premium: [
-    {n:'Kit AXPro DS-PWA96-Kit-WB', q:1, pu:430.000000, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg', desc:'Central inalámbrica con comunicación bidireccional, 96 zonas.'},
+    {n:'Kit AXPro DS-PWA48-Kit-WB(ARG)', q:1, pu:338.750000, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg', desc:'Central inalámbrica AXPro con comunicación bidireccional, 48 zonas.'},
     {n:'Teclado LED DS-PK1-E-WB', q:1, pu:71.250000, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado manual del sistema.'},
     {n:'Repetidor DS-PR1-WB(B)', q:1, pu:100.000000, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg', desc:'Cobertura de señal entre plantas.'},
     {n:'Sensor magnético DS-PDMCS-EG2-WB', q:2, pu:26.500000, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/200.jpg', desc:'Puerta principal y acceso de fondo.'},
@@ -662,7 +662,7 @@ let alarmaPremium = false;
 let videoPremium = false;
 function getRubros(){
   const s = {equipo:2707.47 + (rearUpgrade ? 924.98 : 0), mo:80.00 + (rearUpgrade ? 120.00 : 0)};
-  const a = alarmaPremium ? {equipo:1135.46, mo:404.77} : {equipo:435.43, mo:327.40};
+  const a = alarmaPremium ? {equipo:1025.05, mo:404.77} : {equipo:435.43, mo:327.40};
   const v = videoPremium ? {equipo:1660.06, mo:295.05} : {equipo:616.43, mo:295.05};
   return [
     {id:'redes', label:'Redes', equipo:642.94, mo:249.56, color:'#7089A9'},
