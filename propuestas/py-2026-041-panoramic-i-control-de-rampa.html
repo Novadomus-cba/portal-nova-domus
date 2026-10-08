@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Panoramic I — Control de rampa vehicular · PY-2026-041">
+<meta property="og:description" content="Proyecto Ejecutivo de Tecnológica Integral: lectura de patentes en entrada y salida y balizas en los dos extremos de la rampa, para que dos autos no se crucen. Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-041-panoramic-i-control-de-rampa.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-041-panoramic-i-control-de-rampa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-041">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panoramic I · Control de rampa vehicular · PY-2026-041 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+
+/* ===== SIMULADOR DE RAMPA (PY-2026-041) ===== */
+.ramp-wrap{display:grid;gap:22px;margin-top:20px}
+@media(min-width:980px){.ramp-wrap{grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);align-items:start}}
+.ramp-card{background:#0f1a3d;border-radius:16px;padding:10px;border:1px solid rgba(255,255,255,.14);
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.ramp-card.used{animation:none}
+#ramp{display:block;width:100%;height:auto}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.chip{min-height:46px;padding:0 16px;border:1px solid rgba(255,255,255,.22);border-radius:999px;
+font-size:13px;color:var(--body);font-weight:600}
+.chip.go{border-color:var(--gold);color:var(--gold)}
+.chip[disabled]{opacity:.4;cursor:default}
+.tgl{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:6px 0 4px;color:var(--body)}
+.tgl input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+.state{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;margin-top:10px}
+.state .st{font-family:var(--fd);font-size:12px;letter-spacing:1.6px;color:var(--grey);display:block}
+.state.busy{border-color:var(--gold)}
+.state.busy .st{color:var(--gold)}
+.state p{font-size:14px;margin:6px 0 0}
+.log{list-style:none;margin:12px 0 0;padding:0;font-size:13px;max-height:170px;overflow:auto}
+.log li{border-top:1px solid rgba(255,255,255,.08);padding:7px 0;color:var(--body)}
+.log li b{color:var(--gold);font-weight:600}
+.plate{display:inline-block;background:#fff;color:#0B132B;border:2px solid #0B132B;border-radius:4px;
+font-family:Arial,sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;padding:0 6px;margin-left:4px}
+.bz .lens{fill:#4a3a1a;transition:fill .15s}
+.bz.on .lens{animation:strobe .5s steps(2) infinite}
+.bz.on .halo{opacity:1;animation:halo .5s steps(2) infinite}
+.bz .halo{opacity:0;fill:rgba(255,190,70,.35)}
+@keyframes strobe{0%{fill:#FFB238}50%{fill:#4a3a1a}}
+@keyframes halo{0%{opacity:1}50%{opacity:0}}
+.beam{fill:rgba(200,169,110,.0);stroke:none;transition:fill .2s}
+.beam.on{fill:rgba(200,169,110,.28)}
+.cam-lbl{font-family:Inter,Arial,sans-serif;font-size:17px;font-weight:600;fill:#EDEAE0}
+.cam-sub{font-family:Inter,Arial,sans-serif;font-size:14.5px;fill:#9aa0bd}
+
+/* flujo de señal */
+.sigflow{display:grid;gap:10px;margin:22px 0 6px}
+@media(min-width:820px){.sigflow{grid-template-columns:repeat(4,1fr)}}
+.sf{border:1px solid rgba(20,30,97,.16);border-radius:14px;padding:14px 16px;background:#fff;position:relative}
+.sf b{display:block;font-family:var(--fd);font-size:11px;letter-spacing:1.6px;color:var(--navy);margin-bottom:6px}
+.sf p{font-size:13.5px;margin:0}
+.who{display:grid;gap:12px;margin-top:20px}
+@media(min-width:760px){.who{grid-template-columns:1fr 1fr}}
+.who .vbox{margin:0}
+.who ul{margin:8px 0 0;padding-left:20px}
+.who li{margin:5px 0;font-size:14px}
+.section-light .who li{color:#3a3d4a}
+.rub-val{white-space:nowrap}
+.rub-name{min-width:0}
+@media(max-width:640px){
+  .dev-head,.rub-head{flex-wrap:wrap}
+  .dev-head .tap-badge,.rub-head .tap-badge{order:9}
+  .rub-head .rub-name{flex:1 1 60%}
+  .chip{flex:1 1 100%}
+  .ramp-card{padding:6px}
+}
+</style>
+<script>
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d); if(window.refit) refit();
+}
+</script>
+</head><body>
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="#0b132b" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g>
+</svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-041 · PROPUESTA COMERCIAL</p>
+    <h1>Panoramic I</h1>
+    <p class="claim">Control de rampa vehicular · ampliación</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto Ejecutivo de Tecnológica Integral para que
+      dos autos no se crucen en la rampa de cocheras. Una cámara nueva lee la patente de cada auto
+      que sale, la cámara del ingreso que ya está instalada hace lo mismo con cada auto que entra,
+      y en los dos casos se encienden balizas arriba y abajo de la rampa.</p>
+    <div class="meta">
+      <span>Casonas · Nuevo Malagueño, Córdoba</span><span>1 cámara de patentes nueva</span>
+      <span>2 balizas</span><span>Sobre el sistema ya instalado</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#rampa">Cómo funciona</a></li>
+  <li><a href="#equipos">Equipos</a></li>
+  <li><a href="#conexion">Conexión</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones-part">Particulares</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="2">2</span>
+      <small>sentidos controlados: entrada y salida</small></div>
+    <div class="kpi"><span class="figure" data-n="2">2</span>
+      <small>cámaras leyendo patentes: la existente y una nueva</small></div>
+    <div class="kpi"><span class="figure" data-n="2">2</span>
+      <small>balizas, una en cada extremo de la rampa</small></div>
+    <div class="kpi"><span class="figure" data-n="12">12</span>
+      <small>segundos de aviso por cada auto, ajustables</small></div>
+  </div>
+  <p><b>Qué necesita la obra.</b> La rampa de cocheras es de un solo carril. Quien baja no ve a
+    quien está por subir, y al revés: si los dos entran a la vez, uno tiene que retroceder por
+    la rampa, que es justo la maniobra donde ocurren los golpes.</p>
+  <p><b>Qué proponemos.</b> Usar la cámara de lectura de patentes que ya está en el ingreso para
+    detectar cada auto que entra, y sumar una cámara igual al pie de la rampa para cada auto
+    que sale. Cualquiera de las dos que detecte un vehículo enciende dos balizas, una arriba y
+    otra abajo: quien llega desde el otro extremo ve la luz y espera. Además, queda registrada
+    la patente de cada salida, igual que hoy se registra cada ingreso.</p>
+  <p><b>Inversión.</b> <span class="cav-val">U$D 1.566</span> en total, IVA incluido, con
+    equipos, mano de obra especializada, programación y comisionado. Es una línea aparte de la
+    Carta Oferta vigente: no modifica el contrato original.</p>
+  <p><b>Próximo paso.</b> Confirmar la propuesta para reservar la cámara, que hoy tiene stock
+    limitado en el distribuidor, y pasarle al electricista de obra el plano del tendido.</p>
+</section>
+
+<section class="sec" id="rampa">
+  <p class="eyebrow">01 — Cómo funciona</p>
+  <h2>La rampa, en vivo</h2>
+  <p class="lead">Un corte de la rampa, de la calle al subsuelo. Mandá un auto en cada sentido y
+    mirá qué hace cada equipo.</p>
+  <p class="hint">👆 Tocá “Entra un auto” o “Sale un auto”</p>
+  <div class="ramp-wrap">
+    <div>
+      <div class="ramp-card" id="rampcard">
+        <svg id="ramp" viewBox="0 0 760 360" role="img" aria-label="Corte de la rampa vehicular con las dos cámaras de patentes y las dos balizas">
+          <defs><linearGradient id="earth" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1c2757"/><stop offset="1" stop-color="#121a3d"/></linearGradient></defs>
+          <polygon points="0,130 215,130 560,300 760,300 760,360 0,360" fill="url(#earth)"/>
+          <polygon points="360,176 760,176 760,190 360,190" fill="#2b3a86"/>
+          <text class="cam-sub" x="690" y="168" text-anchor="middle">losa</text>
+          <line x1="0" y1="130" x2="215" y2="130" stroke="#787A91" stroke-width="2"/>
+          <line x1="215" y1="130" x2="560" y2="300" stroke="#787A91" stroke-width="2"/>
+          <line x1="560" y1="300" x2="760" y2="300" stroke="#787A91" stroke-width="2"/>
+          <text class="cam-sub" x="100" y="156" text-anchor="middle">calle</text>
+          <text class="cam-sub" x="400" y="248" text-anchor="middle" transform="rotate(26 400 248)">rampa</text>
+          <text class="cam-sub" x="660" y="326" text-anchor="middle">subsuelo · cocheras</text>
+          <rect x="168" y="66" width="6" height="64" fill="#C8A96E" opacity=".7"/>
+          <text class="cam-sub" x="171" y="58" text-anchor="middle">portón</text>
+          <!-- camara ingreso (existente) -->
+          <polygon class="beam" id="beamIn" points="74,63 158,112 120,128"/>
+          <line x1="40" y1="130" x2="40" y2="66" stroke="#9aa0bd" stroke-width="3"/>
+          <rect x="34" y="54" width="40" height="15" rx="3" fill="#EDEAE0"/>
+          <rect x="70" y="56" width="6" height="11" rx="1" fill="#0B132B"/>
+          <text class="cam-lbl" x="10" y="24">Cámara de ingreso</text>
+          <text class="cam-sub" x="10" y="43">existente</text>
+          <!-- camara salida (nueva) -->
+          <polygon class="beam" id="beamOut" points="704,247 610,292 660,300"/>
+          <rect x="706" y="240" width="40" height="15" rx="3" fill="#EDEAE0"/>
+          <rect x="702" y="242" width="6" height="11" rx="1" fill="#0B132B"/>
+          <line x1="746" y1="247" x2="760" y2="247" stroke="#9aa0bd" stroke-width="3"/>
+          <text class="cam-lbl" x="752" y="212" text-anchor="end">Cámara de salida</text>
+          <text class="cam-sub" x="752" y="231" text-anchor="end">nueva</text>
+          <!-- balizas -->
+          <g class="bz" id="bzTop"><circle class="halo" cx="200" cy="92" r="22"/>
+            <rect x="192" y="100" width="16" height="7" rx="2" fill="#9aa0bd"/>
+            <path class="lens" d="M192 100 a8 9 0 0 1 16 0z"/></g>
+          <text class="cam-sub" x="226" y="88">baliza</text>
+          <text class="cam-sub" x="226" y="105">arriba</text>
+          <g class="bz" id="bzBot"><circle class="halo" cx="570" cy="204" r="22"/>
+            <rect x="562" y="190" width="16" height="6" rx="2" fill="#9aa0bd"/>
+            <path class="lens" d="M562 196 a8 9 0 0 0 16 0z"/></g>
+          <text class="cam-sub" x="542" y="210" text-anchor="end">baliza abajo</text>
+          <!-- auto -->
+          <g id="car" transform="translate(-100,130)">
+            <path d="M-36 -10 L-36 -22 Q-34 -27 -26 -27 L-14 -27 L-5 -37 L16 -37 L26 -27 L32 -26 Q37 -24 37 -18 L37 -10 Z" fill="#C8A96E"/>
+            <path d="M-3 -34 L14 -34 L21 -27 L-10 -27 Z" fill="#0B132B" opacity=".55"/>
+            <circle cx="-21" cy="-8" r="7" fill="#0B132B" stroke="#EDEAE0" stroke-width="2"/>
+            <circle cx="22" cy="-8" r="7" fill="#0B132B" stroke="#EDEAE0" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+      <p class="plan-cap" style="font-size:12.5px;color:var(--grey);margin:10px 2px 0">Esquema
+        ilustrativo, no a escala. Las posiciones finales de la cámara y de las balizas se ajustan
+        en obra según la visibilidad real desde cada extremo.</p>
+    </div>
+    <div>
+      <div class="ctrl">
+        <button class="chip go" id="bIn" onclick="run('in')">Entra un auto ↘</button>
+        <button class="chip go" id="bOut" onclick="run('out')">Sale un auto ↖</button>
+      </div>
+      <label class="tgl"><input type="checkbox" id="dirty"> <span>Simular una patente sucia o
+        tapada que no se puede leer</span></label>
+      <div class="state" id="state"><span class="st" id="stTxt">Rampa libre</span>
+        <p id="stSub">Balizas apagadas. Cualquiera puede subir o bajar.</p></div>
+      <ul class="log" id="log" aria-live="polite"></ul>
+    </div>
+  </div>
+
+  <div class="devs" style="margin-top:28px">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cuando un auto entra</span>
+      <span class="tap-badge">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>1. El auto se acerca al portón desde la calle. 2. La cámara de
+        ingreso, que ya está instalada, lo detecta y lee la patente. 3. En ese mismo instante
+        cierra su salida de alarma y se encienden las dos balizas. 4. Quien está abajo a punto de
+        subir ve la baliza destellando y espera. 5. Pasados unos 12 segundos, si no hay otro
+        auto, las balizas se apagan solas. La patente queda registrada en el grabador, como
+        hasta ahora.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cuando un auto sale</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>1. El auto avanza por el subsuelo hacia el pie de la rampa. 2. La
+        cámara nueva, ubicada al pie y mirando hacia los autos que se acercan, lo detecta y lee la
+        patente. 3. Se encienden las dos balizas. 4. Quien está por entrar desde la calle ve la
+        baliza de arriba y espera a que el auto termine de subir. 5. La patente de salida queda
+        registrada en el mismo grabador que las de ingreso: desde ahora hay un historial completo
+        de quién entró y quién salió, con fecha y hora.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Por qué se encienden las dos balizas, y no una sola</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Con una sola baliza, el aviso solo lo ve quien está en el extremo
+        opuesto. Encendiendo las dos, también el conductor que acaba de ser detectado ve que el
+        sistema lo registró, y cualquier persona que llegue a pie o en auto a cualquiera de los
+        dos extremos sabe que la rampa está en uso. Es una regla simple de entender para todos los
+        residentes: <b>si destella, la rampa está ocupada</b>.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Si la patente no se puede leer, el aviso sale igual</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El aviso se programa sobre la <b>detección del vehículo</b>, no sobre
+        la lectura exitosa de la patente. Una patente sucia, una moto, un auto sin chapa o un
+        vehículo de servicio igual encienden las balizas. La lectura de la patente es un registro
+        adicional para la administración, no una condición para que el aviso funcione. Probalo
+        tildando la opción de patente sucia en el simulador.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Por qué solo luz, sin sonido</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El aviso se dispara con cada auto que entra o sale, a cualquier
+        hora. En un edificio residencial, una señal sonora repetida a la madrugada termina siendo
+        una molestia para los vecinos de las unidades cercanas a la rampa. La baliza ámbar
+        destellando se ve claramente desde el auto, también de día bajo techo.</p></div></article>
+  </div>
+</section>
+
+<section class="sec" id="equipos">
+  <p class="eyebrow">02 — Equipos</p>
+  <h2>Qué se instala</h2>
+  <p class="lead">Una cámara de la misma línea que la del ingreso, dos balizas y un pequeño
+    tablero que las comanda. Todo se suma al sistema que ya está en obra.</p>
+  <p class="hint">👆 Tocá cada equipo para ver qué hace</p>
+  <div class="devs device-grid" id="devgrid"></div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="conexion">
+  <p class="eyebrow">03 — Conexión</p>
+  <h2>Cómo viaja la señal</h2>
+  <p class="lead">De la cámara a la baliza, en cuatro pasos. Sin depender de internet ni de una
+    app: el aviso funciona aunque se caiga la conexión.</p>
+  <div class="sigflow">
+    <div class="sf"><b>1 · Detección</b><p>Cualquiera de las dos cámaras detecta un vehículo en su
+      zona y lee la patente.</p></div>
+    <div class="sf"><b>2 · Contacto seco</b><p>La cámara cierra su salida de alarma: un contacto
+      de baja tensión, sin energía propia.</p></div>
+    <div class="sf"><b>3 · Relé</b><p>Ese contacto activa el relé del tablero, alimentado por la
+      fuente de 12 V. Las dos cámaras comparten el mismo relé.</p></div>
+    <div class="sf"><b>4 · Balizas</b><p>El relé conmuta los 220 V de las dos balizas a la vez. La
+      cámara define cuánto dura el aviso.</p></div>
+  </div>
+  <p style="margin-top:14px">El tiempo de aviso, la zona exacta donde cada cámara detecta y los
+    horarios se configuran en las cámaras durante la programación. Si en el uso real conviene
+    alargar o acortar el aviso, se ajusta sin tocar ningún cable.</p>
+  <div class="who">
+    <div class="vbox"><h3>Lo que hace Nova Domus</h3><ul>
+      <li>Plano del tendido para el electricista, con el recorrido de cada cable.</li>
+      <li>Montaje y orientación de la cámara nueva y de las dos balizas.</li>
+      <li>Armado del tablero de control: relé, fuente y borneras en el gabinete estanco.</li>
+      <li>Programación de las dos cámaras: zona de detección, filtro de vehículos, salida de
+        alarma y duración del aviso.</li>
+      <li>Alta de la cámara nueva en el grabador existente.</li>
+      <li>Prueba en los dos sentidos con autos reales y entrega documentada.</li></ul></div>
+    <div class="vbox"><h3>Lo que deja listo el electricista de obra</h3><ul>
+      <li>Cable de red desde el switch hasta la cámara nueva. Ese cable también la alimenta.</li>
+      <li>Un cable de señal de dos hilos desde cada cámara hasta el gabinete del tablero.</li>
+      <li>Una línea de 220 V hasta el gabinete.</li>
+      <li>La salida de 220 V desde el gabinete hasta cada baliza.</li>
+      <li>Cañerías y cajas según el plano, antes de que montemos los equipos.</li></ul></div>
+  </div>
+</section>
+
+<section class="sec section-light" id="responsable" style="border-top:0">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p class="lead">Coordinar varios proveedores es la fuente real de fallas y demoras. En esta
+    obra ya instalamos la videovigilancia, el grabador y la cámara del ingreso: el control de
+    rampa queda en las mismas manos. El tendido lo ejecuta el electricista de obra según nuestro
+    plano; nosotros lo especificamos y lo certificamos.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span><strong>Relevamiento y especificación.</strong> Ubicación de la cámara y las balizas, y plano del tendido.</span></div>
+    <div class="step"><b>02</b><span><strong>Tendido certificado.</strong> El electricista deja los cables según plano; lo verificamos antes de montar.</span></div>
+    <div class="step"><b>03</b><span><strong>Montaje de equipos.</strong> Cámara, balizas y tablero de control.</span></div>
+    <div class="step"><b>04</b><span><strong>Programación.</strong> Las dos cámaras, la salida de alarma y el grabador.</span></div>
+    <div class="step"><b>05</b><span><strong>Entrega documentada y 12 meses de garantía.</strong> Prueba en los dos sentidos con autos reales.</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>Concepto</th><th>Con Nova Domus</th><th>Integrador tradicional</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno: el mismo que instaló la videovigilancia de la obra</td><td data-label="Integrador tradicional">Instalador de cámaras, programador y quien resuelve la automatización, por separado</td></tr>
+      <tr><td>Responsable ante una falla</td><td data-label="Con Nova Domus">Un único interlocutor, de la cámara a la baliza</td><td data-label="Integrador tradicional">Se deriva entre quien programó la cámara y quien conectó la baliza</td></tr>
+      <tr><td>Equipo de trabajo</td><td data-label="Con Nova Domus">Técnicos y programadores propios</td><td data-label="Integrador tradicional">Subcontratado</td></tr>
+      <tr><td>Garantía</td><td data-label="Con Nova Domus">12 meses sobre mano de obra y programación, más la del fabricante</td><td data-label="Integrador tradicional">Varía por proveedor, sin responsable común</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec section-light" id="inversion" style="border-top:0">
+  <p class="eyebrow">04 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total, más abajo.</p>
+  <div class="bar"><span class="seg" style="flex:1083"></span><span class="seg" style="flex:30"></span><span class="seg" style="flex:49"></span></div>
+  <ul class="legend"><li><i class="dot d0"></i>Lectura de patentes <b>U$D 1.083</b></li><li><i class="dot d1"></i>Aviso visual <b>U$D 30</b></li><li><i class="dot d2"></i>Tablero de control del aviso <b>U$D 49</b></li></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  <article class="rub">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Lectura de patentes</span><span class="tap-badge dark">Tocá para abrir</span>
+      <span class="rub-val">U$D 1.083</span><span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw"><table>
+      <thead><tr><th>Ítem</th><th class="num">Cant.</th><th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+      <tbody><tr><td>Cámara IP ANPR Hikvision 4MP, lente 2,8–12 mm, IR 100 m, IP67, IK10 (iDS-2CD7A46G0/P-IZHS)</td><td class="num">1</td><td class="num">U$D 1.083<span class="iva"> · IVA 21% incl.</span></td><td class="num">U$D 1.083</td></tr></tbody>
+    </table></div></div>
+  </article>
+  <article class="rub">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Aviso visual</span>
+      <span class="rub-val">U$D 30</span><span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw"><table>
+      <thead><tr><th>Ítem</th><th class="num">Cant.</th><th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+      <tbody><tr><td>Baliza LED flash 220 V, IP54, color ámbar (Tbcin)</td><td class="num">2</td><td class="num">U$D 15<span class="iva"> · IVA 21% incl.</span></td><td class="num">U$D 30</td></tr></tbody>
+    </table></div></div>
+  </article>
+  <article class="rub">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Tablero de control del aviso</span>
+      <span class="rub-val">U$D 49</span><span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw"><table>
+      <thead><tr><th>Ítem</th><th class="num">Cant.</th><th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+      <tbody><tr><td>Relé de interfaz Phoenix Contact, bobina 12 VDC, riel DIN (PLC-RSC-12DC/21)</td><td class="num">1</td><td class="num">U$D 21<span class="iva"> · IVA 21% incl.</span></td><td class="num">U$D 21</td></tr><tr><td>Fuente switching 12 V 1 A (Starligh F121000S)</td><td class="num">1</td><td class="num">U$D 10<span class="iva"> · IVA 21% incl.</span></td><td class="num">U$D 10</td></tr><tr><td>Caja estanca IP65 para 4 módulos DIN, de aplicar (Genrod)</td><td class="num">1</td><td class="num">U$D 18<span class="iva"> · IVA 21% incl.</span></td><td class="num">U$D 18</td></tr></tbody>
+    </table></div></div>
+  </article>
+  
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span><b id="t-neto"></b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span id="t-iva"></span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq"></b></div>
+    <div class="trow"><span>Mano de obra especializada por punto (cámara, 2 balizas y tablero)</span><b id="t-inst"></b></div>
+    <div class="trow"><span>Programación y comisionado</span><b id="t-prog"></b></div>
+    <div class="trow sub"><span>IVA 21% sobre mano de obra y programación</span><span id="t-ivamo"></span></div>
+    <div class="trow"><span>Mano de obra y programación (con IVA)</span><b id="t-moc"></b></div>
+    <div class="trow big"><span>Total del proyecto</span><span id="t-total"></span></div>
+    <div class="trow sub"><span>Referencia en pesos (TC BNA oficial 1.544, 07/10/2026)</span><span id="t-ars"></span></div>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="pago">
+  <p class="eyebrow">05 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Cada rubro se paga con el criterio que le corresponde: los equipos antes de
+    comprar, la programación en dos partes y la instalación contra el avance real de la obra.</p>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Equipos — 100%</b>
+      Por anticipado. Asegura el precio y la disponibilidad de la cámara, que hoy tiene stock
+      limitado en el distribuidor.</span><b id="p-eq"></b></div>
+    <div class="stage"><span><b style="display:block">Programación — inicio (60%)</b>
+      Al arrancar la programación de las cámaras. IVA incluido.</span><b id="p-p1"></b></div>
+    <div class="stage"><span><b style="display:block">Programación — entrega (40%)</b>
+      Comisionado: contra la prueba en los dos sentidos y la entrega documentada. IVA incluido.</span><b id="p-p2"></b></div>
+    <div class="stage"><span><b style="display:block">Instalación — monto de referencia</b>
+      Se certifica por avance real de obra, con certificación semanal. No hay montos ni fechas
+      fijas por etapa. IVA incluido.</span><b id="p-in"></b></div>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow big" style="color:var(--gold)"><span>Total</span><span id="gt"></span></div>
+  </div>
+</section>
+
+<section class="sec" id="condiciones-part">
+  <p class="eyebrow">06 — Condiciones particulares</p>
+  <h2>Particulares de esta ampliación</h2>
+  <p class="lead">Lo que da por supuesto esta propuesta.</p>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Línea aparte de la Carta Oferta</b>
+      Esta ampliación se suma como adicional sobre la Carta Oferta vigente. No modifica su monto,
+      su alcance ni sus condiciones.</span></div>
+    <div class="stage"><span><b style="display:block">Tendido a cargo del electricista de obra</b>
+      El cable de red a la cámara nueva, las señales de las cámaras al tablero y las líneas de
+      220 V al tablero y a las balizas los ejecuta el electricista de obra según el plano de Nova
+      Domus. Nova Domus especifica, verifica y certifica ese tendido.</span></div>
+    <div class="stage"><span><b style="display:block">Cámara de ingreso existente</b>
+      La cámara del portón ya instalada se reprograma para encender las balizas. Antes de la
+      instalación verificamos en obra que tenga conectado su cable de entradas y salidas de
+      alarma.</span></div>
+    <div class="stage"><span><b style="display:block">Zona de detección exterior</b>
+      La detección de la cámara del portón se limita al área frente al ingreso, para que no
+      encienda las balizas con autos que solo pasan por la calle. Se ajusta durante la
+      programación con autos reales.</span></div>
+    <div class="stage"><span><b style="display:block">Ubicaciones finales</b>
+      Las posiciones de la cámara y de las balizas se confirman en obra según la visibilidad real
+      desde cada extremo. Si conviene correr un equipo unos metros, se acuerda en obra sin costo
+      adicional.</span></div>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="condiciones">
+  <p class="eyebrow">07 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (07/10/2026),
+        es decir hasta el 22/10/2026. Todos los precios están expresados en dólares
+        estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de
+        la Nación Argentina, tipo vendedor, del día del pago efectivo. El monto en pesos de esta
+        propuesta es solo una referencia al tipo de cambio del día de emisión.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago y facturación</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Equipos: 100% por anticipado. Programación y comisionado: 60% al
+        iniciar y 40% contra la entrega final. Instalación: se certifica por avance real de obra,
+        con certificación semanal, sin montos ni fechas fijos por etapa. Se emite Factura A. Se
+        aceptan transferencia bancaria y efectivo. La mano de obra y la programación llevan IVA
+        21%, ya incluido en los montos de esta propuesta; los equipos llevan su IVA discriminado
+        por ítem.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Alcance — obra eléctrica</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Esta ampliación no incluye obra eléctrica por parte de Nova Domus:
+        el tendido lo ejecuta el electricista de obra según nuestro plano, por eso no aplica la
+        base de cotización de boca completa (AAIE). Cualquier trabajo eléctrico adicional que
+        surja se cotiza aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Visitas técnicas y logística</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>La obra está en Córdoba, por lo que no se cobran viáticos. Si una
+        visita no se puede completar porque el tendido no está terminado según el plano, la nueva
+        visita se coordina una vez que el electricista lo complete.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos y excedentes</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos se compran contra pedido firme. Una vez emitida la
+        orden de compra no admiten cancelación ni devolución. Los excedentes de material quedan en
+        poder del cliente, ya que fueron facturados como parte del presupuesto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización, responsable de obra y certificación</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por variación del
+        Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante.
+        Nova Domus designa un responsable de obra único como interlocutor durante toda la
+        ejecución. Al finalizar se entrega la documentación: ubicación de cada equipo, recorrido
+        del tendido, configuración de las cámaras y tiempos de aviso.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía y post-venta</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Doce meses de garantía desde la entrega documentada, cubriendo mano
+        de obra y programación. Los equipos mantienen además la garantía de su fabricante.
+        Durante ese período, cualquier falla de lo instalado la resuelve Nova Domus sin costo de
+        mano de obra.</p></div></article>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá la marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button>
+  </div>
+  <div class="ficha" id="f0"><h3>Hikvision</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p>
+    <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="Hikvision" allowfullscreen></iframe></div></div>
+  <div class="vbox">
+    <h3>Sin abonos obligatorios</h3>
+    <p>El control de rampa funciona en forma local, entre las cámaras y el tablero, sin licencias
+      ni abonos de Nova Domus y sin depender de internet.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="faq">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si entran y salen dos autos al mismo tiempo?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las dos balizas ya estarían encendidas por el primer auto
+        detectado, así que el segundo conductor ve el aviso antes de entrar a la rampa. Si los dos
+        llegan exactamente en el mismo instante, los dos ven destellar la baliza de su extremo y
+        resuelven como en cualquier paso de un carril. El sistema avisa; no traba el portón ni
+        frena ningún auto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Funciona de noche?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. Las cámaras de patentes tienen iluminación infrarroja propia de
+        hasta 100 metros y están pensadas para leer de noche. Igual, durante la programación
+        verificamos la lectura con la iluminación real de la rampa y, si hiciera falta, lo
+        indicamos.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Cuánto dura el aviso? ¿Se puede cambiar?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Arrancamos con unos 12 segundos, el tiempo típico para recorrer la
+        rampa. Se configura en las cámaras, así que si con el uso conviene más o menos tiempo, se
+        ajusta sin tocar la instalación.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Dónde quedan registradas las patentes?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>En el mismo grabador de la obra, junto con las de ingreso que ya
+        se registran hoy. La administración puede buscar por patente, fecha y hora en los dos
+        sentidos.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Y si se corta la luz?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las balizas se alimentan de la línea de 220 V que deje el
+        electricista. Sin energía en esa línea, el aviso no funciona hasta que vuelva la luz; no
+        hace falta ninguna acción para que se restablezca solo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay costos recurrentes?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Nova Domus no cobra licencia ni abono, y el sistema no necesita
+        internet para funcionar.</p></div></article>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Avancemos con el control de rampa</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu confirmación reservamos la cámara y le pasamos
+    el plano del tendido al electricista de obra.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y quiero avanzar con el control de rampa vehicular.</label>
+  </div>
+  <a class="btn" id="go" href="#" aria-disabled="true" rel="noopener">Avanzar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-041</b> · Panoramic I — Control de rampa vehicular · Ampliación sobre PY-2026-015<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring" stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="#fdfbf0" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g>
+</svg></span>
+</button>
+
+<script>
+var ITEMS=[{"k": "anpr", "rub": 0, "q": 1, "u": 1083, "iva": 0.21, "name": "Cámara de lectura de patentes (salida)", "full": "Cámara IP ANPR Hikvision 4MP, lente 2,8–12 mm, IR 100 m, IP67, IK10 (iDS-2CD7A46G0/P-IZHS)", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ids-2cd7a46g0p-izhsy.jpg", "desc": "Va al pie de la rampa, mirando hacia los autos que se acercan para subir. Detecta el vehículo, lee la patente y cierra su salida de alarma para encender las balizas. Es el mismo modelo que ya está en el ingreso, así que las dos cámaras trabajan igual y quedan en el mismo grabador."}, {"k": "bal", "rub": 1, "q": 2, "u": 15, "iva": 0.21, "name": "Baliza LED estroboscópica", "full": "Baliza LED flash 220 V, IP54, color ámbar (Tbcin)", "foto": null, "desc": "Una arriba, junto al portón, y otra al pie de la rampa. Destellan en ámbar mientras alguien está usando la rampa, para que quien llega desde el otro extremo espere. Solo luz, sin sonido: se dispara con cada auto, de día y de noche, y en un edificio residencial un aviso sonoro terminaría molestando."}, {"k": "rel", "rub": 2, "q": 1, "u": 21, "iva": 0.21, "name": "Relé de interfaz", "full": "Relé de interfaz Phoenix Contact, bobina 12 VDC, riel DIN (PLC-RSC-12DC/21)", "foto": null, "desc": "Es el que enciende las balizas. Las cámaras dan una señal de baja tensión que no puede manejar 220 V directo: esa señal activa el relé, y el relé conmuta los 220 V de las dos balizas."}, {"k": "fte", "rub": 2, "q": 1, "u": 10, "iva": 0.21, "name": "Fuente de 12 V", "full": "Fuente switching 12 V 1 A (Starligh F121000S)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/F121000S.webp", "desc": "Alimenta la bobina del relé. Consume muy poco y queda dentro del mismo gabinete."}, {"k": "caj", "rub": 2, "q": 1, "u": 18, "iva": 0.21, "name": "Gabinete estanco", "full": "Caja estanca IP65 para 4 módulos DIN, de aplicar (Genrod)", "foto": null, "desc": "Aloja el relé, la fuente y las borneras, protegido del polvo y el agua. Queda al pie de la rampa, accesible para mantenimiento."}];
+var M={"eq": 1162, "neto": 960, "iva": 202, "inst": 197, "prog": 136, "mo_n": 333, "iva_mo": 71, "inst_c": 239, "prog_c": 165, "prog1": 99, "prog2": 66, "total": 1566, "ars": 2417904};
+var WA='5493516747513';
+function num(v){return Math.round(v).toLocaleString('es-AR');}
+function fmt(v){return 'U$D '+num(v);}
+function T(id,t){var e=document.getElementById(id); if(e) e.textContent=t;}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+function refit(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+}
+window.addEventListener('resize',refit);
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+function renderDevices(){
+  var h='';
+  ITEMS.forEach(function(it,i){
+    var ph = it.foto ? '<img class="dc-photo" src="'+esc(it.foto)+'" alt="'+esc(it.name)+'" loading="lazy" onload="if(window.refit)refit()" onerror="imgErr(this)">'
+                     : '<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    h+='<article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+      +'<span class="dev-title">'+esc(it.name)+'<span class="dc-qty">'+it.q+(it.q===1?' unidad':' unidades')+'</span></span>'
+      +(i===0?'<span class="tap-badge">Tocá para abrir</span>':'')
+      +'<span class="arr" aria-hidden="true">▾</span></button>'
+      +'<div class="dev-body"><div class="dev-body-flex">'+ph+'<p class="dc-desc">'+esc(it.desc)+'</p></div></div></article>';
+  });
+  document.getElementById('devgrid').innerHTML=h;
+}
+/* every variable of the totals object is consumed by the payment UI */
+function totals(){
+  var eq=0; ITEMS.forEach(function(i){ eq+=i.u*i.q; });
+  return {eq:eq, inst:M.inst_c, prog1:M.prog1, prog2:M.prog2, total:eq+M.inst_c+M.prog1+M.prog2};
+}
+function renderMoney(){
+  var t=totals();
+  T('t-neto',fmt(M.neto)); T('t-iva',fmt(M.iva)); T('t-eq',fmt(t.eq));
+  T('t-inst',fmt(M.inst)); T('t-prog',fmt(M.prog)); T('t-ivamo',fmt(M.iva_mo));
+  T('t-moc',fmt(M.inst_c+M.prog_c)); T('t-total',fmt(t.total));
+  T('t-ars','$ '+num(M.ars));
+  T('p-eq',fmt(t.eq)); T('p-p1',fmt(t.prog1)); T('p-p2',fmt(t.prog2)); T('p-in',fmt(t.inst));
+  T('gt',fmt(t.total));
+  var msg='Hola Nova Domus, revisé la propuesta PY-2026-041 de Panoramic I (control de rampa vehicular) por '+fmt(t.total)+' y quiero avanzar.';
+  document.getElementById('go').setAttribute('href','https://wa.me/'+WA+'?text='+encodeURIComponent(msg));
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled', document.getElementById('ok').checked?'false':'true');
+}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+
+/* ===== rampa simulator ===== */
+var RED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var car=document.getElementById('car'), busy=false, offT=null, cdT=null, left=0;
+var AVISO=12, SPEED=230;
+var PLATES=['AE 482 KT','AF 091 RZ','AD 733 LM','AG 215 PB','AC 960 SN'];
+var PATHS={
+  'in':{a:[[-60,130],[115,130]], b:[[115,130],[215,130],[560,300],[720,300],[800,300]], beam:'beamIn', cam:'Cámara de ingreso', dir:'Ingreso', rev:false},
+  'out':{a:[[810,300],[650,300]], b:[[650,300],[560,300],[215,130],[60,130],[-60,130]], beam:'beamOut', cam:'Cámara de salida', dir:'Salida', rev:true}
+};
+function place(x,y,dx,dy,rev){
+  var deg, tr;
+  if(!rev){ deg=Math.atan2(dy,dx)*180/Math.PI; tr='translate('+x.toFixed(1)+','+y.toFixed(1)+') rotate('+deg.toFixed(1)+')'; }
+  else { deg=Math.atan2(dy,-dx)*180/Math.PI; tr='translate('+x.toFixed(1)+','+y.toFixed(1)+') scale(-1,1) rotate('+deg.toFixed(1)+')'; }
+  car.setAttribute('transform',tr);
+}
+function drive(pts,rev,done){
+  if(RED){ var l=pts[pts.length-1], p=pts[pts.length-2]; place(l[0],l[1],l[0]-p[0],l[1]-p[1],rev); done(); return; }
+  var segs=[],tot=0;
+  for(var i=1;i<pts.length;i++){var dx=pts[i][0]-pts[i-1][0],dy=pts[i][1]-pts[i-1][1],L=Math.sqrt(dx*dx+dy*dy);segs.push([pts[i-1],dx,dy,L]);tot+=L;}
+  var t0=null;
+  function step(ts){
+    if(t0===null) t0=ts;
+    var d=Math.min(tot,(ts-t0)/1000*SPEED), acc=0;
+    for(var j=0;j<segs.length;j++){
+      var s=segs[j];
+      if(d<=acc+s[3]||j===segs.length-1){var f=s[3]?Math.min(1,(d-acc)/s[3]):1; place(s[0][0]+s[1]*f,s[0][1]+s[2]*f,s[1],s[2],rev); break;}
+      acc+=s[3];
+    }
+    if(d<tot) requestAnimationFrame(step); else done();
+  }
+  requestAnimationFrame(step);
+}
+function logEv(html){
+  var li=document.createElement('li'); li.innerHTML=html;
+  var ul=document.getElementById('log'); ul.insertBefore(li,ul.firstChild);
+  while(ul.children.length>6) ul.removeChild(ul.lastChild);
+}
+function setBeacons(on){
+  ['bzTop','bzBot'].forEach(function(id){document.getElementById(id).classList.toggle('on',on);});
+  var st=document.getElementById('state');
+  st.classList.toggle('busy',on);
+  if(!on){T('stTxt','Rampa libre'); T('stSub','Balizas apagadas. Cualquiera puede subir o bajar.');}
+}
+function trigger(){
+  clearTimeout(offT); clearInterval(cdT);
+  setBeacons(true); left=AVISO;
+  T('stTxt','Rampa en uso · '+left+' s');
+  T('stSub','Las dos balizas destellan. Quien llega desde el otro extremo espera.');
+  cdT=setInterval(function(){ left--; if(left>0) T('stTxt','Rampa en uso · '+left+' s'); },1000);
+  offT=setTimeout(function(){ clearInterval(cdT); setBeacons(false); },AVISO*1000);
+}
+function lock(on){ busy=on; ['bIn','bOut'].forEach(function(id){document.getElementById(id).disabled=on;}); }
+function run(kind){
+  if(busy) return;
+  document.getElementById('rampcard').classList.add('used');
+  var P=PATHS[kind], dirty=document.getElementById('dirty').checked;
+  lock(true); car.style.opacity=1;
+  drive(P.a,P.rev,function(){
+    var bm=document.getElementById(P.beam); bm.classList.add('on');
+    var plate = dirty ? '<span class="plate" style="color:#787A91">ilegible</span>' : '<span class="plate">'+PLATES[Math.floor(Math.random()*PLATES.length)]+'</span>';
+    var hh=new Date(), ts=('0'+hh.getHours()).slice(-2)+':'+('0'+hh.getMinutes()).slice(-2)+':'+('0'+hh.getSeconds()).slice(-2);
+    logEv('<b>'+P.dir+'</b> · '+ts+' · '+P.cam+' · patente '+plate+(dirty?' · vehículo detectado igual':'')+' · balizas encendidas');
+    trigger();
+    setTimeout(function(){
+      bm.classList.remove('on');
+      drive(P.b,P.rev,function(){ car.style.opacity=0; place(-100,130,1,0,false); lock(false); });
+    }, RED?0:900);
+  });
+}
+
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red||n===0){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},60);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur2=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur2=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur2);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+renderDevices(); renderMoney();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
