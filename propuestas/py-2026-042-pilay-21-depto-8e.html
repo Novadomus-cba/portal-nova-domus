@@ -450,11 +450,14 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     unidos en un servidor de automatización que corre dentro del departamento. Cada llave
     conserva su función manual y suma control por voz, desde el celular, por horario y por
     escenas. El baño y el paso encienden solos al entrar.</p>
-  <p><b>Inversión.</b> U$D 4.998 por el proyecto completo — equipos, mano de obra
-    especializada por punto, programación y la instalación de la cerradura digital.</p>
-  <p><b>Próximo paso.</b> Una visita técnica corta al departamento para verificar las cajas
-    eléctricas, las tiras LED y los motores de cortina, y ajustar el presupuesto antes de comprar
-    un solo equipo.</p>
+  <p><b>Inversión estimada.</b> U$D 5.096 — equipos, mano de obra especializada por punto,
+    programación, la instalación de la cerradura digital y la visita técnica. Es un proyecto
+    aproximado: surge del plano de la tipología y de lo que nos contaste, con supuestos que se
+    confirman en el departamento.</p>
+  <p><b>Próximo paso: la visita técnica (U$D 98).</b> Antes de comprar un solo equipo
+    vamos al departamento a verificar cajas eléctricas, tiras LED y fuentes, motores de cortina,
+    cerradura, televisores y electrodomésticos. Con eso definimos la lista exacta de equipos y
+    te enviamos el presupuesto ajustado, ya cerrado.</p>
 </section>
 
 <section class="sec section-light" id="responsable">
@@ -715,8 +718,10 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       <b>U$D 100</b></div>
     <div class="trow"><span>Programación y comisionado</span>
       <b>U$D 455</b></div>
-    <div class="trow big"><span>Total del proyecto</span>
-      <span>U$D 4.998</span></div>
+    <div class="trow"><span>Visita técnica de relevamiento (1 técnico, 1 jornada)</span>
+      <b>U$D 98</b></div>
+    <div class="trow big"><span>Total estimado del proyecto</span>
+      <span>U$D 5.096</span></div>
   </div>
 </section>
 </div></div>
@@ -731,15 +736,15 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <div class="pay" id="pay"></div>
   <div class="chk">
     <input type="checkbox" id="fa" onchange="renderPay()">
-    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación, instalación y
-      cerradura. Los equipos ya llevan su IVA discriminado por ítem.</label>
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre visita técnica, programación,
+      instalación y cerradura. Los equipos ya llevan su IVA discriminado por ítem.</label>
   </div>
   <div class="totals" style="border-top-color:var(--gold)">
     <div class="trow sub" id="pay-iva-row" style="display:none">
-      <span>IVA 21% sobre programación, instalación y cerradura</span>
+      <span>IVA 21% sobre visita, programación, instalación y cerradura</span>
       <span id="fa-val"></span></div>
     <div class="trow big" style="color:var(--gold)"><span>Total</span>
-      <span id="gt">U$D 4.998</span></div>
+      <span id="gt">U$D 5.096</span></div>
   </div>
 </section>
 
@@ -769,14 +774,18 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
         en alguna caja falta, se propone la solución antes de comprar.</p>
       </div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Cantidades sujetas a visita técnica</span>
+      <span class="dev-title">Proyecto aproximado y visita técnica</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Las cantidades surgen del plano eléctrico de la tipología E y de
-        lo que nos contaste del departamento. Quedan a confirmar en la visita: la cantidad,
-        potencia y ubicación de las tiras LED y sus fuentes; la cantidad y tipo de motores de
-        cortina; la marca y modelo de la cerradura; y la compatibilidad nativa de los televisores
-        y electrodomésticos. El presupuesto se ajusta después de esa visita, antes de comprar
-        cualquier equipo.</p></div></article>
+      <div class="dev-body"><p>Este es un proyecto aproximado, no un proyecto
+        cerrado: las cantidades surgen del plano eléctrico de la tipología E y de lo que nos
+        contaste del departamento. Por eso el primer paso es una visita técnica con costo
+        (U$D 98, ARS 150.000 — un técnico, una jornada en Córdoba capital), que se abona al
+        coordinarla.</p>
+        <p>En la visita se verifica: neutro en cada caja de llave; cantidad, potencia y ubicación
+        de las tiras LED y sus fuentes; cantidad y tipo de motores de cortina; marca y modelo de
+        la cerradura; compatibilidad de televisores y electrodomésticos; y ubicación del módem.
+        Con eso se define la lista exacta de equipos y se emite el presupuesto cerrado, antes de
+        comprar cualquier equipo.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Visitas técnicas adicionales</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -895,14 +904,15 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <p class="eyebrow">Próximo paso</p>
   <h2 style="margin-bottom:14px">Visita técnica</h2>
   <p class="lead" style="margin:0 auto 8px">El primer paso no es comprar equipos: es ver el
-    departamento, confirmar las cajas, las tiras y los motores, y ajustar este presupuesto.
-    Recién después se compra.</p>
+    departamento. Un técnico, una jornada, U$D 98 (ARS 150.000). Con lo que relevamos
+    definimos la lista exacta de equipos y te enviamos el presupuesto cerrado. Recién después se
+    compra.</p>
   <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
     <input type="checkbox" id="ok" onchange="conf()">
-    <label for="ok">Leí la propuesta y quiero avanzar con la visita técnica.</label>
+    <label for="ok">Leí la propuesta y quiero coordinar la visita técnica.</label>
   </div>
-  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-042%20del%20departamento%208E%20de%20Pilay%2021%20por%20U%24D%204.998%20y%20quiero%20avanzar%20con%20la%20visita%20t%C3%A9cnica." aria-disabled="true" target="_blank"
-     rel="noopener">Avanzar por WhatsApp</a>
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-042%20del%20departamento%208E%20de%20Pilay%2021%20y%20quiero%20coordinar%20la%20visita%20t%C3%A9cnica%20de%20relevamiento%20%28U%24D%2098%29." aria-disabled="true" target="_blank"
+     rel="noopener">Coordinar la visita por WhatsApp</a>
   <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
 </section>
 </div>
@@ -925,7 +935,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
 </button>
 
 <script>
-var T={eq:3025,mo:1418,cerr:100,prog:455,p60:273,p40:182,tot:4998};
+var T={vis:98,eq:3025,mo:1418,cerr:100,prog:455,p60:273,p40:182,tot:5096};
 
 function fmt(v){return 'U$D '+Math.round(v).toLocaleString('es-AR');}
 
@@ -1040,10 +1050,11 @@ function renderDeviceGrid(id,key){
 }
 ['iluminacion','confort','tomas','redes','core'].forEach(function(k){renderDeviceGrid('grid-'+k,k);});
 
-// Payment stages consume EVERY variable of T: eq, prog (p60+p40), mo, cerr
+// Payment stages consume EVERY variable of T: vis, eq, prog (p60+p40), mo, cerr
 function stagesData(){
   return [
-   ['Equipos — 100%','Por anticipado. Asegura el precio y la disponibilidad de importación de cada equipo.',T.eq,''],
+   ['Visita técnica — primer paso','Al coordinar la visita (ARS 150.000). Un técnico, una jornada: relevamiento completo y presupuesto cerrado.',T.vis,''],
+   ['Equipos — 100%','Por anticipado, una vez cerrado el presupuesto después de la visita. Asegura el precio y la disponibilidad de importación de cada equipo.',T.eq,''],
    ['Programación — 60% al inicio','Al arrancar la programación del sistema.',T.p60,''],
    ['Programación — 40% a la entrega','Comisionado: contra la entrega final documentada del sistema.',T.p40,''],
    ['Instalación por punto','Se certifica en obra según el avance real, con certificación semanal.',T.mo,'Monto de referencia — se certifica por avance'],
@@ -1051,7 +1062,7 @@ function stagesData(){
   ];
 }
 function renderPay(){
-  var on=document.getElementById('fa').checked, iva=on?(T.prog+T.mo+T.cerr)*0.21:0;
+  var on=document.getElementById('fa').checked, iva=on?(T.vis+T.prog+T.mo+T.cerr)*0.21:0;
   document.getElementById('pay').innerHTML=stagesData().map(function(s){
     return '<div class="stage"><span><b style="display:block">'+s[0]+'</b>'+s[1]
       +(s[3]?'<em style="display:block;font-style:normal;color:var(--gold);font-size:12.5px;margin-top:4px">'+s[3]+'</em>':'')
