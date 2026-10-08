@@ -613,10 +613,11 @@ async function subirPlano(proyectoId) {
 
   try {
     const contenido = await file.text();
+    const codigo = proyecto.numero.replace(/^PY-/, 'PI-');
     const matchTitle = contenido.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
     const titulo = matchTitle ? matchTitle[1].trim() : '';
-    if (!titulo || !titulo.includes(proyecto.numero)) {
-      showToast(`El <title> del HTML no incluye "${proyecto.numero}". Revisá que sea el plano correcto antes de subir.`, 'error');
+    if (!titulo || !titulo.includes(codigo)) {
+      showToast(`El <title> del HTML no incluye "${codigo}". Revisá que sea el plano correcto antes de subir.`, 'error');
       btn.disabled = false;
       btn.textContent = 'Subir plano';
       return;
@@ -627,7 +628,6 @@ async function subirPlano(proyectoId) {
     const { data: { session } } = await authClient.auth.getSession();
     if (!session) { window.location.href = '../login.html'; return; }
 
-    const codigo = proyecto.numero.replace(/^PY-/, 'PI-');
     const versionesActuales = planosPorProyecto[proyectoId] || [];
     const n = versionesActuales.length
       ? Math.max(...versionesActuales.map(v => v.version)) + 1
