@@ -164,6 +164,33 @@ main { max-width: 720px; margin: 0 auto; padding: 14px 16px 110px; }
 .eqform .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8px; }
 .eqform select.inp { min-height: 46px; }
 
+/* ── Fotos ── */
+.fstrip { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.fthumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 1px solid var(--line); background: var(--line); padding: 0; cursor: pointer; }
+.fthumb.pend { opacity: .55; outline: 2px dashed var(--gold); }
+.fadd { width: 64px; height: 64px; border: 1px dashed var(--muted); border-radius: 8px; background: var(--surface); font-size: 12px; font-weight: 600; color: var(--accent); line-height: 1.2; }
+#fotodlg { width: min(96vw, 720px); padding: 12px; }
+#fotodlg img { display: block; width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; background: #000; }
+#fotodlg .meta { margin: 8px 0 0; }
+
+/* ── Seguimiento (oficina) ── */
+.sgsum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+.sgsum div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 6px; text-align: center; font-size: 12px; color: var(--muted); }
+.sgsum b { display: block; font-size: 22px; color: var(--ink); }
+.sgrow { display: grid; grid-template-columns: 92px 1fr auto; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.sgrow .bar { height: 8px; background: var(--line); }
+.sgrow .bar i { background: var(--accent); }
+.sgrow span:last-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.alerts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.alert { border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; }
+.alert.r { background: #FBE9E7; color: #A33A1E; }
+.alert.y { background: #FFF4D6; color: #7A5A00; }
+.alert.b { background: var(--flag-bg); color: var(--flag); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .alert.r { background: #4A2018; color: #F7B7A3; }
+  :root:not([data-theme="light"]) .alert.y { background: #45391A; color: #F5D88A; }
+}
+
 /* ── Filtros ── */
 .seg { display: flex; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; gap: 4px; }
 .seg button {
@@ -356,6 +383,11 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
       <span>Marcando como <b id="who-name"></b></span>
       <button type="button" class="btn ghost" id="who-change" style="min-height:40px">Cambiar</button>
     </div>
+    <a class="card" id="seg-card" href="#seguimiento" hidden>
+      <b>📊 Seguimiento de obras</b>
+      <span class="s">Qué falta comprar, instalar, configurar y responder en cada obra</span>
+      <span class="go">›</span>
+    </a>
     <a class="card" id="compras-card" href="#compras" hidden>
       <b>🛒 Compras pendientes</b>
       <span class="s" id="compras-sub">Todo lo que falta comprar en las obras</span>
@@ -401,6 +433,12 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
       </div>
     </div>
     <div id="f-revisiones" hidden></div>
+  </section>
+
+  <!-- SEGUIMIENTO (oficina) -->
+  <section id="s-seguimiento" hidden>
+    <div class="sgsum" id="sg-sum"></div>
+    <div id="sg-list"></div>
   </section>
 
   <!-- COMPRAS (oficina) -->
@@ -549,6 +587,15 @@ Planta baja | Hall | Q | Tecla 4 anulada
   <div class="btns">
     <button class="btn ghost" id="xcancel" type="button">Cancelar</button>
     <button class="btn" id="xadd" type="button">Agregar</button>
+  </div>
+</dialog>
+
+<dialog id="fotodlg">
+  <img id="foto-img" alt="">
+  <p class="meta" id="foto-meta"></p>
+  <div class="btns">
+    <button class="btn ghost" id="foto-del" type="button" hidden>Borrar foto</button>
+    <button class="btn" id="foto-close" type="button">Cerrar</button>
   </div>
 </dialog>
 
@@ -739,7 +786,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
   function paintSync() {
     const s = $('sync');
     if (!s) return;
-    const n = queue.length;
+    const n = queue.length + pendingFotos.length;
     s.classList.toggle('warn', n > 0 || !navigator.onLine);
     if (n) s.textContent = n + ' sin enviar';
     else if (!navigator.onLine) s.textContent = 'Sin señal';
@@ -807,6 +854,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     else if (q.has('obra') && !q.has('nueva')) showFicha(q.get('obra'), q.get('t'));
     else if (q.has('nueva') && isOffice) showNew(q.get('obra'));
     else if (q.has('compras') && isOffice) showCompras();
+    else if (q.has('seguimiento') && isOffice) showSeguimiento();
     else showList();
   }
   window.addEventListener('hashchange', route);
@@ -828,7 +876,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
   });
 
   function showOnly(ids) {
-    ['s-list', 'v-obra', 'v-consultas', 'v-reporte', 's-new', 's-ficha', 's-compras'].forEach(id => { $(id).hidden = !ids.includes(id); });
+    ['s-list', 'v-obra', 'v-consultas', 'v-reporte', 's-new', 's-ficha', 's-compras', 's-seguimiento'].forEach(id => { $(id).hidden = !ids.includes(id); });
   }
   function setHeader(mode, title, sub) {
     const home = mode === 'home';
@@ -884,6 +932,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     box.textContent = '';
     if (error) { box.appendChild(el('p', 'empty', 'No se pudo cargar. Revisá la señal y volvé a entrar.')); return; }
     if (isOffice) loadComprasCount();
+    $('seg-card').hidden = !isOffice;
     box.appendChild(el('div', 'sect', 'Obras'));
     if (!units.length) box.appendChild(el('p', 'empty', 'No hay obras en curso.'));
     units.forEach(u => box.appendChild(unitCard(u, revs.filter(r => r.obra_id === u.obra_id), prog)));
@@ -947,6 +996,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     else if (!/^#rev=/.test(prevHash)) fichaFromHome = false;
     if (!unit || unit.clave !== u.clave) matFilter = null;
     unit = u;
+    if (u.proyecto_id) loadFotos('p' + u.proyecto_id, { proyecto_id: u.proyecto_id });
     setHeader('ficha', unitTitle(u), (ESTADO_LBL[u.estado] || u.estado) + (u.numero && u.codigo_obra ? ' · Obra ' + u.codigo_obra : ''));
     showOnly(['s-ficha']);
     const isProj = !!u.proyecto_id;
@@ -1002,6 +1052,11 @@ Planta baja | Hall | Q | Tecla 4 anulada
       r.lastChild.style.margin = '8px 0 0';
       box.appendChild(r);
     }
+    const fp = el('div', 'panel');
+    fp.appendChild(el('h2', '', '📷 Fotos de la obra'));
+    fp.appendChild(el('p', '', 'Relevamiento, avance, tableros, lo que sirva. Para fotos de un equipo puntual usá la pestaña Equipos.'));
+    fp.appendChild(fotoStrip('p' + u.proyecto_id, 'obra', null, { proyecto_id: u.proyecto_id }));
+    box.appendChild(fp);
   }
 
   async function renderFichaRevisiones() {
@@ -1257,6 +1312,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     mb.appendChild(el('span', 'badge st-' + EQ_CSS[e.estado], EQ_EST[e.estado]));
     const dl = eqDataLine(e);
     if (dl) mb.appendChild(el('div', 'eqdata', dl));
+    mb.appendChild(fotoStrip('p' + e.proyecto_id, 'equipo', e.id, { proyecto_id: e.proyecto_id }, canEditEq()));
     const who = eqWho(e);
     if (who) mb.appendChild(el('span', '', who));
     top.appendChild(mb);
@@ -1438,7 +1494,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
   function eqRows() {
     const withUsers = $('e-x-users').checked;
     return EQ_ORDER.flatMap(g => equipos.filter(e => (EQ_GRUPO[e.clase] || 'Otros') === g).map(e => ({
-      grupo: g, pos: e.posicion_id || '', nombre: e.nombre, modelo: [e.marca, e.modelo].filter(Boolean).join(' '),
+      id: e.id, grupo: g, pos: e.posicion_id || '', nombre: e.nombre, modelo: [e.marca, e.modelo].filter(Boolean).join(' '),
       ubicacion: e.ubicacion || '', ip: e.ip || '', mac: e.mac || '', serie: e.serie || '',
       canal: e.canal ? (CANAL_LBL[e.clase] || 'Canal') + ': ' + e.canal : '',
       usuario: withUsers ? (e.usuario || '') : '', clave_ref: withUsers ? (e.clave_ref || '') : '',
@@ -1481,7 +1537,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
         <td><b>${esc(r.nombre)}</b>${r.modelo ? `<div class="sub">${esc(r.modelo)}</div>` : ''}${r.ubicacion ? `<div class="sub">📍 ${esc(r.ubicacion)}</div>` : ''}</td>
         <td class="mono">${[r.ip && 'IP ' + r.ip, r.mac && 'MAC ' + r.mac, r.serie && 'S/N ' + r.serie, r.canal, r.firmware && 'FW ' + r.firmware,
           withUsers && r.usuario && 'Usuario: ' + r.usuario, withUsers && r.clave_ref && 'Clave: ' + r.clave_ref].filter(Boolean).map(esc).join('<br>')}
-          ${r.notas ? `<div class="sub">${esc(r.notas)}</div>` : ''}</td>
+          ${r.notas ? `<div class="sub">${esc(r.notas)}</div>` : ''}${photosHtml('p' + unit.proyecto_id, 'equipo', r.id)}</td>
         <td class="st">${esc(r.estado)}${r.quien ? `<div class="sub">${esc(r.quien)}</div>` : ''}</td>
       </tr>`).join('')}
       </tbody></table>`).join('');
@@ -1509,6 +1565,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
   .st { width: 18%; }
   .mono { font-family: ui-monospace, Consolas, monospace; font-size: 11px; width: 32%; }
   .sub { color: #5B5D73; font-size: 11px; margin-top: 2px; font-family: Inter, Arial, sans-serif; }
+  .ph img { width: 120px; height: 90px; object-fit: cover; margin: 4px 4px 0 0; border-radius: 4px; border: 1px solid #E3E1D6; }
   footer { margin-top: 18px; color: #8C8E9F; font-size: 10px; border-top: 1px solid #E3E1D6; padding-top: 6px; }
   @media print { body { padding: 0; } }
 </style></head><body>
@@ -1522,6 +1579,268 @@ ${body || '<p>No hay equipos registrados.</p>'}
     win.document.open(); win.document.write(html); win.document.close();
     setTimeout(() => { try { win.focus(); win.print(); } catch (e2) { /* manual print */ } }, 900);
   });
+
+  // ── FOTOS ─────────────────────────────────────────────────────
+  // Compressed on the phone (≤1600 px, JPEG) before upload. Without signal they wait in
+  // IndexedDB and go up when the connection is back (counted in "N sin enviar").
+  const FOTO_BUCKET = 'obras-fotos';
+  const fotos = {};          // scopeKey -> rows of obras_fotos
+  const fotoUrl = {};        // storage_path -> signed URL
+  let pendingFotos = [];     // { key, path, blob, row, url }
+  let flushingFotos = false;
+  const IDB = {
+    db: null,
+    open() {
+      if (!this.db) this.db = new Promise((res, rej) => {
+        const r = indexedDB.open('nd-obras', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('fotos', { keyPath: 'key' });
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+      });
+      return this.db;
+    },
+    async tx(mode, fn) {
+      const db = await this.open();
+      return new Promise((res, rej) => {
+        const t = db.transaction('fotos', mode);
+        const out = fn(t.objectStore('fotos'));
+        t.oncomplete = () => res(out && out.result);
+        t.onerror = () => rej(t.error);
+      });
+    },
+    put(v) { return this.tx('readwrite', st => st.put(v)); },
+    del(k) { return this.tx('readwrite', st => st.delete(k)); },
+    all() { return this.tx('readonly', st => st.getAll()); },
+  };
+  (async () => {
+    try { pendingFotos = ((await IDB.all()) || []).map(r => Object.assign(r, { url: URL.createObjectURL(r.blob) })); }
+    catch (e) { pendingFotos = []; }
+    paintSync();
+    flushFotos();
+  })();
+
+  function fotosOf(scopeKey, entidad, entidadId) {
+    return (fotos[scopeKey] || []).filter(f => f.entidad === entidad && String(f.entidad_id || '') === String(entidadId == null ? '' : entidadId));
+  }
+  function pendingOf(scopeKey, entidad, entidadId) {
+    return pendingFotos.filter(f => f.scopeKey === scopeKey && f.row.entidad === entidad && String(f.row.entidad_id || '') === String(entidadId == null ? '' : entidadId));
+  }
+  async function signFotos(rows) {
+    const need = rows.map(r => r.storage_path).filter(p => !fotoUrl[p]);
+    if (!need.length) return;
+    const { data } = await sb.storage.from(FOTO_BUCKET).createSignedUrls(need, 3600);
+    (data || []).forEach(d => { if (d.signedUrl) fotoUrl[d.path] = d.signedUrl; });
+  }
+  async function loadFotos(scopeKey, scope) {
+    let q = sb.from('obras_fotos').select('*').order('created_at');
+    q = scope.proyecto_id ? q.eq('proyecto_id', scope.proyecto_id) : q.eq('revision_id', scope.revision_id);
+    const { data, error } = await q;
+    if (error) return;
+    fotos[scopeKey] = data || [];
+    await signFotos(fotos[scopeKey]);
+    refreshStrips(scopeKey);
+  }
+  function refreshStrips(scopeKey) {
+    document.querySelectorAll('.fstrip[data-scope="' + scopeKey + '"]').forEach(old => {
+      old.replaceWith(fotoStrip(old.dataset.scope, old.dataset.ent, old.dataset.eid || null, JSON.parse(old.dataset.row), old.dataset.can === '1'));
+    });
+    if (rev && scopeKey === 'r' + rev.id) Object.keys(refs).forEach(k => paintItem(refs[k]));
+  }
+  function fotoStrip(scopeKey, entidad, entidadId, scopeRow, canAdd) {
+    if (canAdd === undefined) canAdd = canField;
+    const box = el('div', 'fstrip');
+    Object.assign(box.dataset, { scope: scopeKey, ent: entidad, eid: entidadId == null ? '' : String(entidadId), row: JSON.stringify(scopeRow), can: canAdd ? '1' : '0' });
+    fotosOf(scopeKey, entidad, entidadId).forEach(f => {
+      const im = el('img', 'fthumb');
+      im.alt = 'Foto'; im.loading = 'lazy';
+      if (fotoUrl[f.storage_path]) im.src = fotoUrl[f.storage_path];
+      im.addEventListener('click', () => openFoto(f, scopeKey));
+      box.appendChild(im);
+    });
+    pendingOf(scopeKey, entidad, entidadId).forEach(f => {
+      const im = el('img', 'fthumb pend');
+      im.alt = 'Foto sin enviar'; im.src = f.url; im.title = 'Sin enviar todavía';
+      box.appendChild(im);
+    });
+    if (canAdd) {
+      const b = el('button', 'fadd', '📷\nFoto');
+      b.type = 'button';
+      b.style.whiteSpace = 'pre-line';
+      b.addEventListener('click', () => pickFotos(scopeKey, entidad, entidadId, scopeRow));
+      box.appendChild(b);
+    }
+    return box;
+  }
+  function pickFotos(scopeKey, entidad, entidadId, scopeRow) {
+    // No "capture" attribute: the phone offers camera or gallery (relevamiento photos already taken).
+    const inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*'; inp.multiple = true;
+    inp.addEventListener('change', async () => {
+      const files = Array.from(inp.files || []);
+      if (!files.length) return;
+      toast(files.length === 1 ? 'Subiendo foto…' : 'Subiendo ' + files.length + ' fotos…');
+      for (const file of files) {
+        try {
+          const { blob, w, h } = await compressImage(file);
+          const base = scopeRow.proyecto_id ? 'p/' + scopeRow.proyecto_id : 'r/' + scopeRow.revision_id;
+          const path = base + '/' + entidad + '/' + (entidadId == null ? '_' : entidadId) + '/' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8) + '.jpg';
+          const rec = {
+            key: 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), scopeKey, path, blob,
+            row: Object.assign({}, scopeRow, { entidad, entidad_id: entidadId == null ? null : String(entidadId), storage_path: path, ancho: w, alto: h, bytes: blob.size, autor_nombre: actorName() }),
+          };
+          try { await IDB.put(rec); } catch (e) { /* memory only */ }
+          rec.url = URL.createObjectURL(blob);
+          pendingFotos.push(rec);
+        } catch (e) {
+          console.error('foto', e);
+          toast('No se pudo leer la foto.', 'error');
+        }
+      }
+      refreshStrips(scopeKey);
+      paintSync();
+      flushFotos();
+    });
+    inp.click();
+  }
+  async function compressImage(file) {
+    let src;
+    try { src = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
+    catch (e) {
+      src = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = URL.createObjectURL(file); });
+    }
+    const max = 1600, sw = src.width, sh = src.height;
+    const k = Math.min(1, max / Math.max(sw, sh));
+    const w = Math.round(sw * k), h = Math.round(sh * k);
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(src, 0, 0, w, h);
+    const blob = await new Promise(res => c.toBlob(res, 'image/jpeg', 0.75));
+    if (!blob) throw new Error('compress');
+    return { blob, w, h };
+  }
+  async function flushFotos() {
+    if (flushingFotos || !pendingFotos.length) return;
+    flushingFotos = true;
+    for (const rec of pendingFotos.slice()) {
+      try {
+        const up = await sb.storage.from(FOTO_BUCKET).upload(rec.path, rec.blob, { contentType: 'image/jpeg', upsert: false });
+        if (up.error && !/exist|duplicate/i.test(up.error.message || '')) throw up.error;
+        const ins = await sb.from('obras_fotos').insert(rec.row).select().single();
+        if (ins.error && ins.error.code !== '23505') throw ins.error;
+        pendingFotos = pendingFotos.filter(x => x.key !== rec.key);
+        try { await IDB.del(rec.key); } catch (e) { /* ignore */ }
+        if (ins.data) {
+          (fotos[rec.scopeKey] = fotos[rec.scopeKey] || []).push(ins.data);
+          fotoUrl[rec.path] = rec.url; // local copy until the next load signs it
+        }
+        refreshStrips(rec.scopeKey);
+      } catch (e) {
+        const msg = (e && (e.message || e.error)) || '';
+        if (isNet(e) || /fetch|network|load failed/i.test(msg)) break;   // no signal: retry later
+        if (e && (e.statusCode === '403' || e.code === '42501' || /row-level|not allowed|unauthorized/i.test(msg))) {
+          pendingFotos = pendingFotos.filter(x => x.key !== rec.key);
+          try { await IDB.del(rec.key); } catch (e2) { /* ignore */ }
+          toast('Una foto no se pudo guardar (sin permiso).', 'error');
+        } else { console.error('flushFotos', e); break; }
+      }
+    }
+    flushingFotos = false;
+    paintSync();
+  }
+  window.addEventListener('online', flushFotos);
+  setInterval(flushFotos, 25000);
+
+  let fotoActual = null;
+  function openFoto(f, scopeKey) {
+    fotoActual = { f, scopeKey };
+    $('foto-img').src = fotoUrl[f.storage_path] || '';
+    $('foto-meta').textContent = [f.autor_nombre, fmtWhen(f.created_at)].filter(Boolean).join(' · ');
+    $('foto-del').hidden = !isOffice;
+    try { $('fotodlg').showModal(); } catch (e) { window.open($('foto-img').src, '_blank'); }
+  }
+  $('foto-close').addEventListener('click', () => $('fotodlg').close());
+  $('foto-del').addEventListener('click', async () => {
+    if (!fotoActual || !confirm('¿Borrar esta foto?')) return;
+    const { f, scopeKey } = fotoActual;
+    const { error } = await sb.from('obras_fotos').delete().eq('id', f.id);
+    if (error) { toast('No se pudo borrar.', 'error'); return; }
+    sb.storage.from(FOTO_BUCKET).remove([f.storage_path]);
+    fotos[scopeKey] = (fotos[scopeKey] || []).filter(x => x.id !== f.id);
+    $('fotodlg').close();
+    refreshStrips(scopeKey);
+  });
+  function photosHtml(scopeKey, entidad, entidadId) {
+    const urls = fotosOf(scopeKey, entidad, entidadId).map(f => fotoUrl[f.storage_path]).filter(Boolean).slice(0, 3);
+    return urls.length ? '<div class="ph">' + urls.map(u => '<img src="' + esc(u) + '" alt="">').join('') + '</div>' : '';
+  }
+
+  // ── SEGUIMIENTO (oficina) ─────────────────────────────────────
+  function haceTanto(iso) {
+    if (!iso) return 'sin actividad registrada';
+    const h = (Date.now() - new Date(iso).getTime()) / 36e5;
+    if (h < 1) return 'hace un rato';
+    if (h < 24) return 'hace ' + Math.round(h) + ' h';
+    const d = Math.round(h / 24);
+    return d === 1 ? 'ayer' : 'hace ' + d + ' días';
+  }
+  async function showSeguimiento() {
+    leaveRevision();
+    setHeader('seguimiento', 'Seguimiento de obras', 'Obras aceptadas y en curso');
+    showOnly(['s-seguimiento']);
+    window.scrollTo(0, 0);
+    const list = $('sg-list');
+    list.textContent = '';
+    list.appendChild(el('p', 'empty', 'Cargando…'));
+    const seq = navSeq;
+    const { data, error } = await sb.rpc('campo_seguimiento');
+    if (seq !== navSeq) return;
+    list.textContent = '';
+    if (error) { list.appendChild(el('p', 'empty', 'No se pudo cargar el seguimiento.')); return; }
+    const rows = data || [];
+    const sum = $('sg-sum');
+    sum.textContent = '';
+    const tot = k => rows.reduce((a, r) => a + (r[k] || 0), 0);
+    [['Por comprar', tot('mat_pendiente')], ['Equipos sin instalar', tot('eq_total') - tot('eq_instalados')], ['Consultas abiertas', tot('consultas_abiertas') + tot('preguntar_externo')]]
+      .forEach(([l, n]) => { const d = el('div'); d.append(el('b', '', String(n)), document.createTextNode(l)); sum.appendChild(d); });
+    rows.forEach(r => list.appendChild(segCard(r)));
+  }
+  function segBar(label, done, total, txt) {
+    const row = el('div', 'sgrow');
+    row.appendChild(el('span', '', label));
+    const bar = el('div', 'bar'); const i = el('i'); i.style.width = (total ? 100 * done / total : 0) + '%'; bar.appendChild(i);
+    row.appendChild(bar);
+    row.appendChild(el('span', '', txt || (done + '/' + total)));
+    return row;
+  }
+  function segCard(r) {
+    const a = el('a', 'card');
+    a.href = '#obra=' + r.clave;
+    a.appendChild(el('b', '', r.numero ? r.numero + ' · ' + r.nombre : [r.codigo_obra, r.nombre].filter(Boolean).join(' · ')));
+    a.appendChild(el('span', 's', (ESTADO_LBL[r.estado] || r.estado) + ' · ' + haceTanto(r.ultima_en) + (r.ultima_quien ? ' · ' + r.ultima_quien : '') + (r.ultima_que ? ' · ' + r.ultima_que : '')));
+    a.appendChild(el('span', 'go', '›'));
+    if (r.mat_total) a.appendChild(segBar('Materiales', r.mat_instalado, r.mat_total, r.mat_instalado + '/' + r.mat_total + ' inst.'));
+    if (r.eq_total) a.appendChild(segBar('Equipos', r.eq_instalados, r.eq_total, r.eq_instalados + '/' + r.eq_total + ' inst.'));
+    if (r.eq_probados) a.appendChild(segBar('Probados', r.eq_probados, r.eq_total));
+    if (r.relev_total) a.appendChild(segBar('Relevamiento', r.relev_hechos, r.relev_total));
+    if (r.revs_abiertas) {
+      const tot = r.rev_pendientes;
+      a.appendChild(segBar('Revisiones', 0, Math.max(tot, 1), tot + ' ítems pendientes'));
+    }
+    const al = el('div', 'alerts');
+    const add = (cls, t) => al.appendChild(el('span', 'alert ' + cls, t));
+    if (r.mat_pendiente && r.estado !== 'ACEPTADO') add('r', '🛒 ' + r.mat_pendiente + ' por comprar');
+    else if (r.mat_pendiente) add('y', '🛒 ' + r.mat_pendiente + ' por comprar');
+    if (r.mat_recibido) add('b', '📦 ' + r.mat_recibido + ' en obra sin instalar');
+    if (r.consultas_abiertas) add('r', '❓ ' + r.consultas_abiertas + ' consultas sin respuesta');
+    if (r.preguntar_externo) add('y', '❓ ' + r.preguntar_externo + ' marcadas para preguntar');
+    if (r.relev_notas) add('y', '📝 ' + r.relev_notas + ' notas del relevamiento');
+    if (r.eq_instalados > r.eq_configurados) add('y', '⚙️ ' + (r.eq_instalados - r.eq_configurados) + ' instalados sin configurar');
+    const idle = r.ultima_en ? (Date.now() - new Date(r.ultima_en).getTime()) / 864e5 : null;
+    if (r.estado !== 'ACEPTADO' && (idle === null || idle > 7)) add('y', '⏸ Sin movimiento ' + (idle === null ? 'registrado' : 'hace ' + Math.round(idle) + ' días'));
+    if (r.fotos) add('b', '📷 ' + r.fotos + ' fotos');
+    if (al.children.length) a.appendChild(al);
+    return a;
+  }
 
   // ── COMPRAS (oficina) ─────────────────────────────────────────
   let compras = [];
@@ -1647,6 +1966,7 @@ ${body || '<p>No hay equipos registrados.</p>'}
     its.forEach(it => items.set(it.id, it));
     (cms || []).forEach(c => comments.set(c.id, c));
     refreshAll();
+    loadFotos('r' + revId, { revision_id: revId });
   }
 
   function subscribe() {
@@ -1816,7 +2136,8 @@ ${body || '<p>No hay equipos registrados.</p>'}
     const sendBtn = el('button', 'btn', 'Enviar');
     sendBtn.type = 'button';
     actions.append(flag, sendBtn);
-    thread.append(list, ta, actions);
+    const photos = fotoStrip('r' + rev.id, 'revision_item', id, { revision_id: rev.id }, editableFor({ mode }));
+    thread.append(list, photos, ta, actions);
     wrap.append(bar, thread);
 
     bar.addEventListener('click', () => {
@@ -1898,7 +2219,8 @@ ${body || '<p>No hay equipos registrados.</p>'}
     if (ref.bar) {
       const cms = commentsOf(ref.id);
       ref.bar.textContent = '';
-      const lbl = el('span', '', cms.length ? '💬 ' + cms.length : '💬 Comentar');
+      const nf = fotosOf('r' + rev.id, 'revision_item', ref.id).length;
+      const lbl = el('span', '', (cms.length ? '💬 ' + cms.length : '💬 Comentar') + (nf ? ' · 📷 ' + nf : ''));
       ref.bar.appendChild(lbl);
       const last = cms[cms.length - 1];
       ref.bar.appendChild(el('span', 'last', last && ref.thread.hidden ? (last.autor_nombre ? last.autor_nombre + ': ' : '') + last.texto : ''));
@@ -2232,6 +2554,7 @@ ${body || '<p>No hay equipos registrados.</p>'}
     const field = groupItems(listOf('item')).flatMap(f => f.rooms.flatMap(r => r.items)).concat(listOf('agregado'))
       .filter(it => !onlyPend || !it.hecho);
     const rows = field.map(it => ({
+      id: it.id,
       num: numLabel(it),
       planta: it.tipo === 'agregado' ? 'Agregado en obra' : (it.planta || ''),
       ambiente: it.ambiente || '',
@@ -2306,7 +2629,8 @@ ${body || '<p>No hay equipos registrados.</p>'}
             <td class="amb">${esc(r.ambiente)}</td>
             <td>${esc(r.texto)}${r.aclaracion ? `<div class="sub">${esc(r.aclaracion)}</div>` : ''}
               ${r.responsable ? `<div class="sub">${esc(r.responsable)}${r.consultar ? ' · <b>Preguntar a ' + esc(origen()) + '</b>' : ''}</div>` : ''}
-              ${withCmts && r.comentarios.length ? `<ul class="cm">${r.comentarios.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}</td>
+              ${withCmts && r.comentarios.length ? `<ul class="cm">${r.comentarios.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
+              ${photosHtml('r' + rev.id, 'revision_item', r.id)}</td>
             <td class="st">${r.estado === 'Hecho' ? '✓ Hecho' : 'Falta'}${r.hecho ? `<div class="sub">${esc(r.hecho)}</div>` : ''}</td>
           </tr>`).join('')}
         </tbody>
@@ -2346,6 +2670,7 @@ ${body || '<p>No hay equipos registrados.</p>'}
   .sub { color: #5B5D73; font-size: 11px; margin-top: 2px; }
   .cm { margin: 4px 0 0; padding-left: 16px; font-size: 11px; }
   .cm li { margin: 1px 0; }
+  .ph img { width: 120px; height: 90px; object-fit: cover; margin: 4px 4px 0 0; border-radius: 4px; border: 1px solid #E3E1D6; }
   footer { margin-top: 18px; color: #8C8E9F; font-size: 10px; border-top: 1px solid #E3E1D6; padding-top: 6px; }
   @media print { body { padding: 0; } }
 </style></head><body>
