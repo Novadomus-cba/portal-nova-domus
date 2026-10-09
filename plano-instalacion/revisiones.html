@@ -112,6 +112,46 @@ main { max-width: 720px; margin: 0 auto; padding: 14px 16px 110px; }
 .card.closed { opacity: .7; }
 .empty { color: var(--muted); font-size: 15px; padding: 20px 0; text-align: center; }
 
+/* ── Ficha de obra ── */
+.stats { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; font-size: 14px; color: var(--muted); }
+.subs { margin: 12px -16px -16px; }
+.sublink {
+  display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px;
+  border-top: 1px solid var(--line); color: var(--accent); font-weight: 600; font-size: 15px; text-decoration: none;
+}
+.sublink span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sublink span:last-child { flex: none; color: var(--muted); }
+.mstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 12px 0 4px; }
+.mstats div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px; text-align: center; font-size: 12px; color: var(--muted); }
+.mstats b { display: block; font-size: 20px; color: var(--ink); }
+.relnotes { background: var(--flag-bg); border-radius: 12px; padding: 12px 14px; margin: 12px 0; font-size: 14px; }
+.relnotes h3 { margin: 0 0 6px; font-size: 15px; }
+.relnotes p { margin: 6px 0 0; }
+.relnotes small { color: var(--muted); }
+.mrow { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; padding: 10px 12px; }
+.mtop { display: flex; gap: 10px; align-items: center; }
+.mimg { flex: none; width: 48px; height: 48px; border-radius: 8px; background: #fff; border: 1px solid var(--line); object-fit: contain; }
+.mb { flex: 1; min-width: 0; }
+.mb b { display: block; font-size: 15px; font-weight: 600; }
+.mb span { display: block; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mq { flex: none; font-size: 18px; font-weight: 700; color: var(--ink); }
+.mb .badge, .badge { display: inline-block; width: auto; margin-top: 4px; border-radius: 5px; padding: 1px 7px; font-size: 12px; font-weight: 700; }
+.st-PENDIENTE { background: #FBE9E7; color: #A33A1E; }
+.st-PEDIDO { background: #FFF4D6; color: #7A5A00; }
+.st-RECIBIDO { background: #E6EEFA; color: #1F4E8C; }
+.st-INSTALADO, .st-ENTREGADO { background: #E3F4EA; color: #1E7A46; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .st-PENDIENTE { background: #4A2018; color: #F7B7A3; }
+  :root:not([data-theme="light"]) .st-PEDIDO { background: #45391A; color: #F5D88A; }
+  :root:not([data-theme="light"]) .st-RECIBIDO { background: #1E2F4D; color: #A9C7F5; }
+  :root:not([data-theme="light"]) .st-INSTALADO, :root:not([data-theme="light"]) .st-ENTREGADO { background: #1C3A2A; color: #8FD9AE; }
+}
+.mact { margin-top: 10px; }
+.mact .btn { width: 100%; }
+.mact .btn.on { background: var(--flag-bg); color: #1E7A46; border: 1px solid #1E7A46; }
+.mact select { width: 100%; min-height: 46px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; background: var(--surface); font-size: 15px; }
+.msec { font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 18px 0 8px; }
+
 /* ── Filtros ── */
 .seg { display: flex; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; gap: 4px; }
 .seg button {
@@ -304,15 +344,44 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
       <span>Marcando como <b id="who-name"></b></span>
       <button type="button" class="btn ghost" id="who-change" style="min-height:40px">Cambiar</button>
     </div>
-    <div id="obras-list"></div>
-    <div class="sect">Planos</div>
-    <a class="card planos" href="index.html">
-      <b>🗺️ Planos de instalación</b>
-      <span class="s">Ver el plano de cada obra en curso</span>
+    <a class="card" id="compras-card" href="#compras" hidden>
+      <b>🛒 Compras pendientes</b>
+      <span class="s" id="compras-sub">Todo lo que falta comprar en las obras</span>
       <span class="go">›</span>
     </a>
-    <div class="btns" id="new-wrap" hidden><a class="btn" href="#nueva">Nueva revisión</a></div>
+    <div id="obras-list"></div>
+    <div class="btns" id="new-wrap" hidden>
+      <a class="btn" href="#nueva">Nueva revisión</a>
+      <a class="btn ghost" href="index.html">Planos y versiones</a>
+    </div>
     <div class="btns" style="margin-top:28px"><button type="button" class="btn ghost" id="btn-salir">Salir de la cuenta</button></div>
+  </section>
+
+  <!-- FICHA DE OBRA -->
+  <section id="s-ficha" hidden>
+    <div class="seg" id="ftabs">
+      <button type="button" data-ft="plano" aria-pressed="false">Plano</button>
+      <button type="button" data-ft="materiales" aria-pressed="false">Materiales</button>
+      <button type="button" data-ft="revisiones" aria-pressed="false">Revisiones <span class="n" id="f-nrev"></span></button>
+    </div>
+    <div id="f-plano" hidden></div>
+    <div id="f-materiales" hidden>
+      <div class="mstats" id="m-stats"></div>
+      <div id="m-relnotes"></div>
+      <div class="chips" id="m-filters"></div>
+      <div id="m-list"></div>
+    </div>
+    <div id="f-revisiones" hidden></div>
+  </section>
+
+  <!-- COMPRAS (oficina) -->
+  <section id="s-compras" hidden>
+    <div class="panel">
+      <h2>Lo que falta comprar</h2>
+      <p>Todo lo pendiente de las obras aceptadas y en curso, sumado por producto. Al marcar "Comprado" se actualiza en cada obra.</p>
+      <div class="btns"><button class="btn ghost" id="c-csv" type="button">Bajar lista para el proveedor (Excel)</button></div>
+    </div>
+    <div id="c-list"></div>
   </section>
 
   <!-- REVISIÓN: LISTA -->
@@ -508,7 +577,15 @@ Planta baja | Hall | Q | Tecla 4 anulada
   const openThreads = new Set();
   const recentlyToggled = new Map(); // id -> ts (keeps a just-checked item visible for a moment)
   let currentTab = 'obra';
-  let openedFromHome = false;
+  let units = [];             // campo_obras_list(): one row per job (proyecto or legacy obra)
+  let unit = null;            // current job in the ficha
+  let fichaTab = 'materiales';
+  let mats = [];              // campo_materiales() of the current job
+  let matFilter = null;
+  const matPrev = {};         // item id -> state before the last change (for "Deshacer")
+  let lastHash = null, prevHash = null;
+  let navSeq = 0;             // bumped on every route(); stale async loads compare and bail out
+  let fichaFromHome = false, revFromFicha = false;
   let queue = loadQueue();
   let flushing = false;
 
@@ -590,6 +667,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     console.error(op.fn, error);
     toast('No se pudo guardar: ' + (error.message || 'error'), 'error');
     if (rev) reloadData();
+    else if (unit && fichaTab === 'materiales') loadMateriales();
     return 'err';
   }
   async function send(fn, args, key) {
@@ -663,30 +741,53 @@ Planta baja | Hall | Q | Tecla 4 anulada
   });
 
   async function loadObras() {
-    const { data, error } = await sb.rpc('review_obras_list');
-    if (error) { console.error('review_obras_list', error); toast('No se pudo cargar la lista de obras.', 'error'); obras = []; return; }
-    obras = data || [];
+    const [a, b] = await Promise.all([sb.rpc('review_obras_list'), sb.rpc('campo_obras_list')]);
+    if (a.error || b.error) { console.error('loadObras', a.error || b.error); toast('No se pudo cargar la lista de obras.', 'error'); }
+    obras = a.data || [];
+    units = b.data || [];
   }
+  function unitForObra(obraId) { return units.find(u => u.obra_id === obraId) || null; }
+  function unitTitle(u) {
+    return u.numero ? u.numero + ' · ' + u.nombre : [u.codigo_obra, u.nombre].filter(Boolean).join(' · ');
+  }
+  const ESTADO_LBL = { ACEPTADO: 'Aceptado, por empezar', EN_OBRA: 'En obra', EN_CURSO: 'En obra' };
 
   // ── ROUTER ────────────────────────────────────────────────────
-  // Hash routes: "" = Inicio, "#rev=N" = revisión, "#nueva" = alta. The "‹ Inicio" button
-  // goes back in history when we came from Inicio, so the phone's back button agrees.
+  // Hash routes: "" = Inicio, "#obra=<clave>[&t=tab]" = ficha, "#rev=N" = revisión,
+  // "#nueva[&obra=uuid]" = alta, "#compras" = compras. The back button uses history.back()
+  // when the previous screen is where it should go, so the phone's back button agrees.
+  function hashParams() { return new URLSearchParams(location.hash.replace(/^#/, '')); }
   function route() {
-    const m = location.hash.match(/rev=(\d+)/);
-    if (m) openRevision(Number(m[1]));
-    else if (location.hash === '#nueva' && isOffice) showNew();
+    navSeq++;
+    prevHash = lastHash;
+    lastHash = location.hash || '#';
+    const q = hashParams();
+    if (q.has('rev')) openRevision(Number(q.get('rev')));
+    else if (q.has('obra') && !q.has('nueva')) showFicha(q.get('obra'), q.get('t'));
+    else if (q.has('nueva') && isOffice) showNew(q.get('obra'));
+    else if (q.has('compras') && isOffice) showCompras();
     else showList();
   }
   window.addEventListener('hashchange', route);
   window.addEventListener('pageshow', e => { if (e.persisted) route(); });
-  function goHome() {
-    if (openedFromHome) history.back();
-    else location.replace(location.pathname + location.search + '#');
+  function goTo(hash, useBack) {
+    if (useBack) history.back();
+    else location.replace(location.pathname + location.search + hash);
   }
-  $('btn-back').addEventListener('click', goHome);
+  $('btn-back').addEventListener('click', () => {
+    if (rev) {
+      const u = unitForObra(rev.obra_id);
+      if (u) goTo('#obra=' + u.clave + '&t=revisiones', revFromFicha);
+      else goTo('#', false);
+    } else if (unit) {
+      goTo('#', fichaFromHome);
+    } else {
+      goTo('#', prevHash === '#' || prevHash === '');
+    }
+  });
 
   function showOnly(ids) {
-    ['s-list', 'v-obra', 'v-consultas', 'v-reporte', 's-new'].forEach(id => { $(id).hidden = !ids.includes(id); });
+    ['s-list', 'v-obra', 'v-consultas', 'v-reporte', 's-new', 's-ficha', 's-compras'].forEach(id => { $(id).hidden = !ids.includes(id); });
   }
   function setHeader(mode, title, sub) {
     const home = mode === 'home';
@@ -694,33 +795,24 @@ Planta baja | Hall | Q | Tecla 4 anulada
     $('lnk-portal').hidden = !(home && role !== 'tecnico');
     $('logo').hidden = !home;
     $('h-title').textContent = title;
-    $('h-title').classList.toggle('plain', mode === 'rev');
+    $('h-title').classList.toggle('plain', mode !== 'home');
+    $('btn-back').lastChild.textContent = mode === 'rev' && rev && unitForObra(rev.obra_id) ? 'Obra' : 'Inicio';
     $('h-sub').textContent = sub || '';
     $('revhead').hidden = mode !== 'rev';
   }
   function leaveRevision() {
+    unit = null;
     if (channel) { sb.removeChannel(channel); channel = null; }
     rev = null; obra = null; realtimeOk = false;
     items.clear(); comments.clear(); refs = {}; structureSig = ''; openThreads.clear();
+    $('list').textContent = ''; $('extras').textContent = ''; $('consultas').textContent = '';
     paintSync();
   }
 
   // ── INICIO ────────────────────────────────────────────────────
-  async function showList() {
-    leaveRevision();
-    openedFromHome = false;
-    setHeader('home', 'REVISIONES DE OBRA', role === 'tecnico' ? 'Cuadrilla Nova Domus' : 'Plano de Instalación');
-    showOnly(['s-list']);
-    window.scrollTo(0, 0);
-    paintWho();
-    const box = $('obras-list');
-    box.textContent = '';
-    box.appendChild(el('p', 'empty', 'Cargando…'));
-    const { data: revs, error } = await sb.from('obras_revisiones')
-      .select('id,obra_id,titulo,origen,estado,created_at').order('created_at', { ascending: false });
-    box.textContent = '';
-    if (error) { box.appendChild(el('p', 'empty', 'No se pudieron cargar las revisiones. Revisá la señal y volvé a entrar.')); return; }
-
+  async function revsWithProgress(query) {
+    const { data: revs, error } = await query;
+    if (error) return { error };
     const ids = revs.map(r => r.id);
     const prog = {};
     if (ids.length) {
@@ -730,22 +822,69 @@ Planta baja | Hall | Q | Tecla 4 anulada
         p.total++; if (i.hecho) p.done++;
       });
     }
-    const open = revs.filter(r => r.estado === 'abierta'), closed = revs.filter(r => r.estado !== 'abierta');
-    box.appendChild(el('div', 'sect', 'Obras con revisión abierta'));
-    if (!open.length) box.appendChild(el('p', 'empty', 'No hay revisiones abiertas por ahora.'));
-    open.forEach(r => box.appendChild(revCard(r, prog[r.id])));
-    if (closed.length && role !== 'tecnico') {
-      box.appendChild(el('div', 'sect', 'Cerradas'));
-      closed.forEach(r => box.appendChild(revCard(r, prog[r.id])));
-    }
+    return { revs, prog };
   }
+
+  async function showList() {
+    leaveRevision();
+    setHeader('home', 'OBRAS', role === 'tecnico' ? 'Cuadrilla Nova Domus' : 'Plano de Instalación');
+    showOnly(['s-list']);
+    window.scrollTo(0, 0);
+    paintWho();
+    const box = $('obras-list');
+    box.textContent = '';
+    box.appendChild(el('p', 'empty', 'Cargando…'));
+    const seq = navSeq;
+    await loadObras();
+    if (seq !== navSeq) return;
+    const { revs, prog, error } = await revsWithProgress(
+      sb.from('obras_revisiones').select('id,obra_id,titulo,origen,estado,created_at').eq('estado', 'abierta').order('created_at', { ascending: false }));
+    if (seq !== navSeq) return;
+    box.textContent = '';
+    if (error) { box.appendChild(el('p', 'empty', 'No se pudo cargar. Revisá la señal y volvé a entrar.')); return; }
+    if (isOffice) loadComprasCount();
+    box.appendChild(el('div', 'sect', 'Obras'));
+    if (!units.length) box.appendChild(el('p', 'empty', 'No hay obras en curso.'));
+    units.forEach(u => box.appendChild(unitCard(u, revs.filter(r => r.obra_id === u.obra_id), prog)));
+  }
+
+  function unitCard(u, openRevs, prog) {
+    const card = el('div', 'card');
+    const a = el('a', '');
+    a.href = '#obra=' + u.clave;
+    a.style.cssText = 'display:block;color:inherit;text-decoration:none';
+    a.appendChild(el('b', '', unitTitle(u)));
+    a.appendChild(el('span', 's', (ESTADO_LBL[u.estado] || u.estado) + (u.numero && u.codigo_obra ? ' · Obra ' + u.codigo_obra : '')));
+    a.appendChild(el('span', 'go', '›'));
+    const st = el('div', 'stats');
+    if (u.mat_total) {
+      st.appendChild(el('span', '', '📦 ' + u.mat_instalado + ' de ' + u.mat_total + ' instalados'));
+      if (isOffice && u.mat_pendiente) st.appendChild(el('span', '', '🛒 ' + u.mat_pendiente + ' por comprar'));
+    }
+    if (u.plano_id) st.appendChild(el('span', '', '🗺️ Plano v' + u.plano_version));
+    if (u.relev_total) st.appendChild(el('span', '', '📍 Relevado ' + u.relev_hechos + '/' + u.relev_total));
+    if (st.children.length) a.appendChild(st);
+    card.appendChild(a);
+    if (openRevs.length) {
+      const subs = el('div', 'subs');
+      openRevs.forEach(r => {
+        const l = el('a', 'sublink');
+        l.href = '#rev=' + r.id;
+        const p = prog[r.id];
+        l.appendChild(el('span', '', '📋 ' + r.titulo + (p && p.total ? ' · ' + p.done + '/' + p.total : '')));
+        l.appendChild(el('span', '', '›'));
+        subs.appendChild(l);
+      });
+      card.appendChild(subs);
+    }
+    return card;
+  }
+
   function revCard(r, p) {
-    const o = obras.find(x => x.obra_id === r.obra_id) || {};
     const a = el('a', 'card' + (r.estado !== 'abierta' ? ' closed' : ''));
     a.href = '#rev=' + r.id;
-    a.addEventListener('click', () => { openedFromHome = true; });
-    a.appendChild(el('b', '', [o.codigo_obra, o.nombre].filter(Boolean).join(' · ') || 'Obra'));
-    a.appendChild(el('span', 's', r.titulo + ' · de ' + r.origen));
+    a.appendChild(el('b', '', r.titulo));
+    a.appendChild(el('span', 's', 'de ' + r.origen + (r.estado !== 'abierta' ? ' · cerrada' : '') + ' · ' + new Date(r.created_at).toLocaleDateString('es-AR')));
     if (p && p.total) {
       const bar = el('div', 'bar'); const i = el('i'); i.style.width = (100 * p.done / p.total) + '%'; bar.appendChild(i);
       a.appendChild(bar);
@@ -754,6 +893,284 @@ Planta baja | Hall | Q | Tecla 4 anulada
     a.appendChild(el('span', 'go', '›'));
     return a;
   }
+
+  // ── FICHA DE OBRA ─────────────────────────────────────────────
+  async function showFicha(clave, tab) {
+    leaveRevision();
+    const seq = navSeq;
+    if (!units.length) await loadObras();
+    if (seq !== navSeq) return;
+    const u = units.find(x => x.clave === clave);
+    if (!u) { toast('No se encontró la obra.', 'error'); location.replace(location.pathname + '#'); return; }
+    if (!prevHash || prevHash === '#' || prevHash === '') fichaFromHome = true;
+    else if (!/^#rev=/.test(prevHash)) fichaFromHome = false;
+    if (!unit || unit.clave !== u.clave) matFilter = null;
+    unit = u;
+    setHeader('ficha', unitTitle(u), (ESTADO_LBL[u.estado] || u.estado) + (u.numero && u.codigo_obra ? ' · Obra ' + u.codigo_obra : ''));
+    showOnly(['s-ficha']);
+    const isProj = !!u.proyecto_id;
+    document.querySelector('#ftabs [data-ft="plano"]').hidden = !isProj;
+    document.querySelector('#ftabs [data-ft="materiales"]').hidden = !isProj;
+    $('f-nrev').textContent = u.revs_abiertas ? String(u.revs_abiertas) : '';
+    fichaTab = tab && (isProj || tab === 'revisiones') ? tab
+      : !isProj || u.revs_abiertas ? 'revisiones' : u.mat_total ? 'materiales' : 'plano';
+    selectFichaTab(fichaTab, true);
+  }
+  function selectFichaTab(t, noHash) {
+    fichaTab = t;
+    document.querySelectorAll('#ftabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.ft === t ? 'true' : 'false'));
+    ['plano', 'materiales', 'revisiones'].forEach(x => { $('f-' + x).hidden = x !== t; });
+    if (!noHash) history.replaceState(null, '', location.pathname + location.search + '#obra=' + unit.clave + '&t=' + t);
+    lastHash = location.hash;
+    if (t === 'plano') renderFichaPlano();
+    if (t === 'materiales') loadMateriales();
+    if (t === 'revisiones') renderFichaRevisiones();
+  }
+  $('ftabs').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || !unit) return;
+    selectFichaTab(b.dataset.ft);
+  });
+
+  function renderFichaPlano() {
+    const box = $('f-plano');
+    box.textContent = '';
+    const u = unit;
+    const pn = el('div', 'panel');
+    if (u.plano_id) {
+      pn.appendChild(el('h2', '', '🗺️ Plano de instalación · v' + u.plano_version));
+      pn.appendChild(el('p', '', 'Adentro del plano están la red, el rack, el WiFi, las ubicaciones de cada equipo, la configuración, el relevamiento y el checklist de puesta en marcha. Lo que marques ahí queda guardado.'));
+      const b = el('button', 'btn', 'Abrir plano');
+      b.type = 'button';
+      b.style.width = '100%';
+      b.addEventListener('click', () => openPlanoById(u.plano_id));
+      pn.appendChild(b);
+    } else {
+      pn.appendChild(el('h2', '', 'Todavía no hay plano'));
+      pn.appendChild(el('p', '', 'Cuando la oficina cargue el plano de instalación de esta obra, aparece acá.'));
+    }
+    box.appendChild(pn);
+    if (u.relev_total) {
+      const r = el('div', 'panel');
+      r.appendChild(el('h2', '', '📍 Relevamiento: ' + u.relev_hechos + ' de ' + u.relev_total + ' posiciones'));
+      const bar = el('div', 'bar'); bar.style.background = 'var(--line)';
+      const i = el('i'); i.style.width = (100 * u.relev_hechos / u.relev_total) + '%'; i.style.background = 'var(--accent)'; bar.appendChild(i);
+      r.appendChild(bar);
+      r.appendChild(el('p', '', 'Se completa adentro del plano, en la sección "Relevamiento".'));
+      r.lastChild.style.margin = '8px 0 0';
+      box.appendChild(r);
+    }
+  }
+
+  async function renderFichaRevisiones() {
+    const box = $('f-revisiones');
+    box.textContent = '';
+    if (!unit.obra_id) {
+      box.appendChild(el('p', 'empty', 'Esta obra todavía no está vinculada a una obra en curso, así que no puede tener revisiones. Avisale a la oficina.'));
+      return;
+    }
+    box.appendChild(el('p', 'empty', 'Cargando…'));
+    let q = sb.from('obras_revisiones').select('id,obra_id,titulo,origen,estado,created_at').eq('obra_id', unit.obra_id).order('created_at', { ascending: false });
+    const u = unit;
+    const { revs, prog, error } = await revsWithProgress(q);
+    if (unit !== u) return;
+    box.textContent = '';
+    if (error) { box.appendChild(el('p', 'empty', 'No se pudieron cargar las revisiones.')); return; }
+    if (!revs.length) box.appendChild(el('p', 'empty', 'No hay revisiones para esta obra.'));
+    revs.forEach(r => box.appendChild(revCard(r, prog[r.id])));
+    if (isOffice) {
+      const b = el('div', 'btns');
+      const a = el('a', 'btn', 'Nueva revisión para esta obra');
+      a.href = '#nueva&obra=' + unit.obra_id;
+      b.appendChild(a);
+      box.appendChild(b);
+    }
+  }
+
+  // ── MATERIALES ────────────────────────────────────────────────
+  const MAT_LBL = { PENDIENTE: 'Falta comprar', PEDIDO: 'Comprado', RECIBIDO: 'En obra', INSTALADO: 'Instalado', ENTREGADO: 'Entregado' };
+  const isInst = st => st === 'INSTALADO' || st === 'ENTREGADO';
+  function matFilters() {
+    return role === 'tecnico' || role === 'programacion'
+      ? [['falta', 'Falta instalar'], ['inst', 'Instalado'], ['all', 'Todo']]
+      : [['PENDIENTE', 'Falta comprar'], ['PEDIDO', 'Comprado'], ['RECIBIDO', 'En obra'], ['inst', 'Instalado'], ['all', 'Todo']];
+  }
+  function secLabel(s) {
+    const t = String(s || 'Otros').replace(/[_-]+/g, ' ').trim().toLowerCase();
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+  async function loadMateriales() {
+    const u = unit;
+    $('m-list').textContent = '';
+    $('m-list').appendChild(el('p', 'empty', 'Cargando…'));
+    const [m, rl] = await Promise.all([
+      sb.rpc('campo_materiales', { p_proyecto_id: u.proyecto_id }),
+      sb.from('obras_relevamiento').select('posicion_id,tipo,ambiente,ubicacion,nota,actualizado_nombre,actualizado_en').eq('proyecto_id', u.proyecto_id).not('nota', 'is', null),
+    ]);
+    if (unit !== u) return;
+    if (m.error) { $('m-list').textContent = ''; $('m-list').appendChild(el('p', 'empty', 'No se pudieron cargar los materiales.')); return; }
+    mats = m.data || [];
+    if (!matFilter) matFilter = matFilters()[role === 'tecnico' || role === 'programacion' ? 0 : matFilters().length - 1][0];
+    const notes = (rl.data || []).filter(n => n.nota && n.nota.trim());
+    const rn = $('m-relnotes');
+    rn.textContent = '';
+    if (notes.length) {
+      const d = el('div', 'relnotes');
+      d.appendChild(el('h3', '', '📝 Notas del relevamiento' + (isOffice ? ' · revisar antes de comprar' : '')));
+      notes.forEach(n => {
+        const pp = el('p');
+        pp.append(el('b', '', n.posicion_id + ' · ' + n.tipo + ': '), document.createTextNode(n.nota.trim() + ' '));
+        pp.appendChild(el('small', '', '(' + [n.actualizado_nombre, n.actualizado_en ? fmtWhen(n.actualizado_en) : ''].filter(Boolean).join(' · ') + ')'));
+        d.appendChild(pp);
+      });
+      rn.appendChild(d);
+    }
+    renderMateriales();
+  }
+  function renderMateriales() {
+    const c = { PENDIENTE: 0, PEDIDO: 0, RECIBIDO: 0, INST: 0 };
+    mats.forEach(x => { if (isInst(x.estado_item)) c.INST++; else c[x.estado_item]++; });
+    const ms = $('m-stats');
+    ms.textContent = '';
+    [['Por comprar', c.PENDIENTE], ['Comprado', c.PEDIDO], ['En obra', c.RECIBIDO], ['Instalado', c.INST]].forEach(([l, n]) => {
+      const d = el('div'); d.append(el('b', '', String(n)), document.createTextNode(l)); ms.appendChild(d);
+    });
+    const fl = $('m-filters');
+    fl.textContent = '';
+    matFilters().forEach(([k, l]) => {
+      const b = el('button', 'chip', l);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', k === matFilter ? 'true' : 'false');
+      b.addEventListener('click', () => { matFilter = k; renderMateriales(); });
+      fl.appendChild(b);
+    });
+    const list = $('m-list');
+    list.textContent = '';
+    const shown = mats.filter(x => matFilter === 'all' ? true
+      : matFilter === 'inst' ? isInst(x.estado_item)
+      : matFilter === 'falta' ? !isInst(x.estado_item)
+      : x.estado_item === matFilter);
+    if (!mats.length) { list.appendChild(el('p', 'empty', 'Esta obra no tiene materiales cargados en el presupuesto.')); return; }
+    if (!shown.length) { list.appendChild(el('p', 'empty', matFilter === 'falta' ? '¡Está todo instalado! 🎉' : 'Nada en este estado.')); return; }
+    let lastSec = null;
+    shown.forEach(x => {
+      const sec = secLabel(x.seccion);
+      if (sec !== lastSec) { list.appendChild(el('div', 'msec', sec)); lastSec = sec; }
+      list.appendChild(matRow(x));
+    });
+  }
+  function matRow(x) {
+    const row = el('div', 'mrow');
+    const top = el('div', 'mtop');
+    if (x.imagen_url) {
+      const img = el('img', 'mimg');
+      img.loading = 'lazy'; img.alt = ''; img.src = x.imagen_url;
+      img.onerror = () => { img.style.visibility = 'hidden'; };
+      top.appendChild(img);
+    }
+    const mb = el('div', 'mb');
+    mb.appendChild(el('b', '', x.nombre));
+    mb.appendChild(el('span', '', [x.marca, x.sku].filter(Boolean).join(' · ')));
+    mb.appendChild(el('span', 'badge st-' + x.estado_item, MAT_LBL[x.estado_item] || x.estado_item));
+    top.append(mb, el('div', 'mq', '×' + Number(x.cantidad)));
+    row.appendChild(top);
+    const act = el('div', 'mact');
+    if (isOffice) {
+      const sel = document.createElement('select');
+      sel.setAttribute('aria-label', 'Estado de ' + x.nombre);
+      Object.keys(MAT_LBL).forEach(k => sel.appendChild(new Option(MAT_LBL[k], k, false, k === x.estado_item)));
+      sel.addEventListener('change', () => setMatEstado(x, sel.value));
+      act.appendChild(sel);
+    } else if (role === 'tecnico') {
+      const b = el('button', 'btn ghost' + (isInst(x.estado_item) ? ' on' : ''), isInst(x.estado_item) ? '✓ Instalado' : 'Marcar instalado');
+      b.type = 'button';
+      if (x.estado_item === 'ENTREGADO') b.disabled = true;
+      b.addEventListener('click', () => {
+        if (isInst(x.estado_item)) setMatEstado(x, matPrev[x.id] || 'RECIBIDO');
+        else setMatEstado(x, 'INSTALADO');
+      });
+      act.appendChild(b);
+    }
+    if (act.children.length) row.appendChild(act);
+    return row;
+  }
+  function setMatEstado(x, estado) {
+    const before = x.estado_item;
+    if (before === estado) return;
+    if (estado === 'INSTALADO') matPrev[x.id] = before;
+    x.estado_item = estado;
+    renderMateriales();
+    send('campo_material_set_estado', { p_item_id: x.id, p_estado: estado, p_nombre: nameArg() }, 'mat:' + x.id);
+    toast(x.nombre.slice(0, 40) + ': ' + MAT_LBL[estado], null, { label: 'Deshacer', fn: () => {
+      x.estado_item = before; renderMateriales();
+      send('campo_material_set_estado', { p_item_id: x.id, p_estado: before, p_nombre: nameArg() }, 'mat:' + x.id);
+    } });
+  }
+
+  // ── COMPRAS (oficina) ─────────────────────────────────────────
+  let compras = [];
+  async function loadComprasCount() {
+    const { data } = await sb.rpc('campo_compras_pendientes');
+    compras = data || [];
+    $('compras-card').hidden = !compras.length;
+    $('compras-sub').textContent = compras.length + ' productos para comprar en ' +
+      new Set(compras.flatMap(c => (c.obras || '').split(' · '))).size + ' obras';
+  }
+  async function showCompras() {
+    leaveRevision();
+    setHeader('compras', 'Compras pendientes', 'Obras aceptadas y en curso');
+    showOnly(['s-compras']);
+    window.scrollTo(0, 0);
+    const box = $('c-list');
+    box.textContent = '';
+    box.appendChild(el('p', 'empty', 'Cargando…'));
+    const seq = navSeq;
+    const { data, error } = await sb.rpc('campo_compras_pendientes');
+    if (seq !== navSeq) return;
+    box.textContent = '';
+    if (error) { box.appendChild(el('p', 'empty', 'No se pudo cargar.')); return; }
+    compras = data || [];
+    if (!compras.length) { box.appendChild(el('p', 'empty', 'No hay nada pendiente de compra. 🎉')); return; }
+    let lastMarca = null;
+    compras.forEach(c => {
+      const m = c.marca || 'Sin marca';
+      if (m !== lastMarca) { box.appendChild(el('div', 'msec', m)); lastMarca = m; }
+      const row = el('div', 'mrow');
+      const top = el('div', 'mtop');
+      const mb = el('div', 'mb');
+      mb.appendChild(el('b', '', c.nombre));
+      mb.appendChild(el('span', '', c.sku));
+      const ob = el('span', '', c.obras);
+      ob.style.whiteSpace = 'normal';
+      mb.appendChild(ob);
+      top.append(mb, el('div', 'mq', '×' + Number(c.cantidad)));
+      row.appendChild(top);
+      const act = el('div', 'mact');
+      const b = el('button', 'btn ghost', 'Marcar comprado');
+      b.type = 'button';
+      b.addEventListener('click', () => {
+        c.item_ids.forEach(id => send('campo_material_set_estado', { p_item_id: id, p_estado: 'PEDIDO', p_nombre: null }, 'mat:' + id));
+        row.remove();
+        toast(c.nombre.slice(0, 40) + ': comprado', null, { label: 'Deshacer', fn: () => {
+          c.item_ids.forEach(id => send('campo_material_set_estado', { p_item_id: id, p_estado: 'PENDIENTE', p_nombre: null }, 'mat:' + id));
+          showCompras();
+        } });
+      });
+      act.appendChild(b);
+      row.appendChild(act);
+      box.appendChild(row);
+    });
+  }
+  $('c-csv').addEventListener('click', () => {
+    const lines = [['Marca', 'SKU', 'Producto', 'Cantidad', 'Obras']].concat(compras.map(c => [c.marca || '', c.sku, c.nombre, Number(c.cantidad), c.obras]));
+    const csv = '\ufeff' + lines.map(l => l.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const d = new Date();
+    a.download = 'compras-pendientes-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  });
+
   function paintWho() {
     $('who').hidden = role !== 'tecnico';
     $('who-name').textContent = getName() || '—';
@@ -777,10 +1194,14 @@ Planta baja | Hall | Q | Tecla 4 anulada
   // ── REVISIÓN ──────────────────────────────────────────────────
   async function openRevision(id) {
     leaveRevision();
+    const seq = navSeq;
     const { data: r, error } = await sb.from('obras_revisiones').select('*').eq('id', id).maybeSingle();
+    if (seq !== navSeq) return;
     if (error || !r) { toast('No se encontró la revisión o ya está cerrada.', 'error'); location.replace(location.pathname + '#'); return; }
     rev = r;
     obra = obras.find(o => o.obra_id === r.obra_id) || { codigo_obra: '', nombre: '' };
+    const ru = unitForObra(r.obra_id);
+    revFromFicha = !!(ru && prevHash && prevHash.indexOf('#obra=' + ru.clave) === 0);
     setHeader('rev', [obra.codigo_obra, obra.nombre].filter(Boolean).join(' · '), rev.titulo + ' · de ' + rev.origen);
     $('cons-title').textContent = 'Consultas para ' + rev.origen;
     $('msg-title').textContent = 'Mensaje para ' + rev.origen;
@@ -792,6 +1213,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     paintRevisionState();
     window.scrollTo(0, 0);
     await reloadData();
+    if (seq !== navSeq || !rev) return;
     subscribe();
     loadPlano();
   }
@@ -1256,19 +1678,26 @@ Planta baja | Hall | Q | Tecla 4 anulada
     planoRow = data[0];
     $('plano-wrap').hidden = false;
   }
-  // Same strategy as index.html: document in a new tab, same origin as the portal.
-  $('btn-plano').addEventListener('click', async () => {
-    if (!planoRow) return;
+  // Same strategy as index.html: document in a new tab, same origin as the portal (so the plano
+  // finds the portal session and its relevamiento/comisionado sync works).
+  $('btn-plano').addEventListener('click', () => { if (planoRow) openPlanoRow(planoRow); });
+  async function openPlanoById(planoId) {
     const win = window.open('', '_blank');
+    const { data, error } = await sb.rpc('planos_tecnico_contenido', { p_plano_id: planoId });
+    if (error || !data || !data.length) { if (win) win.close(); toast('No se pudo abrir el plano.', 'error'); return; }
+    openPlanoRow(data[0], win);
+  }
+  async function openPlanoRow(row, existingWin) {
+    const win = existingWin || window.open('', '_blank');
     try {
       let html;
-      if (planoRow.html) {
-        html = planoRow.html;
-      } else if (planoRow.storage_path && planoRow.storage_path.startsWith('http')) {
-        win.location.href = planoRow.storage_path;
+      if (row.html) {
+        html = row.html;
+      } else if (row.storage_path && row.storage_path.startsWith('http')) {
+        win.location.href = row.storage_path;
         return;
-      } else if (planoRow.storage_path) {
-        const { data, error } = await sb.storage.from('planos-instalacion').createSignedUrl(planoRow.storage_path, 300);
+      } else if (row.storage_path) {
+        const { data, error } = await sb.storage.from('planos-instalacion').createSignedUrl(row.storage_path, 300);
         if (error) throw error;
         const res = await fetch(data.signedUrl);
         if (!res.ok) throw new Error('No se pudo descargar el plano');
@@ -1282,7 +1711,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
       if (win) win.close();
       toast('No se pudo abrir el plano.', 'error');
     }
-  });
+  }
 
   // ── TEXT BUILDERS ─────────────────────────────────────────────
   function cmtLines(it) {
@@ -1544,7 +1973,7 @@ ${consHtml}
 
   // ── ALTA (oficina) ────────────────────────────────────────────
   let parsed = [];
-  async function showNew() {
+  async function showNew(preObra) {
     leaveRevision();
     setHeader('new', 'NUEVA REVISIÓN', 'Plano de Instalación');
     showOnly(['s-new']);
@@ -1556,6 +1985,7 @@ ${consHtml}
       sel.appendChild(new Option('Elegí una obra…', ''));
       data.forEach(o => sel.appendChild(new Option((o.codigo_obra ? o.codigo_obra + ' · ' : '') + o.nombre, o.id)));
     }
+    if (preObra) sel.value = preObra;
   }
 
   function parseItems(txt) {
