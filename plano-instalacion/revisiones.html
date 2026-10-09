@@ -120,10 +120,10 @@ main { max-width: 720px; margin: 0 auto; padding: 14px 16px 110px; }
 }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 .seg .n { font-weight: 500; opacity: .85; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 2px; }
 .chip {
   min-height: 40px; border: 1px solid var(--line); background: var(--surface);
-  border-radius: 20px; padding: 0 14px; font-size: 14px; font-weight: 500; color: var(--muted);
+  border-radius: 20px; padding: 0 12px; font-size: 14px; font-weight: 500; color: var(--muted);
 }
 .chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); font-weight: 700; box-shadow: inset 0 0 0 1px var(--accent); }
 
@@ -161,6 +161,10 @@ main { max-width: 720px; margin: 0 auto; padding: 14px 16px 110px; }
 .body { flex: 1; min-width: 0; padding-top: 4px; }
 .txt { margin: 0; font-weight: 500; font-size: 16px; }
 .item.done .txt { color: var(--done-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
+.num {
+  display: inline-block; min-width: 30px; margin-right: 7px; padding: 0 6px; border-radius: 6px;
+  background: var(--flag-bg); color: var(--accent); font-weight: 700; font-size: 14px; text-align: center; line-height: 1.6;
+}
 .hint { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; font-size: 13px; color: var(--muted); }
 .meta:empty { display: none; }
@@ -314,6 +318,7 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
   <!-- REVISIÓN: LISTA -->
   <section id="v-obra" hidden>
     <p class="notice" id="closednotice" hidden>Esta revisión está cerrada. Se puede mirar pero no modificar.</p>
+    <p class="notice" id="readonlynotice" hidden>Estás con una cuenta de <b>solo lectura</b>: podés mirar, pero no marcar ni comentar. Para eso entrá con la cuenta de la cuadrilla.</p>
     <div class="btns" id="plano-wrap" hidden style="margin:0 0 12px"><button class="btn ghost" id="btn-plano">🗺️ Ver plano de esta obra</button></div>
     <div class="seg" id="seg">
       <button type="button" data-s="pend" aria-pressed="true">Falta <span class="n" id="n-pend"></span></button>
@@ -373,6 +378,18 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
         <button class="btn ghost" data-copy="reptext">Copiar</button>
       </div>
       <div class="ok" id="reptext-ok"></div>
+    </div>
+    <div class="panel">
+      <h2>Exportar para otra persona</h2>
+      <p>El listado completo y numerado, para mandarle a PHI, al arquitecto o al cliente.</p>
+      <label class="toggle"><input type="checkbox" id="x-cmts" checked> Incluir comentarios</label>
+      <label class="toggle" id="x-cons-wrap"><input type="checkbox" id="x-cons" checked> <span id="x-cons-lbl">Incluir consultas</span></label>
+      <label class="toggle"><input type="checkbox" id="x-pend"> Solo lo que falta</label>
+      <div class="btns">
+        <button class="btn" id="x-pdf" type="button">PDF</button>
+        <button class="btn ghost" id="x-csv" type="button">Excel</button>
+      </div>
+      <p class="hint" style="margin-top:8px">PDF: se abre listo para imprimir o "Guardar como PDF" y compartir. Excel: baja un archivo que se abre en Excel o Google Sheets.</p>
     </div>
     <div class="panel" id="statepanel" hidden>
       <h2>Estado de la revisión</h2>
@@ -767,6 +784,8 @@ Planta baja | Hall | Q | Tecla 4 anulada
     setHeader('rev', [obra.codigo_obra, obra.nombre].filter(Boolean).join(' · '), rev.titulo + ' · de ' + rev.origen);
     $('cons-title').textContent = 'Consultas para ' + rev.origen;
     $('msg-title').textContent = 'Mensaje para ' + rev.origen;
+    $('x-cons-wrap').hidden = !canSeeConsultas;
+    $('x-cons-lbl').textContent = 'Incluir consultas a ' + rev.origen;
     status = 'pend'; filter = 'all';
     paintFilters();
     selectTab('obra');
@@ -813,6 +832,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
   function paintRevisionState() {
     const open = isOpen();
     $('closednotice').hidden = open;
+    $('readonlynotice').hidden = !open || canField;
     $('statepanel').hidden = !isOffice;
     $('statetxt').textContent = open
       ? 'Abierta: la cuadrilla la ve y la puede marcar.'
@@ -1004,7 +1024,8 @@ Planta baja | Hall | Q | Tecla 4 anulada
     if (ref.mode === 'tmp') {
       const op = queue.find(q => q.key === ref.id);
       if (!op) return;
-      ref.txt.textContent = op.args.p_texto;
+      ref.txt.textContent = '';
+      ref.txt.append(el('span', 'num', '…'), document.createTextNode(op.args.p_texto));
       ref.hint.textContent = op.args.p_ambiente || '';
       ref.meta.textContent = '';
       ref.meta.appendChild(el('span', 'tag flag', 'Enviando…'));
@@ -1016,7 +1037,8 @@ Planta baja | Hall | Q | Tecla 4 anulada
     ref.cb.disabled = !editable;
     ref.cb.setAttribute('aria-checked', it.hecho ? 'true' : 'false');
     ref.cb.setAttribute('aria-label', (it.hecho ? 'Desmarcar: ' : 'Marcar como hecho: ') + it.texto);
-    ref.txt.textContent = it.texto;
+    ref.txt.textContent = '';
+    ref.txt.append(el('span', 'num', numLabel(it)), document.createTextNode(it.texto));
     ref.hint.textContent = ref.mode === 'agregado' ? (it.ambiente || '') : (it.aclaracion || '');
     ref.meta.textContent = '';
     if (ref.mode === 'consulta') {
@@ -1267,9 +1289,10 @@ Planta baja | Hall | Q | Tecla 4 anulada
     return commentsOf(it.id).filter(c => !c.pending)
       .map(c => '   ↳ ' + (c.autor_nombre ? c.autor_nombre + ': ' : '') + c.texto.replace(/\n+/g, ' ')).join('\n');
   }
+  function numLabel(it) { return (it.tipo === 'consulta' ? 'C' : '') + (it.numero != null ? it.numero : '…'); }
   function line(it) {
     const c = cmtLines(it);
-    return '• ' + (it.ambiente || 'General') + ': ' + it.texto + (c ? '\n' + c : '');
+    return '• ' + numLabel(it) + '. ' + (it.ambiente || 'General') + ': ' + it.texto + (c ? '\n' + c : '');
   }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); }
 
@@ -1281,7 +1304,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
       f.rooms.forEach(r => r.items.forEach(it => {
         if (it.hecho) g.done.push(line(it));
         else if (commentsOf(it.id).length) g.obs.push(line(it));
-        else g.pend.push('• ' + (it.ambiente || 'General') + ': ' + it.texto);
+        else g.pend.push('• ' + numLabel(it) + '. ' + (it.ambiente || 'General') + ': ' + it.texto);
       }));
       return g;
     });
@@ -1302,7 +1325,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
       out.push(''); out.push('*➕ Agregado en obra*');
       extras.forEach(x => {
         const c = cmtLines(x);
-        out.push('• ' + (x.hecho ? '[hecho] ' : '') + (x.ambiente ? x.ambiente + ': ' : '') + x.texto + (c ? '\n' + c : ''));
+        out.push('• ' + numLabel(x) + '. ' + (x.hecho ? '[hecho] ' : '') + (x.ambiente ? x.ambiente + ': ' : '') + x.texto + (c ? '\n' + c : ''));
       });
     }
     const flagged = field.filter(i => i.consultar_externo && !i.hecho);
@@ -1325,14 +1348,14 @@ Planta baja | Hall | Q | Tecla 4 anulada
     const out = [];
     out.push('Hola, ¿cómo va? Te paso las consultas de la obra ' + (obra.nombre || '') + ' sobre "' + rev.titulo + '":');
     let n = 0;
-    listOf('consulta').forEach(c => { if (!c.hecho) { n++; out.push(''); out.push(n + '. ' + c.texto); } });
+    listOf('consulta').forEach(c => { if (!c.hecho) { n++; out.push(''); out.push(numLabel(c) + '. ' + c.texto); } });
     const flagged = fieldItems().filter(i => i.consultar_externo && !i.hecho);
     if (flagged.length) {
       out.push(''); out.push('Además, desde obra nos marcan:');
       flagged.forEach(it => {
         n++;
         const cms = commentsOf(it.id).filter(c => !c.pending).map(c => c.texto.trim()).join('. ');
-        out.push(n + '. ' + placeOf(it) + ': ' + it.texto + (cms ? '. ' + cms : ''));
+        out.push('Ítem ' + numLabel(it) + ' · ' + placeOf(it) + ': ' + it.texto + (cms ? '. ' + cms : ''));
       });
     }
     if (!n) return 'No hay consultas abiertas para ' + origen() + '.';
@@ -1345,6 +1368,153 @@ Planta baja | Hall | Q | Tecla 4 anulada
     $('msgtext').value = t;
     $('msgwa').href = 'https://wa.me/?text=' + encodeURIComponent(t);
   }
+
+  // ── EXPORT (para terceros: PHI, arquitecto, cliente) ──────────
+  let logoData = '';
+  fetch('../assets/logo/nova-domus-isologo-monocromo-navy.svg').then(r => r.text())
+    .then(t => { logoData = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(t))); })
+    .catch(() => { /* PDF goes without logo */ });
+
+  function respLabel(it) {
+    if (it.tipo === 'agregado') return 'Agregado en obra';
+    if (it.responsable === 'programacion_externa') return 'Programación ' + origen();
+    return it.responsable ? RESP[it.responsable] : '';
+  }
+  function exportRows() {
+    const onlyPend = $('x-pend').checked;
+    const withCmts = $('x-cmts').checked;
+    const field = groupItems(listOf('item')).flatMap(f => f.rooms.flatMap(r => r.items)).concat(listOf('agregado'))
+      .filter(it => !onlyPend || !it.hecho);
+    const rows = field.map(it => ({
+      num: numLabel(it),
+      planta: it.tipo === 'agregado' ? 'Agregado en obra' : (it.planta || ''),
+      ambiente: it.ambiente || '',
+      texto: it.texto,
+      aclaracion: it.aclaracion || '',
+      responsable: respLabel(it),
+      estado: it.hecho ? 'Hecho' : 'Falta',
+      hecho: it.hecho ? [it.hecho_por_nombre, it.hecho_en ? new Date(it.hecho_en).toLocaleDateString('es-AR') : ''].filter(Boolean).join(' · ') : '',
+      consultar: it.consultar_externo && !it.hecho ? 'Sí' : '',
+      comentarios: withCmts ? commentsOf(it.id).filter(c => !c.pending)
+        .map(c => (c.autor_nombre ? c.autor_nombre + ': ' : '') + c.texto.replace(/\s*\n\s*/g, ' ')) : [],
+    }));
+    const cons = canSeeConsultas && $('x-cons').checked
+      ? listOf('consulta').filter(c => !onlyPend || !c.hecho).map(c => ({
+          num: numLabel(c), texto: c.texto, estado: c.hecho ? 'Resuelta' : 'Abierta', respuesta: c.respuesta_externa || '',
+        }))
+      : [];
+    return { rows, cons, withCmts };
+  }
+  function fileBase() {
+    const d = new Date();
+    const ymd = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    return ('revision ' + (obra.codigo_obra || 'obra') + ' ' + rev.titulo + ' ' + ymd)
+      .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\w-]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  }
+
+  $('x-csv').addEventListener('click', () => {
+    const { rows, cons, withCmts } = exportRows();
+    const head = ['N°', 'Planta', 'Ambiente', 'Ítem', 'Aclaración', 'Responsable', 'Estado', 'Hecho por / fecha', 'Preguntar a ' + origen()]
+      .concat(withCmts ? ['Comentarios'] : []);
+    const lines = [head].concat(rows.map(r => [r.num, r.planta, r.ambiente, r.texto, r.aclaracion, r.responsable, r.estado, r.hecho, r.consultar]
+      .concat(withCmts ? [r.comentarios.join(' | ')] : [])));
+    if (cons.length) {
+      lines.push([]);
+      lines.push(['N°', 'Consulta a ' + origen(), '', '', '', '', 'Estado', 'Respuesta']);
+      cons.forEach(c => lines.push([c.num, c.texto, '', '', '', '', c.estado, c.respuesta]));
+    }
+    // Excel in es-AR opens ';' separated files directly; BOM keeps the accents.
+    const csv = '﻿' + lines.map(l => l.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = fileBase() + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    toast('Excel descargado.');
+  });
+
+  $('x-pdf').addEventListener('click', () => {
+    const win = window.open('', '_blank');
+    if (!win) { toast('El navegador bloqueó la ventana. Permití ventanas emergentes y probá de nuevo.', 'error'); return; }
+    const { rows, cons, withCmts } = exportRows();
+    const field = fieldItems();
+    const done = field.filter(i => i.hecho).length;
+    const groups = [];
+    rows.forEach(r => {
+      let g = groups[groups.length - 1];
+      if (!g || g.planta !== r.planta) { g = { planta: r.planta, rows: [] }; groups.push(g); }
+      g.rows.push(r);
+    });
+    const now = new Date();
+    const body = groups.map(g => `
+      <h2>${esc(g.planta || 'General')}</h2>
+      <table>
+        <thead><tr><th class="n">N°</th><th class="amb">Ambiente</th><th>Ítem</th><th class="st">Estado</th></tr></thead>
+        <tbody>${g.rows.map(r => `
+          <tr class="${r.estado === 'Hecho' ? 'ok' : ''}">
+            <td class="n">${esc(r.num)}</td>
+            <td class="amb">${esc(r.ambiente)}</td>
+            <td>${esc(r.texto)}${r.aclaracion ? `<div class="sub">${esc(r.aclaracion)}</div>` : ''}
+              ${r.responsable ? `<div class="sub">${esc(r.responsable)}${r.consultar ? ' · <b>Preguntar a ' + esc(origen()) + '</b>' : ''}</div>` : ''}
+              ${withCmts && r.comentarios.length ? `<ul class="cm">${r.comentarios.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}</td>
+            <td class="st">${r.estado === 'Hecho' ? '✓ Hecho' : 'Falta'}${r.hecho ? `<div class="sub">${esc(r.hecho)}</div>` : ''}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`).join('');
+    const consHtml = cons.length ? `
+      <h2>Consultas a ${esc(origen())}</h2>
+      <table>
+        <thead><tr><th class="n">N°</th><th>Consulta</th><th class="st">Estado</th></tr></thead>
+        <tbody>${cons.map(c => `<tr><td class="n">${esc(c.num)}</td><td>${esc(c.texto)}${c.respuesta ? `<div class="sub"><b>Respuesta:</b> ${esc(c.respuesta)}</div>` : ''}</td><td class="st">${esc(c.estado)}</td></tr>`).join('')}</tbody>
+      </table>` : '';
+    const html = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(fileBase())}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Michroma&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font: 12px/1.45 Inter, Arial, sans-serif; color: #0B132B; background: #fff;
+         -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  header { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #141E61; padding-bottom: 10px; }
+  header img { width: 38px; height: 38px; }
+  header .b { font-family: Michroma, Arial, sans-serif; font-size: 13px; letter-spacing: .14em; color: #141E61; }
+  header .r { margin-left: auto; text-align: right; font-size: 11px; color: #5B5D73; }
+  h1 { font-size: 18px; margin: 16px 0 2px; }
+  .meta { color: #5B5D73; margin: 0 0 6px; }
+  .sum { display: inline-block; background: #F3F1E6; border-left: 3px solid #C8A96E; padding: 6px 10px; margin: 6px 0 4px; font-weight: 600; }
+  h2 { font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+       color: #141E61; margin: 18px 0 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #5B5D73; border-bottom: 1px solid #C9C7BC; padding: 4px 6px; }
+  td { border-bottom: 1px solid #E3E1D6; padding: 6px; vertical-align: top; }
+  tr { page-break-inside: avoid; }
+  .n { width: 34px; font-weight: 700; color: #141E61; }
+  .amb { width: 22%; }
+  .st { width: 17%; }
+  tr.ok .st { color: #1E7A46; font-weight: 600; }
+  .sub { color: #5B5D73; font-size: 11px; margin-top: 2px; }
+  .cm { margin: 4px 0 0; padding-left: 16px; font-size: 11px; }
+  .cm li { margin: 1px 0; }
+  footer { margin-top: 18px; color: #8C8E9F; font-size: 10px; border-top: 1px solid #E3E1D6; padding-top: 6px; }
+  @media print { body { padding: 0; } }
+</style></head><body>
+<header>${logoData ? `<img src="${logoData}" alt="">` : ''}<span class="b">NOVA DOMUS</span><span class="r">Revisión de obra<br>${esc(today())}</span></header>
+<h1>${esc(obra.nombre || 'Obra')}</h1>
+<p class="meta">${esc(rev.titulo)} · de ${esc(rev.origen)}${obra.codigo_obra ? ' · Obra ' + esc(obra.codigo_obra) : ''}</p>
+<div class="sum">Avance: ${done} de ${field.length} hechos · ${field.length - done} faltan${$('x-pend').checked ? ' · (se muestra solo lo que falta)' : ''}</div>
+${body || '<p>No hay ítems para mostrar.</p>'}
+${consHtml}
+<footer>Generado el ${esc(today())} a las ${esc(String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0'))} desde el portal de Nova Domus.</footer>
+</body></html>`;
+    win.document.open(); win.document.write(html); win.document.close();
+    // Give the fonts and logo a moment, then open the print dialog ("Guardar como PDF").
+    setTimeout(() => { try { win.focus(); win.print(); } catch (e) { /* user can print manually */ } }, 900);
+  });
 
   // ── SHARE / COPY ──────────────────────────────────────────────
   function flash(id, msg) {
