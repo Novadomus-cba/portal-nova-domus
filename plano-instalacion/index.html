@@ -400,7 +400,13 @@ async function init() {
   // Cuenta de cuadrilla (rol tecnico): no lee proyectos ni planos directo (montos, cliente).
   // Ve solo el plano vigente vía planos_tecnico_listado / planos_tecnico_contenido.
   isTecnico = profile.role === 'tecnico';
-  if (isTecnico) document.querySelector('.portal-back').style.display = 'none';
+  if (isTecnico) {
+    // Su "inicio" es Revisiones de obra, no el portal.
+    const back = document.querySelector('.portal-back');
+    back.href = 'revisiones.html';
+    back.innerHTML = '<span class="portal-back-icon">‹</span> Inicio';
+    back.style.cssText = 'font-size:15px;font-weight:600;color:var(--text);min-height:44px;padding:0 6px';
+  }
 
   document.getElementById('portal-username').textContent = profile.full_name;
 

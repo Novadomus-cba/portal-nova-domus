@@ -11,27 +11,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Michroma&display=swap" rel="stylesheet">
 <style>
 /* Base visual: prototipo chacras-revision.html (Manual de Marca v2.0). Claro por
-   defecto porque se usa al sol en obra; oscuro según preferencia del sistema. */
+   defecto porque se usa al sol en obra; oscuro según preferencia del sistema.
+   Pensado para electricistas con el celular en una mano: todo lo tocable mide
+   44px o más, textos de 16px, y siempre hay un "‹ Inicio" visible. */
 :root {
   --navy: #141E61; --deep: #0B132B; --gray: #787A91; --cream: #FDFBF0; --gold: #C8A96E;
   --bg: #FDFBF0; --surface: #FFFFFF; --ink: #0B132B; --muted: #5B5D73; --line: #E3E1D6;
   --accent: #141E61; --accent-ink: #FDFBF0; --done-ink: #8C8E9F; --flag: #141E61; --flag-bg: #E9EAF3;
-  --danger: #B3261E; --success: #1E7A46;
+  --danger: #B3261E;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0B132B; --surface: #121B3D; --ink: #FDFBF0; --muted: #A5A7BA; --line: #26305A;
     --accent: #C8A96E; --accent-ink: #0B132B; --done-ink: #6D7090; --flag: #C8A96E; --flag-bg: #2A2A3A;
-    --danger: #F2B8B5; --success: #7BD3A0;
+    --danger: #F2B8B5;
     color-scheme: dark;
   }
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-padding-top: 190px; }
+html { scroll-padding-top: 170px; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font: 15px/1.45 Inter, Arial, Helvetica, sans-serif;
+  font: 16px/1.45 Inter, Arial, Helvetica, sans-serif;
   -webkit-text-size-adjust: 100%;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -42,174 +44,226 @@ button { cursor: pointer; }
 
 #app-loading {
   position: fixed; inset: 0; background: var(--deep); color: #B9BBCB;
-  display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 13px;
+  display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 14px;
 }
 
-/* Header */
+/* ── Header (compacto) ── */
 .top {
   position: sticky; top: 0; z-index: 10;
   background: var(--deep); color: var(--cream);
-  padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 0;
+  padding: env(safe-area-inset-top, 0px) 0 0;
 }
-.toplinks { display: flex; align-items: center; gap: 14px; font-size: 13px; margin-bottom: 10px; }
-.toplinks a, .toplinks button { color: #B9BBCB; background: none; border: 0; padding: 0; text-decoration: none; }
-.toplinks a.on { color: var(--cream); font-weight: 600; }
-.toplinks .sp { flex: 1; }
-.brandrow { display: flex; align-items: center; gap: 12px; padding-bottom: 12px; }
-.brandrow .logo {
-  width: 40px; height: 40px; flex: none; background: var(--cream);
+.bar1 { display: flex; align-items: center; gap: 8px; min-height: 60px; padding: 6px 12px 6px 8px; }
+.back {
+  flex: none; display: inline-flex; align-items: center; gap: 2px;
+  min-height: 44px; min-width: 44px; padding: 0 12px 0 6px; border-radius: 22px;
+  background: rgba(253,251,240,.1); border: 0; color: var(--cream);
+  font-size: 15px; font-weight: 600; text-decoration: none;
+}
+.back svg { width: 22px; height: 22px; }
+.logo {
+  flex: none; width: 34px; height: 34px; margin-left: 4px; background: var(--cream);
   -webkit-mask: url(../assets/logo/nova-domus-isologo-monocromo-navy.svg) center / contain no-repeat;
   mask: url(../assets/logo/nova-domus-isologo-monocromo-navy.svg) center / contain no-repeat;
 }
-.brandrow h1 {
-  margin: 0; font-family: Michroma, Arial, sans-serif; font-weight: 400;
-  font-size: 15px; letter-spacing: .12em; line-height: 1.3;
+.ttl { flex: 1; min-width: 0; }
+.ttl h1 {
+  margin: 0; font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 14px;
+  letter-spacing: .08em; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.brandrow p { margin: 2px 0 0; font-size: 13px; color: #B9BBCB; }
-.sync { margin-left: auto; font-size: 12px; color: #B9BBCB; text-align: right; max-width: 40%; }
+.ttl h1.plain { font-family: Inter, Arial, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0; }
+.ttl p { margin: 1px 0 0; font-size: 13px; color: #B9BBCB; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sync { flex: none; font-size: 12px; color: #B9BBCB; text-align: right; max-width: 34%; }
 .sync b { color: var(--gold); font-weight: 600; }
-.prog { margin: 0 0 2px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.sync.warn { color: var(--gold); font-weight: 600; }
+.prog { display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 0 16px 8px; color: #B9BBCB; }
 .bar { flex: 1; height: 6px; background: #26305A; border-radius: 3px; overflow: hidden; }
 .bar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .3s; }
-.tabs { display: flex; margin: 10px -16px 0; border-top: 1px solid #1E2850; }
+.tabs { display: flex; border-top: 1px solid #1E2850; }
 .tabs button {
-  flex: 1; background: none; border: 0; padding: 12px 4px; color: #B9BBCB;
-  font-weight: 600; font-size: 14px; border-bottom: 3px solid transparent;
+  flex: 1; background: none; border: 0; min-height: 48px; padding: 0 4px; color: #B9BBCB;
+  font-weight: 600; font-size: 15px; border-bottom: 3px solid transparent;
 }
 .tabs button[aria-selected="true"] { color: var(--cream); border-bottom-color: var(--gold); }
 .tabs .count { font-weight: 500; color: var(--gold); margin-left: 4px; }
 
-main { max-width: 720px; margin: 0 auto; padding: 12px 16px 48px; }
+main { max-width: 720px; margin: 0 auto; padding: 14px 16px 110px; }
 
-/* Lists of obras / revisiones */
-.obra { margin-top: 16px; }
-.obra > h2 {
-  font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 13px;
-  letter-spacing: .1em; margin: 0 0 6px; color: var(--accent);
+/* ── Inicio ── */
+.who {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; margin-bottom: 14px; font-size: 15px;
 }
-.obra > p { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
-.revlink {
-  display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink);
-  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin-bottom: 8px;
+.who span { flex: 1; min-width: 0; }
+.sect { font-size: 13px; font-weight: 700; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; margin: 18px 0 8px; }
+.card {
+  display: block; text-decoration: none; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px; margin-bottom: 10px; position: relative;
 }
-.revlink .t { flex: 1; min-width: 0; }
-.revlink .t b { display: block; font-weight: 600; }
-.revlink .t span { font-size: 13px; color: var(--muted); }
-.revlink .go { color: var(--muted); }
-.empty { color: var(--muted); font-size: 14px; padding: 24px 0; text-align: center; }
+.card b { display: block; font-size: 17px; font-weight: 700; padding-right: 24px; }
+.card .s { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+.card .go { position: absolute; right: 14px; top: 16px; font-size: 22px; color: var(--muted); line-height: 1; }
+.card .bar { margin-top: 12px; background: var(--line); }
+.card .bar i { background: var(--accent); }
+.card .p { display: block; font-size: 14px; margin-top: 6px; color: var(--muted); }
+.card.planos { border-style: dashed; }
+.card.closed { opacity: .7; }
+.empty { color: var(--muted); font-size: 15px; padding: 20px 0; text-align: center; }
 
-/* Filters */
-.filters { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: none; }
-.filters::-webkit-scrollbar { display: none; }
+/* ── Filtros ── */
+.seg { display: flex; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; gap: 4px; }
+.seg button {
+  flex: 1; min-height: 44px; border: 0; border-radius: 9px; background: transparent;
+  font-size: 15px; font-weight: 600; color: var(--muted); white-space: nowrap;
+}
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.seg .n { font-weight: 500; opacity: .85; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 2px; }
 .chip {
-  flex: none; border: 1px solid var(--line); background: var(--surface);
-  border-radius: 18px; padding: 7px 13px; font-size: 13px; font-weight: 500; color: var(--muted);
+  min-height: 40px; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 20px; padding: 0 14px; font-size: 14px; font-weight: 500; color: var(--muted);
 }
-.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); font-weight: 700; box-shadow: inset 0 0 0 1px var(--accent); }
 
 .notice {
-  border: 1px solid var(--line); background: var(--surface); border-radius: 8px;
-  padding: 10px 12px; font-size: 13px; color: var(--muted); margin: 0 0 12px;
+  border: 1px solid var(--line); background: var(--surface); border-radius: 10px;
+  padding: 12px; font-size: 14px; color: var(--muted); margin: 0 0 12px;
 }
 
-/* Sections */
-.floor { margin-top: 18px; }
+/* ── Ítems ── */
+.floor { margin-top: 20px; }
 .floor > h2 {
   font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 13px;
   letter-spacing: .14em; margin: 0 0 4px; color: var(--accent); text-transform: uppercase;
 }
-.room { margin-top: 10px; }
-.room > h3 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+.room { margin-top: 12px; }
+.room > h3 { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
 .room.empty { display: none; }
 
-.item { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
 .item.hide { display: none; }
 .item.tmp { opacity: .7; border-style: dashed; }
-.row { display: flex; gap: 12px; align-items: flex-start; padding: 12px; }
+.row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px 10px 6px; }
 .check {
-  flex: none; width: 30px; height: 30px; border-radius: 7px; margin: 0; padding: 0;
-  border: 2px solid var(--muted); background: transparent; display: grid; place-items: center;
+  flex: none; width: 48px; height: 48px; margin: -2px 0; padding: 0; border: 0; background: none;
+  display: grid; place-items: center;
 }
-.check:disabled { cursor: default; opacity: .6; }
-.check svg { width: 18px; height: 18px; opacity: 0; }
-.item.done .check { background: var(--accent); border-color: var(--accent); }
+.check span {
+  width: 32px; height: 32px; border-radius: 8px; border: 2px solid var(--muted);
+  display: grid; place-items: center; transition: background .15s;
+}
+.check:disabled { cursor: default; opacity: .55; }
+.check svg { width: 20px; height: 20px; opacity: 0; }
+.item.done .check span { background: var(--accent); border-color: var(--accent); }
 .item.done .check svg { opacity: 1; stroke: var(--accent-ink); }
-.body { flex: 1; min-width: 0; }
-.txt { margin: 0; font-weight: 500; }
+.body { flex: 1; min-width: 0; padding-top: 4px; }
+.txt { margin: 0; font-weight: 500; font-size: 16px; }
 .item.done .txt { color: var(--done-ink); text-decoration: line-through; text-decoration-thickness: 1px; }
-.hint { margin: 3px 0 0; font-size: 13px; color: var(--muted); }
-.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 7px; font-size: 12px; color: var(--muted); }
-.tag { border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; font-weight: 600; }
+.hint { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.meta:empty { display: none; }
+.tag { border: 1px solid var(--line); border-radius: 5px; padding: 2px 7px; font-weight: 600; }
 .tag.flag { background: var(--flag-bg); color: var(--flag); border-color: transparent; }
-.notebtn {
-  flex: none; background: none; border: 1px solid var(--line); border-radius: 6px;
-  padding: 6px 9px; font-size: 13px; color: var(--muted);
-}
-.notebtn.has { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-.notepad { padding: 0 12px 12px 54px; }
-textarea {
-  width: 100%; min-height: 70px; resize: vertical; border: 1px solid var(--line);
-  border-radius: 6px; padding: 9px; background: var(--bg); font-size: 15px;
-}
-.toggle { display: flex; gap: 8px; align-items: center; margin-top: 8px; font-size: 14px; }
-.toggle input { width: 20px; height: 20px; accent-color: var(--accent); }
-.notetxt { margin: 6px 0 0; font-size: 13px; white-space: pre-wrap; border-left: 3px solid var(--gray); padding-left: 8px; }
-.notetxt:empty { display: none; }
+.tag.info { border-style: dashed; }
+.whodid { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.whodid:empty { display: none; }
 
-/* Forms */
-.addbox { background: var(--surface); border: 1px dashed var(--muted); border-radius: 8px; padding: 12px; margin-top: 10px; }
-.addbox label, .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+/* Comentarios */
+.cmtbar {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 46px;
+  border: 0; border-top: 1px solid var(--line); background: transparent;
+  padding: 0 14px; font-size: 15px; font-weight: 600; color: var(--accent); text-align: left;
+}
+.cmtbar .last { flex: 1; min-width: 0; font-weight: 400; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+.cmtbar .chev { color: var(--muted); }
+.thread { border-top: 1px solid var(--line); padding: 10px 12px 12px; background: var(--bg); }
+.cmt { margin: 0 0 10px; }
+.cmt .a { font-size: 13px; color: var(--muted); }
+.cmt .a b { color: var(--ink); font-weight: 600; }
+.cmt .t { margin: 2px 0 0; font-size: 15px; white-space: pre-wrap; word-wrap: break-word; }
+.cmt.pending .a::after { content: " · enviando…"; color: var(--gold); }
+textarea {
+  width: 100%; min-height: 76px; resize: vertical; border: 1px solid var(--line);
+  border-radius: 8px; padding: 10px; background: var(--surface); font-size: 16px;
+}
+.cmtactions { display: flex; gap: 8px; margin-top: 8px; }
+.cmtactions .btn { flex: 1; }
+.flagbtn {
+  flex: 1; min-height: 46px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface);
+  font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; padding: 0 8px;
+}
+.flagbtn[aria-pressed="true"] { background: var(--flag-bg); color: var(--flag); border-color: var(--flag); }
+
+/* FAB agregar */
+.fab {
+  position: fixed; right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); z-index: 20;
+  min-height: 56px; padding: 0 22px; border-radius: 28px; border: 0;
+  background: var(--accent); color: var(--accent-ink); font-size: 16px; font-weight: 700;
+  box-shadow: 0 6px 18px rgba(11,19,43,.3);
+}
+
+/* ── Formularios / paneles ── */
 .inp {
-  width: 100%; border: 1px solid var(--line); border-radius: 6px; padding: 9px; background: var(--bg); margin-bottom: 8px; font-size: 16px;
+  width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 11px; background: var(--surface);
+  margin-bottom: 10px; font-size: 16px;
 }
 .field { margin-bottom: 10px; }
+.field label, dialog label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
 .btn {
-  border: 0; border-radius: 7px; padding: 11px 16px; font-weight: 600; font-size: 15px;
-  background: var(--accent); color: var(--accent-ink); text-align: center; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 8px; min-height: 48px; padding: 0 16px; font-weight: 700; font-size: 16px;
+  background: var(--accent); color: var(--accent-ink); text-decoration: none;
 }
-.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); font-weight: 600; }
 .btn:disabled { opacity: .5; }
-.btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .btns .btn { flex: 1 1 140px; }
-
-/* Panels */
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
-.panel h2 { margin: 0 0 4px; font-size: 16px; }
-.panel p { margin: 0 0 10px; font-size: 13px; color: var(--muted); }
-.out { min-height: 220px; font-size: 13px; line-height: 1.5; }
-.ok { font-size: 13px; color: var(--muted); margin-top: 6px; min-height: 18px; }
-.errs { color: var(--danger); font-size: 13px; margin: 6px 0 0; padding-left: 18px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+.panel h2 { margin: 0 0 4px; font-size: 17px; }
+.panel p { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
+.toggle { display: flex; gap: 10px; align-items: center; min-height: 44px; font-size: 15px; }
+.toggle input { width: 22px; height: 22px; accent-color: var(--accent); }
+.out { min-height: 240px; font-size: 14px; line-height: 1.5; background: var(--bg); }
+.ok { font-size: 14px; color: var(--muted); margin-top: 6px; min-height: 18px; }
+.errs { color: var(--danger); font-size: 14px; margin: 6px 0 0; padding-left: 18px; }
 .preview { font-size: 13px; margin-top: 8px; }
 .preview table { width: 100%; border-collapse: collapse; }
 .preview td, .preview th { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
 .preview .wrap { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; }
+.notepad { padding: 0 12px 12px 64px; }
+.saved { font-size: 13px; color: var(--muted); margin-top: 4px; min-height: 18px; }
 
-/* Name dialog */
-dialog { border: 0; border-radius: 10px; padding: 20px; width: min(92vw, 380px); background: var(--surface); color: var(--ink); }
+/* Dialogs */
+dialog { border: 0; border-radius: 14px; padding: 20px; width: min(94vw, 420px); background: var(--surface); color: var(--ink); }
 dialog::backdrop { background: rgba(11,19,43,.6); }
-dialog h2 { margin: 0 0 6px; font-size: 17px; }
-dialog p { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
+dialog h2 { margin: 0 0 6px; font-size: 19px; }
+dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
 
-/* Toast + sesión expirada (contrato de auth-bridge.js) */
+/* Toast (con acción "Deshacer") + sesión expirada (contrato de auth-bridge.js) */
 .toast {
-  position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 86px);
   transform: translateX(-50%) translateY(20px); opacity: 0; transition: all .2s;
-  background: var(--deep); color: var(--cream); padding: 10px 16px; border-radius: 8px;
-  font-size: 14px; z-index: 1000; max-width: 92vw; pointer-events: none;
+  background: var(--deep); color: var(--cream); padding: 6px 6px 6px 16px; border-radius: 10px;
+  font-size: 15px; z-index: 1000; width: max-content; max-width: 92vw; pointer-events: none;
+  display: flex; align-items: center; gap: 12px; min-height: 48px;
+  border: 1px solid rgba(253,251,240,.25); box-shadow: 0 6px 18px rgba(0,0,0,.35);
 }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 .toast.error { background: var(--danger); color: #fff; }
+.toast button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--gold); color: var(--deep); font-weight: 700; }
 #modal-sesion {
   position: fixed; inset: 0; background: rgba(11,19,43,.7); z-index: 1001;
   display: none; align-items: center; justify-content: center; padding: 16px;
 }
 #modal-sesion.open { display: flex; }
-#modal-sesion .box { background: var(--surface); border-radius: 10px; padding: 20px; max-width: 380px; }
-#modal-sesion h3 { margin: 0 0 6px; font-size: 16px; }
-#modal-sesion p { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
+#modal-sesion .box { background: var(--surface); border-radius: 12px; padding: 20px; max-width: 380px; }
+#modal-sesion h3 { margin: 0 0 6px; font-size: 17px; }
+#modal-sesion p { margin: 0 0 16px; font-size: 14px; color: var(--muted); }
 #modal-sesion button { width: 100%; }
 
-@media (prefers-reduced-motion: reduce) { .bar i, .toast { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .bar i, .toast, .check span { transition: none; } }
 </style>
 </head>
 <body>
@@ -217,25 +271,22 @@ dialog p { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
 <div id="app-loading">Verificando acceso…</div>
 
 <header class="top" id="top" hidden>
-  <div class="toplinks">
-    <a href="../index.html" id="lnk-portal">⌂ Portal</a>
-    <a href="index.html" id="lnk-planos">Planos</a>
-    <a href="revisiones.html" class="on">Revisiones de obra</a>
-    <span class="sp"></span>
-    <button type="button" id="btn-salir">Salir</button>
-  </div>
-  <div class="brandrow">
-    <span class="logo" role="img" aria-label="Nova Domus"></span>
-    <div>
+  <div class="bar1">
+    <button type="button" class="back" id="btn-back" hidden aria-label="Volver al inicio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Inicio
+    </button>
+    <a class="back" id="lnk-portal" href="../index.html" hidden>⌂ Portal</a>
+    <span class="logo" id="logo" role="img" aria-label="Nova Domus"></span>
+    <div class="ttl">
       <h1 id="h-title">REVISIONES DE OBRA</h1>
-      <p id="h-sub">Plano de Instalación</p>
+      <p id="h-sub"></p>
     </div>
-    <div class="sync" id="sync"></div>
+    <span class="sync" id="sync"></span>
   </div>
   <div id="revhead" hidden>
-    <div class="prog"><div class="bar"><i id="barfill"></i></div><span id="progtxt">0 / 0</span></div>
+    <div class="prog"><div class="bar"><i id="barfill"></i></div><span id="progtxt">0 de 0</span></div>
     <nav class="tabs" role="tablist">
-      <button role="tab" aria-selected="true" data-tab="obra">Obra</button>
+      <button role="tab" aria-selected="true" data-tab="obra">Lista</button>
       <button role="tab" aria-selected="false" data-tab="consultas" id="tab-consultas">Consultas<span class="count" id="ccount"></span></button>
       <button role="tab" aria-selected="false" data-tab="reporte">Reporte</button>
     </nav>
@@ -243,36 +294,45 @@ dialog p { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
 </header>
 
 <main id="main" hidden>
-  <!-- LISTA DE OBRAS / REVISIONES -->
+  <!-- INICIO -->
   <section id="s-list" hidden>
-    <div class="btns" id="new-wrap" hidden><a class="btn" href="#nueva">Nueva revisión</a></div>
+    <div class="who" id="who" hidden>
+      <span>Marcando como <b id="who-name"></b></span>
+      <button type="button" class="btn ghost" id="who-change" style="min-height:40px">Cambiar</button>
+    </div>
     <div id="obras-list"></div>
+    <div class="sect">Planos</div>
+    <a class="card planos" href="index.html">
+      <b>🗺️ Planos de instalación</b>
+      <span class="s">Ver el plano de cada obra en curso</span>
+      <span class="go">›</span>
+    </a>
+    <div class="btns" id="new-wrap" hidden><a class="btn" href="#nueva">Nueva revisión</a></div>
+    <div class="btns" style="margin-top:28px"><button type="button" class="btn ghost" id="btn-salir">Salir de la cuenta</button></div>
   </section>
 
-  <!-- REVISIÓN: OBRA -->
+  <!-- REVISIÓN: LISTA -->
   <section id="v-obra" hidden>
-    <p class="notice" id="closednotice" hidden>Esta revisión está cerrada. Se puede consultar pero no modificar.</p>
-    <div class="btns" id="plano-wrap" hidden><button class="btn ghost" id="btn-plano">Ver plano vigente</button></div>
-    <div class="filters" id="filters">
-      <button class="chip" data-f="all" aria-pressed="true">Todo</button>
-      <button class="chip" data-f="electricista" aria-pressed="false">Electricista</button>
-      <button class="chip" data-f="quitar_tecla" aria-pressed="false">Teclas a quitar</button>
-      <button class="chip" data-f="programacion_externa" aria-pressed="false" id="chip-prog">Programación externa</button>
-      <button class="chip" data-f="decision_interna" aria-pressed="false">Decisiones</button>
-      <button class="chip" data-f="pend" aria-pressed="false">Solo pendientes</button>
+    <p class="notice" id="closednotice" hidden>Esta revisión está cerrada. Se puede mirar pero no modificar.</p>
+    <div class="btns" id="plano-wrap" hidden style="margin:0 0 12px"><button class="btn ghost" id="btn-plano">🗺️ Ver plano de esta obra</button></div>
+    <div class="seg" id="seg">
+      <button type="button" data-s="pend" aria-pressed="true">Falta <span class="n" id="n-pend"></span></button>
+      <button type="button" data-s="done" aria-pressed="false">Hecho <span class="n" id="n-done"></span></button>
+      <button type="button" data-s="all" aria-pressed="false">Ver todo</button>
+    </div>
+    <div class="chips" id="filters">
+      <button type="button" class="chip" data-f="all" aria-pressed="true">Todos</button>
+      <button type="button" class="chip" data-f="electricista" aria-pressed="false">Electricista</button>
+      <button type="button" class="chip" data-f="quitar_tecla" aria-pressed="false">Teclas</button>
+      <button type="button" class="chip" data-f="info" aria-pressed="false">Info</button>
     </div>
     <div id="list"></div>
-
-    <div class="floor">
+    <div class="floor" id="extras-wrap">
       <h2>Agregado en obra</h2>
       <div id="extras"></div>
-      <div class="addbox" id="addbox">
-        <label for="xzone">Algo que no estaba en la lista</label>
-        <input type="text" class="inp" id="xzone" placeholder="Dónde (ej. PB · Living)">
-        <textarea id="xtext" placeholder="Qué encontraste o qué hiciste"></textarea>
-        <div class="btns"><button class="btn" id="xadd">Agregar</button></div>
-      </div>
     </div>
+    <p class="empty" id="emptyfilter" hidden></p>
+    <button type="button" class="fab" id="fab">+ Agregar</button>
   </section>
 
   <!-- REVISIÓN: CONSULTAS (oficina) -->
@@ -284,22 +344,19 @@ dialog p { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
     <div id="consultas"></div>
     <div class="floor">
       <h2>Marcados en obra</h2>
-      <p class="hint" id="flaggedempty">Cuando un técnico marque "Consultar al externo" en un ítem, aparece acá con su nota.</p>
+      <p class="hint" id="flaggedempty">Cuando alguien en obra toque "Preguntar al externo" en un ítem, aparece acá con sus comentarios.</p>
       <div id="flagged"></div>
     </div>
     <div class="panel" style="margin-top:16px">
       <h2 id="msg-title">Mensaje para el externo</h2>
       <p>Junta las consultas sin resolver y los ítems marcados en obra.</p>
-      <div class="btns"><button class="btn" id="genmsg">Armar mensaje</button></div>
-      <div id="msgout" hidden>
-        <textarea class="out" id="msgtext" readonly></textarea>
-        <div class="btns">
-          <button class="btn" data-share="msgtext">Compartir</button>
-          <a class="btn ghost" id="msgwa" target="_blank" rel="noopener">WhatsApp</a>
-          <button class="btn ghost" data-copy="msgtext">Copiar</button>
-        </div>
-        <div class="ok" id="msgtext-ok"></div>
+      <textarea class="out" id="msgtext" readonly></textarea>
+      <div class="btns">
+        <button class="btn" data-share="msgtext">Compartir</button>
+        <a class="btn ghost" id="msgwa" target="_blank" rel="noopener">WhatsApp</a>
+        <button class="btn ghost" data-copy="msgtext">Copiar</button>
       </div>
+      <div class="ok" id="msgtext-ok"></div>
     </div>
   </section>
 
@@ -307,24 +364,15 @@ dialog p { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
   <section id="v-reporte" hidden>
     <div class="panel">
       <h2>Reporte de obra</h2>
-      <p>Lo hecho, lo que tiene observaciones y lo que falta, listo para mandar a la oficina.</p>
-      <label class="toggle"><input type="checkbox" id="incpend" checked> Incluir la lista de pendientes</label>
-      <div class="btns"><button class="btn" id="genrep">Armar reporte</button></div>
-      <div id="repout" hidden>
-        <textarea class="out" id="reptext" readonly></textarea>
-        <div class="btns">
-          <button class="btn" data-share="reptext">Compartir</button>
-          <a class="btn ghost" id="repwa" target="_blank" rel="noopener">WhatsApp</a>
-          <button class="btn ghost" data-copy="reptext">Copiar</button>
-        </div>
-        <div class="ok" id="reptext-ok"></div>
+      <p>Lo hecho, lo comentado y lo que falta. Tocá <b>WhatsApp</b> para mandarlo.</p>
+      <label class="toggle"><input type="checkbox" id="incpend" checked> Incluir lo que falta</label>
+      <textarea class="out" id="reptext" readonly></textarea>
+      <div class="btns">
+        <a class="btn" id="repwa" target="_blank" rel="noopener">WhatsApp</a>
+        <button class="btn ghost" data-share="reptext">Compartir</button>
+        <button class="btn ghost" data-copy="reptext">Copiar</button>
       </div>
-    </div>
-    <div class="panel" id="namepanel" hidden>
-      <h2>Quién está marcando</h2>
-      <p>La cuenta de cuadrilla es compartida: tu nombre queda en cada ítem que marcás desde este celular.</p>
-      <input type="text" class="inp" id="namefield">
-      <div class="btns"><button class="btn ghost" id="namesave">Guardar nombre</button></div>
+      <div class="ok" id="reptext-ok"></div>
     </div>
     <div class="panel" id="statepanel" hidden>
       <h2>Estado de la revisión</h2>
@@ -371,12 +419,25 @@ Planta baja | Hall | Q | Tecla 4 anulada
 
 <dialog id="namedlg">
   <h2>¿Quién sos?</h2>
-  <p>Para que en la oficina sepamos quién marcó cada cosa.</p>
-  <input type="text" class="inp" id="namein" placeholder="Nombre" autocomplete="given-name">
-  <div class="btns"><button class="btn" id="nameok">Empezar</button></div>
+  <p>Tu nombre queda en cada cosa que marcás o comentás, así en la oficina sabemos quién fue.</p>
+  <input type="text" class="inp" id="namein" placeholder="Tu nombre" autocomplete="given-name">
+  <div class="btns"><button class="btn" id="nameok">Listo</button></div>
 </dialog>
 
-<div class="toast" id="toast"></div>
+<dialog id="adddlg">
+  <h2>Agregar algo que no estaba</h2>
+  <p>Lo que encontraste en obra y no figura en la lista.</p>
+  <label for="xzone">¿Dónde?</label>
+  <input type="text" class="inp" id="xzone" placeholder="Ej: PB · Living">
+  <label for="xtext">¿Qué pasa o qué hiciste?</label>
+  <textarea id="xtext" placeholder="Ej: falta caja de paso detrás de la heladera"></textarea>
+  <div class="btns">
+    <button class="btn ghost" id="xcancel" type="button">Cancelar</button>
+    <button class="btn" id="xadd" type="button">Agregar</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toast-msg"></span><button type="button" id="toast-btn" hidden></button></div>
 
 <div id="modal-sesion">
   <div class="box">
@@ -404,6 +465,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     programacion_externa: 'Programación externa',
     decision_interna: 'Decisión Nova Domus',
   };
+  const INFO_RESP = ['programacion_externa', 'decision_interna'];
   const RESP_CODES = {
     e: 'electricista', electricista: 'electricista',
     q: 'quitar_tecla', quitar: 'quitar_tecla', quitar_tecla: 'quitar_tecla',
@@ -413,21 +475,23 @@ Planta baja | Hall | Q | Tecla 4 anulada
   };
   const NAME_KEY = 'nd-revisiones-nombre';
   const QUEUE_KEY = 'nd-revisiones-cola-v1';
-  const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const CHECK_HTML = '<span><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>';
 
   // ── STATE ─────────────────────────────────────────────────────
   let role = null, fullName = '';
   let isOffice = false, canField = false, canSeeConsultas = false;
-  let obras = [];            // review_obras_list()
-  let rev = null;            // current revision row
-  let obra = null;           // current obra (from obras)
-  const items = new Map();   // id -> item row
-  let channel = null;
-  let realtimeOk = false;
-  let filter = 'all', pendOnly = false;
+  let obras = [];
+  let rev = null, obra = null;
+  const items = new Map();      // id -> item
+  const comments = new Map();   // id -> comment
+  let channel = null, realtimeOk = false;
+  let filter = 'all', status = 'pend';
   let structureSig = '';
   let refs = {};
-  let autoOpened = false;
+  const openThreads = new Set();
+  const recentlyToggled = new Map(); // id -> ts (keeps a just-checked item visible for a moment)
+  let currentTab = 'obra';
+  let openedFromHome = false;
   let queue = loadQueue();
   let flushing = false;
 
@@ -441,20 +505,29 @@ Planta baja | Hall | Q | Tecla 4 anulada
   }
   function fmtWhen(iso) {
     if (!iso) return '';
-    const d = new Date(iso);
-    const hh = String(d.getHours()).padStart(2, '0'), mm = String(d.getMinutes()).padStart(2, '0');
-    return hh + ':' + mm + ' ' + d.getDate() + '/' + (d.getMonth() + 1);
+    const d = new Date(iso), now = new Date();
+    const hh = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    if (d.toDateString() === now.toDateString()) return 'hoy ' + hh;
+    const y = new Date(now); y.setDate(now.getDate() - 1);
+    if (d.toDateString() === y.toDateString()) return 'ayer ' + hh;
+    return d.getDate() + '/' + (d.getMonth() + 1) + ' ' + hh;
   }
   function today() {
     const d = new Date();
     return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
   }
-  function toast(msg, type) {
-    const t = $('toast');
-    t.textContent = msg;
+  function toast(msg, type, action) {
+    const t = $('toast'), b = $('toast-btn');
+    $('toast-msg').textContent = msg;
     t.className = 'toast show' + (type ? ' ' + type : '');
+    b.hidden = !action;
+    b.onclick = null;
+    if (action) {
+      b.textContent = action.label;
+      b.onclick = () => { t.className = 'toast'; action.fn(); };
+    }
     clearTimeout(toast._t);
-    toast._t = setTimeout(() => { t.className = 'toast'; }, 2800);
+    toast._t = setTimeout(() => { t.className = 'toast'; }, action ? 5000 : 2800);
   }
   function getName() { try { return localStorage.getItem(NAME_KEY) || ''; } catch (e) { return ''; } }
   function setName(n) { try { localStorage.setItem(NAME_KEY, n); } catch (e) { /* ignore */ } }
@@ -489,14 +562,17 @@ Planta baja | Hall | Q | Tecla 4 anulada
     } catch (e) { return 'net'; }
     const { data, error } = res;
     if (!error) {
-      if (data && data.id && rev && data.revision_id === rev.id) { items.set(data.id, data); refreshAll(); }
+      if (data && data.id && rev && data.revision_id === rev.id) {
+        if (op.fn === 'review_item_comment_add') comments.set(data.id, data); else items.set(data.id, data);
+        refreshAll();
+      }
       return 'ok';
     }
     if (isNet(error)) return 'net';
     if (error.code === 'PGRST301' || /JWT/i.test(error.message || '')) { manejarSesionExpirada(); return 'auth'; }
     console.error(op.fn, error);
     toast('No se pudo guardar: ' + (error.message || 'error'), 'error');
-    if (rev) reloadItems();
+    if (rev) reloadData();
     return 'err';
   }
   async function send(fn, args, key) {
@@ -521,15 +597,16 @@ Planta baja | Hall | Q | Tecla 4 anulada
   window.addEventListener('online', flushQueue);
   setInterval(flushQueue, 20000);
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') { flushQueue(); if (rev) reloadItems(); }
+    if (document.visibilityState === 'visible') { flushQueue(); if (rev) reloadData(); }
   });
 
   function paintSync() {
     const s = $('sync');
     if (!s) return;
     const n = queue.length;
-    if (n) s.innerHTML = '<b>' + n + '</b> sin enviar';
-    else if (!navigator.onLine) s.textContent = 'Sin conexión';
+    s.classList.toggle('warn', n > 0 || !navigator.onLine);
+    if (n) s.textContent = n + ' sin enviar';
+    else if (!navigator.onLine) s.textContent = 'Sin señal';
     else if (rev) s.innerHTML = realtimeOk ? '<b>●</b> En vivo' : 'Conectando…';
     else s.textContent = '';
   }
@@ -548,11 +625,8 @@ Planta baja | Hall | Q | Tecla 4 anulada
     canField = ['admin', 'supervisor', 'tecnico'].includes(role);
     canSeeConsultas = ['admin', 'supervisor', 'programacion'].includes(role);
 
-    if (role === 'tecnico') $('lnk-portal').hidden = true;
     $('tab-consultas').hidden = !canSeeConsultas;
     $('new-wrap').hidden = !isOffice;
-    $('namepanel').hidden = role !== 'tecnico';
-    $('namefield').value = getName();
 
     $('app-loading').hidden = true;
     $('top').hidden = false;
@@ -561,10 +635,12 @@ Planta baja | Hall | Q | Tecla 4 anulada
     await loadObras();
     route();
     flushQueue();
+    if (role === 'tecnico' && !getName()) askName();
   }
 
   $('btn-salir').addEventListener('click', async () => {
     if (queue.length && !confirm('Hay ' + queue.length + ' cambios sin enviar. Si salís ahora se pierden. ¿Salir igual?')) return;
+    if (!queue.length && !confirm('¿Salir de la cuenta? Para volver vas a tener que poner usuario y contraseña.')) return;
     await sb.auth.signOut();
     location.href = '../login.html';
   });
@@ -576,6 +652,8 @@ Planta baja | Hall | Q | Tecla 4 anulada
   }
 
   // ── ROUTER ────────────────────────────────────────────────────
+  // Hash routes: "" = Inicio, "#rev=N" = revisión, "#nueva" = alta. The "‹ Inicio" button
+  // goes back in history when we came from Inicio, so the phone's back button agrees.
   function route() {
     const m = location.hash.match(/rev=(\d+)/);
     if (m) openRevision(Number(m[1]));
@@ -583,91 +661,133 @@ Planta baja | Hall | Q | Tecla 4 anulada
     else showList();
   }
   window.addEventListener('hashchange', route);
+  window.addEventListener('pageshow', e => { if (e.persisted) route(); });
+  function goHome() {
+    if (openedFromHome) history.back();
+    else location.replace(location.pathname + location.search + '#');
+  }
+  $('btn-back').addEventListener('click', goHome);
 
   function showOnly(ids) {
     ['s-list', 'v-obra', 'v-consultas', 'v-reporte', 's-new'].forEach(id => { $(id).hidden = !ids.includes(id); });
   }
+  function setHeader(mode, title, sub) {
+    const home = mode === 'home';
+    $('btn-back').hidden = home;
+    $('lnk-portal').hidden = !(home && role !== 'tecnico');
+    $('logo').hidden = !home;
+    $('h-title').textContent = title;
+    $('h-title').classList.toggle('plain', mode === 'rev');
+    $('h-sub').textContent = sub || '';
+    $('revhead').hidden = mode !== 'rev';
+  }
   function leaveRevision() {
     if (channel) { sb.removeChannel(channel); channel = null; }
     rev = null; obra = null; realtimeOk = false;
-    items.clear(); refs = {}; structureSig = '';
-    $('revhead').hidden = true;
+    items.clear(); comments.clear(); refs = {}; structureSig = ''; openThreads.clear();
     paintSync();
   }
 
-  // ── LIST ──────────────────────────────────────────────────────
+  // ── INICIO ────────────────────────────────────────────────────
   async function showList() {
     leaveRevision();
-    $('h-title').textContent = 'REVISIONES DE OBRA';
-    $('h-sub').textContent = role === 'tecnico' ? 'Cuadrilla' : 'Plano de Instalación';
+    openedFromHome = false;
+    setHeader('home', 'REVISIONES DE OBRA', role === 'tecnico' ? 'Cuadrilla Nova Domus' : 'Plano de Instalación');
     showOnly(['s-list']);
+    window.scrollTo(0, 0);
+    paintWho();
     const box = $('obras-list');
     box.textContent = '';
+    box.appendChild(el('p', 'empty', 'Cargando…'));
     const { data: revs, error } = await sb.from('obras_revisiones')
       .select('id,obra_id,titulo,origen,estado,created_at').order('created_at', { ascending: false });
-    if (error) { box.appendChild(el('p', 'empty', 'No se pudieron cargar las revisiones.')); return; }
+    box.textContent = '';
+    if (error) { box.appendChild(el('p', 'empty', 'No se pudieron cargar las revisiones. Revisá la señal y volvé a entrar.')); return; }
 
-    if (role === 'tecnico' && !autoOpened && revs.length === 1) {
-      autoOpened = true;
-      location.replace('#rev=' + revs[0].id);
-      return;
-    }
-    autoOpened = true;
-
-    if (!revs.length) {
-      box.appendChild(el('p', 'empty', role === 'tecnico'
-        ? 'No hay revisiones abiertas en obras en curso.'
-        : 'Todavía no hay revisiones cargadas.'));
-      return;
-    }
-    obras.forEach(o => {
-      const mine = revs.filter(r => r.obra_id === o.obra_id);
-      if (!mine.length) return;
-      const sec = el('section', 'obra');
-      sec.appendChild(el('h2', '', o.codigo_obra || 'Sin código'));
-      sec.appendChild(el('p', '', o.nombre + (o.estado !== 'EN_CURSO' ? ' · ' + o.estado : '')));
-      mine.forEach(r => {
-        const a = el('a', 'revlink');
-        a.href = '#rev=' + r.id;
-        const t = el('div', 't');
-        t.appendChild(el('b', '', r.titulo));
-        t.appendChild(el('span', '', r.origen + ' · ' + (r.estado === 'abierta' ? 'Abierta' : 'Cerrada') + ' · ' + new Date(r.created_at).toLocaleDateString('es-AR')));
-        a.append(t, el('span', 'go', '›'));
-        sec.appendChild(a);
+    const ids = revs.map(r => r.id);
+    const prog = {};
+    if (ids.length) {
+      const { data: its } = await sb.from('obras_revisiones_items').select('revision_id,hecho,tipo').in('revision_id', ids).neq('tipo', 'consulta');
+      (its || []).forEach(i => {
+        const p = prog[i.revision_id] || (prog[i.revision_id] = { done: 0, total: 0 });
+        p.total++; if (i.hecho) p.done++;
       });
-      box.appendChild(sec);
-    });
+    }
+    const open = revs.filter(r => r.estado === 'abierta'), closed = revs.filter(r => r.estado !== 'abierta');
+    box.appendChild(el('div', 'sect', 'Obras con revisión abierta'));
+    if (!open.length) box.appendChild(el('p', 'empty', 'No hay revisiones abiertas por ahora.'));
+    open.forEach(r => box.appendChild(revCard(r, prog[r.id])));
+    if (closed.length && role !== 'tecnico') {
+      box.appendChild(el('div', 'sect', 'Cerradas'));
+      closed.forEach(r => box.appendChild(revCard(r, prog[r.id])));
+    }
   }
+  function revCard(r, p) {
+    const o = obras.find(x => x.obra_id === r.obra_id) || {};
+    const a = el('a', 'card' + (r.estado !== 'abierta' ? ' closed' : ''));
+    a.href = '#rev=' + r.id;
+    a.addEventListener('click', () => { openedFromHome = true; });
+    a.appendChild(el('b', '', [o.codigo_obra, o.nombre].filter(Boolean).join(' · ') || 'Obra'));
+    a.appendChild(el('span', 's', r.titulo + ' · de ' + r.origen));
+    if (p && p.total) {
+      const bar = el('div', 'bar'); const i = el('i'); i.style.width = (100 * p.done / p.total) + '%'; bar.appendChild(i);
+      a.appendChild(bar);
+      a.appendChild(el('span', 'p', p.done + ' de ' + p.total + ' hechos' + (p.done === p.total ? ' ✓' : '')));
+    }
+    a.appendChild(el('span', 'go', '›'));
+    return a;
+  }
+  function paintWho() {
+    $('who').hidden = role !== 'tecnico';
+    $('who-name').textContent = getName() || '—';
+  }
+  $('who-change').addEventListener('click', askName);
 
-  // ── REVISION ──────────────────────────────────────────────────
+  // ── NOMBRE (cuenta compartida) ────────────────────────────────
+  function askName() {
+    $('namein').value = getName();
+    try { $('namedlg').showModal(); } catch (e) { /* unsupported */ }
+    setTimeout(() => $('namein').focus(), 50);
+  }
+  $('nameok').addEventListener('click', () => {
+    const v = $('namein').value.trim();
+    if (!v) { $('namein').focus(); return; }
+    setName(v); $('namedlg').close(); paintWho();
+  });
+  $('namein').addEventListener('keydown', e => { if (e.key === 'Enter') $('nameok').click(); });
+  $('namedlg').addEventListener('cancel', e => { if (role === 'tecnico' && !getName()) e.preventDefault(); });
+
+  // ── REVISIÓN ──────────────────────────────────────────────────
   async function openRevision(id) {
     leaveRevision();
     const { data: r, error } = await sb.from('obras_revisiones').select('*').eq('id', id).maybeSingle();
-    if (error || !r) { toast('No se encontró la revisión o no tenés acceso.', 'error'); location.replace('#'); return; }
+    if (error || !r) { toast('No se encontró la revisión o ya está cerrada.', 'error'); location.replace(location.pathname + '#'); return; }
     rev = r;
     obra = obras.find(o => o.obra_id === r.obra_id) || { codigo_obra: '', nombre: '' };
-    $('h-title').textContent = (obra.codigo_obra || 'OBRA').toUpperCase();
-    $('h-sub').textContent = obra.nombre + ' · ' + rev.titulo;
-    $('chip-prog').textContent = 'Programación ' + rev.origen;
+    setHeader('rev', [obra.codigo_obra, obra.nombre].filter(Boolean).join(' · '), rev.titulo + ' · de ' + rev.origen);
     $('cons-title').textContent = 'Consultas para ' + rev.origen;
     $('msg-title').textContent = 'Mensaje para ' + rev.origen;
-    $('revhead').hidden = false;
+    status = 'pend'; filter = 'all';
+    paintFilters();
     selectTab('obra');
     paintRevisionState();
-    await reloadItems();
+    window.scrollTo(0, 0);
+    await reloadData();
     subscribe();
     loadPlano();
-    if (role === 'tecnico' && !getName()) { try { $('namedlg').showModal(); } catch (e) { /* unsupported */ } }
   }
 
-  async function reloadItems() {
+  async function reloadData() {
     if (!rev) return;
     const revId = rev.id;
-    const { data, error } = await sb.from('obras_revisiones_items').select('*')
-      .eq('revision_id', revId).order('orden').order('id');
+    const [{ data: its, error }, { data: cms }] = await Promise.all([
+      sb.from('obras_revisiones_items').select('*').eq('revision_id', revId).order('orden').order('id'),
+      sb.from('obras_revisiones_comentarios').select('*').eq('revision_id', revId).order('created_at'),
+    ]);
     if (error || !rev || rev.id !== revId) return;
-    items.clear();
-    data.forEach(it => items.set(it.id, it));
+    items.clear(); comments.clear();
+    its.forEach(it => items.set(it.id, it));
+    (cms || []).forEach(c => comments.set(c.id, c));
     refreshAll();
   }
 
@@ -678,24 +798,29 @@ Planta baja | Hall | Q | Tecla 4 anulada
         if (p.eventType === 'DELETE') items.delete(p.old.id); else items.set(p.new.id, p.new);
         refreshAll();
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'obras_revisiones_comentarios', filter: 'revision_id=eq.' + revId }, p => {
+        if (p.eventType === 'DELETE') comments.delete(p.old.id); else comments.set(p.new.id, p.new);
+        refreshAll();
+      })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'obras_revisiones', filter: 'id=eq.' + revId }, p => {
         rev = Object.assign({}, rev, p.new);
         paintRevisionState();
         refreshAll();
       })
-      .subscribe(status => { realtimeOk = status === 'SUBSCRIBED'; paintSync(); });
+      .subscribe(st => { realtimeOk = st === 'SUBSCRIBED'; paintSync(); });
   }
 
   function paintRevisionState() {
     const open = isOpen();
     $('closednotice').hidden = open;
-    $('addbox').hidden = !fieldEditable();
     $('statepanel').hidden = !isOffice;
     $('statetxt').textContent = open
       ? 'Abierta: la cuadrilla la ve y la puede marcar.'
       : 'Cerrada' + (rev.closed_at ? ' el ' + new Date(rev.closed_at).toLocaleDateString('es-AR') : '') + ': la cuadrilla ya no la ve.';
     $('btn-estado').textContent = open ? 'Cerrar revisión' : 'Reabrir revisión';
+    paintFab();
   }
+  function paintFab() { $('fab').hidden = !(rev && fieldEditable() && currentTab === 'obra'); }
 
   $('btn-estado').addEventListener('click', async () => {
     const open = isOpen();
@@ -712,29 +837,44 @@ Planta baja | Hall | Q | Tecla 4 anulada
 
   // ── TABS & FILTERS ────────────────────────────────────────────
   function selectTab(tab) {
+    currentTab = tab;
     document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x.dataset.tab === tab ? 'true' : 'false'));
     showOnly(['v-' + tab]);
+    if (tab === 'reporte') genReport();
+    if (tab === 'consultas') genMessage();
+    paintFab();
   }
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
     selectTab(b.dataset.tab);
     window.scrollTo(0, 0);
   }));
+  function paintFilters() {
+    document.querySelectorAll('#seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === status ? 'true' : 'false'));
+    document.querySelectorAll('#filters .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.f === filter ? 'true' : 'false'));
+  }
+  $('seg').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    status = b.dataset.s; recentlyToggled.clear(); paintFilters(); applyFilter();
+  });
   $('filters').addEventListener('click', e => {
     const b = e.target.closest('.chip'); if (!b) return;
-    if (b.dataset.f === 'pend') {
-      pendOnly = !pendOnly; b.setAttribute('aria-pressed', pendOnly ? 'true' : 'false');
-    } else {
-      filter = b.dataset.f;
-      document.querySelectorAll('.chip:not([data-f="pend"])').forEach(c => c.setAttribute('aria-pressed', c === b ? 'true' : 'false'));
-    }
-    applyFilter();
+    filter = b.dataset.f; paintFilters(); applyFilter();
   });
 
   // ── RENDER ────────────────────────────────────────────────────
   function byOrder(a, b) { return (a.orden - b.orden) || (a.id - b.id); }
   function listOf(tipo) { return Array.from(items.values()).filter(i => i.tipo === tipo).sort(byOrder); }
-  function pendingAdds() {
-    return queue.filter(q => q.fn === 'review_item_add' && rev && q.args.p_revision_id === rev.id);
+  function fieldItems() { return listOf('item').concat(listOf('agregado')); }
+  function pendingAdds() { return queue.filter(q => q.fn === 'review_item_add' && rev && q.args.p_revision_id === rev.id); }
+  function commentsOf(itemId) {
+    const list = Array.from(comments.values()).filter(c => c.item_id === itemId).sort((a, b) => a.id - b.id);
+    const pend = queue.filter(q => q.fn === 'review_item_comment_add' && q.args.p_item_id === itemId)
+      .map(q => ({ pending: true, texto: q.args.p_texto, autor_nombre: q.args.p_nombre || fullName, created_at: q.at }));
+    const it = items.get(itemId);
+    // Legacy single note (before comment threads existed) shown as the first comment.
+    const legacy = it && it.nota && it.nota.trim()
+      ? [{ texto: it.nota, autor_nombre: it.updated_by_nombre || '', created_at: it.updated_at, legacy: true }] : [];
+    return legacy.concat(list, pend);
   }
 
   function groupItems(list) {
@@ -758,71 +898,101 @@ Planta baja | Hall | Q | Tecla 4 anulada
     const cb = el('button', 'check');
     cb.type = 'button';
     cb.setAttribute('role', 'checkbox');
-    cb.innerHTML = CHECK_SVG;
+    cb.innerHTML = CHECK_HTML;
     const body = el('div', 'body');
-    const txt = el('p', 'txt');
-    const hint = el('p', 'hint');
-    const noteTxt = el('p', 'notetxt');
-    const meta = el('div', 'meta');
-    body.append(txt, hint, noteTxt, meta);
-    const nb = el('button', 'notebtn', mode === 'consulta' ? 'Respuesta' : 'Nota');
-    nb.type = 'button';
-    row.append(cb, body, nb);
-
-    const pad = el('div', 'notepad');
-    pad.hidden = true;
-    const ta = el('textarea');
-    ta.placeholder = mode === 'consulta' ? 'Respuesta de ' + origen() : 'Qué encontraste, qué falta, qué hiciste distinto';
-    pad.appendChild(ta);
-    let flagBox = null;
-    if (mode === 'item' || mode === 'agregado') {
-      const lab = el('label', 'toggle');
-      flagBox = document.createElement('input');
-      flagBox.type = 'checkbox';
-      lab.append(flagBox, document.createTextNode('Consultar a ' + origen()));
-      pad.appendChild(lab);
-    }
-    wrap.append(row, pad);
-
-    const ref = { id, mode, wrap, cb, txt, hint, ta, flagBox, meta, noteTxt, nb, pad };
-    if (mode === 'tmp') { nb.hidden = true; cb.disabled = true; return ref; }
+    const txt = el('p', 'txt'), hint = el('p', 'hint'), meta = el('div', 'meta'), whodid = el('p', 'whodid');
+    body.append(txt, hint, meta, whodid);
+    row.append(cb, body);
+    wrap.appendChild(row);
+    const ref = { id, mode, wrap, cb, txt, hint, meta, whodid };
+    if (mode === 'tmp') { cb.disabled = true; return ref; }
 
     cb.addEventListener('click', () => {
       const it = items.get(id); if (!it || !editableFor(ref)) return;
       const v = !it.hecho;
-      Object.assign(it, { hecho: v, hecho_por_nombre: v ? actorName() : null, hecho_en: v ? new Date().toISOString() : null });
-      refreshAll();
-      send('review_item_set_done', { p_item_id: id, p_done: v, p_nombre: nameArg() }, 'done:' + id);
-    });
-    nb.addEventListener('click', () => {
-      pad.hidden = !pad.hidden;
-      paintItem(ref);
-      if (!pad.hidden && !ta.readOnly) ta.focus();
-    });
-    let tmr = null;
-    const flushNote = () => {
-      clearTimeout(tmr); tmr = null;
-      const it = items.get(id); if (!it || !editableFor(ref)) return;
-      const field = mode === 'consulta' ? 'respuesta_externa' : 'nota';
-      if ((it[field] || '') === ta.value) return;
-      it[field] = ta.value;
-      if (mode === 'consulta') {
-        send('update_respuesta', { id, value: ta.value.trim() || null }, 'resp:' + id);
-      } else {
-        it.updated_by_nombre = actorName(); it.updated_at = new Date().toISOString();
-        send('review_item_set_note', { p_item_id: id, p_note: ta.value, p_nombre: nameArg() }, 'note:' + id);
+      setDone(id, v);
+      if (v && mode !== 'consulta') {
+        recentlyToggled.set(id, Date.now());
+        setTimeout(applyFilter, 1300);
+        toast('Marcado como hecho', null, { label: 'Deshacer', fn: () => { recentlyToggled.delete(id); setDone(id, false); } });
       }
-      refreshAll();
-    };
-    ta.addEventListener('input', () => { clearTimeout(tmr); tmr = setTimeout(flushNote, 900); });
-    ta.addEventListener('blur', flushNote);
-    if (flagBox) flagBox.addEventListener('change', () => {
-      const it = items.get(id); if (!it || !editableFor(ref)) return;
-      it.consultar_externo = flagBox.checked;
-      refreshAll();
-      send('review_item_flag_external', { p_item_id: id, p_flag: flagBox.checked, p_nombre: nameArg() }, 'flag:' + id);
     });
+
+    if (mode === 'consulta') {
+      // Office answer to the external party (respuesta_externa), explicit save.
+      const pad = el('div', 'notepad');
+      const ta = el('textarea');
+      ta.placeholder = 'Respuesta de ' + origen();
+      ta.setAttribute('aria-label', 'Respuesta');
+      const actions = el('div', 'cmtactions');
+      const save = el('button', 'btn ghost', 'Guardar respuesta');
+      save.type = 'button';
+      const saved = el('p', 'saved');
+      actions.appendChild(save);
+      pad.append(ta, actions, saved);
+      wrap.appendChild(pad);
+      save.addEventListener('click', () => {
+        const it = items.get(id); if (!it || !editableFor(ref)) return;
+        it.respuesta_externa = ta.value.trim() || null;
+        send('update_respuesta', { id, value: it.respuesta_externa }, 'resp:' + id);
+        saved.textContent = 'Guardado ✓';
+        setTimeout(() => { saved.textContent = ''; }, 2500);
+      });
+      Object.assign(ref, { ta, pad });
+      return ref;
+    }
+
+    // Comment thread
+    const bar = el('button', 'cmtbar');
+    bar.type = 'button';
+    const thread = el('div', 'thread');
+    thread.hidden = !openThreads.has(id);
+    const list = el('div');
+    const ta = el('textarea');
+    ta.placeholder = 'Escribí qué encontraste, qué falta o qué hiciste';
+    ta.setAttribute('aria-label', 'Comentario');
+    const actions = el('div', 'cmtactions');
+    const flag = el('button', 'flagbtn');
+    flag.type = 'button';
+    const sendBtn = el('button', 'btn', 'Enviar');
+    sendBtn.type = 'button';
+    actions.append(flag, sendBtn);
+    thread.append(list, ta, actions);
+    wrap.append(bar, thread);
+
+    bar.addEventListener('click', () => {
+      thread.hidden = !thread.hidden;
+      if (thread.hidden) openThreads.delete(id); else openThreads.add(id);
+      paintItem(ref);
+      if (!thread.hidden && !ta.readOnly) ta.focus();
+    });
+    sendBtn.addEventListener('click', () => {
+      const texto = ta.value.trim();
+      if (!texto) { ta.focus(); return; }
+      if (!editableFor(ref)) return;
+      ta.value = '';
+      const key = 'cmt:' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      enqueue({ fn: 'review_item_comment_add', key, rev: rev.id, at: new Date().toISOString(),
+        args: { p_item_id: id, p_texto: texto, p_nombre: nameArg() } });
+      refreshAll();
+      flushQueue();
+    });
+    flag.addEventListener('click', () => {
+      const it = items.get(id); if (!it || !editableFor(ref)) return;
+      it.consultar_externo = !it.consultar_externo;
+      refreshAll();
+      send('review_item_flag_external', { p_item_id: id, p_flag: it.consultar_externo, p_nombre: nameArg() }, 'flag:' + id);
+      if (it.consultar_externo) toast('La oficina le va a preguntar a ' + origen());
+    });
+    Object.assign(ref, { bar, thread, list, ta, flag, sendBtn });
     return ref;
+  }
+
+  function setDone(id, v) {
+    const it = items.get(id); if (!it) return;
+    Object.assign(it, { hecho: v, hecho_por_nombre: v ? actorName() : null, hecho_en: v ? new Date().toISOString() : null });
+    refreshAll();
+    send('review_item_set_done', { p_item_id: id, p_done: v, p_nombre: nameArg() }, 'done:' + id);
   }
 
   function editableFor(ref) {
@@ -837,35 +1007,58 @@ Planta baja | Hall | Q | Tecla 4 anulada
       ref.txt.textContent = op.args.p_texto;
       ref.hint.textContent = op.args.p_ambiente || '';
       ref.meta.textContent = '';
-      ref.meta.appendChild(el('span', 'tag flag', 'Sin enviar'));
+      ref.meta.appendChild(el('span', 'tag flag', 'Enviando…'));
       return;
     }
     const it = items.get(ref.id); if (!it) return;
     const editable = editableFor(ref);
-    const consulta = ref.mode === 'consulta';
     ref.wrap.classList.toggle('done', !!it.hecho);
     ref.cb.disabled = !editable;
     ref.cb.setAttribute('aria-checked', it.hecho ? 'true' : 'false');
-    ref.cb.setAttribute('aria-label', it.texto);
-    ref.ta.setAttribute('aria-label', (consulta ? 'Respuesta sobre: ' : 'Nota sobre: ') + it.texto);
+    ref.cb.setAttribute('aria-label', (it.hecho ? 'Desmarcar: ' : 'Marcar como hecho: ') + it.texto);
     ref.txt.textContent = it.texto;
     ref.hint.textContent = ref.mode === 'agregado' ? (it.ambiente || '') : (it.aclaracion || '');
-    const text = consulta ? (it.respuesta_externa || '') : (it.nota || '');
-    if (document.activeElement !== ref.ta) ref.ta.value = text;
-    ref.ta.readOnly = !editable;
-    if (ref.flagBox) { ref.flagBox.checked = !!it.consultar_externo; ref.flagBox.disabled = !editable; }
-    ref.noteTxt.textContent = ref.pad.hidden ? text : '';
-    ref.nb.classList.toggle('has', !!text.trim());
-    ref.nb.hidden = !editable && !text.trim();
     ref.meta.textContent = '';
-    if (it.responsable && !consulta) ref.meta.appendChild(el('span', 'tag', it.responsable === 'programacion_externa' ? 'Programación ' + origen() : RESP[it.responsable]));
-    if (it.consultar_externo) ref.meta.appendChild(el('span', 'tag flag', 'Consultar a ' + origen()));
-    if (it.hecho) {
-      ref.meta.appendChild(el('span', '', (consulta ? 'Resuelta · ' : 'Hecho · ') + (it.hecho_por_nombre ? it.hecho_por_nombre + ' · ' : '') + fmtWhen(it.hecho_en)));
-    } else if (text.trim() && it.updated_by_nombre) {
-      ref.meta.appendChild(el('span', '', it.updated_by_nombre + ' · ' + fmtWhen(it.updated_at)));
-    } else if (ref.mode === 'agregado' && it.created_by_nombre) {
-      ref.meta.appendChild(el('span', '', 'Agregó ' + it.created_by_nombre + ' · ' + fmtWhen(it.created_at)));
+    if (ref.mode === 'consulta') {
+      if (document.activeElement !== ref.ta) ref.ta.value = it.respuesta_externa || '';
+      ref.ta.readOnly = !editable;
+      ref.pad.querySelector('.cmtactions').hidden = !editable;
+    } else {
+      if (it.responsable === 'programacion_externa') ref.meta.appendChild(el('span', 'tag info', 'Lo hace ' + origen()));
+      else if (it.responsable === 'decision_interna') ref.meta.appendChild(el('span', 'tag info', 'Lo decide la oficina'));
+      else if (it.responsable) ref.meta.appendChild(el('span', 'tag', RESP[it.responsable]));
+      if (it.consultar_externo) ref.meta.appendChild(el('span', 'tag flag', '❓ Preguntar a ' + origen()));
+    }
+    let who = '';
+    if (it.hecho) who = (ref.mode === 'consulta' ? 'Resuelta' : 'Hecho') + (it.hecho_por_nombre ? ' por ' + it.hecho_por_nombre : '') + ' · ' + fmtWhen(it.hecho_en);
+    else if (ref.mode === 'agregado' && it.created_by_nombre) who = 'Lo agregó ' + it.created_by_nombre + ' · ' + fmtWhen(it.created_at);
+    ref.whodid.textContent = who;
+
+    if (ref.bar) {
+      const cms = commentsOf(ref.id);
+      ref.bar.textContent = '';
+      const lbl = el('span', '', cms.length ? '💬 ' + cms.length : '💬 Comentar');
+      ref.bar.appendChild(lbl);
+      const last = cms[cms.length - 1];
+      ref.bar.appendChild(el('span', 'last', last && ref.thread.hidden ? (last.autor_nombre ? last.autor_nombre + ': ' : '') + last.texto : ''));
+      ref.bar.appendChild(el('span', 'chev', ref.thread.hidden ? '▾' : '▴'));
+      ref.bar.setAttribute('aria-expanded', ref.thread.hidden ? 'false' : 'true');
+      if (!ref.thread.hidden) {
+        ref.list.textContent = '';
+        cms.forEach(c => {
+          const d = el('div', 'cmt' + (c.pending ? ' pending' : ''));
+          const a = el('div', 'a');
+          const b = el('b', '', c.autor_nombre || 'Sin nombre');
+          a.append(b, document.createTextNode(c.created_at ? ' · ' + fmtWhen(c.created_at) : ''));
+          d.append(a, el('p', 't', c.texto));
+          ref.list.appendChild(d);
+        });
+      }
+      ref.ta.hidden = !editable;
+      ref.flag.parentElement.hidden = !editable;
+      ref.flag.textContent = (it.consultar_externo ? '✓ ' : '❓ ') + 'Preguntar a ' + origen();
+      ref.flag.setAttribute('aria-pressed', it.consultar_externo ? 'true' : 'false');
+      ref.bar.hidden = !editable && !cms.length;
     }
   }
 
@@ -887,7 +1080,6 @@ Planta baja | Hall | Q | Tecla 4 anulada
         rs.appendChild(el('h3', '', r.name));
         r.items.forEach(it => {
           const ref = buildItem(it.id, 'item');
-          ref.wrap.dataset.resp = it.responsable || '';
           refs[it.id] = ref;
           rs.appendChild(ref.wrap);
         });
@@ -895,7 +1087,6 @@ Planta baja | Hall | Q | Tecla 4 anulada
       });
       box.appendChild(fs);
     });
-    if (!list.length) box.appendChild(el('p', 'empty', 'Esta revisión no tiene ítems cargados.'));
 
     const cs = $('consultas');
     cs.textContent = '';
@@ -922,11 +1113,21 @@ Planta baja | Hall | Q | Tecla 4 anulada
     });
   }
 
+  function visible(it) {
+    const recent = recentlyToggled.has(it.id) && Date.now() - recentlyToggled.get(it.id) < 1200;
+    if (status === 'pend' && it.hecho && !recent) return false;
+    if (status === 'done' && !it.hecho) return false;
+    if (filter === 'info') return INFO_RESP.includes(it.responsable);
+    if (filter !== 'all') return it.responsable === filter;
+    return true;
+  }
+
   function applyFilter() {
+    let shown = 0;
     listOf('item').forEach(it => {
       const ref = refs[it.id]; if (!ref) return;
-      let show = filter === 'all' || it.responsable === filter;
-      if (pendOnly && it.hecho) show = false;
+      const show = visible(it);
+      if (show) shown++;
       ref.wrap.classList.toggle('hide', !show);
     });
     document.querySelectorAll('#list .room').forEach(room => {
@@ -935,9 +1136,18 @@ Planta baja | Hall | Q | Tecla 4 anulada
     document.querySelectorAll('#list .floor').forEach(fl => {
       fl.hidden = !fl.querySelector('.room:not(.empty)');
     });
+    let extrasShown = 0;
     listOf('agregado').forEach(it => {
-      const ref = refs[String(it.id)]; if (ref) ref.wrap.classList.toggle('hide', pendOnly && it.hecho);
+      const ref = refs[String(it.id)]; if (!ref) return;
+      const show = filter === 'all' && visible(it);
+      if (show) extrasShown++;
+      ref.wrap.classList.toggle('hide', !show);
     });
+    extrasShown += filter === 'all' && status !== 'done' ? pendingAdds().length : 0;
+    $('extras-wrap').hidden = !extrasShown;
+    const empty = shown + extrasShown === 0;
+    $('emptyfilter').hidden = !empty;
+    $('emptyfilter').textContent = status === 'pend' ? '¡No queda nada pendiente acá! 🎉' : status === 'done' ? 'Todavía no hay nada marcado como hecho.' : 'No hay ítems con este filtro.';
   }
 
   function placeOf(it) {
@@ -949,16 +1159,21 @@ Planta baja | Hall | Q | Tecla 4 anulada
     const box = $('flagged');
     box.textContent = '';
     if (!canSeeConsultas) return;
-    const flagged = listOf('item').concat(listOf('agregado')).filter(i => i.consultar_externo && !i.hecho);
+    const flagged = fieldItems().filter(i => i.consultar_externo && !i.hecho);
     $('flaggedempty').hidden = flagged.length > 0;
     flagged.forEach(it => {
       const card = el('div', 'item');
       const row = el('div', 'row');
+      row.style.paddingLeft = '14px';
       const b = el('div', 'body');
       b.appendChild(el('p', 'hint', placeOf(it)));
       b.appendChild(el('p', 'txt', it.texto));
-      b.appendChild(el('p', 'notetxt', it.nota || ''));
-      b.appendChild(el('div', 'meta', (it.updated_by_nombre ? it.updated_by_nombre + ' · ' : '') + fmtWhen(it.updated_at)));
+      commentsOf(it.id).forEach(c => {
+        const d = el('div', 'cmt');
+        const a = el('div', 'a'); a.appendChild(el('b', '', c.autor_nombre || 'Sin nombre')); a.appendChild(document.createTextNode(' · ' + fmtWhen(c.created_at)));
+        d.append(a, el('p', 't', c.texto));
+        b.appendChild(d);
+      });
       row.appendChild(b);
       card.appendChild(row);
       box.appendChild(card);
@@ -972,30 +1187,40 @@ Planta baja | Hall | Q | Tecla 4 anulada
     Object.keys(refs).forEach(k => paintItem(refs[k]));
     applyFilter();
     renderFlagged();
-    const field = listOf('item').concat(listOf('agregado'));
+    const field = fieldItems();
     const done = field.filter(i => i.hecho).length;
-    $('progtxt').textContent = done + ' / ' + field.length;
+    $('progtxt').textContent = done + ' de ' + field.length + ' hechos';
     $('barfill').style.width = field.length ? (100 * done / field.length) + '%' : '0';
+    $('n-pend').textContent = String(field.length - done);
+    $('n-done').textContent = String(done);
     if (canSeeConsultas) {
       const open = listOf('consulta').filter(c => !c.hecho).length + field.filter(i => i.consultar_externo && !i.hecho).length;
       $('ccount').textContent = open ? String(open) : '';
     }
+    if (currentTab === 'reporte') genReport();
+    if (currentTab === 'consultas') genMessage();
     paintSync();
   }
 
   // ── AGREGADO EN OBRA ──────────────────────────────────────────
+  $('fab').addEventListener('click', () => {
+    try { $('adddlg').showModal(); } catch (e) { return; }
+    setTimeout(() => $('xtext').focus(), 50);
+  });
+  $('xcancel').addEventListener('click', () => $('adddlg').close());
   $('xadd').addEventListener('click', () => {
     const tx = $('xtext'), zn = $('xzone');
     const texto = tx.value.trim();
     if (!texto) { tx.focus(); return; }
     const key = 'add:' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    const op = { fn: 'review_item_add', key, rev: rev.id,
-      args: { p_revision_id: rev.id, p_ambiente: zn.value.trim() || null, p_texto: texto, p_nombre: nameArg() } };
+    enqueue({ fn: 'review_item_add', key, rev: rev.id,
+      args: { p_revision_id: rev.id, p_ambiente: zn.value.trim() || null, p_texto: texto, p_nombre: nameArg() } });
     tx.value = ''; zn.value = '';
-    // Through the queue so it shows as "Sin enviar" until the server confirms.
-    enqueue(op);
+    $('adddlg').close();
+    if (filter !== 'all' || status === 'done') { filter = 'all'; status = 'pend'; paintFilters(); }
     refreshAll();
     flushQueue();
+    toast('Agregado. Está al final de la lista.');
   });
 
   // ── PLANO VIGENTE ─────────────────────────────────────────────
@@ -1007,10 +1232,9 @@ Planta baja | Hall | Q | Tecla 4 anulada
     const { data, error } = await sb.rpc('review_plano_vigente', { p_obra_id: rev.obra_id });
     if (error || !rev || rev.id !== revId || !data || !data.length) return;
     planoRow = data[0];
-    $('btn-plano').textContent = 'Ver plano vigente (' + planoRow.proyecto_numero + ' v' + planoRow.version + ')';
     $('plano-wrap').hidden = false;
   }
-  // Same strategy as index.html: blob-like document in a new tab, same origin as the portal.
+  // Same strategy as index.html: document in a new tab, same origin as the portal.
   $('btn-plano').addEventListener('click', async () => {
     if (!planoRow) return;
     const win = window.open('', '_blank');
@@ -1039,10 +1263,13 @@ Planta baja | Hall | Q | Tecla 4 anulada
   });
 
   // ── TEXT BUILDERS ─────────────────────────────────────────────
+  function cmtLines(it) {
+    return commentsOf(it.id).filter(c => !c.pending)
+      .map(c => '   ↳ ' + (c.autor_nombre ? c.autor_nombre + ': ' : '') + c.texto.replace(/\n+/g, ' ')).join('\n');
+  }
   function line(it) {
-    let s = '• ' + (it.ambiente || 'General') + ': ' + it.texto;
-    if (it.nota && it.nota.trim()) s += '\n   ↳ ' + it.nota.trim().replace(/\n+/g, ' ');
-    return s;
+    const c = cmtLines(it);
+    return '• ' + (it.ambiente || 'General') + ': ' + it.texto + (c ? '\n' + c : '');
   }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); }
 
@@ -1053,13 +1280,13 @@ Planta baja | Hall | Q | Tecla 4 anulada
       const g = { name: f.name, done: [], obs: [], pend: [] };
       f.rooms.forEach(r => r.items.forEach(it => {
         if (it.hecho) g.done.push(line(it));
-        else if (it.nota && it.nota.trim()) g.obs.push(line(it));
+        else if (commentsOf(it.id).length) g.obs.push(line(it));
         else g.pend.push('• ' + (it.ambiente || 'General') + ': ' + it.texto);
       }));
       return g;
     });
     const extras = listOf('agregado');
-    const field = listOf('item').concat(extras);
+    const field = fieldItems();
     const out = [];
     out.push('*' + (obra.nombre || 'Obra') + ' · ' + rev.titulo + '*');
     out.push(today() + ' · ' + actorName());
@@ -1070,42 +1297,53 @@ Planta baja | Hall | Q | Tecla 4 anulada
       if (parts.length) { out.push(''); out.push(title); out.push(parts.join('\n')); }
     };
     sec('*✅ Hecho*', 'done');
-    sec('*⚠️ Con observación (sin terminar)*', 'obs');
+    sec('*💬 Con comentarios (sin terminar)*', 'obs');
     if (extras.length) {
       out.push(''); out.push('*➕ Agregado en obra*');
       extras.forEach(x => {
-        let s = '• ' + (x.hecho ? '[hecho] ' : '') + (x.ambiente ? x.ambiente + ': ' : '') + x.texto;
-        if (x.nota && x.nota.trim()) s += '\n   ↳ ' + x.nota.trim().replace(/\n+/g, ' ');
-        out.push(s);
+        const c = cmtLines(x);
+        out.push('• ' + (x.hecho ? '[hecho] ' : '') + (x.ambiente ? x.ambiente + ': ' : '') + x.texto + (c ? '\n' + c : ''));
       });
     }
     const flagged = field.filter(i => i.consultar_externo && !i.hecho);
     if (flagged.length) {
-      out.push(''); out.push('*❓ Para consultar a ' + origen() + '*');
+      out.push(''); out.push('*❓ Para preguntar a ' + origen() + '*');
       flagged.forEach(it => out.push(line(it)));
     }
-    if (incPend) sec('*⏳ Pendiente*', 'pend');
+    if (incPend) sec('*⏳ Falta*', 'pend');
     return out.join('\n');
   }
+  function genReport() {
+    if (!rev) return;
+    const t = buildReport();
+    $('reptext').value = t;
+    $('repwa').href = 'https://wa.me/?text=' + encodeURIComponent(t);
+  }
+  $('incpend').addEventListener('change', genReport);
 
   function buildMessage() {
     const out = [];
     out.push('Hola, ¿cómo va? Te paso las consultas de la obra ' + (obra.nombre || '') + ' sobre "' + rev.titulo + '":');
     let n = 0;
     listOf('consulta').forEach(c => { if (!c.hecho) { n++; out.push(''); out.push(n + '. ' + c.texto); } });
-    const flagged = listOf('item').concat(listOf('agregado')).filter(i => i.consultar_externo && !i.hecho);
+    const flagged = fieldItems().filter(i => i.consultar_externo && !i.hecho);
     if (flagged.length) {
       out.push(''); out.push('Además, desde obra nos marcan:');
       flagged.forEach(it => {
         n++;
-        let s = n + '. ' + placeOf(it) + ': ' + it.texto;
-        if (it.nota && it.nota.trim()) s += '. ' + it.nota.trim();
-        out.push(s);
+        const cms = commentsOf(it.id).filter(c => !c.pending).map(c => c.texto.trim()).join('. ');
+        out.push(n + '. ' + placeOf(it) + ': ' + it.texto + (cms ? '. ' + cms : ''));
       });
     }
     if (!n) return 'No hay consultas abiertas para ' + origen() + '.';
     out.push(''); out.push('Gracias.');
     return out.join('\n');
+  }
+  function genMessage() {
+    if (!rev || !canSeeConsultas) return;
+    const t = buildMessage();
+    $('msgtext').value = t;
+    $('msgwa').href = 'https://wa.me/?text=' + encodeURIComponent(t);
   }
 
   // ── SHARE / COPY ──────────────────────────────────────────────
@@ -1134,37 +1372,11 @@ Planta baja | Hall | Q | Tecla 4 anulada
   document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => copyText(b.dataset.copy)));
   document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', () => shareText(b.dataset.share)));
 
-  $('genrep').addEventListener('click', () => {
-    const t = buildReport();
-    $('reptext').value = t;
-    $('repwa').href = 'https://wa.me/?text=' + encodeURIComponent(t);
-    $('repout').hidden = false;
-  });
-  $('genmsg').addEventListener('click', () => {
-    const t = buildMessage();
-    $('msgtext').value = t;
-    $('msgwa').href = 'https://wa.me/?text=' + encodeURIComponent(t);
-    $('msgout').hidden = false;
-  });
-
-  // ── NAME (shared account) ─────────────────────────────────────
-  $('nameok').addEventListener('click', () => {
-    const v = $('namein').value.trim();
-    if (!v) { $('namein').focus(); return; }
-    setName(v); $('namefield').value = v; $('namedlg').close();
-  });
-  $('namein').addEventListener('keydown', e => { if (e.key === 'Enter') $('nameok').click(); });
-  $('namesave').addEventListener('click', () => {
-    const v = $('namefield').value.trim();
-    if (v) { setName(v); toast('Nombre guardado.'); }
-  });
-
   // ── ALTA (oficina) ────────────────────────────────────────────
   let parsed = [];
   async function showNew() {
     leaveRevision();
-    $('h-title').textContent = 'NUEVA REVISIÓN';
-    $('h-sub').textContent = 'Plano de Instalación';
+    setHeader('new', 'NUEVA REVISIÓN', 'Plano de Instalación');
     showOnly(['s-new']);
     const sel = $('n-obra');
     if (!sel.options.length) {
@@ -1238,7 +1450,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     toast('Revisión creada.');
     $('n-items').value = ''; $('n-titulo').value = ''; $('n-preview').textContent = ''; parsed = [];
     await loadObras();
-    location.hash = '#rev=' + data;
+    location.replace(location.pathname + '#rev=' + data);
   });
 
   init();
