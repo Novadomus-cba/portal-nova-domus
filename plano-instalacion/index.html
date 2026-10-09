@@ -49,6 +49,18 @@ body {
   min-height: 100vh;
 }
 
+/* ── MODULE TABS (Planos / Revisiones de obra) ── */
+.module-tabs {
+  display: flex; gap: 4px; padding: 0 16px;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.module-tabs a {
+  padding: 10px 12px; font-size: 13px; font-weight: 600;
+  color: var(--text-muted); text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.module-tabs a.on { color: var(--text); border-bottom-color: var(--accent); }
+
 /* ── LOADING OVERLAY ── */
 #app-loading {
   position: fixed; inset: 0;
@@ -306,6 +318,10 @@ body {
       <button class="portal-logout" onclick="handleLogout()">Salir</button>
     </div>
   </div>
+  <nav class="module-tabs">
+    <a href="index.html" class="on">Planos</a>
+    <a href="revisiones.html">Revisiones de obra</a>
+  </nav>
 </div>
 
 <!-- Panel content — revealed after auth -->
@@ -359,6 +375,7 @@ let canWrite = false;
 let proyectos = [];       // array de proyectos filtrados por estado
 let planosPorProyecto = {}; // { proyecto_id: [ {id, codigo, titulo, version, vigente, obsoleto_motivo, generado_en, notas, tiene_html, tiene_storage}, ... ] } desc por version
 let avancePorProyecto = {}; // { proyecto_id: { relevadas, total } } — lazy, se carga al abrir la tarjeta
+let revisionesPorObra = {}; // { codigo_obra: revisiones abiertas }
 let openId = null;        // proyecto_id actualmente expandido
 let filtro = '';
 
@@ -372,6 +389,12 @@ async function init() {
     .select('full_name, role')
     .eq('id', session.user.id)
     .single();
+
+  // La cuenta de cuadrilla (rol tecnico) no lee proyectos: su entrada al módulo es Revisiones.
+  if (profile && profile.role === 'tecnico') {
+    window.location.replace('revisiones.html');
+    return;
+  }
 
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html';
@@ -392,17 +415,23 @@ async function init() {
 // ── CARGA DE DATOS ────────────────────────────────────────────
 async function cargarTodo() {
   try {
-    const [{ data: proys, error: errP }, { data: planos, error: errM }] = await Promise.all([
+    const [{ data: proys, error: errP }, { data: planos, error: errM }, { data: revObras }] = await Promise.all([
       authClient.from('proyectos')
-        .select('id,numero,nombre,cliente,estado,fecha_aceptacion')
+        .select('id,numero,nombre,cliente,estado,fecha_aceptacion,obra_codigo_vinculado')
         .in('estado', RELEVANT_ESTADOS)
         .order('fecha_aceptacion', { ascending: false }),
       authClient.from('v_planos_instalacion_listado')
         .select('id,proyecto_id,codigo,titulo,version,vigente,obsoleto_motivo,generado_en,notas,tiene_html,tiene_storage')
         .order('version', { ascending: false }),
+      // Puente obras↔proyectos: proyectos.obra_codigo_vinculado = obras.codigo_obra.
+      // Si falla, la lista de planos se muestra igual sin el chip de revisiones.
+      authClient.rpc('review_obras_list'),
     ]);
     if (errP) throw errP;
     if (errM) throw errM;
+
+    revisionesPorObra = {};
+    (revObras || []).forEach(o => { if (o.codigo_obra && o.abiertas > 0) revisionesPorObra[o.codigo_obra] = o.abiertas; });
 
     proyectos = proys || [];
     planosPorProyecto = {};
@@ -455,6 +484,11 @@ function render() {
       ? `<span class="plano-chip"><b>v${vigente.version}</b><br>${fmtFecha(vigente.generado_en)}</span>`
       : `<span class="pill pill-gray">Sin plano vigente</span>`;
 
+    const nRev = p.obra_codigo_vinculado ? revisionesPorObra[p.obra_codigo_vinculado] : 0;
+    const revChip = nRev
+      ? `<a class="pill pill-info" href="revisiones.html" onclick="event.stopPropagation()" style="text-decoration:none">${nRev} ${nRev === 1 ? 'revisión' : 'revisiones'}</a>`
+      : '';
+
     return `
       <div class="proyecto-card">
         <div class="proyecto-header" onclick="toggleProyecto(${p.id})">
@@ -465,6 +499,7 @@ function render() {
           </div>
           <div class="proyecto-right">
             <span class="pill ${ESTADO_PILL[p.estado] || 'pill-gray'}">${p.estado}</span>
+            ${revChip}
             ${chip}
             <span class="chevron ${isOpen ? 'open' : ''}">▾</span>
           </div>

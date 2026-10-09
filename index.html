@@ -889,7 +889,7 @@
       icon: '🗺️',
       desc: 'Plano de instalación e integración y planos de obra por proyecto, desde la aceptación en adelante.',
       url: 'plano-instalacion/index.html',
-      roles: ['admin', 'supervisor', 'programacion'],
+      roles: ['admin', 'supervisor', 'programacion', 'tecnico'],
       group: 'operations',
     },
     {
@@ -969,6 +969,7 @@
     supervisor:   'Supervisor de Obras',
     comercial:    'Comercial',
     programacion: 'Programación',
+    tecnico:      'Cuadrilla',
   };
 
   async function init() {
@@ -993,6 +994,13 @@
     }
 
     const { full_name, role } = profile;
+
+    // Cuenta compartida de cuadrilla: su único módulo es Plano de Instalación → Revisiones.
+    if (role === 'tecnico') {
+      window.location.replace('plano-instalacion/revisiones.html');
+      return;
+    }
+
     const firstName = full_name.split(' ')[0];
 
     // Actualizar UI de header
