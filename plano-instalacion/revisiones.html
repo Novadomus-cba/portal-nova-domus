@@ -548,7 +548,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     canField = ['admin', 'supervisor', 'tecnico'].includes(role);
     canSeeConsultas = ['admin', 'supervisor', 'programacion'].includes(role);
 
-    if (role === 'tecnico') { $('lnk-portal').hidden = true; $('lnk-planos').hidden = true; }
+    if (role === 'tecnico') $('lnk-portal').hidden = true;
     $('tab-consultas').hidden = !canSeeConsultas;
     $('new-wrap').hidden = !isOffice;
     $('namepanel').hidden = role !== 'tecnico';

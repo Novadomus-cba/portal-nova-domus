@@ -351,7 +351,7 @@ body {
 // ── AUTH ──────────────────────────────────────────────────────
 const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-const ALLOWED_ROLES = ['admin', 'supervisor', 'programacion'];
+const ALLOWED_ROLES = ['admin', 'supervisor', 'programacion', 'tecnico'];
 const RELEVANT_ESTADOS = ['ACEPTADO', 'EN_OBRA'];
 const ESTADO_PILL = {
   ACEPTADO:        'pill-info',
@@ -372,6 +372,7 @@ async function handleLogout() {
 
 // ── STATE ─────────────────────────────────────────────────────
 let canWrite = false;
+let isTecnico = false;
 let proyectos = [];       // array de proyectos filtrados por estado
 let planosPorProyecto = {}; // { proyecto_id: [ {id, codigo, titulo, version, vigente, obsoleto_motivo, generado_en, notas, tiene_html, tiene_storage}, ... ] } desc por version
 let avancePorProyecto = {}; // { proyecto_id: { relevadas, total } } — lazy, se carga al abrir la tarjeta
@@ -390,18 +391,16 @@ async function init() {
     .eq('id', session.user.id)
     .single();
 
-  // La cuenta de cuadrilla (rol tecnico) no lee proyectos: su entrada al módulo es Revisiones.
-  if (profile && profile.role === 'tecnico') {
-    window.location.replace('revisiones.html');
-    return;
-  }
-
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html';
     return;
   }
 
   canWrite = ['admin', 'supervisor'].includes(profile.role);
+  // Cuenta de cuadrilla (rol tecnico): no lee proyectos ni planos directo (montos, cliente).
+  // Ve solo el plano vigente vía planos_tecnico_listado / planos_tecnico_contenido.
+  isTecnico = profile.role === 'tecnico';
+  if (isTecnico) document.querySelector('.portal-back').style.display = 'none';
 
   document.getElementById('portal-username').textContent = profile.full_name;
 
@@ -415,6 +414,30 @@ async function init() {
 // ── CARGA DE DATOS ────────────────────────────────────────────
 async function cargarTodo() {
   try {
+    if (isTecnico) {
+      const [{ data: filas, error }, { data: revObras }] = await Promise.all([
+        authClient.rpc('planos_tecnico_listado'),
+        authClient.rpc('review_obras_list'),
+      ]);
+      if (error) throw error;
+      revisionesPorObra = {};
+      (revObras || []).forEach(o => { if (o.codigo_obra && o.abiertas > 0) revisionesPorObra[o.codigo_obra] = o.abiertas; });
+      proyectos = (filas || []).map(f => ({
+        id: f.proyecto_id, numero: f.numero, nombre: f.nombre, cliente: '', estado: f.estado,
+        fecha_aceptacion: f.fecha_aceptacion, obra_codigo_vinculado: f.obra_codigo_vinculado,
+      }));
+      planosPorProyecto = {};
+      (filas || []).forEach(f => {
+        if (f.plano_id) planosPorProyecto[f.proyecto_id] = [{
+          id: f.plano_id, proyecto_id: f.proyecto_id, codigo: f.codigo, titulo: f.titulo, version: f.version,
+          vigente: true, obsoleto_motivo: null, generado_en: f.generado_en, notas: f.notas,
+          tiene_html: f.tiene_html, tiene_storage: f.tiene_storage,
+        }];
+      });
+      render();
+      return;
+    }
+
     const [{ data: proys, error: errP }, { data: planos, error: errM }, { data: revObras }] = await Promise.all([
       authClient.from('proyectos')
         .select('id,numero,nombre,cliente,estado,fecha_aceptacion,obra_codigo_vinculado')
@@ -514,7 +537,7 @@ function render() {
 function toggleProyecto(id) {
   openId = openId === id ? null : id;
   render();
-  if (openId !== null && !avancePorProyecto[openId]) cargarAvance(openId);
+  if (openId !== null && !isTecnico && !avancePorProyecto[openId]) cargarAvance(openId);
 }
 
 async function cargarAvance(proyectoId) {
@@ -559,7 +582,7 @@ function renderBody(p, versiones) {
   ` : '';
 
   const avance = avancePorProyecto[p.id];
-  const avanceSection = avance
+  const avanceSection = isTecnico ? '' : avance
     ? (avance.total > 0
         ? `<div class="section-title">Relevamiento</div>
            <div class="plano-chip" style="text-align:left"><b>${avance.relevadas}/${avance.total}</b> posiciones relevadas</div>`
@@ -568,7 +591,7 @@ function renderBody(p, versiones) {
     : `<div class="section-title">Relevamiento</div><div class="empty-hint">Cargando…</div>`;
 
   return `
-    <div class="section-title" style="margin-top:0;padding-top:0;border-top:none">Historial de versiones</div>
+    <div class="section-title" style="margin-top:0;padding-top:0;border-top:none">${isTecnico ? 'Plano vigente' : 'Historial de versiones'}</div>
     ${historial}
     ${uploadSection}
     ${avanceSection}
@@ -586,11 +609,13 @@ async function verPlano(event, planoId) {
   event.stopPropagation();
   const win = window.open('', '_blank');
   try {
-    const { data: row, error: errRow } = await authClient
-      .from('proyectos_planos_instalacion')
-      .select('html,storage_path')
-      .eq('id', planoId)
-      .single();
+    const { data: row, error: errRow } = isTecnico
+      ? await authClient.rpc('planos_tecnico_contenido', { p_plano_id: planoId }).single()
+      : await authClient
+          .from('proyectos_planos_instalacion')
+          .select('html,storage_path')
+          .eq('id', planoId)
+          .single();
     if (errRow) throw errRow;
 
     let html;
