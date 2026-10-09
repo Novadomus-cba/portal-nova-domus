@@ -152,6 +152,18 @@ main { max-width: 720px; margin: 0 auto; padding: 14px 16px 110px; }
 .mact select { width: 100%; min-height: 46px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; background: var(--surface); font-size: 15px; }
 .msec { font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 18px 0 8px; }
 
+/* ── Equipos ── */
+#ftabs button { font-size: 14px; padding: 0 2px; }
+.mb .eqpos, .eqpos { display: inline-block; width: auto; min-width: 34px; margin-right: 6px; padding: 0 6px; border-radius: 6px; background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 13px; text-align: center; line-height: 1.7; }
+.eqdata { margin-top: 6px; font-size: 13px; color: var(--ink); font-family: ui-monospace, Consolas, monospace; white-space: normal; }
+.eqbtns { display: flex; gap: 8px; margin-top: 10px; }
+.eqbtns .btn { flex: 1; }
+.eqform { border-top: 1px solid var(--line); margin: 10px -12px -10px; padding: 12px; background: var(--bg); border-radius: 0 0 12px 12px; }
+.eqform label { display: block; font-size: 13px; font-weight: 600; margin: 0 0 4px; color: var(--muted); }
+.eqform .inp { margin-bottom: 10px; }
+.eqform .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8px; }
+.eqform select.inp { min-height: 46px; }
+
 /* ── Filtros ── */
 .seg { display: flex; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; gap: 4px; }
 .seg button {
@@ -362,6 +374,7 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
     <div class="seg" id="ftabs">
       <button type="button" data-ft="plano" aria-pressed="false">Plano</button>
       <button type="button" data-ft="materiales" aria-pressed="false">Materiales</button>
+      <button type="button" data-ft="equipos" aria-pressed="false">Equipos</button>
       <button type="button" data-ft="revisiones" aria-pressed="false">Revisiones <span class="n" id="f-nrev"></span></button>
     </div>
     <div id="f-plano" hidden></div>
@@ -370,6 +383,22 @@ dialog p { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
       <div id="m-relnotes"></div>
       <div class="chips" id="m-filters"></div>
       <div id="m-list"></div>
+    </div>
+    <div id="f-equipos" hidden>
+      <div class="mstats" id="e-stats"></div>
+      <div class="chips" id="e-filters"></div>
+      <div id="e-list"></div>
+      <div class="btns" id="e-add-wrap"><button class="btn ghost" id="e-add" type="button">+ Agregar un equipo que no está</button></div>
+      <div class="panel" style="margin-top:16px">
+        <h2>Registro de equipos</h2>
+        <p>Cómo quedó configurado cada equipo, para el programador o para entregarle al cliente. Las contraseñas no se guardan acá.</p>
+        <label class="toggle"><input type="checkbox" id="e-x-users" checked> Incluir usuarios y dónde está cada clave</label>
+        <div class="btns">
+          <button class="btn" id="e-pdf" type="button">PDF</button>
+          <button class="btn ghost" id="e-csv" type="button">Excel</button>
+        </div>
+        <div class="btns" id="e-gen-wrap" hidden><button class="btn ghost" id="e-gen" type="button">Sumar equipos que falten del presupuesto</button></div>
+      </div>
     </div>
     <div id="f-revisiones" hidden></div>
   </section>
@@ -650,6 +679,17 @@ Planta baja | Hall | Q | Tecla 4 anulada
       if (op.fn === 'update_respuesta') {
         res = await sb.from('obras_revisiones_items').update({ respuesta_externa: op.args.value })
           .eq('id', op.args.id).select().single();
+      } else if (op.fn === 'update_equipo') {
+        res = await sb.from('obras_equipos').update(op.args.patch).eq('id', op.args.id).select().single();
+        if (!res.error && res.data) {
+          const i = equipos.findIndex(x => x.id === res.data.id);
+          if (i >= 0) {
+            const open = document.activeElement && document.activeElement.closest && document.activeElement.closest('.eqform');
+            equipos[i] = res.data;
+            if (!open && unit && fichaTab === 'equipos') renderEquipos();
+          }
+          return 'ok';
+        }
       } else {
         res = await sb.rpc(op.fn, op.args);
       }
@@ -668,6 +708,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     toast('No se pudo guardar: ' + (error.message || 'error'), 'error');
     if (rev) reloadData();
     else if (unit && fichaTab === 'materiales') loadMateriales();
+    else if (unit && fichaTab === 'equipos') loadEquipos();
     return 'err';
   }
   async function send(fn, args, key) {
@@ -911,6 +952,7 @@ Planta baja | Hall | Q | Tecla 4 anulada
     const isProj = !!u.proyecto_id;
     document.querySelector('#ftabs [data-ft="plano"]').hidden = !isProj;
     document.querySelector('#ftabs [data-ft="materiales"]').hidden = !isProj;
+    document.querySelector('#ftabs [data-ft="equipos"]').hidden = !isProj;
     $('f-nrev').textContent = u.revs_abiertas ? String(u.revs_abiertas) : '';
     fichaTab = tab && (isProj || tab === 'revisiones') ? tab
       : !isProj || u.revs_abiertas ? 'revisiones' : u.mat_total ? 'materiales' : 'plano';
@@ -919,11 +961,12 @@ Planta baja | Hall | Q | Tecla 4 anulada
   function selectFichaTab(t, noHash) {
     fichaTab = t;
     document.querySelectorAll('#ftabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.ft === t ? 'true' : 'false'));
-    ['plano', 'materiales', 'revisiones'].forEach(x => { $('f-' + x).hidden = x !== t; });
+    ['plano', 'materiales', 'equipos', 'revisiones'].forEach(x => { $('f-' + x).hidden = x !== t; });
     if (!noHash) history.replaceState(null, '', location.pathname + location.search + '#obra=' + unit.clave + '&t=' + t);
     lastHash = location.hash;
     if (t === 'plano') renderFichaPlano();
     if (t === 'materiales') loadMateriales();
+    if (t === 'equipos') loadEquipos();
     if (t === 'revisiones') renderFichaRevisiones();
   }
   $('ftabs').addEventListener('click', e => {
@@ -1002,13 +1045,17 @@ Planta baja | Hall | Q | Tecla 4 anulada
     const u = unit;
     $('m-list').textContent = '';
     $('m-list').appendChild(el('p', 'empty', 'Cargando…'));
-    const [m, rl] = await Promise.all([
+    const [m, rl, eq] = await Promise.all([
       sb.rpc('campo_materiales', { p_proyecto_id: u.proyecto_id }),
       sb.from('obras_relevamiento').select('posicion_id,tipo,ambiente,ubicacion,nota,actualizado_nombre,actualizado_en').eq('proyecto_id', u.proyecto_id).not('nota', 'is', null),
+      sb.rpc('campo_equipos_por_item', { p_proyecto_id: u.proyecto_id }),
     ]);
     if (unit !== u) return;
     if (m.error) { $('m-list').textContent = ''; $('m-list').appendChild(el('p', 'empty', 'No se pudieron cargar los materiales.')); return; }
     mats = m.data || [];
+    const eqBy = {};
+    (eq.data || []).forEach(r => { eqBy[r.item_id] = r; });
+    mats.forEach(x => { x.eq = eqBy[x.id] || null; });
     if (!matFilter) matFilter = matFilters()[role === 'tecnico' || role === 'programacion' ? 0 : matFilters().length - 1][0];
     const notes = (rl.data || []).filter(n => n.nota && n.nota.trim());
     const rn = $('m-relnotes');
@@ -1074,7 +1121,14 @@ Planta baja | Hall | Q | Tecla 4 anulada
     top.append(mb, el('div', 'mq', '×' + Number(x.cantidad)));
     row.appendChild(top);
     const act = el('div', 'mact');
-    if (isOffice) {
+    if (x.eq && x.eq.total && !isOffice) {
+      // Devices are installed one by one in Equipos; the line follows automatically.
+      const b = el('button', 'btn ghost', 'En Equipos: ' + x.eq.instalados + ' de ' + x.eq.total + ' instalados ›');
+      b.type = 'button';
+      b.addEventListener('click', () => selectFichaTab('equipos'));
+      act.appendChild(b);
+    } else if (isOffice) {
+      if (x.eq && x.eq.total) mb.appendChild(el('span', '', 'Equipos: ' + x.eq.instalados + ' de ' + x.eq.total + ' instalados'));
       const sel = document.createElement('select');
       sel.setAttribute('aria-label', 'Estado de ' + x.nombre);
       Object.keys(MAT_LBL).forEach(k => sel.appendChild(new Option(MAT_LBL[k], k, false, k === x.estado_item)));
@@ -1105,6 +1159,369 @@ Planta baja | Hall | Q | Tecla 4 anulada
       send('campo_material_set_estado', { p_item_id: x.id, p_estado: before, p_nombre: nameArg() }, 'mat:' + x.id);
     } });
   }
+
+  // ── EQUIPOS (registro de configuración) ───────────────────────
+  const EQ_EST = { pendiente: 'Falta instalar', instalado: 'Instalado', configurado: 'Configurado', probado: 'Probado ✓' };
+  const EQ_CSS = { pendiente: 'PENDIENTE', instalado: 'RECIBIDO', configurado: 'PEDIDO', probado: 'INSTALADO' };
+  const EQ_NEXT = { pendiente: ['instalado', 'Marcar instalado'], instalado: ['configurado', 'Marcar configurado'], configurado: ['probado', 'Marcar probado'] };
+  const EQ_GRUPO = { router: 'Red', controlador: 'Red', switch: 'Red', ap: 'Red', ups: 'Red', central: 'Alarma', pir: 'Alarma',
+    magnetico: 'Alarma', teclado: 'Alarma', sirena: 'Alarma', camara: 'Video', nvr: 'Video', shelly: 'Domótica', otro: 'Otros' };
+  const EQ_ORDER = ['Red', 'Video', 'Alarma', 'Domótica', 'Otros'];
+  const NET = ['camara', 'nvr', 'ap', 'router', 'switch', 'controlador', 'shelly', 'central'];
+  const CANAL_LBL = { camara: 'Canal del NVR', pir: 'Zona de la alarma', magnetico: 'Zona de la alarma', sirena: 'N° en la central', teclado: 'N° en la central',
+    ap: 'Puerto del switch', shelly: 'Qué controla / circuito', otro: 'Canal / zona / puerto' };
+  const USERS = ['camara', 'nvr', 'router', 'switch', 'controlador', 'central', 'shelly', 'otro'];
+  let equipos = [], eqFilter = 'all', relPos = [];
+  const eqOpen = new Set();
+  const eqPrev = {};
+  function canEditEq() { return isOffice || role === 'tecnico'; }
+
+  async function loadEquipos() {
+    const u = unit;
+    $('e-list').textContent = '';
+    $('e-list').appendChild(el('p', 'empty', 'Cargando…'));
+    let { data, error } = await sb.from('obras_equipos').select('*').eq('proyecto_id', u.proyecto_id).order('orden').order('id');
+    if (unit !== u) return;
+    if (!error && !data.length && canEditEq()) {
+      // First time: build the register from the budget.
+      const g = await sb.rpc('campo_equipos_generar', { p_proyecto_id: u.proyecto_id });
+      if (!g.error && g.data) {
+        ({ data, error } = await sb.from('obras_equipos').select('*').eq('proyecto_id', u.proyecto_id).order('orden').order('id'));
+        if (unit !== u) return;
+      }
+    }
+    const rp = await sb.from('obras_relevamiento').select('posicion_id,tipo,ambiente,ubicacion').eq('proyecto_id', u.proyecto_id).order('posicion_id');
+    if (unit !== u) return;
+    relPos = rp.data || [];
+    if (error) { $('e-list').textContent = ''; $('e-list').appendChild(el('p', 'empty', 'No se pudo cargar el registro de equipos.')); return; }
+    equipos = data || [];
+    $('e-add-wrap').hidden = !canEditEq();
+    $('e-gen-wrap').hidden = !isOffice;
+    renderEquipos();
+  }
+
+  function eqFilters() { return [['all', 'Todos'], ['pendiente', 'Falta instalar'], ['instalado', 'Falta configurar'], ['configurado', 'Falta probar']]; }
+  function renderEquipos() {
+    const c = { pendiente: 0, instalado: 0, configurado: 0, probado: 0 };
+    equipos.forEach(e => { c[e.estado]++; });
+    const st = $('e-stats');
+    st.textContent = '';
+    [['Falta instalar', c.pendiente], ['Instalado', c.instalado], ['Configurado', c.configurado], ['Probado', c.probado]].forEach(([l, n]) => {
+      const d = el('div'); d.append(el('b', '', String(n)), document.createTextNode(l)); st.appendChild(d);
+    });
+    const fl = $('e-filters');
+    fl.textContent = '';
+    eqFilters().forEach(([k, l]) => {
+      const b = el('button', 'chip', l);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', k === eqFilter ? 'true' : 'false');
+      b.addEventListener('click', () => { eqFilter = k; renderEquipos(); });
+      fl.appendChild(b);
+    });
+    const list = $('e-list');
+    list.textContent = '';
+    if (!equipos.length) { list.appendChild(el('p', 'empty', 'Esta obra no tiene equipos en el presupuesto.')); return; }
+    const shown = equipos.filter(e => eqFilter === 'all' || e.estado === eqFilter);
+    if (!shown.length) { list.appendChild(el('p', 'empty', 'Nada en este estado. 🎉')); return; }
+    EQ_ORDER.forEach(g => {
+      const inG = shown.filter(e => (EQ_GRUPO[e.clase] || 'Otros') === g);
+      if (!inG.length) return;
+      list.appendChild(el('div', 'msec', g));
+      inG.forEach(e => list.appendChild(eqCard(e)));
+    });
+  }
+
+  function eqDataLine(e) {
+    return [e.ip && 'IP ' + e.ip, e.canal && (CANAL_LBL[e.clase] || 'Canal') + ' ' + e.canal, e.serie && 'S/N ' + e.serie, e.mac && 'MAC ' + e.mac]
+      .filter(Boolean).join(' · ');
+  }
+  function eqWho(e) {
+    const f = (lbl, por, en) => [por ? lbl + ' por ' + por : lbl, en ? fmtWhen(en) : ''].filter(Boolean).join(' · ');
+    if (e.estado === 'probado') return f('Probado', e.probado_por, e.probado_en);
+    if (e.estado === 'configurado') return f('Configurado', e.configurado_por, e.configurado_en);
+    if (e.estado === 'instalado') return f('Instalado', e.instalado_por, e.instalado_en);
+    return '';
+  }
+
+  function eqCard(e) {
+    const row = el('div', 'mrow');
+    row.dataset.id = e.id;
+    const top = el('div', 'mtop');
+    const mb = el('div', 'mb');
+    const t = el('b');
+    if (e.posicion_id) t.appendChild(el('span', 'eqpos', e.posicion_id));
+    t.appendChild(document.createTextNode(e.nombre));
+    mb.appendChild(t);
+    if (e.ubicacion) { const u = el('span', '', '📍 ' + e.ubicacion); u.style.whiteSpace = 'normal'; mb.appendChild(u); }
+    if (e.modelo) mb.appendChild(el('span', '', [e.marca, e.modelo].filter(Boolean).join(' · ')));
+    mb.appendChild(el('span', 'badge st-' + EQ_CSS[e.estado], EQ_EST[e.estado]));
+    const dl = eqDataLine(e);
+    if (dl) mb.appendChild(el('div', 'eqdata', dl));
+    const who = eqWho(e);
+    if (who) mb.appendChild(el('span', '', who));
+    top.appendChild(mb);
+    row.appendChild(top);
+
+    if (canEditEq()) {
+      const btns = el('div', 'eqbtns');
+      const nx = EQ_NEXT[e.estado];
+      if (nx) {
+        const b = el('button', 'btn', nx[1]);
+        b.type = 'button';
+        b.addEventListener('click', () => setEqEstado(e, nx[0]));
+        btns.appendChild(b);
+      }
+      const ed = el('button', 'btn ghost', eqOpen.has(e.id) ? 'Cerrar' : 'Datos');
+      ed.type = 'button';
+      ed.style.flex = nx ? '0 0 34%' : '1';
+      ed.addEventListener('click', () => {
+        if (eqOpen.has(e.id)) eqOpen.delete(e.id); else eqOpen.add(e.id);
+        row.replaceWith(eqCard(e));
+      });
+      btns.appendChild(ed);
+      row.appendChild(btns);
+      if (eqOpen.has(e.id)) row.appendChild(eqForm(e));
+    }
+    return row;
+  }
+
+  function eqForm(e) {
+    const f = el('div', 'eqform');
+    const inputs = {};
+    const field = (key, label, opts) => {
+      const w = el('div');
+      const id = 'eq' + e.id + '-' + key;
+      const l = el('label', '', label); l.htmlFor = id;
+      const i = document.createElement('input');
+      i.className = 'inp'; i.id = id; i.type = 'text'; i.value = e[key] || '';
+      if (opts && opts.ph) i.placeholder = opts.ph;
+      if (opts && opts.mono) { i.style.fontFamily = 'ui-monospace, Consolas, monospace'; i.autocapitalize = 'off'; i.spellcheck = false; }
+      if (opts && opts.mode) i.inputMode = opts.mode;
+      w.append(l, i);
+      inputs[key] = i;
+      return w;
+    };
+    // Position from the relevamiento (fills the location)
+    if (relPos.length) {
+      const w = el('div');
+      const l = el('label', '', 'Posición en el plano'); l.htmlFor = 'eq' + e.id + '-pos';
+      const sel = document.createElement('select');
+      sel.className = 'inp'; sel.id = 'eq' + e.id + '-pos';
+      sel.appendChild(new Option('— Sin posición —', ''));
+      relPos.forEach(r => sel.appendChild(new Option(r.posicion_id + ' · ' + r.tipo + (r.ambiente ? ' · ' + r.ambiente : ''), r.posicion_id, false, r.posicion_id === e.posicion_id)));
+      sel.addEventListener('change', () => {
+        const r = relPos.find(x => x.posicion_id === sel.value);
+        if (r && !inputs.ubicacion.value.trim()) inputs.ubicacion.value = [r.ambiente, r.ubicacion].filter(Boolean).join(' · ');
+      });
+      w.append(l, sel);
+      inputs.posicion_id = sel;
+      f.appendChild(w);
+    }
+    if (isOffice || e.clase === 'otro') f.appendChild(field('nombre', 'Nombre'));
+    f.appendChild(field('ubicacion', 'Dónde quedó', { ph: 'Ej: PB · living, sobre la puerta' }));
+    const g1 = el('div', 'grid2');
+    g1.appendChild(field('serie', 'N° de serie', { mono: true }));
+    if (NET.includes(e.clase) || e.clase === 'otro') g1.appendChild(field('mac', 'MAC', { mono: true }));
+    f.appendChild(g1);
+    const g2 = el('div', 'grid2');
+    if (NET.includes(e.clase) || e.clase === 'otro') g2.appendChild(field('ip', 'IP', { mono: true, mode: 'decimal', ph: '192.168.0.x' }));
+    if (CANAL_LBL[e.clase]) g2.appendChild(field('canal', CANAL_LBL[e.clase]));
+    if (g2.children.length) f.appendChild(g2);
+    if (USERS.includes(e.clase)) {
+      const g3 = el('div', 'grid2');
+      g3.appendChild(field('usuario', 'Usuario'));
+      g3.appendChild(field('clave_ref', 'Dónde está la clave', { ph: 'Ej: Bitwarden › L10' }));
+      f.appendChild(g3);
+    }
+    if (NET.includes(e.clase)) f.appendChild(field('firmware', 'Firmware'));
+    const wn = el('div');
+    const ln = el('label', '', 'Notas de configuración'); ln.htmlFor = 'eq' + e.id + '-notas';
+    const tn = el('textarea'); tn.id = 'eq' + e.id + '-notas'; tn.value = e.notas || '';
+    tn.placeholder = 'VLAN, SSID, escenas, lo que el programador tenga que saber';
+    wn.append(ln, tn);
+    inputs.notas = tn;
+    f.appendChild(wn);
+    const bt = el('div', 'eqbtns');
+    const save = el('button', 'btn', 'Guardar');
+    save.type = 'button';
+    save.addEventListener('click', () => {
+      const patch = {};
+      Object.keys(inputs).forEach(k => {
+        const v = inputs[k].value.trim();
+        if ((e[k] || '') !== v) patch[k] = v || null;
+      });
+      if (patch.nombre === null) delete patch.nombre;
+      eqOpen.delete(e.id);
+      if (Object.keys(patch).length) {
+        Object.assign(e, patch);
+        sendEq(e, patch);
+        toast('Guardado');
+      }
+      const card = document.querySelector('#e-list .mrow[data-id="' + e.id + '"]');
+      if (card) card.replaceWith(eqCard(e));
+    });
+    bt.appendChild(save);
+    if (isOffice) {
+      const del = el('button', 'btn ghost', 'Quitar');
+      del.type = 'button';
+      del.style.flex = '0 0 30%';
+      del.addEventListener('click', async () => {
+        if (!confirm('¿Quitar "' + e.nombre + '" del registro?')) return;
+        const { error } = await sb.from('obras_equipos').delete().eq('id', e.id);
+        if (error) { toast('No se pudo quitar.', 'error'); return; }
+        equipos = equipos.filter(x => x.id !== e.id);
+        renderEquipos();
+      });
+      bt.appendChild(del);
+    }
+    f.appendChild(bt);
+    return f;
+  }
+
+  function sendEq(e, patch) {
+    send('update_equipo', { id: e.id, patch: Object.assign({}, patch, { actualizado_nombre: actorName() }) }, 'eq:' + e.id + ':' + Object.keys(patch).sort().join(','));
+  }
+  function setEqEstado(e, estado) {
+    const before = e.estado;
+    eqPrev[e.id] = before;
+    e.estado = estado;
+    const stamp = new Date().toISOString(), me = actorName();
+    if (estado === 'instalado') { e.instalado_por = me; e.instalado_en = stamp; }
+    if (estado === 'configurado') { e.configurado_por = me; e.configurado_en = stamp; }
+    if (estado === 'probado') { e.probado_por = me; e.probado_en = stamp; }
+    renderEquipos();
+    sendEq(e, { estado });
+    toast(e.nombre.slice(0, 36) + ': ' + EQ_EST[estado], null, { label: 'Deshacer', fn: () => {
+      e.estado = before; renderEquipos(); sendEq(e, { estado: before });
+    } });
+  }
+
+  $('e-add').addEventListener('click', async () => {
+    const nombre = prompt('¿Qué equipo es? (ej: Cámara extra patio, Shelly Plus 1 bomba)');
+    if (!nombre || !nombre.trim()) return;
+    const { data, error } = await sb.from('obras_equipos').insert({
+      proyecto_id: unit.proyecto_id, nombre: nombre.trim(), clase: fnClase(nombre),
+      orden: (equipos.reduce((m, x) => Math.max(m, x.orden || 0), 0) + 10), actualizado_nombre: actorName(),
+    }).select().single();
+    if (error) { toast('No se pudo agregar: ' + error.message, 'error'); return; }
+    equipos.push(data);
+    eqOpen.add(data.id);
+    eqFilter = 'all';
+    renderEquipos();
+  });
+  // Same rules as fn_equipo_clase in the database (for equipos added by hand).
+  function fnClase(t) {
+    t = String(t || '').toLowerCase();
+    if (/nvr|dvr|grabador/.test(t)) return 'nvr';
+    if (/c[aá]mara|domo|bullet|turret/.test(t)) return 'camara';
+    if (/shelly/.test(t)) return 'shelly';
+    if (/(^|[^a-z])pir([^a-z]|$)|movimiento|detector/.test(t)) return 'pir';
+    if (/magn[eé]tico/.test(t)) return 'magnetico';
+    if (/teclado/.test(t)) return 'teclado';
+    if (/sirena/.test(t)) return 'sirena';
+    if (/kit alarma|central|panel de alarma|hub/.test(t)) return 'central';
+    if (/eap|access point|(^|[^a-z])ap[0-9 ]|deco/.test(t)) return 'ap';
+    if (/router|gateway/.test(t)) return 'router';
+    if (/switch/.test(t)) return 'switch';
+    if (/controlador|oc200|oc300/.test(t)) return 'controlador';
+    if (/(^|[^a-z])ups([^a-z]|$)/.test(t)) return 'ups';
+    return 'otro';
+  }
+  $('e-gen').addEventListener('click', async () => {
+    const { data, error } = await sb.rpc('campo_equipos_generar', { p_proyecto_id: unit.proyecto_id });
+    if (error) { toast('No se pudo: ' + error.message, 'error'); return; }
+    toast(data ? 'Se sumaron ' + data + ' equipos.' : 'No faltaba ninguno.');
+    loadEquipos();
+  });
+
+  // Export: register for the programmer / the client
+  function eqRows() {
+    const withUsers = $('e-x-users').checked;
+    return EQ_ORDER.flatMap(g => equipos.filter(e => (EQ_GRUPO[e.clase] || 'Otros') === g).map(e => ({
+      grupo: g, pos: e.posicion_id || '', nombre: e.nombre, modelo: [e.marca, e.modelo].filter(Boolean).join(' '),
+      ubicacion: e.ubicacion || '', ip: e.ip || '', mac: e.mac || '', serie: e.serie || '',
+      canal: e.canal ? (CANAL_LBL[e.clase] || 'Canal') + ': ' + e.canal : '',
+      usuario: withUsers ? (e.usuario || '') : '', clave_ref: withUsers ? (e.clave_ref || '') : '',
+      firmware: e.firmware || '', notas: e.notas || '', estado: EQ_EST[e.estado], quien: eqWho(e),
+    })));
+  }
+  $('e-csv').addEventListener('click', () => {
+    const withUsers = $('e-x-users').checked;
+    const head = ['Grupo', 'Posición', 'Equipo', 'Modelo', 'Ubicación', 'IP', 'MAC', 'N° de serie', 'Canal / zona / puerto']
+      .concat(withUsers ? ['Usuario', 'Dónde está la clave'] : []).concat(['Firmware', 'Notas', 'Estado', 'Último paso']);
+    const lines = [head].concat(eqRows().map(r => [r.grupo, r.pos, r.nombre, r.modelo, r.ubicacion, r.ip, r.mac, r.serie, r.canal]
+      .concat(withUsers ? [r.usuario, r.clave_ref] : []).concat([r.firmware, r.notas, r.estado, r.quien])));
+    const csv = '﻿' + lines.map(l => l.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = eqFileBase() + '.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    toast('Excel descargado.');
+  });
+  function eqFileBase() {
+    const d = new Date();
+    return ('registro-equipos ' + (unit.numero || unit.codigo_obra || '') + ' ' + unit.nombre + ' ' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'))
+      .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\w-]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  }
+  $('e-pdf').addEventListener('click', () => {
+    const win = window.open('', '_blank');
+    if (!win) { toast('El navegador bloqueó la ventana. Permití ventanas emergentes y probá de nuevo.', 'error'); return; }
+    const withUsers = $('e-x-users').checked;
+    const rows = eqRows();
+    const c = { pendiente: 0, instalado: 0, configurado: 0, probado: 0 };
+    equipos.forEach(e => { c[e.estado]++; });
+    const groups = EQ_ORDER.map(g => ({ g, rows: rows.filter(r => r.grupo === g) })).filter(x => x.rows.length);
+    const now = new Date();
+    const body = groups.map(x => `
+      <h2>${esc(x.g)}</h2>
+      <table><thead><tr><th class="n">Pos.</th><th>Equipo · ubicación</th><th>Datos</th><th class="st">Estado</th></tr></thead><tbody>
+      ${x.rows.map(r => `<tr>
+        <td class="n">${esc(r.pos)}</td>
+        <td><b>${esc(r.nombre)}</b>${r.modelo ? `<div class="sub">${esc(r.modelo)}</div>` : ''}${r.ubicacion ? `<div class="sub">📍 ${esc(r.ubicacion)}</div>` : ''}</td>
+        <td class="mono">${[r.ip && 'IP ' + r.ip, r.mac && 'MAC ' + r.mac, r.serie && 'S/N ' + r.serie, r.canal, r.firmware && 'FW ' + r.firmware,
+          withUsers && r.usuario && 'Usuario: ' + r.usuario, withUsers && r.clave_ref && 'Clave: ' + r.clave_ref].filter(Boolean).map(esc).join('<br>')}
+          ${r.notas ? `<div class="sub">${esc(r.notas)}</div>` : ''}</td>
+        <td class="st">${esc(r.estado)}${r.quien ? `<div class="sub">${esc(r.quien)}</div>` : ''}</td>
+      </tr>`).join('')}
+      </tbody></table>`).join('');
+    const html = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(eqFileBase())}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Michroma&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font: 12px/1.45 Inter, Arial, sans-serif; color: #0B132B; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  header { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #141E61; padding-bottom: 10px; }
+  header img { width: 38px; height: 38px; }
+  header .b { font-family: Michroma, Arial, sans-serif; font-size: 13px; letter-spacing: .14em; color: #141E61; }
+  header .r { margin-left: auto; text-align: right; font-size: 11px; color: #5B5D73; }
+  h1 { font-size: 18px; margin: 16px 0 2px; }
+  .meta { color: #5B5D73; margin: 0 0 6px; }
+  .sum { display: inline-block; background: #F3F1E6; border-left: 3px solid #C8A96E; padding: 6px 10px; margin: 6px 0 4px; font-weight: 600; }
+  h2 { font-family: Michroma, Arial, sans-serif; font-weight: 400; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #141E61; margin: 18px 0 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #5B5D73; border-bottom: 1px solid #C9C7BC; padding: 4px 6px; }
+  td { border-bottom: 1px solid #E3E1D6; padding: 6px; vertical-align: top; }
+  tr { page-break-inside: avoid; }
+  .n { width: 46px; font-weight: 700; color: #141E61; }
+  .st { width: 18%; }
+  .mono { font-family: ui-monospace, Consolas, monospace; font-size: 11px; width: 32%; }
+  .sub { color: #5B5D73; font-size: 11px; margin-top: 2px; font-family: Inter, Arial, sans-serif; }
+  footer { margin-top: 18px; color: #8C8E9F; font-size: 10px; border-top: 1px solid #E3E1D6; padding-top: 6px; }
+  @media print { body { padding: 0; } }
+</style></head><body>
+<header>${logoData ? `<img src="${logoData}" alt="">` : ''}<span class="b">NOVA DOMUS</span><span class="r">Registro de equipos<br>${esc(today())}</span></header>
+<h1>${esc(unit.nombre)}</h1>
+<p class="meta">${esc([unit.numero, unit.codigo_obra && 'Obra ' + unit.codigo_obra].filter(Boolean).join(' · '))}</p>
+<div class="sum">${equipos.length} equipos · ${c.probado} probados · ${c.configurado} configurados · ${c.instalado} instalados · ${c.pendiente} sin instalar</div>
+${body || '<p>No hay equipos registrados.</p>'}
+<footer>Las contraseñas no se incluyen en este registro${withUsers ? '; la columna "Clave" indica dónde están guardadas' : ''}. Generado el ${esc(today())} a las ${esc(String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0'))} desde el portal de Nova Domus.</footer>
+</body></html>`;
+    win.document.open(); win.document.write(html); win.document.close();
+    setTimeout(() => { try { win.focus(); win.print(); } catch (e2) { /* manual print */ } }, 900);
+  });
 
   // ── COMPRAS (oficina) ─────────────────────────────────────────
   let compras = [];
