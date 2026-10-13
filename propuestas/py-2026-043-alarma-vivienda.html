@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Alarma Vivienda — Sistema de alarma Hikvision · PY-2026-043">
+<meta property="og:description" content="Proyecto de Tecnológica Integral: alarma inalámbrica Hikvision con 10 puntos de detección, cortinas perimetrales y dos opciones de central. Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-043-alarma-vivienda.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-043-alarma-vivienda.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-043">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alarma Vivienda · Sistema de alarma · PY-2026-043 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+
+
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+
+/* ===== SELECTOR DE OPCION (excluyente) — patron Docta-Massello, scope acotado ===== */
+#tier-scope{position:relative}
+#tier-bar{position:sticky;top:46px;z-index:39;background:rgba(11,19,43,.97);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(200,169,110,.25);padding:10px 0}
+#tier-bar .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.tier-pills{display:flex;gap:6px;background:rgba(255,255,255,.05);border-radius:999px;padding:4px;
+animation:glow 2.6s ease-in-out infinite}
+.tier-pill{min-height:48px;padding:4px 18px;border-radius:999px;font-size:13px;font-weight:600;
+color:var(--grey);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.25}
+.tier-pill small{font-size:11.5px;font-weight:500;opacity:.85}
+.tier-pill.on{background:var(--gold);color:var(--navy-deep)}
+.tier-total{font-family:var(--fd);color:var(--cream);font-size:15px;letter-spacing:1px;text-align:right}
+.tier-total small{display:block;font-family:var(--fb);font-size:11.5px;color:var(--grey);
+letter-spacing:.3px;text-transform:none;margin-top:2px}
+
+/* ===== PLANO ESQUEMATICO ===== */
+.plan-grid{display:grid;gap:24px;margin-top:22px}
+@media(min-width:900px){.plan-grid{grid-template-columns:minmax(300px,430px) 1fr;align-items:start}}
+.plan-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:14px;background:rgba(255,255,255,.02)}
+#plan{display:block;width:100%;max-width:400px;height:auto;margin:0 auto}
+.plan-cap{font-size:12.5px;color:var(--grey);margin:10px 2px 0}
+.stat-list{display:grid;margin:14px 0 0;padding:0;list-style:none}
+.stat-list li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0;font-size:14px}
+.stat-list li b{font-family:var(--fd);font-weight:400;color:var(--gold);letter-spacing:1px;
+font-size:13px;text-align:right}
+.legend-row{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--body);margin:14px 0 0}
+.legend-row i{display:inline-block;width:20px;height:7px;border-radius:4px;margin-right:8px;vertical-align:middle}
+.lg-ia{background:#a9b0d6}.lg-obs{background:var(--gold)}
+.post-n{font-family:var(--fb);font-weight:700}
+.cmp-tbl td.opt{font-weight:600}
+.mini{font-size:13.5px}
+@media(max-width:640px){
+  .post-n{display:none}
+  .tier-pills{width:100%}
+  .tier-pill{flex:1 1 0;padding:4px 10px}
+  .tier-total{text-align:left;width:100%;font-size:14px}
+  .tier-total small{display:inline;margin-left:8px}
+  #tier-bar{padding:8px 0}
+  .stat-list li{flex-direction:column;gap:2px}
+  .stat-list li b{text-align:left}
+  .plan-box{padding:10px}
+}
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+
+/* ===== PLANO INTERACTIVO (PY-2026-040) ===== */
+.plan-wrap{display:grid;gap:22px;margin-top:20px}
+@media(min-width:980px){.plan-wrap{grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);align-items:start}}
+.plan-card{background:#fff;border-radius:16px;padding:10px;border:1px solid rgba(255,255,255,.14);
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite;position:relative}
+.plan-card.used{animation:none}
+#plan2{display:block;width:100%;height:auto;touch-action:manipulation}
+.plan-cap{font-size:12.5px;color:var(--grey);margin:10px 2px 0}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.chip{min-height:44px;padding:0 15px;border:1px solid rgba(255,255,255,.2);border-radius:999px;
+font-size:12.5px;color:var(--body)}
+.chip.on{border-color:var(--gold);color:var(--gold);background:rgba(200,169,110,.08)}
+.armbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.14);
+border-radius:14px;padding:12px 14px;margin:6px 0 4px}
+.armstate{font-family:var(--fd);font-size:12px;letter-spacing:1.6px;color:var(--grey);flex:1 1 160px}
+.armstate.armed{color:var(--gold)}
+.armstate.alarm{color:#e0786d}
+.key{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
+font-size:12.5px;font-weight:600}
+.key.arm{border-color:var(--gold);color:var(--gold)}
+.info{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;margin-top:12px;min-height:120px}
+.info h3{margin:0 0 4px}
+.info .loc{color:var(--gold);font-size:12.5px;margin:0 0 8px}
+.info p{font-size:14px;margin:0}
+.log{list-style:none;margin:12px 0 0;padding:0;font-size:13px;max-height:150px;overflow:auto}
+.log li{border-top:1px solid rgba(255,255,255,.08);padding:7px 0;color:var(--body)}
+.log li b{color:#e0786d;font-weight:600}
+.log li.ok b{color:var(--gold)}
+.pt-list{display:grid;gap:6px;margin-top:16px}
+@media(min-width:640px){.pt-list{grid-template-columns:1fr 1fr}}
+.pt-row{display:flex;gap:11px;align-items:center;text-align:left;min-height:52px;padding:8px 12px;
+border:1px solid rgba(255,255,255,.1);border-radius:12px}
+.pt-row.on{border-color:var(--gold);background:rgba(200,169,110,.06)}
+.pt-row.dim{opacity:.35}
+.pt-row small{display:block;color:var(--grey);font-size:12.5px;line-height:1.35}
+.pt-row b{font-weight:600;font-size:13.5px}
+.pt-code{flex:0 0 34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;
+font-size:12px;color:var(--cream);background:var(--navy)}
+.pt-code.k-pro{box-shadow:0 0 0 2px var(--gold)}
+.pt-code.k-mag{border-radius:8px;background:#2b3a86}
+.pt-code.k-sir{border-radius:6px;background:#0B132B;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
+.pt-code.k-rep{background:#4a5aa8}
+.leg2{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--grey);margin-top:12px}
+.leg2 span{display:inline-flex;align-items:center;gap:7px}
+.leg2 i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--navy)}
+.leg2 i.k-pro{box-shadow:0 0 0 2px var(--gold)} .leg2 i.k-mag{border-radius:4px;background:#2b3a86}
+.leg2 i.k-sir{border-radius:3px;background:#0B132B;box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+.leg2 i.k-rep{background:#4a5aa8}
+.hs{cursor:pointer}
+.hs .ring{fill:none;stroke:#C8A96E;stroke-width:3;opacity:0}
+.hs.sel .ring{opacity:1}
+.hs.dim{opacity:.18}
+.hs.trig .core{fill:#B5453A!important}
+.hs.trig .ring{stroke:#B5453A;opacity:1;animation:ripple 1s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.hs.flash .core{animation:flash .45s steps(2) infinite}
+@keyframes ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(2.2);opacity:0}}
+@keyframes flash{0%{fill:#B5453A}50%{fill:#0B132B}}
+.cone{fill:rgba(20,30,97,.12);stroke:rgba(20,30,97,.35);stroke-width:1.2;stroke-dasharray:5 4}
+.cone.k-pro{fill:rgba(200,169,110,.18);stroke:rgba(140,110,50,.6)}
+.cones-off .cone{display:none}
+.sig{stroke:#B5453A;stroke-width:3;stroke-dasharray:8 7;fill:none;animation:dash .6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-15}}
+@media(max-width:640px){
+  .plan-card{padding:6px}
+  .chip{flex:1 1 auto;padding:0 12px}
+  .key{flex:1 1 auto}
+  .info{padding:14px}
+  .dev-head,.rub-head{flex-wrap:wrap}
+  .dev-head .tap-badge,.rub-head .tap-badge{order:9}
+}
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+
+/* ===== PY-2026-043 — simbolos propios del plano ===== */
+.pt-code.k-pir{background:var(--navy)}
+.pt-code.k-shk{border-radius:8px;background:#2b3a86;box-shadow:0 0 0 2px var(--gold)}
+.pt-code.k-mag{border-radius:8px;background:#2b3a86}
+.pt-code.k-cor{border-radius:4px;background:#6b4f1e;transform:rotate(0)}
+.pt-code.k-tec{border-radius:6px;background:#4a5aa8}
+.pt-code.k-hub{border-radius:10px;background:#0B132B;box-shadow:0 0 0 2px var(--gold)}
+.pt-code.k-sirI,.pt-code.k-sirE{border-radius:6px;background:#0B132B;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
+.leg2 i.k-pir{background:var(--navy)}
+.leg2 i.k-shk{border-radius:4px;background:#2b3a86;box-shadow:0 0 0 2px var(--gold)}
+.leg2 i.k-mag{border-radius:4px;background:#2b3a86}
+.leg2 i.k-cor{border-radius:2px;background:#6b4f1e}
+.leg2 i.k-tec{border-radius:3px;background:#4a5aa8}
+.leg2 i.k-sir{border-radius:3px;background:#0B132B;box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+.leg2 i.k-hub{border-radius:4px;background:#0B132B;box-shadow:0 0 0 2px var(--gold)}
+.curtain{fill:rgba(200,169,110,.30);stroke:rgba(140,110,50,.75);stroke-width:1.2;stroke-dasharray:5 4}
+.cones-off .curtain{display:none}
+.armbar .key{flex:0 1 auto}
+.opt-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.opt-cta button{min-height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--navy);
+color:var(--navy);font-weight:600;font-size:13.5px}
+.opt-cta button.on{background:var(--navy);color:var(--cream)}
+.tier-note{font-size:13px;color:var(--gold);background:rgba(200,169,110,.08);border:1px dashed rgba(200,169,110,.35);
+border-radius:10px;padding:10px 14px;margin:14px 0 0}
+.section-light .tier-note{background:rgba(20,30,97,.06);color:var(--navy);border-color:rgba(20,30,97,.3)}
+.tier-hint{font-size:12.5px;color:var(--gold);margin:0 0 2px;width:100%}
+@media(max-width:640px){
+  #tier-bar{padding:8px 0}
+  .tier-pills{width:100%}
+  .tier-pill{flex:1 1 0;padding:4px 8px}
+  .tier-total{text-align:left;width:100%}
+  .opt-cta button{flex:1 1 auto}
+}
+@media print{#tier-bar,.opt-cta{display:none!important}}
+
+</style>
+<script>
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d); if(window.refit) refit();
+}
+</script>
+</head><body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="#0b132b" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g>
+</svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-043 · PROPUESTA COMERCIAL</p>
+    <h1>Alarma Vivienda</h1>
+    <p class="claim">Sistema de alarma inalámbrico Hikvision</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral de alarma para una
+      vivienda con galería y patio: provisión de los equipos, ubicados punto por punto sobre el
+      plano. Dos opciones de central para elegir. La instalación y la programación quedan a cargo
+      del instalador de la obra.</p>
+    <div class="meta">
+      <span>Córdoba</span><span>10 puntos de detección</span>
+      <span>3 cortinas perimetrales</span><span>Todo inalámbrico</span><span>2 opciones</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#opciones">Opciones</a></li>
+  <li><a href="#plano">Plano</a></li>
+  <li><a href="#equipos">Equipos</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div id="tier-scope">
+<div id="tier-bar"><div class="wrap">
+  <p class="tier-hint">👆 Tocá para comparar las dos opciones — todo el documento se actualiza</p>
+  <div class="tier-pills" id="tier-pills"></div>
+  <div class="tier-total"><span id="tb-total"></span><small>equipos, IVA incluido</small></div>
+</div></div>
+
+<div class="wrap">
+
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="10">10</span>
+      <small>puntos de detección: 3 de movimiento, 4 de apertura y 3 cortinas</small></div>
+    <div class="kpi"><span class="figure" data-n="6">6</span>
+      <small>puntos que protegen el perímetro con la familia adentro</small></div>
+    <div class="kpi"><span class="figure" data-n="2">2</span>
+      <small>modos de armado: ausencia y noche</small></div>
+    <div class="kpi"><span class="figure" data-n="0">0</span>
+      <small>cables de señal: todo es inalámbrico</small></div>
+  </div>
+  <p><b>Qué necesita la vivienda.</b> Una alarma que proteja la casa vacía y que también se
+    pueda armar de noche con la familia adentro. Los puntos débiles son los ventanales del estar,
+    la puerta del frente y el patio, que tiene muros linderos.</p>
+  <p><b>Qué proponemos.</b> Detectores de movimiento en los ambientes para el modo ausencia, y un
+    perímetro que funciona también en modo noche: cortinas en el frente vidriado del estar y en el
+    patio, más contactos con detector de impacto en las aberturas principales. Teclado junto al
+    ingreso y sirenas.</p>
+  <p><b>Inversión.</b> <span class="cav-val" id="r-total"></span> en equipos, IVA incluido, con la
+    <span id="r-name"></span>. <span id="r-desc"></span> No incluye instalación ni programación,
+    que quedan a cargo del instalador.</p>
+  <p><b>Próximo paso.</b> Elegir la opción y confirmar para reservar los equipos.</p>
+</section>
+
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="opciones">
+  <p class="eyebrow">01 — Opciones</p>
+  <h2>Dos centrales, el mismo perímetro</h2>
+  <p class="lead">Las dos opciones usan los mismos detectores en el perímetro. Cambia la central,
+    los equipos de interior y la sirena exterior.</p>
+  <table class="tbl">
+    <thead><tr><th>Concepto</th><th>Opción A · AX PRO</th><th>Opción B · AX HOME</th></tr></thead>
+    <tbody>
+      <tr><td>Central</td><td data-label="Opción A · AX PRO">Línea profesional, hasta 48 zonas, WiFi + 4G</td><td data-label="Opción B · AX HOME">Línea hogar, hasta 16 zonas, WiFi + 4G</td></tr>
+      <tr><td>Perímetro en modo noche</td><td data-label="Opción A · AX PRO">3 cortinas + 3 contactos con impacto</td><td data-label="Opción B · AX HOME">Igual: 3 cortinas + 3 contactos con impacto</td></tr>
+      <tr><td>Detectores de movimiento</td><td data-label="Opción A · AX PRO">15 m de alcance</td><td data-label="Opción B · AX HOME">10 m de alcance, suficiente para estos ambientes</td></tr>
+      <tr><td>Sirena exterior</td><td data-label="Opción A · AX PRO">Incluida, con luz estroboscópica</td><td data-label="Opción B · AX HOME">No incluida; se puede sumar después</td></tr>
+      <tr><td>Crecimiento futuro</td><td data-label="Opción A · AX PRO">48 zonas: margen amplio para crecer</td><td data-label="Opción B · AX HOME">16 zonas: los 10 detectores de esta casa entran con margen</td></tr>
+      <tr><td>Equipos, IVA incluido</td><td data-label="Opción A · AX PRO" id="c-a"></td><td data-label="Opción B · AX HOME" id="c-b"></td></tr>
+    </tbody>
+  </table>
+  <div class="opt-cta" id="opt-cta">
+    <button onclick="setTier('A')">Ver la opción A</button>
+    <button onclick="setTier('B')">Ver la opción B</button>
+  </div>
+</section>
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="plano">
+  <p class="eyebrow">02 — Seguridad</p>
+  <h2>El plano, punto por punto</h2>
+  <p class="lead">Las ubicaciones salen del plano de la vivienda. Probá cómo responde el sistema
+    en cada modo de armado.</p>
+  <p class="hint">👆 Armá la alarma en un modo y después tocá un detector del plano</p>
+  <div class="plan-wrap">
+    <div>
+      <div class="plan-card"><svg id="plan2" viewBox="0 0 817 744" role="img"
+        aria-label="Plano de la vivienda con la ubicación de cada detector, teclado, central y sirena"></svg></div>
+      <p class="plan-cap">Las áreas de detección son orientativas, dibujadas con el alcance de
+        fábrica de cada detector. La orientación final se ajusta al instalar.</p>
+      <div class="leg2" id="leg2"></div>
+    </div>
+    <div>
+      <div class="armbar">
+        <span class="armstate" id="armstate">Alarma desarmada</span>
+        <button class="key" onclick="setArm('aus',this)">Ausencia</button>
+        <button class="key" onclick="setArm('noc',this)">Noche</button>
+        <button class="key arm" onclick="setArm('off',this)">Desarmar</button>
+      </div>
+      <div class="ctrl sw">
+        <button class="chip on" onclick="setFlt('all',this)">Todo</button>
+        <button class="chip" onclick="setFlt('mov',this)">Movimiento</button>
+        <button class="chip" onclick="setFlt('per',this)">Perímetro</button>
+        <button class="chip" onclick="setFlt('ctl',this)">Central, teclado y sirenas</button>
+      </div>
+      <div class="ctrl">
+        <button class="chip on" onclick="setCones(true,this)">Ver áreas de detección</button>
+        <button class="chip" onclick="setCones(false,this)">Ocultarlas</button>
+      </div>
+      <div class="info" id="info"><h3>Elegí un punto</h3>
+        <p>Tocá cualquier símbolo del plano o de la lista para ver qué equipo es y qué hace.</p></div>
+      <ul class="log" id="log" aria-live="polite"></ul>
+    </div>
+  </div>
+  <div class="pt-list" id="pt-list"></div>
+</section>
+
+<section class="sec" id="equipos">
+  <p class="eyebrow">03 — Equipos</p>
+  <h2>Qué se provee</h2>
+  <p class="lead">Todo es Hikvision e inalámbrico. Solo la central va a un toma de corriente.</p>
+  <p class="tier-note" id="eq-note"></p>
+  <p class="hint">👆 Tocá cada equipo para ver qué hace</p>
+  <div class="devs device-grid" id="devs"></div>
+</section>
+
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="inversion">
+  <p class="eyebrow">04 — Inversión</p>
+  <h2>Detalle — <span id="inv-name"></span></h2>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total, más abajo.</p>
+  <div class="bar" id="bar"></div>
+  <ul class="legend" id="legend"></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  <div id="rubs"></div>
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span><b id="t-neto"></b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span id="t-iva"></span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq"></b></div>
+    <div class="trow"><span>Instalación y programación</span><b>A cargo del instalador</b></div>
+    <div class="trow big"><span>Total de la propuesta</span><span id="t-total"></span></div>
+  </div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="pago">
+  <p class="eyebrow">05 — Pago</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">La propuesta es solo de equipos, así que hay una sola etapa.</p>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Equipos — 100%</b>
+      Por anticipado, antes de la compra. Asegura el precio y la disponibilidad de cada equipo.
+      IVA incluido, discriminado por ítem en la factura.</span><b id="p-eq"></b></div>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow big" style="color:var(--gold)"><span>Total</span><span id="gt"></span></div>
+  </div>
+</section>
+</div>
+
+</div><!-- /tier-scope -->
+
+<div class="wrap">
+
+<section class="sec section-light" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p class="lead">En esta obra la instalación la hace el instalador de confianza del cliente. Lo
+    que sí queda en una sola mano es el equipamiento: que cada equipo sea el correcto, que todos
+    sean compatibles entre sí y que la garantía tenga a quién reclamarse.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span><strong>Especificación sobre el plano.</strong> Nova Domus define qué detector va en cada punto y por qué.</span></div>
+    <div class="step"><b>02</b><span><strong>Compatibilidad verificada.</strong> Central, detectores y sirenas se eligen para trabajar juntos, incluida la mezcla AX HOME + AX PRO de la opción B.</span></div>
+    <div class="step"><b>03</b><span><strong>Provisión de equipos.</strong> Compra a distribuidor oficial, con factura y garantía de fábrica.</span></div>
+    <div class="step"><b>04</b><span><strong>Instalación y programación.</strong> Las ejecuta el instalador de la obra, con este plano como guía.</span></div>
+    <div class="step"><b>05</b><span><strong>Garantía gestionada.</strong> Si un equipo falla, Nova Domus tramita el reclamo ante el fabricante.</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>Concepto</th><th>Con Nova Domus</th><th>Compra suelta</th></tr></thead>
+    <tbody>
+      <tr><td>Elección de cada equipo</td><td data-label="Con Nova Domus">Por punto, sobre el plano de la vivienda</td><td data-label="Compra suelta">Por catálogo, sin ver la obra</td></tr>
+      <tr><td>Compatibilidad</td><td data-label="Con Nova Domus">Verificada entre central, detectores y sirenas</td><td data-label="Compra suelta">A riesgo de quien compra</td></tr>
+      <tr><td>Origen</td><td data-label="Con Nova Domus">Distribuidor oficial, Hikvision Certified Partner</td><td data-label="Compra suelta">Variable</td></tr>
+      <tr><td>Garantía</td><td data-label="Con Nova Domus">De fábrica, con el reclamo gestionado por nosotros</td><td data-label="Compra suelta">De fábrica, gestionada por el cliente</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="condiciones-part">
+  <p class="eyebrow">06 — Condiciones particulares</p>
+  <h2>Lo que da por supuesto esta propuesta</h2>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Solo equipos</b>
+      La instalación, la programación de la central y el alta en la app quedan a cargo del
+      instalador de la obra. Si se necesitan, Nova Domus las cotiza aparte.</span></div>
+    <div class="stage"><span><b style="display:block">Ubicaciones del plano</b>
+      Las posiciones salen del plano de la vivienda. La puerta de ingreso, el teclado, la central y
+      la sirena exterior se confirman en obra; si conviene mover un detector para mejorar la
+      cobertura, no cambia la cantidad de equipos.</span></div>
+    <div class="stage"><span><b style="display:block">Central y alimentación</b>
+      La central va a un toma de 220 V, cerca del router de la casa. Detectores, teclado y
+      sirenas son inalámbricos: no hace falta cablear señal a ningún punto.</span></div>
+    <div class="stage"><span><b style="display:block">Opción B: mezcla de líneas</b>
+      Las cortinas y los contactos con impacto son de la línea AX PRO y se suman a la central
+      AX HOME desde su firmware 1.2.50. Una vez registrados en una central AX HOME, el fabricante
+      no permite pasarlos después a una central AX PRO.</span></div>
+    <div class="stage"><span><b style="display:block">Chip 4G</b>
+      La central usa un chip de datos para avisar si se corta internet. El chip y su línea los
+      provee el cliente.</span></div>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="condiciones">
+  <p class="eyebrow">07 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (13/10/2026).
+        Todos los precios están expresados en dólares estadounidenses. La referencia de
+        conversión a pesos es la cotización oficial del Banco de la Nación Argentina, tipo
+        vendedor, del día del pago efectivo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago, cobro y facturación</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Equipos: 100% por anticipado. Se aceptan transferencia bancaria y
+        efectivo. Cada equipo se factura con su IVA discriminado según la alícuota real del
+        producto. Emitimos factura A o B según la condición fiscal de quien compra.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Alcance — obra eléctrica e instalación</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Esta propuesta es de provisión de equipos. No incluye obra eléctrica,
+        instalación, programación ni comisionado, por lo que no aplica la base de cotización de boca
+        completa (AAIE). Las visitas técnicas, si se piden, se cotizan aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Entrega y logística</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Los equipos se retiran en Av. Colón 3835, Córdoba, o se coordina la
+        entrega en obra. Se entregan en su caja original, con sus pilas y su documentación de
+        fábrica.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos y excedentes</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos se compran contra pedido firme. Una vez emitida la
+        orden de compra no admiten cancelación ni devolución. Los excedentes de material quedan en
+        poder del cliente, ya que fueron facturados como parte del presupuesto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización del presupuesto</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por variación del
+        Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía</span><span class="arr">▾</span></button>
+      <div class="dev-body"><p>Los equipos tienen la garantía de su fabricante, y Nova Domus gestiona
+        el reclamo ante el distribuidor si alguno falla. La garantía no cubre fallas de instalación
+        o de programación, que son responsabilidad de quien las ejecuta. Las pilas son un
+        consumible y no están cubiertas.</p></div></article>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá la marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button>
+  </div>
+  <div class="ficha" id="f0"><h3>Hikvision</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p>
+    <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="Hikvision" allowfullscreen></iframe></div></div>
+  <div class="vbox">
+    <h3>Sin abonos obligatorios</h3>
+    <p>La alarma avisa al celular por la app del fabricante, sin licencia ni abono de Nova Domus.
+      Un servicio de monitoreo externo es opcional y se cotiza aparte, solo si se pide.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="faq">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Cuál opción conviene?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las dos protegen el mismo perímetro con los mismos detectores. La A
+        suma la sirena exterior, detectores de movimiento de mayor alcance y una central con mucho
+        más margen para crecer. La B cubre bien esta casa tal como está planteada, por menos.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Para qué sirve el modo noche?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Deja activos solo el perímetro (cortinas y contactos) y apaga los
+        detectores de movimiento de adentro. Así la familia puede circular dentro de la casa con la
+        alarma armada, y cualquier intento de entrar por el patio, el frente o una abertura dispara
+        igual.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Las cortinas del patio disparan con viento, sol o mascotas?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Son de doble tecnología: necesitan que el infrarrojo y el microondas
+        detecten a la vez, lo que descarta la mayoría de las falsas alarmas de exterior. Además
+        avisan si alguien las tapa. La orientación y la sensibilidad se ajustan al instalar; si hay
+        perros sueltos en el patio, conviene comentarlo antes para definir la altura de montaje.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Se puede sumar la sirena exterior después a la opción B?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. La misma sirena exterior de la opción A es compatible con la
+        central AX HOME 4G, así que se puede agregar más adelante sin cambiar nada.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si se corta internet o la luz?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Si se corta internet, la central sigue avisando por 4G con el chip de
+        datos. Si se corta la luz, sigue funcionando con su batería de respaldo; los detectores ya
+        funcionan a pila.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa cuando se gastan las pilas?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Cada equipo avisa en la app cuando su pila está baja, con tiempo para
+        cambiarla antes de que deje de funcionar. La duración depende de cuánto se use cada punto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay costos recurrentes?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Nova Domus no cobra licencia ni abono. Los avisos al celular funcionan
+        con la app del fabricante sin costo. El único costo recurrente es la línea del chip 4G, y un
+        monitoreo externo es opcional.</p></div></article>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Elegí la opción y avancemos</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu confirmación reservamos los equipos de la
+    <span id="cta-name"></span> y coordinamos la entrega.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y quiero avanzar con la opción elegida.</label>
+  </div>
+  <a class="btn" id="go" href="#" aria-disabled="true" rel="noopener">Avanzar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-043</b> · Alarma Vivienda — Sistema de alarma<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring" stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="#fdfbf0" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g>
+</svg></span>
+</button>
+
+<script>
+var TIER={"A": {"label": "Opción A", "sub": "AX PRO", "items": [{"k": "kit", "rub": 0, "q": 1, "u": 410, "iva": 0.21, "name": "Central de alarma AX PRO 4G (kit)", "full": "Kit alarma inalámbrica AX PRO: central WiFi + 4G, control remoto, detector de movimiento y contacto magnético (DS-PWA48-Kit-WB(ARG))", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg", "desc": "El cerebro del sistema: recibe a todos los sensores, hace sonar las sirenas y avisa al celular por WiFi y, si se corta internet, por 4G. Tiene batería de respaldo. Trae un control remoto, un detector de movimiento y un contacto de puerta, ya contados en el plano."}, {"k": "tec", "rub": 0, "q": 1, "u": 87, "iva": 0.21, "name": "Teclado", "full": "Teclado LED inalámbrico AX PRO (DS-PK1-E-WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp", "desc": "Junto al ingreso, para armar y desarmar con código. Muestra el estado del sistema de un vistazo."}, {"k": "pir", "rub": 1, "q": 2, "u": 58, "iva": 0.21, "name": "Detector de movimiento", "full": "Detector de movimiento inalámbrico AX PRO, 15 m, inmune a mascotas (DS-PDP15P-EG2-WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp", "desc": "Cubre el dormitorio, el estar-cocina y el baño-lavadero cuando la casa queda vacía. Alcance de 15 m e inmunidad a mascotas para evitar falsas alarmas. Uno de los tres viene en el kit."}, {"k": "shk", "rub": 1, "q": 3, "u": 55, "iva": 0.21, "name": "Contacto magnético con detector de impacto", "full": "Detector magnético de shock inalámbrico AX PRO (DS-PDMCK-EG2-WB(B))", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg", "desc": "Avisa si se abre la abertura y también si alguien golpea o fuerza el vidrio o el marco, antes de entrar. Va en el ventanal del estar, en la puerta de la cocina al patio y en la puerta doble del frente."}, {"k": "cor", "rub": 1, "q": 3, "u": 105, "iva": 0.21, "name": "Detector tipo cortina exterior", "full": "Detector cortina inalámbrico PIR + microondas, IP65, antienmascaramiento (DS-PDC10DM-EG2-WB)", "foto": null, "desc": "Arma un plano invisible de detección pegado al muro o a la abertura, de hasta 10 m. Combina infrarrojo y microondas y solo dispara si los dos coinciden. Es apto para exterior: cuida el patio y el frente vidriado del estar aun con la familia adentro."}, {"k": "sirI", "rub": 2, "q": 1, "u": 75, "iva": 0.21, "name": "Sirena interior", "full": "Sirena interior inalámbrica AX PRO (DS-PS1-I-WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg", "desc": "Dentro de la casa: avisa a quien esté adentro y desorienta a quien haya entrado."}, {"k": "sirE", "rub": 2, "q": 1, "u": 103, "iva": 0.21, "name": "Sirena exterior", "full": "Sirena exterior inalámbrica AX PRO con luz estroboscópica (DS-PS1-E-WB)", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp", "desc": "Hacia la calle, con sonido y luz: disuade en el momento y alerta a los vecinos."}]}, "B": {"label": "Opción B", "sub": "AX HOME", "items": [{"k": "kit", "rub": 0, "q": 1, "u": 265, "iva": 0.21, "name": "Central de alarma AX HOME 4G (kit)", "full": "Kit alarma inalámbrica AX HOME: central WiFi + 4G, control remoto, detector de movimiento y contacto magnético (DS-PA201PS-Kit-16WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201PS-Kit-16WB.jpg", "desc": "El cerebro del sistema: recibe a todos los sensores, hace sonar la sirena y avisa al celular por WiFi y, si se corta internet, por 4G. Tiene batería de respaldo. Desde su firmware 1.2.50 acepta los detectores cortina y de impacto de la línea AX PRO que lleva esta opción. Trae un control remoto, un detector de movimiento y un contacto de puerta, ya contados en el plano."}, {"k": "tec", "rub": 0, "q": 1, "u": 55, "iva": 0.21, "name": "Teclado", "full": "Teclado inalámbrico AX HOME (DS-PK201B-WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PK201B-WB.jpeg", "desc": "Junto al ingreso, para armar y desarmar con código."}, {"k": "pir", "rub": 1, "q": 2, "u": 43, "iva": 0.21, "name": "Detector de movimiento", "full": "Detector de movimiento inalámbrico AX HOME, 10 m, inmune a mascotas hasta 24 kg (DS-PD201P10-WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PD201P10-WB.jpg", "desc": "Cubre el dormitorio, el estar-cocina y el baño-lavadero cuando la casa queda vacía. Alcance de 10 m e inmunidad a mascotas de hasta 24 kg. Uno de los tres viene en el kit."}, {"k": "shk", "rub": 1, "q": 3, "u": 55, "iva": 0.21, "name": "Contacto magnético con detector de impacto", "full": "Detector magnético de shock inalámbrico AX PRO (DS-PDMCK-EG2-WB(B))", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg", "desc": "Avisa si se abre la abertura y también si alguien golpea o fuerza el vidrio o el marco, antes de entrar. Va en el ventanal del estar, en la puerta de la cocina al patio y en la puerta doble del frente."}, {"k": "cor", "rub": 1, "q": 3, "u": 105, "iva": 0.21, "name": "Detector tipo cortina exterior", "full": "Detector cortina inalámbrico PIR + microondas, IP65, antienmascaramiento (DS-PDC10DM-EG2-WB)", "foto": null, "desc": "Arma un plano invisible de detección pegado al muro o a la abertura, de hasta 10 m. Combina infrarrojo y microondas y solo dispara si los dos coinciden. Es apto para exterior: cuida el patio y el frente vidriado del estar aun con la familia adentro."}, {"k": "sirI", "rub": 2, "q": 1, "u": 52, "iva": 0.21, "name": "Sirena interior", "full": "Sirena interior inalámbrica AX HOME (DS-PS201-WB)", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PS201-WB/Blue.png", "desc": "Dentro de la casa: avisa a quien esté adentro y desorienta a quien haya entrado."}]}}, ORDER=['A','B'], cur='A';
+var RUBROS=["Central y control", "Detección", "Aviso"];
+var PLAN_IMG='data:image/webp;base64,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';
+var WA='5493516747513';
+var TIER_DESC={A:'Central AX PRO, detectores de 15 m y sirena exterior.',B:'Central AX HOME con el mismo perímetro, sin sirena exterior.'};
+var seen={devs:false,rubs:false};
+function num(v){return Math.round(v).toLocaleString('es-AR');}
+function fmt(v){return 'U$D '+num(v);}
+function T(id,t){var e=document.getElementById(id); if(e) e.textContent=t;}
+function items(){return TIER[cur].items;}
+function itemOf(k){var L=items(); for(var i=0;i<L.length;i++) if(L[i].k===k) return L[i]; return null;}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t){ t.classList.add('gone'); if(t.dataset.g) seen[t.dataset.g]=true; }
+}
+function refit(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+}
+window.addEventListener('resize',refit);
+/* totals: every variable here is consumed by the payment UI (equipment-only proposal) */
+function totals(tier){
+  var L=TIER[tier||cur].items, eq=0, iva=0, rub=[0,0,0];
+  L.forEach(function(i){ var s=i.u*i.q; eq+=s; iva+=s*i.iva/(1+i.iva); rub[i.rub]+=s; });
+  iva=Math.round(iva);
+  return {eq:eq, iva:iva, neto:eq-iva, rub:rub, total:eq};
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+function renderDevs(){
+  var h='';
+  items().forEach(function(i,n){
+    var ph=i.foto?'<img class="dc-photo" src="'+esc(i.foto)+'" alt="'+esc(i.name)+'" loading="lazy" onload="if(window.refit)refit()" onerror="imgErr(this)">'
+                 :'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=(n===0&&!seen.devs)?'<span class="tap-badge" data-g="devs">Tocá para abrir</span>':'';
+    h+='<article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'+
+      '<span class="dev-title">'+esc(i.name)+'<span class="dc-qty">'+i.q+(i.q===1?' unidad':' unidades')+'</span></span>'+
+      badge+'<span class="arr" aria-hidden="true">▾</span></button>'+
+      '<div class="dev-body"><div class="dev-body-flex">'+ph+'<p class="dc-desc">'+esc(i.desc)+'</p></div></div></article>';
+  });
+  document.getElementById('devs').innerHTML=h;
+}
+function renderInv(){
+  var t=totals(), bar='', leg='', rb='';
+  RUBROS.forEach(function(r,ri){
+    var v=t.rub[ri]; if(!v) return;
+    bar+='<span class="seg" style="flex:'+v+'"></span>';
+    leg+='<li><i class="dot d'+ri+'"></i>'+r+' <b>'+fmt(v)+'</b></li>';
+    var rows='';
+    items().forEach(function(i){ if(i.rub!==ri) return;
+      rows+='<tr><td>'+esc(i.full)+'</td><td class="num">'+i.q+'</td><td class="num">'+fmt(i.u)+
+        '<span class="iva"> · IVA '+(i.iva*100).toLocaleString('es-AR')+'% incl.</span></td><td class="num">'+fmt(i.u*i.q)+'</td></tr>';
+    });
+    var badge=(ri===0&&!seen.rubs)?'<span class="tap-badge dark" data-g="rubs">Tocá para abrir</span>':'';
+    rb+='<article class="rub"><button class="rub-head" onclick="tog(this)" aria-expanded="false">'+
+      '<span class="rub-name">'+r+'</span>'+badge+'<span class="rub-val">'+fmt(v)+'</span><span class="arr" aria-hidden="true">▾</span></button>'+
+      '<div class="rub-body"><div class="tw"><table><thead><tr><th>Ítem</th><th class="num">Cant.</th><th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead><tbody>'+
+      rows+'</tbody></table></div></div></article>';
+  });
+  document.getElementById('bar').innerHTML=bar;
+  document.getElementById('legend').innerHTML=leg;
+  document.getElementById('rubs').innerHTML=rb;
+}
+function renderMoney(){
+  var t=totals(), nm=TIER[cur].label+' · '+TIER[cur].sub;
+  T('t-neto',fmt(t.neto)); T('t-iva',fmt(t.iva)); T('t-eq',fmt(t.eq)); T('t-total',fmt(t.total));
+  T('p-eq',fmt(t.eq)); T('gt',fmt(t.total)); T('tb-total',fmt(t.total));
+  T('r-total',fmt(t.total)); T('r-name',TIER[cur].label.toLowerCase()+' ('+TIER[cur].sub+')'); T('r-desc',TIER_DESC[cur]);
+  T('inv-name',nm); T('cta-name',TIER[cur].label.toLowerCase()+' ('+TIER[cur].sub+')');
+  T('c-a',fmt(totals('A').total)); T('c-b',fmt(totals('B').total));
+  T('eq-note','Mostrando la '+TIER[cur].label.toLowerCase()+' ('+TIER[cur].sub+'). Cambiala arriba para ver la otra.');
+  var msg='Hola Nova Domus, revisé la propuesta PY-2026-043 (alarma vivienda) y elijo la '+nm+' por '+fmt(t.total)+' en equipos, IVA incluido. Quiero avanzar.';
+  document.getElementById('go').setAttribute('href','https://wa.me/'+WA+'?text='+encodeURIComponent(msg));
+}
+function renderPills(){
+  document.getElementById('tier-pills').innerHTML=ORDER.map(function(k){
+    return '<button class="tier-pill'+(k===cur?' on':'')+'" onclick="setTier(\''+k+'\')">'+TIER[k].label+'<small>'+TIER[k].sub+' · '+fmt(totals(k).total)+'</small></button>';
+  }).join('');
+  var b=document.querySelectorAll('#opt-cta button');
+  for(var i=0;i<b.length;i++) b[i].classList.toggle('on', ORDER[i]===cur);
+}
+function setTier(k){
+  cur=k; renderPills(); renderMoney(); renderDevs(); renderInv(); renderPlan2(); renderPtList(); renderLegend();
+  if(selId && !ptById(selId)) selId=null;
+  if(selId) selPt(selId,true); else document.getElementById('info').innerHTML='<h3>Elegí un punto</h3><p>Tocá cualquier símbolo del plano o de la lista para ver qué equipo es y qué hace.</p>';
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled', document.getElementById('ok').checked?'false':'true');
+}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+
+/* ---------- interactive plan ---------- */
+var PXM=55;
+var ROOMS={D:[68,62,220,212],C:[300,62,245,583],L:[557,62,171,133]};
+var PTS=[
+ {id:'H', k:'hub', x:470, y:110, loc:'Central — a definir en obra, cerca del router'},
+ {id:'T', k:'tec', x:525, y:612, loc:'Ingreso, del lado de adentro (a confirmar en obra)'},
+ {id:'M1',k:'pir', x:80,  y:75,  a:45, cl:'D', loc:'Dormitorio — esquina interior'},
+ {id:'M2',k:'pir', x:316, y:222, a:35, cl:'C', loc:'Estar-cocina — muro oeste'},
+ {id:'M3',k:'pir', x:570, y:75,  a:45, cl:'L', loc:'Baño-lavadero — esquina interior'},
+ {id:'C1',k:'shk', x:291, y:478, loc:'Ventanal del estar hacia el jardín'},
+ {id:'C2',k:'shk', x:551, y:407, loc:'Puerta de la cocina al patio'},
+ {id:'C3',k:'shk', x:672, y:575, loc:'Puerta doble del frente (bloque parrilla)'},
+ {id:'C4',k:'mag', x:378, y:648, loc:'Puerta de ingreso principal (a confirmar en obra)'},
+ {id:'K1',k:'cor', x:302, y:655, x2:515, y2:655, loc:'Frente vidriado del estar, hacia la galería'},
+ {id:'K2',k:'cor', x:698, y:212, x2:698, y2:570, loc:'Patio — a lo largo de la medianera'},
+ {id:'K3',k:'cor', x:560, y:578, x2:630, y2:578, loc:'Patio — cierre hacia el frente'},
+ {id:'S1',k:'sirI',x:430, y:380, loc:'Estar-cocina, centro de la vivienda'},
+ {id:'S2',k:'sirE',x:595, y:705, loc:'Exterior — frente, visible desde la calle (a definir en obra)'}
+];
+var KIND={hub:'kit',tec:'tec',pir:'pir',shk:'shk',mag:'kit',cor:'cor',sirI:'sirI',sirE:'sirE'};
+var KNAME={hub:'Central de alarma',tec:'Teclado',pir:'Detector de movimiento',shk:'Contacto con detector de impacto',
+  mag:'Contacto magnético de puerta',cor:'Detector cortina',sirI:'Sirena interior',sirE:'Sirena exterior'};
+var KDESC={mag:'Viene incluido en el kit de la central. Avisa si la puerta de ingreso se abre con la alarma armada; con el teclado al lado da el tiempo de entrada para desarmar.',
+  hub:'Recibe la señal de todos los detectores, hace sonar las sirenas y avisa al celular por WiFi y 4G. Va a un toma de 220 V, en un lugar protegido.'};
+var flt='all', mode='off', selId=null, timers=[];
+function pts(){ return PTS.filter(function(p){ return KIND[p.k]==='kit'||!!itemOf(KIND[p.k]); }); }
+function ptById(id){ var r=null; pts().forEach(function(p){ if(p.id===id) r=p; }); return r; }
+function isPer(k){ return k==='shk'||k==='mag'||k==='cor'; }
+function rangeOf(p){ var it=itemOf('pir'); return /15 m/.test(it.full)?15:10; }
+function cone(p){
+  var R=rangeOf(p)*PXM, h=45*Math.PI/180, a=p.a*Math.PI/180;
+  var x1=p.x+R*Math.cos(a-h), y1=p.y+R*Math.sin(a-h), x2=p.x+R*Math.cos(a+h), y2=p.y+R*Math.sin(a+h);
+  return '<path class="cone" d="M'+p.x+' '+p.y+'L'+x1.toFixed(1)+' '+y1.toFixed(1)+'A'+R+' '+R+' 0 0 1 '+x2.toFixed(1)+' '+y2.toFixed(1)+'Z"/>';
+}
+function curtain(p){
+  var hz=(p.y===p.y2), w=12;
+  return hz?'<rect class="curtain" x="'+Math.min(p.x,p.x2)+'" y="'+(p.y-w/2)+'" width="'+Math.abs(p.x2-p.x)+'" height="'+w+'" rx="3"/>'
+           :'<rect class="curtain" x="'+(p.x-w/2)+'" y="'+Math.min(p.y,p.y2)+'" width="'+w+'" height="'+Math.abs(p.y2-p.y)+'" rx="3"/>';
+}
+function shape(p){
+  var c='<g class="hs" id="hs-'+p.id+'" onclick="selPt(\''+p.id+'\')" role="button" tabindex="0" aria-label="'+p.id+' '+KNAME[p.k]+'">';
+  c+='<circle class="ring" cx="'+p.x+'" cy="'+p.y+'" r="24"/><circle cx="'+p.x+'" cy="'+p.y+'" r="28" fill="transparent"/>';
+  if(p.k==='shk') c+='<rect class="core" x="'+(p.x-15)+'" y="'+(p.y-15)+'" width="30" height="30" rx="7" fill="#2b3a86" stroke="#C8A96E" stroke-width="4"/>';
+  else if(p.k==='mag') c+='<rect class="core" x="'+(p.x-15)+'" y="'+(p.y-15)+'" width="30" height="30" rx="7" fill="#2b3a86"/>';
+  else if(p.k==='cor') c+='<rect class="core" x="'+(p.x-14)+'" y="'+(p.y-14)+'" width="28" height="28" rx="3" fill="#6b4f1e" transform="rotate(45 '+p.x+' '+p.y+')"/>';
+  else if(p.k==='tec') c+='<rect class="core" x="'+(p.x-15)+'" y="'+(p.y-15)+'" width="30" height="30" rx="5" fill="#4a5aa8"/>';
+  else if(p.k==='hub') c+='<rect class="core" x="'+(p.x-17)+'" y="'+(p.y-17)+'" width="34" height="34" rx="9" fill="#0B132B" stroke="#C8A96E" stroke-width="3"/>';
+  else if(p.k==='sirI'||p.k==='sirE') c+='<rect class="core" x="'+(p.x-15)+'" y="'+(p.y-15)+'" width="30" height="30" rx="4" fill="#0B132B"/>';
+  else c+='<circle class="core" cx="'+p.x+'" cy="'+p.y+'" r="16" fill="#141E61"/>';
+  c+='<text x="'+p.x+'" y="'+(p.y+4.5)+'" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="13" fill="#FDFBF0" pointer-events="none">'+p.id+'</text></g>';
+  return c;
+}
+function renderPlan2(){
+  var s='<defs>';
+  Object.keys(ROOMS).forEach(function(k){ var r=ROOMS[k]; s+='<clipPath id="clip'+k+'"><rect x="'+r[0]+'" y="'+r[1]+'" width="'+r[2]+'" height="'+r[3]+'"/></clipPath>'; });
+  s+='</defs><image href="'+PLAN_IMG+'" x="0" y="0" width="817" height="744"/><g id="cones">';
+  pts().forEach(function(p){
+    if(p.k==='pir') s+='<g clip-path="url(#clip'+p.cl+')">'+cone(p)+'</g>';
+    if(p.k==='cor') s+=curtain(p);
+  });
+  s+='</g><g id="sigs"></g>';
+  pts().forEach(function(p){ s+=shape(p); });
+  var sv=document.getElementById('plan2'); sv.innerHTML=s;
+  sv.querySelectorAll('.hs').forEach(function(g){
+    g.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault(); g.dispatchEvent(new Event('click'));} });
+  });
+  if(selId){ var g=document.getElementById('hs-'+selId); if(g) g.classList.add('sel'); }
+  applyFilter();
+}
+function renderPtList(){
+  document.getElementById('pt-list').innerHTML=pts().map(function(p){
+    return '<button class="pt-row'+(p.id===selId?' on':'')+'" data-id="'+p.id+'" onclick="selPt(\''+p.id+'\')"><span class="pt-code k-'+p.k+'">'+p.id+'</span><span><b>'+KNAME[p.k]+'</b><small>'+p.loc+'</small></span></button>';
+  }).join('');
+  applyFilter();
+}
+function renderLegend(){
+  var L=[['pir','Movimiento (modo ausencia)'],['cor','Cortina perimetral'],['shk','Contacto con impacto'],['mag','Contacto de puerta'],['tec','Teclado'],['hub','Central'],['sir',itemOf('sirE')?'Sirenas':'Sirena interior']];
+  document.getElementById('leg2').innerHTML=L.map(function(x){return '<span><i class="k-'+x[0]+'"></i>'+x[1]+'</span>';}).join('');
+}
+function used2(){ document.querySelector('.plan-card').classList.add('used'); }
+function setFlt(f,btn){
+  flt=f;
+  var sib=btn.parentElement.querySelectorAll('button');
+  for(var i=0;i<sib.length;i++) sib[i].classList.toggle('on', sib[i]===btn);
+  applyFilter(); used2();
+}
+function match(k){ return flt==='all'||(flt==='mov'&&k==='pir')||(flt==='per'&&isPer(k))||(flt==='ctl'&&(k==='hub'||k==='tec'||k==='sirI'||k==='sirE')); }
+function applyFilter(){
+  pts().forEach(function(p){
+    var on=match(p.k);
+    var g=document.getElementById('hs-'+p.id); if(g) g.classList.toggle('dim',!on);
+    var r=document.querySelector('.pt-row[data-id="'+p.id+'"]'); if(r) r.classList.toggle('dim',!on);
+  });
+}
+function setCones(on,btn){
+  var sib=btn.parentElement.querySelectorAll('button');
+  for(var i=0;i<sib.length;i++) sib[i].classList.toggle('on', sib[i]===btn);
+  document.getElementById('plan2').classList.toggle('cones-off',!on); used2();
+}
+function clearTimers(){ timers.forEach(function(t){clearTimeout(t);}); timers=[]; }
+function resetAlarm(){
+  clearTimers();
+  document.querySelectorAll('#plan2 .hs').forEach(function(g){g.classList.remove('trig','flash');});
+  var sg=document.getElementById('sigs'); if(sg) sg.innerHTML='';
+}
+function stateText(){ return mode==='aus'?'Armada · ausencia':mode==='noc'?'Armada · noche':'Alarma desarmada'; }
+function setArm(m,btn){
+  mode=m;
+  var sib=btn.parentElement.querySelectorAll('.key');
+  for(var i=0;i<sib.length;i++) sib[i].classList.toggle('arm', sib[i]===btn);
+  resetAlarm();
+  var st=document.getElementById('armstate');
+  st.className='armstate'+(m!=='off'?' armed':''); st.textContent=stateText();
+  logEv(m==='aus'?'Armado total: casa vacía, todos los detectores activos':m==='noc'?'Armado noche: perímetro activo, interior libre para circular':'Desarmado desde el teclado', true);
+  used2();
+}
+function logEv(t,ok){
+  var d=new Date(), hh=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+  var li=document.createElement('li'); if(ok) li.className='ok';
+  li.innerHTML='<b>'+hh+'</b> · '+t;
+  var L=document.getElementById('log'); L.insertBefore(li,L.firstChild);
+  while(L.children.length>6) L.removeChild(L.lastChild);
+}
+function selPt(id,silent){
+  var p=ptById(id); if(!p) return;
+  selId=id; used2();
+  document.querySelectorAll('#plan2 .hs').forEach(function(g){g.classList.toggle('sel', g.id==='hs-'+id);});
+  document.querySelectorAll('.pt-row').forEach(function(r){r.classList.toggle('on', r.getAttribute('data-id')===id);});
+  var it=itemOf(KIND[p.k]), desc=KDESC[p.k]||it.desc, extra='';
+  if(p.k==='pir') extra=' Alcance de fábrica: '+rangeOf(p)+' m.';
+  if(p.k==='cor') extra=' Alcance de fábrica: 10 m.';
+  document.getElementById('info').innerHTML='<h3>'+p.id+' · '+KNAME[p.k]+'</h3><p class="loc">'+p.loc+'</p><p>'+desc+extra+'</p>';
+  if(!silent && (p.k==='pir'||isPer(p.k))) trigger(p);
+}
+function trigger(p){
+  resetAlarm();
+  var what=(p.k==='shk'||p.k==='mag')?'Apertura o impacto':'Movimiento';
+  var st=document.getElementById('armstate');
+  if(mode==='off'){ logEv(what+' en '+p.loc+' — alarma desarmada, sin sirena', true); st.className='armstate'; st.textContent=stateText(); return; }
+  if(mode==='noc' && p.k==='pir'){ logEv(what+' en '+p.loc+' — interior libre en modo noche, sin sirena', true); return; }
+  var g=document.getElementById('hs-'+p.id); g.classList.add('trig');
+  var H=ptById('H');
+  document.getElementById('sigs').innerHTML='<path class="sig" d="M'+p.x+' '+p.y+'L'+H.x+' '+H.y+'"/>';
+  timers.push(setTimeout(function(){
+    document.getElementById('hs-H').classList.add('trig');
+    pts().forEach(function(x){ if(x.k==='sirI'||x.k==='sirE') document.getElementById('hs-'+x.id).classList.add('flash'); });
+    st.className='armstate alarm'; st.textContent='¡Alarma! '+p.id;
+    logEv('ALARMA · '+what+' en '+p.loc+'. '+(itemOf('sirE')?'Sirenas activas':'Sirena activa')+' y aviso al celular', false);
+  },650));
+  timers.push(setTimeout(function(){
+    pts().forEach(function(x){ if(x.k==='sirI'||x.k==='sirE') document.getElementById('hs-'+x.id).classList.remove('flash'); });
+  },6500));
+}
+
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red||n===0){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},60);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), RL=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(RL*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur2=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=140) cur2=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur2);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+setTier('A');
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
