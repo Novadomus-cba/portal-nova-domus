@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nova Domus">
-<meta property="og:title" content="Sala de cine · Villa María — Proyecto Ejecutivo de Tecnológica Integral">
-<meta property="og:description" content="Proyección 4K en 120 pulgadas, sonido 5.1 y luz de cine, instalado y calibrado. Tres niveles de imagen y tres de sonido. PY-2026-039 · Nova Domus.">
+<meta property="og:title" content="Sala de cine · Villa María — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Proyección 4K en 110 pulgadas y sonido 5.1 embutido en el techo, instalado y calibrado. PY-2026-039 · Nova Domus.">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-039-sala-cine-villa-maria.html">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-039-sala-cine-villa-maria.png">
 <meta property="og:image:width" content="1200">
@@ -727,6 +727,36 @@ body.cliente .int,body.cliente .flag{display:none!important}
 .selgrid.glow{border-radius:16px;animation:glow 2.6s ease-in-out infinite}
 @media(max-width:360px){.visita-t{font-size:16px;letter-spacing:1.5px}.sala-c .figure{font-size:20px}}
 
+/* ===== Docta-style affordances ===== */
+#tier-bar{position:sticky;top:46px;z-index:30;background:rgba(11,19,43,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(200,169,110,.3);padding:10px 20px}
+#tier-bar .inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;justify-content:space-between}
+#tier-bar .tier-total{font-family:var(--fd);color:var(--cream);font-size:16px;letter-spacing:1px;text-align:right;font-variant-numeric:tabular-nums}
+#tier-bar .tier-total small{display:block;font-family:var(--fb);font-size:11px;color:var(--grey);letter-spacing:.3px;margin-top:2px}
+.tier-pills{display:flex;flex-wrap:wrap;gap:6px;background:rgba(255,255,255,.05);border-radius:999px;padding:4px;width:fit-content;animation:pillglow 2.6s ease-in-out infinite}
+.tier-pills.used{animation:none}
+.tier-pill{appearance:none;background:transparent;border:0;padding:8px 16px;border-radius:999px;font:600 13px var(--fb);color:#c9cbe0;min-height:40px;cursor:pointer;transition:.2s}
+.tier-pill.active{background:var(--gold);color:var(--navy-deep)}
+.hint-line{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gold);margin:0 0 14px}
+.section-light .hint-line{color:var(--navy)}
+.hint-line .hp{display:inline-block;font-size:17px;animation:hpfloat 1.5s ease-in-out infinite}
+@keyframes hpfloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-8deg)}}
+@keyframes pillglow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.4)}50%{box-shadow:0 0 0 7px rgba(200,169,110,.12)}}
+.subsys-tabs{display:flex;overflow-x:auto;gap:6px;margin:4px 0 18px;padding:4px;border-radius:999px;width:fit-content;max-width:100%;-webkit-overflow-scrolling:touch;background:rgba(255,255,255,.04);animation:pillglow 2.6s ease-in-out infinite}
+.subsys-tabs.used{animation:none}
+.subsys-tab{flex:0 0 auto;appearance:none;background:transparent;border:1px solid transparent;padding:9px 16px;border-radius:999px;font:600 13px var(--fb);color:#c9cbe0;min-height:40px;white-space:nowrap;cursor:pointer}
+.subsys-tab.active{background:var(--navy);color:var(--cream);border-color:var(--gold)}
+.sub-desc{color:#c9cbe0;font-size:14px;margin:0 0 12px}
+.barra-segmentada{display:flex;height:14px;border-radius:8px;overflow:hidden;margin:18px 0 8px;background:rgba(20,30,97,.08)}
+.barra-segmentada span{display:block;height:100%;transition:width .4s}
+.barra-legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:#4b4e60}
+.barra-legend span{display:inline-flex;align-items:center;gap:6px}
+.barra-legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media(max-width:640px){#tier-bar{padding:8px 14px}#tier-bar .tier-total{text-align:left;font-size:14px}.tier-pill{padding:8px 12px;font-size:12.5px}}
+@media(prefers-reduced-motion:reduce){.hint-line .hp,.tier-pills,.subsys-tabs{animation:none}}
+@media print{#tier-bar{display:none!important}}
+.pl-short{display:none}@media(max-width:640px){.pl-full{display:none}.pl-short{display:inline}}
+
+.selgrid.two{grid-template-columns:1fr}@media(min-width:760px){.selgrid.two{grid-template-columns:1fr 1fr}}.checks{list-style:none;padding:0;margin:10px 0 0}.checks li{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08)}.tbl.sol td:first-child{width:28%}
 </style>
 </head>
 <body>
@@ -747,151 +777,159 @@ body.cliente .int,body.cliente .flag{display:none!important}
     <p class="tagline" style="margin-top:14px">Del cable a la app.</p>
     <p class="descriptor-line">16,5 M² · PROYECCIÓN 4K · SONIDO 5.1</p>
     <div class="stats">
-      <div class="stat"><div class="figure">120"</div><div class="stat-label">Pantalla motorizada 16:9, el máximo que admite la sala</div></div>
-      <div class="stat"><div class="figure">5.1</div><div class="stat-label">Canales de sonido envolvente</div></div>
+      <div class="stat"><div class="figure">110"</div><div class="stat-label">Pantalla motorizada 16:9</div></div>
+      <div class="stat"><div class="figure">5.1</div><div class="stat-label">Sonido envolvente embutido en el techo</div></div>
       <div class="stat"><div class="figure">4K</div><div class="stat-label">Resolución de proyección</div></div>
-      <div class="stat"><div class="figure js-grand">U$D 0</div><div class="stat-label">Inversión total · configuración elegida</div></div>
+      <div class="stat"><div class="figure js-grand">U$D 0</div><div class="stat-label">Inversión total, equipos e instalación</div></div>
     </div>
-    <p class="hero-meta">GCHM Arquitectos · Villa María, Córdoba · Emisión 02/10/2026 · válida hasta 17/10/2026</p>
+    <p class="hero-meta">GCHM Arquitectos · Villa María, Córdoba · Emisión 15/10/2026 · válida hasta 30/10/2026</p>
   </div>
 </header>
 
 <nav><ul>
   <li><a href="#resumen" class="on">Resumen</a></li>
-  <li><a href="#armar">Armá tu sala</a></li>
+  <li><a href="#armar">Versiones</a></li>
+  <li><a href="#solicitud">Solicitado y propuesto</a></li>
   <li><a href="#preobra">Preinstalación</a></li>
   <li><a href="#sala">La sala</a></li>
   <li><a href="#probalo">Probalo</a></li>
   <li><a href="#responsable">Un solo responsable</a></li>
-  <li><a href="#s01">Imagen</a></li>
-  <li><a href="#s02">Sonido</a></li>
-  <li><a href="#s03">Luz</a></li>
-  <li><a href="#s04">Energía</a></li>
+  <li><a href="#equipos">Equipos</a></li>
   <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#mo">Mano de obra</a></li>
   <li><a href="#pago">Pago</a></li>
-  <li><a href="#mantenimiento">Mantenimiento</a></li>
+  <li><a href="#entrega">Plazo y garantía</a></li>
   <li><a href="#condiciones-part">Condiciones</a></li>
   <li><a href="#respaldo">Respaldo</a></li>
   <li><a href="#faq">FAQ</a></li>
 </ul></nav>
 
 <div id="tier-scope">
-<div id="cfgbar"><div class="wrap">
-  <span class="cb-cfg">Imagen <b id="cb-img"></b> · Sonido <b id="cb-aud"></b></span>
-  <span class="cb-tot js-grand">U$D 0</span>
-  <a href="#armar">Cambiar</a>
+<div id="tier-bar"><div class="inner">
+  <div>
+    <p class="hint-line" style="margin-bottom:6px"><span class="hp">👆</span> Tocá para cambiar de versión</p>
+    <div class="tier-pills" id="tier-pills" role="radiogroup" aria-label="Versión"></div>
+  </div>
+  <div class="tier-total"><span class="js-grand">U$D 0</span><small id="tb-sub">Total del proyecto</small></div>
 </div></div>
 
 <div class="wrap">
 <section class="sec" id="resumen" style="border-top:0">
   <p class="eyebrow">Resumen ejecutivo</p>
   <h2>Qué se propone</h2>
-  <p class="lead">Una sala de cine completa para el ambiente de 5,00 × 3,30 m: proyector 4K en el
-    cielorraso, pantalla motorizada de 120", sonido envolvente 5.1 calibrado para la sala y control
-    de las tiras LED del cielorraso para ver con la luz justa. La imagen y el sonido se eligen por
-    separado, cada uno en tres niveles.</p>
+  <p class="lead">El sistema de cine 5.1 de su solicitud, con los equipos indicados o equivalentes del
+    mismo rango: proyector 4K en el cielorraso, pantalla motorizada de 110", receiver Denon, cinco
+    parlantes embutidos en el techo y subwoofer de 12". Incluye instalación, conexión, calibración
+    del 5.1 y prueba final de imagen, sonido y control.</p>
   <div class="resumen-grid">
-    <div class="resumen-card"><div class="rc-label">Configuración elegida</div><div class="rc-value sm js-config"></div><div class="rc-sub" id="rc-desc"></div></div>
-    <div class="resumen-card"><div class="rc-label">Inversión</div><div class="rc-value js-grand">U$D 0</div><div class="rc-sub">Equipos, instalación, calibración y puesta en marcha</div></div>
-    <div class="resumen-card"><div class="rc-label">Plazo y forma de pago</div><div class="rc-value sm">Equipos en ~30 días</div><div class="rc-sub">Desde el pago de equipos (100% anticipado) · programación 60/40 · instalación por avance</div></div>
+    <div class="resumen-card"><div class="rc-label">Inversión total</div><div class="rc-value js-grand">U$D 0</div><div class="rc-sub">Equipos con IVA, instalación, programación y logística</div></div>
+    <div class="resumen-card"><div class="rc-label">Plazo de entrega</div><div class="rc-value sm">≈ 30 días</div><div class="rc-sub">Desde la acreditación del pago de equipos</div></div>
+    <div class="resumen-card"><div class="rc-label">Garantía</div><div class="rc-value sm">12 meses</div><div class="rc-sub">Sobre el sistema completo, más la garantía de cada fabricante</div></div>
     <a class="resumen-card rc-key" href="#preobra"><div class="rc-label">Antes de cerrar el cielorraso</div><div class="rc-value sm">Preinstalación de obra</div><div class="rc-sub">Tomas y caños que tiene que dejar el electricista. Ver qué hace falta ↓</div></a>
   </div>
 
   <div class="selbox" id="armar">
-    <p class="eyebrow" style="margin:0 0 6px">Armá tu sala</p>
-    <h3>Imagen</h3>
-    <p class="sel-lead">El proyector define el brillo, el color y cuánto dura la fuente de luz. Pantalla, soporte y streaming son iguales en los tres.</p>
-    <p class="hint">👆 Tocá una opción: toda la propuesta se actualiza</p>
-    <div class="selgrid glow" id="sel-img" role="radiogroup" aria-label="Nivel de imagen"></div>
-    <h3>Sonido</h3>
-    <p class="sel-lead">Desde un sistema reconocido a la vista, hasta una sala donde no se ve ningún equipo.</p>
-    <div class="selgrid" id="sel-aud" role="radiogroup" aria-label="Nivel de sonido"></div>
+    <p class="eyebrow" style="margin:0 0 6px">Dos versiones</p>
+    <h3>Elegí la versión</h3>
+    <p class="sel-lead">La primera responde punto por punto a su solicitud. La segunda es la que recomendamos: misma pantalla y mismo alcance, con mejor imagen y mejor sonido.</p>
+    <p class="hint-line"><span class="hp">👆</span> Tocá una opción: toda la propuesta se actualiza</p>
+    <div class="selgrid two glow" id="sel-opt" role="radiogroup" aria-label="Versión"></div>
+    <p class="sel-lead" id="sel-diff" style="margin:0"></p>
   </div>
+</section>
+
+<section class="sec" id="solicitud">
+  <p class="eyebrow">Su solicitud, punto por punto</p>
+  <h2>Lo solicitado y lo propuesto</h2>
+  <p class="lead">Cada ítem de la solicitud con el equipo que proponemos en la versión elegida. Cuando proponemos una
+    alternativa, indicamos marca, modelo y el motivo de la sustitución.</p>
+  <p class="config-line">Mostrando: <b class="js-opt"></b> · <a href="#armar">cambiar</a></p>
+  <div class="tw"><table class="tbl sol">
+    <thead><tr><th>Solicitado</th><th>Propuesto</th><th>Motivo</th></tr></thead>
+    <tbody id="sol-body"></tbody>
+  </table></div>
+  <h3 style="margin-top:28px">Alcance de instalación</h3>
+  <ul class="checks">
+    <li>✓ Montaje del proyector en el cielorraso y de la pantalla motorizada en el muro frontal.</li>
+    <li>✓ Instalación de los cinco parlantes embutidos en el cielorraso: frontal izquierdo, central, frontal derecho, trasero izquierdo y trasero derecho.</li>
+    <li>✓ Instalación y ubicación del subwoofer activo.</li>
+    <li>✓ Conexión completa de receiver, proyector, audio, HDMI y red.</li>
+    <li>✓ Configuración de entradas y salidas, niveles, distancias y calibración del sistema 5.1.</li>
+    <li>✓ Prueba final de imagen, sonido y control, y entrega documentada.</li>
+  </ul>
 
   <div class="visita" id="preobra">
     <div class="visita-head">
       <div>
-        <p class="eyebrow" style="margin:0 0 6px">Primer paso · con la obra abierta</p>
+        <p class="eyebrow" style="margin:0 0 6px">Requisitos previos de obra</p>
         <h3 class="visita-t">Preinstalación</h3>
-        <p class="visita-lead">Para que no se vea un solo cable, el electricista de la obra tiene que dejar tomas y caños <b>antes de cerrar el cielorraso</b>. Nosotros entregamos el plano con cada ubicación y certificamos lo que se hizo. Por eso <b>la versión de sonido se define antes de cerrar el cielorraso</b>.</p>
+        <p class="visita-lead">Para que no se vea un solo cable, el electricista de la obra tiene que dejar tomas y caños <b>antes de cerrar el cielorraso</b>. Nosotros entregamos el plano con cada ubicación y certificamos lo que se hizo.</p>
       </div>
-      <div class="visita-price"><span class="figure" id="pre-n">0</span><small>puntos a resolver en obra para la configuración elegida</small></div>
+      <div class="visita-price"><span class="figure">6</span><small>puntos a resolver en obra</small></div>
     </div>
     <p class="visita-sub">Lo que tiene que quedar listo:</p>
-    <div class="visita-grid" id="pre-list"></div>
+    <div class="visita-grid"><div class="vi"><b>01</b><span><strong>Toma doble de 220 V en el techo, donde va el proyector</strong>, entre 3,0 y 4,0 m del muro de la pantalla según el proyector elegido. La posición exacta sale de nuestro plano.</span></div><div class="vi"><b>02</b><span><strong>Toma de 220 V junto al cajón de la pantalla</strong>, en el muro frontal, para el motor.</span></div><div class="vi"><b>03</b><span><strong>Caño de 1" desde el mueble técnico hasta el proyector</strong>, con pocas curvas, para el cable HDMI y la alimentación protegida por el UPS.</span></div><div class="vi"><b>04</b><span><strong>Caños con tanza guía hasta cada parlante de techo y hasta el subwoofer</strong>, desde el mueble técnico, con el cable de parlantes.</span></div><div class="vi"><b>05</b><span><strong>Refuerzos en el cielorraso</strong>: en cada parlante y en el soporte del proyector, si es de placa de yeso. Los frontales de la alternativa recomendada van en caja cerrada y necesitan unos 24 cm libres arriba.</span></div><div class="vi"><b>06</b><span><strong>Tomas de 220 V y puntos de red en el mueble técnico</strong>, para el UPS, el receiver y el reproductor.</span></div></div>
     <p class="visita-foot">Si alguno de estos puntos no se puede hacer, lo resolvemos juntos antes de comprar los equipos.</p>
   </div>
 </section>
+</div>
 
-<section class="sec section-light" id="sala">
+<div class="section-light">
+<div class="wrap">
+<section class="sec" id="sala" style="border-top:0">
   <p class="eyebrow">Cómo pensamos la sala</p>
   <h2>Las medidas mandan</h2>
-  <p>Antes de elegir equipos, ubicamos la pantalla, los asientos y el proyector en la sala real.</p>
+  <p>Antes de ubicar los equipos, verificamos la pantalla, los asientos y el proyector en la sala real de 5,00 × 3,30 × 2,60 m.</p>
   <div class="sala-grid">
-    <div class="sala-c"><span class="figure">120"</span><h3>Pantalla</h3><p>Es la más grande que entra en el muro de 3,30 m dejando aire a los costados. La imagen mide 2,66 × 1,49 m.</p></div>
-    <div class="sala-c"><span class="figure">4,3 M</span><h3>Distancia de visión</h3><p>Con los asientos contra el fondo, la pantalla ocupa unos 34° de la vista: la proporción de una buena sala de cine.</p></div>
-    <div class="sala-c"><span class="figure">3,2–4,4 M</span><h3>Proyector</h3><p>Va en el cielorraso a esa distancia del muro de la pantalla, según el modelo. La posición exacta sale de nuestro plano.</p></div>
+    <div class="sala-c"><span class="figure">110"</span><h3>Pantalla</h3><p>La imagen mide 2,43 × 1,37 m y entra con holgura en el muro de 3,30 m.</p></div>
+    <div class="sala-c"><span class="figure">≈ 32°</span><h3>Ángulo de visión</h3><p>Desde los asientos, a unos 4,3 m, la pantalla ocupa la proporción recomendada para cine.</p></div>
+    <div class="sala-c"><span class="figure">3,0–4,0 M</span><h3>Proyector</h3><p>Va en el cielorraso a esa distancia del muro de la pantalla, según el modelo elegido. La posición exacta sale de nuestro plano.</p></div>
   </div>
 </section>
+</div>
+</div>
 
-<section class="sec" id="proyecto">
-  <p class="eyebrow">La idea</p>
-  <h2>Cine de verdad, no un televisor grande</h2>
-  <p class="lead">La diferencia no está solo en el tamaño de la imagen: está en el sonido que te rodea
-    y en una sala que se prepara sola para ver una película.</p>
-  <p class="hint">👆 Tocá el switch para comparar</p>
-  <div class="sw glow" role="tablist">
-    <button id="c0" class="on" onclick="ccmp(0,this)">Televisor grande</button>
-    <button id="c1" onclick="ccmp(1,this)">Sala de cine Nova Domus</button>
-  </div>
-  <div class="cmp" id="cbox"></div>
-</section>
-
+<div class="wrap">
 <section class="sec" id="probalo" style="border-top:0">
   <p class="eyebrow">Demo interactiva</p>
   <h2>Probalo</h2>
-  <p class="lead">La sala vista desde arriba, en escala, con la configuración que elegiste. Encendé el
-    modo cine, regulá las tiras LED y probá cada canal como lo hacemos en la calibración.</p>
-  <p class="hint">👆 Tocá "Modo cine" y después cada parlante del plano o de la lista</p>
+  <p class="lead">La sala vista desde arriba, en escala. Encendé el modo cine y probá cada canal como lo hacemos en la calibración.</p>
+  <p class="hint-line"><span class="hp">👆</span> Tocá "Modo cine" y después cada parlante del plano o de la lista</p>
   <div class="cine glow" id="cine">
     <div>
       <svg class="plan" id="plan" viewBox="-20 -20 370 560" role="img" aria-label="Plano de la sala en escala">
         <rect class="wall" x="0" y="0" width="330" height="500" rx="4"/>
-        <rect class="cove" x="18" y="60" width="294" height="420" rx="6"/>
-        <polygon class="cone" id="cone" points="165,360 32,10 298,10"/>
+        <polygon class="cone" id="cone" points="165,385 43,10 287,10"/>
         <rect class="chair" x="55" y="330" width="100" height="160" rx="14"/>
         <rect class="chair" x="175" y="330" width="100" height="160" rx="14"/>
         <text x="165" y="420" text-anchor="middle">Asientos</text>
-        <rect class="scr" id="scr" x="32" y="4" width="266" height="6" rx="2"/>
-        <text class="lbl" x="165" y="26" text-anchor="middle">PANTALLA 120"</text>
-        <rect class="proj" id="proj" x="150" y="352" width="30" height="16" rx="3"/>
-        <text class="lbl" id="proj-l" x="165" y="384" text-anchor="middle">PROYECTOR</text>
+        <rect class="scr" id="scr" x="43" y="4" width="244" height="6" rx="2"/>
+        <text class="lbl" x="165" y="26" text-anchor="middle">PANTALLA 110"</text>
+        <rect class="proj" id="proj" x="150" y="377" width="30" height="16" rx="3"/>
+        <text class="lbl" id="proj-l" x="165" y="409" text-anchor="middle">PROYECTOR</text>
         <rect class="mueble" x="238" y="30" width="80" height="22" rx="4"/>
         <text x="278" y="45" text-anchor="middle" style="font-size:9px">Mueble técnico</text>
         <g id="spks"></g>
-        <rect class="dimlay" id="dimlay" x="0" y="0" width="330" height="500" rx="4" opacity="0" pointer-events="none"/>
         <text x="165" y="522" text-anchor="middle">5,00 m × 3,30 m</text>
       </svg>
     </div>
     <div class="cine-side">
       <div class="sw" role="tablist" aria-label="Modo">
-        <button id="m-luz" class="on" onclick="cineModo(false,this)">💡 Sala iluminada</button>
+        <button id="m-luz" class="on" onclick="cineModo(false,this)">Pantalla recogida</button>
         <button id="m-cine" onclick="cineModo(true,this)">🎬 Modo cine</button>
       </div>
       <p class="cine-state" id="cine-state"></p>
-      <label class="slabel" for="dim"><span>Tiras LED del cielorraso</span><span id="dim-v">100%</span></label>
-      <input class="slider" type="range" id="dim" min="0" max="100" value="100" oninput="setDim(this.value)">
       <p class="eyebrow" style="margin:20px 0 0">Prueba de canales</p>
       <div class="chan" id="chan"></div>
       <div class="dm-info" id="cine-info" aria-live="polite"></div>
       <div class="geo3">
-        <div><b>2,66 × 1,49 m</b>Tamaño de la imagen en 120"</div>
+        <div><b>2,43 × 1,37 m</b>Tamaño de la imagen en 110"</div>
         <div><b>≈ 4,3 m</b>De los asientos a la pantalla</div>
-        <div><b id="geo-p"></b>Del proyector a la pantalla, con el modelo elegido</div>
+        <div><b id="geo-p"></b>Del proyector a la pantalla, con la versión elegida</div>
       </div>
     </div>
   </div>
-  <p style="margin-top:14px;font-size:13px;color:var(--grey)">Simulación ilustrativa. La ubicación final de cada parlante y del proyector se define en el plano de preinstalación, según los asientos y el cielorraso.</p>
+  <p style="margin-top:14px;font-size:13px;color:var(--grey)">Simulación ilustrativa. La ubicación final de cada parlante y del proyector se define en el plano de preinstalación.</p>
 </section>
 </div>
 
@@ -909,8 +947,8 @@ body.cliente .int,body.cliente .flag{display:none!important}
   <div class="flow">
     <div class="step"><b>01</b><span>Relevamiento y plano de preinstalación para el electricista de la obra</span></div>
     <div class="step"><b>02</b><span>Certificación de caños y tomas antes de cerrar el cielorraso</span></div>
-    <div class="step"><b>03</b><span>Instalación de proyector, pantalla, sonido y control de las tiras LED</span></div>
-    <div class="step"><b>04</b><span>Calibración: niveles, distancias, subwoofer, alineación de la imagen y escena de luz</span></div>
+    <div class="step"><b>03</b><span>Instalación de proyector, pantalla y sonido</span></div>
+    <div class="step"><b>04</b><span>Calibración: niveles, distancias, subwoofer y alineación de la imagen</span></div>
     <div class="step"><b>05</b><span>Entrega documentada + 12 meses de garantía</span></div>
   </div>
   <table class="tbl">
@@ -927,73 +965,27 @@ body.cliente .int,body.cliente .flag{display:none!important}
 </div>
 
 <div class="wrap">
-<section class="sec" id="s01" style="border-top:0">
-  <p class="eyebrow">01 — Entretenimiento · Imagen</p>
-  <h2>Proyector y pantalla</h2>
-  <p class="lead">El proyector en el cielorraso, la pantalla que baja sola y el reproductor con todas las apps.</p>
-  <div class="tw"><table class="cmp4" id="t-img">
-    <thead><tr><th></th><th data-c="E">Esencial</th><th data-c="C">Cine</th><th data-c="A">Avanzada</th></tr></thead>
-    <tbody>
-      <tr><td>Proyector</td><td data-c="E" data-label="Esencial">Optoma UHD38X, 4K UHD</td><td data-c="C" data-label="Cine">Optoma UHZ55, 4K UHD láser</td><td data-c="A" data-label="Avanzada">Optoma UHZ58LV, 4K UHD doble láser</td></tr>
-      <tr><td>Brillo</td><td data-c="E" data-label="Esencial">4.000 lúmenes</td><td data-c="C" data-label="Cine">3.000 lúmenes</td><td data-c="A" data-label="Avanzada">3.000 lúmenes, color de cine (95% DCI-P3) y HDR10+</td></tr>
-      <tr><td>Fuente de luz</td><td data-c="E" data-label="Esencial">Lámpara: entre 4.000 y 15.000 horas según el modo, después se reemplaza</td><td data-c="C" data-label="Cine">Láser: unas 30.000 horas, sin recambios</td><td data-c="A" data-label="Avanzada">Doble láser: unas 30.000 horas, sin recambios</td></tr>
-      <tr><td>Encendido</td><td data-c="E" data-label="Esencial">Necesita calentar y enfriar</td><td data-c="C" data-label="Cine">Instantáneo</td><td data-c="A" data-label="Avanzada">Instantáneo</td></tr>
-      <tr><td>Ubicación en el techo</td><td data-c="E" data-label="Esencial">Entre 4,0 y 4,4 m de la pantalla, sobre los asientos</td><td data-c="C" data-label="Cine">Entre 3,2 y 4,2 m: la más flexible</td><td data-c="A" data-label="Avanzada">Entre 3,7 y 4,4 m, con ajuste óptico de la imagen</td></tr>
-    </tbody>
-  </table></div>
-  <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
-  <div class="device-grid" id="grid-img"></div>
-</section>
-
-<section class="sec" id="s02">
-  <p class="eyebrow">02 — Entretenimiento · Sonido</p>
-  <h2>Sonido 5.1</h2>
-  <p class="lead">Las tres versiones son 5.1 reales. Cambia qué se ve en la sala, desde dónde llega el
-    diálogo y con cuánta precisión se ajusta el sonido a cada asiento.</p>
-  <div class="tw"><table class="cmp4" id="t-aud">
-    <thead><tr><th></th><th data-c="S">Sonos 5.1</th><th data-c="C">Cine</th><th data-c="R">Referencia</th></tr></thead>
-    <tbody>
-      <tr><td>Qué se ve en la sala</td><td data-c="S" data-label="Sonos 5.1">La barra bajo la pantalla, el subwoofer y dos parlantes en los muros</td><td data-c="C" data-label="Cine">Solo las rejillas del techo y el subwoofer</td><td data-c="R" data-label="Referencia">Solo las rejillas: el subwoofer también va dentro del cielorraso</td></tr>
-      <tr><td>Desde dónde llega el diálogo</td><td data-c="S" data-label="Sonos 5.1">Desde la barra, debajo de la imagen</td><td data-c="C" data-label="Cine">Desde parlantes de techo angulados hacia los asientos</td><td data-c="R" data-label="Referencia">Igual que Cine, con calibración más fina</td></tr>
-      <tr><td>Sonido envolvente</td><td data-c="S" data-label="Sonos 5.1">Dos parlantes traseros inalámbricos</td><td data-c="C" data-label="Cine">Traseros de techo de dispersión amplia</td><td data-c="R" data-label="Referencia">Traseros de techo orientados hacia cada asiento</td></tr>
-      <tr><td>Ajuste a la sala</td><td data-c="S" data-label="Sonos 5.1">Ajuste automático de Sonos</td><td data-c="C" data-label="Cine">Calibración con micrófono en cada asiento (Audyssey MultEQ XT)</td><td data-c="R" data-label="Referencia">Calibración avanzada (Audyssey MultEQ XT32), ampliable a Dirac Live</td></tr>
-      <tr><td>Crecer a sonido de altura</td><td data-c="S" data-label="Sonos 5.1">No</td><td data-c="C" data-label="Cine">Sí, hasta 5.1.2</td><td data-c="R" data-label="Referencia">Sí, hasta 5.1.4</td></tr>
-      <tr><td>Obra en el techo</td><td data-c="S" data-label="Sonos 5.1">No hace falta</td><td data-c="C" data-label="Cine">Parlantes embutidos en el cielorraso</td><td data-c="R" data-label="Referencia">Parlantes y subwoofer embutidos</td></tr>
-    </tbody>
-  </table></div>
-  <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
-  <div class="device-grid" id="grid-son"></div>
-</section>
-
-<section class="sec" id="s03">
-  <p class="eyebrow">03 — Iluminación</p>
-  <h2>Luz de cine</h2>
-  <p class="lead">Las tiras LED del cajón del cielorraso se regulan de 0 a 100%: luz plena para entrar,
-    una penumbra cálida para la película. La llave de la sala se conserva y pasa a ser un pulsador
-    para subir y bajar la luz; además se maneja desde el celular, con una escena "Modo cine".</p>
-  <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
-  <div class="device-grid" id="grid-dom"></div>
-</section>
-
-<section class="sec" id="s04">
-  <p class="eyebrow">04 — Energía y conexión</p>
-  <h2>Protección y conexión</h2>
-  <p class="lead">El respaldo eléctrico de los equipos y los cables que los unen por dentro de los caños.</p>
-  <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
-  <div class="device-grid" id="grid-ene"></div>
+<section class="sec" id="equipos" style="border-top:0">
+  <p class="eyebrow">01 — Equipos</p>
+  <h2>Qué trae cada versión</h2>
+  <p class="lead">Los equipos de la versión elegida, por sistema.</p>
+  <p class="hint-line"><span class="hp">👆</span> Tocá cada sistema y después cada dispositivo</p>
+  <div class="subsys-tabs" id="subsys-tabs" role="tablist"></div>
+  <div id="subsys-panel"></div>
 </section>
 </div>
 
 <div class="section-light">
 <div class="wrap">
 <section class="sec" id="inversion" style="border-top:0">
-  <p class="eyebrow">05 — Inversión</p>
-  <h2>Detalle de la inversión</h2>
+  <p class="eyebrow">02 — Inversión</p>
+  <h2>Precio por ítem y total</h2>
   <p class="lead">Todos los valores en dólares. Cada equipo muestra su precio neto y su IVA, y el IVA se
-    discrimina en el total. La mano de obra, la programación y la logística se suman al final.</p>
-  <p class="config-line">Configuración elegida: <b class="js-config"></b> · <a href="#armar" style="color:var(--navy);text-decoration:underline">cambiar</a></p>
-  <p class="hint">👆 Tocá cada rubro para ver cada equipo, para qué sirve y su precio</p>
-  <div id="rubros"></div>
+    discrimina en el total. La mano de obra se detalla por separado.</p>
+  <p class="hint-line"><span class="hp">👆</span> Tocá cada rubro para ver cada equipo y su precio</p>
+  <div class="barra-segmentada" id="barra"></div>
+  <div class="barra-legend" id="barra-legend"></div>
+  <div id="rubros" style="margin-top:18px"></div>
   <div class="totals" id="totals"></div>
   <div class="fa-box">
     <p class="fa-q"><b>¿Necesitan Factura A?</b></p>
@@ -1004,14 +996,33 @@ body.cliente .int,body.cliente .flag{display:none!important}
     <p class="fa-msg" id="fa-msg"></p>
   </div>
 </section>
+
+<section class="sec" id="mo">
+  <p class="eyebrow">03 — Mano de obra</p>
+  <h2>Instalación por separado</h2>
+  <p>La instalación se cotiza por punto, según nuestro tarifario. La programación y calibración del
+    sistema y la logística a Villa María van como líneas propias.</p>
+  <div class="tw"><table class="it">
+    <thead><tr><th>Punto de instalación</th><th class="num">Cant.</th></tr></thead>
+    <tbody>
+      <tr><td><span class="it-n">Proyector en cielorraso con soporte</span><span class="it-d">Montaje, alineación y ajuste de la imagen</span></td><td class="num">1</td></tr>
+      <tr><td><span class="it-n">Pantalla motorizada en muro frontal</span><span class="it-d">Fijación, nivelación y conexión del motor</span></td><td class="num">1</td></tr>
+      <tr><td><span class="it-n">Parlantes embutidos en cielorraso</span><span class="it-d">Calado, montaje y conexionado</span></td><td class="num">5</td></tr>
+      <tr><td><span class="it-n">Subwoofer activo</span><span class="it-d">Ubicación y conexión</span></td><td class="num">1</td></tr>
+      <tr><td><span class="it-n">Receiver A/V</span><span class="it-d">Conexión de audio, HDMI y red en el mueble técnico</span></td><td class="num">1</td></tr>
+      <tr><td><span class="it-n">UPS</span><span class="it-d">Instalación y conexión de los equipos protegidos</span></td><td class="num">1</td></tr>
+    </tbody>
+  </table></div>
+  <div class="totals" id="mo-totals"></div>
+</section>
 </div>
 </div>
 
 <div class="wrap">
 <section class="sec" id="pago" style="border-top:0">
-  <p class="eyebrow">06 — Ejecución</p>
+  <p class="eyebrow">04 — Ejecución</p>
   <h2>Forma de pago</h2>
-  <p class="lead">Cada etapa atada a un hito verificable, no a una fecha. Los equipos quedan disponibles para instalar aproximadamente 30 días después del pago de equipos.</p>
+  <p class="lead">Cada etapa atada a un hito verificable, no a una fecha.</p>
   <div class="pay" id="pay"></div>
   <div class="totals" style="border-top-color:var(--gold)">
     <div class="trow sub" id="pay-iva-row" style="display:none">
@@ -1021,77 +1032,57 @@ body.cliente .int,body.cliente .flag{display:none!important}
   </div>
   <p style="margin-top:14px;font-size:13px;color:var(--grey)">Se acepta transferencia bancaria y los medios de cobro habituales de Nova Domus. Referencia en pesos: dólar oficial BNA vendedor del día del pago.</p>
 </section>
+
+<section class="sec" id="entrega">
+  <p class="eyebrow">05 — Plazo, stock y garantía</p>
+  <h2>Plazo y garantía</h2>
+  <div class="mt-grid">
+    <div class="mt"><span class="figure">≈ 30</span><h3>días de entrega</h3>
+      <p>Los equipos son de importación y quedan disponibles para instalar aproximadamente 30 días después de acreditado el pago de equipos. La instalación se coordina con el avance de la obra.</p></div>
+    <div class="mt"><span class="figure">12</span><h3>meses de garantía</h3>
+      <p>Sobre el sistema completo desde la puesta en marcha: mano de obra y programación sin costo. Los equipos mantienen además la garantía de su fabricante.</p></div>
+    <div class="mt"><span class="figure">15</span><h3>días de validez</h3>
+      <p>Esta oferta vale hasta el 30/10/2026. La disponibilidad de stock se confirma al momento de la compra; si un equipo no está disponible, lo informamos antes de cobrar y proponemos una alternativa equivalente.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="condiciones-part">
+  <p class="eyebrow">06 — Condiciones particulares</p>
+  <h2>Particulares de este proyecto</h2>
+  <p class="hint-line"><span class="hp">👆</span> Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Preinstalación y materiales a cargo de la obra</span>
+      <span class="tap-badge">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Cañerías, cajas, tomas, conectores, fichas y terminaciones las ejecuta el electricista de la obra según el plano de preinstalación que entrega Nova Domus. Antes de cerrar el cielorraso verificamos cada punto. Esta propuesta no incluye obra eléctrica.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cable de parlantes</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El cable de parlantes (OFC 2 × 2,5 mm², unos 50 m) lo aporta el electricista de la obra junto con las cañerías, según el recorrido del plano de preinstalación. No está incluido en esta propuesta.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cielorraso</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Si el cielorraso es de placa de yeso, se dejan los refuerzos de cada parlante y del soporte del proyector antes de cerrarlo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Luz natural y ambientes vecinos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La imagen proyectada rinde al máximo con la sala oscura. Si la sala tiene ventanas o vidrios hacia otros ambientes, recomendamos cortinas de oscurecimiento, que no están incluidas en esta propuesta.</p></div></article>
+  </div>
+</section>
 </div>
 </div><!-- /tier-scope -->
 
 <div class="section-light">
 <div class="wrap">
-<section class="sec" id="mantenimiento" style="border-top:0">
-  <p class="eyebrow">07 — Post-venta</p>
-  <h2>Mantenimiento</h2>
-  <p class="lead">Qué cuesta tenerlo andando, antes y después de la garantía.</p>
-  <div class="mt-grid">
-    <div class="mt"><span class="figure">12</span><h3>meses de garantía</h3>
-      <p>Sobre el sistema completo desde la puesta en marcha: mano de obra y programación sin costo. Los equipos mantienen además la garantía de su fabricante.</p></div>
-    <div class="mt"><span class="figure">0</span><h3>abonos mensuales</h3>
-      <p>Nova Domus no cobra abono. Lo único recurrente son las suscripciones de streaming que use la casa.</p></div>
-    <div class="mt"><span class="figure" id="mt-cons">0</span><h3>consumibles</h3>
-      <p id="mt-cons-t"></p></div>
-  </div>
-</section>
-</div>
-</div>
-
-<div class="wrap">
-<section class="sec" id="condiciones-part" style="border-top:0">
-  <p class="eyebrow">08 — Condiciones particulares</p>
-  <h2>Particulares de este proyecto</h2>
-  <p class="lead">Lo que tiene que estar resuelto para que la sala funcione como está presupuestada.</p>
-  <p class="hint">👆 Tocá cada condición para leerla</p>
-  <div class="devs">
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Preinstalación a cargo de la obra</span>
-      <span class="tap-badge">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Cañerías, cajas, tomas y terminaciones las ejecuta el electricista de la obra según el plano de preinstalación que entrega Nova Domus. Antes de cerrar el cielorraso verificamos cada punto. Esta propuesta no incluye obra eléctrica.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">La versión de sonido se define antes de cerrar el cielorraso</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Las versiones Cine y Referencia llevan parlantes embutidos en el techo, y eso cambia lo que el electricista tiene que dejar preparado. Si se elige Sonos 5.1, recomendamos dejar igual los caños y cajas de los parlantes de techo: cuesta poco con la obra abierta y permite pasar a la versión Cine más adelante sin romper el cielorraso.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Cielorraso</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Los parlantes frontales de las versiones Cine y Referencia van en una caja cerrada que se embute: necesitan al menos 24 cm libres sobre el cielorraso en esa zona. En la versión Referencia el subwoofer también se embute, y su espacio se confirma con el estudio según la ficha del equipo. Si el cielorraso es de placa de yeso, se dejan los refuerzos de cada parlante antes de cerrarlo.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Tiras LED y control de la luz</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>El control está pensado para tiras LED de 24 V. Necesitamos que el estudio confirme la potencia de cada tramo y que las fuentes queden accesibles; si un tramo es largo, lo dividimos en canales para que cada uno trabaje holgado. La caja de la llave tiene que tener neutro, y la llave se cambia por una tecla tipo pulsador.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Luz natural y ambientes vecinos</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La imagen proyectada rinde al máximo con la sala oscura. Si la sala tiene ventanas o vidrios hacia otros ambientes, recomendamos cortinas de oscurecimiento, que no están incluidas en esta propuesta. El sonido de una sala abierta también se escucha en los ambientes vecinos.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Cable de parlantes</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>En las versiones con parlantes de techo, el cable de parlantes (OFC 2 × 2,5 mm²) lo aporta el electricista de la obra junto con las cañerías, según el recorrido del plano de preinstalación.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Plazo de entrega y disponibilidad</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Los equipos quedan disponibles para instalar aproximadamente 30 días después de acreditado el pago de equipos. Si al momento de la compra algún equipo no tiene stock, lo informamos antes de cobrar y proponemos una alternativa equivalente.</p></div></article>
-  </div>
-</section>
-</div>
-
-<div class="section-light">
-<div class="wrap">
 <section class="sec" id="condiciones" style="border-top:0">
-  <p class="eyebrow">09 — Condiciones</p>
+  <p class="eyebrow">07 — Condiciones</p>
   <h2>Condiciones generales</h2>
-  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <p class="hint-line"><span class="hp">👆</span> Tocá cada condición para leerla</p>
   <div class="devs">
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
       <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (02/10/2026). Todos los precios están expresados en dólares estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago efectivo. Los equipos se confirman a cotización del momento de la compra.</p></div></article>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (15/10/2026). Todos los precios están expresados en dólares estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago efectivo.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Alcance — instalación eléctrica</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1101,17 +1092,13 @@ body.cliente .int,body.cliente .flag{display:none!important}
       <span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>Equipos: 100% por anticipado, antes de comprar, para asegurar el precio y la disponibilidad de importación. Programación: 60% al iniciar y 40% contra la entrega documentada. Instalación: se certifica por avance real en obra, sin montos ni fechas comprometidas de antemano. Logística: se factura por viaje realizado. Si se necesita Factura A, se suma IVA 21% sobre instalación, programación y logística; los equipos ya llevan su IVA discriminado.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Plazo de entrega</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Los equipos son de importación y quedan disponibles para instalar aproximadamente 30 días después de acreditado el pago de equipos. La instalación se coordina con el avance de la obra.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Visitas técnicas y logística</span>
       <span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>La propuesta contempla dos viajes a Villa María: instalación, y calibración con entrega. Las visitas adicionales que se requieran por causas ajenas a Nova Domus —preinstalación incompleta, cielorraso sin cerrar, falta de energía— se cotizan aparte.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cancelación de dispositivos y excedentes</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Los dispositivos se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución. Los excedentes de material, como el módulo de luz de repuesto, quedan en poder del cliente.</p></div></article>
+      <div class="dev-body"><p>Los dispositivos se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución. Los excedentes de material, como el sexto parlante del tercer par, quedan en poder del cliente.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Actualización, responsable y documentación</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1130,20 +1117,17 @@ body.cliente .int,body.cliente .flag{display:none!important}
   <p class="eyebrow">Respaldo</p>
   <h2>Con qué trabajamos</h2>
   <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
-  <p class="hint">👆 Tocá cada marca para ver por qué la elegimos</p>
+  <p class="hint-line"><span class="hp">👆</span> Tocá cada marca para ver por qué la elegimos</p>
   <div class="pills">
     <span class="pill fixed">NOVA DOMUS</span>
     <span class="pill fixed">CEDIA MEMBER</span>
-    <button class="pill" onclick="marca(0,this)">OPTOMA</button><button class="pill" onclick="marca(1,this)">SONOS</button><button class="pill" onclick="marca(2,this)">DENON</button><button class="pill" onclick="marca(3,this)">EPISODE</button><button class="pill" onclick="marca(4,this)">TRIAD</button><button class="pill" onclick="marca(5,this)">KLIPSCH</button><button class="pill" onclick="marca(6,this)">SHELLY</button><button class="pill" onclick="marca(7,this)">EATON</button>
+    <button class="pill" onclick="marca(0,this)">OPTOMA</button><button class="pill" onclick="marca(1,this)">DENON</button><button class="pill" onclick="marca(2,this)">EPISODE</button><button class="pill" onclick="marca(3,this)">KLIPSCH</button><button class="pill" onclick="marca(4,this)">EATON</button>
   </div>
-  <div class="ficha" id="f0"><h3>OPTOMA</h3><p>Fabricante de proyectores con una línea dedicada al cine en casa. La elegimos por su relación entre brillo y precio en 4K, y porque ofrece versiones láser para quien no quiere recambiar lámparas.</p></div>
-  <div class="ficha" id="f1"><h3>SONOS</h3><p>Sonos inventó el audio multiroom inalámbrico y sigue siendo la referencia mundial en sonido para el hogar, con soporte nativo para los principales servicios de streaming. Nova Domus la elige por la solidez de su ecosistema y la facilidad de integrarla en escenas de audio junto al resto de la casa.</p><div class="vid"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/DwIdo-4jwNk" title="Sonos" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
-  <div class="ficha" id="f2"><h3>DENON</h3><p>Marca japonesa de audio con más de un siglo de trayectoria. Sus receivers traen calibración automática con micrófono, que usamos como base para ajustar cada sala.</p><p class="pend">Video institucional pendiente de carga.</p></div>
-  <div class="ficha" id="f3"><h3>EPISODE</h3><p>Línea de parlantes de embutir de Snap One, el grupo de Control4, pensada para instaladores profesionales. La usamos en techos y paredes porque combina buen sonido con rejillas que pasan desapercibidas.</p></div>
-  <div class="ficha" id="f4"><h3>TRIAD</h3><p>Parlantes de embutir y subwoofers de gama alta del mismo grupo Snap One. Los usamos cuando el objetivo es que en la sala no se vea ningún equipo y el sonido llegue orientado a cada asiento.</p></div>
-  <div class="ficha" id="f5"><h3>KLIPSCH</h3><p>Marca estadounidense de parlantes fundada en 1946, referente en subwoofers y sonido de cine. Su línea Reference Premiere es la que elegimos para graves con presión en salas medianas.</p><p class="pend">Video institucional pendiente de carga.</p></div>
-  <div class="ficha" id="f6"><h3>SHELLY</h3><p>Fuimos los primeros en instalar Shelly en la provincia, a fines de 2023. Somos integradores y revendedores — no distribuidores — de estos relés y módulos WiFi/Zigbee pensados para retrofit sobre instalación eléctrica existente, con integración estable a Home Assistant.</p><div class="vid"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/tBUUtSxykeA" title="Shelly" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
-  <div class="ficha" id="f7"><h3>EATON</h3><p>Fabricante global de equipos de energía. Sus UPS interactivas protegen los equipos de picos y cortes breves, y son las que usamos como estándar en nuestros proyectos.</p><p class="pend">Video institucional pendiente de carga.</p></div>
+  <div class="ficha" id="f0"><h3>OPTOMA</h3><p>Fabricante de proyectores con una línea dedicada al cine en casa. La elegimos por su relación entre brillo y precio en 4K.</p></div>
+  <div class="ficha" id="f1"><h3>DENON</h3><p>Marca japonesa de audio con más de un siglo de trayectoria. Sus receivers traen calibración automática con micrófono, que usamos como base para ajustar cada sala.</p></div>
+  <div class="ficha" id="f2"><h3>EPISODE</h3><p>Línea de parlantes de embutir de Snap One, el grupo de Control4, pensada para instaladores profesionales. La usamos en techos y paredes porque combina buen sonido con rejillas que pasan desapercibidas.</p></div>
+  <div class="ficha" id="f3"><h3>KLIPSCH</h3><p>Marca estadounidense de parlantes fundada en 1946, referente en subwoofers y sonido de cine. Su línea Reference Premiere es la que elegimos para graves con presión en salas medianas.</p></div>
+  <div class="ficha" id="f4"><h3>EATON</h3><p>Fabricante global de equipos de energía. Sus UPS interactivas protegen los equipos de picos y cortes breves, y son las que usamos como estándar en nuestros proyectos.</p></div>
 </section>
 </div>
 
@@ -1152,41 +1136,15 @@ body.cliente .int,body.cliente .flag{display:none!important}
 <section class="sec" id="faq" style="border-top:0">
   <p class="eyebrow">FAQ</p>
   <h2>Antes de que preguntes</h2>
-  <p class="lead">Las dudas más comunes antes de armar una sala de cine.</p>
-  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <p class="hint-line"><span class="hp">👆</span> Tocá cada pregunta para ver la respuesta</p>
   <div class="devs">
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Cómo veo Netflix o YouTube?</span>
-      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La propuesta incluye un Roku Ultra: todas las apps de streaming en 4K HDR, con control remoto por voz. En las versiones con receiver, el sonido pasa por el receiver a toda la sala.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Qué pasa si se corta la luz?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>El UPS sostiene los equipos y el proyector en los microcortes, y en un corte largo les da tiempo a apagarse de forma ordenada. Con el proyector de lámpara, además, cuida la lámpara.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Puedo empezar con Sonos y pasar a parlantes de techo después?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Sí, si el electricista deja los caños y cajas de los parlantes de techo durante la obra. Con eso, pasar a la versión Cine más adelante no implica romper el cielorraso.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Se puede sumar sonido de altura (Dolby Atmos)?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>En las versiones Cine y Referencia, sí: el receiver ya tiene los canales y alcanza con sumar parlantes de techo. Conviene dejar esos caños en la preinstalación, porque cuesta poco ahora y mucho después.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Con cuántos controles se maneja?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La imagen y el streaming, con el control del Roku. El sonido, desde la app del receiver o de Sonos. La luz, desde la llave o el celular, con una escena "Modo cine" que la baja con un solo toque.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Por qué no usar un televisor grande?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>En 120" un televisor es mucho más caro y ocupa la pared todo el tiempo. La pantalla motorizada se recoge cuando no se usa, y el sonido envolvente te rodea de una forma que los parlantes de un televisor no logran.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Quién atiende si algo falla?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Nova Domus, con un solo teléfono. Durante los 12 meses de garantía, sin costo de mano de obra ni de programación.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿El sistema queda obsoleto en unos años?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Cada equipo es independiente: si en el futuro querés un proyector mejor o un receiver con más canales, se reemplaza esa pieza y la pantalla, los parlantes y los caños siguen sirviendo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Cómo veo Netflix o YouTube?</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>La propuesta incluye un Roku Ultra: todas las apps de streaming en 4K HDR, con control remoto por voz. El sonido pasa por el receiver a toda la sala.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Qué cambia en la alternativa recomendada?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Tres cosas: un proyector láser sin lámpara ni recambios, frontales angulados que hacen que el diálogo llegue desde la pantalla, y un receiver de la serie X. La pantalla, la instalación, el plazo y la garantía son iguales en las dos versiones.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Por qué no el Epson que pedimos?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>El HC2350 no tiene disponibilidad en el canal oficial. El Optoma UHD38X es de la misma clase (4K de lámpara), con más brillo, y las apps las aporta el Roku.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Qué pasa si se corta la luz?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>El UPS sostiene el receiver y el proyector en los microcortes y, en un corte largo, les da tiempo a apagarse de forma ordenada. Con un proyector de lámpara, eso además la cuida.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Se puede sumar sonido de altura (Dolby Atmos)?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Sí: el receiver propuesto es 7.2 y ya tiene los canales. Alcanza con sumar dos parlantes de techo; conviene dejar esos caños en la preinstalación.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Con cuántos controles se maneja?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>La imagen y el streaming, con el control del Roku. El volumen, con el control del receiver o su app. La pantalla, con su propio control remoto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Quién atiende si algo falla?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Nova Domus, con un solo teléfono. Durante los 12 meses de garantía, sin costo de mano de obra ni de programación.</p></div></article>
     
   </div>
 </section>
@@ -1197,11 +1155,11 @@ body.cliente .int,body.cliente .flag{display:none!important}
 <section class="cta" id="cta">
   <p class="eyebrow">Próximo paso</p>
   <h2 style="margin-bottom:14px">Avancemos con la sala</h2>
-  <p class="lead" style="margin:0 auto 8px">Con tu confirmación te mandamos el plano de preinstalación para el electricista y reservamos los equipos.</p>
-  <p style="margin:10px auto 0;color:#EDEAE0">Configuración: <b class="js-config"></b> · <b class="js-grand">U$D 0</b></p>
+  <p class="lead" style="margin:0 auto 8px">Con su confirmación enviamos el plano de preinstalación para el electricista y reservamos los equipos.</p>
+  <p style="margin:10px auto 0;color:#EDEAE0">Versión: <b class="js-opt"></b> · <b class="js-grand">U$D 0</b></p>
   <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
     <input type="checkbox" id="ok" onchange="conf()">
-    <label for="ok">Leí la propuesta y quiero avanzar con la configuración elegida.</label>
+    <label for="ok">Leí la propuesta y quiero avanzar con la versión elegida.</label>
   </div>
   <a class="btn" id="go" href="#" aria-disabled="true" target="_blank" rel="noopener">Aceptar por WhatsApp</a>
   <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
@@ -1223,13 +1181,16 @@ body.cliente .int,body.cliente .flag{display:none!important}
 </button>
 
 <script>
-// ===== DATOS (generados en Python desde inventario + mano_obra_tarifario, B2B) =====
-var ITEMS=[{"r": "img", "n": "Optoma UHD38X — proyector 4K UHD, 4.000 lúmenes", "d": "Proyecta la imagen 4K desde el cielorraso con mucho brillo para 120 pulgadas. Fuente de luz de lámpara.", "q": 1, "p": 2313, "iva": 0.21, "ivaTxt": "21%", "t": "img:E"}, {"r": "img", "n": "Optoma UHZ55 — proyector 4K UHD láser, 3.000 lúmenes", "d": "Fuente de luz láser: enciende al instante, mantiene el brillo con los años y no lleva recambios.", "q": 1, "p": 3313, "iva": 0.21, "ivaTxt": "21%", "t": "img:C"}, {"r": "img", "n": "Optoma UHZ58LV — proyector 4K UHD doble láser, HDR10+", "d": "Doble láser con color de cine (95% DCI-P3), HDR10+ y modo Filmmaker. Lente con desplazamiento para un ajuste fino.", "q": 1, "p": 4625, "iva": 0.21, "ivaTxt": "21%", "t": "img:A"}, {"r": "img", "n": "Optoma — pantalla motorizada 120\" 16:9, 220 V", "d": "Baja y sube con control remoto. Formato 16:9, el de las películas y series actuales.", "q": 1, "p": 275, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "img", "n": "Soporte de techo para proyector", "d": "Fija el proyector al cielorraso con ajuste de inclinación y giro.", "q": 1, "p": 38, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "img", "n": "Roku Ultra LT — reproductor de streaming 4K HDR", "d": "Todas las apps de streaming en 4K, con control remoto por voz.", "q": 1, "p": 70, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "son", "n": "Sonos Arc — barra de sonido", "d": "Frontales y central en un solo equipo bajo la pantalla.", "q": 1, "p": 1102, "iva": 0.21, "ivaTxt": "21%", "t": "aud:S"}, {"r": "son", "n": "Sonos Sub Mini — subwoofer inalámbrico", "d": "Los graves de la película, sin cables de audio.", "q": 1, "p": 672, "iva": 0.21, "ivaTxt": "21%", "t": "aud:S"}, {"r": "son", "n": "Sonos Era 100 — parlante trasero", "d": "Sonido envolvente inalámbrico desde los muros laterales.", "q": 2, "p": 290, "iva": 0.21, "ivaTxt": "21%", "t": "aud:S"}, {"r": "son", "n": "Sanus — soportes de pared para Era 100 (par)", "d": "Fijan los dos parlantes traseros al muro.", "q": 1, "p": 135, "iva": 0.21, "ivaTxt": "21%", "t": "aud:S"}, {"r": "son", "n": "Sonos — soporte de pared para Arc", "d": "Fija la barra al muro, debajo de la pantalla.", "q": 1, "p": 124, "iva": 0.21, "ivaTxt": "21%", "t": "aud:S"}, {"r": "son", "n": "Denon AVR-X1800H — receiver A/V 7.2, 8K", "d": "Decodifica el sonido 5.1 y lo reparte a cada parlante. Calibración con micrófono Audyssey MultEQ XT.", "q": 1, "p": 950, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C"}, {"r": "son", "n": "Denon AVR-X3800H — receiver A/V 9.4, 8K", "d": "Calibración avanzada Audyssey MultEQ XT32, ampliable a Dirac Live, cuatro salidas de subwoofer y canales para crecer a 5.1.4.", "q": 1, "p": 1849, "iva": 0.21, "ivaTxt": "21%", "t": "aud:R"}, {"r": "son", "n": "Episode ES-HT700-ICLCR-5 — parlante de techo frontal angulado", "d": "Caja cerrada con el frente angulado hacia los asientos: el diálogo llega desde la pantalla, no desde arriba.", "q": 3, "p": 552, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C,R"}, {"r": "son", "n": "Episode CORE 3 DVC/Surround 6\" — parlante trasero de techo", "d": "Dispersión amplia para un sonido envolvente parejo en los dos asientos.", "q": 2, "p": 228, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C"}, {"r": "son", "n": "Triad InCeiling Bronze 8 Sat (izquierdo) — trasero de techo orientable", "d": "Parlante trasero con el sonido orientado hacia el asiento.", "q": 1, "p": 605, "iva": 0.21, "ivaTxt": "21%", "t": "aud:R"}, {"r": "son", "n": "Triad InCeiling Bronze 8 Sat (derecho) — trasero de techo orientable", "d": "Parlante trasero con el sonido orientado hacia el asiento.", "q": 1, "p": 605, "iva": 0.21, "ivaTxt": "21%", "t": "aud:R"}, {"r": "son", "n": "Klipsch RP-1000SW — subwoofer activo 10\"", "d": "Los graves de explosiones y música, con amplificador propio. Dimensionado para 16,5 m².", "q": 1, "p": 827, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C"}, {"r": "son", "n": "Triad InCeiling Bronze/10 Sub + RackAmp 300 — subwoofer de techo", "d": "Subwoofer embutido en el cielorraso con su amplificador dedicado: graves sin ningún equipo a la vista.", "q": 1, "p": 2432, "iva": 0.21, "ivaTxt": "21%", "t": "aud:R"}, {"r": "dom", "n": "Shelly Plus RGBW PM — control de tiras LED 24 V", "d": "Regula la intensidad de las tiras LED del cielorraso desde la llave o el celular. Se instalan 2; el tercero queda de repuesto.", "q": 3, "p": 38, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "ene", "n": "Eaton — UPS interactiva 1200 VA", "d": "Protege los equipos de picos de tensión y los sostiene en microcortes.", "q": 1, "p": 98, "iva": 0.105, "ivaTxt": "10,5%", "t": null}, {"r": "ene", "n": "Binary B6A — cable HDMI activo 4K, 15 m", "d": "Lleva la imagen del receiver al proyector sin pérdidas por dentro del caño.", "q": 1, "p": 169, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C,R"}, {"r": "ene", "n": "Binary B3 — cable de subwoofer", "d": "Conecta la salida de graves del receiver con el subwoofer.", "q": 1, "p": 11, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C,R"}, {"r": "ene", "n": "Furukawa — patch cord CAT6, 2 m", "d": "Conectan receiver y reproductor a la red de la casa.", "q": 2, "p": 8, "iva": 0.21, "ivaTxt": "21%", "t": "aud:C,R"}, {"r": "ene", "n": "Binary B4 — cable óptico Toslink, 10 m", "d": "Lleva el audio del proyector a la barra Sonos por dentro del caño.", "q": 1, "p": 66, "iva": 0.21, "ivaTxt": "21%", "t": "aud:S"}];
-var DEVICES={"img": [{"n": "Proyector 4K", "q": "1 unidad, en el cielorraso", "t": "img:E", "desc": "Optoma UHD38X. Imagen 4K con 4.000 lúmenes: mucho brillo para 120 pulgadas. Fuente de luz de lámpara.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/UHD38X.jpg"}, {"n": "Proyector 4K láser", "q": "1 unidad, en el cielorraso", "t": "img:C", "desc": "Optoma UHZ55. Fuente láser sin lámpara: enciende al instante y mantiene el brillo con los años.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/UHZ55.jpg"}, {"n": "Proyector 4K doble láser", "q": "1 unidad, en el cielorraso", "t": "img:A", "desc": "Optoma UHZ58LV. Color de cine, HDR10+ y modo Filmmaker, con ajuste óptico de la imagen.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/UHZ58LV.jpg"}, {"n": "Pantalla motorizada 120\"", "q": "1 unidad, en el muro frontal", "t": null, "desc": "Baja con el control remoto cuando empieza la película y se recoge cuando no se usa. Formato 16:9.", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/242.jpg"}, {"n": "Soporte de techo", "q": "1 unidad", "t": null, "desc": "Sostiene el proyector con ajuste fino de inclinación y giro, para que la imagen calce justo en la pantalla.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/241.jpg"}, {"n": "Reproductor de streaming 4K", "q": "1 unidad", "t": null, "desc": "Roku Ultra. Todas las apps de streaming en 4K HDR, con control remoto por voz.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/roku/ROKU-ULTRA-LT-4801.jpg"}], "son": [{"n": "Barra de sonido", "q": "1 unidad, debajo de la pantalla", "t": "aud:S", "desc": "Sonos Arc. Frontales y central en un solo equipo: música, efectos y diálogo desde abajo de la imagen.", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sonos-437.png"}, {"n": "Subwoofer inalámbrico", "q": "1 unidad, en el frente de la sala", "t": "aud:S", "desc": "Sonos Sub Mini. Los graves de la película sin cables de audio.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/SUBM1US1BLK.png"}, {"n": "Parlantes traseros", "q": "2 unidades, en los muros laterales", "t": "aud:S", "desc": "Sonos Era 100. Completan el 5.1 de forma inalámbrica; solo necesitan un toma cerca.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg"}, {"n": "Receiver A/V 7.2", "q": "1 unidad, en el mueble técnico", "t": "aud:C", "desc": "Denon AVR-X1800H. Decodifica el sonido 5.1 y se calibra con micrófono para cada asiento. Queda listo para crecer a 5.1.2.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/denon/DENON-AVR-X1800H.jpg"}, {"n": "Receiver A/V 9.4", "q": "1 unidad, en el mueble técnico", "t": "aud:R", "desc": "Denon AVR-X3800H. Calibración avanzada, ampliable a Dirac Live, y canales para crecer hasta 5.1.4.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/denon/DENON-AVR-X3800H.jpg"}, {"n": "Parlantes frontales angulados", "q": "3 unidades, en el techo frente a la pantalla", "t": "aud:C,R", "desc": "Episode 700 Series. Caja cerrada con el frente angulado hacia los asientos: el diálogo llega desde la pantalla, no desde arriba.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/ES-HT700-ICLCR-5.jpg"}, {"n": "Parlantes traseros de techo", "q": "2 unidades", "t": "aud:C", "desc": "Episode CORE 3 de dispersión amplia: el sonido envolvente llega parejo a los dos asientos.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/ES-CORE-36-IC-DVCS.jpg"}, {"n": "Parlantes traseros orientables", "q": "2 unidades", "t": "aud:R", "desc": "Triad Bronze, versiones izquierda y derecha: el sonido se orienta hacia cada asiento.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/triad/54603-1200-3.jpg"}, {"n": "Subwoofer 10\"", "q": "1 unidad, en el frente de la sala", "t": "aud:C", "desc": "Klipsch RP-1000SW. Graves con presión y amplificador propio, dimensionado para 16,5 m².", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/klipsch/KLIPSCH-RP-1000SW-10-SUBWOOFER-EBONY.jpg"}, {"n": "Subwoofer de techo", "q": "1 unidad, embutida en el cielorraso", "t": "aud:R", "desc": "Triad Bronze 10 con su amplificador dedicado: los graves llegan sin ningún equipo a la vista.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/triad/BSIC-BDL1.jpg"}], "dom": [{"n": "Control de tiras LED", "q": "2 instalados + 1 de repuesto", "t": null, "desc": "Shelly Plus RGBW PM. Regula de 0 a 100% las tiras LED del cajón del cielorraso, desde la llave o desde el celular.", "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-plus-rgbw-pm.png"}], "ene": [{"n": "UPS interactiva 1200 VA", "q": "1 unidad, en el mueble técnico", "t": null, "desc": "Protege los equipos de picos de tensión y los sostiene en microcortes. Alimenta también al proyector por un caño dedicado.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/eaton/705.jpg"}, {"n": "Cable HDMI activo 15 m", "q": "1 unidad, por dentro del caño", "t": "aud:C,R", "desc": "Lleva la imagen 4K del receiver al proyector sin pérdidas.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/binary/B6A-4K2-15.jpg"}, {"n": "Cable de subwoofer y patch cords", "q": "Conexiones del mueble técnico", "t": "aud:C,R", "desc": "Unen el receiver con el subwoofer y con la red de la casa.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/binary/B3-SUB-4.jpg"}, {"n": "Cable óptico 10 m", "q": "1 unidad, por dentro del caño", "t": "aud:S", "desc": "Lleva el sonido del proyector a la barra Sonos.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/binary/B4-TOS-10.jpg"}]};
-var MOT={"S": 521, "C": 666, "R": 666}, LOG=160;
-var TIERS={"img": {"E": {"n": "Esencial", "m": "Optoma UHD38X · 4K · lámpara", "d": "Mucho brillo para 120 pulgadas. La fuente de luz es una lámpara que se reemplaza con el uso.", "r": "Proyector 4K de lámpara,"}, "C": {"n": "Cine", "tag": "Recomendada", "m": "Optoma UHZ55 · 4K · láser", "d": "Láser sin lámpara: enciende al instante, no pierde brillo con los años y no lleva recambios.", "r": "Proyector 4K láser,"}, "A": {"n": "Avanzada", "m": "Optoma UHZ58LV · 4K · doble láser", "d": "Color de cine (95% DCI-P3), HDR10+ y modo Filmmaker, con ajuste óptico de la imagen.", "r": "Proyector 4K doble láser,"}}, "aud": {"S": {"n": "Sonos 5.1", "m": "Sonos Arc + Sub Mini + Era 100", "d": "El sistema de cine en casa más reconocido del mercado. Es nuestro punto de partida.", "r": "pantalla de 120\" y sonido Sonos 5.1."}, "C": {"n": "Cine", "tag": "Recomendada", "m": "Receiver Denon + parlantes de techo Episode", "d": "Todo embutido en el cielorraso, con los frontales angulados hacia los asientos: el diálogo llega desde la pantalla.", "r": "pantalla de 120\" y sonido 5.1 embutido en el techo."}, "R": {"n": "Referencia", "m": "Denon X3800H + Episode + Triad", "d": "Calibración avanzada, traseros orientados a cada asiento y el subwoofer dentro del cielorraso: en la sala no se ve ningún equipo.", "r": "pantalla de 120\" y sonido 5.1 de referencia, sin equipos a la vista."}}};
-var S={img:'C',aud:'C',fa:false};
-var RUB={img:'Imagen: proyector, pantalla y streaming',son:'Sonido',dom:'Iluminación: control de las tiras LED',ene:'Energía y conexión'};
+var ITEMS=[{"r": "img", "n": "Optoma UHD38X — proyector 4K UHD, 4.000 lúmenes", "d": "Proyecta la imagen 4K desde el cielorraso con mucho brillo para 110 pulgadas.", "q": 1, "p": 2313, "iva": 0.21, "ivaTxt": "21%", "t": "A"}, {"r": "img", "n": "Optoma UHZ55 — proyector 4K UHD láser, 3.000 lúmenes", "d": "Fuente de luz láser: enciende al instante, mantiene el brillo con los años y no lleva recambios.", "q": 1, "p": 3313, "iva": 0.21, "ivaTxt": "21%", "t": "B"}, {"r": "img", "n": "Roku Ultra LT — reproductor de streaming 4K HDR", "d": "Netflix, YouTube y todas las apps de streaming, con control remoto por voz.", "q": 1, "p": 70, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "img", "n": "Pantalla motorizada 110\" 16:9 con control remoto", "d": "Baja y sube con el control remoto. Imagen de 2,43 × 1,37 m.", "q": 1, "p": 312, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "img", "n": "Soporte de techo regulable para proyector", "d": "Fija el proyector al cielorraso con ajuste de inclinación y giro.", "q": 1, "p": 38, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "son", "n": "Denon AVR-S770 — receiver A/V 7.2, 8K", "d": "Decodifica el sonido 5.1, lo reparte a cada parlante y se calibra con micrófono. Red, HEOS y Bluetooth.", "q": 1, "p": 826, "iva": 0.21, "ivaTxt": "21%", "t": "A"}, {"r": "son", "n": "Denon AVR-X1800H — receiver A/V 7.2, 8K", "d": "Serie X de Denon: decodifica el 5.1 y se calibra con micrófono (Audyssey MultEQ XT). Red, HEOS y Bluetooth.", "q": 1, "p": 950, "iva": 0.21, "ivaTxt": "21%", "t": "B"}, {"r": "son", "n": "Episode CORE 1 6\" — parlantes de techo (par)", "d": "Parlantes embutidos de 6\". Se instalan 5; el sexto queda de repuesto.", "q": 3, "p": 178, "iva": 0.21, "ivaTxt": "21%", "t": "A"}, {"r": "son", "n": "Episode ES-HT700-ICLCR-5 — parlante de techo frontal angulado", "d": "Caja cerrada con el frente angulado hacia los asientos: el diálogo llega desde la pantalla, no desde arriba.", "q": 3, "p": 552, "iva": 0.21, "ivaTxt": "21%", "t": "B"}, {"r": "son", "n": "Episode CORE 3 DVC/Surround 6\" — parlante trasero de techo", "d": "Dispersión amplia para un sonido envolvente parejo en los dos asientos.", "q": 2, "p": 228, "iva": 0.21, "ivaTxt": "21%", "t": "B"}, {"r": "son", "n": "Klipsch RP-1200SW — subwoofer activo 12\"", "d": "Los graves de la película, con amplificador propio.", "q": 1, "p": 1034, "iva": 0.21, "ivaTxt": "21%", "t": "A"}, {"r": "son", "n": "Klipsch RP-1000SW — subwoofer activo 10\"", "d": "Los graves de la película, con amplificador propio. Dimensionado para 16,5 m².", "q": 1, "p": 827, "iva": 0.21, "ivaTxt": "21%", "t": "B"}, {"r": "ene", "n": "Eaton — UPS interactiva 1200 VA", "d": "Protege receiver y proyector de picos de tensión y los sostiene en microcortes.", "q": 1, "p": 98, "iva": 0.105, "ivaTxt": "10,5%", "t": null}, {"r": "ene", "n": "Binary B6A — cable HDMI activo 4K, 15 m", "d": "Lleva la imagen del receiver al proyector por dentro del caño.", "q": 1, "p": 169, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "ene", "n": "Binary B3 — cable de subwoofer blindado", "d": "Conecta la salida LFE del receiver con el subwoofer.", "q": 1, "p": 11, "iva": 0.21, "ivaTxt": "21%", "t": null}, {"r": "ene", "n": "Furukawa — patch cord CAT6, 2 m", "d": "Conecta el receiver a la red de la casa.", "q": 1, "p": 8, "iva": 0.21, "ivaTxt": "21%", "t": "A"}, {"r": "ene", "n": "Furukawa — patch cord CAT6, 2 m", "d": "Conectan el receiver y el reproductor a la red de la casa.", "q": 2, "p": 8, "iva": 0.21, "ivaTxt": "21%", "t": "B"}];
+var DEVICES={"img": [{"n": "Proyector 4K", "t": "A", "q": "1 unidad, en el cielorraso", "desc": "Optoma UHD38X. Imagen 4K con 4.000 lúmenes y modo de baja latencia para juegos.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/UHD38X.jpg"}, {"n": "Proyector 4K láser", "t": "B", "q": "1 unidad, en el cielorraso", "desc": "Optoma UHZ55. Láser sin lámpara: enciende al instante, mantiene el brillo con los años y no lleva recambios.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/UHZ55.jpg"}, {"n": "Reproductor de streaming 4K", "q": "1 unidad", "desc": "Roku Ultra. Todas las apps de streaming en 4K HDR, con control remoto por voz.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/roku/ROKU-ULTRA-LT-4801.jpg"}, {"n": "Pantalla motorizada 110\"", "q": "1 unidad, en el muro frontal", "desc": "Baja con el control remoto cuando empieza la película y se recoge cuando no se usa. Formato 16:9.", "foto": null}, {"n": "Soporte de techo", "q": "1 unidad", "desc": "Sostiene el proyector con ajuste fino para que la imagen calce justo en la pantalla.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/optoma/241.jpg"}], "son": [{"n": "Receiver A/V 7.2", "t": "A", "q": "1 unidad, en el mueble técnico", "desc": "Denon AVR-S770. Decodifica el 5.1 y se calibra con micrófono para la sala. Queda listo para sumar parlantes de altura.", "foto": null}, {"n": "Receiver A/V 7.2", "t": "B", "q": "1 unidad, en el mueble técnico", "desc": "Denon AVR-X1800H. Decodifica el 5.1 y se calibra con micrófono para cada asiento. Queda listo para sumar parlantes de altura.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/denon/DENON-AVR-X1800H.jpg"}, {"n": "Parlantes de techo 6\"", "t": "A", "q": "5 instalados + 1 de repuesto", "desc": "Episode CORE 1: frontales izquierdo, central y derecho, y traseros izquierdo y derecho, embutidos en el cielorraso.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/ES-CORE-16-IC.jpg"}, {"n": "Parlantes frontales angulados", "t": "B", "q": "3 unidades, en el techo frente a la pantalla", "desc": "Episode 700 Series. Caja cerrada con el frente angulado hacia los asientos: el diálogo llega desde la pantalla, no desde arriba.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/ES-HT700-ICLCR-5.jpg"}, {"n": "Parlantes traseros de techo", "t": "B", "q": "2 unidades", "desc": "Episode CORE 3 de dispersión amplia: el sonido envolvente llega parejo a los dos asientos.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/ES-CORE-36-IC-DVCS.jpg"}, {"n": "Subwoofer 12\"", "t": "A", "q": "1 unidad", "desc": "Klipsch RP-1200SW. Graves con presión y amplificador propio.", "foto": null}, {"n": "Subwoofer 10\"", "t": "B", "q": "1 unidad", "desc": "Klipsch RP-1000SW. Graves con presión y amplificador propio, dimensionado para 16,5 m².", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/klipsch/KLIPSCH-RP-1000SW-10-SUBWOOFER-EBONY.jpg"}], "ene": [{"n": "UPS 1200 VA", "q": "1 unidad, en el mueble técnico", "desc": "Protege los equipos de picos de tensión y los sostiene en microcortes.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/eaton/705.jpg"}, {"n": "Cable HDMI activo 15 m", "q": "1 unidad, por dentro del caño", "desc": "Lleva la imagen 4K del receiver al proyector sin pérdidas.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/binary/B6A-4K2-15.jpg"}, {"n": "Cable de subwoofer y patch CAT6", "q": "Conexiones del mueble técnico", "desc": "Unen el receiver con el subwoofer y con la red de la casa.", "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/binary/B3-SUB-4.jpg"}]};
+var MO=547, LOG=160;
+var S={opt:'A',fa:false};
+var OPTS={"A": {"n": "Según su solicitud", "s": "Solicitada", "m": "Optoma UHD38X · Denon S770 · Episode CORE 1 · Klipsch 12\"", "d": "Los equipos pedidos o equivalentes del mismo rango, punto por punto."}, "B": {"n": "Alternativa recomendada", "s": "Recomendada", "tag": "Recomendada", "m": "Optoma UHZ55 láser · Denon X1800H · Episode 700 angulados · Klipsch 10\"", "d": "Proyector láser sin lámpara ni recambios, diálogo que llega desde la pantalla con frontales angulados, y receiver de la serie X."}};
+var SOL=[{"s": "Proyector Epson Home Cinema 2350 4K PRO-UHD con Android TV", "A": ["<b>Optoma UHD38X</b> 4K UHD, 4.000 lúmenes + <b>Roku Ultra</b>", "Misma clase de proyector (4K de lámpara) con más brillo: 4.000 lúmenes contra 2.800. El HC2350 no tiene disponibilidad en el canal oficial; las apps que trae su Android TV las da el Roku, que además se actualiza por separado."], "B": ["<b>Optoma UHZ55</b> 4K UHD láser, 3.000 lúmenes + <b>Roku Ultra</b>", "Superior a lo solicitado: fuente láser sin lámpara, unas 30.000 horas sin recambios, encendido instantáneo y un zoom más amplio para ubicarlo en el techo. Las apps las da el Roku."]}, {"s": "Pantalla motorizada 110\" 16:9, control remoto", "A": ["<b>Pantalla motorizada 110\" 16:9</b> con control remoto", "Según lo solicitado."]}, {"s": "Receiver Denon AVR-S670H 5.2, 220 V", "A": ["<b>Denon AVR-S770</b> 7.2, 8K", "Misma familia Denon, con red, HEOS y calibración Audyssey, y dos canales más: queda listo para sumar parlantes de altura sin cambiar el equipo."], "B": ["<b>Denon AVR-X1800H</b> 7.2, 8K", "Serie X de Denon, un escalón por encima: red, HEOS, calibración Audyssey MultEQ XT y canales para sumar parlantes de altura sin cambiar el equipo."]}, {"s": "Parlantes de techo Polk Audio RC60i 6,5\", 3 pares", "A": ["<b>Episode CORE 1 6\"</b>, 3 pares", "Parlante de techo de 6\" del mismo rango, de la línea para instaladores de Snap One, con distribución oficial en el país. Se instalan 5 y el sexto queda de repuesto."], "B": ["<b>Episode 700 Series</b> angulados (3 frontales) + <b>Episode CORE 3 DVC/Surround</b> (2 traseros)", "Los frontales tienen el frente angulado hacia los asientos: el diálogo llega desde la pantalla y no desde el techo. Los traseros dispersan el sonido para que llegue parejo a los dos asientos."]}, {"s": "Subwoofer activo Klipsch R-121SW 12\"", "A": ["<b>Klipsch RP-1200SW</b> 12\"", "Misma marca y tamaño, de la línea superior (Reference Premiere). El R-121SW no figura en la lista del distribuidor oficial."], "B": ["<b>Klipsch RP-1000SW</b> 10\"", "Misma línea Reference Premiere. Para 16,5 m², un 10\" alcanza con holgura: la diferencia se invierte en los parlantes, que es donde más se nota."]}, {"s": "Cable de parlantes OFC 2 × 2,5 mm², 50 m", "A": ["No incluido", "Lo aporta el electricista de la obra junto con las cañerías, según nuestro plano de preinstalación."]}, {"s": "HDMI fibra óptica 2.1 / 48 Gbps, 10 m", "A": ["<b>Binary B6A</b> HDMI activo 4K, 15 m", "El proyector recibe hasta 4K a 60 Hz, que no necesita 48 Gbps. El cable activo transporta esa señal sin pérdidas y el largo de 15 m deja margen en el recorrido."]}, {"s": "Cable de subwoofer RCA / LFE blindado", "A": ["<b>Binary B3</b> cable de subwoofer", "Según lo solicitado."]}, {"s": "Cable de red CAT6", "A": ["<b>Furukawa</b> patch cord CAT6", "Según lo solicitado."], "B": ["<b>Furukawa</b> patch cord CAT6 (2)", "Uno para el receiver y otro para el reproductor de streaming."]}, {"s": "Soporte de techo compatible con el proyector", "A": ["<b>Soporte de techo regulable</b>", "Compatible con el proyector propuesto."]}, {"s": "Protector / filtro para receiver y proyector", "A": ["<b>UPS Eaton</b> interactiva 1200 VA", "Además de filtrar picos de tensión, sostiene los equipos en microcortes y les da tiempo a apagarse bien en un corte largo."]}, {"s": "Materiales auxiliares: cañerías, cajas, conectores, fichas", "A": ["A cargo de la obra", "Los ejecuta el electricista de la obra con el plano de Nova Domus; nosotros certificamos antes de cerrar el cielorraso."]}];
+var PROJ={A:{y:385,txt:'≈ 3,85 m'},B:{y:350,txt:'≈ 3,5 m'}};
+function isOn(t,st){ st=st||S; return !t || t.split(',').indexOf(st.opt)>=0; }
+function act(st){ return ITEMS.filter(function(it){return isOn(it.t,st);}); }
+var RUB={img:'Imagen: proyector, pantalla y streaming',son:'Sonido 5.1',ene:'Protección y conexión'};
 function fmt(v){return 'U$D '+Math.round(v).toLocaleString('es-AR');}
 function tog(b){
   var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
@@ -1243,16 +1204,14 @@ window.addEventListener('resize',function(){
   });
 });
 function imgErr(img){ var d=document.createElement('div'); d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente'; img.replaceWith(d); }
-function isOn(t,st){ st=st||S; if(!t) return true; var p=t.split(':'); return p[1].split(',').indexOf(st[p[0]])>=0; }
-function activeItems(st){ return ITEMS.filter(function(it){ return isOn(it.t,st); }); }
 
-// ===== TOTALES: una sola funcion, todas las variables separadas =====
+// Single totals function: every separated variable is consumed by the payment UI
 function totals(st){
   st=st||S;
-  var its=activeItems(st), neto=0, ivaX=0;
-  its.forEach(function(it){ neto+=it.p*it.q; ivaX+=it.p*it.q*it.iva; });
+  var neto=0, ivaX=0;
+  act(st).forEach(function(it){ neto+=it.p*it.q; ivaX+=it.p*it.q*it.iva; });
   var t={neto:neto, iva:Math.ceil(ivaX-1e-9)};
-  t.eq=t.neto+t.iva; t.mo=MOT[st.aud]; t.log=LOG;
+  t.eq=t.neto+t.iva; t.mo=MO; t.log=LOG;
   t.prog=Math.ceil(0.1*(t.eq+t.mo)-1e-9);
   t.total=t.eq+t.mo+t.prog+t.log;
   t.progIni=Math.round(t.prog*0.6); t.progFin=t.prog-t.progIni;
@@ -1260,57 +1219,16 @@ function totals(st){
   t.grand=t.total+t.fa;
   return t;
 }
-function configName(){ return 'Imagen '+TIERS.img[S.img].n+' · Sonido '+TIERS.aud[S.aud].n; }
-
-// ===== SELECTOR DOBLE =====
-function renderSel(){
-  ['img','aud'].forEach(function(kind){
-    var host=document.getElementById('sel-'+kind), keys=Object.keys(TIERS[kind]);
-    host.innerHTML=keys.map(function(k){
-      var T=TIERS[kind][k], st={img:S.img,aud:S.aud,fa:S.fa}; st[kind]=k;
-      var on=S[kind]===k;
-      return '<button class="selc'+(on?' on':'')+'" role="radio" aria-checked="'+(on?'true':'false')+'" onclick="setTier(\''+kind+'\',\''+k+'\',this)">'
-        +'<span class="sc-top"><span class="sc-n">'+T.n+'</span>'+(T.tag?'<span class="sc-tag">'+T.tag+'</span>':'')+'</span>'
-        +'<span class="sc-m">'+T.m+'</span><span class="sc-d">'+T.d+'</span>'
-        +'<span class="sc-t">Total con esta opción: <b>'+fmt(totals(st).grand)+'</b></span>'
-        +'<span class="sc-on">'+(on?'✓ Elegida':'Tocá para elegir')+'</span></button>';
-    }).join('');
-  });
-}
-function setTier(kind,k,btn){
-  S[kind]=k;
-  var g=document.getElementById('sel-img'); g.classList.remove('glow');
-  renderAll();
-}
-
-// ===== GRILLAS DESCRIPTIVAS (sin precio) =====
 function renderDeviceGrid(id,key){
   var el=document.getElementById(id); if(!el) return;
-  var list=DEVICES[key].filter(function(d){ return isOn(d.t); });
-  el.innerHTML=list.map(function(d,i){
+  el.innerHTML=DEVICES[key].filter(function(d){return isOn(d.t);}).map(function(d,i){
     var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
-    var badge=i===0?'<span class="tap-badge">Tocá para abrir</span>':'';
+    var badge=(i===0&&!subUsed)?'<span class="tap-badge">Tocá para abrir</span>':'';
     return '<article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'
      +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+'</span></span>'
      +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
      +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div></article>';
   }).join('');
-}
-function renderGrids(){ ['img','son','dom','ene'].forEach(function(k){ renderDeviceGrid('grid-'+k,k); }); }
-
-// ===== PREINSTALACION SEGUN CONFIGURACION =====
-var PRE=[{"t": null, "h": "Toma doble de 220 V en el techo, donde va el proyector", "x": ", entre 3,2 y 4,4 m del muro de la pantalla según el modelo. La posición exacta sale de nuestro plano."}, {"t": null, "h": "Toma de 220 V junto al cajón de la pantalla", "x": ", en el muro frontal, para el motor."}, {"t": null, "h": "Caño de 1\" desde el mueble técnico hasta el proyector", "x": ", con pocas curvas: lleva la alimentación protegida por el UPS y el cable de imagen o de sonido."}, {"t": "aud:S", "h": "Tomas de 220 V para el sonido", "x": ": debajo de la pantalla para la barra y el subwoofer, y una en cada muro lateral a la altura de los parlantes traseros."}, {"t": "aud:C,R", "h": "Caños con tanza guía hasta cada parlante de techo y hasta el subwoofer", "x": ", desde el mueble técnico."}, {"t": "aud:C,R", "h": "Al menos 24 cm libres sobre el cielorraso frente a la pantalla", "x": ": los parlantes frontales van en una caja cerrada que se embute."}, {"t": "aud:R", "h": "Espacio en el cielorraso para el subwoofer embutido", "x": ", a confirmar con el estudio según la ficha del equipo."}, {"t": "aud:S", "h": "Tomas de 220 V en el mueble técnico", "x": " para el UPS."}, {"t": "aud:C,R", "h": "Tomas de 220 V y dos puntos de red en el mueble técnico", "x": ", para el UPS, el receiver y el reproductor."}, {"t": null, "h": "Neutro en la caja de la llave de las tiras LED", "x": ": la llave pasa a ser un pulsador para regular la luz, y las fuentes de las tiras quedan accesibles."}, {"t": "aud:S", "h": "Recomendado: dejar igual los caños y cajas de los parlantes de techo", "x": ". Cuesta poco con la obra abierta y permite pasar a la versión Cine más adelante sin romper el cielorraso."}];
-function renderPre(){
-  var list=PRE.filter(function(p){ return isOn(p.t); });
-  document.getElementById('pre-n').textContent=list.length;
-  document.getElementById('pre-list').innerHTML=list.map(function(p,i){
-    return '<div class="vi"><b>'+(i<9?'0':'')+(i+1)+'</b><span><strong>'+p.h+'</strong>'+p.x+'</span></div>';
-  }).join('');
-}
-function renderCmp(){
-  [['t-img','img'],['t-aud','aud']].forEach(function(x){
-    document.querySelectorAll('#'+x[0]+' [data-c]').forEach(function(c){ c.classList.toggle('sel',c.getAttribute('data-c')===S[x[1]]); });
-  });
 }
 function setFA(v){
   S.fa=v;
@@ -1324,9 +1242,8 @@ function render(){
   var t=totals();
   var host=document.getElementById('rubros'), openSet={};
   host.querySelectorAll('.rub.open').forEach(function(a){openSet[a.dataset.r]=1;});
-  var its=activeItems();
-  host.innerHTML=['img','son','dom','ene'].map(function(k,i){
-    var rows=its.filter(function(it){return it.r===k;}), val=0;
+  host.innerHTML=['img','son','ene'].map(function(k,i){
+    var rows=act().filter(function(it){return it.r===k;}), val=0;
     var html=rows.map(function(it){ val+=it.p*it.q;
       return '<tr><td><span class="it-n">'+it.n+'</span><span class="it-d">'+it.d+'</span></td><td class="num">'+it.q+'</td><td class="num">'+fmt(it.p)+'<span class="iva"> + IVA '+it.ivaTxt+'</span></td><td class="num">'+fmt(it.p*it.q)+'</td></tr>';}).join('');
     return '<article class="rub'+(openSet[k]?' open':'')+'" data-r="'+k+'"><button class="rub-head" onclick="tog(this)" aria-expanded="'+(openSet[k]?'true':'false')+'">'
@@ -1345,46 +1262,79 @@ function render(){
    +'<div class="trow"><span>Logística a Villa María (2 viajes)</span><span>'+fmt(t.log)+'</span></div>'
    +(t.fa?'<div class="trow sub"><span>IVA 21% sobre instalación, programación y logística (Factura A)</span><span>'+fmt(t.fa)+'</span></div>':'')
    +'<div class="trow big"><span>Total del proyecto</span><span>'+fmt(t.grand)+'</span></div>';
-  document.getElementById('rc-desc').textContent=TIERS.img[S.img].r+' ' +TIERS.aud[S.aud].r;
+  document.getElementById('mo-totals').innerHTML=
+    '<div class="trow"><span>Instalación por punto</span><span>'+fmt(t.mo)+'</span></div>'
+   +'<div class="trow"><span>Programación, calibración del 5.1 y prueba final</span><span>'+fmt(t.prog)+'</span></div>'
+   +'<div class="trow"><span>Logística a Villa María (2 viajes)</span><span>'+fmt(t.log)+'</span></div>'
+   +'<div class="trow big"><span>Total mano de obra</span><span>'+fmt(t.mo+t.prog+t.log)+'</span></div>';
   var m=document.getElementById('fa-msg');
   m.classList.toggle('on',S.fa);
   m.innerHTML=S.fa?'Con Factura A se suma <b>IVA 21% sobre la instalación, la programación y la logística</b>: <b>+ '+fmt(t.fa)+'</b>. Los equipos ya tienen su IVA discriminado en cada ítem.':'Sin Factura A, la instalación, la programación y la logística van sin IVA. Los equipos tienen su IVA discriminado en cada ítem.';
   document.getElementById('pay').innerHTML=
     '<div class="stage"><span><b style="display:block">Equipos — 100% anticipado</b>Antes de comprar. Asegura el precio y la disponibilidad de importación; los equipos llegan en unos 30 días.</span><b>'+fmt(t.eq)+'</b></div>'
    +'<div class="stage"><span><b style="display:block">Programación — inicio (60%)</b>Al arrancar la configuración de los equipos y la calibración de la sala.</span><b>'+fmt(t.progIni)+'</b></div>'
-   +'<div class="stage"><span><b style="display:block">Programación — entrega (40%)</b>Contra la calibración final, las pruebas de imagen, sonido y luz, y la entrega documentada.</span><b>'+fmt(t.progFin)+'</b></div>'
+   +'<div class="stage"><span><b style="display:block">Programación — entrega (40%)</b>Contra la calibración final, las pruebas de imagen, sonido y control, y la entrega documentada.</span><b>'+fmt(t.progFin)+'</b></div>'
    +'<div class="stage"><span><b style="display:block">Instalación</b>Se certifica por avance real en obra, sin porcentajes ni fechas fijas de antemano.<span class="ref">Monto de referencia sobre el total presupuestado</span></span><b>'+fmt(t.mo)+'</b></div>'
    +'<div class="stage"><span><b style="display:block">Logística</b>Se factura por viaje realizado a Villa María (dos previstos).<span class="ref">Monto de referencia sobre el total presupuestado</span></span><b>'+fmt(t.log)+'</b></div>';
   document.getElementById('pay-iva-row').style.display=t.fa?'flex':'none';
   document.getElementById('fa-val').textContent=fmt(t.fa);
   document.getElementById('gt').textContent=fmt(t.grand);
   document.querySelectorAll('.js-grand').forEach(function(e){e.textContent=fmt(t.grand);});
-  document.querySelectorAll('.js-config').forEach(function(e){e.textContent=configName();});
-  document.getElementById('cb-img').textContent=TIERS.img[S.img].n;
-  document.getElementById('cb-aud').textContent=TIERS.aud[S.aud].n;
-  var lamp=S.img==='E';
-  document.getElementById('mt-cons').textContent=lamp?'1':'0';
-  document.getElementById('mt-cons-t').textContent=lamp?'La lámpara del proyector Esencial se desgasta con las horas de uso y se reemplaza al final de su vida útil.':'El proyector elegido es láser: no tiene lámpara ni otros repuestos de uso.';
-  var msg='Hola Nova Domus, revisé la propuesta PY-2026-039 (sala de cine Villa María) con '+configName()+' por '+fmt(t.grand)+(t.fa?' con Factura A':'')+'. Quiero avanzar.';
+  document.querySelectorAll('.js-opt').forEach(function(e){e.textContent=OPTS[S.opt].n;});
+    var msg='Hola Nova Domus, revisé la propuesta PY-2026-039 (sala de cine Villa María), versión '+OPTS[S.opt].n+', por '+fmt(t.grand)+(t.fa?' con Factura A':'')+'. Quiero avanzar.';
   document.getElementById('go').href='https://wa.me/5493518643455?text='+encodeURIComponent(msg);
   window.__T=t;
 }
-function renderAll(){ renderSel(); renderGrids(); renderPre(); renderCmp(); render(); renderPlan(); }
+
+function renderSel(){
+  var host=document.getElementById('sel-opt');
+  host.innerHTML=Object.keys(OPTS).map(function(k){
+    var O=OPTS[k], on=S.opt===k, st={opt:k,fa:S.fa};
+    return '<button class="selc'+(on?' on':'')+'" role="radio" aria-checked="'+(on?'true':'false')+'" onclick="setOpt(\''+k+'\')">'
+      +'<span class="sc-top"><span class="sc-n">'+O.n+'</span>'+(O.tag?'<span class="sc-tag">'+O.tag+'</span>':'')+'</span>'
+      +'<span class="sc-m">'+O.m+'</span><span class="sc-d">'+O.d+'</span>'
+      +'<span class="sc-t">Total: <b>'+fmt(totals(st).grand)+'</b></span>'
+      +'<span class="sc-on">'+(on?'✓ Elegida':'Tocá para elegir')+'</span></button>';
+  }).join('');
+  var d=totals({opt:'B',fa:S.fa}).grand-totals({opt:'A',fa:S.fa}).grand;
+  document.getElementById('sel-diff').innerHTML='La alternativa recomendada suma <b>'+fmt(d)+'</b> sobre la versión solicitada: misma pantalla, misma instalación y mismo alcance.';
+}
+function setOpt(k){ S.opt=k; document.getElementById('sel-opt').classList.remove('glow'); document.getElementById('tier-pills').classList.add('used'); renderAll(); }
+function renderPills(){
+  document.getElementById('tier-pills').innerHTML=Object.keys(OPTS).map(function(k){
+    var on=S.opt===k;
+    return '<button class="tier-pill'+(on?' active':'')+'" role="radio" aria-checked="'+(on?'true':'false')+'" onclick="setOpt(\''+k+'\')"><span class="pl-full">'+OPTS[k].n+'</span><span class="pl-short">'+OPTS[k].s+'</span></button>';
+  }).join('');
+  document.getElementById('tb-sub').textContent='Total · '+OPTS[S.opt].n+(S.fa?' · con Factura A':'');
+}
+var SUBSYS={img:{n:'Imagen',d:'Proyector en el cielorraso, pantalla motorizada y reproductor de streaming.'},son:{n:'Sonido 5.1',d:'Receiver, cinco parlantes embutidos en el techo y subwoofer.'},ene:{n:'Protección y conexión',d:'El respaldo eléctrico de los equipos y los cables que los unen por dentro de los caños.'}};
+var activeSub='img', subUsed=false;
+function setSub(k){ activeSub=k; subUsed=true; renderSubsys(); }
+function renderSubsys(){
+  var tabs=document.getElementById('subsys-tabs');
+  tabs.classList.toggle('used',subUsed);
+  tabs.innerHTML=Object.keys(SUBSYS).map(function(k){
+    return '<button class="subsys-tab'+(k===activeSub?' active':'')+'" role="tab" aria-selected="'+(k===activeSub)+'" onclick="setSub(\''+k+'\')">'+SUBSYS[k].n+'</button>';
+  }).join('');
+  document.getElementById('subsys-panel').innerHTML='<p class="sub-desc">'+SUBSYS[activeSub].d+'</p><div class="device-grid" id="grid-'+activeSub+'"></div>';
+  renderDeviceGrid('grid-'+activeSub,activeSub);
+}
+var BARC={img:'#C8A96E',son:'#141E61',ene:'#787A91'};
+function renderBar(){
+  var its=act(), tot=0, by={};
+  its.forEach(function(it){ by[it.r]=(by[it.r]||0)+it.p*it.q; tot+=it.p*it.q; });
+  document.getElementById('barra').innerHTML=['img','son','ene'].map(function(k){ return '<span style="width:'+(by[k]/tot*100).toFixed(2)+'%;background:'+BARC[k]+'" title="'+RUB[k]+'"></span>'; }).join('');
+  document.getElementById('barra-legend').innerHTML=['img','son','ene'].map(function(k){ return '<span><i style="background:'+BARC[k]+'"></i>'+RUB[k]+' · '+Math.round(by[k]/tot*100)+'%</span>'; }).join('');
+}
+function renderSol(){
+  document.getElementById('sol-body').innerHTML=SOL.map(function(r){
+    var p=r[S.opt]||r.A;
+    return '<tr><td>'+r.s+'</td><td data-label="Propuesto">'+p[0]+'</td><td data-label="Motivo">'+p[1]+'</td></tr>';
+  }).join('');
+}
+function renderAll(){ renderPills(); renderSel(); renderSol(); renderSubsys(); render(); renderBar(); renderPlan(); }
 function conf(){ document.getElementById('go').setAttribute('aria-disabled', document.getElementById('ok').checked?'false':'true'); }
 document.getElementById('go').addEventListener('click',function(e){ if(this.getAttribute('aria-disabled')==='true') e.preventDefault(); });
-
-// ===== COMPARATIVA =====
-var CCMP=[
- ['Televisor grande',false,['El sonido sale de los parlantes del televisor: no hay efectos que pasen por detrás de los asientos','Un televisor de 120" cuesta varias veces más y ocupa la pared todo el tiempo','La luz de la sala queda como está, sin una escena para ver películas','Sin calibración: el sonido no se ajusta a la sala']],
- ['Sala de cine Nova Domus',true,['Sonido 5.1 con subwoofer: te rodea como en el cine','Imagen de 120" en 4K; la pantalla se recoge cuando no se usa','Las tiras LED bajan a una penumbra cálida con un toque','Calibración de niveles y distancias para esta sala en particular']]
-];
-function ccmp(i,btn){
-  btn.parentElement.querySelectorAll('button').forEach(function(b,j){ b.classList.toggle('on',j===i); });
-  var b=document.getElementById('cbox'), d=CCMP[i];
-  b.classList.toggle('good',d[1]);
-  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
-}
-ccmp(0,document.getElementById('c0'));
 function marca(i,btn){
   var f=document.getElementById('f'+i), on=f.classList.contains('on');
   document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
@@ -1392,30 +1342,26 @@ function marca(i,btn){
   if(!on){f.classList.add('on'); btn.classList.add('on');}
 }
 
-// ===== DEMO SALA DE CINE (1 m = 100 px) =====
-var CHS={"S": [{"k": "ARC", "l": "ARC", "n": "Barra Sonos Arc", "bar": 1, "x": 165, "y": 22, "t": "Frontales y central en un solo equipo bajo la pantalla. El diálogo sale de abajo de la imagen."}, {"k": "SL", "l": "SL", "n": "Trasero izquierdo", "x": 12, "y": 430, "t": "Parlante inalámbrico en el muro lateral: ambiente y efectos que pasan al costado de los asientos."}, {"k": "SR", "l": "SR", "n": "Trasero derecho", "x": 318, "y": 430, "t": "El otro lado del sonido envolvente: lluvia, público, un helicóptero que cruza la sala."}, {"k": "SW", "l": "SW", "n": "Subwoofer", "sub": 1, "x": 28, "y": 48, "t": "Los graves: explosiones, motores y el golpe de la música, sin cables de audio."}], "C": [{"k": "L", "l": "L", "n": "Frontal izquierdo", "x": 80, "y": 80, "t": "Angulado hacia los asientos: música y efectos que se mueven de izquierda a derecha en la pantalla."}, {"k": "C", "l": "C", "n": "Central", "x": 165, "y": 80, "t": "Los diálogos. Angulado hacia los asientos para que las voces salgan de la pantalla, no del techo."}, {"k": "R", "l": "R", "n": "Frontal derecho", "x": 250, "y": 80, "t": "Música y efectos del lado derecho de la imagen."}, {"k": "SL", "l": "SL", "n": "Trasero izquierdo", "x": 40, "y": 445, "t": "De techo y dispersión amplia: ambiente y efectos que pasan por detrás de los asientos."}, {"k": "SR", "l": "SR", "n": "Trasero derecho", "x": 290, "y": 445, "t": "El otro lado del sonido envolvente."}, {"k": "SW", "l": "SW", "n": "Subwoofer", "sub": 1, "x": 28, "y": 48, "t": "Los graves, en el frente de la sala. Se ajusta su corte con el resto en la calibración."}], "R": [{"k": "L", "l": "L", "n": "Frontal izquierdo", "x": 80, "y": 80, "t": "Angulado hacia los asientos: música y efectos que se mueven de izquierda a derecha."}, {"k": "C", "l": "C", "n": "Central", "x": 165, "y": 80, "t": "Los diálogos, dirigidos a los asientos desde el frente de la sala."}, {"k": "R", "l": "R", "n": "Frontal derecho", "x": 250, "y": 80, "t": "Música y efectos del lado derecho de la imagen."}, {"k": "SL", "l": "SL", "n": "Trasero izquierdo", "x": 40, "y": 445, "t": "Orientado hacia el asiento: el envolvente llega con precisión."}, {"k": "SR", "l": "SR", "n": "Trasero derecho", "x": 290, "y": 445, "t": "Orientado hacia el otro asiento."}, {"k": "SW", "l": "SW", "n": "Subwoofer de techo", "sub": 1, "x": 165, "y": 230, "t": "Embutido en el cielorraso con su propio amplificador: los graves llegan sin ningún equipo a la vista."}]};
-var PROJ={"E": {"y": 410, "txt": "≈ 4,1 m"}, "C": {"y": 360, "txt": "≈ 3,6 m"}, "A": {"y": 385, "txt": "≈ 3,9 m"}};
-var CH=[], CINE={on:false};
+// ===== Demo (1 m = 100 px) =====
+var CHS={"A": [{"k": "L", "l": "L", "n": "Frontal izquierdo", "x": 80, "y": 80, "t": "Música y efectos que se mueven de izquierda a derecha en la pantalla."}, {"k": "C", "l": "C", "n": "Central", "x": 165, "y": 80, "t": "Los diálogos. Va centrado frente a la pantalla para que las voces salgan de la imagen."}, {"k": "R", "l": "R", "n": "Frontal derecho", "x": 250, "y": 80, "t": "Música y efectos del lado derecho de la imagen."}, {"k": "SL", "l": "SL", "n": "Trasero izquierdo", "x": 30, "y": 445, "t": "Ambiente y efectos que pasan por detrás y al costado de los asientos."}, {"k": "SR", "l": "SR", "n": "Trasero derecho", "x": 300, "y": 445, "t": "El otro lado del sonido envolvente."}, {"k": "SW", "l": "SW", "n": "Subwoofer", "sub": 1, "x": 28, "y": 48, "t": "Los graves, en el frente de la sala. Su nivel y su corte se ajustan en la calibración."}], "B": [{"k": "L", "l": "L", "n": "Frontal izquierdo", "x": 80, "y": 80, "t": "Angulado hacia los asientos: música y efectos que se mueven de izquierda a derecha en la pantalla."}, {"k": "C", "l": "C", "n": "Central", "x": 165, "y": 80, "t": "Los diálogos, desde un parlante angulado hacia los asientos: las voces salen de la pantalla, no del techo."}, {"k": "R", "l": "R", "n": "Frontal derecho", "x": 250, "y": 80, "t": "Angulado hacia los asientos: música y efectos del lado derecho de la imagen."}, {"k": "SL", "l": "SL", "n": "Trasero izquierdo", "x": 30, "y": 445, "t": "De dispersión amplia: ambiente y efectos que pasan por detrás y al costado de los asientos."}, {"k": "SR", "l": "SR", "n": "Trasero derecho", "x": 300, "y": 445, "t": "De dispersión amplia: el otro lado del sonido envolvente."}, {"k": "SW", "l": "SW", "n": "Subwoofer", "sub": 1, "x": 28, "y": 48, "t": "Los graves, en el frente de la sala. Su nivel y su corte se ajustan en la calibración."}]}, CH=[], CINE={on:false};
 function renderPlan(){
-  CH=CHS[S.aud];
-  var P=PROJ[S.img];
+  CH=CHS[S.opt]; var P=PROJ[S.opt];
   document.getElementById('proj').setAttribute('y',P.y-8);
   document.getElementById('proj-l').setAttribute('y',P.y+24);
-  document.getElementById('cone').setAttribute('points','165,'+P.y+' 32,10 298,10');
+  document.getElementById('cone').setAttribute('points','165,'+P.y+' 43,10 287,10');
   document.getElementById('geo-p').textContent=P.txt;
+  document.getElementById('cine-info').innerHTML='';
   var g=document.getElementById('spks'), chan=document.getElementById('chan'), h='';
   CH.forEach(function(c){
     h+='<circle class="wave" id="w-'+c.k+'" cx="'+c.x+'" cy="'+c.y+'" r="11"/>';
-    if(c.bar) h+='<rect class="arcbar spk" data-k="'+c.k+'" x="'+(c.x-57)+'" y="'+(c.y-6)+'" width="114" height="12" rx="4"/>';
-    else if(c.sub) h+='<rect class="spk sub" data-k="'+c.k+'" x="'+(c.x-13)+'" y="'+(c.y-13)+'" width="26" height="26" rx="4"/>';
+    if(c.sub) h+='<rect class="spk sub" data-k="'+c.k+'" x="'+(c.x-13)+'" y="'+(c.y-13)+'" width="26" height="26" rx="4"/>';
     else h+='<circle class="spk" data-k="'+c.k+'" cx="'+c.x+'" cy="'+c.y+'" r="11"/>';
-    h+='<text class="lbl" x="'+c.x+'" y="'+(c.y+(c.sub?30:c.bar?22:27))+'" text-anchor="middle">'+c.l+'</text>';
+    h+='<text class="lbl" x="'+c.x+'" y="'+(c.y+(c.sub?30:27))+'" text-anchor="middle">'+c.l+'</text>';
   });
   g.innerHTML=h;
   chan.innerHTML=CH.map(function(c){return '<button data-k="'+c.k+'" aria-pressed="false">'+c.n+'</button>';}).join('');
   g.querySelectorAll('.spk').forEach(function(s){ s.addEventListener('click',function(){ ping(s.getAttribute('data-k')); }); });
   chan.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ ping(b.dataset.k); }; });
-  document.getElementById('cine-info').innerHTML='';
 }
 function used(){ var c=document.getElementById('cine'); c.classList.add('used'); c.classList.remove('glow'); }
 function ping(k){
@@ -1425,20 +1371,14 @@ function ping(k){
   var w=document.getElementById('w-'+k); w.classList.remove('ping'); void w.getBoundingClientRect(); w.classList.add('ping');
   document.getElementById('cine-info').innerHTML='<div class="sxcard"><h3>'+c.n+'</h3><p>'+c.t+(CINE.on?'':' Tip: probalo en modo cine.')+'</p></div>';
 }
-function setDim(v){
-  v=+v; document.getElementById('dim').value=v;
-  document.getElementById('dim-v').textContent=v+'%';
-  document.getElementById('dimlay').setAttribute('opacity',((100-v)/100*0.6).toFixed(2));
-}
 function cineModo(on,btn,init){
   if(!init) used(); CINE.on=on;
   btn.parentElement.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on',b===btn); });
   document.getElementById('cine').classList.toggle('on',on);
   document.getElementById('scr').setAttribute('height',on?'10':'6');
-  setDim(on?10:100);
   document.getElementById('cine-state').innerHTML=on
-    ?'<b>Modo cine:</b> la pantalla bajó, el proyector encendió y las tiras LED del cielorraso quedaron al 10%. Tocá cada parlante para escucharlo.'
-    :'<b>Sala iluminada:</b> pantalla recogida, proyector apagado y luz plena. La sala se usa como cualquier otro ambiente.';
+    ?'<b>Modo cine:</b> la pantalla bajó y el proyector encendió. Tocá cada parlante para escucharlo.'
+    :'<b>Pantalla recogida:</b> proyector apagado. La sala se usa como cualquier otro ambiente.';
 }
 
 renderAll();
