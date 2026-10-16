@@ -55,11 +55,11 @@ a{color:var(--gold);text-decoration:none;}
 
 /* ===== TIMELINE / ACORDEÓN ===== */
 .timeline{margin-top:28px;display:flex;flex-direction:column;gap:0;}
-.tl-details{border-top:1px solid rgba(120,122,145,0.18);}
+.tl-details{border-top:1px solid rgba(120,122,145,0.18);position:relative;}
 .tl-details:first-child{border-top:none;}
 .tl-details summary{list-style:none;cursor:pointer;}
 .tl-details summary::-webkit-details-marker{display:none;}
-.tl-item{display:grid;grid-template-columns:140px 1fr auto;gap:16px;align-items:start;padding:18px 0;}
+.tl-item{display:grid;grid-template-columns:140px 1fr auto;gap:16px;align-items:start;padding:18px 0;position:relative;}
 .tl-stage{font-family:var(--font-display);font-size:11px;letter-spacing:1.5px;color:var(--gold);padding-top:2px;}
 .tl-content h3{margin-bottom:4px;}
 .tl-content p{font-size:13px;color:var(--grey);}
@@ -69,10 +69,31 @@ a{color:var(--gold);text-decoration:none;}
   padding:3px 8px;border-radius:3px;margin-top:6px;}
 .badge.cobrado{background:rgba(140,180,140,0.15);color:#9FCB9F;border:1px solid rgba(140,180,140,0.4);}
 .badge.pendiente{background:rgba(200,169,110,0.15);color:var(--gold);border:1px solid rgba(200,169,110,0.5);}
-.chevron{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:0.5px;color:var(--grey);transition:transform .2s ease;}
-.chevron::before{content:'Ver detalle ▾';}
-.tl-details[open] .chevron{color:var(--gold);}
-.tl-details[open] .chevron::before{content:'Ocultar detalle ▴';}
+
+/* --- capa de affordance: flecha con rebote + resplandor + badge "tocá para abrir" --- */
+.tl-toggle{display:flex;align-items:center;gap:6px;margin-top:8px;}
+.tl-toggle-label{font-size:10px;letter-spacing:0.5px;color:var(--grey);}
+.tl-details[open] .tl-toggle-label::before{content:'Ocultar detalle';}
+.tl-details:not([open]) .tl-toggle-label::before{content:'Ver detalle';}
+.arr{display:inline-block;width:9px;height:9px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);
+  transform:rotate(45deg);animation:arrbounce 1.6s ease-in-out infinite;transition:transform .25s ease;}
+.tl-details[open] .arr{animation:none;transform:rotate(-135deg);}
+@keyframes arrbounce{0%,100%{transform:rotate(45deg) translate(0,0);}50%{transform:rotate(45deg) translate(3px,3px);}}
+.tl-details[open] .arr{animation:none;}
+.tap-badge{display:inline-block;background:var(--gold);color:var(--navy-deep);font-size:9px;
+  font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;
+  margin-left:8px;animation:tappulse 2s ease-in-out infinite;}
+.tap-badge.gone{display:none;}
+@keyframes tappulse{0%,100%{opacity:1;}50%{opacity:0.45;}}
+.tl-glow{box-shadow:0 0 0 0 rgba(200,169,110,0.35);animation:glowpulse 2.6s ease-in-out infinite;border-radius:6px;}
+@keyframes glowpulse{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0.25);}50%{box-shadow:0 0 14px 2px rgba(200,169,110,0.35);}}
+.tl-details[open] .tl-glow{animation:none;box-shadow:none;}
+.tl-hint{font-size:12px;color:var(--grey);margin-top:-2px;margin-bottom:4px;}
+@media(prefers-reduced-motion:reduce){
+  .arr,.tap-badge,.tl-glow{animation:none !important;}
+}
+
+.chevron{display:none;}
 .tl-detail-body{padding:0 0 28px;}
 
 /* ===== TABLA DE DETALLE ===== */
@@ -262,6 +283,7 @@ footer{padding:40px 0 56px;}
     <div class="eyebrow">Historial de obra</div>
     <h2>De la obra original a los excedentes v6</h2>
     <p class="eo-legend">Estado de obra: <span class="eo eo-verde">Hecho</span> <span class="eo eo-amarillo">50% hecho</span> <span class="eo eo-rojo">Falta</span> <span class="eo eo-na">A revisar</span></p>
+    <p class="tl-hint">👆 Tocá cada etapa para ver el detalle completo y el estado de obra ítem por ítem.</p>
 
     <div class="timeline">
 
@@ -282,13 +304,13 @@ footer{padding:40px 0 56px;}
       </details>
 
       <details class="tl-details">
-        <summary>
+        <summary class="tl-glow">
           <div class="tl-item">
             <div class="tl-stage">Excedentes<br>v1 / v2</div>
             <div class="tl-content">
               <h3>Ajustes de obra</h3>
               <p>25 ítems de electricidad (bocas, cableado, tablero, perfilería LED) surgidos durante la ejecución en sauna húmedo, sauna seco, acometida y pileta exterior.</p>
-              <span class="chevron"></span>
+              <div class="tl-toggle"><span class="arr"></span><span class="tl-toggle-label"></span><span class="tap-badge">Tocá para abrir</span></div>
             </div>
             <div class="tl-amount">
               <div class="n">$4.700.800</div>
@@ -506,7 +528,7 @@ footer{padding:40px 0 56px;}
             <div class="tl-content">
               <h3>Nuevos ítems de electricistas</h3>
               <p>8 ítems adicionales: alimentaciones para camillas, luces de emergencia, cableado subterráneo de acometida trifásica y tirada de cable para cámaras.</p>
-              <span class="chevron"></span>
+              <div class="tl-toggle"><span class="arr"></span><span class="tl-toggle-label"></span></div>
             </div>
             <div class="tl-amount">
               <div class="n">$2.236.000</div>
@@ -597,7 +619,7 @@ footer{padding:40px 0 56px;}
             <div class="tl-content">
               <h3>Colocación de artefactos</h3>
               <p>Relevamiento del 25/08/2026: mano de obra de colocación de GU10, dicroicas, estacas de jardín, tiras LED y parlantes.</p>
-              <span class="chevron"></span>
+              <div class="tl-toggle"><span class="arr"></span><span class="tl-toggle-label"></span></div>
             </div>
             <div class="tl-amount">
               <div class="n">$2.219.253</div>
@@ -682,7 +704,7 @@ footer{padding:40px 0 56px;}
             <div class="tl-content">
               <h3>Iluminación de jardín y adecuación de cochera</h3>
               <p>Relevamiento del 07/09/2026: iluminación exterior de jardín (estacas, spot y artefactos LED), canalización subterránea con mallado, y trabajos de adecuación eléctrica de la cochera (canalizaciones, protecciones, sensores y alimentación de portón).</p>
-              <span class="chevron"></span>
+              <div class="tl-toggle"><span class="arr"></span><span class="tl-toggle-label"></span></div>
             </div>
             <div class="tl-amount">
               <div class="n">$6.077.750</div>
@@ -780,7 +802,7 @@ footer{padding:40px 0 56px;}
             <div class="tl-content">
               <h3>Garaje y excedentes SPA</h3>
               <p>Relevamiento del 15/10/2026: modificación de iluminación del garaje (bocas, reflectores perimetrales, iluminación rasante y sensor de movimiento) y excedentes varios del SPA (baños, parlantes, vestidores, recepción y tablero de saunas).</p>
-              <span class="chevron"></span>
+              <div class="tl-toggle"><span class="arr"></span><span class="tl-toggle-label"></span></div>
             </div>
             <div class="tl-amount">
               <div class="n">$1.993.530</div>
@@ -861,14 +883,14 @@ footer{padding:40px 0 56px;}
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$154.000</td>
           <td class="c-num c-total" data-label="Total">$154.000</td>
-          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-na">A revisar</span></td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-rojo">Falta</span></td>
         </tr>
         <tr>
           <td class="c-name">Caja estanca de patio — bifurcación de fuentes</td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$33.000</td>
           <td class="c-num c-total" data-label="Total">$33.000</td>
-          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-na">A revisar</span></td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-rojo">Falta</span></td>
         </tr>
         <tr>
           <td class="c-name">Independización de circuitos de saunas en tablero<div class="item-note">Disyuntores tetrapolares y modificación de armado de tablero.</div></td>
@@ -993,6 +1015,19 @@ footer{padding:40px 0 56px;}
   </footer>
 
 </div>
+
+<script>
+(function(){
+  var fired = false;
+  document.querySelectorAll('.tl-details').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (fired) return;
+      fired = true;
+      document.querySelectorAll('.tap-badge').forEach(function(b){ b.classList.add('gone'); });
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
