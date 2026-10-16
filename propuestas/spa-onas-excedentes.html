@@ -53,10 +53,13 @@ a{color:var(--gold);text-decoration:none;}
 .stat.gold .stat-value{color:var(--gold);}
 .stat-sub{font-size:11px;color:var(--grey);margin-top:4px;}
 
-/* ===== TIMELINE ===== */
+/* ===== TIMELINE / ACORDEÓN ===== */
 .timeline{margin-top:28px;display:flex;flex-direction:column;gap:0;}
-.tl-item{display:grid;grid-template-columns:140px 1fr auto;gap:16px;align-items:start;padding:18px 0;border-top:1px solid rgba(120,122,145,0.18);}
-.tl-item:first-child{border-top:none;}
+.tl-details{border-top:1px solid rgba(120,122,145,0.18);}
+.tl-details:first-child{border-top:none;}
+.tl-details summary{list-style:none;cursor:pointer;}
+.tl-details summary::-webkit-details-marker{display:none;}
+.tl-item{display:grid;grid-template-columns:140px 1fr auto;gap:16px;align-items:start;padding:18px 0;}
 .tl-stage{font-family:var(--font-display);font-size:11px;letter-spacing:1.5px;color:var(--gold);padding-top:2px;}
 .tl-content h3{margin-bottom:4px;}
 .tl-content p{font-size:13px;color:var(--grey);}
@@ -66,21 +69,40 @@ a{color:var(--gold);text-decoration:none;}
   padding:3px 8px;border-radius:3px;margin-top:6px;}
 .badge.cobrado{background:rgba(140,180,140,0.15);color:#9FCB9F;border:1px solid rgba(140,180,140,0.4);}
 .badge.pendiente{background:rgba(200,169,110,0.15);color:var(--gold);border:1px solid rgba(200,169,110,0.5);}
+.chevron{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:0.5px;color:var(--grey);transition:transform .2s ease;}
+.chevron::before{content:'Ver detalle ▾';}
+.tl-details[open] .chevron{color:var(--gold);}
+.tl-details[open] .chevron::before{content:'Ocultar detalle ▴';}
+.tl-detail-body{padding:0 0 28px;}
 
-/* ===== V4 TABLE ===== */
-.v4-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:13px;}
+/* ===== TABLA DE DETALLE ===== */
+.v4-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
 .v4-table thead th{text-align:right;font-family:var(--font-body);font-size:10px;letter-spacing:1px;
   text-transform:uppercase;color:var(--gold);font-weight:600;padding:0 0 10px;border-bottom:1px solid rgba(200,169,110,0.35);}
 .v4-table thead th:first-child{text-align:left;}
+.v4-table thead th:last-child{text-align:center;}
 .v4-table td{padding:14px 0;border-bottom:1px solid rgba(120,122,145,0.15);vertical-align:top;}
 .v4-table td.c-name{text-align:left;color:#FDFBF0;font-weight:500;padding-right:16px;}
 .v4-table td.c-num{text-align:right;white-space:nowrap;padding-left:12px;}
 .v4-table td.c-total{font-weight:700;color:var(--gold);}
+.v4-table td.c-estado{text-align:center;white-space:nowrap;padding-left:12px;}
+.v4-table tr.grp td{background:rgba(200,169,110,0.1);color:var(--gold);font-weight:700;font-size:10px;
+  text-transform:uppercase;letter-spacing:1px;padding:8px 10px;border-bottom:none;}
 .item-note{font-size:12px;color:var(--grey);margin-top:6px;line-height:1.5;font-weight:400;white-space:normal;max-width:420px;}
 .v4-table tfoot td{padding-top:16px;border-top:2px solid var(--gold);border-bottom:none;
   font-family:var(--font-display);font-size:13px;letter-spacing:1.5px;color:#FDFBF0;}
 .v4-table tfoot td.c-total{font-size:18px;color:var(--gold);}
 .margin-note{font-size:12px;color:var(--grey);margin-top:14px;}
+
+/* ===== ESTADO DE OBRA (badges) ===== */
+.eo{display:inline-block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;
+  padding:3px 8px;border-radius:3px;white-space:nowrap;}
+.eo-verde{background:rgba(140,180,140,0.15);color:#9FCB9F;border:1px solid rgba(140,180,140,0.4);}
+.eo-amarillo{background:rgba(224,184,110,0.18);color:#E0B86E;border:1px solid rgba(224,184,110,0.45);}
+.eo-rojo{background:rgba(200,110,110,0.15);color:#E09999;border:1px solid rgba(200,110,110,0.4);}
+.eo-na{background:rgba(120,122,145,0.15);color:var(--grey);border:1px solid rgba(120,122,145,0.35);}
+.eo-legend{font-size:12px;color:var(--grey);margin-top:10px;}
+.eo-legend .eo{margin-right:2px;}
 
 /* ===== PENDIENTES BOX ===== */
 .notice{border:1px solid rgba(200,169,110,0.4);background:rgba(200,169,110,0.06);
@@ -108,9 +130,12 @@ footer{padding:40px 0 56px;}
   .v4-table thead{display:none;}
   .v4-table, .v4-table tbody, .v4-table tr, .v4-table td{display:block;width:100%;}
   .v4-table tr{padding:12px 0;border-bottom:1px solid rgba(120,122,145,0.15);}
+  .v4-table tr.grp{padding:8px 0;}
   .v4-table td{border-bottom:none;padding:2px 0;text-align:left !important;}
   .v4-table td.c-name{font-weight:600;}
   .v4-table td.c-num::before{content:attr(data-label) ": ";color:var(--grey);}
+  .v4-table td.c-estado::before{content:attr(data-label) ": ";color:var(--grey);}
+  .v4-table td.c-estado{text-align:left;}
   .v4-table tfoot tr{border-top:2px solid var(--gold);padding-top:10px;}
   .tl-item{grid-template-columns:1fr;}
   .tl-amount{text-align:left;}
@@ -122,6 +147,7 @@ footer{padding:40px 0 56px;}
   body{background:#fff;color:#111;}
   .hero::before{display:none;}
   a{color:#141E61;}
+  .tl-details{break-inside:avoid;}
 }
 </style>
 
@@ -201,12 +227,12 @@ footer{padding:40px 0 56px;}
 </svg>
         <div class="wordmark">NOVA DOMUS<span>Integración tecnológica</span></div>
       </div>
-      <div class="doc-id">Informe de obra<span>15 / 10 / 2026</span></div>
+      <div class="doc-id">Informe de obra<span>16 / 10 / 2026</span></div>
     </div>
     <div class="hero-body">
       <div class="eyebrow">SPA Onas · Salvaje Arquitectura</div>
       <h1>Histórico de inversión y excedentes de obra</h1>
-      <p class="lead">Resumen consolidado de lo presupuestado, ejecutado y cobrado en el proyecto SPA Onas, desde el presupuesto original hasta el último relevamiento de excedentes (v6).</p>
+      <p class="lead">Resumen consolidado de lo presupuestado, ejecutado y cobrado en el proyecto SPA Onas, desde el presupuesto original hasta el último relevamiento de excedentes (v6). Cada etapa se puede abrir para ver el detalle completo y el estado de obra de cada ítem.</p>
     </div>
   </section>
 
@@ -235,322 +261,638 @@ footer{padding:40px 0 56px;}
   <section class="section">
     <div class="eyebrow">Historial de obra</div>
     <h2>De la obra original a los excedentes v6</h2>
+    <p class="eo-legend">Estado de obra: <span class="eo eo-verde">Hecho</span> <span class="eo eo-amarillo">50% hecho</span> <span class="eo eo-rojo">Falta</span> <span class="eo eo-na">A revisar</span></p>
+
     <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-stage">Presupuesto<br>original</div>
-        <div class="tl-content">
-          <h3>Contrato inicial de obra eléctrica e integración</h3>
-          <p>Presupuesto de referencia contra proyecto, base de todo el trabajo ejecutado en el SPA.</p>
-        </div>
-        <div class="tl-amount">
-          <div class="n">$9.687.390</div>
-          <span class="badge cobrado">Cobrado</span>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-stage">Excedentes<br>v1 / v2</div>
-        <div class="tl-content">
-          <h3>Ajustes de obra</h3>
-          <p>25 ítems de electricidad (bocas, cableado, tablero, perfilería LED) surgidos durante la ejecución en sauna húmedo, sauna seco, acometida y pileta exterior.</p>
-        </div>
-        <div class="tl-amount">
-          <div class="n">$4.700.800</div>
-          <span class="badge cobrado">Cobrado</span>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-stage">Excedentes<br>v3</div>
-        <div class="tl-content">
-          <h3>Nuevos ítems de electricistas</h3>
-          <p>8 ítems adicionales: alimentaciones para camillas, luces de emergencia, cableado subterráneo de acometida trifásica y tirada de cable para cámaras.</p>
-        </div>
-        <div class="tl-amount">
-          <div class="n">$2.236.000</div>
-          <span class="badge cobrado">Cobrado</span>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-stage">Excedentes<br>v4</div>
-        <div class="tl-content">
-          <h3>Colocación de artefactos</h3>
-          <p>Relevamiento del 25/08/2026: mano de obra de colocación de GU10, dicroicas, estacas de jardín, tiras LED y parlantes.</p>
-        </div>
-        <div class="tl-amount">
-          <div class="n">$2.219.253</div>
-          <span class="badge cobrado">Cobrado</span>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-stage">Excedentes<br>v5</div>
-        <div class="tl-content">
-          <h3>Iluminación de jardín y adecuación de cochera</h3>
-          <p>Relevamiento del 07/09/2026: iluminación exterior de jardín (estacas, spot y artefactos LED), canalización subterránea con mallado, y trabajos de adecuación eléctrica de la cochera (canalizaciones, protecciones, sensores y alimentación de portón).</p>
-        </div>
-        <div class="tl-amount">
-          <div class="n">$6.077.750</div>
-          <span class="badge cobrado">Cobrado</span>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-stage">Excedentes<br>v6</div>
-        <div class="tl-content">
-          <h3>Garaje y excedentes SPA</h3>
-          <p>Relevamiento del 15/10/2026: modificación de iluminación del garaje (bocas, reflectores perimetrales, iluminación rasante y sensor de movimiento) y excedentes varios del SPA (baños, parlantes, vestidores, recepción y tablero de saunas).</p>
-        </div>
-        <div class="tl-amount">
-          <div class="n">$1.993.530</div>
-          <span class="badge pendiente">Pendiente de cobro</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="eyebrow">Detalle · Excedente v4</div>
-    <h2>Colocación de artefactos</h2>
-    <p class="lead" style="margin-top:6px;">Mano de obra Nova Domus para la colocación de artefactos lumínicos y de audio en el SPA.</p>
+      <details class="tl-details">
+        <summary>
+          <div class="tl-item">
+            <div class="tl-stage">Presupuesto<br>original</div>
+            <div class="tl-content">
+              <h3>Contrato inicial de obra eléctrica e integración</h3>
+              <p>Presupuesto de referencia contra proyecto, base de todo el trabajo ejecutado en el SPA.</p>
+            </div>
+            <div class="tl-amount">
+              <div class="n">$9.687.390</div>
+              <span class="badge cobrado">Cobrado</span>
+            </div>
+          </div>
+        </summary>
+      </details>
 
-    <table class="v4-table">
+      <details class="tl-details">
+        <summary>
+          <div class="tl-item">
+            <div class="tl-stage">Excedentes<br>v1 / v2</div>
+            <div class="tl-content">
+              <h3>Ajustes de obra</h3>
+              <p>25 ítems de electricidad (bocas, cableado, tablero, perfilería LED) surgidos durante la ejecución en sauna húmedo, sauna seco, acometida y pileta exterior.</p>
+              <span class="chevron"></span>
+            </div>
+            <div class="tl-amount">
+              <div class="n">$4.700.800</div>
+              <span class="badge cobrado">Cobrado</span>
+            </div>
+          </div>
+        </summary>
+        <div class="tl-detail-body">
+          <table class="v4-table">
       <thead>
         <tr>
           <th>Detalle</th>
           <th>Cant.</th>
           <th>Precio unitario</th>
           <th>Total</th>
+          <th>Estado de obra</th>
         </tr>
       </thead>
-      <tbody>
+            <tbody>
+        <tr class="grp"><td colspan="5">SAUNA HÚMEDO</td></tr>
+        <tr>
+          <td class="c-name">Bocas alimentación trifásica calderas</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$91.000</td>
+          <td class="c-num c-total" data-label="Total">$182.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Bocas para sensores con guía</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$45.500</td>
+          <td class="c-num c-total" data-label="Total">$91.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Bocas panel control recepción/sauna — canalización 20 m</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$97.500</td>
+          <td class="c-num c-total" data-label="Total">$195.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Bocas interconexión sensor-calderas</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$45.500</td>
+          <td class="c-num c-total" data-label="Total">$91.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">SAUNA SECO</td></tr>
+        <tr>
+          <td class="c-name">Boca alimentación cromoterapia</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$52.000</td>
+          <td class="c-num c-total" data-label="Total">$52.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Bocas alineación LED</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$45.500</td>
+          <td class="c-num c-total" data-label="Total">$91.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Boca sensor</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$45.500</td>
+          <td class="c-num c-total" data-label="Total">$45.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Boca caja 20×20 derivaciones fuente → recepción</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$65.000</td>
+          <td class="c-num c-total" data-label="Total">$65.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Boca caja 11×11 tablero cmd. rec./sauna — canal. 20 m</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$97.500</td>
+          <td class="c-num c-total" data-label="Total">$97.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Boca caja 20×20 alim. trifásica — canal. 30 m tab./rec.</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$156.000</td>
+          <td class="c-num c-total" data-label="Total">$156.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Boca alim. trifásica rec./sauna seco (cables siliconados)</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$130.000</td>
+          <td class="c-num c-total" data-label="Total">$130.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">ACOMETIDA</td></tr>
+        <tr>
+          <td class="c-name">Canal. + cableado trifásico 16mm² + caja 20×20 bornera trifásica</td>
+          <td class="c-num" data-label="Cant.">30 m</td>
+          <td class="c-num" data-label="Precio unitario">$6.500</td>
+          <td class="c-num c-total" data-label="Total">$195.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">PILETA EXTERIOR</td></tr>
+        <tr>
+          <td class="c-name">Cableado subterráneo tableros + reacond. + cajas estancas + 4 lum. 50 m</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$910.000</td>
+          <td class="c-num c-total" data-label="Total">$910.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">VARIOS</td></tr>
+        <tr>
+          <td class="c-name">Caja sensor de aire — canalizado</td>
+          <td class="c-num" data-label="Cant.">8 m</td>
+          <td class="c-num" data-label="Precio unitario">$8.125</td>
+          <td class="c-num c-total" data-label="Total">$65.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Toma para fuente en pasillo</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$58.500</td>
+          <td class="c-num c-total" data-label="Total">$58.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Alimentación iluminación exterior delantera</td>
+          <td class="c-num" data-label="Cant.">1 boca</td>
+          <td class="c-num" data-label="Precio unitario">$58.500</td>
+          <td class="c-num c-total" data-label="Total">$58.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Alimentación cajas estancas 5 luminarias patio interno</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$260.000</td>
+          <td class="c-num c-total" data-label="Total">$260.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Canalización y cableado alim. extractor baños</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$52.000</td>
+          <td class="c-num c-total" data-label="Total">$104.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">CABLEADO PARLANTES</td></tr>
+        <tr>
+          <td class="c-name">Cableado 2 parlantes × 40 m</td>
+          <td class="c-num" data-label="Cant.">2 línea</td>
+          <td class="c-num" data-label="Precio unitario">$45.500</td>
+          <td class="c-num c-total" data-label="Total">$91.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Cableado 2 parlantes × 35 m</td>
+          <td class="c-num" data-label="Cant.">2 línea</td>
+          <td class="c-num" data-label="Precio unitario">$39.000</td>
+          <td class="c-num c-total" data-label="Total">$78.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Cableado 2 parlantes × 25 m</td>
+          <td class="c-num" data-label="Cant.">2 línea</td>
+          <td class="c-num" data-label="Precio unitario">$32.500</td>
+          <td class="c-num c-total" data-label="Total">$65.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Cableado 2 parlantes × 20 m</td>
+          <td class="c-num" data-label="Cant.">2 línea</td>
+          <td class="c-num" data-label="Precio unitario">$26.000</td>
+          <td class="c-num c-total" data-label="Total">$52.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Cableado 2 parlantes × 15 m</td>
+          <td class="c-num" data-label="Cant.">2 línea</td>
+          <td class="c-num" data-label="Precio unitario">$19.500</td>
+          <td class="c-num c-total" data-label="Total">$39.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">TABLERO Y PROTECCIONES</td></tr>
+        <tr>
+          <td class="c-name">Tablero 96 mód. — diferencia circuitos sauna + protecc. termomagn./tetrapolares</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$780.000</td>
+          <td class="c-num c-total" data-label="Total">$780.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr class="grp"><td colspan="5">PERFILERÍA LED</td></tr>
+        <tr>
+          <td class="c-name">Colocación perfilería LED</td>
+          <td class="c-num" data-label="Cant.">64 m</td>
+          <td class="c-num" data-label="Precio unitario">$11.700</td>
+          <td class="c-num c-total" data-label="Total">$748.800</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+            </tbody>
+            <tfoot>
+              <tr><td>SUBTOTAL v1 / v2</td><td></td><td></td><td class="c-total">$4.700.800</td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
+      </details>
+
+      <details class="tl-details">
+        <summary>
+          <div class="tl-item">
+            <div class="tl-stage">Excedentes<br>v3</div>
+            <div class="tl-content">
+              <h3>Nuevos ítems de electricistas</h3>
+              <p>8 ítems adicionales: alimentaciones para camillas, luces de emergencia, cableado subterráneo de acometida trifásica y tirada de cable para cámaras.</p>
+              <span class="chevron"></span>
+            </div>
+            <div class="tl-amount">
+              <div class="n">$2.236.000</div>
+              <span class="badge cobrado">Cobrado</span>
+            </div>
+          </div>
+        </summary>
+        <div class="tl-detail-body">
+          <table class="v4-table">
+      <thead>
+        <tr>
+          <th>Detalle</th>
+          <th>Cant.</th>
+          <th>Precio unitario</th>
+          <th>Total</th>
+          <th>Estado de obra</th>
+        </tr>
+      </thead>
+            <tbody>
+        <tr>
+          <td class="c-name">Bocas tomas en pared recepción</td>
+          <td class="c-num" data-label="Cant.">2 boca</td>
+          <td class="c-num" data-label="Precio unitario">$52.000</td>
+          <td class="c-num c-total" data-label="Total">$104.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Alimentación subterránea tablero → bomba tanque + caja estándar de derivación</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$130.000</td>
+          <td class="c-num c-total" data-label="Total">$130.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Extensión alim. cochera — caja derivación + empalme subterráneo + cable nuevo → tablero SPA (incl. inspección técnica tablero cochera)</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$195.000</td>
+          <td class="c-num c-total" data-label="Total">$195.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Alimentaciones circuito carga especial para camillas</td>
+          <td class="c-num" data-label="Cant.">4 alim.</td>
+          <td class="c-num" data-label="Precio unitario">$81.250</td>
+          <td class="c-num c-total" data-label="Total">$325.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Luces de emergencia — alimentación y colocación</td>
+          <td class="c-num" data-label="Cant.">5 unidad</td>
+          <td class="c-num" data-label="Precio unitario">$52.000</td>
+          <td class="c-num c-total" data-label="Total">$260.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Cableado subterráneo acometida 4×25mm 50m + bandejas 27m + 11 accesorios + TMB + terminales + bornera a tablero (cable alta tensión trifásico)</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$1.040.000</td>
+          <td class="c-num c-total" data-label="Total">$1.040.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Alimentación tablero hidro → tablero pileta (subterráneo 15 m)</td>
+          <td class="c-num" data-label="Cant.">1 global</td>
+          <td class="c-num" data-label="Precio unitario">$104.000</td>
+          <td class="c-num c-total" data-label="Total">$104.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="c-name">Tirada cable cámaras en cielo raso</td>
+          <td class="c-num" data-label="Cant.">40 m</td>
+          <td class="c-num" data-label="Precio unitario">$1.950</td>
+          <td class="c-num c-total" data-label="Total">$78.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
+        </tr>
+            </tbody>
+            <tfoot>
+              <tr><td>SUBTOTAL v3</td><td></td><td></td><td class="c-total">$2.236.000</td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
+      </details>
+
+      <details class="tl-details">
+        <summary>
+          <div class="tl-item">
+            <div class="tl-stage">Excedentes<br>v4</div>
+            <div class="tl-content">
+              <h3>Colocación de artefactos</h3>
+              <p>Relevamiento del 25/08/2026: mano de obra de colocación de GU10, dicroicas, estacas de jardín, tiras LED y parlantes.</p>
+              <span class="chevron"></span>
+            </div>
+            <div class="tl-amount">
+              <div class="n">$2.219.253</div>
+              <span class="badge cobrado">Cobrado</span>
+            </div>
+          </div>
+        </summary>
+        <div class="tl-detail-body">
+          <table class="v4-table">
+      <thead>
+        <tr>
+          <th>Detalle</th>
+          <th>Cant.</th>
+          <th>Precio unitario</th>
+          <th>Total</th>
+          <th>Estado de obra</th>
+        </tr>
+      </thead>
+            <tbody>
         <tr>
           <td class="c-name">Colocación de GU10<div class="item-note">El cliente ya pagó $19.500/u en el presupuesto original. Este ítem cubre únicamente la diferencia por complejidad de instalación (valor final $27.000/u).</div></td>
           <td class="c-num" data-label="Cant.">43 u</td>
           <td class="c-num" data-label="Precio unitario">$8.250</td>
           <td class="c-num c-total" data-label="Total">$354.750</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Aplique estaca 220V para jardín</td>
           <td class="c-num" data-label="Cant.">9 u</td>
           <td class="c-num" data-label="Precio unitario">$33.000</td>
           <td class="c-num c-total" data-label="Total">$297.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Colocación de aplique minidicroica</td>
           <td class="c-num" data-label="Cant.">20 u</td>
           <td class="c-num" data-label="Precio unitario">$22.000</td>
           <td class="c-num c-total" data-label="Total">$440.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Colocación aplique para GU10<div class="item-note">No estaba contemplado en el presupuesto original.</div></td>
           <td class="c-num" data-label="Cant.">21 u</td>
           <td class="c-num" data-label="Precio unitario">$27.500</td>
           <td class="c-num c-total" data-label="Total">$577.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Tiras de LED en sauna húmedo<div class="item-note">Metros específicos del sauna húmedo, no incluidos en la partida general de tira LED (esa ya está cubierta por el presupuesto original).</div></td>
           <td class="c-num" data-label="Cant.">7 m</td>
           <td class="c-num" data-label="Precio unitario">$12.572</td>
           <td class="c-num c-total" data-label="Total">$88.003</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-rojo">Falta</span></td>
         </tr>
         <tr>
           <td class="c-name">Colocación de parlantes</td>
           <td class="c-num" data-label="Cant.">10 u</td>
           <td class="c-num" data-label="Precio unitario">$29.700</td>
           <td class="c-num c-total" data-label="Total">$297.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-rojo">Falta</span></td>
         </tr>
         <tr>
           <td class="c-name">Trabajos del día jueves 20 de agosto<div class="item-note">Colocación de LED parte superior sauna húmedo · Colocación LED pared vertical · Alimentación de fuente · Chequeo de alimentación en cochera (se corrige polaridad en el tablero y en el motor del portón, que no abría por suciedad y descarrilamiento; se limpia y se deja funcionando) · Se arman y colocan 6 artefactos GU10 móviles con varios ensambles.</div></td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$165.000</td>
           <td class="c-num c-total" data-label="Total">$165.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>TOTAL EXCEDENTE V4</td>
-          <td></td><td></td>
-          <td class="c-total">$2.219.253</td>
-        </tr>
-      </tfoot>
-    </table>
-    <p class="margin-note">Sobre el ítem "Colocación de GU10" se cobra únicamente la diferencia por complejidad de instalación: el cliente ya abonó $19.500 por unidad en el presupuesto original; el valor final por artefacto queda en $27.000 (43 unidades instaladas).</p>
+            </tbody>
+            <tfoot>
+              <tr><td>TOTAL EXCEDENTE V4</td><td></td><td></td><td class="c-total">$2.219.253</td><td></td></tr>
+            </tfoot>
+          </table>
+          <p class="margin-note">Sobre el ítem "Colocación de GU10" se cobra únicamente la diferencia por complejidad de instalación: el cliente ya abonó $19.500 por unidad en el presupuesto original; el valor final por artefacto queda en $27.000 (43 unidades instaladas).</p>
+        </div>
+      </details>
 
-    <div class="notice">
-      <h3>Pendiente de definición</h3>
-      <ul>
-        <li><strong>Bañadores LED</strong>, <strong>transformadores para tiras LED</strong>, <strong>luces de fachada</strong> y <strong>luces y alimentación arriba de pérgolas</strong> fueron relevados por el equipo técnico pero todavía no tienen precio definido ni aprobado — no forman parte de los excedentes actuales. Se incorporarán como una etapa posterior una vez cotizados.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="eyebrow">Detalle · Excedente v5</div>
-    <h2>Iluminación de jardín y adecuación de cochera</h2>
-    <p class="lead" style="margin-top:6px;">Relevamiento del 07/09/2026: iluminación exterior de jardín y trabajos de adecuación eléctrica de la cochera.</p>
-
-    <table class="v4-table">
+      <details class="tl-details">
+        <summary>
+          <div class="tl-item">
+            <div class="tl-stage">Excedentes<br>v5</div>
+            <div class="tl-content">
+              <h3>Iluminación de jardín y adecuación de cochera</h3>
+              <p>Relevamiento del 07/09/2026: iluminación exterior de jardín (estacas, spot y artefactos LED), canalización subterránea con mallado, y trabajos de adecuación eléctrica de la cochera (canalizaciones, protecciones, sensores y alimentación de portón).</p>
+              <span class="chevron"></span>
+            </div>
+            <div class="tl-amount">
+              <div class="n">$6.077.750</div>
+              <span class="badge cobrado">Cobrado</span>
+            </div>
+          </div>
+        </summary>
+        <div class="tl-detail-body">
+          <table class="v4-table">
       <thead>
         <tr>
           <th>Detalle</th>
           <th>Cant.</th>
           <th>Precio unitario</th>
           <th>Total</th>
+          <th>Estado de obra</th>
         </tr>
       </thead>
-      <tbody>
+            <tbody>
         <tr>
           <td class="c-name">Iluminación de jardín (estacas, spot, artefactos LED)<div class="item-note">81 unidades relevadas en plano.</div></td>
           <td class="c-num" data-label="Cant.">81 u</td>
           <td class="c-num" data-label="Precio unitario">$28.750</td>
           <td class="c-num c-total" data-label="Total">$2.328.750</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-rojo">Falta</span></td>
         </tr>
         <tr>
           <td class="c-name">Subterráneos con protección de mallado</td>
           <td class="c-num" data-label="Cant.">270 m</td>
           <td class="c-num" data-label="Precio unitario">$10.350</td>
           <td class="c-num c-total" data-label="Total">$2.794.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-amarillo">50% hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Estancias derivadoras</td>
           <td class="c-num" data-label="Cant.">10 u</td>
           <td class="c-num" data-label="Precio unitario">$11.500</td>
           <td class="c-num c-total" data-label="Total">$115.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Canalización de acometida hasta tablero — cochera</td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$69.000</td>
           <td class="c-num c-total" data-label="Total">$69.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Disyuntor diferencial en tablero — cochera</td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$92.000</td>
           <td class="c-num c-total" data-label="Total">$92.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Canalización de cableado de cámara de seguridad — cochera</td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$92.000</td>
           <td class="c-num c-total" data-label="Total">$92.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Recanalización de sensores de movimiento y cableado — cochera</td>
           <td class="c-num" data-label="Cant.">5 u</td>
           <td class="c-num" data-label="Precio unitario">$46.000</td>
           <td class="c-num c-total" data-label="Total">$230.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Cajas estanca para derivación de reflectores — cochera</td>
           <td class="c-num" data-label="Cant.">8 u</td>
           <td class="c-num" data-label="Precio unitario">$23.000</td>
           <td class="c-num c-total" data-label="Total">$184.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Alimentación de portón independiente y cableado subterráneo — cochera</td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$172.500</td>
           <td class="c-num c-total" data-label="Total">$172.500</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>TOTAL EXCEDENTE V5</td>
-          <td></td><td></td>
-          <td class="c-total">$6.077.750</td>
-        </tr>
-      </tfoot>
-    </table>
-  </section>
+            </tbody>
+            <tfoot>
+              <tr><td>TOTAL EXCEDENTE V5</td><td></td><td></td><td class="c-total">$6.077.750</td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
+      </details>
 
-  <section class="section">
-    <div class="eyebrow">Detalle · Excedente v6</div>
-    <h2>Garaje y excedentes SPA</h2>
-    <p class="lead" style="margin-top:6px;">Relevamiento del 15/10/2026: modificación de iluminación del garaje y excedentes varios en baños, sala de masajes, vestidores, recepción y tablero de saunas.</p>
-
-    <table class="v4-table">
+      <details class="tl-details" open>
+        <summary>
+          <div class="tl-item">
+            <div class="tl-stage">Excedentes<br>v6</div>
+            <div class="tl-content">
+              <h3>Garaje y excedentes SPA</h3>
+              <p>Relevamiento del 15/10/2026: modificación de iluminación del garaje (bocas, reflectores perimetrales, iluminación rasante y sensor de movimiento) y excedentes varios del SPA (baños, parlantes, vestidores, recepción y tablero de saunas).</p>
+              <span class="chevron"></span>
+            </div>
+            <div class="tl-amount">
+              <div class="n">$1.993.530</div>
+              <span class="badge pendiente">Pendiente de cobro</span>
+            </div>
+          </div>
+        </summary>
+        <div class="tl-detail-body">
+          <table class="v4-table">
       <thead>
         <tr>
           <th>Detalle</th>
           <th>Cant.</th>
           <th>Precio unitario</th>
           <th>Total</th>
+          <th>Estado de obra</th>
         </tr>
       </thead>
-      <tbody>
+            <tbody>
         <tr>
           <td class="c-name">Modificación garaje — iluminación empotrada, reflectores perimetrales, iluminación rasante y sensor de movimiento<div class="item-note">Incluye canalización y empotrado de bocas de iluminación, reflectores perimetrales e iluminación rasante, fotocélula para reflectores, 13 artefactos de iluminación rasante y sensor de movimiento.</div></td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$968.000</td>
           <td class="c-num c-total" data-label="Total">$968.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-amarillo">50% hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Iluminación de baño (2 artefactos)</td>
           <td class="c-num" data-label="Cant.">2 u</td>
           <td class="c-num" data-label="Precio unitario">$27.500</td>
           <td class="c-num c-total" data-label="Total">$55.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Tira LED en baños (4 m, 2 fuentes)</td>
           <td class="c-num" data-label="Cant.">4 m</td>
           <td class="c-num" data-label="Precio unitario">$12.540</td>
           <td class="c-num c-total" data-label="Total">$50.160</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Cableado de parlantes — sala de masajes (3 tramos)<div class="item-note">Tres tramos de cableado: 14 m, 12 m y 10 m.</div></td>
           <td class="c-num" data-label="Cant.">3 u</td>
           <td class="c-num" data-label="Precio unitario">—</td>
           <td class="c-num c-total" data-label="Total">$92.400</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
-          <td class="c-name">Perforación, colocación y conexión de parlantes</td>
+          <td class="c-name">Perforación, colocación y conexión de parlantes<div class="item-note">Ajustado de 13 a 3 unidades: 10 de los 13 parlantes a instalar ya fueron facturados en el excedente v4 (colocación de parlantes) — es instalación pendiente sobre algo ya cobrado, no un excedente nuevo.</div></td>
           <td class="c-num" data-label="Cant.">3 u</td>
           <td class="c-num" data-label="Precio unitario">$33.000</td>
           <td class="c-num c-total" data-label="Total">$99.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-amarillo">50% hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Retiro y recolocación de tira LED — cajón hidro</td>
           <td class="c-num" data-label="Cant.">5,5 m</td>
           <td class="c-num" data-label="Precio unitario">$12.540</td>
           <td class="c-num c-total" data-label="Total">$68.970</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Alimentación y extractores en vestidores</td>
           <td class="c-num" data-label="Cant.">2 u</td>
           <td class="c-num" data-label="Precio unitario">$66.000</td>
           <td class="c-num c-total" data-label="Total">$132.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Cajas estancas de derivación — hidrozono<div class="item-note">Recambio a cajas de mayor tamaño.</div></td>
           <td class="c-num" data-label="Cant.">3 u</td>
           <td class="c-num" data-label="Precio unitario">$22.000</td>
           <td class="c-num c-total" data-label="Total">$66.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
         <tr>
           <td class="c-name">Reubicación de tomas en mueble de recepción<div class="item-note">Incluye toma para heladera y alimentación para LED de mueble.</div></td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$154.000</td>
           <td class="c-num c-total" data-label="Total">$154.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-na">A revisar</span></td>
         </tr>
         <tr>
           <td class="c-name">Caja estanca de patio — bifurcación de fuentes</td>
           <td class="c-num" data-label="Cant.">1 global</td>
           <td class="c-num" data-label="Precio unitario">$33.000</td>
           <td class="c-num c-total" data-label="Total">$33.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-na">A revisar</span></td>
         </tr>
         <tr>
           <td class="c-name">Independización de circuitos de saunas en tablero<div class="item-note">Disyuntores tetrapolares y modificación de armado de tablero.</div></td>
           <td class="c-num" data-label="Cant.">2 u</td>
           <td class="c-num" data-label="Precio unitario">$137.500</td>
           <td class="c-num c-total" data-label="Total">$275.000</td>
+          <td class="c-estado" data-label="Estado de obra"><span class="eo eo-verde">Hecho</span></td>
         </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>TOTAL EXCEDENTE V6</td>
-          <td></td><td></td>
-          <td class="c-total">$1.993.530</td>
-        </tr>
-      </tfoot>
-    </table>
+            </tbody>
+            <tfoot>
+              <tr><td>TOTAL EXCEDENTE V6</td><td></td><td></td><td class="c-total">$1.993.530</td><td></td></tr>
+            </tfoot>
+          </table>
+
+          <div class="notice">
+            <h3>Pendiente de definición</h3>
+            <ul>
+              <li><strong>Bañadores LED</strong>, <strong>transformadores para tiras LED</strong>, <strong>luces de fachada</strong> y <strong>luces y alimentación arriba de pérgolas</strong> fueron relevados por el equipo técnico pero todavía no tienen precio definido ni aprobado — no forman parte de los excedentes actuales. Se incorporarán como una etapa posterior una vez cotizados.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+    </div>
   </section>
 
   <section class="section" style="border-bottom:none;">
