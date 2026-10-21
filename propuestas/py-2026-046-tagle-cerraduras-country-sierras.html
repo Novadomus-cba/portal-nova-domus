@@ -113,7 +113,7 @@ padding:20px 22px;margin:24px 0 0;background:rgba(200,169,110,.05)}
 .disc{display:grid;gap:28px;align-items:center;margin-top:22px}
 @media(min-width:820px){.disc{grid-template-columns:.8fr 1.2fr}}
 .disc-photo{position:relative;background:#fff;border:1px solid rgba(20,30,97,.12);border-radius:20px;aspect-ratio:4/5;overflow:hidden}
-.disc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.55)}
+.disc-photo img{position:absolute;left:24px;top:24px;width:calc(100% - 48px);height:calc(100% - 84px);object-fit:contain;filter:grayscale(.35)}
 .disc-photo .lph{position:absolute;inset:18px;width:auto;height:auto}
 .stamp{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-14deg);z-index:2;
 border:3px solid var(--red);color:var(--red);background:rgba(253,251,240,.88);border-radius:8px;
@@ -557,7 +557,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     a ingresar y que no hay repuestos.</p>
   <div class="disc">
     <div class="disc-photo">
-      <img src="assets/py-2026-046/f60lc-showroom.png" alt="Cerradura iHub SHM-F60LC, modelo del pliego"
+      <img src="assets/py-2026-046/f60lc.jpg" alt="Cerradura iHub SHM-F60LC, modelo del pliego"
         data-n="iHub SHM-F60LC" onerror="imgErr(this)">
       <span class="stamp">DISCONTINUADO</span>
       <span class="disc-cap"><b>IHUB SHM-F60LC</b> · modelo del pliego</span>
@@ -611,7 +611,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
           <span class="qty">13 unidades · una por puerta</span></div>
       </article>
       <article class="pcard">
-        <div class="pphoto" id="gw-photo"></div>
+        <div class="pphoto"><img src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/ihub/IHUB-GW-F30.jpg" alt="Gateway WiFi iHub" data-n="Gateway WiFi iHub" loading="lazy" onerror="imgErr(this)"></div>
         <div class="pbody"><p class="tp">Puente WiFi</p><h3>Gateway WiFi iHub</h3>
           <p>Hace de puente entre el Bluetooth de la cerradura y el WiFi 2,4 GHz de la vivienda. Va enchufado a
             220&nbsp;V cerca de la puerta y habilita la apertura remota, el historial y los avisos.</p>
@@ -626,7 +626,13 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     </div>
     <div class="vblock">
       <p class="eyebrow">Video del producto</p>
-      <div class="bd-video-pending"><b>VIDEO PENDIENTE</b>iHub no publica un video oficial de la SHM-F30.</div>
+      <p class="hint">👆 Elegí el video</p>
+      <div class="sw">
+        <button class="on" onclick="vid('o1',0,this)">La línea iHub</button>
+        <button onclick="vid('o1',1,this)">Qué hace el gateway</button>
+      </div>
+      <div class="vid" id="vid-o1"></div>
+      <p class="vcap" id="vcap-o1"></p>
     </div>
   </div>
 
@@ -663,11 +669,11 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <p class="eyebrow">Video del producto</p>
       <p class="hint">👆 Elegí el video</p>
       <div class="sw" id="sw-vid">
-        <button class="on" onclick="vid(0,this)">Presentación</button>
-        <button onclick="vid(1,this)">Instalación, en español</button>
+        <button class="on" onclick="vid('o2',0,this)">Presentación</button>
+        <button onclick="vid('o2',1,this)">Instalación, en español</button>
       </div>
-      <div class="vid" id="vid-dl05"></div>
-      <p class="vcap" id="vid-cap">Presentación del producto (en inglés).</p>
+      <div class="vid" id="vid-o2"></div>
+      <p class="vcap" id="vcap-o2"></p>
     </div>
   </div>
 </div>
@@ -729,7 +735,7 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
         <tr><td>App</td><td class="c0" data-label="Pliego · F60LC">Tuya</td>
           <td class="c1" data-label="Opción 1 · F30 + gateway">TTLock</td>
           <td class="c2" data-label="Opción 2 · DL05">EZVIZ</td></tr>
-        <tr><td>Capacidad de usuarios</td><td class="c0" data-label="Pliego · F60LC">Sin ficha vigente</td>
+        <tr><td>Capacidad de usuarios</td><td class="c0" data-label="Pliego · F60LC">100 huellas, 100 claves, 100 tarjetas</td>
           <td class="c1" data-label="Opción 1 · F30 + gateway">200 huellas, 150 claves, 200 tarjetas</td>
           <td class="c2" data-label="Opción 2 · DL05">50 huellas, 50 códigos, 50 tarjetas</td></tr>
         <tr><td>Respaldo y repuestos</td><td class="c0" data-label="Pliego · F60LC"><span class="x">✕ Sin repuestos ni reposición</span></td>
@@ -765,9 +771,10 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <p>Marca de dispositivos inteligentes para el segmento residencial, del mismo grupo que Hikvision. La usamos en cerraduras y cámaras de entrada, para proyectos con foco explícito en costo sin resignar calidad básica.</p>
     <div class="vid" id="vid-ezviz"></div></div>
   <div class="ficha" id="f-ihub"><h3>IHUB</h3>
-    <p>Marca de cerraduras digitales con representante oficial en Argentina. Es la marca del modelo del pliego, y la
-      SHM-F30 es el reemplazo que ofrece hoy su representante.</p>
-    <div class="bd-video-pending"><b>VIDEO INSTITUCIONAL</b>Pendiente de carga.</div></div>
+    <p>Marca de cerraduras digitales con representante oficial en Argentina. Línea de cerraduras con huella, clave y tarjeta que se manejan desde el celular con las apps TTLock o Tuya.</p>
+    <p>Es la marca del modelo del pliego, y la SHM-F30 es el reemplazo que ofrece hoy su representante.</p>
+    <div class="vid" id="vid-ihub"></div>
+    <p class="vcap" style="color:#5d6078">Video de un comercio, no oficial de iHub (modelo SHM-H30).</p></div>
   <div class="vbox"><h3>Un solo responsable</h3>
     <p>Nova Domus es tu único interlocutor: compra los equipos, coordina la entrega en Nuevo Malagueño y gestiona
       ante el fabricante cualquier reclamo de garantía. Somos Hikvision Certified Partner, la marca madre de EZVIZ.</p></div>
@@ -983,7 +990,7 @@ function setOpt(k,btn){
   document.getElementById('cta-opt').textContent=OPT[k].label;
   document.getElementById('cta-amt').textContent=fmt(c.total);
   renderInv();
-  if(k==='o2') vidLoad();
+  vidLoad(k);
   wa();
 }
 function wa(){
@@ -1004,19 +1011,22 @@ function tog(b){
 addEventListener('resize',function(){
   document.querySelectorAll('.open>.dev-body,.open>.rub-body').forEach(function(p){p.style.maxHeight=p.scrollHeight+'px';});
 });
-var VIDS=[{id:'gDY1DTTdAB4',cap:'Presentación del producto (en inglés).'},{id:'SKZLLf3gPNw',cap:'Paso a paso de la instalación (en español).'}];
-var VCUR=0;
-function vidLoad(){
-  var v=document.getElementById('vid-dl05');
-  if(v.getAttribute('data-id')===VIDS[VCUR].id) return;
-  v.setAttribute('data-id',VIDS[VCUR].id);
-  v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDS[VCUR].id+'" loading="lazy" title="EZVIZ DL05" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
-  document.getElementById('vid-cap').textContent=VIDS[VCUR].cap;
+var VIDS={
+  o1:[{id:'lDhLftWI8Vo',cap:'Cerradura iHub con gateway y app, de la misma línea (modelo SHM-H30). Video de un distribuidor argentino: iHub no publica un video oficial de la SHM-F30.'},
+      {id:'wstF9uYfXjE',cap:'Qué es y cómo se configura el gateway G2 de TTLock, el mismo equipo que usa iHub. Video de otra marca que lo comercializa.'}],
+  o2:[{id:'gDY1DTTdAB4',cap:'Presentación del producto (en inglés).'},{id:'SKZLLf3gPNw',cap:'Paso a paso de la instalación (en español).'}]};
+var VCUR={o1:0,o2:0};
+function vidLoad(k){
+  var x=VIDS[k][VCUR[k]], v=document.getElementById('vid-'+k);
+  if(v.getAttribute('data-id')===x.id) return;
+  v.setAttribute('data-id',x.id);
+  v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+x.id+'" loading="lazy" title="Video del producto" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+  document.getElementById('vcap-'+k).textContent=x.cap;
 }
-function vid(i,btn){
+function vid(k,i,btn){
   btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on'); btn.parentElement.classList.add('used');
-  VCUR=i; vidLoad();
+  VCUR[k]=i; vidLoad(k);
 }
 var CMSG=['El modelo del pliego no se puede asegurar para las 13 puertas ni reparar a futuro.',
   'Las dos opciones están vigentes. La DL05 es la única que mantiene el WiFi integrado del pliego, con un solo equipo por puerta y U$D 488 menos en el total.'];
@@ -1031,10 +1041,9 @@ function marca(k,btn){
   document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
   btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');b.classList.add('used');});
   if(on){f.classList.add('on'); btn.classList.add('on');}
-  var v=document.getElementById('vid-ezviz');
-  if(on&&k==='ezviz'&&!v.firstChild) v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/CJcFcPFIqcM" loading="lazy" title="EZVIZ" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+  var VB={ezviz:'CJcFcPFIqcM',ihub:'Z3cwIyRXVps'}, v=document.getElementById('vid-'+k);
+  if(on&&!v.firstChild) v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VB[k]+'" loading="lazy" title="'+k.toUpperCase()+'" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
 }
-document.getElementById('gw-photo').innerHTML=phHTML('Gateway WiFi iHub');
 
 var io=new IntersectionObserver(function(es){
   es.forEach(function(e){
