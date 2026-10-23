@@ -307,6 +307,11 @@ background:repeating-linear-gradient(90deg,rgba(253,251,240,.92) 0 16px,rgba(214
 .inc h3{color:var(--gold)} .inc .no h3{color:var(--body)}
 .inc ul{margin:8px 0 0;padding-left:18px} .inc li{margin:7px 0}
 #bond-note{display:none} #bond-note.on{display:block}
+/* bonificación: línea propia, nunca restada en silencio. Dorado sobre navy; verde sobre cream (el dorado falla contraste ahí) */
+.trow.bonif,.trow.bonif b{color:var(--gold);font-weight:600}
+.section-light .trow.bonif,.section-light .trow.bonif b{color:#256b41}
+.totals.res-inst{margin:6px 0 18px;padding-top:10px;border-top:1px solid rgba(200,169,110,.35);max-width:640px}
+.trow b{white-space:nowrap}
 @media(max-width:640px){
   .opt-card{padding:15px 16px}
   .neutro{padding:16px}
@@ -445,7 +450,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       <span>Panoramic 1</span><span>Tipología TS2-PB-B</span>
       <span>14 efectos de iluminación</span><span>4 sistemas integrados</span>
     </div>
-    <p class="hero-tot">Inversión del proyecto <b id="hero-tot">U$D 4.811</b></p>
+    <p class="hero-tot">Inversión del proyecto <b id="hero-tot">U$D 4.587</b></p>
   </div>
 </header>
 
@@ -487,9 +492,14 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     le suma control remoto y escenas; dimmers en los tres dormitorios; encendido automático por
     presencia en los dos baños; un Sensibo en cada uno de los cuatro splits; y Home Assistant como
     cerebro local, con una red WiFi 6 que sostiene todo.</p>
-  <p><b>Inversión.</b> <span id="res-tot">U$D 4.811</span> por el proyecto completo: equipos,
+  <p><b>Inversión.</b> <span id="res-tot">U$D 4.587</span> por el proyecto completo: equipos,
     instalación de cada módulo y programación. Dos opcionales —cortinas motorizadas y pantalla
     XL— se suman con un toque en la sección Inversión, y todo se recalcula solo.</p>
+  <div class="totals res-inst">
+    <div class="trow"><span>Instalación según tarifario</span><b id="res-tarif">U$D 1.125</b></div>
+    <div class="trow bonif"><span>Bonificación instalación equipos plug &amp; play (<span id="res-pp">antena Zigbee, router WiFi, Sensibo</span>)</span><b id="res-bonif">− U$D 203</b></div>
+    <div class="trow"><span>Instalación</span><b id="res-inst">U$D 922</b></div>
+  </div>
   <p><b>Próximo paso.</b> Aceptar la propuesta, coordinar con la constructora el único requisito
     eléctrico (neutro en todas las cajas de llave) y comprar los equipos.</p>
 </section>
@@ -709,7 +719,9 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <div class="trow"><span>Subtotal equipos (neto)</span><b id="t-neto"></b></div>
     <div class="trow sub"><span>IVA equipos (discriminado por ítem, 21% y 10,5%)</span><span id="t-iva"></span></div>
     <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq"></b></div>
-    <div class="trow"><span>Mano de obra especializada por punto (instalación)</span><b id="t-mo"></b></div>
+    <div class="trow"><span>Instalación según tarifario (mano de obra especializada por punto)</span><b id="t-tarif"></b></div>
+    <div class="trow bonif"><span>Bonificación instalación equipos plug &amp; play (<span id="t-pp">antena Zigbee, router WiFi, Sensibo</span>)</span><b id="t-bonif"></b></div>
+    <div class="trow"><span>Instalación</span><b id="t-mo"></b></div>
     <div class="trow"><span>Programación y comisionado</span><b id="t-prog"></b></div>
     <div class="trow big"><span>Total del proyecto</span><span id="t-tot"></span></div>
   </div>
@@ -880,7 +892,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <p class="eyebrow">Próximo paso</p>
   <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
   <p class="lead" style="margin:0 auto 8px">Configuración elegida: <b id="cta-cfg">domótica completa</b>
-    · Total <b id="cta-tot">U$D 4.811</b>. Con la aceptación compramos los equipos y coordinamos con la
+    · Total <b id="cta-tot">U$D 4.587</b>. Con la aceptación compramos los equipos y coordinamos con la
     constructora el neutro en las cajas de llave.</p>
   <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
     <input type="checkbox" id="ok" onchange="conf()">
@@ -920,13 +932,13 @@ var GH='https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/a
 var ITEMS=[
  {r:'Core',n:'HUB Home Assistant Lite — RK3528 4GB/64GB Ethernet',s:'Home Assistant Lite',q:1,u:216,iva:21,mo:8500,qm:1,
   foto:SB+'home-assistant/HOMIQ-HA-LITE.webp',d:'El cerebro del sistema. Corre local, dentro de la unidad: las escenas y los automatismos siguen funcionando aunque se corte internet.'},
- {r:'Core',n:'Home Assistant SkyConnect — antena Zigbee/Thread',s:'Home Assistant SkyConnect',q:1,u:97,iva:21,mo:2758,qm:1,
+ {r:'Core',n:'Home Assistant SkyConnect — antena Zigbee/Thread',s:'Home Assistant SkyConnect',q:1,u:97,iva:21,mo:2758,qm:1,pp:1,
   foto:SB+'home-assistant/1.jpg',d:'Antena Zigbee/Thread del hub. Deja la puerta abierta para sumar sensores y dispositivos más adelante sin cambiar el sistema.'},
  {r:'Core',n:'Shelly Wall Display — panel táctil de pared 4"',s:'Shelly Wall Display',q:1,u:392,iva:21,mo:6970,qm:1,not:'xl',
   foto:GH+'3800235264904.png',d:'Pantalla táctil en el ingreso, junto al monitor del portero: escenas, luces y clima sin sacar el celular.'},
  {r:'Core',n:'Shelly Wall Display XL — panel táctil de pared 10,1"',s:'Shelly Wall Display XL',q:1,u:734,iva:21,mo:6970,qm:1,opt:'xl',
   foto:GH+'shelly-wall-display-xl.png',d:'Reemplaza a la pantalla de 4": 10,1 pulgadas en el ingreso, junto al monitor del portero, con lugar para ver toda la casa de un vistazo.'},
- {r:'Redes',n:'Router TP-Link Archer AX73 AX5400 WiFi 6',s:'TP-Link Archer AX73',q:1,u:178,iva:10.5,mo:5500,qm:1,
+ {r:'Redes',n:'Router TP-Link Archer AX73 AX5400 WiFi 6',s:'TP-Link Archer AX73',q:1,u:178,iva:10.5,mo:5500,qm:1,pp:1,
   foto:SB+'tp-link/ARCHER%20AX73.jpg',d:'Router WiFi 6 de alta cobertura para toda la unidad. Es la red sobre la que se apoyan los módulos Shelly, los Sensibo, la pantalla y el hub.'},
  {r:'Iluminación',n:'Shelly Plus 2PM Gen4 (4 instalados + 1 de repuesto)',s:'Shelly Plus 2PM Gen4',q:5,u:65,iva:21,mo:6970,qm:4,
   foto:SB+'shelly/3800238070717-4409.jpg',d:'Dos efectos por módulo, detrás de las llaves de dos teclas. Cuatro instalados y uno de repuesto, que queda en la unidad.'},
@@ -940,9 +952,9 @@ var ITEMS=[
   foto:GH+'3800235266700.png',d:'Uno por baño: la luz se enciende sola al entrar y se apaga cuando no hay nadie. Se pega, sin obra.'},
  {r:'Iluminación',n:'Sensor de apertura Shelly BLU Door/Window',s:'Shelly BLU Door/Window',q:2,u:46,iva:21,mo:0,qm:0,
   foto:SB+'shelly/3800235266618.png',d:'Uno por puerta de baño: al abrir, la luz ya está prendida antes de que el sensor de movimiento te vea. Se pega, sin obra.'},
- {r:'Confort',n:'Sensibo Air — control inteligente de aire acondicionado',s:'Sensibo Air',q:4,u:276,iva:21,mo:3010,qm:4,
+ {r:'Confort',n:'Sensibo Air — control inteligente de aire acondicionado',s:'Sensibo Air',q:4,u:276,iva:21,mo:3010,qm:4,pp:1,
   foto:GH+'sen-air-crl-01-b2b.jpg',d:'Uno por split: living y los tres dormitorios. Control desde la app, desde la pantalla del ingreso y por automatizaciones.'},
- {r:'Confort',n:'Bond Bridge BD-1000 — control RF de cortinas motorizadas',s:'Bond Bridge BD-1000',q:1,u:341,iva:21,mo:8500,qm:1,opt:'bond',
+ {r:'Confort',n:'Bond Bridge BD-1000 — control RF de cortinas motorizadas',s:'Bond Bridge BD-1000',q:1,u:341,iva:21,mo:8500,qm:1,opt:'bond',pp:1,
   foto:null,d:'Control de cortinas motorizadas RF. Sujeto a confirmar marca y cantidad de motores.'}
 ];
 var RUBROS=['Iluminación','Confort','Redes','Core'];
@@ -950,17 +962,19 @@ var RUBROS=['Iluminación','Confort','Redes','Core'];
 function activeItem(it,o){ if(it.opt) return !!o[it.opt]; if(it.not) return !o[it.not]; return true; }
 function calc(o){
   var its=ITEMS.filter(function(it){return activeItem(it,o);});
-  var eq=0, netoX=0, moC=0, rub={};
+  var eq=0, netoX=0, moC=0, bonC=0, rub={};
   RUBROS.forEach(function(r){rub[r]=0;});
   its.forEach(function(it){
     var st=it.u*it.q; eq+=st; rub[it.r]+=st;
     netoX+=st/(1+it.iva/100); moC+=it.mo*it.qm;
+    if(it.pp) bonC+=it.mo*it.qm;             // instalación bonificada: equipos plug & play
   });
-  var neto=Math.round(netoX), inst=Math.ceil(moC/100);
-  var prog=Math.ceil((eq+inst)/10);          // programación = 10% de (equipo c/IVA + instalación), redondeo arriba
+  var neto=Math.round(netoX);
+  var tarif=Math.ceil(moC/100), inst=Math.ceil((moC-bonC)/100), bonif=tarif-inst;
+  var prog=Math.ceil((eq+inst)/10);          // programación = 10% de (equipo c/IVA + instalación neta), redondeo arriba
   var tot=eq+inst+prog;
   var p60=Math.round(prog*6/10), p40=prog-p60;
-  var s={items:its,rub:rub,eq:eq,neto:neto,iva:eq-neto,inst:inst,prog:prog,tot:tot,
+  var s={items:its,rub:rub,eq:eq,neto:neto,iva:eq-neto,tarif:tarif,bonif:bonif,inst:inst,prog:prog,tot:tot,
          pEq:eq,p60:p60,p40:p40,pInst:inst,ivaFA:0,gt:tot};
   if(o.fa){                                  // Factura A: +21% solo sobre etapas de mano de obra
     s.p60=Math.round(p60*1.21); s.p40=Math.round(p40*1.21);
@@ -1109,8 +1123,11 @@ function recalc(){
   setT('ov-bond','+ '+fmt(calc({bond:true}).tot-base.tot)+' al total');
   setT('ov-xl','+ '+fmt(calc({xl:true}).tot-base.tot)+' al total');
   setT('t-neto',fmt(s.neto)); setT('t-iva',fmt(s.iva)); setT('t-eq',fmt(s.eq));
+  var ppTxt='antena Zigbee, router WiFi, Sensibo'+(o.bond?', Bond Bridge':'');
+  setT('t-tarif',fmt(s.tarif)); setT('t-bonif','− '+fmt(s.bonif)); setT('t-pp',ppTxt);
   setT('t-mo',fmt(s.inst)); setT('t-prog',fmt(s.prog)); setT('t-tot',fmt(s.tot));
   setT('hero-tot',fmt(s.tot)); setT('res-tot',fmt(s.tot));
+  setT('res-tarif',fmt(s.tarif)); setT('res-bonif','− '+fmt(s.bonif)); setT('res-inst',fmt(s.inst)); setT('res-pp',ppTxt);
   setT('p-eq',fmt(s.pEq)); setT('p-60',fmt(s.p60)); setT('p-40',fmt(s.p40)); setT('p-mo',fmt(s.pInst));
   document.getElementById('pay-iva-row').style.display=o.fa?'flex':'none';
   setT('pay-iva',fmt(s.ivaFA)); setT('gt',fmt(s.gt));
