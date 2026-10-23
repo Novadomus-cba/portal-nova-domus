@@ -450,7 +450,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       <span>Panoramic 1</span><span>Tipología TS2-PB-B</span>
       <span>14 efectos de iluminación</span><span>4 sistemas integrados</span>
     </div>
-    <p class="hero-tot">Inversión del proyecto <b id="hero-tot">U$D 4.587</b></p>
+    <p class="hero-tot">Inversión del proyecto <b id="hero-tot">U$D 4.385</b></p>
   </div>
 </header>
 
@@ -492,13 +492,15 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     le suma control remoto y escenas; dimmers en los tres dormitorios; encendido automático por
     presencia en los dos baños; un Sensibo en cada uno de los cuatro splits; y Home Assistant como
     cerebro local, con una red WiFi 6 que sostiene todo.</p>
-  <p><b>Inversión.</b> <span id="res-tot">U$D 4.587</span> por el proyecto completo: equipos,
+  <p><b>Inversión.</b> <span id="res-tot">U$D 4.385</span> por el proyecto completo: equipos,
     instalación de cada módulo y programación. Dos opcionales —cortinas motorizadas y pantalla
     XL— se suman con un toque en la sección Inversión, y todo se recalcula solo.</p>
   <div class="totals res-inst">
     <div class="trow"><span>Instalación según tarifario</span><b id="res-tarif">U$D 1.125</b></div>
     <div class="trow bonif"><span>Bonificación instalación equipos plug &amp; play (<span id="res-pp">antena Zigbee, router WiFi, Sensibo</span>)</span><b id="res-bonif">− U$D 203</b></div>
-    <div class="trow"><span>Instalación</span><b id="res-inst">U$D 922</b></div>
+    <div class="trow"><span>Instalación neta</span><b id="res-instpp">U$D 922</b></div>
+    <div class="trow bonif"><span>Bonificación 20% por preinstalación ya realizada por Denat</span><b id="res-denat">− U$D 184</b></div>
+    <div class="trow"><span>Instalación</span><b id="res-inst">U$D 738</b></div>
   </div>
   <p><b>Próximo paso.</b> Aceptar la propuesta, coordinar con la constructora el único requisito
     eléctrico (neutro en todas las cajas de llave) y comprar los equipos.</p>
@@ -711,6 +713,11 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
       Reemplaza a la pantalla de 4" por una de 10,1" en el ingreso. No se suman: va una u otra.
       <span class="ov" id="ov-xl"></span></span>
   </label>
+  <div class="neutro">
+    <span class="figure">Bonificación del 20% en la instalación</span>
+    <p>Por la preinstalación ya realizada por Denat, bonificamos el 20% de la instalación. Se
+      aplica siempre, con o sin opcionales, y se ve como línea propia en el detalle de abajo.</p>
+  </div>
   <div class="bar" id="bar"></div>
   <ul class="legend" id="legend"></ul>
   <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
@@ -721,6 +728,8 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
     <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq"></b></div>
     <div class="trow"><span>Instalación según tarifario (mano de obra especializada por punto)</span><b id="t-tarif"></b></div>
     <div class="trow bonif"><span>Bonificación instalación equipos plug &amp; play (<span id="t-pp">antena Zigbee, router WiFi, Sensibo</span>)</span><b id="t-bonif"></b></div>
+    <div class="trow sub"><span>Instalación neta</span><span id="t-instpp"></span></div>
+    <div class="trow bonif"><span>Bonificación 20% por preinstalación ya realizada por Denat</span><b id="t-denat"></b></div>
     <div class="trow"><span>Instalación</span><b id="t-mo"></b></div>
     <div class="trow"><span>Programación y comisionado</span><b id="t-prog"></b></div>
     <div class="trow big"><span>Total del proyecto</span><span id="t-tot"></span></div>
@@ -892,7 +901,7 @@ p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
   <p class="eyebrow">Próximo paso</p>
   <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
   <p class="lead" style="margin:0 auto 8px">Configuración elegida: <b id="cta-cfg">domótica completa</b>
-    · Total <b id="cta-tot">U$D 4.587</b>. Con la aceptación compramos los equipos y coordinamos con la
+    · Total <b id="cta-tot">U$D 4.385</b>. Con la aceptación compramos los equipos y coordinamos con la
     constructora el neutro en las cajas de llave.</p>
   <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
     <input type="checkbox" id="ok" onchange="conf()">
@@ -970,11 +979,12 @@ function calc(o){
     if(it.pp) bonC+=it.mo*it.qm;             // instalación bonificada: equipos plug & play
   });
   var neto=Math.round(netoX);
-  var tarif=Math.ceil(moC/100), inst=Math.ceil((moC-bonC)/100), bonif=tarif-inst;
-  var prog=Math.ceil((eq+inst)/10);          // programación = 10% de (equipo c/IVA + instalación neta), redondeo arriba
+  var tarif=Math.ceil(moC/100), instPP=Math.ceil((moC-bonC)/100), bonif=tarif-instPP;
+  var inst=Math.ceil((moC-bonC)*8/1000), bonDenat=instPP-inst;   // 20% por preinstalación ya realizada por Denat
+  var prog=Math.ceil((eq+inst)/10);          // programación = 10% de (equipo c/IVA + instalación final), redondeo arriba
   var tot=eq+inst+prog;
   var p60=Math.round(prog*6/10), p40=prog-p60;
-  var s={items:its,rub:rub,eq:eq,neto:neto,iva:eq-neto,tarif:tarif,bonif:bonif,inst:inst,prog:prog,tot:tot,
+  var s={items:its,rub:rub,eq:eq,neto:neto,iva:eq-neto,tarif:tarif,bonif:bonif,instPP:instPP,bonDenat:bonDenat,inst:inst,prog:prog,tot:tot,
          pEq:eq,p60:p60,p40:p40,pInst:inst,ivaFA:0,gt:tot};
   if(o.fa){                                  // Factura A: +21% solo sobre etapas de mano de obra
     s.p60=Math.round(p60*1.21); s.p40=Math.round(p40*1.21);
@@ -1125,6 +1135,8 @@ function recalc(){
   setT('t-neto',fmt(s.neto)); setT('t-iva',fmt(s.iva)); setT('t-eq',fmt(s.eq));
   var ppTxt='antena Zigbee, router WiFi, Sensibo'+(o.bond?', Bond Bridge':'');
   setT('t-tarif',fmt(s.tarif)); setT('t-bonif','− '+fmt(s.bonif)); setT('t-pp',ppTxt);
+  setT('t-instpp',fmt(s.instPP)); setT('t-denat','− '+fmt(s.bonDenat));
+  setT('res-instpp',fmt(s.instPP)); setT('res-denat','− '+fmt(s.bonDenat));
   setT('t-mo',fmt(s.inst)); setT('t-prog',fmt(s.prog)); setT('t-tot',fmt(s.tot));
   setT('hero-tot',fmt(s.tot)); setT('res-tot',fmt(s.tot));
   setT('res-tarif',fmt(s.tarif)); setT('res-bonif','− '+fmt(s.bonif)); setT('res-inst',fmt(s.inst)); setT('res-pp',ppTxt);
