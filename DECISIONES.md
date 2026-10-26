@@ -134,6 +134,17 @@ cliente ni en texto de WhatsApp.
 Materiales y mano de obra **siempre por separado**, nunca precio cerrado único.
 MO presupuestada = materiales × 30%. Margen neto efectivo objetivo: 25–30% sobre el costo total.
 
+**MO de instalación en proyectos de integración (decidido 26/10/2026):** objetivo del **30% del
+equipo con IVA**, por bloque contratable (etapa, opcional, nivel), ceil por bloque. Es un
+**objetivo, no un tope**: sube y baja. Aplica solo a proyectos de integración tecnológica /
+domótica — no a presupuestos comerciales de productos ni a instalación eléctrica. La programación
+se calcula sobre esa MO. El tarifario se sigue calculando para el Paso 3 y para un **aviso interno**
+si MO + programación quedan bajo el costo estimado de cuadrilla (`0.80 × (mo_tarifario +
+prog_tarifario)`); no se ajusta solo, decide Agustín. Casos testigo: PY-2026-050 (tarifario 2.908
+= 36,3% del equipo → 2.412, factor único) y PY-2026-051 (tarifario 1.774 = 43,3% → 1.230, por
+etapa 456 / 347 / 427; costo estimado 1.890 contra 1.764 cotizados). Fuente:
+`nova-domus-maestra` §3.9 (v3.9) e instrucciones v2.16.
+
 ### Excepción HAVEN (Grupo Calypso)
 **Margen fijo del 27% sobre `costo_ars`**, solo para este proyecto:
 ```
@@ -323,3 +334,7 @@ Martín tiene fila en `comerciales` (id 6) **sin `user_id`, a propósito**.
 | 11 | Conteo de dependencia de WiFi | **Corregido 03/09/2026:** 18 sobre WiFi, 66% Zigbee (detalle en `nova-domus-maestra`, `references/seleccion-dispositivos.md` §9.9). No verificable contra la base — la causa raíz pasa al pendiente 12. |
 | 12 | BOM de PY-2026-030 sin persistir | El proyecto (id 53) está en `ENTREGADO`, con `total_usd` 20.432, MO 5.319 y programación 1.853, HTML publicado — y **0 filas en `proyectos_items`**. Comparables sí los tienen (id 36: 94 ítems; id 31: 30 ítems). Nada en `storage.objects` ni en `presupuestos_items`. Cargar el BOM: hoy ninguna cifra de equipo de ese proyecto es auditable. |
 | 13 | `margen_fijo` divergente de `remarque` | 47 filas divergentes y 59 en NULL al 03/09/2026. Definir cuál gobierna, alinear, y decidir si la columna sobrevive. Query de control: `select count(*) from inventario where margen_fijo is distinct from remarque;` |
+| 14 | `proyectos.cotizacion_blue_snapshot` NOT NULL sin blue | **Decidido 26/10/2026: sin migración por ahora.** Regla: cargar el mismo TC BNA oficial del proyecto y anotarlo en `notas` (`nova-domus-maestra` §13 regla 13). Pendiente: evaluar pasarla a nullable. PY-2026-051 tiene el 1460 copiado de PY-2026-050. |
+| 15 | `proyectos.fecha_aceptacion` con default al insertar | **Decidido 26/10/2026: sin migración por ahora.** En un `ENTREGADO` no significa aceptación (regla 14). Pendiente: quitar el default y poner NULL en los `ENTREGADO` que lo tienen (al menos PY-050 y PY-051). |
+| 16 | PY-2026-051 en Supabase con valores previos al 30% | El HTML publicado muestra 5.858 (MO 1.230, prog 534); la base sigue con 6.457 / MO 1.774 / prog 589. UPDATE no autorizado el 26/10. Valores: `total_usd 5858`, `total_ars 9079900`, `mo_instalacion_usd 1230`, `mo_programacion_usd 534`, montos por etapa en `alcance` 2.172 / 1.652 / 2.034. |
+| 17 | Plantilla de proyecto único | Decidir si PY-2026-050 reemplaza formalmente a Club Chumamaya (029). Chumamaya y Docta-Massello traen la forma de pago 30/70 vieja. |
