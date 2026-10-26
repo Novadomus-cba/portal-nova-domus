@@ -143,7 +143,7 @@ si MO + programación quedan bajo el costo estimado de cuadrilla (`0.80 × (mo_t
 prog_tarifario)`); no se ajusta solo, decide Agustín. Casos testigo: PY-2026-050 (tarifario 2.908
 = 36,3% del equipo → 2.412, factor único) y PY-2026-051 (tarifario 1.774 = 43,3% → 1.230, por
 etapa 456 / 347 / 427; costo estimado 1.890 contra 1.764 cotizados). Fuente:
-`nova-domus-maestra` §3.9 (v3.9) e instrucciones v2.16.
+`nova-domus-maestra` §3.9 (v3.10) e instrucciones v2.17. **Cerraduras: siempre con su tarifa fija** (`MO-ACC-CERR`), fuera del 30%, y su equipo fuera de la base del 30% (confirmado 26/10/2026).
 
 ### Excepción HAVEN (Grupo Calypso)
 **Margen fijo del 27% sobre `costo_ars`**, solo para este proyecto:
