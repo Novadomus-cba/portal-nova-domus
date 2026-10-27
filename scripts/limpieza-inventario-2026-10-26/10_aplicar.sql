@@ -380,3 +380,6 @@ with v(sku_mo, ids) as (values
 )
 update inventario i set sku_mo = v.sku_mo, updated_at = now()
 from v where i.id = any(v.ids) and i.sku_mo is null and i.estado = 'activo';
+
+-- Paso 8 (27/10/2026): asignación de proveedor por marca (799 filas). El SQL, el rollback y los ids
+-- nombran proveedores y están en el repo privado: datos/limpieza-inventario-2026-10-26/15_*.
