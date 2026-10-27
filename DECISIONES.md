@@ -134,16 +134,17 @@ cliente ni en texto de WhatsApp.
 Materiales y mano de obra **siempre por separado**, nunca precio cerrado único.
 MO presupuestada = materiales × 30%. Margen neto efectivo objetivo: 25–30% sobre el costo total.
 
-**MO de instalación en proyectos de integración (decidido 26/10/2026):** objetivo del **30% del
-equipo con IVA**, por bloque contratable (etapa, opcional, nivel), ceil por bloque. Es un
-**objetivo, no un tope**: sube y baja. Aplica solo a proyectos de integración tecnológica /
+**MO de instalación en proyectos de integración (decidido 26/10/2026, corregido 27/10/2026):**
+tarifario con **tope del 30% del equipo con IVA**: `min(tarifario, ceil(0.30 × equipo_con_iva))`,
+por bloque contratable (etapa, opcional, nivel). **Es un tope, no un objetivo** (Agustín, 27/10: la
+versión del 26/10 decía "objetivo, sube y baja"); si el tarifario da menos, se cobra el tarifario. Aplica solo a proyectos de integración tecnológica /
 domótica — no a presupuestos comerciales de productos ni a instalación eléctrica. La programación
-se calcula sobre esa MO. El tarifario se sigue calculando para el Paso 3 y para un **aviso interno**
-si MO + programación quedan bajo el costo estimado de cuadrilla (`0.80 × (mo_tarifario +
+se calcula sobre esa MO. El Paso 3 muestra tarifario, tope y cuál se cotiza, y hay un **aviso interno**
+(solo puede saltar cuando el tope corta) si MO + programación quedan bajo el costo estimado de cuadrilla (`0.80 × (mo_tarifario +
 prog_tarifario)`); no se ajusta solo, decide Agustín. Casos testigo: PY-2026-050 (tarifario 2.908
 = 36,3% del equipo → 2.412, factor único) y PY-2026-051 (tarifario 1.774 = 43,3% → 1.230, por
 etapa 456 / 347 / 427; costo estimado 1.890 contra 1.764 cotizados). Fuente:
-`nova-domus-maestra` §3.9 (v3.10) e instrucciones v2.17. **Cerraduras: siempre con su tarifa fija** (`MO-ACC-CERR`), fuera del 30%, y su equipo fuera de la base del 30% (confirmado 26/10/2026).
+`nova-domus-maestra` §3.9 (v3.14) e instrucciones v2.22. 050 y 051 no cambian con el tope. **Cerraduras: siempre con su tarifa fija** (`MO-ACC-CERR`), fuera del 30%, y su equipo fuera de la base del 30% (confirmado 26/10/2026).
 
 ### Excepción HAVEN (Grupo Calypso)
 **Margen fijo del 27% sobre `costo_ars`**, solo para este proyecto:
