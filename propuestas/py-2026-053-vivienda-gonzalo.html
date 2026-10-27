@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Vivienda Gonzalo — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Iluminación indirecta, aire, pileta, riego y música en un solo sistema. PY-2026-053 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-053-vivienda-gonzalo.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-053-vivienda-gonzalo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-053">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vivienda Gonzalo · PY-2026-053 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+<style>
+.cmd{font-family:var(--font-body);font-weight:600;color:var(--gold)}
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+.alert{border:2px solid var(--gold);border-radius:14px;padding:18px 20px;margin:22px 0;background:rgba(200,169,110,.08)}
+.alert h3{color:var(--gold)}
+
+/* etapa 0 destacada */
+.prev{border:2px solid var(--gold);border-radius:18px;padding:24px 22px;margin-top:22px;
+background:linear-gradient(160deg,rgba(200,169,110,.10),rgba(200,169,110,.02))}
+.prev ul{margin:12px 0 0;padding-left:20px} .prev li{margin:8px 0}
+.prev .big{font-size:16px;color:var(--body);font-weight:600}
+.etq{display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+border:1px solid rgba(200,169,110,.5);color:var(--gold);border-radius:999px;padding:3px 10px;margin-bottom:10px}
+.section-light .etq{border-color:rgba(20,30,97,.4);color:var(--navy)}
+/* llaves partidas */
+.split{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:14px}
+.split div{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px 16px;font-size:14px}
+.split div b{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;color:var(--grey)}
+.split .good{border-color:var(--gold)} .split .good b{color:var(--gold)}
+.section-light .prev .big{color:var(--navy-deep)}
+.opts{display:grid;gap:12px;margin:18px 0 6px}
+.optc{display:flex;gap:14px;align-items:flex-start;border:1px solid rgba(20,30,97,.18);border-radius:14px;padding:16px;background:#fff;cursor:pointer;transition:border-color .2s,box-shadow .2s;
+box-shadow:0 0 0 0 rgba(20,30,97,.4);animation:glown 2.6s ease-in-out infinite}
+@keyframes glown{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,0)}50%{box-shadow:0 0 0 6px rgba(20,30,97,.10)}}
+.optc input{width:22px;height:22px;margin-top:2px;accent-color:var(--navy);flex:none}
+.optc.on{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy);animation:none}
+.optc b{display:block;color:var(--navy);font-size:15px}
+.optc span{font-size:13.5px;color:#3a3d4a}
+.optc .add{display:block;margin-top:6px;font-weight:600;color:var(--navy);font-variant-numeric:tabular-nums}
+.efx{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.efx li{border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:11px 14px;font-size:13.5px}
+.efx li b{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:1px;margin-right:6px}
+@media(max-width:640px){.prev{padding:20px 16px}.split{grid-template-columns:1fr}.efx{grid-template-columns:1fr}}
+</style></head><body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-053 · PROPUESTA COMERCIAL</p>
+    <h1>Vivienda Gonzalo</h1>
+    <p class="claim">La casa que responde.</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para una casa de dos
+      plantas en obra: iluminación indirecta inteligente, aire acondicionado, pileta, riego y
+      música, todo en un mismo sistema y una misma app.</p>
+    <div class="meta">
+      <span>Córdoba</span><span>Casa en obra</span>
+      <span>Planta baja + alta</span><span>Un solo sistema</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#prevision">Previsión en obra</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#s01">Iluminación</a></li>
+  <li><a href="#s02">Confort</a></li>
+  <li><a href="#s03">Música</a></li>
+  <li><a href="#s04">Redes</a></li>
+  <li><a href="#s05">Core</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="24">24</span>
+      <small>efectos de luz, casi todos indirectos, sin perder las llaves</small></div>
+    <div class="kpi"><span class="figure" data-n="4">4</span>
+      <small>parlantes embutidos en cocina y living comedor</small></div>
+    <div class="kpi"><span class="figure" data-n="4">4</span>
+      <small>zonas de riego automáticas, más la pileta</small></div>
+    <div class="kpi"><span class="figure" data-n="1">1</span>
+      <small>app para luces, aire, pileta, riego y música</small></div>
+  </div>
+  <p><b>Qué necesita la casa.</b> Está en revoque grueso: es el momento justo para decidir la
+    tecnología, porque lo que se deja previsto ahora casi no cuesta y hacerlo después cuesta varias
+    veces más. La luz va a ser indirecta, con tiras LED, y el cielorraso de Durlock permite embutir
+    los parlantes.</p>
+  <p><b>Qué proponemos.</b> Control de toda la iluminación —las tiras LED y los puntos de luz—,
+    del aire acondicionado, de la bomba y la luz de la pileta y del riego por zonas; música
+    ambiental en cocina y living; una red WiFi profesional con un access point por planta; y un
+    servidor de automatización que corre dentro de la casa y une todo.</p>
+  <p><b>Inversión estimada.</b> U$D 7.836 — equipos, mano de obra especializada por
+    punto y programación. Los otros tres aires acondicionados se pueden sumar como opcional.</p>
+  <p><b>Próximo paso.</b> Pasarle al electricista la lista de <a href="#prevision">Previsión en
+    obra</a>, antes de cerrar paredes.</p>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="prevision">
+  <p class="eyebrow">Previsión en obra</p>
+  <h2>Lo que conviene hacer ahora</h2>
+  <p class="lead">No lleva equipos ni se cotiza: lo hace el electricista de la obra con nuestra
+    indicación. Es lo más importante de toda la propuesta.</p>
+  <div class="prev">
+    <span class="etq">Sin costo de equipos</span>
+    <p class="big">Hacerlo ahora casi no cuesta. Hacerlo con las paredes cerradas cuesta varias
+      veces más.</p>
+    <ul>
+      <li><b>Neutro en toda caja de llave.</b> Que baje el neutro junto con el retorno a todas las
+        cajas de llave de la casa. Es lo que necesitan los módulos para ir detrás de cada llave.</li>
+      <li><b>Retorno de las llaves de luz indirecta hasta la caja de control.</b> Las tiras LED
+        se comandan desde una caja junto al tablero de cada planta: cada llave de esos efectos
+        tiene que llegar hasta ahí, en un caño separado del de 220V.</li>
+      <li><b>Una caja plástica de derivación junto al tablero de cada planta</b>, para los
+        módulos de las tiras LED, separada del calor de las fuentes de 24V.</li>
+      <li><b>Un caño hasta cada parlante del cielorraso</b> (dos en la cocina, dos en el living
+        comedor), desde el lugar del gabinete de red.</li>
+      <li><b>Caño y cable de red (UTP) desde el gabinete</b> hasta el access point de cada planta
+        y hasta la pantalla de control del ingreso.</li>
+      <li><b>Corrugado generoso desde el tablero</b> hasta la bomba de la pileta y hasta la bomba y
+        las electroválvulas del riego, con las menos curvas posibles.</li>
+    </ul>
+    <p class="note">Con esto hecho, la domótica se instala al final de la obra sin romper una sola
+      pared.</p>
+  </div>
+  <div class="alert">
+    <h3>A confirmar en la visita técnica</h3>
+    <p>No hay plano eléctrico todavía: los efectos de luz están estimados por ambiente a partir de
+      los planos de arquitectura. Se confirman en una visita a la obra, junto con las zonas de
+      riego, la potencia de la bomba de la pileta y la ubicación del aire acondicionado y del
+      gabinete de red.</p>
+  </div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p>Sumar tecnología a una casa en obra suele terminar con varios proveedores: el que instala los
+    módulos de luz, el del riego, el de la pileta, el de la red y el del sonido. Cuando algo deja
+    de responder, cada uno señala al otro. Esa coordinación es la fuente real de las fallas y las
+    demoras, más que cualquier equipo defectuoso.</p>
+  <p><b>Nova Domus es uno solo.</b> Instalamos y programamos todo lo que cotiza esta propuesta:
+    iluminación, aire, pileta, riego, música, red y automatización. La instalación eléctrica la
+    ejecuta el electricista de la obra: nosotros le indicamos qué dejar previsto y lo verificamos
+    antes de instalar.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span>Relevamiento y especificación — planos, previsión en obra
+      para el electricista y visita técnica</span></div>
+    <div class="step"><b>02</b><span>Redes e iluminación — gabinete, red WiFi y módulos de luz</span></div>
+    <div class="step"><b>03</b><span>Confort y exterior — aire, pileta, riego y música</span></div>
+    <div class="step"><b>04</b><span>Automatización Home Assistant — escenas, horarios, app y
+      panel de control</span></div>
+    <div class="step"><b>05</b><span>Entrega documentada + 12 meses de garantía</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th></th><th>Con Nova Domus</th><th>Integradores tradicionales</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td>
+        <td data-label="Con Nova Domus">Uno, más el electricista de la obra</td>
+        <td data-label="Integradores tradicionales">Cuatro o más</td></tr>
+      <tr><td>Responsable ante una falla</td>
+        <td data-label="Con Nova Domus">Nova Domus</td>
+        <td data-label="Integradores tradicionales">A definir entre las partes</td></tr>
+      <tr><td>Equipo de trabajo</td>
+        <td data-label="Con Nova Domus">Propio: programadores certificados e instaladores</td>
+        <td data-label="Integradores tradicionales">Subcontratado por rubro</td></tr>
+      <tr><td>Garantía</td>
+        <td data-label="Con Nova Domus">12 meses sobre el sistema completo</td>
+        <td data-label="Integradores tradicionales">Por equipo y por proveedor</td></tr>
+      <tr><td>Documentación de entrega</td>
+        <td data-label="Con Nova Domus">Incluida</td>
+        <td data-label="Integradores tradicionales">Habitualmente no</td></tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="s01">
+  <p class="eyebrow">01 — Sistema</p>
+  <h2>Iluminación</h2>
+  <p class="lead">24 efectos de luz, casi todos de luz indirecta con tiras LED, comandados desde
+    las mismas llaves de siempre, el panel, la app y las escenas. Probá el simulador: así se siente
+    la casa según el momento del día.</p>
+  <p class="hint">👆 Tocá cada pestaña para cambiar de escena, y arrastrá el slider — o tocá
+    cada dispositivo para ver el detalle</p>
+  <div class="sw" role="tablist">
+    <button class="on" onclick="esc(0,this)">Mañana</button>
+    <button onclick="esc(1,this)">Llego a casa</button>
+    <button onclick="esc(2,this)">Tarde en la galería</button>
+    <button onclick="esc(3,this)">Noche</button>
+  </div>
+  <div class="scene">
+    <div class="scene-view" id="sv"></div>
+    <div class="scene-body">
+      <h3 id="st">Mañana</h3>
+      <p id="sd"></p>
+      <div class="slabel"><span>Brillo</span><span id="bv">60%</span></div>
+      <input class="slider" type="range" min="0" max="100" value="60" id="br"
+             aria-label="Brillo de la escena">
+    </div>
+  </div>
+  <ul class="efx">
+    <li><b>PB</b>Living comedor: 2 gargantas + colgante regulable</li>
+    <li><b>PB</b>Cocina: garganta, bajo alacena y luz general</li>
+    <li><b>PB</b>Dormitorio: 2 efectos indirectos</li>
+    <li><b>PB</b>Baño, nicho de lavatorio y lavadero</li>
+    <li><b>PB</b>Escalera y galería, más parque</li>
+    <li><b>PA</b>2 dormitorios: 2 efectos indirectos cada uno</li>
+    <li><b>PA</b>Baño y pasillo</li>
+  </ul>
+  <div class="alert">
+    <h3>Las llaves no cambian</h3>
+    <p>Las tiras LED se comandan desde una caja junto al tablero de cada planta, y sus llaves
+      llegan hasta ahí como entrada. Los puntos de luz común llevan su módulo detrás de la llave.
+      En los dos casos la llave sigue funcionando exactamente igual: por eso el electricista tiene
+      que dejar neutro en cada caja y el retorno de las llaves de luz indirecta.</p>
+  </div>
+  <p class="note">En baños, lavadero, escalera y pasillo de planta alta la luz se enciende sola al
+    entrar y se apaga al salir, con sensores de movimiento y de puerta. La llave manual sigue
+    estando.</p>
+  <div class="device-grid" id="grid-iluminacion"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="s02">
+  <p class="eyebrow">02 — Sistema</p>
+  <h2>Confort y exterior</h2>
+  <p class="lead">Un Sensibo sobre el aire acondicionado, y el control de la pileta y del riego
+    desde el tablero: horarios, escenas y todo en la misma app. Movés el slider y mirás el efecto
+    estimado en el aire:</p>
+  <p class="hint">👆 Arrastrá el slider y tocá el switch para comparar — o tocá cada dispositivo
+    para ver el detalle</p>
+  <div class="calc-box" id="confort-calc">
+    <div class="slabel"><span>Temperatura objetivo</span><span id="ctv">24°C</span></div>
+    <input class="slider" type="range" min="18" max="28" value="24" id="ct"
+           oninput="confortT(this.value)" aria-label="Temperatura objetivo">
+    <div class="slabel" style="margin-top:16px">
+      <span>Ahorro estimado vs. uso manual sin sensores</span>
+      <span id="cav" class="cav-val">~22%</span></div>
+    <p style="font-size:12px;color:#5d6078;margin-top:8px">Estimación referencial de
+      consumo, no una promesa de retorno — varía según aislación, uso real y equipo.</p>
+  </div>
+  <div class="sw">
+    <button class="on" id="cf0" onclick="confortView(0)">Sin Sensibo</button>
+    <button id="cf1" onclick="confortView(1)">Con Sensibo</button>
+  </div>
+  <div class="cmp" id="cfbox"></div>
+  <div class="vbox">
+    <h3>Pileta y riego sin acordarte</h3>
+    <p>La bomba de la pileta filtra en su horario y la luz de la pileta entra en las escenas de la
+      noche. El riego recorre las zonas del parque de madrugada y se saltea solo si el pronóstico
+      anuncia lluvia. Todo se ve y se cambia desde la app, sin un controlador aparte.</p>
+  </div>
+  <p class="note">El control de la losa radiante queda para una etapa posterior: el sistema está
+    preparado para sumarlo sin rehacer nada.</p>
+  <div class="device-grid" id="grid-confort"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="s03">
+  <p class="eyebrow">03 — Sistema</p>
+  <h2>Música en la cocina y el living</h2>
+  <p class="lead">Cuatro parlantes embutidos en el cielorraso de Durlock y un amplificador con
+    streaming en el gabinete: sin parlantes a la vista y sin cables por el piso.</p>
+  <ul class="efx">
+    <li><b>Mañana</b>La música arranca baja en la cocina con la escena del desayuno.</li>
+    <li><b>Visitas</b>Cocina y living suenan juntos, a un volumen parejo en todo el ambiente.</li>
+    <li><b>Galería</b>Con la escena de la tarde, la música acompaña el uso del espacio.</li>
+    <li><b>Cualquier app</b>Spotify, AirPlay o Google Cast desde el celular de quien sea.</li>
+  </ul>
+  <div class="vbox">
+    <h3>Por qué embutidos y con amplificador</h3>
+    <p>Un parlante embutido en el cielorraso reparte el sonido en todo el ambiente, sin un punto
+      que suene fuerte y otro que no se escuche, y no ocupa ningún mueble. El amplificador va en el
+      gabinete junto a la red: no hay cables ni fuentes a la vista. Es la solución más simple y
+      económica para música ambiental de buena calidad.</p>
+  </div>
+  <div class="device-grid" id="grid-entretenimiento"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="s04">
+  <p class="eyebrow">04 — Sistema</p>
+  <h2>Redes</h2>
+  <p class="lead">La red es el cimiento del que depende todo lo demás: un access point por planta,
+    switch PoE, controlador Omada y UPS, ordenados en un gabinete.</p>
+  <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el detalle</p>
+  <div class="sw">
+    <button class="on" id="r0" onclick="rcmp(0)">WiFi doméstico común</button>
+    <button id="r1" onclick="rcmp(1)">Red profesional Omada</button>
+  </div>
+  <div class="cmp" id="rbox"></div>
+  <div class="device-grid" id="grid-redes"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="s05">
+  <p class="eyebrow">05 — Sistema</p>
+  <h2>Core</h2>
+  <p class="lead">Servidor de automatización local, antena Zigbee dedicada y un panel de control
+    en el ingreso principal.</p>
+  <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
+  <div class="vbox">
+    <h3>Funciona aunque se corte internet</h3>
+    <p>Las llaves, el panel, las escenas, la pileta y el riego corren dentro de la casa. Internet
+      se necesita solo para manejar la casa desde afuera, para las notificaciones al celular y para
+      la música por streaming.</p>
+  </div>
+  <div class="device-grid" id="grid-core"></div>
+</section>
+</div>
+
+<div class="section-light">
+<div class="wrap">
+<section class="sec" id="inversion" style="border-top:0">
+  <p class="eyebrow">06 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total general, más abajo.</p>
+  <div class="bar"><span class="seg" style="flex:1235" title="Iluminación: U$D 1.235"></span><span class="seg" style="flex:909" title="Confort y exterior: U$D 909"></span><span class="seg" style="flex:1526" title="Entretenimiento: U$D 1.526"></span><span class="seg" style="flex:917" title="Redes: U$D 917"></span><span class="seg" style="flex:1045" title="Core: U$D 1.045"></span></div>
+  <ul class="legend"><li><i class="dot d0"></i>Iluminación <b>U$D 1.235</b></li><li><i class="dot d1"></i>Confort y exterior <b>U$D 909</b></li><li><i class="dot d2"></i>Entretenimiento <b>U$D 1.526</b></li><li><i class="dot d3"></i>Redes <b>U$D 917</b></li><li><i class="dot d4"></i>Core <b>U$D 1.045</b></li></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Iluminación</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="rub-val">U$D 1.235</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Shelly Plus RGBW PM — control de tiras LED 24V (4 canales)</td><td class="num">6</td><td class="num">58<span class="iva"> · IVA 21% incl.</span></td><td class="num">348</td></tr><tr><td>Shelly 1PM Mini Gen4 — un efecto por caja de llave</td><td class="num">7</td><td class="num">45<span class="iva"> · IVA 21% incl.</span></td><td class="num">315</td></tr><tr><td>Shelly Dimmer Gen4 — regulación del colgante del comedor</td><td class="num">2</td><td class="num">104<span class="iva"> · IVA 21% incl.</span></td><td class="num">208</td></tr><tr><td>Kit Shelly Smart Security XL — 5 sensores de movimiento + 5 de puerta</td><td class="num">1</td><td class="num">314<span class="iva"> · IVA 21% incl.</span></td><td class="num">314</td></tr><tr><td>Shelly BLU Motion — sensor de movimiento</td><td class="num">1</td><td class="num">50<span class="iva"> · IVA 21% incl.</span></td><td class="num">50</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Confort y exterior</span>
+          <span class="rub-val">U$D 909</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Sensibo Air — control inteligente del aire acondicionado</td><td class="num">1</td><td class="num">276<span class="iva"> · IVA 21% incl.</span></td><td class="num">276</td></tr><tr><td>Shelly Pro 2PM DIN — bomba e iluminación de la pileta</td><td class="num">1</td><td class="num">239<span class="iva"> · IVA 21% incl.</span></td><td class="num">239</td></tr><tr><td>Shelly Pro 1PM DIN — bomba de riego</td><td class="num">1</td><td class="num">164<span class="iva"> · IVA 21% incl.</span></td><td class="num">164</td></tr><tr><td>Shelly 1 Gen4 — una zona de riego por módulo</td><td class="num">5</td><td class="num">46<span class="iva"> · IVA 21% incl.</span></td><td class="num">230</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Entretenimiento</span>
+          <span class="rub-val">U$D 1.526</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>VSSL MA.1 — amplificador con streaming, 2 canales</td><td class="num">1</td><td class="num">1.084<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.084</td></tr><tr><td>Episode CORE 1 ES-CORE-16-IC — par de parlantes de embutir 6&quot;</td><td class="num">2</td><td class="num">221<span class="iva"> · IVA 21% incl.</span></td><td class="num">442</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Redes</span>
+          <span class="rub-val">U$D 917</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Router TP-Link Omada ER605</td><td class="num">1</td><td class="num">72<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">72</td></tr><tr><td>Controlador TP-Link Omada OC200</td><td class="num">1</td><td class="num">222<span class="iva"> · IVA 21% incl.</span></td><td class="num">222</td></tr><tr><td>Switch TP-Link Omada TL-SG2210P — 8 puertos PoE+</td><td class="num">1</td><td class="num">122<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">122</td></tr><tr><td>Access point TP-Link Omada EAP610 — WiFi 6</td><td class="num">2</td><td class="num">104<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">208</td></tr><tr><td>UPS Eaton 5A 900VA</td><td class="num">1</td><td class="num">80<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">80</td></tr><tr><td>Gabinete mural GLC SOHO 9U-500</td><td class="num">1</td><td class="num">140<span class="iva"> · IVA 21% incl.</span></td><td class="num">140</td></tr><tr><td>Canal de tensión GLC CT5000 — 5 tomas</td><td class="num">1</td><td class="num">63<span class="iva"> · IVA 21% incl.</span></td><td class="num">63</td></tr><tr><td>Organizador de cables GLC ORGCR-001</td><td class="num">1</td><td class="num">10<span class="iva"> · IVA 21% incl.</span></td><td class="num">10</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Core</span>
+          <span class="rub-val">U$D 1.045</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Home Assistant Green — servidor de automatización</td><td class="num">1</td><td class="num">556<span class="iva"> · IVA 21% incl.</span></td><td class="num">556</td></tr><tr><td>Home Assistant SkyConnect — antena Zigbee</td><td class="num">1</td><td class="num">97<span class="iva"> · IVA 21% incl.</span></td><td class="num">97</td></tr><tr><td>Shelly Wall Display — panel de control</td><td class="num">1</td><td class="num">392<span class="iva"> · IVA 21% incl.</span></td><td class="num">392</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+  <p class="hint">👆 Opcional: tocá para sumarlo y ver el total actualizado</p>
+  <div class="opts">
+    <label class="optc" id="oc-ac"><input type="checkbox" id="opt-ac" onchange="setOpt()">
+      <span><b>Sensibo para los otros 3 aires acondicionados</b>
+      <span>Los cuatro aires de la casa desde el celular, el panel y las escenas.
+        3 × U$D 276 · IVA 21% incl., más su instalación y
+        programación.</span>
+      <span class="add" id="opt-ac-add"></span></span>
+    </label>
+  </div>
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span>
+      <b id="t-neto"></b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span>
+      <span id="t-iva"></span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span>
+      <b id="t-eq"></b></div>
+    <div class="trow"><span>Mano de obra especializada por punto</span>
+      <b id="t-mo"></b></div>
+    <div class="trow"><span>Programación y comisionado</span>
+      <b id="t-prog"></b></div>
+    <div class="trow big"><span>Total estimado del proyecto</span>
+      <span id="t-tot"></span></div>
+  </div>
+  <p class="note">El presupuesto incluye un margen de repuesto en los módulos de iluminación y de
+    riego, para absorber cambios de obra sin rehacer el presupuesto.</p>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="pago">
+  <p class="eyebrow">07 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Equipos por anticipado, programación en dos partes y la instalación según el
+    avance real del trabajo.</p>
+  <div class="pay" id="pay"></div>
+  <div class="chk">
+    <input type="checkbox" id="fa" onchange="render()">
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación e instalación.
+      Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-row" style="display:none">
+      <span>IVA 21% sobre programación e instalación</span>
+      <span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total</span>
+      <span id="gt"></span></div>
+  </div>
+</section>
+</div>
+<div class="section-light"><div class="wrap">
+<section class="sec" id="condiciones" style="border-top:0">
+  <p class="eyebrow">08 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión. Todos los precios están expresados en dólares estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago efectivo. Los equipos se confirman a la cotización del momento de la compra.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Equipos: 100% por anticipado, antes de instalar, para asegurar el precio y la disponibilidad de importación. Programación y comisionado: 60% al iniciar la programación y 40% contra la entrega final documentada. Instalación: se certifica según el avance real del trabajo, con certificación semanal; el monto indicado es de referencia sobre el total presupuestado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Alcance — obra eléctrica a cargo del electricista de la obra</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La instalación eléctrica la ejecuta el electricista de la obra, por eso no aplica la base de cotización de Boca Completa y este presupuesto no incluye canalizaciones, cableado eléctrico ni de red, cajas ni tableros. Nova Domus especifica lo que tiene que quedar previsto (ver Previsión en obra), lo verifica antes de instalar y certifica la parte que ejecuta: módulos, red, audio, automatización y programación.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Qué no incluye</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No incluye las tiras LED, sus fuentes de 24V, los artefactos de iluminación, el equipo de aire acondicionado, la bomba de la pileta, la bomba de riego ni las electroválvulas: lo que se cotiza es el control de todo eso. Tampoco incluye el servicio de internet, que queda a cargo del cliente y de su proveedor.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Proyecto aproximado y supuestos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Este es un Proyecto de Tecnológica Integral aproximado, no un proyecto cerrado: surge de los planos de arquitectura y de lo conversado, sin plano eléctrico. Los 24 efectos de iluminación están estimados por ambiente, y las 4 zonas de riego, la potencia de la bomba de la pileta y la ubicación del aire son supuestos. Todo se confirma en una visita técnica a la obra. Un efecto que pasa de encendido simple a regulable, o al revés, mueve el presupuesto del orden de U$D 30 por punto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Losa radiante</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El control de la losa radiante y de la caldera no forma parte de este alcance. El sistema queda preparado para sumarlo más adelante como una ampliación, sin rehacer lo instalado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos y repuestos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos son de importación y se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución. El presupuesto incluye un margen de repuesto en los módulos de iluminación y de riego para absorber cambios de obra sin rehacer el presupuesto; los que no se usen quedan en poder del cliente, ya que fueron facturados como parte del proyecto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Visitas técnicas</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La instalación eléctrica no la ejecuta Nova Domus: las visitas que se requieran por cambios en la instalación hechos por terceros, por falta de lo previsto en obra o por cambios de alcance se cotizan aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización, responsable de obra y certificación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por variación del Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante. Nova Domus designa un responsable único como interlocutor durante toda la ejecución. Al finalizar se entrega la documentación del sistema: inventario de dispositivos, esquema de red, credenciales y manual de uso.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Facturación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre programación e instalación. Los equipos ya llevan su IVA discriminado por ítem, según la alícuota de cada producto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía y post-venta</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Doce meses de garantía sobre el sistema completo desde la entrega documentada, cubriendo mano de obra y programación. Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá cada marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">SHELLY</button><button class="pill" onclick="marca(1,this)">HOME ASSISTANT</button><button class="pill" onclick="marca(2,this)">TP-LINK</button><button class="pill" onclick="marca(3,this)">SENSIBO</button><button class="pill" onclick="marca(4,this)">VSSL</button>
+  </div>
+  <div class="ficha" id="f0"><h3>SHELLY</h3><p>Fuimos los primeros en instalar Shelly en la provincia, a fines de 2023. Somos integradores y revendedores — no distribuidores — de estos relés y módulos WiFi/Zigbee pensados para retrofit sobre instalación eléctrica existente, con integración estable a Home Assistant.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/tBUUtSxykeA" loading="lazy" title="SHELLY" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f1"><h3>HOME ASSISTANT</h3><p>Nos especializamos en programar, integrar y escalar Home Assistant en obras complejas. Es un sistema de automatización de código abierto que corre local, en la vivienda, sin depender de la nube de un tercero — no ata al cliente a una sola marca.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/p07oNkemrDk" loading="lazy" title="HOME ASSISTANT" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f2"><h3>TP-LINK</h3><p>Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de domótica/seguridad del de invitados desde un solo controlador.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" title="TP-LINK" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f3"><h3>SENSIBO</h3><p>Fabricante especializado en climatización inteligente para aires acondicionados split ya instalados. Lo elegimos porque suma sensor de presencia real — algo que el control remoto de fábrica del aire no tiene.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/gRa6Vb89U6E" loading="lazy" title="SENSIBO" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f4"><h3>VSSL</h3><p>VSSL es una marca de audio multizona con streaming nativo (AirPlay, Google Cast, Spotify Connect) sin depender de una app propia. Nova Domus la ofrece como alternativa a Sonos para ambientes que necesitan amplificación integrada al rack en vez de parlantes activos independientes.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/MhlJSAuW3y0" loading="lazy" title="VSSL" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+  <div class="vbox">
+    <h3>Sin ataduras a un fabricante</h3>
+    <p>El sistema corre sobre Home Assistant, que es de código abierto y soporta dispositivos de
+      miles de fabricantes distintos. Si mañana querés sumar o cambiar un equipo, se integra al
+      mismo sistema sin rehacer la instalación.</p>
+  </div>
+</section>
+</div>
+<div class="section-light"><div class="wrap">
+<section class="sec" id="faq" style="border-top:0">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="lead">Las dudas más comunes sobre sumar tecnología a una casa en obra.</p>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Por qué hay que definir cosas ahora, si la casa está en obra?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Porque lo que se deja previsto con las paredes abiertas casi no cuesta: un neutro más en cada caja, un caño para cada parlante, un cable de red a cada access point. Hacerlo con las paredes cerradas cuesta varias veces más, o directamente no se puede. La domótica se instala al final, pero se decide ahora.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Si se corta internet, deja de funcionar todo?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Las llaves, el panel, las escenas, la pileta y el riego corren dentro de la casa y siguen funcionando. Lo que necesita internet es manejar la casa desde afuera y la música por streaming.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Si se corta la luz?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El router, el switch, los access points y el servidor de automatización están sobre una UPS, que los mantiene ante cortes cortos y microcortes. Al volver la luz, todo retoma su estado sin que tengas que hacer nada.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Puedo usar Alexa o el celular?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. Todo se maneja desde la app de Home Assistant, desde el panel del ingreso y por voz con Alexa o Google. El riego y la pileta quedan en el mismo sistema que la luz y el aire: no hace falta una app distinta para cada cosa.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Las llaves de luz siguen funcionando?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. La domótica suma control, no reemplaza lo que ya tenés: cada llave sigue prendiendo y apagando su luz como siempre.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay algún costo recurrente?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. El sistema de automatización no necesita licencia ni abono. Lo único que pagás aparte es tu servicio de internet y, si lo usás, tu cuenta de música por streaming.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Quedo atado a Nova Domus?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Home Assistant es de código abierto: la configuración queda documentada y es portable. Preferimos que sigas con nosotros porque el servicio funciona, no porque no tengas otra opción.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu conformidad coordinamos la visita técnica a la
+    obra, le pasamos al electricista la previsión y compramos los equipos para tenerlos cuando la
+    obra esté lista.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y estoy de acuerdo con el alcance y las condiciones.</label>
+  </div>
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-053%20de%20la%20vivienda%20de%20Gonzalo%20y%20quiero%20avanzar." aria-disabled="true" target="_blank"
+     rel="noopener">Aceptar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-053</b> · Vivienda Gonzalo<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring"
+            stroke-dasharray="163.4" stroke-dashoffset="163.4"
+            stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var PY='PY-2026-053';
+// Pre-resolved scenarios (Python): S[0] base, S[1] with the optional Sensibo x3. No pricing logic in JS.
+var S=[{"eq": 5632, "neto": 4692, "iva": 940, "mo": 1491, "prog": 713, "p60": 428, "p40": 285, "tot": 7836, "fa_iva": 463}, {"eq": 6460, "neto": 5377, "iva": 1083, "mo": 1582, "prog": 805, "p60": 483, "p40": 322, "tot": 8847, "fa_iva": 501}];
+var OPT_ADD=1011;
+function fmt(v){return 'U$D '+Math.round(v).toLocaleString('es-AR');}
+//CALC-START
+function calc(opt,fa){
+  var s=S[opt?1:0], faIva=fa?s.fa_iva:0;
+  var stages=[
+    ['Equipos — 100%','Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.',s.eq,''],
+    ['Programación — 60% al inicio','Al arrancar la programación del sistema.',s.p60,''],
+    ['Programación — 40% a la entrega','Comisionado: contra la entrega final documentada.',s.p40,''],
+    ['Instalación por punto','Se certifica según el avance real del trabajo, con certificación semanal.',s.mo,'Monto de referencia — se certifica por avance']
+  ];
+  return {s:s,stages:stages,faIva:faIva,grand:s.tot+faIva};
+}
+//CALC-END
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+var ESC=[["Mañana", "linear-gradient(160deg,#e8c98a,#7c86c2 70%)", "La luz indirecta de la cocina arranca suave y el riego ya hizo su recorrido de madrugada. Bajás y la música del living arranca baja, a tu volumen."], ["Llego a casa", "linear-gradient(160deg,#cfe0f5,#a9b0d6 70%)", "Se enciende el ingreso y el living a media intensidad. Si avisaste que volvías, el aire ya está trabajando."], ["Tarde en la galería", "linear-gradient(160deg,#f0b77a,#5a3d8a 75%)", "Al caer el sol se encienden la galería y la luz de la pileta. La bomba ya filtró en su horario, y la música sale también por la cocina."], ["Noche", "linear-gradient(160deg,#2b3a7a,#0B132B 70%)", "\"Buenas noches\" desde el panel: se apaga toda la casa y queda solo la escalera en un tono muy bajo. La bomba de la pileta ya terminó su ciclo."]];
+function esc(i,btn){
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('sv').style.background=ESC[i][1];
+  document.getElementById('st').textContent=ESC[i][0];
+  document.getElementById('sd').textContent=ESC[i][2];
+}
+var br=document.getElementById('br');
+br.addEventListener('input',function(){
+  document.getElementById('bv').textContent=br.value+'%';
+  document.getElementById('sv').style.opacity=(0.35+br.value/100*0.65).toFixed(2);
+});
+function sw2(ids,box,DATA,i){
+  document.getElementById(ids[0]).classList.toggle('on',i===0);
+  document.getElementById(ids[1]).classList.toggle('on',i===1);
+  var b=document.getElementById(box), d=DATA[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
+    return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+var RCMP=[["WiFi doméstico común", false, ["Un solo router para toda la casa: en planta alta la señal no llega bien a través de la losa", "La domótica, los celulares y las visitas compiten en la misma red", "Un corte de luz corto reinicia el router y la casa queda sin control", "Para mejorar la cobertura, se suman repetidores que piden su propio enchufe"]], ["Red profesional Omada", true, ["Un access point por planta, alimentado por el mismo cable de red, con roaming entre los dos", "Red separada para la domótica, otra para la familia y otra para invitados", "Router, switch, access points y servidor sobre una UPS: siguen andando en microcortes", "Se administra y se revisa a distancia, desde un solo controlador"]]];
+function rcmp(i){sw2(['r0','r1'],'rbox',RCMP,i);}
+var CCMP=[["Sin Sensibo", false, ["Aire prendido de más, sin nadie en el ambiente", "Solo con el control remoto, que nunca está donde lo buscás", "Temperatura del equipo, no del ambiente real", "No se puede prender antes de llegar"]], ["Con Sensibo", true, ["Desde el celular, el panel o por escenas", "Temperatura real del ambiente", "Lo prendés antes de llegar a casa", "Se apaga solo por horario"]]];
+function confortView(i){sw2(['cf0','cf1'],'cfbox',CCMP,i);}
+function confortT(v){
+  document.getElementById('ctv').textContent=v+'°C';
+  var ahorro=Math.max(10,22-Math.abs(v-24)*1.5).toFixed(0);
+  document.getElementById('cav').textContent='~'+ahorro+'%';
+}
+var DEVICES={"iluminacion": [{"n": "Shelly Plus RGBW PM", "q": 6, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-plus-rgbw-pm.png", "desc": "Comanda las tiras LED de 24V de la luz indirecta: encendido, intensidad y escenas. Van agrupados en una caja propia junto al tablero de cada planta, separados del calor de las fuentes."}, {"n": "Shelly 1PM Mini Gen4", "q": 7, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1pm-mini-gen4.jpg", "desc": "Va detrás de la llave de luz en cocina, baños, lavadero, galería y parque: la llave sigue funcionando igual y se suma el control desde el celular, el panel y las escenas."}, {"n": "Shelly Dimmer Gen4", "q": 2, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-dimmer-gen4.png", "desc": "Regula la intensidad del colgante del comedor: luz plena para comer, baja para la sobremesa."}, {"n": "Sensores de movimiento y de puerta", "q": 11, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266762.png", "desc": "Para baños, lavadero, escalera y pasillo de planta alta: la luz se enciende sola al entrar y se apaga al salir, sin perder la llave manual."}], "confort": [{"n": "Sensibo Air", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sen-air-crl-01-b2b.jpg", "desc": "Sobre el aire acondicionado: lo manejás desde el celular o por horario, y lee la temperatura real del ambiente. Los otros tres aires se pueden sumar como opcional."}, {"n": "Shelly Pro 2PM — pileta", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235268018.png", "desc": "En el tablero de la pileta: un canal para la bomba de filtrado y otro para la iluminación de la pileta, con horarios y medición de consumo."}, {"n": "Shelly Pro 1PM — riego", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235265598.png", "desc": "Comanda la bomba de riego desde el tablero, sincronizada con las zonas."}, {"n": "Shelly 1 Gen4 — zonas de riego", "q": 5, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1-gen4.png", "desc": "Uno por electroválvula: cada zona del parque riega en su horario, y el sistema salta el riego si el pronóstico anuncia lluvia."}], "entretenimiento": [{"n": "VSSL MA.1", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/vssl/ma-1.png", "desc": "Amplificador con streaming integrado: Spotify, AirPlay o Google Cast directo desde el celular, sin parlantes a la vista ni cables por el piso."}, {"n": "Parlantes Episode CORE 1 de embutir", "q": 4, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/episode/ES-CORE-16-IC.jpg", "desc": "Cuatro parlantes de 6\" embutidos en el cielorraso de Durlock de la cocina y el living comedor. Quedan al ras, con rejilla pintable."}], "redes": [{"n": "Router TP-Link Omada ER605", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png", "desc": "El router de la casa, sobre el que se conecta el servicio de internet que contrates."}, {"n": "Controlador Omada OC200", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/oc200.jpg", "desc": "Administra toda la red desde un solo lugar: separa el tráfico de la domótica del de invitados y permite revisar la red a distancia."}, {"n": "Switch PoE TL-SG2210P", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/TL-SG2210P.jpg", "desc": "Alimenta por el mismo cable de red a los access points y conecta el servidor de automatización y el amplificador."}, {"n": "Access point EAP610", "q": 2, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/eap610.jpg", "desc": "Uno por planta: con losa de hormigón la señal no pasa bien de un piso al otro, así que cada planta tiene su propio WiFi, con roaming entre los dos."}, {"n": "UPS Eaton 900VA", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/5a-900va.png", "desc": "Mantiene el router, el switch, los access points y el servidor funcionando ante cortes de luz cortos y microcortes."}, {"n": "Gabinete mural GLC 9U", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/115.jpg", "desc": "Ordena y protege todos los equipos de red en un solo lugar, con canal de tensión y organizador de cables."}], "core": [{"n": "Home Assistant Green", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/209.jpg", "desc": "El cerebro del sistema. Corre dentro de la casa, no en la nube de un tercero: escenas y automatismos siguen andando aunque se corte internet."}, {"n": "Antena Zigbee SkyConnect", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/1.jpg", "desc": "La antena que habla con los módulos Shelly por Zigbee, una red propia de la domótica que no compite con el WiFi."}, {"n": "Shelly Wall Display", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235264904.png", "desc": "Pantalla de control en el ingreso principal: escenas, luces, aire, pileta y música con un toque."}]};
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
+function renderDeviceGrid(id,key){
+  var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
+  el.innerHTML=DEVICES[key].map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
+    return '<article class="dev" id="'+id+'-'+i+'">'
+     +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
+     +'</article>';
+  }).join('');
+}
+['iluminacion','confort','entretenimiento','redes','core'].forEach(function(k){renderDeviceGrid('grid-'+k,k);});
+function optOn(){return document.getElementById('opt-ac').checked;}
+function setOpt(){
+  document.getElementById('oc-ac').classList.toggle('on',optOn());
+  render();
+}
+function render(){
+  var fa=document.getElementById('fa').checked, r=calc(optOn(),fa), s=r.s;
+  document.getElementById('t-neto').textContent=fmt(s.neto);
+  document.getElementById('t-iva').textContent=fmt(s.iva);
+  document.getElementById('t-eq').textContent=fmt(s.eq);
+  document.getElementById('t-mo').textContent=fmt(s.mo);
+  document.getElementById('t-prog').textContent=fmt(s.prog);
+  document.getElementById('t-tot').textContent=fmt(s.tot);
+  document.getElementById('opt-ac-add').textContent=(optOn()?'Sumado: ':'Suma ')+'+ '+fmt(OPT_ADD)+' al total';
+  document.getElementById('pay').innerHTML=r.stages.map(function(st){
+    return '<div class="stage"><span><b style="display:block">'+st[0]+'</b>'+st[1]
+      +(st[3]?'<em style="display:block;font-style:normal;color:var(--gold);font-size:12.5px;margin-top:4px">'+st[3]+'</em>':'')
+      +'</span><b>'+fmt(st[2])+'</b></div>';
+  }).join('');
+  document.getElementById('pay-iva-row').style.display=fa?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(r.faIva);
+  document.getElementById('gt').textContent=fmt(r.grand);
+  var t='Hola Nova Domus, revisé la propuesta '+PY+' de la vivienda de Gonzalo'
+    +(optOn()?' con los 4 aires':'')+' por '+fmt(r.grand)+(fa?' con Factura A':'')+' y quiero avanzar.';
+  document.getElementById('go').href='https://wa.me/5493516747513?text='+encodeURIComponent(t);
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled',
+    document.getElementById('ok').checked?'false':'true');
+}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+esc(0,document.querySelector('#s01 .sw button'));
+confortView(0); rcmp(0);
+render();
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
