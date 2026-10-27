@@ -9,14 +9,17 @@ esta limpieza son estos archivos.
 
 ## Antes / después (activos: 4.602)
 
-| Corrección | Antes | Aplicado | Después | Ambiguos para Agustín |
-|---|---|---|---|---|
-| `sku_mo` NULL | 2.763 | 204 + 54 racks | 2.505 | `02_sku_mo_ambiguos.csv` (con columna `sugerido`) |
-| `grupo` NULL | 332 | 74 | 258 | `04_grupo_ambiguos.csv` |
-| `margen_fijo` NULL | 1.060 | 1.019 (copia de `remarque`) | 41 (sin `remarque` tampoco) | — |
-| `margen_fijo` ≠ `remarque` | 29 | 0 | 29 | `06_margen_fijo_divergente.csv` |
-| Proveedor `Sin asignar`/NULL | 993 | 0 | 993 | `07_proveedor_sin_asignar.csv` (por marca, con propuesta) |
-| Duplicados de SKU | — | 0 | — | `05_duplicados_sku.csv` |
+| Corrección | Antes | Aplicado | Después |
+|---|---|---|---|
+| `sku_mo` NULL | 2.763 | 204 + 54 racks (26/10) · 87 discos, ronda 1: 1.795, ronda 2: 623 (27/10) | **0** |
+| `grupo` NULL | 332 | 74 (26/10) · 258 (27/10) | **0** |
+| `margen_fijo` NULL | 1.060 | 1.019 (copia de `remarque`) | 41 (sin `remarque` tampoco) |
+| `margen_fijo` ≠ `remarque` | 29 | 29 (27/10; gobierna `remarque`) | **0** |
+| Proveedor `Sin asignar`/NULL | 993 | 799 por marca (27/10) | 194, a propósito: marcas sin distribuidor conocido |
+| Duplicados de SKU | — | 0 | — |
+
+Los ambiguos se decidieron con Agustín por bloques el 27/10. Lo que nombra proveedores o márgenes
+(pasos 8 y 9) vive solo en el repo privado.
 
 ## Criterios de lo aplicado
 
@@ -53,17 +56,11 @@ esta limpieza son estos archivos.
 viven en el repo privado `Novadomus-cba/nova-domus-skills`, carpeta `datos/limpieza-inventario-2026-10-26/`.
 Acá quedan el SQL ejecutado, el rollback y los ids.
 
-| Archivo | Qué es |
-|---|---|
-| `01_sku_mo_aplicable.csv` | 204 filas aplicadas (antes/después + criterio) |
-| `02_sku_mo_ambiguos.csv` | 2.505 sin `sku_mo`, con `sugerido` por patrón de nombre y columna `decision_agustin` |
-| `03_grupo_aplicable.csv` | 74 filas aplicadas |
-| `04_grupo_ambiguos.csv` | 258 sin grupo |
-| `05_duplicados_sku.csv` | duplicados por SKU normalizado, marcando mismo proveedor / entre proveedores |
-| `06_margen_fijo_divergente.csv` | 29 con `margen_fijo` ≠ `remarque` |
-| `07_proveedor_sin_asignar.csv` | por marca, con propuesta donde la marca tiene proveedor único conocido |
-| `08_margen_fijo_copiado_ids.txt` / `09_sku_mo_racks_ids.txt` | ids tocados (rollback) |
-| `10_aplicar.sql` | lo que se ejecutó |
-| `11_rollback.sql` | deshace todo lo de `10_aplicar.sql` |
-
-Para completar un ambiguo: llenar `decision_agustin` en el CSV y pasárselo a Claude Code.
+| Archivo | Dónde | Qué es |
+|---|---|---|
+| `01`–`07` (CSV) | privado | aplicables y ambiguos por corrección, con `decision_agustin` completada |
+| `13_sku_mo_ronda1_aplicados.csv` / `14_sku_mo_ronda2_aplicados.csv` | privado | detalle fila por fila de las rondas de `sku_mo` |
+| `15_proveedor_*` / `16_margen_*` | privado | pasos 8 y 9: SQL, rollback e ids (nombran proveedores y márgenes) |
+| `08`, `09`, `12`, `13`, `14` (`*_ids.txt`) | acá | ids tocados por cada paso |
+| `10_aplicar.sql` | acá | lo que se ejecutó (pasos 1–7 y 10; 8 y 9 solo referenciados) |
+| `11_rollback.sql` | acá | deshace `10_aplicar.sql` |
