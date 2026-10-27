@@ -15,11 +15,12 @@ esta limpieza son estos archivos.
 | `grupo` NULL | 332 | 74 (26/10) · 258 (27/10) | **0** |
 | `margen_fijo` NULL | 1.060 | 1.019 (copia de `remarque`) | 41 (sin `remarque` tampoco) |
 | `margen_fijo` ≠ `remarque` | 29 | 29 (27/10; gobierna `remarque`) | **0** |
-| Proveedor `Sin asignar`/NULL | 993 | 799 por marca (27/10) | 194, a propósito: marcas sin distribuidor conocido |
+| Proveedor `Sin asignar`/NULL | 993 | 967 por marca + 6 descontinuados (27/10, vía `inventario_precios_proveedor`) | 20, a propósito |
 | Duplicados de SKU | — | 0 | — |
 
 Los ambiguos se decidieron con Agustín por bloques el 27/10. Lo que nombra proveedores o márgenes
-(pasos 8 y 9) vive solo en el repo privado.
+(pasos 8, 9 y 11) vive solo en el repo privado. **El proveedor y el costo de `inventario` se derivan de
+`inventario_precios_proveedor`** por trigger: el paso 8 escribió el texto directo y hubo que rehacerlo (paso 11).
 
 ## Criterios de lo aplicado
 

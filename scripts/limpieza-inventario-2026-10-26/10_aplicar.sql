@@ -403,3 +403,8 @@ with v(grupo, ids) as (values
 )
 update inventario i set grupo = v.grupo, updated_at = now()
 from v where i.id = any(v.ids) and (i.grupo is null or i.grupo = '') and i.estado <> 'descontinuado';
+
+-- Paso 11 (27/10/2026): el paso 8 escribió solo el texto inventario.proveedor, pero el proveedor se deriva de
+-- inventario_precios_proveedor (trigger fn_inventario_recalcular_costo). Rehecho moviendo las filas placeholder
+-- (proveedor_id = 1) de esa tabla; 0 cambios de costo. Altas en proveedores y 6 plafones descontinuados.
+-- SQL y rollback (nombran proveedores): repo privado, datos/limpieza-inventario-2026-10-26/17_proveedor_ipp_aplicar_y_rollback.sql
