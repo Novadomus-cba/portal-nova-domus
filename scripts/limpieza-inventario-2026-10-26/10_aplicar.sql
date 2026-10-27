@@ -312,3 +312,12 @@ with u as (
     and nombre !~* '(bandeja|organizador|canal|tuerca|patch|kit|soporte|estante|ventilador|bander|zocalo|zócalo|rueda|accesorio|pdu)'
   returning id
 ) select count(*) as racks_actualizados from u;
+
+-- 5. Decisiones de Agustín del 27/10/2026.
+--    a) Discos y almacenamiento (grupo DISCOS, incluye microSD): MO-NA. "No tiene sentido cobrar por
+--       instalar un disco". Las 26 que ya estaban en MO-NA no cambian. 87 filas, ids en 12_discos_ids.txt.
+update inventario set sku_mo = 'MO-NA', updated_at = now()
+where estado='activo' and grupo='DISCOS' and sku_mo is null;
+--    b) Cámaras DeepinView con SKU casi idéntico: se distinguen por la lente.
+update inventario set sku = 'iDS-2CD8A47G0/SC-ZY(8-32MM)', updated_at = now() where id = 1860;   -- antes 'iDS-2CD8A47G0/SC-ZY'
+update inventario set sku = 'iDS-2CD8A47G0/SC-ZY(2.8-12MM)', updated_at = now() where id = 1862; -- antes 'iDS-2CD8A47G0 SC-ZY'
