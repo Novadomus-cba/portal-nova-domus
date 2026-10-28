@@ -279,8 +279,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <p class="lead">Precios profesionales y la guía de conexión de cada modelo: qué borne va a qué cable, cuándo hace falta neutro y qué no conviene hacer.</p>
     <div class="facts">
       <div><b>Lista profesional</b>Precios en pesos, IVA 21% incluido</div>
-      <div><b>Emitida el 14/10/2026</b>Válida hasta el <span class="gold">29/10/2026</span></div>
-      <div><b>Dólar oficial de referencia</b>$1.536 al 14/10/2026</div>
+      <div><b>Emitida el 28/10/2026</b>Válida hasta el <span class="gold">12/11/2026</span></div>
+      <div><b>Dólar oficial de referencia</b>$1.560 al 27/10/2026</div>
     </div>
   </div>
 </header>
@@ -354,8 +354,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <h2>Condiciones</h2>
     <ul class="cond">
       <li>Precios en pesos argentinos con IVA 21% incluido. Ya tienen aplicada la bonificación profesional del 25% sobre el precio de lista.</li>
-      <li>Calculados con dólar oficial de $1.536 del 14/10/2026. Si el dólar cambia, los precios se actualizan.</li>
-      <li>Lista válida hasta el 29/10/2026 o hasta agotar stock. Cada pedido se confirma por escrito.</li>
+      <li>Calculados con dólar oficial de $1.560 del 27/10/2026. Si el dólar cambia, los precios se actualizan.</li>
+      <li>Lista válida hasta el 12/11/2026 o hasta agotar stock. Cada pedido se confirma por escrito.</li>
       <li>Facturación A o B según tu condición frente al IVA.</li>
       <li>Datos técnicos tomados de las fichas oficiales de Shelly. Ante cualquier duda de conexión, consultanos antes de energizar.</li>
     </ul>
@@ -447,7 +447,7 @@ const ROLE = {
 // Prices: final ARS, VAT 21% included. Specs: official Shelly datasheets.
 const PRODUCTS = [
   {
-    id:"mini1", group:"mini", name:"Shelly 1 Mini Gen3", model:"S3SW-001X8EU", price:39960, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261576.jpg",
+    id:"mini1", group:"mini", name:"Shelly 1 Mini Gen3", model:"S3SW-001X8EU", price:42613, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261576.jpg",
     what:"Relé de contacto seco en formato chico, para meter detrás de una tecla común.",
     specs:["Contacto seco","8 A / 240 VAC","5 A / 30 VDC","2000 W","Requiere neutro","Térmica máx. 10 A","29 × 34 × 16 mm"],
     modes:[{
@@ -458,7 +458,7 @@ const PRODUCTS = [
     }]
   },
   {
-    id:"mini1pm", group:"mini", name:"Shelly 1PM Mini Gen3", model:"S3SW-001P8EU", price:40657, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261590.jpg",
+    id:"mini1pm", group:"mini", name:"Shelly 1PM Mini Gen3", model:"S3SW-001P8EU", price:43356, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261590.jpg",
     what:"Igual de chico que el 1 Mini, pero mide el consumo de lo que comanda y protege la carga.",
     specs:["Mide consumo","8 A / 240 VAC","2000 W","Salida con fase","Requiere neutro","Térmica máx. 10 A","29 × 34 × 16 mm"],
     modes:[{
@@ -469,7 +469,7 @@ const PRODUCTS = [
     }]
   },
   {
-    id:"pmmini", group:"mini", name:"Shelly PM Mini Gen3", model:"S3PM-001PCEU16", price:31086, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261613.jpg",
+    id:"pmmini", group:"mini", name:"Shelly PM Mini Gen3", model:"S3PM-001PCEU16", price:37163, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261613.jpg",
     what:"Medidor de consumo sin relé: no corta nada, solo registra lo que pasa por el circuito.",
     specs:["Solo medición","16 A / 3840 W","Sin relé","Requiere neutro","Térmica máx. 16 A","Cable hasta 2,5 mm²","29 × 34 × 16 mm"],
     modes:[{
@@ -480,7 +480,7 @@ const PRODUCTS = [
     }]
   },
   {
-    id:"g3one", group:"std", name:"Shelly 1 Gen3", model:"S3SW-001X16EU", price:45559, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261767.jpg",
+    id:"g3one", group:"std", name:"Shelly 1 Gen3", model:"S3SW-001X16EU", price:48584, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261767.jpg",
     what:"Contacto seco de 16 A. Para cargas pesadas y automatismos: bombas, termotanques, calderas, portones.",
     specs:["Contacto seco","16 A / 240 V~","10 A / 30 V⎓","Alimenta 110-240 V~, 24-48 V⎓ o 12 V⎓","Requiere neutro en AC","Térmica máx. 16 A","37 × 42 × 16 mm"],
     modes:[{
@@ -496,7 +496,7 @@ const PRODUCTS = [
     }]
   },
   {
-    id:"g3twopm", group:"std", name:"Shelly 2PM Gen3", model:"S3SW-002P16EU", price:64912, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261903.jpg",
+    id:"g3twopm", group:"std", name:"Shelly 2PM Gen3", model:"S3SW-002P16EU", price:69221, photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235261903.jpg",
     what:"Dos circuitos con medición en un solo módulo, o una persiana con control de posición.",
     specs:["2 canales","10 A por canal","16 A total (18 A pico)","Mide consumo por canal","Modo cortina","Requiere neutro","Térmica máx. 16 A"],
     modes:[{
@@ -512,7 +512,7 @@ const PRODUCTS = [
     }]
   },
   {
-    id:"g3onel", group:"nl", name:"Shelly 1L Gen3", model:"S3SW-0A1X1EUL", price:88168,
+    id:"g3onel", group:"nl", name:"Shelly 1L Gen3", model:"S3SW-0A1X1EUL", price:94021,
     photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235262016-7734.jpg",
     what:"Una luz comandada desde una caja donde no llega el neutro. Admite dos teclas.",
     specs:["Sin neutro","1 canal","1,2 A máx.","Solo 220-240 V~","Bypass incluido","Térmica máx. 10 A","Cable hasta 2,5 mm²"],
@@ -524,7 +524,7 @@ const PRODUCTS = [
     }]
   },
   {
-    id:"g3twol", group:"nl", name:"Shelly 2L Gen3", model:"S3SW-0A2X4EUL", price:94022,
+    id:"g3twol", group:"nl", name:"Shelly 2L Gen3", model:"S3SW-0A2X4EUL", price:100264,
     photo:"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235262016-2951.jpg",
     what:"Dos luces desde una caja sin neutro, por ejemplo la tecla doble de un living.",
     specs:["Sin neutro","2 canales","O1: 200 W","O2: 700 W","Solo 220-240 V~","Bypass incluido para O1","37 × 42 × 16 mm"],
@@ -665,7 +665,7 @@ function renderOrder(){
 }
 
 function orderText(lines,total){
-  return "Hola Nova Domus, quiero hacer este pedido de la lista de relés Shelly Gen3 (14/10/2026):\n" +
+  return "Hola Nova Domus, quiero hacer este pedido de la lista de relés Shelly Gen3 (28/10/2026):\n" +
     lines.map(l=>"• "+l.q+" × "+l.p.name+" = "+fmt(l.sub)).join("\n") +
     "\nTotal: "+fmt(total)+" (IVA 21% incl.)";
 }
