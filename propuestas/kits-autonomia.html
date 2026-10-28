@@ -247,6 +247,29 @@ footer .prom{color:#EDEAE0;margin-top:8px}
 .cb-desc{font-size:12.5px;color:#5d6078;margin-top:2px}
 .cb-price{font-size:12.5px;color:var(--navy);font-weight:600;margin-top:4px}
 .cb-mo{font-weight:500;color:#5d6078;margin-left:6px}
+/* upgrade recomendado AX Pro */
+.up-block{margin-top:56px;border:2px solid var(--gold);border-radius:18px;padding:28px 22px;background:rgba(200,169,110,.06)}
+.up-badge{display:inline-block;font-family:var(--font-display);font-size:10px;letter-spacing:2px;color:var(--navy-deep);background:var(--gold);border-radius:12px;padding:5px 12px;margin-bottom:14px}
+.up-block .device-card{margin-top:14px}
+.cmp2{display:grid;gap:0;margin-top:14px;font-size:13.5px}
+.cmp2 .r{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:12px;padding:11px 0;border-bottom:1px solid rgba(120,122,145,.25)}
+.cmp2 .r.h{font-family:var(--font-display);font-size:10.5px;letter-spacing:1.5px;color:var(--grey)}
+.cmp2 .r .k{color:var(--cream);font-weight:500}
+.cmp2 .r .b{color:#EDEAE0}
+.cmp2 .r .u{color:var(--gold)}
+.cmp2 .r .m{display:none}
+@media(max-width:640px){.cmp2 .r{grid-template-columns:1fr;gap:3px}.cmp2 .r.h{display:none}.cmp2 .r .m{display:inline;color:var(--grey);font-size:12px}}
+.up-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:16px}
+.up-totals div{border:1px solid rgba(200,169,110,.35);border-radius:12px;padding:12px 14px;font-size:12.5px;color:#EDEAE0}
+.up-totals b{display:block;font-family:var(--font-display);color:var(--gold);font-size:15px;letter-spacing:1px;margin-top:4px}
+.up-toggle{display:flex;gap:14px;align-items:flex-start;margin-top:14px;border:2px solid var(--gold);border-radius:14px;background:#fffdf5;padding:14px 16px;cursor:pointer}
+.up-toggle input{width:22px;height:22px;margin-top:2px;flex:0 0 auto;accent-color:#141E61}
+.up-toggle .t{font-weight:600;font-size:14px;color:var(--navy);display:block}
+.up-toggle .d{font-size:12.5px;color:#5d6078;display:block;margin-top:3px}
+.up-toggle .p{font-size:12.5px;color:var(--navy);font-weight:600;display:block;margin-top:5px}
+.up-toggle.off{opacity:.55;cursor:not-allowed}
+.up-toggle .n{font-size:12px;color:#7a2e26;display:none;margin-top:4px}
+.up-toggle.off .n{display:block}
 @media(max-width:560px){.cb-row{flex-wrap:wrap}.cb-mid{min-width:60%}.cb-row .qty{margin-left:auto}}
 </style>
 </head>
@@ -416,16 +439,16 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   <div class="wrap">
     <span class="eyebrow">Resumen ejecutivo · 60 segundos</span>
     <h2>Qué proponemos</h2>
-    <p class="lead">Un catálogo de 9 dispositivos de apoyo tecnológico para viviendas de personas con discapacidad — priorizando equipos portátiles, de colocación simple y aptos para instalaciones eléctricas existentes — y un armador de combo para configurar cada vivienda a medida, con instalación, programación y capacitación incluidas.</p>
+    <p class="lead">Un catálogo de 8 dispositivos de apoyo tecnológico para viviendas de personas con discapacidad — priorizando equipos portátiles, de colocación simple y aptos para instalaciones eléctricas existentes — y un armador de combo para configurar cada vivienda a medida, con instalación, programación y capacitación incluidas.</p>
     <div class="grid3">
       <div class="stat"><div class="figure"><span class="count" data-to="986500">0</span> <small style="font-size:14px">ARS</small></div><div class="fl">Combo sugerido Autonomía — voz, luces y control de artefactos, instalado</div></div>
-      <div class="stat"><div class="figure"><span class="count" data-to="999900">0</span> <small style="font-size:14px">ARS</small></div><div class="fl">Combo sugerido Seguridad — alarma, botón de pánico, sensor nocturno y una luz, instalado</div></div>
-      <div class="stat"><div class="figure"><span class="count" data-to="1957100">0</span> <small style="font-size:14px">ARS</small></div><div class="fl">Combo Nova Domus — la configuración que recomendamos por vivienda, instalada</div></div>
+      <div class="stat"><div class="figure"><span class="count" data-to="723300">0</span> <small style="font-size:14px">ARS</small></div><div class="fl">Combo sugerido Seguridad — alarma, sensor nocturno y una luz, instalado</div></div>
+      <div class="stat"><div class="figure"><span class="count" data-to="1680500">0</span> <small style="font-size:14px">ARS</small></div><div class="fl">Combo Nova Domus — la configuración que recomendamos por vivienda, instalada</div></div>
       <div class="stat"><div class="figure"><span class="count" data-to="12">0</span> <small style="font-size:14px">MESES</small></div><div class="fl">Garantía sobre todo lo instalado, con soporte de equipo propio</div></div>
     </div>
     <ul class="exec-steps">
       <li><span class="dot">1</span><span><b>La necesidad:</b> herramientas de uso cotidiano que estructuren la rutina, simplifiquen el manejo del hogar y prevengan situaciones de peligro — priorizando insumos que sirvan a distintas personas y no requieran colocación compleja.</span></li>
-      <li><span class="dot">2</span><span><b>La propuesta:</b> un catálogo de 9 dispositivos — asistente de voz, luces inteligentes sin obra, control de artefactos, botón de rutinas, sensor nocturno, alarma profesional y botón de pánico — que la Dirección combina por vivienda con el armador de combo. Tres combos sugeridos de un toque para arrancar.</span></li>
+      <li><span class="dot">2</span><span><b>La propuesta:</b> un catálogo de 8 dispositivos — asistente de voz, luces inteligentes sin obra, control de artefactos, botón SOS, sensor nocturno y alarma profesional — que la Dirección combina por vivienda con el armador de combo. Tres combos sugeridos de un toque para arrancar, y un upgrade recomendado de alarma con botón de pánico portátil.</span></li>
       <li><span class="dot">3</span><span><b>El diferencial:</b> un solo responsable provee, instala, programa, capacita al usuario y responde por garantía durante 12 meses.</span></li>
       <li><span class="dot">4</span><span><b>Próximo paso:</b> armar el combo en la sección "Armá tu combo" — las cantidades ajustan el equipo y la instalación al instante — y confirmar por WhatsApp desde el botón final.</span></li>
     </ul>
@@ -485,8 +508,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 <!-- CATALOGO -->
 <section id="catalogo">
   <div class="wrap">
-    <div class="kit-head"><span class="kit-num">01</span><div><span class="eyebrow" style="margin-bottom:4px">Catálogo</span><h2>Los 9 dispositivos, en detalle</h2></div></div>
-    <p class="lead">Tocá cada dispositivo para ver su foto, qué hace en el día a día y sus características técnicas. Más abajo, en "Armá tu combo", los mismos 9 aparecen en versión corta para elegir cantidades.</p>
+    <div class="kit-head"><span class="kit-num">01</span><div><span class="eyebrow" style="margin-bottom:4px">Catálogo</span><h2>Los 8 dispositivos, en detalle</h2></div></div>
+    <p class="lead">Tocá cada dispositivo para ver su foto, qué hace en el día a día y sus características técnicas. Más abajo, en "Armá tu combo", los mismos 8 aparecen en versión corta para elegir cantidades.</p>
 
     <div class="device-list">
 <div class="device-card">
@@ -549,15 +572,27 @@ La versión reforzada para los artefactos exigentes: termotanque eléctrico, rad
     </div>
 
 <div class="device-card">
-<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span><span class="dc-name">Shelly Button 1 — botón de rutinas, portátil</span><span class="dc-arrow">▾</span></button>
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span><span class="dc-name">Shelly Button 1 — botón SOS y de rutinas, portátil</span><span class="dc-arrow">▾</span></button>
 <div class="dc-body"><div class="dc-body-in">
 <div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266441.png" alt="Shelly Button 1"></div>
-Un botón físico grande, inalámbrico y recargable, que se lleva en el bolsillo o se apoya en la mesa de luz. Un toque dispara la rutina que se programe: apagar toda la casa al acostarse, encender todas las luces al 100% o avisar a la familia que llegó a casa. Para pedir ayuda está el botón de pánico de la alarma, que funciona aunque no haya internet ni luz.
-<ul class="specs"><li><b>Energía:</b> batería recargable por USB</li><li><b>Portabilidad:</b> bolsillo, mesa de luz o adherido a la pared</li><li><b>Acciones:</b> hasta 4 distintas según la pulsación</li><li><b>Conexión:</b> Wi-Fi — las rutinas requieren internet</li></ul>
-<p class="why">Rol en el combo: cuando la voz no alcanza o no sale, la acción cotidiana tiene que estar a un solo gesto físico — sin desbloquear pantallas ni recordar comandos.</p>
+Un botón físico grande, inalámbrico y recargable, que se lleva en el bolsillo o se apoya en la mesa de luz. Un toque dispara la acción que se programe: pedir ayuda (notificación inmediata a los celulares configurados + todas las luces al 100%) o una rutina cotidiana, como apagar toda la casa al acostarse.
+<ul class="specs"><li><b>Energía:</b> batería recargable por USB</li><li><b>Portabilidad:</b> bolsillo, mesa de luz o adherido a la pared</li><li><b>Acciones:</b> hasta 4 distintas según la pulsación</li><li><b>Conexión:</b> Wi-Fi</li></ul>
+<p class="why">Rol en el combo: cuando la voz no alcanza o no sale, la acción tiene que estar a un solo gesto físico — sin desbloquear pantallas ni recordar comandos.</p>
 </div></div>
 </div>
 
+    <!-- DEMO SOS -->
+    <div class="demo">
+      <span class="demo-tag">Probalo acá · Qué pasa al presionar el botón SOS</span>
+      <div class="sos-wrap">
+        <button class="sos-btn" id="sos" aria-label="Simular botón SOS">SOS<span class="ring"></span><span class="ring" style="animation-delay:.35s"></span></button>
+        <ul class="sos-steps" id="sos-steps">
+          <li><span class="k">1</span>Botón presionado — un solo gesto, sin desbloquear nada</li>
+          <li><span class="k">2</span>Notificación inmediata a los celulares de familiares y cuidadores</li>
+          <li><span class="k">3</span>Todas las luces de la vivienda se encienden al 100%</li>
+        </ul>
+      </div>
+    </div>
 
     <!-- VIDEO SHELLY -->
     <div class="vid" data-yt="3auKyMNMX-s">
@@ -585,11 +620,11 @@ Sensor a batería que se pega o se apoya donde haga falta — sin obra. Al detec
     </div>
 
 <div class="device-card">
-<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></span><span class="dc-name">Kit Hikvision AX Pro — alarma inalámbrica Wi-Fi + 4G</span><span class="dc-arrow">▾</span></button>
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></span><span class="dc-name">Kit Hikvision AXHome — alarma inalámbrica Wi-Fi + 4G</span><span class="dc-arrow">▾</span></button>
 <div class="dc-body"><div class="dc-body-in">
-<div class="dc-photo-wrap pend">Foto del producto en proceso de carga</div>
-La línea profesional inalámbrica de Hikvision, pensada para instalarse sin cablear la vivienda. Ante un evento avisa al instante al celular de familiares por doble vía: Wi-Fi y chip 4G — si se corta internet, sigue avisando. Con pilas incluidas y batería de respaldo en la central. Es la base del botón de pánico portátil.
-<ul class="specs"><li><b>Comunicación:</b> Wi-Fi + chip 4G de respaldo</li><li><b>Respaldo:</b> batería en la central, hasta 12 h sin luz</li><li><b>Capacidad:</b> hasta 48 zonas — amplía sensor por sensor</li><li><b>Supervisión:</b> la central avisa si un sensor o el botón de pánico se queda sin pila o sin señal</li><li><b>Incluye:</b> central ×1, control remoto ×1, sensor de movimiento ×1, sensor de puerta ×1</li><li><b>Pilas:</b> incluidas en todos los sensores</li></ul>
+<div class="dc-photo-wrap"><img class="dc-photo" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201PS-Kit-16WB.jpg" alt="Kit Hikvision AXHome"></div>
+La línea residencial de Hikvision, pensada para instalarse sin cablear la vivienda. Ante un evento avisa al instante al celular de familiares por doble vía: Wi-Fi y chip 4G — si se corta internet, sigue avisando. Con pilas incluidas y batería de respaldo en la central.
+<ul class="specs"><li><b>Comunicación:</b> Wi-Fi + chip 4G de respaldo</li><li><b>Respaldo:</b> batería en la central, hasta 12 h sin luz</li><li><b>Capacidad:</b> hasta 16 zonas — amplía sensor por sensor</li><li><b>Incluye:</b> central ×1, llavero con botón de pánico ×1, sensor de movimiento ×1, sensor de puerta ×1</li><li><b>Pilas:</b> incluidas en todos los sensores</li></ul>
 <p class="why">Rol en el combo: seguridad de fabricante profesional (Hikvision es el mayor fabricante de seguridad electrónica del mundo) con instalación simple. Abajo, la caja pieza por pieza.</p>
 </div></div>
 </div>
@@ -597,17 +632,17 @@ La línea profesional inalámbrica de Hikvision, pensada para instalarse sin cab
 
     <!-- QUE TRAE LA CAJA -->
     <div class="demo">
-      <span class="demo-tag">Qué trae la caja del AX Pro · pieza por pieza</span>
+      <span class="demo-tag">Qué trae la caja del AXHome · pieza por pieza</span>
       <div class="pillars" style="margin-top:6px">
         <div class="pillar">
           <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2"/></svg></div>
           <h3>1 × Central WiFi + 4G</h3>
-          <p style="font-size:13px;margin-top:6px">El cerebro del sistema. Avisa por dos vías y tiene batería de respaldo de hasta 12 horas ante un corte de luz. Admite hasta 48 zonas: el sistema crece si hace falta.</p>
+          <p style="font-size:13px;margin-top:6px">El cerebro del sistema. Avisa por dos vías y tiene batería de respaldo de hasta 12 horas ante un corte de luz. Admite hasta 16 zonas: el sistema crece si hace falta.</p>
         </div>
         <div class="pillar">
           <div class="ic"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="14" rx="3"/><circle cx="12" cy="8" r="1.6"/><path d="M12 17v4"/></svg></div>
-          <h3>1 × Control remoto</h3>
-          <p style="font-size:13px;margin-top:6px">Arma y desarma la alarma con botones grandes, sin códigos ni app. El pedido de ayuda va aparte, en el botón de pánico portátil.</p>
+          <h3>1 × Llavero con botón de pánico</h3>
+          <p style="font-size:13px;margin-top:6px">Arma y desarma la alarma con botones grandes, sin códigos ni app. Y trae botón de pánico incorporado: un toque avisa a la familia — la función SOS ya viene en la caja.</p>
         </div>
         <div class="pillar">
           <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4a6 6 0 0 1 6 6c0 2-1 3.5-2 4.5M12 4a6 6 0 0 0-6 6c0 2 1 3.5 2 4.5M12 4V2"/><circle cx="12" cy="16" r="3"/></svg></div>
@@ -620,40 +655,16 @@ La línea profesional inalámbrica de Hikvision, pensada para instalarse sin cab
           <p style="font-size:13px;margin-top:6px">Contacto magnético para la puerta de ingreso: detecta cada apertura y puede avisar aunque la alarma esté desarmada (modo aviso).</p>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--grey);margin-top:16px"><b style="color:var(--gold)">¿Alcanza con eso?</b> Para una vivienda tipo, sí: queda cubierto el ambiente principal y la puerta de ingreso, y con el botón de pánico portátil, el pedido de ayuda. Si el relevamiento de una vivienda puntual indica más ambientes, ventanas o un segundo botón de pánico, el sistema admite hasta 48 zonas y se amplía sensor por sensor — se suma al combo solo lo que haga falta, sin cambiar la central.</p>
-    </div>
-
-    <div class="device-card">
-<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></span><span class="dc-name">Botón de pánico portátil Hikvision — el pedido de ayuda</span><span class="dc-arrow">▾</span></button>
-<div class="dc-body"><div class="dc-body-in">
-<div class="dc-photo-wrap pend">Foto del producto en proceso de carga</div>
-Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja al alcance de la mano. Al presionarlo, la central de la alarma avisa al instante a familiares y cuidadores en la app Hik-Connect. Como viaja por la radio de la alarma y no por el Wi-Fi de la casa, funciona aunque no haya internet y aunque se corte la luz: la central tiene batería y chip 4G.
-<ul class="specs"><li><b>Conexión:</b> radio propia de la alarma — hasta 800 m en campo abierto</li><li><b>Energía:</b> pila incluida, hasta 3 años; la central avisa cuando baja</li><li><b>Protección:</b> IP54 — resiste salpicaduras en el baño, no está pensado para usarse bajo la ducha</li><li><b>Uso:</b> protección contra toques accidentales y luz de confirmación al presionar</li><li><b>Requiere:</b> el kit de alarma AX Pro del combo</li></ul>
-<p class="why">Rol en el combo: es el SOS. Tiene que funcionar justo cuando falla todo lo demás — de noche, con un corte de luz, después de una caída — y por eso va por la alarma y no por el Wi-Fi.</p>
-</div></div>
-</div>
-
-    <!-- DEMO SOS -->
-    <div class="demo">
-      <span class="demo-tag">Probalo acá · Qué pasa al presionar el botón de pánico</span>
-      <div class="sos-wrap">
-        <button class="sos-btn" id="sos" aria-label="Simular botón de pánico">SOS<span class="ring"></span><span class="ring" style="animation-delay:.35s"></span></button>
-        <ul class="sos-steps" id="sos-steps">
-          <li><span class="k">1</span>Botón presionado — un solo gesto, sin desbloquear nada</li>
-          <li><span class="k">2</span>La central de la alarma recibe el pedido, aunque no haya internet ni luz</li>
-          <li><span class="k">3</span>Aviso inmediato en Hik-Connect a familiares y cuidadores, con sirena o silencioso según se configure</li>
-          <li><span class="k">4</span>Quien atiende el aviso lo confirma desde la app</li>
-        </ul>
-      </div>
+      <p style="font-size:13px;color:var(--grey);margin-top:16px"><b style="color:var(--gold)">¿Alcanza con eso?</b> Para una vivienda tipo, sí: queda cubierto el ambiente principal, la puerta de ingreso y el pedido de ayuda desde el llavero. Si el relevamiento de una vivienda puntual indica más ambientes, ventanas o un pulsador SOS adicional, el sistema admite hasta 16 zonas y se amplía sensor por sensor — se suma al combo solo lo que haga falta, sin cambiar la central.</p>
     </div>
 
     <!-- COMPARATIVA -->
     <div class="demo">
-      <span class="demo-tag">Tocá y compará · Alarma común vs. AX Pro</span>
+      <span class="demo-tag">Tocá y compará · Alarma común vs. AXHome</span>
       <div class="vs">
         <div class="vs-btns">
           <button id="vs-a" class="on-red">Alarma común</button>
-          <button id="vs-b">Con Nova Domus · AX Pro</button>
+          <button id="vs-b">Con Nova Domus · AXHome</button>
         </div>
         <div class="vs-body">
           <ul id="vs-list"></ul>
@@ -661,10 +672,85 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
       </div>
     </div>
 
-    <!-- VIDEO HIKVISION -->
-    <div class="vid" data-yt="J3ermaYlDv4">
-      <img loading="lazy" src="https://i.ytimg.com/vi/J3ermaYlDv4/hqdefault.jpg" alt="Video oficial Hikvision">
-      <button class="play"><span class="pb"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vt">Ver video oficial de Hikvision</span></button>
+    <!-- VIDEO AXHOME -->
+    <div class="vid" data-yt="2Z0_X2JzHi0">
+      <img loading="lazy" src="https://i.ytimg.com/vi/2Z0_X2JzHi0/hqdefault.jpg" alt="Video AXHome Hikvision">
+      <button class="play"><span class="pb"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span class="vt">Ver el kit AXHome de Hikvision en acción</span></button>
+    </div>
+
+    <!-- UPGRADE RECOMENDADO AX PRO -->
+    <div class="up-block" id="upgrade">
+      <span class="up-badge">UPGRADE RECOMENDADO</span>
+      <h2>Alarma AX Pro con botón de pánico portátil</h2>
+      <p class="lead" style="margin-top:8px">Para el pedido de ayuda recomendamos un paso más: reemplazar el kit AXHome por el AX Pro, la línea profesional de Hikvision, y sumar un botón de pánico portátil dedicado. Es opcional: se activa en el armador, combo por combo.</p>
+      <div class="pillars" style="margin-top:20px">
+        <div class="pillar">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></div>
+          <h3>Un botón solo para pedir ayuda</h3>
+          <p style="font-size:13px;margin-top:6px">El llavero del AXHome arma y desarma la alarma, y además trae el pánico. El botón portátil hace una sola cosa: pedir ayuda. Tiene protección contra toques accidentales y la persona lo lleva encima.</p>
+        </div>
+        <div class="pillar">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v4M5 8l2.5 2.5M19 8l-2.5 2.5"/><path d="M7 21h10l-1.5-8h-7z"/></svg></div>
+          <h3>Pensado también para el baño</h3>
+          <p style="font-size:13px;margin-top:6px">Es IP54: resiste salpicaduras, así que puede quedarse en el baño o ir encima mientras la persona se higieniza. No está pensado para usarse bajo la ducha. El llavero del AXHome no está pensado para mojarse.</p>
+        </div>
+        <div class="pillar">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Supervisado de punta a punta</h3>
+          <p style="font-size:13px;margin-top:6px">Viaja por la radio de la alarma, no por el Wi-Fi, y la central avisa por 4G con su batería aunque no haya internet ni luz. Si el botón se queda sin pila o sin señal, la central lo informa.</p>
+        </div>
+      </div>
+
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></span><span class="dc-name">Kit Hikvision AX Pro — reemplaza al AXHome</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap pend">Foto del producto en proceso de carga</div>
+La línea profesional inalámbrica de Hikvision. Misma lógica que el AXHome, sin cablear la vivienda y con aviso por Wi-Fi y chip 4G, pero con más capacidad y compatible con el botón de pánico portátil.
+<ul class="specs"><li><b>Comunicación:</b> Wi-Fi + chip 4G de respaldo</li><li><b>Respaldo:</b> batería en la central, hasta 12 h sin luz</li><li><b>Capacidad:</b> hasta 48 zonas — amplía sensor por sensor</li><li><b>Incluye:</b> central ×1, control remoto ×1, sensor de movimiento ×1, sensor de puerta ×1</li><li><b>Pilas:</b> incluidas en todos los sensores</li></ul>
+<p class="why">Rol en el upgrade: es la base que recibe el botón de pánico y avisa aunque falle internet o la luz.</p>
+</div></div>
+</div>
+
+<div class="device-card">
+<button class="dc-head" aria-expanded="false"><span class="dc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></span><span class="dc-name">Botón de pánico portátil Hikvision</span><span class="dc-arrow">▾</span></button>
+<div class="dc-body"><div class="dc-body-in">
+<div class="dc-photo-wrap pend">Foto del producto en proceso de carga</div>
+Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja al alcance de la mano. Al presionarlo, la central avisa al instante a familiares y cuidadores en la app Hik-Connect.
+<ul class="specs"><li><b>Conexión:</b> radio propia de la alarma — hasta 800 m en campo abierto</li><li><b>Energía:</b> pila incluida, hasta 3 años; la central avisa cuando baja</li><li><b>Protección:</b> IP54 — resiste salpicaduras, no apto para usar bajo la ducha</li><li><b>Uso:</b> protección contra toques accidentales y luz de confirmación al presionar</li><li><b>Requiere:</b> el Kit Hikvision AX Pro</li></ul>
+<p class="why">Rol en el upgrade: es el SOS. Tiene que funcionar justo cuando falla todo lo demás — de noche, con un corte de luz, después de una caída.</p>
+</div></div>
+</div>
+
+      <div class="demo">
+        <span class="demo-tag">Probalo acá · Qué pasa al presionar el botón de pánico</span>
+        <div class="sos-wrap">
+          <button class="sos-btn" id="sos-up" aria-label="Simular botón de pánico">SOS<span class="ring"></span><span class="ring" style="animation-delay:.35s"></span></button>
+          <ul class="sos-steps" id="sos-up-steps">
+            <li><span class="k">1</span>Botón presionado — un solo gesto, sin desbloquear nada</li>
+            <li><span class="k">2</span>La central recibe el pedido, aunque no haya internet ni luz</li>
+            <li><span class="k">3</span>Aviso inmediato en Hik-Connect a familiares y cuidadores, con sirena o silencioso según se configure</li>
+            <li><span class="k">4</span>Quien atiende el aviso lo confirma desde la app</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo">
+        <span class="demo-tag">Qué cambia con el upgrade</span>
+        <div class="cmp2">
+          <div class="r h"><span></span><span>AXHome</span><span>Upgrade AX Pro</span></div>
+          <div class="r"><span class="k">Pedido de ayuda</span><span class="b"><span class="m">AXHome: </span>pánico incorporado en el llavero de armado</span><span class="u"><span class="m">AX Pro: </span>botón portátil dedicado, solo para pedir ayuda</span></div>
+          <div class="r"><span class="k">En el baño</span><span class="b"><span class="m">AXHome: </span>el llavero no está pensado para mojarse</span><span class="u"><span class="m">AX Pro: </span>IP54, resiste salpicaduras</span></div>
+          <div class="r"><span class="k">Sin internet o sin luz</span><span class="b"><span class="m">AXHome: </span>avisa por 4G con batería</span><span class="u"><span class="m">AX Pro: </span>avisa por 4G con batería</span></div>
+          <div class="r"><span class="k">Capacidad</span><span class="b"><span class="m">AXHome: </span>hasta 16 zonas</span><span class="u"><span class="m">AX Pro: </span>hasta 48 zonas</span></div>
+          <div class="r"><span class="k">Diferencia</span><span class="b"><span class="m">AXHome: </span>incluido en los combos</span><span class="u"><span class="m">AX Pro: </span>+ $ 276.600 por vivienda, instalado</span></div>
+        </div>
+        <p style="font-size:13px;margin-top:16px">Los combos sugeridos con alarma, con el upgrade aplicado:</p>
+        <div class="up-totals">
+          <div>Combo Nova Domus ★<b>$ 1.957.100</b></div>
+          <div>Combo Seguridad<b>$ 999.900</b></div>
+          <div>Combo Completo<b>$ 1.924.600</b></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -673,13 +759,13 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
 <section id="combo" class="section-light">
   <div class="wrap">
     <div class="kit-head"><span class="kit-num" style="-webkit-text-stroke-color:var(--navy)">02</span><div><span class="eyebrow" style="margin-bottom:4px">Armá tu combo</span><h2>Elegí dispositivos y cantidades</h2></div></div>
-    <p class="lead">👆 Los mismos 9 del catálogo, en versión corta. Sumá y restá con los botones — el equipo y la instalación se recalculan al instante. O arrancá de un combo sugerido y ajustalo.</p>
+    <p class="lead">👆 Los mismos 8 del catálogo, en versión corta. Sumá y restá con los botones — el equipo y la instalación se recalculan al instante. O arrancá de un combo sugerido y ajustalo.</p>
 
     <div class="presets">
-      <button class="preset nd" data-p="novadomus"><b>Combo Nova Domus ★</b><span>$ 1.957.100 instalado — nuestra configuración sugerida</span></button>
+      <button class="preset nd" data-p="novadomus"><b>Combo Nova Domus ★</b><span>$ 1.680.500 instalado — nuestra configuración sugerida</span></button>
       <button class="preset" data-p="autonomia"><b>Combo Autonomía</b><span>$ 986.500 instalado</span></button>
-      <button class="preset" data-p="seguridad"><b>Combo Seguridad</b><span>$ 999.900 instalado</span></button>
-      <button class="preset" data-p="completo"><b>Combo Completo</b><span>$ 1.924.600 instalado</span></button>
+      <button class="preset" data-p="seguridad"><b>Combo Seguridad</b><span>$ 723.300 instalado</span></button>
+      <button class="preset" data-p="completo"><b>Combo Completo</b><span>$ 1.648.000 instalado</span></button>
       <button class="preset vaciar" data-p="vaciar"><b>Vaciar</b><span>arrancar de cero</span></button>
     </div>
 
@@ -689,18 +775,18 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
 <div class="cb-row" id="row-l2"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235262016-2951.jpg" alt="Shelly Plus 2L"><div class="cb-mid"><div class="cb-name">Shelly Plus 2L</div><div class="cb-desc">2 luces inteligentes, sin neutro, desde una misma llave</div><div class="cb-price">$ 95.800 · IVA 21% inc. <span class="cb-mo">+ $ 46.400 instalación c/u</span></div></div><div class="qty"><button data-k="l2" data-d="-1" aria-label="Quitar Shelly Plus 2L">−</button><span class="qv" id="q-l2">0</span><button data-k="l2" data-d="1" aria-label="Agregar Shelly Plus 2L">+</button></div></div>
 <div class="cb-row" id="row-pm2"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg" alt="Shelly Plus 2PM"><div class="cb-mid"><div class="cb-name">Shelly Plus 2PM Gen4</div><div class="cb-desc">2 tomas o circuitos comunes, con medición de consumo</div><div class="cb-price">$ 80.400 · IVA 21% inc. <span class="cb-mo">+ $ 46.400 instalación c/u</span></div></div><div class="qty"><button data-k="pm2" data-d="-1" aria-label="Quitar Shelly Plus 2PM Gen4">−</button><span class="qv" id="q-pm2">0</span><button data-k="pm2" data-d="1" aria-label="Agregar Shelly Plus 2PM Gen4">+</button></div></div>
 <div class="cb-row" id="row-pm1"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717.jpg" alt="Shelly Plus 1PM"><div class="cb-mid"><div class="cb-name">Shelly Plus 1PM Gen4</div><div class="cb-desc">1 carga de alta potencia: termotanque, aire, pava (16 A)</div><div class="cb-price">$ 57.200 · IVA 21% inc. <span class="cb-mo">+ $ 38.700 instalación c/u</span></div></div><div class="qty"><button data-k="pm1" data-d="-1" aria-label="Quitar Shelly Plus 1PM Gen4">−</button><span class="qv" id="q-pm1">0</span><button data-k="pm1" data-d="1" aria-label="Agregar Shelly Plus 1PM Gen4">+</button></div></div>
-<div class="cb-row" id="row-btn"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266441.png" alt="Shelly Button 1"><div class="cb-mid"><div class="cb-name">Shelly Button 1</div><div class="cb-desc">Botón de rutinas, portátil y recargable</div><div class="cb-price">$ 44.900 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="btn" data-d="-1" aria-label="Quitar Shelly Button 1">−</button><span class="qv" id="q-btn">0</span><button data-k="btn" data-d="1" aria-label="Agregar Shelly Button 1">+</button></div></div>
+<div class="cb-row" id="row-btn"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266441.png" alt="Shelly Button 1"><div class="cb-mid"><div class="cb-name">Shelly Button 1</div><div class="cb-desc">Botón SOS y de rutinas, portátil y recargable</div><div class="cb-price">$ 44.900 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="btn" data-d="-1" aria-label="Quitar Shelly Button 1">−</button><span class="qv" id="q-btn">0</span><button data-k="btn" data-d="1" aria-label="Agregar Shelly Button 1">+</button></div></div>
 <div class="cb-row" id="row-blu"><img class="cb-thumb" loading="lazy" src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235266700.png" alt="Shelly BLU Motion"><div class="cb-mid"><div class="cb-name">Shelly BLU Motion</div><div class="cb-desc">Sensor de movimiento a batería — luz nocturna automática</div><div class="cb-price">$ 61.800 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="blu" data-d="-1" aria-label="Quitar Shelly BLU Motion">−</button><span class="qv" id="q-blu">0</span><button data-k="blu" data-d="1" aria-label="Agregar Shelly BLU Motion">+</button></div></div>
-<div class="cb-row" id="row-ax"><div class="cb-thumb pend-mini"></div><div class="cb-mid"><div class="cb-name">Kit Hikvision AX Pro</div><div class="cb-desc">Alarma completa Wi-Fi + 4G: central, control remoto y dos sensores</div><div class="cb-price">$ 633.500 · IVA 21% inc. <span class="cb-mo">+ $ 61.800 instalación c/u</span></div></div><div class="qty"><button data-k="ax" data-d="-1" aria-label="Quitar Kit Hikvision AX Pro">−</button><span class="qv" id="q-ax">0</span><button data-k="ax" data-d="1" aria-label="Agregar Kit Hikvision AX Pro">+</button></div></div>
-<div class="cb-row" id="row-pan"><div class="cb-thumb pend-mini"></div><div class="cb-mid"><div class="cb-name">Botón de pánico portátil Hikvision</div><div class="cb-desc">El SOS — avisa sin internet y sin luz, a través de la alarma</div><div class="cb-price">$ 52.600 · IVA 21% inc. <span class="cb-mo">instalación incluida en la puesta en marcha</span></div></div><div class="qty"><button data-k="pan" data-d="-1" aria-label="Quitar Botón de pánico portátil Hikvision">−</button><span class="qv" id="q-pan">0</span><button data-k="pan" data-d="1" aria-label="Agregar Botón de pánico portátil Hikvision">+</button></div></div>
+<div class="cb-row" id="row-ax"><img class="cb-thumb" loading="lazy" src="https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PA201PS-Kit-16WB.jpg" alt="Kit AXHome"><div class="cb-mid"><div class="cb-name">Kit Hikvision AXHome</div><div class="cb-desc">Alarma completa Wi-Fi + 4G, con llavero de pánico incluido</div><div class="cb-price">$ 409.500 · IVA 21% inc. <span class="cb-mo">+ $ 61.800 instalación c/u</span></div></div><div class="qty"><button data-k="ax" data-d="-1" aria-label="Quitar Kit Hikvision AXHome">−</button><span class="qv" id="q-ax">0</span><button data-k="ax" data-d="1" aria-label="Agregar Kit Hikvision AXHome">+</button></div></div>
     </div>
 
     <div id="blu-warn" style="display:none;border:1px solid var(--red);border-radius:12px;padding:13px 16px;margin-top:14px;font-size:13px;color:#7a2e26;background:rgba(181,69,58,.07)"><b>Ojo:</b> el BLU Motion es Bluetooth y necesita al menos un módulo Shelly (1L, 2L, 1PM o 2PM) en el combo que le haga de puente — solo no funciona. Sumá el módulo de la luz que va a encender.</div>
 
-    <div id="pan-warn" style="display:none;border:1px solid var(--red);border-radius:12px;padding:13px 16px;margin-top:14px;font-size:13px;color:#7a2e26;background:rgba(181,69,58,.07)"><b>Ojo:</b> el botón de pánico se comunica con la central de la alarma — solo no funciona. Sumá el Kit Hikvision AX Pro al combo.</div>
+    <label class="up-toggle off" id="up-wrap"><input type="checkbox" id="up" disabled><span><span class="t">Upgrade recomendado · Alarma AX Pro + botón de pánico portátil</span><span class="d">Reemplaza cada Kit AXHome por el Kit AX Pro ($ 633.500) y suma un botón de pánico portátil ($ 52.600) por kit. La instalación no cambia.</span><span class="p">+ $ 276.600 por kit de alarma</span><span class="n">Disponible cuando el combo incluye el Kit Hikvision AXHome.</span></span></label>
 
     <div class="grand">
       <div class="row"><span>Equipo (IVA incluido por ítem)</span><b id="s-eq">$ 0</b></div>
+      <div class="row" id="row-s-up" style="display:none"><span>Upgrade AX Pro + botón de pánico</span><b id="s-up">$ 0</b></div>
       <div class="row"><span>Instalación por dispositivo</span><b id="s-modev">$ 0</b></div>
       <div class="row"><span>Puesta en marcha, rutinas y capacitación — única por vivienda</span><b id="s-base">$ 0</b></div>
       <div class="row total"><span>Total combo</span><span id="s-total">$ 0</span></div>
@@ -717,7 +803,7 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
     <div class="cond">
       <div class="c-item"><b>Alcance de instalación</b>La instalación se cotiza por dispositivo según el módulo, más una puesta en marcha única por vivienda ($ 61.800) que incluye configuración de apps, programación de rutinas y capacitación al usuario. Válida dentro de la ciudad de Córdoba; fuera de la ciudad se adicionan viáticos, cotizados según localidad antes de confirmar.</div>
       <div class="c-item"><b>Obra eléctrica</b>Este proyecto no incluye obra eléctrica: los kits se instalan sobre la instalación existente de cada vivienda. En el relevamiento previo verificamos que el punto donde va cada módulo esté en condiciones; si una vivienda requiere adecuación eléctrica, se informa y cotiza aparte antes de intervenir.</div>
-      <div class="c-item"><b>Requisito de conectividad</b>Las funciones de voz, avisos al celular y control remoto requieren que la vivienda cuente con internet Wi-Fi. La alarma AX Pro incluye además chip 4G como vía de respaldo, y por esa vía también avisa el botón de pánico.</div>
+      <div class="c-item"><b>Requisito de conectividad</b>Las funciones de voz, avisos al celular y control remoto requieren que la vivienda cuente con internet Wi-Fi. La alarma AXHome —y el AX Pro del upgrade— incluye además chip 4G como vía de respaldo.</div>
       <div class="c-item"><b>Moneda</b>Todos los precios se expresan en pesos argentinos, con IVA incluido.</div>
       <div class="c-item"><b>Forma de pago</b>Las condiciones y etapas de pago se definen junto a la Dirección en la instancia de confirmación de cantidades, según la modalidad de contratación del organismo.</div>
       <div class="c-item"><b>Garantía y post-venta</b>12 meses sobre todo lo instalado, con soporte de equipo propio. La capacitación al usuario en la vivienda está incluida en cada kit, y se entrega documentación simple de uso.</div>
@@ -741,7 +827,7 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
     </div>
     <div class="pill-detail" id="pd-shelly"><b>Shelly</b> — fabricante europeo (Shelly Group) especializado en módulos de control compactos, una de las marcas de IoT de mayor crecimiento a nivel mundial. La elegimos porque sus módulos funcionan con protocolos abiertos: lo que se instala hoy sirve de base para una domótica completa mañana, sin quedar atado a un fabricante.</div>
     
-    <div class="pill-detail" id="pd-hik"><b>Hikvision</b> — el fabricante de seguridad electrónica más grande del mundo. AX Pro es su línea profesional inalámbrica: la elegimos porque combina instalación simple con la robustez de un fabricante profesional, porque avisa por dos vías (Wi-Fi y 4G) y porque supervisa cada dispositivo, incluido el botón de pánico.</div>
+    <div class="pill-detail" id="pd-hik"><b>Hikvision</b> — el fabricante de seguridad electrónica más grande del mundo. AXHome es su línea residencial inalámbrica: la elegimos porque combina instalación simple con la robustez de un fabricante profesional, y porque avisa por dos vías (Wi-Fi y 4G). AX Pro, su línea profesional, va como upgrade recomendado por el botón de pánico portátil.</div>
     <div class="pill-detail" id="pd-alexa"><b>Amazon Alexa</b> — el asistente de voz más difundido del mercado. Lo elegimos porque el catálogo de comandos en español rioplatense está maduro, y porque los módulos Shelly se integran de fábrica: la persona habla y la casa responde, sin configuraciones frágiles.</div>
   </div>
 </section>
@@ -752,7 +838,7 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
     <span class="eyebrow">Preguntas frecuentes</span>
     <h2>Lo que seguramente se están preguntando</h2>
     <div class="faq">
-      <div class="faq-item"><button class="faq-q">¿Qué pasa si se corta internet o la luz?<span>▾</span></button><div class="faq-a"><div class="faq-a-in"><b>Si se corta internet:</b> las luces y artefactos siguen funcionando desde sus llaves de siempre, y la alarma AX Pro sigue avisando por su chip 4G, incluido el botón de pánico. Mientras dure el corte no funcionan el control por voz, las rutinas del botón Shelly, la luz nocturna automática, las rutinas programadas ni el control desde el celular.<br><br><b>Si se corta la luz:</b> los módulos Shelly, el Echo Dot y el router de la vivienda se apagan junto con el resto de la instalación. La central de alarma sigue funcionando con su batería de respaldo (hasta 12 horas) y avisa por 4G, incluido el botón de pánico. Esta propuesta no incluye iluminación de emergencia.</div></div></div>
+      <div class="faq-item"><button class="faq-q">¿Qué pasa si se corta internet o la luz?<span>▾</span></button><div class="faq-a"><div class="faq-a-in"><b>Si se corta internet:</b> las luces y artefactos siguen funcionando desde sus llaves de siempre, y la alarma AXHome sigue avisando por su chip 4G, incluido el botón de pánico del llavero. Mientras dure el corte no funcionan el control por voz, el aviso del botón Shelly, la luz nocturna automática, las rutinas programadas ni el control desde el celular.<br><br><b>Si se corta la luz:</b> los módulos Shelly, el Echo Dot y el router de la vivienda se apagan junto con el resto de la instalación. La central de alarma sigue funcionando con su batería de respaldo (hasta 12 horas) y avisa por 4G, incluido el llavero de pánico. Esta propuesta no incluye iluminación de emergencia.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿La persona necesita saber usar un celular?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. El uso diario es por voz (Alexa) y por botones físicos de un solo gesto. El celular con la app queda en manos de la familia o el cuidador, para configurar y recibir avisos. En la capacitación de entrega definimos junto a la persona cuáles comandos le resultan naturales.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿Hay abonos o costos mensuales?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. Las apps de Alexa, Shelly y Hik-Connect son gratuitas y no cobran suscripción por las funciones de estos kits. El único servicio recurrente de la vivienda es su conexión a internet, que ya es un requisito previo. El chip 4G de la alarma usa una línea prepaga de bajo consumo cuya carga se explica en la capacitación.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿Funciona en instalaciones eléctricas viejas?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Sí — es una decisión de diseño de este catálogo: los módulos de iluminación elegidos (línea L de Shelly) funcionan sin cable neutro en la caja de la llave, que es la situación típica de las viviendas construidas hace años. El relevamiento previo confirma dos cosas por vivienda: que haya Wi-Fi y que cada punto esté en condiciones eléctricas. Si algo no está en condiciones, se informa antes — nunca se instala sobre una falla.</div></div></div>
@@ -858,28 +944,35 @@ var DEV = {
   pm1: { n:'Shelly Plus 1PM Gen4', p:57200, mo:38700 },
   btn: { n:'Shelly Button 1', p:44900, mo:0 },
   blu: { n:'Shelly BLU Motion', p:61800, mo:0 },
-  ax:  { n:'Kit Hikvision AX Pro', p:633500, mo:61800 },
-  pan: { n:'Botón de pánico Hikvision', p:52600, mo:0 }
+  ax:  { n:'Kit Hikvision AXHome', p:409500, mo:61800 }
 };
 var MO_BASE = 61800;
+/* upgrade: each AXHome kit becomes AX Pro + 1 portable panic button; installation unchanged */
+var UPG = { axpro:633500, pan:52600 };
 var PRESETS = {
-  novadomus:{ echo:1,l1:2,l2:2,pm2:2,pm1:1,btn:1,blu:1,ax:1,pan:1 },
-  autonomia:{ echo:1,l1:0,l2:2,pm2:2,pm1:2,btn:1,blu:0,ax:0,pan:0 },
-  seguridad:{ echo:0,l1:1,l2:0,pm2:0,pm1:0,btn:0,blu:1,ax:1,pan:1 },
-  completo: { echo:1,l1:1,l2:2,pm2:2,pm1:2,btn:1,blu:1,ax:1,pan:1 }
+  novadomus:{ echo:1,l1:2,l2:2,pm2:2,pm1:1,btn:1,blu:1,ax:1 },
+  autonomia:{ echo:1,l1:0,l2:2,pm2:2,pm1:2,btn:1,blu:0,ax:0 },
+  seguridad:{ echo:0,l1:1,l2:0,pm2:0,pm1:0,btn:0,blu:1,ax:1 },
+  completo: { echo:1,l1:1,l2:2,pm2:2,pm1:2,btn:1,blu:1,ax:1 }
 };
-var q = { echo:0,l1:0,l2:0,pm2:0,pm1:0,btn:0,blu:0,ax:0,pan:0 };
+var q = { echo:0,l1:0,l2:0,pm2:0,pm1:0,btn:0,blu:0,ax:0 };
 var fmt = function(n){ return '$ ' + Math.ceil(n).toLocaleString('es-AR'); };
 function $(id){ return document.getElementById(id); }
 function calc(){
   var eq=0, moDev=0, count=0, k;
   for(k in DEV){ eq += q[k]*DEV[k].p; moDev += q[k]*DEV[k].mo; count += q[k]; }
   var base = count>0 ? MO_BASE : 0;
-  return { eq:eq, moDev:moDev, base:base, total:eq+moDev+base, count:count };
+  var up = ($('up').checked && q.ax>0) ? q.ax*(UPG.axpro - DEV.ax.p + UPG.pan) : 0;
+  return { eq:eq, up:up, moDev:moDev, base:base, total:eq+up+moDev+base, count:count };
 }
 function resumenCombo(){
   var parts=[], k;
-  for(k in DEV){ if(q[k]>0) parts.push(q[k]+'× '+DEV[k].n); }
+  var useUp = $('up').checked && q.ax>0;
+  for(k in DEV){
+    if(q[k]<=0) continue;
+    if(k==='ax' && useUp){ parts.push(q[k]+'× Kit Hikvision AX Pro + '+q[k]+'× Botón de pánico portátil (upgrade)'); }
+    else parts.push(q[k]+'× '+DEV[k].n);
+  }
   return parts.join(' + ');
 }
 function updateCTA(){
@@ -887,24 +980,29 @@ function updateCTA(){
   $('btn-accept').classList.toggle('ready', ok);
 }
 function render(){
+  var upEl = $('up');
+  if(q.ax===0){ upEl.checked = false; }
+  upEl.disabled = q.ax===0;
+  $('up-wrap').classList.toggle('off', q.ax===0);
   var c = calc(), k;
   for(k in DEV){
     $('q-'+k).textContent = q[k];
     var row = $('row-'+k); if(row) row.classList.toggle('picked', q[k]>0);
   }
   $('s-eq').textContent = fmt(c.eq);
+  $('s-up').textContent = fmt(c.up);
+  $('row-s-up').style.display = c.up>0 ? '' : 'none';
   $('s-modev').textContent = fmt(c.moDev);
   $('s-base').textContent = fmt(c.base);
   $('s-total').textContent = fmt(c.total);
   var relays = q.l1+q.l2+q.pm2+q.pm1;
   $('blu-warn').style.display = (q.blu>0 && relays===0) ? 'block' : 'none';
-  $('pan-warn').style.display = (q.pan>0 && q.ax===0) ? 'block' : 'none';
   $('ct-desc').textContent = c.count===0 ? 'todavía sin dispositivos elegidos' : resumenCombo();
   $('ct-total').textContent = fmt(c.total);
   updateCTA();
   var msg = 'Hola Nova Domus, confirmamos la propuesta PY-2026-020 (combo a medida, precios en pesos ARS): ' +
     (c.count===0 ? 'sin dispositivos' : resumenCombo()) +
-    '. Equipo: ' + fmt(c.eq) + ' + instalación por dispositivo: ' + fmt(c.moDev) +
+    '. Equipo: ' + fmt(c.eq + c.up) + ' + instalación por dispositivo: ' + fmt(c.moDev) +
     ' + puesta en marcha: ' + fmt(c.base) + '. Total: ' + fmt(c.total) + '.';
   $('btn-accept').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
 }
@@ -920,12 +1018,14 @@ document.querySelectorAll('.preset').forEach(function(p){
   p.addEventListener('click', function(){
     var pr = PRESETS[p.dataset.p], k;
     for(k in q){ q[k] = pr ? (pr[k]||0) : 0; }
+    if(!pr) $('up').checked = false;
     document.querySelectorAll('.preset').forEach(function(x){ x.classList.remove('sel'); });
     if(pr) p.classList.add('sel');
     render();
   });
 });
 $('conf').addEventListener('change', updateCTA);
+$('up').addEventListener('change', render);
 
 /* ===== acordeones (scrollHeight) ===== */
 function bindAcc(headSel, cardSel, bodySel){
@@ -995,8 +1095,7 @@ var VS = {
   b: [ ['v','Aviso inmediato en el celular de familiares y cuidadores'],
        ['v','Doble vía: Wi-Fi + chip 4G — sigue avisando sin internet fijo'],
        ['v','Inalámbrica: sensores a pilas, sin cablear la vivienda'],
-       ['v','Se arma y desarma con un control remoto de botones grandes'],
-       ['v','Botón de pánico portátil: pide ayuda aunque no haya internet ni luz'] ]
+       ['v','Se arma y desarma con un llavero de botones grandes, con pánico incluido'] ]
 };
 function paintVS(mode){
   var list = $('vs-list'); list.innerHTML = '';
@@ -1012,13 +1111,17 @@ $('vs-a').addEventListener('click', function(){ paintVS('a'); });
 $('vs-b').addEventListener('click', function(){ paintVS('b'); });
 paintVS('a');
 
-/* ===== demo SOS ===== */
-$('sos').addEventListener('click', function(){
-  var btn = $('sos'); btn.classList.remove('fired'); void btn.offsetWidth; btn.classList.add('fired');
-  var steps = document.querySelectorAll('#sos-steps li');
-  steps.forEach(function(s){ s.classList.remove('on'); });
-  steps.forEach(function(s,i){ setTimeout(function(){ s.classList.add('on'); }, 300 + i*650); });
-});
+/* ===== demo SOS (Shelly Button and upgrade panic button) ===== */
+function bindSos(btnId, stepsSel){
+  $(btnId).addEventListener('click', function(){
+    var btn = $(btnId); btn.classList.remove('fired'); void btn.offsetWidth; btn.classList.add('fired');
+    var steps = document.querySelectorAll(stepsSel);
+    steps.forEach(function(s){ s.classList.remove('on'); });
+    steps.forEach(function(s,i){ setTimeout(function(){ s.classList.add('on'); }, 300 + i*650); });
+  });
+}
+bindSos('sos', '#sos-steps li');
+bindSos('sos-up', '#sos-up-steps li');
 
 /* ===== demo luz nocturna ===== */
 $('hall-btn').addEventListener('click', function(){
