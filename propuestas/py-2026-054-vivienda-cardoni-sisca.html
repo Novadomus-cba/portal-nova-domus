@@ -460,6 +460,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 @media print{.caso dd,.meta span{color:#333!important}.meta span,.caso{border-color:#ccc!important}
   /* en papel #pago queda sobre blanco: nada de gris claro ni dorado sobre blanco (identidad-marca 2) */
   #pago .trow.sub{color:#444!important}
+  /* #pago es mas alta que una hoja: los totales no quedan solos, viajan con la ultima etapa que suman */
+  #pago .stage,#pago .totals{break-inside:avoid} #pago .grp{break-after:avoid}
+  #pago .pay+.totals,#pago .totals+.totals{break-before:avoid}
   .stage b,.trow.big,.sref,#gt,.grp,.figure,.dc-qty,.vbox h3,.alert h3,.split .good b,.efx li b,.ej-grid b,.ej .honor,
   .etq,.caso dt,.plano-dl,.step b,.tbl td:nth-child(2),.arr,footer b,a{color:#141E61!important}
   .tagline,.kpi small,.slabel,.dc-photo-pend,.dc-desc,.tbl td:nth-child(3),.split div b,footer{color:#5d6078!important}
@@ -503,11 +506,11 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <p class="claim">La casa que responde.</p>
     <p class="tagline">Del cable a la app</p>
     <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para una casa de dos
-      plantas en obra, con pileta, galería y cochera doble: iluminación, losa radiante, aires,
+      plantas en proyecto, con pileta, galería y cochera doble: iluminación, losa radiante, aires,
       alarma y cámaras sobre una red profesional, todo en un mismo sistema y una misma app, y
       cerraduras digitales en los accesos, con su propia app.</p>
     <div class="meta">
-      <span>Casa en obra</span><span>Planta baja + alta</span>
+      <span>Obra en proyecto</span><span>Planta baja + alta</span>
       <span>Pileta y galería</span><span>Un solo sistema</span>
     </div>
   </div>
@@ -515,7 +518,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 
 <nav><ul>
   <li><a href="#resumen" class="on">Resumen</a></li>
-  <li><a href="#prevision">Previsión en obra</a></li>
+  <li><a href="#ejecutivo">Etapa 0 · Ejecutivo</a></li>
   <li><a href="#plano">Plano</a></li>
   <li><a href="#responsable">Un solo responsable</a></li>
   <li><a href="#s01">Iluminación</a></li>
@@ -524,7 +527,6 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <li><a href="#s04">Redes</a></li>
   <li><a href="#s05">Core</a></li>
   <li><a href="#inversion">Inversión</a></li>
-  <li><a href="#ejecutivo">Proyecto ejecutivo</a></li>
   <li><a href="#pago">Pago</a></li>
   <li><a href="#condiciones">Condiciones</a></li>
   <li><a href="#respaldo">Respaldo</a></li>
@@ -546,33 +548,49 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <div class="kpi"><span class="figure" data-n="1">1</span>
       <small>app para luz, clima, pileta, alarma y cámaras</small></div>
   </div>
-  <p><b>Qué necesita la casa.</b> Está en obra: es el momento justo para decidir la tecnología,
-    porque lo que se deja previsto con las paredes abiertas casi no cuesta y hacerlo después cuesta
-    varias veces más. Son dos plantas con losa radiante, pileta, galería con asador y una cochera
-    doble con acceso directo a la casa.</p>
-  <p><b>Qué proponemos.</b> Control de toda la iluminación, de la losa radiante zona por zona, de
-    los cinco aires y de la pileta; alarma inalámbrica, cinco cámaras, videoportero y cerraduras
-    digitales en el ingreso y en la cochera; una red WiFi profesional con un access point por
-    planta y otro en la galería; y un servidor de automatización que corre dentro de la casa y une
-    todo.</p>
-  <p><b>Inversión estimada.</b> <span data-v="tot">U$D 16.425</span> — equipos, mano de obra especializada por punto y
-    programación. La motorización de cortinas se puede sumar como opcional
-    (+ <span data-v="opt">U$D 801</span>). El proyecto ejecutivo de la obra va aparte: <span data-v="ej">U$D 700</span> de honorarios.</p>
-  <p><b>Próximo paso.</b> Pasarle al electricista la lista de <a href="#prevision">Previsión en
-    obra</a>, antes de cerrar paredes.</p>
+  <p><b>Qué necesita la casa.</b> La obra todavía está en proyecto: es el momento justo para
+    definir todo en los planos, porque ahí cambiar algo no cuesta nada y corregirlo durante o
+    después de la obra cuesta varias veces más. Son dos plantas con losa radiante, pileta, galería
+    con asador y una cochera doble con acceso directo a la casa.</p>
+  <p><b>Qué proponemos.</b> Arrancar por la Etapa 0, el proyecto ejecutivo: electricidad,
+    iluminación, señales débiles y tecnología definidas en los planos, con todas las indicaciones
+    para los electricistas. Sobre esa base, control de toda la iluminación, de la losa radiante zona
+    por zona, de los cinco aires y de la pileta; alarma inalámbrica, cinco cámaras, videoportero y
+    cerraduras digitales en el ingreso y en la cochera; una red WiFi profesional con un access point
+    por planta y otro en la galería; y un servidor de automatización que corre dentro de la casa y
+    une todo.</p>
+  <p><b>Inversión estimada.</b> Etapa 0, proyecto ejecutivo: <span data-v="ej">U$D 700</span> de
+    honorarios. Tecnología: <span data-v="tot">U$D 16.425</span> — equipos, mano de obra
+    especializada por punto y programación. La motorización de cortinas se puede sumar como
+    opcional (+ <span data-v="opt">U$D 801</span>).</p>
+  <p><b>Próximo paso.</b> Encargar la <a href="#ejecutivo">Etapa 0 — proyecto ejecutivo</a>,
+    antes de empezar la obra. Y, sobre esos planos, cotizarte también la obra eléctrica completa:
+    nos proponemos como los electricistas de toda la obra.</p>
 </section>
 </div>
 
 <div class="wrap">
-<section class="sec" id="prevision">
-  <p class="eyebrow">Etapa 0 — Previsión en obra</p>
-  <h2>Lo que conviene hacer ahora</h2>
-  <p class="lead">No lleva equipos ni se cotiza: la hace el electricista de la obra con nuestra
-    indicación. Es lo más importante de toda la propuesta.</p>
+<section class="sec" id="ejecutivo">
+  <p class="eyebrow">00 — Etapa 0</p>
+  <h2>Proyecto ejecutivo</h2>
+  <p class="lead">Todo definido antes de empezar. La obra todavía está en proyecto: es el momento
+    de dejar resuelto en los planos todo lo que hay que hacer para que la casa funcione bien. Es la
+    base de todo lo demás de esta propuesta, y por eso va primero.</p>
   <div class="prev">
-    <span class="etq">U$D&nbsp;0 · sin equipos</span><span class="etq">La ejecuta el electricista de la obra</span>
-    <p class="big">Hacerlo ahora casi no cuesta. Hacerlo con las paredes cerradas cuesta varias
-      veces más.</p>
+    <span class="etq">Antes de empezar la obra</span><span class="etq">Lo hace Nova Domus</span>
+    <p class="big">En el plano, cambiar algo no cuesta nada. Corregirlo durante o después de la
+      obra cuesta varias veces más.</p>
+    <p>El proyecto ejecutivo deja definido:</p>
+    <div class="ej-grid">
+      <div><b>Electricidad</b>Tablero, circuitos, bocas y canalizaciones de la casa.</div>
+      <div><b>Iluminación</b>Efectos por ambiente, llaves y comandos de cada uno.</div>
+      <div><b>Señales débiles</b>Red, cámaras, alarma, videoportero y sus canalizaciones hasta el gabinete.</div>
+      <div><b>Tecnología integral</b>Ubicación definitiva de cada dispositivo y cómo se integra al
+        sistema. El plano de dispositivos de abajo es el punto de partida.</div>
+    </div>
+    <h3 style="margin-top:22px">Las indicaciones para los electricistas</h3>
+    <p>Quedan especificadas en el proyecto ejecutivo, para que la obra eléctrica deje la casa lista
+      para la tecnología:</p>
     <ul>
       <li><b>Neutro junto con el retorno en toda caja de llave.</b> En todas las cajas de llave de
         la casa, sin excepción. Es lo que necesitan los módulos para ir detrás de cada llave.</li>
@@ -590,16 +608,16 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
         cámara, cada aire acondicionado, el videoportero del frente y la pantalla de control del
         ingreso.</li>
     </ul>
-    <p class="note">Con esto hecho, la tecnología se instala al final de la obra sin romper una sola
-      pared.</p>
+    <p class="note">Con esto en los planos y hecho en la obra, la tecnología se instala al final sin
+      romper una sola pared.</p>
   </div>
 
   <div class="alert">
     <h3>Llaves partidas: por qué 2 + 1 en vez de 3</h3>
-    <p>Donde el plano eléctrico tiene llaves de 3 teclas, proponemos reemplazar cada una por
-      <b>una llave de 2 teclas + una de 1 tecla</b>, una al lado de la otra. Así cada caja lleva un
-      solo módulo, sin módulos de entrada extra ni dos equipos apretados en la misma caja, sin calor
-      — y sale más barato.</p>
+    <p>Donde el plano eléctrico de la obra tiene llaves de 3 teclas, en el proyecto ejecutivo
+      proponemos reemplazar cada una por <b>una llave de 2 teclas + una de 1 tecla</b>, una al lado
+      de la otra. Así cada caja lleva un solo módulo, sin módulos de entrada extra ni dos equipos
+      apretados en la misma caja, sin calor — y sale más barato.</p>
     <div class="split">
       <div><b>Llave de 3 teclas</b>Hacen falta dos módulos o un módulo de entrada adicional en la
         misma caja.</div>
@@ -608,11 +626,28 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     </div>
     <p class="note">El presupuesto ya está armado con esta sugerencia aplicada.</p>
   </div>
+
+  <div class="ej">
+    <span class="etq">Honorarios de la Etapa 0</span>
+    <p class="honor"><span data-v="ej">U$D 700</span></p>
+    <p><b>Forma de pago:</b> 30% de anticipo al encargarlo (<span data-v="ej30">U$D 210</span>) y
+      70% contra la entrega de los planos y la documentación (<span data-v="ej70">U$D 490</span>).
+      Con Factura A se suma IVA 21%: <span data-v="ejfa">U$D 847</span> en total. Tiene sus propios
+      honorarios, aparte del total de tecnología.</p>
+    <h3 style="margin-top:18px">Y si además hacemos la obra eléctrica, todavía mejor</h3>
+    <p>Nos proponemos como los electricistas de toda la obra. Con los planos del ejecutivo hacemos
+      el cómputo de bocas y materiales, presupuestamos la obra eléctrica completa con nuestra base
+      de Boca Completa y la ejecutamos con nuestros electricistas matriculados: un solo
+      responsable, del cable a la app.</p>
+    <p class="note">Si la obra eléctrica la hace otro electricista, el proyecto ejecutivo le deja
+      todas las indicaciones y Nova Domus verifica que esté todo listo antes de instalar la
+      tecnología. La obra eléctrica no se cotiza en este documento.</p>
+  </div>
   <div class="alert">
     <h3>A confirmar en la visita técnica</h3>
-    <p>Los efectos de luz están tomados de los planos de la obra y se confirman en una visita,
-      junto con la ubicación del gabinete de red, de los aires, de los colectores de la losa
-      radiante y de cada cámara.</p>
+    <p>Los efectos de luz están tomados de los planos de la obra y se confirman al hacer el
+      proyecto ejecutivo, en una visita técnica, junto con la ubicación del gabinete de red, de los
+      aires, de los colectores de la losa radiante y de cada cámara.</p>
   </div>
 </section>
 
@@ -620,7 +655,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p class="eyebrow">Plano de dispositivos</p>
   <h2>Dónde va cada cosa</h2>
   <p class="lead">Nuestra propuesta de ubicación sobre los planos de la obra, una hoja por planta
-    (la planta baja, en dos). Cada número de la leyenda coincide con el plano. Los marcados con
+    (la planta baja, en dos): es el punto de partida del proyecto ejecutivo. Cada número de la leyenda coincide con el plano. Los marcados con
     borde punteado se confirman en la visita técnica.</p>
   <figure class="plano">
     <a href="planos/py-2026-054-plano-dispositivos-pb.png" target="_blank" rel="noopener">
@@ -648,21 +683,22 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <section class="sec section-light" id="responsable">
   <p class="eyebrow">Por qué nosotros</p>
   <h2>Un solo responsable</h2>
-  <p>Una casa en obra con tecnología suele terminar con cinco o seis proveedores: el de la alarma,
-    el de las cámaras, el que instala los módulos de luz, el de la calefacción, el de la red y el
-    de las cerraduras. Cuando algo deja de responder, cada uno señala al otro. Esa coordinación es
+  <p>Una obra con tecnología suele terminar con cinco o seis proveedores, además del
+    electricista: el de la alarma, el de las cámaras, el que instala los módulos de luz, el de la
+    calefacción, el de la red y el de las cerraduras. Cuando algo deja de responder, cada uno señala al otro. Esa coordinación es
     la fuente real de las fallas y las demoras, más que cualquier equipo defectuoso.</p>
-  <p><b>Nova Domus es uno solo.</b> Instalamos y programamos todo lo que cotiza esta propuesta:
-    iluminación, losa radiante, aires, pileta, alarma, cámaras, videoportero, cerraduras, red y
-    automatización. La <b>Previsión en obra</b> la ejecuta el electricista de la obra: nosotros la
-    especificamos y verificamos que esté lista antes de instalar, por eso no tiene costo en esta
-    propuesta.</p>
-  <p>La <b>obra eléctrica completa no se cotiza ahora</b>. Si nos encargás el proyecto ejecutivo,
-    la presupuestamos sobre esos planos y la podemos ejecutar con nuestros electricistas
-    matriculados: ahí el responsable único va del cable a la app.</p>
+  <p><b>Nova Domus es uno solo.</b> Arrancamos por la <b>Etapa 0</b>: el proyecto ejecutivo, con
+    todas las indicaciones para los electricistas. Después instalamos y programamos todo lo que
+    cotiza esta propuesta: iluminación, losa radiante, aires, pileta, alarma, cámaras,
+    videoportero, cerraduras, red y automatización, y antes de instalar verificamos que la obra
+    haya dejado listo lo indicado en el ejecutivo.</p>
+  <p><b>Y nos proponemos como los electricistas de toda la obra.</b> La obra eléctrica completa
+    (Boca Completa) no se cotiza en este documento: la presupuestamos sobre los planos del
+    ejecutivo y la ejecutamos con nuestros electricistas matriculados. Así el responsable único va
+    del cable a la app. Si la hace otro electricista, el ejecutivo le deja todas las indicaciones.</p>
   <div class="flow">
-    <div class="step"><b>01</b><span>Relevamiento y especificación — planos, Previsión en obra
-      para el electricista y visita técnica</span></div>
+    <div class="step"><b>01</b><span>Relevamiento y especificación — Etapa 0: proyecto ejecutivo
+      con las indicaciones para los electricistas, y visita técnica</span></div>
     <div class="step"><b>02</b><span>Redes e iluminación — gabinete, red Omada y módulos de luz</span></div>
     <div class="step"><b>03</b><span>Seguridad y accesos — alarma, cámaras, videoportero y
       cerraduras</span></div>
@@ -674,7 +710,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <thead><tr><th></th><th>Con Nova Domus</th><th>Integradores tradicionales</th></tr></thead>
     <tbody>
       <tr><td>Proveedores a coordinar</td>
-        <td data-label="Con Nova Domus">Uno para toda la tecnología</td>
+        <td data-label="Con Nova Domus">Uno para toda la tecnología y, si nos la encargás, la obra eléctrica</td>
         <td data-label="Integradores tradicionales">Cinco o más</td></tr>
       <tr><td>Responsable ante una falla</td>
         <td data-label="Con Nova Domus">Nova Domus</td>
@@ -683,7 +719,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
         <td data-label="Con Nova Domus">Propio: electricistas matriculados y programadores certificados</td>
         <td data-label="Integradores tradicionales">Subcontratado por rubro</td></tr>
       <tr><td>Obra eléctrica</td>
-        <td data-label="Con Nova Domus">Hoy la especificamos y verificamos; con el ejecutivo, la cotizamos y la podemos ejecutar</td>
+        <td data-label="Con Nova Domus">La definimos en el ejecutivo, la cotizamos sobre esos planos y nos proponemos para ejecutarla</td>
         <td data-label="Integradores tradicionales">Cada uno pide lo suyo, por separado</td></tr>
       <tr><td>Garantía</td>
         <td data-label="Con Nova Domus">12 meses sobre el sistema completo</td>
@@ -736,8 +772,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <div class="alert">
     <h3>Las llaves no cambian</h3>
     <p>Cada módulo va dentro de la caja de la llave y la llave sigue funcionando exactamente
-      igual. Las tiras LED se comandan desde una caja junto al tablero. Por eso el electricista
-      tiene que dejar neutro en cada caja y partir las llaves de 3 teclas (ver Previsión en obra).</p>
+      igual. Las tiras LED se comandan desde una caja junto al tablero. Por eso el proyecto
+      ejecutivo deja indicado el neutro en cada caja y las llaves de 3 teclas partidas en 2 + 1 (ver
+      <a href="#ejecutivo">Etapa 0</a>).</p>
   </div>
   <p class="note">En los lugares de paso, la luz se enciende sola al entrar y se apaga al salir,
     con sensores de movimiento y de puerta. La llave manual sigue estando.</p>
@@ -950,51 +987,38 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       <b id="t-mo">U$D 3.425</b></div>
     <div class="trow"><span>Programación y comisionado</span>
       <b id="t-prog">U$D 1.494</b></div>
-    <div class="trow big"><span>Total estimado del proyecto</span>
+    <div class="trow big"><span>Total estimado del proyecto de tecnología</span>
       <span id="t-tot">U$D 16.425</span></div>
   </div>
-  <p class="note">El proyecto ejecutivo no está incluido en este total: es una línea aparte, justo
-    acá abajo.</p>
+  <p class="note">Este es el total de la tecnología. La Etapa 0 —el proyecto ejecutivo,
+    <span data-v="ej">U$D 700</span>— tiene sus propios honorarios y va primero en la forma de pago,
+    justo acá abajo.</p>
 </section>
 </div></div>
 
 <div class="wrap">
-<section class="sec" id="ejecutivo" style="border-top:0">
-  <p class="eyebrow">07 — Línea aparte</p>
-  <h2>Proyecto ejecutivo</h2>
-  <p class="lead">Si lo encargás, armamos el proyecto ejecutivo de la obra. No forma parte del
-    total de tecnología: se contrata por separado, con sus propios honorarios.</p>
-  <div class="ej">
-    <span class="etq">Honorarios</span>
-    <p class="honor"><span data-v="ej">U$D 700</span></p>
-    <div class="ej-grid">
-      <div><b>Electricidad</b>Tablero, circuitos, bocas y canalizaciones de la casa.</div>
-      <div><b>Iluminación</b>Efectos por ambiente, llaves y comandos de cada uno.</div>
-      <div><b>Señales débiles</b>Red, cámaras, alarma, videoportero y sus canalizaciones hasta el gabinete.</div>
-      <div><b>Tecnología integral</b>Ubicación definitiva de cada dispositivo y cómo se integra al sistema.</div>
-    </div>
-    <p><b>Forma de pago:</b> 30% de anticipo al encargarlo (<span data-v="ej30">U$D 210</span>) y 70% contra entrega
-      (<span data-v="ej70">U$D 490</span>). Con Factura A se suma IVA 21%: <span data-v="ejfa">U$D 847</span> en total.</p>
-    <p class="note">Con el proyecto ejecutivo terminado presupuestamos la obra eléctrica de la casa
-      con nuestra base de Boca Completa, sobre los planos definitivos. Hoy la obra eléctrica no se
-      cotiza.</p>
-  </div>
-</section>
-</div>
-
-<div class="wrap">
 <section class="sec" id="pago">
-  <p class="eyebrow">08 — Ejecución</p>
+  <p class="eyebrow">07 — Ejecución</p>
   <h2>Forma de pago</h2>
-  <p class="lead">Equipos por anticipado, programación en dos partes y la instalación según el
-    avance real del trabajo. La Previsión en obra no tiene costo.</p>
-  <div class="pay" id="pay"><div class="stage"><span><b style="display:block">Etapa 0 — Previsión en obra</b>La ejecuta el electricista de la obra con nuestra indicación, antes de cerrar paredes.<em class="sref">Sin costo en esta propuesta</em></span><b>U$D 0</b></div><div class="stage"><span><b style="display:block">Equipos — 100%</b>Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.</span><b>U$D 11.506</b></div><div class="stage"><span><b style="display:block">Programación — 60% al inicio</b>Al arrancar la programación del sistema.</span><b>U$D 896</b></div><div class="stage"><span><b style="display:block">Programación — 40% a la entrega</b>Comisionado: contra la entrega final documentada.</span><b>U$D 598</b></div><div class="stage"><span><b style="display:block">Instalación por punto (incluye las cerraduras)</b>Se certifica según el avance real del trabajo, con certificación semanal.<em class="sref">Monto de referencia — se certifica por avance</em></span><b>U$D 3.425</b></div></div>
+  <p class="lead">Primero la Etapa 0, el proyecto ejecutivo: 30% de anticipo al encargarlo y 70%
+    contra entrega. Después la tecnología: equipos por anticipado, programación en dos partes y la
+    instalación según el avance real del trabajo.</p>
   <div class="chk">
     <input type="checkbox" id="fa" onchange="render()">
-    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación e instalación, y
-      sobre los honorarios del proyecto ejecutivo. Los equipos ya llevan su IVA discriminado por
-      ítem.</label>
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre los honorarios de la Etapa 0 y
+      sobre programación e instalación. Los equipos ya llevan su IVA discriminado por ítem.</label>
   </div>
+  <p class="grp">Etapa 0 — Proyecto ejecutivo</p>
+  <div class="pay" id="pay-ej"><div class="stage"><span><b style="display:block">Proyecto ejecutivo — 30% de anticipo</b>Al encargarlo.</span><b>U$D 210</b></div><div class="stage"><span><b style="display:block">Proyecto ejecutivo — 70% contra entrega</b>Contra la entrega de los planos y la documentación.</span><b>U$D 490</b></div></div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-ej-row" style="display:none">
+      <span>IVA 21% sobre los honorarios de la Etapa 0</span>
+      <span id="fa-ej-val"></span></div>
+    <div class="trow"><span>Total de la Etapa 0 — proyecto ejecutivo</span>
+      <b id="gt-ej"><span data-v="ej">U$D 700</span></b></div>
+  </div>
+  <p class="grp">Tecnología — equipos, instalación y programación</p>
+  <div class="pay" id="pay"><div class="stage"><span><b style="display:block">Equipos — 100%</b>Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.</span><b>U$D 11.506</b></div><div class="stage"><span><b style="display:block">Programación — 60% al inicio</b>Al arrancar la programación del sistema.</span><b>U$D 896</b></div><div class="stage"><span><b style="display:block">Programación — 40% a la entrega</b>Comisionado: contra la entrega final documentada.</span><b>U$D 598</b></div><div class="stage"><span><b style="display:block">Instalación por punto (incluye las cerraduras)</b>Se certifica según el avance real del trabajo, con certificación semanal.<em class="sref">Monto de referencia — se certifica por avance</em></span><b>U$D 3.425</b></div></div>
   <div class="totals" style="border-top-color:var(--gold)">
     <div class="trow sub" id="pay-iva-row" style="display:none">
       <span>IVA 21% sobre programación e instalación</span>
@@ -1002,23 +1026,16 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <div class="trow big" style="color:var(--gold)"><span>Total del proyecto de tecnología</span>
       <span id="gt">U$D 16.425</span></div>
   </div>
-  <p class="grp">Proyecto ejecutivo — línea aparte, si lo encargás</p>
-  <div class="pay" id="pay-ej"><div class="stage"><span><b style="display:block">Proyecto ejecutivo — 30% de anticipo</b>Al encargarlo.</span><b>U$D 210</b></div><div class="stage"><span><b style="display:block">Proyecto ejecutivo — 70% contra entrega</b>Contra la entrega de los planos y la documentación.</span><b>U$D 490</b></div></div>
   <div class="totals" style="border-top-color:var(--gold)">
-    <div class="trow sub" id="pay-iva-ej-row" style="display:none">
-      <span>IVA 21% sobre honorarios del proyecto ejecutivo</span>
-      <span id="fa-ej-val"></span></div>
-    <div class="trow"><span>Total del proyecto ejecutivo</span>
-      <b id="gt-ej"><span data-v="ej">U$D 700</span></b></div>
-    <div class="trow sub"><span>Tecnología + proyecto ejecutivo</span>
-      <span id="gt-all"><span data-v="all">U$D 17.125</span></span></div>
+    <div class="trow"><span>Total Etapa 0 + tecnología</span>
+      <b id="gt-all"><span data-v="all">U$D 17.125</span></b></div>
   </div>
 </section>
 </div>
 
 <div class="section-light"><div class="wrap">
 <section class="sec" id="condiciones" style="border-top:0">
-  <p class="eyebrow">09 — Condiciones</p>
+  <p class="eyebrow">08 — Condiciones</p>
   <h2>Condiciones generales</h2>
   <p class="hint">👆 Tocá cada condición para leerla</p>
   <div class="devs">
@@ -1029,15 +1046,15 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Forma de pago</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Equipos: 100% por anticipado, antes de instalar, para asegurar el precio y la disponibilidad de importación. Programación y comisionado: 60% al iniciar la programación y 40% contra la entrega final documentada. Instalación (incluida la de las cerraduras): se certifica según el avance real del trabajo, con certificación semanal; el monto indicado es de referencia sobre el total presupuestado. La Previsión en obra no tiene costo en esta propuesta. El proyecto ejecutivo, si se encarga, se abona aparte: 30% de anticipo y 70% contra entrega.</p></div></article>
+      <div class="dev-body"><p>Etapa 0, proyecto ejecutivo: 30% de anticipo al encargarlo y 70% contra la entrega de los planos y la documentación. Tecnología — equipos: 100% por anticipado, antes de instalar, para asegurar el precio y la disponibilidad de importación. Programación y comisionado: 60% al iniciar la programación y 40% contra la entrega final documentada. Instalación (incluida la de las cerraduras): se certifica según el avance real del trabajo, con certificación semanal; el monto indicado es de referencia sobre el total presupuestado.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Obra eléctrica — no se cotiza en esta propuesta</span>
+      <span class="dev-title">Obra eléctrica — se cotiza sobre el proyecto ejecutivo</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La obra eléctrica de la casa (canalizaciones, cableado eléctrico y de red, cajas, tableros y bocas) no forma parte de este presupuesto. Hoy la Previsión en obra la ejecuta el electricista de la obra con nuestra indicación, y Nova Domus la verifica antes de instalar. Si se encarga el proyecto ejecutivo, sobre esos planos presupuestamos la obra eléctrica con nuestra base de cotización de Boca Completa, en un documento aparte y con su propia forma de pago.</p></div></article>
+      <div class="dev-body"><p>La obra eléctrica de la casa (canalizaciones, cableado eléctrico y de red, cajas, tableros y bocas) no forma parte de este presupuesto. Nova Domus se propone como electricista de toda la obra: sobre los planos del proyecto ejecutivo presupuestamos la obra eléctrica completa con nuestra base de cotización de Boca Completa, en un documento aparte y con su propia forma de pago, y la ejecutamos con nuestros electricistas matriculados. Si la ejecuta otro electricista, el proyecto ejecutivo le deja todas las indicaciones y Nova Domus verifica que esté todo listo antes de instalar la tecnología.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Proyecto ejecutivo</span>
+      <span class="dev-title">Etapa 0 — Proyecto ejecutivo</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Los honorarios del proyecto ejecutivo (electricidad, iluminación, señales débiles y tecnología integral) son una línea aparte y no forman parte del total de tecnología. Se abonan 30% al encargarlo y 70% contra la entrega de los planos y la documentación.</p></div></article>
+      <div class="dev-body"><p>Es la primera etapa y la base de todo lo demás: electricidad, iluminación, señales débiles y tecnología integral definidas en los planos, con todas las indicaciones para los electricistas. Tiene sus propios honorarios, que no forman parte del total de tecnología, y se abonan 30% de anticipo al encargarlo y 70% contra la entrega de los planos y la documentación.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Qué no incluye</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1045,11 +1062,11 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Opcional de cortinas</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La motorización de cortinas se cotiza como opcional: diez módulos en modo cortina, con su instalación y programación. Los motores los provee el proveedor de cortinas. La caja con alimentación junto a cada cortina conviene dejarla prevista igual, aunque el opcional no se contrate ahora.</p></div></article>
+      <div class="dev-body"><p>La motorización de cortinas se cotiza como opcional: diez módulos en modo cortina, con su instalación y programación. Los motores los provee el proveedor de cortinas. El proyecto ejecutivo deja prevista igual la caja con alimentación junto a cada cortina, aunque el opcional no se contrate ahora.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Proyecto aproximado y supuestos</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Este es un Proyecto de Tecnológica Integral aproximado, no un proyecto cerrado: surge de los planos de la obra y de lo conversado. Los efectos de luz, las zonas de losa radiante y la ubicación de aires, cámaras y gabinete se confirman en una visita técnica a la obra. Un efecto que pasa de encendido simple a regulable, o al revés, mueve el presupuesto del orden de U$D&nbsp;55 por punto, entre equipo, instalación y programación.</p></div></article>
+      <div class="dev-body"><p>Este es un Proyecto de Tecnológica Integral aproximado, no un proyecto cerrado: surge de los planos de la obra y de lo conversado. Los efectos de luz, las zonas de losa radiante y la ubicación de aires, cámaras y gabinete se confirman al hacer el proyecto ejecutivo, con una visita técnica. Un efecto que pasa de encendido simple a regulable, o al revés, mueve el presupuesto del orden de U$D&nbsp;55 por punto, entre equipo, instalación y programación.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cancelación de dispositivos y excedentes</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1057,7 +1074,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Visitas técnicas y logística</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Nova Domus lleva los equipos a la obra y coordina cada visita con la dirección de obra, según el avance. Si una visita no se puede completar porque falta lo previsto en obra (Etapa 0), la nueva visita se coordina cuando el electricista lo complete. Las visitas que se requieran por esa falta, por cambios en la instalación hechos por terceros o por cambios de alcance se cotizan aparte.</p></div></article>
+      <div class="dev-body"><p>Nova Domus lleva los equipos a la obra y coordina cada visita con la dirección de obra, según el avance. Si una visita no se puede completar porque falta algo de lo indicado en el proyecto ejecutivo (Etapa 0), la nueva visita se coordina cuando se complete. Las visitas que se requieran por esa falta, por cambios en la instalación hechos por terceros o por cambios de alcance se cotizan aparte.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Actualización, responsable de obra y certificación</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1065,7 +1082,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Facturación</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre programación e instalación (incluida la de las cerraduras) y sobre los honorarios del proyecto ejecutivo. Los equipos ya llevan su IVA discriminado por ítem, según la alícuota de cada producto.</p></div></article>
+      <div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre los honorarios de la Etapa 0 (proyecto ejecutivo) y sobre programación e instalación (incluida la de las cerraduras). Los equipos ya llevan su IVA discriminado por ítem, según la alícuota de cada producto.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Garantía y post-venta</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1121,17 +1138,21 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <section class="sec" id="faq" style="border-top:0">
   <p class="eyebrow">FAQ</p>
   <h2>Antes de que preguntes</h2>
-  <p class="lead">Las dudas más comunes sobre sumar tecnología a una casa en obra.</p>
+  <p class="lead">Las dudas más comunes sobre sumar tecnología a una casa que todavía está en proyecto.</p>
   <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
   <div class="devs">
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Por qué hay que definir cosas ahora, si la casa está en obra?</span>
+      <span class="dev-title">¿Por qué hay que definir todo ahora, si la obra todavía no empezó?</span>
       <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Porque lo que se deja previsto con las paredes abiertas casi no cuesta: un neutro más en cada caja, una caja junto a cada cortina, un cable de red a cada cámara y access point. Hacerlo con las paredes cerradas cuesta varias veces más, o directamente no se puede. La tecnología se instala al final, pero se decide ahora.</p></div></article>
+      <div class="dev-body"><p>Porque hoy está todo en el plano, y en el plano cambiar algo no cuesta nada: un neutro más en cada caja, una caja junto a cada cortina, un caño con cable de red a cada cámara y access point. Corregirlo durante la obra, o con las paredes ya cerradas, cuesta varias veces más, o directamente no se puede. La tecnología se instala al final, pero se decide ahora.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Tengo que encargar el proyecto ejecutivo para avanzar con la tecnología?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>No. Esta propuesta de tecnología se sostiene sola y la Previsión en obra le sirve al electricista desde hoy. El proyecto ejecutivo suma los planos definitivos de electricidad, iluminación y señales débiles, y es lo que nos permite cotizar también la obra eléctrica.</p></div></article>
+      <div class="dev-body"><p>No es obligatorio: la tecnología tiene su propio presupuesto. Pero te lo recomendamos como base, y por eso es la Etapa 0. La tecnología funciona bien solo si la obra deja lo que necesita —neutro en cada caja, llaves partidas, cajas y caños con cable de red—, y el proyecto ejecutivo es lo que deja todo eso definido en los planos, con las indicaciones para los electricistas. Es también lo que nos permite cotizar la obra eléctrica.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Pueden hacer ustedes la obra eléctrica?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí, y es lo que te proponemos. Sobre los planos del proyecto ejecutivo presupuestamos la obra eléctrica completa y la ejecutamos con nuestros electricistas matriculados: así hay un solo responsable, del cable a la app. Si preferís otro electricista, el ejecutivo le deja todas las indicaciones y nosotros verificamos que esté todo listo antes de instalar la tecnología.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Si se corta internet, deja de funcionar todo?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1163,7 +1184,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Puedo sumar las cortinas más adelante?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Sí, siempre que se deje prevista la caja con alimentación junto a cada cortina. Con eso, la motorización se suma después sin romper nada.</p></div></article>
+      <div class="dev-body"><p>Sí: el proyecto ejecutivo deja prevista la caja con alimentación junto a cada cortina. Con eso, la motorización se suma después sin romper nada.</p></div></article>
   </div>
 </section>
 </div></div>
@@ -1172,12 +1193,19 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <section class="cta">
   <p class="eyebrow">Próximo paso</p>
   <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
-  <p class="lead" style="margin:0 auto 8px">Con tu conformidad coordinamos la visita técnica a la
-    obra, le pasamos al electricista la Previsión en obra y compramos los equipos para tenerlos
-    cuando la obra esté lista.</p>
+  <p class="lead" style="margin:0 auto 8px">Con tu conformidad avanzamos con la tecnología: los
+    equipos los compramos para tenerlos cuando la obra esté lista. Te recomendamos arrancar por la
+    Etapa 0: si la encargás, coordinamos la visita técnica y hacemos el proyecto ejecutivo con todas
+    las indicaciones para los electricistas. Y, si querés, sobre esos planos te cotizamos la obra
+    eléctrica completa para hacerla nosotros.</p>
   <div class="chk" style="max-width:520px;margin:22px auto 0;text-align:left">
     <input type="checkbox" id="ej-cta" onchange="render()">
-    <label for="ej-cta">También quiero encargar el <b>proyecto ejecutivo</b>.</label>
+    <label for="ej-cta">Quiero encargar la <b>Etapa 0 — proyecto ejecutivo</b>.</label>
+  </div>
+  <div class="chk" style="max-width:520px;margin:12px auto 0;text-align:left">
+    <input type="checkbox" id="oe-cta" onchange="render()">
+    <label for="oe-cta">Quiero que me coticen también la <b>obra eléctrica completa</b> sobre los
+      planos del ejecutivo.</label>
   </div>
   <div class="chk" style="max-width:520px;margin:12px auto 22px;text-align:left">
     <input type="checkbox" id="ok" onchange="conf()">
@@ -1221,17 +1249,17 @@ function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
 //CALC-START
 function calc(opt,fa){
   var s=S[opt?1:0], faIva=fa?s.fa_iva:0, e=EJ[fa?1:0], e0=EJ[0];
+  // Etapa 0 (proyecto ejecutivo), primero: etapas sin IVA (se suman con la fila de IVA al total, como en tecnologia); st[4] = monto con IVA, solo como nota
+  var ej=[
+    ['Proyecto ejecutivo — 30% de anticipo','Al encargarlo.',e0.a30,'',fa?e.a30:0],
+    ['Proyecto ejecutivo — 70% contra entrega','Contra la entrega de los planos y la documentación.',e0.s70,'',fa?e.s70:0]
+  ];
+  // Tecnologia
   var stages=[
-    ['Etapa 0 — Previsión en obra','La ejecuta el electricista de la obra con nuestra indicación, antes de cerrar paredes.',0,'Sin costo en esta propuesta'],
     ['Equipos — 100%','Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.',s.eq,''],
     ['Programación — 60% al inicio','Al arrancar la programación del sistema.',s.p60,''],
     ['Programación — 40% a la entrega','Comisionado: contra la entrega final documentada.',s.p40,''],
     ['Instalación por punto (incluye las cerraduras)','Se certifica según el avance real del trabajo, con certificación semanal.',s.mo,'Monto de referencia — se certifica por avance']
-  ];
-  var ej=[
-    // etapas sin IVA (se suman con la fila de IVA al total, como en tecnologia); st[4] = monto con IVA, solo como nota
-    ['Proyecto ejecutivo — 30% de anticipo','Al encargarlo.',e0.a30,'',fa?e.a30:0],
-    ['Proyecto ejecutivo — 70% contra entrega','Contra la entrega de los planos y la documentación.',e0.s70,'',fa?e.s70:0]
   ];
   var grand=s.tot+faIva;
   return {s:s,stages:stages,faIva:faIva,grand:grand,ej:ej,ejTot:e.hon,ejIva:e.hon-EJ[0].hon,grandAll:grand+e.hon};
@@ -1355,22 +1383,24 @@ function render(){
   document.getElementById('t-prog').textContent=fmt(s.prog);
   document.getElementById('t-tot').textContent=fmt(s.tot);
   document.getElementById('opt-add').textContent=(opt?'Sumado: + ':'Suma + ')+fmt(OPT.tot)+' al total';
-  document.getElementById('pay').innerHTML=r.stages.map(stageHtml).join('');
-  document.getElementById('pay-iva-row').style.display=fa?'flex':'none';
-  document.getElementById('fa-val').textContent=fmt(r.faIva);
-  document.getElementById('gt').textContent=fmt(r.grand);
   document.getElementById('pay-ej').innerHTML=r.ej.map(stageHtml).join('');
   document.getElementById('pay-iva-ej-row').style.display=fa?'flex':'none';
   document.getElementById('fa-ej-val').textContent=fmt(r.ejIva);
   document.getElementById('gt-ej').textContent=fmt(r.ejTot);
+  document.getElementById('pay').innerHTML=r.stages.map(stageHtml).join('');
+  document.getElementById('pay-iva-row').style.display=fa?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(r.faIva);
+  document.getElementById('gt').textContent=fmt(r.grand);
   document.getElementById('gt-all').textContent=fmt(r.grandAll);
-  var ej=document.getElementById('ej-cta').checked;
-  var t='Hola Nova Domus, revisé la propuesta '+PY+' de la vivienda Cardoni – Sisca'
-    +(opt?' con la motorización de cortinas':'')+' por '+fmt(r.grand)+(fa?' con Factura A':'')
-    +(ej?', y quiero encargar también el proyecto ejecutivo ('+fmt(r.ejTot)+'). Quiero avanzar.':' y quiero avanzar.');
+  var ej=document.getElementById('ej-cta').checked, oe=document.getElementById('oe-cta').checked;
+  var t='Hola Nova Domus, revisé la propuesta '+PY+' de la vivienda Cardoni – Sisca.'
+    +(ej?' Quiero encargar la Etapa 0, el proyecto ejecutivo ('+fmt(r.ejTot)+').':'')
+    +' Tecnología'+(opt?' con la motorización de cortinas':'')+': '+fmt(r.grand)+(fa?' con Factura A':'')+'.'
+    +(oe?' Quiero que me coticen también la obra eléctrica completa.':'')
+    +' Quiero avanzar.';
   document.getElementById('go').href='https://wa.me/5493516747513?text='+encodeURIComponent(t);
 }
-// Cifras sueltas del texto (Resumen, Proyecto ejecutivo): se pintan desde los mismos datos.
+// Cifras sueltas del texto (Resumen, Etapa 0, Inversión): se pintan desde los mismos datos.
 function renderVals(){
   var V={tot:S[0].tot,opt:OPT.tot,opt_eq:OPT.eq,ej:EJ[0].hon,ej30:EJ[0].a30,ej70:EJ[0].s70,ejfa:EJ[1].hon};
   document.querySelectorAll('[data-v]').forEach(function(el){
