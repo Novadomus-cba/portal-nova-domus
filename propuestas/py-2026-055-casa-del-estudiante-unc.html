@@ -509,10 +509,12 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 .mat{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:16px}
 .mat div{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 20px}
 .mat h3{color:var(--gold)} .mat ul{margin:8px 0 0;padding-left:20px} .mat li{margin:6px 0}
+.mat1{grid-template-columns:1fr}
 .mat .tagop{display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;border:1px solid rgba(200,169,110,.5);color:var(--gold);border-radius:999px;padding:3px 10px;margin-bottom:10px}
 @media(max-width:640px){.opts2,.inout,.mat{grid-template-columns:1fr}.inout div,.mat div{padding:16px}
   .mtx{font-size:13.5px}.mtx th,.mtx td{padding:9px 8px}}
-@media print{.mtx td.num,.mat h3,.mat .tagop{color:#141E61!important}.mtx td small,.mtx th{color:#5d6078!important}
+@media print{.mtx td.num,.mat h3,.mat1{grid-template-columns:1fr}
+.mat .tagop{color:#141E61!important}.mtx td small,.mtx th{color:#5d6078!important}
   .selg,.optc{display:none!important}.rub.off{display:none}}
 </style></head><body>
 
@@ -533,7 +535,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <p class="tagline">Del cable a la app</p>
     <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para el monitoreo por
       cámaras de la Casa del Estudiante de la Universidad Nacional de Córdoba: cinco cámaras
-      conectadas a un grabador, en dos cotizaciones y dos opciones de cableado.</p>
+      conectadas a un grabador, en dos cotizaciones y dos opciones para la cañería.</p>
     <div class="meta">
       <span>Universidad Nacional de Córdoba</span><span>Videovigilancia</span>
       <span>5 cámaras</span><span>Instalación física</span>
@@ -574,16 +576,17 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     grabador del pliego, y que el Centro de Imágenes de la universidad pueda ver y grabar todo.</p>
   <p><b>Qué proponemos.</b> Instalar el sistema completo: el cableado de las cinco cámaras hasta el
     grabador, las cámaras y el grabador, con cada cámara conectada a su puerto PoE. Dos cotizaciones
-    —<b>A</b>, solo la instalación, y <b>B</b>, la instalación más los equipos— y dos formas de
-    cablear, que se eligen una u otra: <b>Opción 1</b>, con caño semirrígido nuevo, y <b>Opción
-    2</b>, por la cañería que ya existe.</p>
+    —<b>A</b>, solo la instalación, y <b>B</b>, la instalación más los equipos—. El cable va siempre
+    dentro de caño semirrígido, y hay dos lugares para el caño, que se eligen uno u otro:
+    <b>cañería oculta</b>, por encima del cielorraso, y <b>cañería a la vista</b>, fijada a la placa
+    del cielorraso, más económica.</p>
   <p><b>Lo que queda a cargo del área de Sistemas de la UNC:</b> la configuración del grabador y del
     software de la PC del Centro de Imágenes, la conexión por fibra, el rack y la UPS.</p>
   <p><b>Inversión.</b> Todos los valores con IVA incluido:</p>
-  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Opción 1 · caño semirrígido</th><th>Opción 2 · cañería existente</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 683</td><td class="num">U$D 384</td></tr><tr><td>Cotización B<small>Instalación + equipos, disco 4TB</small></td><td class="num">U$D 1.999</td><td class="num">U$D 1.700</td></tr><tr><td>Cotización B<small>con disco 6TB</small></td><td class="num">U$D 2.105</td><td class="num">U$D 1.806</td></tr></tbody></table></div>
+  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 1.115</td><td class="num">U$D 841</td></tr><tr><td>Cotización B<small>Instalación + equipos, disco 4TB</small></td><td class="num">U$D 2.431</td><td class="num">U$D 2.157</td></tr><tr><td>Cotización B<small>con disco 6TB</small></td><td class="num">U$D 2.537</td><td class="num">U$D 2.263</td></tr></tbody></table></div>
   <p class="note">Los materiales de cableado (caño, cable, fichas, cajas) los compra la UNC: están
-    listados en la sección Cableado, según la opción elegida.</p>
-  <p><b>Próximo paso.</b> Elegir la cotización y la opción de cableado en la sección Inversión, y
+    listados en la sección Cableado.</p>
+  <p><b>Próximo paso.</b> Elegir la cotización y dónde va la cañería en la sección Inversión, y
     coordinar la visita técnica para confirmar los recorridos.</p>
 </section>
 </div>
@@ -598,8 +601,8 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <div>
       <h3>Hace Nova Domus</h3>
       <ul>
-        <li>Canalización y tendido del cable de las cinco cámaras hasta el grabador, según la opción
-          elegida.</li>
+        <li>Canalización con caño semirrígido —oculta o a la vista, según la opción elegida— y tendido
+          del cable de las cinco cámaras hasta el grabador.</li>
         <li>Instalación de las cinco cámaras, con su orientación inicial según el plano.</li>
         <li>Instalación del grabador y de su disco, <b>sin cargo</b>.</li>
         <li>Conexión física de cada cámara a su puerto PoE del grabador, con cada cable etiquetado.</li>
@@ -671,44 +674,43 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <section class="sec" id="s02">
   <p class="eyebrow">02 — Sistema</p>
   <h2>Cableado</h2>
-  <p class="lead">Dos formas de llevar el cable de cada cámara hasta el grabador. Se elige una u
-    otra: no se suman. En las dos, los materiales los compra la UNC y Nova Domus los instala.</p>
+  <p class="lead">El cable de cada cámara va siempre dentro de caño semirrígido hasta el grabador.
+    Lo que se elige es dónde va el caño: una opción u otra, no se suman. En las dos, los materiales
+    los compra la UNC y Nova Domus los instala.</p>
   <div class="mat">
     <div>
-      <span class="tagop">Opción 1</span>
-      <h3>Canalización semirrígida</h3>
-      <p>Caño semirrígido nuevo fijado sobre o bajo el cielorraso, con el cable adentro. Sobre el
-        cielorraso hay lana de vidrio suelta: el caño deja el trabajo prolijo, protegido y fácil de
-        revisar. Por eso descartamos el cable suelto sin caño.</p>
-      <p style="margin-bottom:4px"><b>Materiales que compra la UNC:</b></p>
+      <span class="tagop">Más laboriosa</span>
+      <h3>Cañería oculta</h3>
+      <p>El caño va por encima del cielorraso suspendido, entre la lana de vidrio aislante y la
+        estructura de soleras y montantes. No se ve desde el ambiente. Trabajar entre la aislación y
+        la estructura lleva más tiempo, por eso cuesta más.</p>
+      <p style="margin:0"><b>Fijación:</b> a las soleras y montantes, con grampas o precintos.</p>
+    </div>
+    <div>
+      <span class="tagop">Más económica</span>
+      <h3>Cañería a la vista</h3>
+      <p>El caño se fija con grampas a la placa del cielorraso suspendido, por debajo. Es más rápida
+        de ejecutar y queda prolija, a la vista.</p>
+      <p style="margin:0"><b>Fijación:</b> anclajes para placa de cielorraso (tipo mariposa), no
+        tarugos comunes. Recomendamos caño blanco, para que se integre al cielorraso.</p>
+    </div>
+  </div>
+  <div class="mat mat1">
+    <div>
+      <h3>Materiales que compra la UNC — la misma lista para las dos opciones</h3>
       <ul>
         <li>Caño semirrígido, unos 135 m: de 3/4" en las bajadas y de 1" en los tramos que
           comparten varios cables.</li>
-        <li>Unas 150 grampas, con tarugos y tornillos.</li>
+        <li>Unas 150 grampas.</li>
         <li>10 a 12 cajas de paso, curvas y conectores caño-caja.</li>
         <li>Cable UTP Cat6 de interior, caja de 305 m, y unos 15 m de UTP Cat6 de exterior para la
           tirada de la cámara C.</li>
         <li>Fichas RJ45 Cat6.</li>
         <li>Caja estanca para la conexión de la cámara C.</li>
       </ul>
-    </div>
-    <div>
-      <span class="tagop">Opción 2</span>
-      <h3>Cable por la cañería existente</h3>
-      <p>El cable de red va por la cañería que ya tiene el edificio, sin caño nuevo. Es más económica
-        y supone que esa cañería llega libre y continua desde cada cámara hasta el grabador: lo
-        confirmamos en la visita técnica.</p>
-      <p style="margin-bottom:4px"><b>Materiales que compra la UNC:</b></p>
-      <ul>
-        <li>Cable UTP Cat6 de interior, caja de 305 m, y unos 15 m de UTP Cat6 de exterior para la
-          tirada de la cámara C.</li>
-        <li>Fichas RJ45 Cat6.</li>
-        <li>Caja estanca para la conexión de la cámara C.</li>
-      </ul>
+      <p class="note" id="fij" style="margin-top:14px"></p>
     </div>
   </div>
-  <p class="note">Si en la Opción 2 algún tramo de la cañería está obstruido o no llega, se informa
-    antes de seguir y ese tramo se resuelve como en la Opción 1, cotizado aparte.</p>
 </section>
 </div>
 
@@ -717,7 +719,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <section class="sec" id="inversion" style="border-top:0">
   <p class="eyebrow">03 — Inversión</p>
   <h2>Detalle de la inversión</h2>
-  <p class="lead">Elegí la cotización y la opción de cableado: el detalle y los totales se
+  <p class="lead">Elegí la cotización y dónde va la cañería: el detalle y los totales se
     recalculan. Los equipos llevan su IVA incluido, según la alícuota real de cada producto; la
     instalación se cotiza más IVA 21%.</p>
   <div class="selg"><p>Cotización</p>
@@ -729,14 +731,14 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
         <span><b>B — Instalación + equipos</b><span>Nova Domus provee las cinco cámaras, el grabador y el disco.</span>
         <span class="add" id="add-B"></span></span></label>
     </div></div>
-  <div class="selg"><p>Cableado — una u otra</p>
+  <div class="selg"><p>Cañería — una u otra</p>
     <div class="opts2">
-      <label class="optc" id="oc-1"><input type="radio" name="op" value="1" checked onchange="render()">
-        <span><b>Opción 1 — Canalización semirrígida</b><span>Caño nuevo sobre o bajo el cielorraso.</span>
-        <span class="add" id="add-1"></span></span></label>
-      <label class="optc" id="oc-2"><input type="radio" name="op" value="2" onchange="render()">
-        <span><b>Opción 2 — Cañería existente</b><span>Cable de red por la cañería que ya existe.</span>
-        <span class="add" id="add-2"></span></span></label>
+      <label class="optc" id="oc-O"><input type="radio" name="op" value="O" checked onchange="render()">
+        <span><b>Cañería oculta</b><span>Por encima del cielorraso, entre la lana de vidrio y la estructura. Más laboriosa.</span>
+        <span class="add" id="add-O"></span></span></label>
+      <label class="optc" id="oc-V"><input type="radio" name="op" value="V" onchange="render()">
+        <span><b>Cañería a la vista</b><span>Fijada con grampas a la placa del cielorraso. Más económica.</span>
+        <span class="add" id="add-V"></span></span></label>
     </div></div>
   <div class="selg"><p>Disco</p>
     <div class="opts2">
@@ -825,19 +827,19 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Materiales de cableado a cargo de la UNC</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>En las dos cotizaciones, los materiales de cableado los compra la UNC, según la lista de la opción elegida (sección Cableado), y tienen que estar en obra antes de empezar. Las cantidades son estimadas y se confirman en la visita técnica; si hace falta, asesoramos en la compra.</p></div></article>
+      <div class="dev-body"><p>En las dos cotizaciones, los materiales de cableado los compra la UNC, según la lista de la sección Cableado —la misma para las dos opciones de cañería, salvo la fijación—, y tienen que estar en obra antes de empezar. Las cantidades son estimadas y se confirman en la visita técnica; si hace falta, asesoramos en la compra.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Recorridos y metros</span>
       <span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>Se cotizan 120 m de cable, estimados sobre el plano del pliego, que no tiene cotas. Se confirman en la visita técnica. Si el recorrido real necesitara más, el excedente se cotiza al mismo valor por metro y se aprueba antes de ejecutarlo.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Opción 1: canalización semirrígida</span>
+      <span class="dev-title">Cañería oculta</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>El caño se fija sobre o bajo el cielorraso, según lo que permita cada tramo. Sobre el cielorraso hay lana de vidrio suelta: se trabaja con el caño para no dejar cable suelto en el aislante. Hace falta poder acceder al entretecho por placas desmontables o tapas de inspección.</p></div></article>
+      <div class="dev-body"><p>El caño semirrígido va por encima del cielorraso suspendido, entre la lana de vidrio aislante y la estructura de soleras y montantes, fijado a esa estructura con grampas o precintos. Hace falta poder acceder al entretecho, por placas desmontables o tapas de inspección. Es la opción más laboriosa, por eso cuesta más.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">Opción 2: cañería existente</span>
+      <span class="dev-title">Cañería a la vista</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Supone que la cañería existente llega libre y continua desde cada cámara hasta el grabador, con lugar para el cable nuevo. Si algún tramo está obstruido o no existe, se informa antes de seguir y se resuelve como en la Opción 1, cotizado aparte.</p></div></article>
+      <div class="dev-body"><p>El caño semirrígido se fija con grampas a la placa del cielorraso suspendido, con anclajes para placa (tipo mariposa), no tarugos comunes. Recomendamos caño blanco, para que se integre al cielorraso. Es la opción más económica.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Forma de pago</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -865,7 +867,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Proyecto aproximado</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Este es un proyecto aproximado: surge del plano del pliego, con supuestos sobre los recorridos y la cañería que se confirman en la visita técnica antes de empezar.</p></div></article>
+      <div class="dev-body"><p>Este es un proyecto aproximado: surge del plano del pliego, con supuestos sobre los recorridos y el cielorraso que se confirman en la visita técnica antes de empezar.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Visitas técnicas</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -890,10 +892,10 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     Sistemas de la UNC, que conoce su red y el Centro de Imágenes: le entregamos todo conectado,
     etiquetado y documentado, para que configure sobre una base prolija.</p>
   <div class="flow">
-    <div class="step"><b>01</b><span>Visita técnica — confirmar recorridos, cielorraso y, en la
-      Opción 2, la cañería existente</span></div>
-    <div class="step"><b>02</b><span>Canalización y cableado — las cinco tiradas hasta el
-      grabador</span></div>
+    <div class="step"><b>01</b><span>Visita técnica — confirmar recorridos, el cielorraso y la
+      estructura que lo sostiene</span></div>
+    <div class="step"><b>02</b><span>Canalización y cableado — caño semirrígido oculto o a la
+      vista, y las cinco tiradas de cable hasta el grabador</span></div>
     <div class="step"><b>03</b><span>Montaje — cinco cámaras, el grabador y su disco</span></div>
     <div class="step"><b>04</b><span>Conexión — cada cámara a su puerto PoE, con alimentación y
       enlace verificados y cada cable etiquetado</span></div>
@@ -963,9 +965,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       <span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>En el pliego las B figuran con el mismo modelo que la A, pero se describen como 2MP, sin audio y sin detección. Cotizamos el domo que corresponde a esa descripción, que además es más económico.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Qué opción de cableado conviene?</span>
+      <span class="dev-title">¿Cañería oculta o a la vista?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La Opción 2 es más económica, pero depende de que la cañería existente llegue libre hasta el grabador. La Opción 1 no depende de lo que ya hay: el caño nuevo deja el cable protegido y ordenado. En la visita técnica revisamos la cañería y les decimos si la Opción 2 es viable.</p></div></article>
+      <div class="dev-body"><p>En las dos el cable va dentro de caño semirrígido, protegido y ordenado. La oculta no se ve: el caño va por encima del cielorraso, y por eso es más laboriosa y cuesta más. La cañería a la vista se fija a la placa del cielorraso: es más económica y, con caño blanco, se integra bastante. Es sobre todo una decisión estética.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Cuántos días graba el disco?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1018,9 +1020,11 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <script>
 var PY='PY-2026-055';
 var ITEMS=[{"n":"Cámara A — Hikvision DS-2CD1347G3-LIUF/SRB · turret 4MP AcuSense con audio","q":1,"precio":241,"iva":21,"d":null},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1321G0-I · domo 2MP interior","q":3,"precio":64,"iva":21,"d":null},{"n":"Cámara C — Hikvision DS-2CD1043G2-LIUF · bullet 4MP exterior","q":1,"precio":141,"iva":21,"d":null},{"n":"Grabador D — Hikvision DS-7608NI-Q1/8P · NVR 8 canales PoE","q":1,"precio":409,"iva":21,"d":null},{"n":"Disco Seagate SkyHawk 4TB ST4000VX016 · línea videovigilancia","q":1,"precio":333,"iva":10.5,"d":4},{"n":"Disco Seagate SkyHawk 6TB ST6000VX009 · línea videovigilancia","q":1,"precio":439,"iva":10.5,"d":6}];
-// Escenarios pre-resueltos (Python): A1/A2 = Cotizacion A por opcion; B{opcion}{disco}.
-var S={"A1":{"eq":0,"iva":0,"neto":0,"cab":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":683},"B14":{"eq":1316,"iva":203,"neto":1113,"cab":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1999},"B16":{"eq":1422,"iva":213,"neto":1209,"cab":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":2105},"A2":{"eq":0,"iva":0,"neto":0,"cab":131,"cam":186,"mo":317,"moiva":67,"motot":384,"tot":384},"B24":{"eq":1316,"iva":203,"neto":1113,"cab":131,"cam":186,"mo":317,"moiva":67,"motot":384,"tot":1700},"B26":{"eq":1422,"iva":213,"neto":1209,"cab":131,"cam":186,"mo":317,"moiva":67,"motot":384,"tot":1806}};
+// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{disco}.
+var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"utp":131,"cam":186,"mo":921,"moiva":194,"motot":1115,"tot":1115},"BO4":{"eq":1316,"iva":203,"neto":1113,"can":604,"utp":131,"cam":186,"mo":921,"moiva":194,"motot":1115,"tot":2431},"BO6":{"eq":1422,"iva":213,"neto":1209,"can":604,"utp":131,"cam":186,"mo":921,"moiva":194,"motot":1115,"tot":2537},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"utp":131,"cam":186,"mo":695,"moiva":146,"motot":841,"tot":841},"BV4":{"eq":1316,"iva":203,"neto":1113,"can":378,"utp":131,"cam":186,"mo":695,"moiva":146,"motot":841,"tot":2157},"BV6":{"eq":1422,"iva":213,"neto":1209,"can":378,"utp":131,"cam":186,"mo":695,"moiva":146,"motot":841,"tot":2263}};
 var DEVICES=[{"n":"Cámara A — turret 4MP AcuSense","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1347g3-liuf-srb.png","desc":"Para la sala principal. Detecta personas (las distingue de otros movimientos), ve a color de noche y tiene audio incorporado. El pliego pide audio de dos vías: lo confirmamos con el distribuidor, junto con el stock, antes de la compra. Reemplaza a la DS-2CD2443G0-IW del pliego, que Hikvision discontinuó."},{"n":"Cámaras B1, B2 y B3 — domo 2MP interior","q":3,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1321g0-i.png","desc":"Domo compacto de 2MP con visión nocturna, sin audio, como describe el pliego para las tres cámaras interiores. La B2 se reorienta hacia adentro del edificio: en el plano del pliego miraba hacia afuera."},{"n":"Cámara C — bullet 4MP exterior","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1043g2-liuf.png","desc":"El modelo del pliego. Vigila el acceso exterior por la escalera y la puerta de entrada, con luz híbrida para ver de noche y micrófono incorporado. Su conexión va en caja estanca."},{"n":"Grabador D — NVR de 8 canales PoE","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7608NI-Q1/8P.png","desc":"El modelo del pliego. Las cinco cámaras se conectan directo a sus puertos PoE, que les dan datos y alimentación por el mismo cable: no hacen falta fuentes junto a cada cámara. Quedan tres canales libres para sumar cámaras."},{"n":"Disco Seagate SkyHawk — 4TB o 6TB","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png","desc":"Disco de línea videovigilancia, pensado para grabar las 24 horas. El pliego pide 6TB: lo ofrecemos como alternativa, con el de 4TB como base más económica."}];
+var FIJ={O:'<b>Fijación de la cañería oculta:</b> a las soleras y montantes del cielorraso, con grampas o precintos.',
+         V:'<b>Fijación de la cañería a la vista:</b> anclajes para placa de cielorraso (tipo mariposa), no tarugos comunes. Caño blanco recomendado.'};
 function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
 //CALC-START
 function key(cot,op,d6){return cot==='A'?'A'+op:'B'+op+(d6?'6':'4');}
@@ -1082,10 +1086,11 @@ function renderInv(c,r){
   document.getElementById('rv-eq').textContent=B?fmt(eqSum):'No incluido';
   document.getElementById('eq-note').textContent=B?'IVA incluido por ítem':'En la Cotización A los provee la UNC';
   if(B && eqSum!==s.eq && window.console) console.warn('Equipos no cierran contra S');
-  var opTxt=c.op==='1'?'Canalización semirrígida y tendido de cable — 120 m en 5 tiradas (Opción 1)'
-                      :'Tendido de cable por la cañería existente — 120 m en 5 tiradas (Opción 2)';
+  var opTxt=c.op==='O'?'Canalización con caño semirrígido oculto, por encima del cielorraso — 120 m'
+                      :'Canalización con caño semirrígido a la vista, fijado a la placa del cielorraso — 120 m';
   document.getElementById('rb-mo').innerHTML=
-     '<tr><td>'+opTxt+'</td><td class="num">'+fmt(s.cab)+'</td></tr>'
+     '<tr><td>'+opTxt+'</td><td class="num">'+fmt(s.can)+'</td></tr>'
+    +'<tr><td>Tendido del cable UTP dentro del caño — 120 m en 5 tiradas</td><td class="num">'+fmt(s.utp)+'</td></tr>'
     +'<tr><td>Instalación de las 5 cámaras</td><td class="num">'+fmt(s.cam)+'</td></tr>'
     +'<tr><td>Instalación del grabador y su disco, y conexión de cada cámara a su puerto PoE</td><td class="num">Sin cargo</td></tr>';
   document.getElementById('rv-mo').textContent=fmt(s.mo)+' + IVA';
@@ -1111,14 +1116,15 @@ function stageHtml(st){
 function render(){
   var c=sel(), r=calc(c.cot,c.op,c.d6), d6=document.getElementById('d6');
   d6.disabled=c.cot==='A';
-  ['A','B','1','2'].forEach(function(k){
+  ['A','B','O','V'].forEach(function(k){
     document.getElementById('oc-'+k).classList.toggle('on',document.querySelector('#oc-'+k+' input').checked);});
   document.getElementById('oc-d6').classList.toggle('on',c.d6&&c.cot==='B');
   document.getElementById('oc-d6').classList.toggle('dis',c.cot==='A');
   document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,false).grand);
   document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.d6).grand);
-  document.getElementById('add-1').textContent='Total '+fmt(calc(c.cot,'1',c.d6).grand);
-  document.getElementById('add-2').textContent='Total '+fmt(calc(c.cot,'2',c.d6).grand);
+  document.getElementById('add-O').textContent='Total '+fmt(calc(c.cot,'O',c.d6).grand);
+  document.getElementById('add-V').textContent='Total '+fmt(calc(c.cot,'V',c.d6).grand);
+  document.getElementById('fij').innerHTML=FIJ[c.op];
   document.getElementById('add-d6').textContent=c.cot==='A'?'Solo en la Cotización B'
     :(c.d6?'Sumado: + ':'Suma + ')+fmt(S['B'+c.op+'6'].eq-S['B'+c.op+'4'].eq);
   renderInv(c,r);
@@ -1126,7 +1132,7 @@ function render(){
   document.getElementById('pay-iva').textContent=fmt(r.iva);
   document.getElementById('gt').textContent=fmt(r.grand);
   var desc='Cotización '+c.cot+(c.cot==='A'?' (solo instalación)':' (instalación + equipos)')
-    +', Opción '+c.op+(c.op==='1'?' (canalización semirrígida)':' (cañería existente)')
+    +', cañería '+(c.op==='O'?'oculta':'a la vista')
     +(c.cot==='B'?', disco de '+(c.d6?'6':'4')+'TB':'');
   document.getElementById('cta-sel').innerHTML='Elegido: <b>'+desc+'</b> · '+fmt(r.grand)+' con IVA';
   var t='Hola Nova Domus, revisamos la propuesta '+PY+' de la Casa del Estudiante (UNC). '
