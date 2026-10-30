@@ -4,7 +4,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nova Domus">
 <meta property="og:title" content="Casa del Estudiante (UNC) — Proyecto de Tecnológica Integral">
-<meta property="og:description" content="Videovigilancia: cinco cámaras conectadas a un grabador, en dos cotizaciones y dos opciones de cableado. PY-2026-055 · Nova Domus.">
+<meta property="og:description" content="Videovigilancia: cinco cámaras conectadas a un grabador, en dos cotizaciones y dos opciones para la cañería. PY-2026-055 · Nova Domus.">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-055-casa-del-estudiante-unc.html">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-055-casa-del-estudiante-unc.png">
 <meta property="og:image:width" content="1200">
@@ -512,7 +512,11 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 .mat1{grid-template-columns:1fr}
 .mat .tagop{display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;border:1px solid rgba(200,169,110,.5);color:var(--gold);border-radius:999px;padding:3px 10px;margin-bottom:10px}
 @media(max-width:640px){.opts2,.inout,.mat{grid-template-columns:1fr}.inout div,.mat div{padding:16px}
-  .mtx{font-size:13.5px}.mtx th,.mtx td{padding:9px 8px}}
+  .mtx{font-size:13.5px}.mtx th,.mtx td{padding:9px 8px}
+  /* tabla "¿Por que cañeria?" en seccion oscura: tarjetas oscuras, nunca dorado sobre blanco */
+  #s02 .tbl tr{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14)}
+  #s02 .tbl td:first-child,#s02 .tbl td[data-label]::before{color:var(--cream)}
+  #s02 .tbl td[data-label="Cañería semirrígida"]{font-weight:600}}
 @media print{.mtx td.num,.mat h3,.mat1{grid-template-columns:1fr}
 .mat .tagop{color:#141E61!important}.mtx td small,.mtx th{color:#5d6078!important}
   .selg,.optc{display:none!important}.rub.off{display:none}}
@@ -564,7 +568,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p class="lead">Lo esencial, si no querés leer el resto.</p>
   <div class="kpis">
     <div class="kpi"><span class="figure" data-n="5">5</span>
-      <small>cámaras: una 4MP AcuSense, tres domos interiores y una exterior</small></div>
+      <small>cámaras: una turret 4MP con audio, tres domos interiores y una exterior</small></div>
     <div class="kpi"><span class="figure" data-n="8">8</span>
       <small>canales PoE en el grabador: quedan tres libres para crecer</small></div>
     <div class="kpi"><span class="figure" data-n="120">120</span>
@@ -574,16 +578,21 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   </div>
   <p><b>Qué pide el proyecto.</b> Monitorear la Casa del Estudiante con las cinco cámaras y el
     grabador del pliego, y que el Centro de Imágenes de la universidad pueda ver y grabar todo.</p>
-  <p><b>Qué proponemos.</b> Instalar el sistema completo: el cableado de las cinco cámaras hasta el
-    grabador, las cámaras y el grabador, con cada cámara conectada a su puerto PoE. Dos cotizaciones
-    —<b>A</b>, solo la instalación, y <b>B</b>, la instalación más los equipos—. El cable va siempre
+  <p><b>Qué proponemos.</b> Instalar las cinco cámaras y la cañería con el cableado hasta el
+    grabador, con cada cámara conectada a su puerto PoE. Dos cotizaciones —<b>A</b>, solo la
+    instalación, y <b>B</b>, la instalación más los equipos, según pliego o en una opción
+    económica—. El cable va siempre
     dentro de caño semirrígido, y hay dos lugares para el caño, que se eligen uno u otro:
     <b>cañería oculta</b>, por encima del cielorraso, y <b>cañería a la vista</b>, fijada a la placa
     del cielorraso, más económica.</p>
-  <p><b>Lo que queda a cargo del área de Sistemas de la UNC:</b> la configuración del grabador y del
-    software de la PC del Centro de Imágenes, la conexión por fibra, el rack y la UPS.</p>
+  <p><b>La instalación, en dos partes.</b> Instalar las cinco cámaras cuesta U$D 186 + IVA, sea
+    cual sea la opción. Lo que cambia es la cañería con el tendido del cable: U$D 604 + IVA oculta, o
+    U$D 378 + IVA a la vista.</p>
+  <p><b>Lo que queda a cargo del área de Sistemas de la UNC:</b> la instalación del grabador en el
+    rack, la configuración del grabador y del software de la PC del Centro de Imágenes, la conexión
+    por fibra, el rack y la UPS.</p>
   <p><b>Inversión.</b> Todos los valores con IVA incluido:</p>
-  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 1.115</td><td class="num">U$D 841</td></tr><tr><td>Cotización B<small>Instalación + equipos, disco 4TB</small></td><td class="num">U$D 2.431</td><td class="num">U$D 2.157</td></tr><tr><td>Cotización B<small>con disco 6TB</small></td><td class="num">U$D 2.537</td><td class="num">U$D 2.263</td></tr></tbody></table></div>
+  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 956</td><td class="num">U$D 683</td></tr><tr><td>Cotización B — según pliego<small>Instalación + equipos</small></td><td class="num">U$D 2.259</td><td class="num">U$D 1.986</td></tr><tr><td>Cotización B — opción económica<small>Instalación + equipos</small></td><td class="num">U$D 2.149</td><td class="num">U$D 1.876</td></tr></tbody></table></div>
   <p class="note">Los materiales de cableado (caño, cable, fichas, cajas) los compra la UNC: están
     listados en la sección Cableado.</p>
   <p><b>Próximo paso.</b> Elegir la cotización y dónde va la cañería en la sección Inversión, y
@@ -596,15 +605,16 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p class="eyebrow">Alcance</p>
   <h2>Qué hacemos y qué no</h2>
   <p class="lead">El pliego menciona la configuración del sistema. Esta propuesta cubre la
-    instalación física; la configuración queda a cargo del área de Sistemas de la UNC.</p>
+    instalación física de las cámaras y la cañería; el grabador en el rack y la configuración quedan
+    a cargo del área de Sistemas de la UNC.</p>
   <div class="inout">
     <div>
       <h3>Hace Nova Domus</h3>
       <ul>
-        <li>Canalización con caño semirrígido —oculta o a la vista, según la opción elegida— y tendido
-          del cable de las cinco cámaras hasta el grabador.</li>
-        <li>Instalación de las cinco cámaras, con su orientación inicial según el plano.</li>
-        <li>Instalación del grabador y de su disco, <b>sin cargo</b>.</li>
+        <li>Canalización con caño semirrígido —oculta o a la vista, según la opción elegida— con el
+          tendido del cable de las cinco cámaras hasta el grabador.</li>
+        <li>Instalación de las cinco cámaras, con sus fichas RJ45 y su orientación inicial según el
+          plano.</li>
         <li>Conexión física de cada cámara a su puerto PoE del grabador, con cada cable etiquetado.</li>
         <li>Plano con los recorridos reales al terminar.</li>
       </ul>
@@ -612,6 +622,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <div class="no">
       <h3>No incluye — a cargo de Sistemas de la UNC</h3>
       <ul>
+        <li><b>Instalación del grabador en el rack.</b></li>
         <li><b>Configuración del grabador</b>: usuarios, grabación, detección, red.</li>
         <li><b>Configuración del software en la PC del Centro de Imágenes.</b></li>
         <li>Conexión por fibra entre el edificio y el Centro de Imágenes.</li>
@@ -656,14 +667,15 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p class="eyebrow">01 — Sistema</p>
   <h2>Cámaras y grabador</h2>
   <p class="lead">Las cámaras y el grabador del pliego, con dos ajustes que explicamos abajo. En la
-    Cotización B los provee Nova Domus; en la A, la UNC.</p>
+    Cotización B los provee Nova Domus, según pliego o en una opción económica; en la A, la UNC.</p>
   <div class="alert">
-    <h3>Dos cambios respecto del pliego</h3>
-    <p><b>Cámara A.</b> La DS-2CD2443G0-IW está discontinuada: la reemplazamos por la
-      DS-2CD1347G3-LIUF/SRB, de la misma línea de detección inteligente, 4MP y con audio.</p>
-    <p style="margin:0"><b>Cámaras B.</b> En el pliego figuraban con el mismo modelo que la A, pero
-      la descripción es otra: 2MP, sin audio y sin detección. Cotizamos el domo 2MP que corresponde a
-      esa descripción, para las tres interiores.</p>
+    <h3>Dos cambios respecto del pliego, y una opción económica</h3>
+    <p><b>Cámara A.</b> El modelo del pliego, la DS-2CD2443G0-IW, está discontinuado. Proponemos la
+      DS-2CD3341G2-LIUF: turret 4MP con audio bidireccional y detección de personas.</p>
+    <p><b>Cámaras B.</b> El pliego repetía por error el modelo de la cámara A. Cotizamos un domo 2MP
+      básico de interior, que es lo que describe el pliego para esas tres cámaras.</p>
+    <p style="margin:0"><b>Opción económica.</b> Los domos B pasan a la línea 1121 y el disco, de 6TB
+      a 4TB. La cámara A, la C y el grabador no cambian.</p>
   </div>
   <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
   <div class="device-grid" id="grid-camaras"></div>
@@ -677,6 +689,26 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p class="lead">El cable de cada cámara va siempre dentro de caño semirrígido hasta el grabador.
     Lo que se elige es dónde va el caño: una opción u otra, no se suman. En las dos, los materiales
     los compra la UNC y Nova Domus los instala.</p>
+  <h3 style="margin-top:22px">¿Por qué cañería?</h3>
+  <p>Tender el cable suelto sobre el cielorraso es más barato el primer día. La diferencia aparece
+    después, cada vez que hay que tocar la instalación:</p>
+  <table class="tbl">
+    <thead><tr><th></th><th>Cañería semirrígida</th><th>Cable suelto sobre el cielorraso</th></tr></thead>
+    <tbody>
+      <tr><td>Protección del cable</td>
+        <td data-label="Cañería semirrígida">Dentro del caño, protegido de golpes y de quien trabaje en el entretecho</td>
+        <td data-label="Cable suelto">Apoyado sobre la lana de vidrio, sin protección mecánica</td></tr>
+      <tr><td>Recambio de un cable</td>
+        <td data-label="Cañería semirrígida">Se pasa uno nuevo por el mismo caño</td>
+        <td data-label="Cable suelto">Hay que volver a levantar placas</td></tr>
+      <tr><td>Sumar cámaras</td>
+        <td data-label="Cañería semirrígida">Por los mismos caños, aprovechando los tres canales libres del grabador</td>
+        <td data-label="Cable suelto">Otra tirada suelta, otra vez por encima de las placas</td></tr>
+      <tr><td>Terminación</td>
+        <td data-label="Cañería semirrígida">Prolija, con los recorridos documentados en el plano</td>
+        <td data-label="Cable suelto">Desordenada y sin registro de por dónde va cada cable</td></tr>
+    </tbody>
+  </table>
   <div class="mat">
     <div>
       <span class="tagop">Más laboriosa</span>
@@ -719,7 +751,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <section class="sec" id="inversion" style="border-top:0">
   <p class="eyebrow">03 — Inversión</p>
   <h2>Detalle de la inversión</h2>
-  <p class="lead">Elegí la cotización y dónde va la cañería: el detalle y los totales se
+  <p class="lead">Elegí la cotización, dónde va la cañería y, en la B, los equipos: el detalle y los totales se
     recalculan. Los equipos llevan su IVA incluido, según la alícuota real de cada producto; la
     instalación se cotiza más IVA 21%.</p>
   <div class="selg"><p>Cotización</p>
@@ -740,11 +772,14 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
         <span><b>Cañería a la vista</b><span>Fijada con grampas a la placa del cielorraso. Más económica.</span>
         <span class="add" id="add-V"></span></span></label>
     </div></div>
-  <div class="selg"><p>Disco</p>
+  <div class="selg" id="g-eq"><p>Equipos — uno u otro, solo en la Cotización B</p>
     <div class="opts2">
-      <label class="optc" id="oc-d6"><input type="checkbox" id="d6" onchange="render()">
-        <span><b>Disco de 6TB en lugar del de 4TB</b><span>La capacidad que pide el pliego: más días de grabación.</span>
-        <span class="add" id="add-d6"></span></span></label>
+      <label class="optc" id="oc-P"><input type="radio" name="ev" value="P" checked onchange="render()">
+        <span><b>Según pliego</b><span>Domos B DS-2CD1321G0-I y disco de 6TB, la capacidad que pide el pliego.</span>
+        <span class="add" id="add-P"></span></span></label>
+      <label class="optc" id="oc-E"><input type="radio" name="ev" value="E" onchange="render()">
+        <span><b>Opción económica</b><span>Domos B de línea 1121 y disco de 4TB. La cámara A, la C y el grabador no cambian.</span>
+        <span class="add" id="add-E"></span></span></label>
     </div></div>
   <div class="bar" id="bar"></div>
   <ul class="legend" id="legend"></ul>
@@ -819,7 +854,11 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Alcance: instalación física, sin configuración</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Nova Domus instala el cableado, las cámaras y el grabador, y deja cada cámara conectada a su puerto PoE. No incluye la configuración del grabador, la configuración del software en la PC del Centro de Imágenes, la conexión por fibra, el rack ni la UPS: quedan a cargo del área de Sistemas de la UNC. La instalación del grabador y de su disco no tiene cargo.</p></div></article>
+      <div class="dev-body"><p>Nova Domus instala la cañería con el cableado y las cinco cámaras, y deja cada cámara conectada físicamente a su puerto PoE del grabador. No incluye la instalación del grabador en el rack, su configuración, la configuración del software en la PC del Centro de Imágenes, la conexión por fibra, el rack ni la UPS: quedan a cargo del área de Sistemas de la UNC. Cuadrilla de dos técnicos, unos tres días.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cotización B: según pliego u opción económica</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Según pliego: domos B DS-2CD1321G0-I y disco de 6TB. Opción económica: domos B DS-2CD1121G0-I, de línea más básica, y disco de 4TB. La cámara A (DS-2CD3341G2-LIUF), la cámara C (DS-2CD1043G2-LIUF) y el grabador son los mismos en las dos.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cotización A: equipos provistos por la UNC</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -831,7 +870,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Recorridos y metros</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Se cotizan 120 m de cable, estimados sobre el plano del pliego, que no tiene cotas. Se confirman en la visita técnica. Si el recorrido real necesitara más, el excedente se cotiza al mismo valor por metro y se aprueba antes de ejecutarlo.</p></div></article>
+      <div class="dev-body"><p>Se cotizan 120 m de cañería con su cable, estimados sobre el plano del pliego, que no tiene cotas. Se confirman en la visita técnica. Si el recorrido real necesitara más, el excedente se cotiza al mismo valor por metro y se aprueba antes de ejecutarlo.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cañería oculta</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -887,8 +926,8 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p>En una instalación de cámaras, el que tira el cable, el que monta las cámaras y el que conecta
     el grabador suelen ser proveedores distintos. Cuando una cámara no da imagen, cada uno señala al
     otro, y esa coordinación es la fuente real de las demoras.</p>
-  <p><b>Nova Domus es uno solo para toda la instalación física:</b> cableado, cámaras y grabador,
-    con cada cámara conectada y verificada en su puerto. La configuración la hace el área de
+  <p><b>Nova Domus es uno solo para toda la instalación física:</b> cañería, cableado y cámaras,
+    con cada cámara conectada y verificada en su puerto del grabador. La configuración la hace el área de
     Sistemas de la UNC, que conoce su red y el Centro de Imágenes: le entregamos todo conectado,
     etiquetado y documentado, para que configure sobre una base prolija.</p>
   <div class="flow">
@@ -896,7 +935,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       estructura que lo sostiene</span></div>
     <div class="step"><b>02</b><span>Canalización y cableado — caño semirrígido oculto o a la
       vista, y las cinco tiradas de cable hasta el grabador</span></div>
-    <div class="step"><b>03</b><span>Montaje — cinco cámaras, el grabador y su disco</span></div>
+    <div class="step"><b>03</b><span>Montaje — las cinco cámaras, con sus fichas RJ45</span></div>
     <div class="step"><b>04</b><span>Conexión — cada cámara a su puerto PoE, con alimentación y
       enlace verificados y cada cable etiquetado</span></div>
     <div class="step"><b>05</b><span>Entrega documentada — plano con los recorridos reales + 12
@@ -906,7 +945,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <thead><tr><th></th><th>Con Nova Domus</th><th>Instalación tradicional</th></tr></thead>
     <tbody>
       <tr><td>Proveedores a coordinar</td>
-        <td data-label="Con Nova Domus">Uno, para cableado, cámaras y grabador</td>
+        <td data-label="Con Nova Domus">Uno, para cañería, cableado y cámaras</td>
         <td data-label="Instalación tradicional">Dos o tres</td></tr>
       <tr><td>Responsable si una cámara no conecta</td>
         <td data-label="Con Nova Domus">Nova Domus</td>
@@ -955,15 +994,19 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Por qué no incluye la configuración?</span>
       <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Porque el grabador se conecta a la red de la universidad y al Centro de Imágenes, que administra el área de Sistemas de la UNC. Lo más ordenado es que la configuración la haga quien administra esa red. Nosotros dejamos todo instalado, conectado, verificado y documentado.</p></div></article>
+      <div class="dev-body"><p>Porque el grabador se conecta a la red de la universidad y al Centro de Imágenes, que administra el área de Sistemas de la UNC. Lo más ordenado es que su instalación en el rack y la configuración las haga quien administra esa red. Nosotros dejamos todo instalado, conectado, verificado y documentado.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Por qué cambia la cámara A?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La DS-2CD2443G0-IW del pliego está discontinuada. La DS-2CD1347G3-LIUF/SRB cumple lo que pide el pliego: 4MP, lente de 2,8 mm, PoE, detección de personas y audio. El audio de dos vías y el stock los confirmamos con el distribuidor antes de la compra.</p></div></article>
+      <div class="dev-body"><p>La DS-2CD2443G0-IW del pliego está discontinuada. La DS-2CD3341G2-LIUF cumple lo que pide el pliego: turret 4MP, PoE, detección de personas y audio bidireccional, con micrófono y parlante incorporados.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Por qué las cámaras B son domos 2MP?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>En el pliego las B figuran con el mismo modelo que la A, pero se describen como 2MP, sin audio y sin detección. Cotizamos el domo que corresponde a esa descripción, que además es más económico.</p></div></article>
+      <div class="dev-body"><p>El pliego repetía por error el modelo de la A, pero describe las B como 2MP, sin audio y sin detección. Cotizamos el domo básico de interior que corresponde a esa descripción, que además es más económico.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué cambia en la opción económica?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Dos cosas: los domos B pasan a la línea 1121, más básica, también de 2MP para interior, y el disco baja de 6TB a 4TB, con menos días de grabación. La cámara A, la C y el grabador no cambian. La diferencia es de U$D 110.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Cañería oculta o a la vista?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -971,7 +1014,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Cuántos días graba el disco?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Depende de la configuración que defina Sistemas. Como referencia, grabando las cinco cámaras las 24 horas, el de 4TB rinde del orden de un mes y el de 6TB, alrededor de un mes y medio. Grabando solo cuando hay movimiento, rinden bastante más.</p></div></article>
+      <div class="dev-body"><p>Depende de la configuración que defina Sistemas. Como referencia, grabando las cinco cámaras las 24 horas, el de 6TB (según pliego) rinde alrededor de un mes y medio, y el de 4TB (opción económica), del orden de un mes. Grabando solo cuando hay movimiento, rinden bastante más.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Qué pasa si se corta la luz?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1019,17 +1062,17 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 </button>
 <script>
 var PY='PY-2026-055';
-var ITEMS=[{"n":"Cámara A — Hikvision DS-2CD1347G3-LIUF/SRB · turret 4MP AcuSense con audio","q":1,"precio":241,"iva":21,"d":null},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1321G0-I · domo 2MP interior","q":3,"precio":64,"iva":21,"d":null},{"n":"Cámara C — Hikvision DS-2CD1043G2-LIUF · bullet 4MP exterior","q":1,"precio":141,"iva":21,"d":null},{"n":"Grabador D — Hikvision DS-7608NI-Q1/8P · NVR 8 canales PoE","q":1,"precio":409,"iva":21,"d":null},{"n":"Disco Seagate SkyHawk 4TB ST4000VX016 · línea videovigilancia","q":1,"precio":333,"iva":10.5,"d":4},{"n":"Disco Seagate SkyHawk 6TB ST6000VX009 · línea videovigilancia","q":1,"precio":439,"iva":10.5,"d":6}];
-// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{disco}.
-var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"utp":131,"cam":186,"mo":921,"moiva":194,"motot":1115,"tot":1115},"BO4":{"eq":1316,"iva":203,"neto":1113,"can":604,"utp":131,"cam":186,"mo":921,"moiva":194,"motot":1115,"tot":2431},"BO6":{"eq":1422,"iva":213,"neto":1209,"can":604,"utp":131,"cam":186,"mo":921,"moiva":194,"motot":1115,"tot":2537},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"utp":131,"cam":186,"mo":695,"moiva":146,"motot":841,"tot":841},"BV4":{"eq":1316,"iva":203,"neto":1113,"can":378,"utp":131,"cam":186,"mo":695,"moiva":146,"motot":841,"tot":2157},"BV6":{"eq":1422,"iva":213,"neto":1209,"can":378,"utp":131,"cam":186,"mo":695,"moiva":146,"motot":841,"tot":2263}};
-var DEVICES=[{"n":"Cámara A — turret 4MP AcuSense","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1347g3-liuf-srb.png","desc":"Para la sala principal. Detecta personas (las distingue de otros movimientos), ve a color de noche y tiene audio incorporado. El pliego pide audio de dos vías: lo confirmamos con el distribuidor, junto con el stock, antes de la compra. Reemplaza a la DS-2CD2443G0-IW del pliego, que Hikvision discontinuó."},{"n":"Cámaras B1, B2 y B3 — domo 2MP interior","q":3,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1321g0-i.png","desc":"Domo compacto de 2MP con visión nocturna, sin audio, como describe el pliego para las tres cámaras interiores. La B2 se reorienta hacia adentro del edificio: en el plano del pliego miraba hacia afuera."},{"n":"Cámara C — bullet 4MP exterior","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1043g2-liuf.png","desc":"El modelo del pliego. Vigila el acceso exterior por la escalera y la puerta de entrada, con luz híbrida para ver de noche y micrófono incorporado. Su conexión va en caja estanca."},{"n":"Grabador D — NVR de 8 canales PoE","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7608NI-Q1/8P.png","desc":"El modelo del pliego. Las cinco cámaras se conectan directo a sus puertos PoE, que les dan datos y alimentación por el mismo cable: no hacen falta fuentes junto a cada cámara. Quedan tres canales libres para sumar cámaras."},{"n":"Disco Seagate SkyHawk — 4TB o 6TB","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png","desc":"Disco de línea videovigilancia, pensado para grabar las 24 horas. El pliego pide 6TB: lo ofrecemos como alternativa, con el de 4TB como base más económica."}];
+var ITEMS=[{"n":"Cámara A — Hikvision DS-2CD3341G2-LIUF · turret 4MP, audio bidireccional, detección de personas","q":1,"precio":170,"iva":21,"v":null},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1321G0-I · domo 2MP","q":3,"precio":64,"iva":21,"v":"P"},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1121G0-I · domo 2MP interior","q":3,"precio":59,"iva":21,"v":"E"},{"n":"Cámara C — Hikvision DS-2CD1043G2-LIUF · bullet 4MP exterior (modelo del pliego)","q":1,"precio":149,"iva":21,"v":null},{"n":"Grabador D — Hikvision DS-7608NI-Q1/8P · NVR 8 canales PoE","q":1,"precio":353,"iva":21,"v":null},{"n":"Disco Seagate SkyHawk 6TB ST6000VX009 · línea videovigilancia","q":1,"precio":439,"iva":10.5,"v":"P"},{"n":"Disco Seagate SkyHawk 4TB ST4000VX016 · línea videovigilancia","q":1,"precio":344,"iva":10.5,"v":"E"}];
+// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{equipos P segun pliego / E economica}.
+var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":956},"BOP":{"eq":1303,"iva":192,"neto":1111,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2259},"BOE":{"eq":1193,"iva":181,"neto":1012,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2149},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":683},"BVP":{"eq":1303,"iva":192,"neto":1111,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1986},"BVE":{"eq":1193,"iva":181,"neto":1012,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1876}};
+var DEVICES=[{"n":"Cámara A — turret 4MP con audio bidireccional","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd3341g2-liuf.png","desc":"Para la sala principal. Detecta personas (las distingue de otros movimientos), ve de noche con luz híbrida y tiene audio bidireccional: micrófono y parlante incorporados. Reemplaza a la DS-2CD2443G0-IW del pliego, que Hikvision discontinuó."},{"n":"Cámaras B1, B2 y B3 — domo 2MP interior","q":3,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1321g0-i.png","desc":"Domo compacto de 2MP con visión nocturna, sin audio, como describe el pliego para las tres cámaras interiores. Según pliego, la DS-2CD1321G0-I; en la opción económica, la DS-2CD1121G0-I, de línea más básica. La B2 se reorienta hacia adentro del edificio: en el plano del pliego miraba hacia afuera."},{"n":"Cámara C — bullet 4MP exterior","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1043g2-liuf.png","desc":"El modelo del pliego. Vigila el acceso exterior por la escalera y la puerta de entrada, con luz híbrida para ver de noche y micrófono incorporado. Su conexión va en caja estanca."},{"n":"Grabador D — NVR de 8 canales PoE","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7608NI-Q1/8P.png","desc":"El modelo del pliego. Las cinco cámaras se conectan directo a sus puertos PoE, que les dan datos y alimentación por el mismo cable: no hacen falta fuentes junto a cada cámara. Quedan tres canales libres para sumar cámaras. Su instalación en el rack y su configuración quedan a cargo de Sistemas de la UNC."},{"n":"Disco Seagate SkyHawk — 6TB o 4TB","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st6000vx009.png","desc":"Disco de línea videovigilancia, pensado para grabar las 24 horas. Según pliego, de 6TB; en la opción económica, de 4TB, con menos días de grabación."}];
 var FIJ={O:'<b>Fijación de la cañería oculta:</b> a las soleras y montantes del cielorraso, con grampas o precintos.',
          V:'<b>Fijación de la cañería a la vista:</b> anclajes para placa de cielorraso (tipo mariposa), no tarugos comunes. Caño blanco recomendado.'};
 function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
 //CALC-START
-function key(cot,op,d6){return cot==='A'?'A'+op:'B'+op+(d6?'6':'4');}
-function calc(cot,op,d6){
-  var s=S[key(cot,op,d6)], stages=[];
+function key(cot,op,ev){return cot==='A'?'A'+op:'B'+op+ev;}
+function calc(cot,op,ev){
+  var s=S[key(cot,op,ev)], stages=[];
   if(cot==='B') stages.push(['Equipos — 100% anticipado','Antes de la compra: asegura el precio y la disponibilidad de importación.',s.eq,'']);
   stages.push(['Instalación','Se certifica según el avance real del trabajo en la Casa del Estudiante.',s.mo,'Monto de referencia + IVA 21% — se certifica por avance']);
   return {s:s,stages:stages,iva:s.moiva,grand:s.tot};
@@ -1069,13 +1112,13 @@ function ivaTxt(x){return String(x).replace('.',',');}
 function sel(){
   return {cot:document.querySelector('input[name=cot]:checked').value,
           op:document.querySelector('input[name=op]:checked').value,
-          d6:document.getElementById('d6').checked};
+          ev:document.querySelector('input[name=ev]:checked').value};
 }
 // Inversion: filas desde ITEMS y S. Subtotal de fila = unitario mostrado x cantidad.
 function renderInv(c,r){
-  var s=r.s, d=c.d6?6:4, eqSum=0, html='';
+  var s=r.s, eqSum=0, html='';
   ITEMS.forEach(function(x){
-    if(x.d && x.d!==d) return;
+    if(x.v && x.v!==c.ev) return;
     var sub=x.q*x.precio; eqSum+=sub;
     html+='<tr><td>'+x.n+'</td><td class="num">'+x.q+'</td><td class="num">'+fmt(x.precio)
       +'<span class="iva"> · IVA '+ivaTxt(x.iva)+'% incl.</span></td><td class="num">'+fmt(sub)+'</td></tr>';
@@ -1086,13 +1129,11 @@ function renderInv(c,r){
   document.getElementById('rv-eq').textContent=B?fmt(eqSum):'No incluido';
   document.getElementById('eq-note').textContent=B?'IVA incluido por ítem':'En la Cotización A los provee la UNC';
   if(B && eqSum!==s.eq && window.console) console.warn('Equipos no cierran contra S');
-  var opTxt=c.op==='O'?'Canalización con caño semirrígido oculto, por encima del cielorraso — 120 m'
-                      :'Canalización con caño semirrígido a la vista, fijado a la placa del cielorraso — 120 m';
+  var opTxt=c.op==='O'?'Canalización semirrígida con tendido de UTP — 120 m, cañería oculta por encima del cielorraso'
+                      :'Canalización semirrígida con tendido de UTP — 120 m, cañería a la vista fijada a la placa del cielorraso';
   document.getElementById('rb-mo').innerHTML=
-     '<tr><td>'+opTxt+'</td><td class="num">'+fmt(s.can)+'</td></tr>'
-    +'<tr><td>Tendido del cable UTP dentro del caño — 120 m en 5 tiradas</td><td class="num">'+fmt(s.utp)+'</td></tr>'
-    +'<tr><td>Instalación de las 5 cámaras</td><td class="num">'+fmt(s.cam)+'</td></tr>'
-    +'<tr><td>Instalación del grabador y su disco, y conexión de cada cámara a su puerto PoE</td><td class="num">Sin cargo</td></tr>';
+     '<tr><td>Instalación de las 5 cámaras — fijación, fichas RJ45 y conexión a su puerto PoE del grabador</td><td class="num">'+fmt(s.cam)+'</td></tr>'
+    +'<tr><td>'+opTxt+'</td><td class="num">'+fmt(s.can)+'</td></tr>';
   document.getElementById('rv-mo').textContent=fmt(s.mo)+' + IVA';
   var parts=B?[['Equipos',s.eq],['Instalación con IVA',s.motot]]:[['Instalación con IVA',s.motot]];
   document.getElementById('bar').innerHTML=parts.map(function(p){
@@ -1114,26 +1155,24 @@ function stageHtml(st){
     +(st[3]?'<em class="sref">'+st[3]+'</em>':'')+'</span><b>'+fmt(st[2])+'</b></div>';
 }
 function render(){
-  var c=sel(), r=calc(c.cot,c.op,c.d6), d6=document.getElementById('d6');
-  d6.disabled=c.cot==='A';
-  ['A','B','O','V'].forEach(function(k){
+  var c=sel(), r=calc(c.cot,c.op,c.ev);
+  ['A','B','O','V','P','E'].forEach(function(k){
     document.getElementById('oc-'+k).classList.toggle('on',document.querySelector('#oc-'+k+' input').checked);});
-  document.getElementById('oc-d6').classList.toggle('on',c.d6&&c.cot==='B');
-  document.getElementById('oc-d6').classList.toggle('dis',c.cot==='A');
-  document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,false).grand);
-  document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.d6).grand);
-  document.getElementById('add-O').textContent='Total '+fmt(calc(c.cot,'O',c.d6).grand);
-  document.getElementById('add-V').textContent='Total '+fmt(calc(c.cot,'V',c.d6).grand);
+  document.getElementById('g-eq').style.display=c.cot==='B'?'':'none';
+  document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,'P').grand);
+  document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.ev).grand);
+  ['O','V'].forEach(function(o){
+    document.getElementById('add-'+o).textContent='Cañería '+fmt(S['A'+o].can)+' + IVA · Total '+fmt(calc(c.cot,o,c.ev).grand);});
+  ['P','E'].forEach(function(e){
+    document.getElementById('add-'+e).textContent='Equipos '+fmt(S['B'+c.op+e].eq)+' · Total '+fmt(calc('B',c.op,e).grand);});
   document.getElementById('fij').innerHTML=FIJ[c.op];
-  document.getElementById('add-d6').textContent=c.cot==='A'?'Solo en la Cotización B'
-    :(c.d6?'Sumado: + ':'Suma + ')+fmt(S['B'+c.op+'6'].eq-S['B'+c.op+'4'].eq);
   renderInv(c,r);
   document.getElementById('pay').innerHTML=r.stages.map(stageHtml).join('');
   document.getElementById('pay-iva').textContent=fmt(r.iva);
   document.getElementById('gt').textContent=fmt(r.grand);
   var desc='Cotización '+c.cot+(c.cot==='A'?' (solo instalación)':' (instalación + equipos)')
     +', cañería '+(c.op==='O'?'oculta':'a la vista')
-    +(c.cot==='B'?', disco de '+(c.d6?'6':'4')+'TB':'');
+    +(c.cot==='B'?', equipos '+(c.ev==='P'?'según pliego':'opción económica'):'');
   document.getElementById('cta-sel').innerHTML='Elegido: <b>'+desc+'</b> · '+fmt(r.grand)+' con IVA';
   var t='Hola Nova Domus, revisamos la propuesta '+PY+' de la Casa del Estudiante (UNC). '
     +'Elegimos la '+desc+': '+fmt(r.grand)+' con IVA. Queremos avanzar.';
