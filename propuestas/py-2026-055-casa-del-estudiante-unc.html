@@ -510,18 +510,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 .mat div{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 20px}
 .mat h3{color:var(--gold)} .mat ul{margin:8px 0 0;padding-left:20px} .mat li{margin:6px 0}
 .mat1{grid-template-columns:1fr}
-.upg{margin-top:26px;border:2px solid var(--navy);border-radius:16px;padding:20px 22px;background:#fff}
-.upg h3{margin-bottom:8px}
-.upg .tbl td[data-label="Upgrade"]{font-weight:600}
-.upg-ph{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 8px}
-.upg-ph figure{margin:0;border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:10px 12px;display:flex;gap:12px;align-items:center;font-size:13.5px;color:#3a3d4a}
-.upg-ph figure.u{border:2px solid var(--navy)}
-.upg-ph img{width:64px;height:64px;object-fit:contain;flex:none}
-.upg-ph b{color:var(--navy);display:block}
 .mat .tagop{display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;border:1px solid rgba(200,169,110,.5);color:var(--gold);border-radius:999px;padding:3px 10px;margin-bottom:10px}
 @media(max-width:640px){.opts2,.inout,.mat{grid-template-columns:1fr}.inout div,.mat div{padding:16px}
   .mtx{font-size:13.5px}.mtx th,.mtx td{padding:9px 8px}
-  .upg{padding:16px}.upg-ph{grid-template-columns:1fr}
   /* tabla "¿Por que cañeria?" en seccion oscura: tarjetas oscuras, nunca dorado sobre blanco */
   #s02 .tbl tr{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14)}
   #s02 .tbl td:first-child,#s02 .tbl td[data-label]::before{color:var(--cream)}
@@ -601,9 +592,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     rack, la configuración del grabador y del software de la PC del Centro de Imágenes, la conexión
     por fibra, el rack y la UPS.</p>
   <p><b>Inversión.</b> Todos los valores con IVA incluido:</p>
-  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 956</td><td class="num">U$D 683</td></tr><tr><td>Cotización B — según pliego<small>Instalación + equipos</small></td><td class="num">U$D 2.259</td><td class="num">U$D 1.986</td></tr><tr><td>Cotización B — opción económica<small>Instalación + equipos</small></td><td class="num">U$D 2.149</td><td class="num">U$D 1.876</td></tr><tr><td>B — según pliego + upgrade cámara A<small>Cámara A DS-2CD1347G3-LIUF/SRB, + U$D 71</small></td><td class="num">U$D 2.330</td><td class="num">U$D 2.057</td></tr><tr><td>B — económica + upgrade cámara A<small>Cámara A DS-2CD1347G3-LIUF/SRB, + U$D 71</small></td><td class="num">U$D 2.220</td><td class="num">U$D 1.947</td></tr></tbody></table></div>
+  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 956</td><td class="num">U$D 683</td></tr><tr><td>Cotización B — según pliego<small>Instalación + equipos</small></td><td class="num">U$D 2.259</td><td class="num">U$D 1.986</td></tr><tr><td>Cotización B — opción económica<small>Instalación + equipos</small></td><td class="num">U$D 2.149</td><td class="num">U$D 1.876</td></tr></tbody></table></div>
   <p class="note">Los materiales de cableado (caño, cable, fichas, cajas) los compra la UNC: están
-    listados en la sección Cableado. El upgrade de la cámara A se explica en la sección Cámaras.</p>
+    listados en la sección Cableado.</p>
   <a class="plano-dl" href="py-2026-055-casa-del-estudiante-unc-presupuesto.pdf" target="_blank" rel="noopener">Descargar el presupuesto en PDF</a>
   <p><b>Próximo paso.</b> Elegir la cotización y dónde va la cañería en la sección Inversión, y
     coordinar la visita técnica para confirmar los recorridos.</p>
@@ -689,35 +680,6 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   </div>
   <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
   <div class="device-grid" id="grid-camaras"></div>
-  <div class="upg" id="upgrade">
-    <h3>Upgrade opcional para la cámara A — + U$D 71</h3>
-    <p>Solo en la Cotización B, y se suma a los equipos según pliego o a la opción económica. Para la
-      cámara de la sala principal se puede subir a la <b>Hikvision DS-2CD1347G3-LIUF/SRB</b>. Las dos
-      cumplen el pliego; el upgrade suma tres cosas que la propuesta base no tiene.</p>
-    <div class="upg-ph">
-      <figure class="u"><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1347g3-liuf-srb.png" alt="Hikvision DS-2CD1347G3-LIUF/SRB" loading="lazy" onerror="this.style.display='none'">
-        <span><b>Upgrade: DS-2CD1347G3-LIUF/SRB</b>Turret 4MP · U$D 241 · IVA 21% incl.</span></figure>
-      <figure><img src="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd3341g2-liuf.png" alt="Hikvision DS-2CD3341G2-LIUF" loading="lazy" onerror="this.style.display='none'">
-        <span><b>Propuesta: DS-2CD3341G2-LIUF</b>Turret 4MP · U$D 170 · IVA 21% incl.</span></figure>
-    </div>
-    <table class="tbl">
-      <thead><tr><th></th><th>Upgrade</th><th>Propuesta</th></tr></thead>
-      <tbody>
-        <tr><td>Imagen de noche</td>
-          <td data-label="Upgrade">ColorVu 3.0: imagen a color toda la noche. Su lente F1.0 necesita diez veces menos luz para dar color (0,0005 lux contra 0,005). El color de la ropa o de un objeto ayuda a identificar.</td>
-          <td data-label="Propuesta">Luz híbrida: de noche ve en blanco y negro por infrarrojo, y prende luz blanca para ver a color cuando detecta algo.</td></tr>
-        <tr><td>Detección</td>
-          <td data-label="Upgrade">AcuSense: clasifica personas y vehículos con aprendizaje profundo y descarta mejor sombras, cambios de luz y animales. Menos falsas alarmas para el Centro de Imágenes.</td>
-          <td data-label="Propuesta">Distingue personas y vehículos de otros movimientos.</td></tr>
-        <tr><td>Disuasión activa</td>
-          <td data-label="Upgrade">Ante una intrusión puede encender una luz estroboscópica roja y azul y emitir una alarma sonora: no solo registra, también ahuyenta.</td>
-          <td data-label="Propuesta">No tiene.</td></tr>
-        <tr><td>En común</td>
-          <td data-label="Las dos">4MP, alimentación PoE desde el grabador, audio bidireccional (micrófono y parlante) y ranura para tarjeta SD.</td>
-          <td data-label="Instalación">Cuesta lo mismo con cualquiera de las dos.</td></tr>
-      </tbody>
-    </table>
-  </div>
 </section>
 </div></div>
 
@@ -811,7 +773,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
         <span><b>Cañería a la vista</b><span>Fijada con grampas a la placa del cielorraso. Más económica.</span>
         <span class="add" id="add-V"></span></span></label>
     </div></div>
-  <div class="selg" id="g-eq"><p>Equipos — solo en la Cotización B</p>
+  <div class="selg" id="g-eq"><p>Equipos — uno u otro, solo en la Cotización B</p>
     <div class="opts2">
       <label class="optc" id="oc-P"><input type="radio" name="ev" value="P" checked onchange="render()">
         <span><b>Según pliego</b><span>Domos B DS-2CD1321G0-I y disco de 6TB, la capacidad que pide el pliego.</span>
@@ -819,11 +781,6 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       <label class="optc" id="oc-E"><input type="radio" name="ev" value="E" onchange="render()">
         <span><b>Opción económica</b><span>Domos B de línea 1121 y disco de 4TB. La cámara A, la C y el grabador no cambian.</span>
         <span class="add" id="add-E"></span></span></label>
-    </div>
-    <div class="opts2" style="margin-top:12px">
-      <label class="optc" id="oc-upA"><input type="checkbox" id="upA" onchange="render()">
-        <span><b>Upgrade cámara A — DS-2CD1347G3-LIUF/SRB</b><span>Color de noche (ColorVu 3.0), detección AcuSense y disuasión activa con luz estroboscópica y alarma sonora. Se suma a cualquiera de las dos. <a href="#upgrade" style="color:var(--navy);text-decoration:underline">Ver por qué es mejor</a></span>
-        <span class="add" id="add-upA"></span></span></label>
     </div></div>
   <div class="bar" id="bar"></div>
   <ul class="legend" id="legend"></ul>
@@ -903,7 +860,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cotización B: según pliego u opción económica</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Según pliego: domos B DS-2CD1321G0-I y disco de 6TB. Opción económica: domos B DS-2CD1121G0-I, de línea más básica, y disco de 4TB. La cámara A (DS-2CD3341G2-LIUF), la cámara C (DS-2CD1043G2-LIUF) y el grabador son los mismos en las dos. Upgrade opcional, sumable a cualquiera de las dos: cámara A DS-2CD1347G3-LIUF/SRB, por + U$D 71.</p></div></article>
+      <div class="dev-body"><p>Según pliego: domos B DS-2CD1321G0-I y disco de 6TB. Opción económica: domos B DS-2CD1121G0-I, de línea más básica, y disco de 4TB. La cámara A (DS-2CD3341G2-LIUF), la cámara C (DS-2CD1043G2-LIUF) y el grabador son los mismos en las dos.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cotización A: equipos provistos por la UNC</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1049,10 +1006,6 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       <span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>El pliego repetía por error el modelo de la A, pero describe las B como 2MP, sin audio y sin detección. Cotizamos el domo básico de interior que corresponde a esa descripción, que además es más económico.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Qué agrega el upgrade de la cámara A?</span>
-      <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Tres cosas: imagen a color toda la noche (ColorVu 3.0), una detección de personas y vehículos más precisa, con menos falsas alarmas (AcuSense), y disuasión activa: ante una intrusión puede encender una luz estroboscópica roja y azul y emitir una alarma sonora. Cuesta U$D 71 más y la instalación no cambia.</p></div></article>
-    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Qué cambia en la opción económica?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>Dos cosas: los domos B pasan a la línea 1121, más básica, también de 2MP para interior, y el disco baja de 6TB a 4TB, con menos días de grabación. La cámara A, la C y el grabador no cambian. La diferencia es de U$D 110.</p></div></article>
@@ -1111,17 +1064,17 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 </button>
 <script>
 var PY='PY-2026-055';
-var ITEMS=[{"n":"Cámara A — Hikvision DS-2CD3341G2-LIUF · turret 4MP, audio bidireccional, detección de personas","q":1,"precio":170,"iva":21,"v":null,"a":"base"},{"n":"Cámara A (upgrade) — Hikvision DS-2CD1347G3-LIUF/SRB · turret 4MP ColorVu 3.0, AcuSense, disuasión activa","q":1,"precio":241,"iva":21,"v":null,"a":"up"},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1321G0-I · domo 2MP","q":3,"precio":64,"iva":21,"v":"P","a":null},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1121G0-I · domo 2MP interior","q":3,"precio":59,"iva":21,"v":"E","a":null},{"n":"Cámara C — Hikvision DS-2CD1043G2-LIUF · bullet 4MP exterior (modelo del pliego)","q":1,"precio":149,"iva":21,"v":null,"a":null},{"n":"Grabador D — Hikvision DS-7608NI-Q1/8P · NVR 8 canales PoE","q":1,"precio":353,"iva":21,"v":null,"a":null},{"n":"Disco Seagate SkyHawk 6TB ST6000VX009 · línea videovigilancia","q":1,"precio":439,"iva":10.5,"v":"P","a":null},{"n":"Disco Seagate SkyHawk 4TB ST4000VX016 · línea videovigilancia","q":1,"precio":344,"iva":10.5,"v":"E","a":null}];
-// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{equipos P segun pliego / E economica}{U = upgrade camara A}.
-var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":956},"BOP":{"eq":1303,"iva":192,"neto":1111,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2259},"BOPU":{"eq":1374,"iva":204,"neto":1170,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2330},"BOE":{"eq":1193,"iva":181,"neto":1012,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2149},"BOEU":{"eq":1264,"iva":193,"neto":1071,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2220},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":683},"BVP":{"eq":1303,"iva":192,"neto":1111,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1986},"BVPU":{"eq":1374,"iva":204,"neto":1170,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":2057},"BVE":{"eq":1193,"iva":181,"neto":1012,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1876},"BVEU":{"eq":1264,"iva":193,"neto":1071,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1947}};
+var ITEMS=[{"n":"Cámara A — Hikvision DS-2CD3341G2-LIUF · turret 4MP, audio bidireccional, detección de personas","q":1,"precio":170,"iva":21,"v":null},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1321G0-I · domo 2MP","q":3,"precio":64,"iva":21,"v":"P"},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1121G0-I · domo 2MP interior","q":3,"precio":59,"iva":21,"v":"E"},{"n":"Cámara C — Hikvision DS-2CD1043G2-LIUF · bullet 4MP exterior (modelo del pliego)","q":1,"precio":149,"iva":21,"v":null},{"n":"Grabador D — Hikvision DS-7608NI-Q1/8P · NVR 8 canales PoE","q":1,"precio":353,"iva":21,"v":null},{"n":"Disco Seagate SkyHawk 6TB ST6000VX009 · línea videovigilancia","q":1,"precio":439,"iva":10.5,"v":"P"},{"n":"Disco Seagate SkyHawk 4TB ST4000VX016 · línea videovigilancia","q":1,"precio":344,"iva":10.5,"v":"E"}];
+// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{equipos P segun pliego / E economica}.
+var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":956},"BOP":{"eq":1303,"iva":192,"neto":1111,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2259},"BOE":{"eq":1193,"iva":181,"neto":1012,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2149},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":683},"BVP":{"eq":1303,"iva":192,"neto":1111,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1986},"BVE":{"eq":1193,"iva":181,"neto":1012,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1876}};
 var DEVICES=[{"n":"Cámara A — turret 4MP con audio bidireccional","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd3341g2-liuf.png","desc":"Para la sala principal. Detecta personas (las distingue de otros movimientos), ve de noche con luz híbrida y tiene audio bidireccional: micrófono y parlante incorporados. Reemplaza a la DS-2CD2443G0-IW del pliego, que Hikvision discontinuó."},{"n":"Cámaras B1, B2 y B3 — domo 2MP interior","q":3,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1321g0-i.png","desc":"Domo compacto de 2MP con visión nocturna, sin audio, como describe el pliego para las tres cámaras interiores. Según pliego, la DS-2CD1321G0-I; en la opción económica, la DS-2CD1121G0-I, de línea más básica. La B2 se reorienta hacia adentro del edificio: en el plano del pliego miraba hacia afuera."},{"n":"Cámara C — bullet 4MP exterior","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1043g2-liuf.png","desc":"El modelo del pliego. Vigila el acceso exterior por la escalera y la puerta de entrada, con luz híbrida para ver de noche y micrófono incorporado. Su conexión va en caja estanca."},{"n":"Grabador D — NVR de 8 canales PoE","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7608NI-Q1/8P.png","desc":"El modelo del pliego. Las cinco cámaras se conectan directo a sus puertos PoE, que les dan datos y alimentación por el mismo cable: no hacen falta fuentes junto a cada cámara. Quedan tres canales libres para sumar cámaras. Su instalación en el rack y su configuración quedan a cargo de Sistemas de la UNC."},{"n":"Disco Seagate SkyHawk — 6TB o 4TB","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st6000vx009.png","desc":"Disco de línea videovigilancia, pensado para grabar las 24 horas. Según pliego, de 6TB; en la opción económica, de 4TB, con menos días de grabación."}];
 var FIJ={O:'<b>Fijación de la cañería oculta:</b> a las soleras y montantes del cielorraso, con grampas o precintos.',
          V:'<b>Fijación de la cañería a la vista:</b> anclajes para placa de cielorraso (tipo mariposa), no tarugos comunes. Caño blanco recomendado.'};
 function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
 //CALC-START
-function key(cot,op,ev,up){return cot==='A'?'A'+op:'B'+op+ev+(up?'U':'');}
-function calc(cot,op,ev,up){
-  var s=S[key(cot,op,ev,up)], stages=[];
+function key(cot,op,ev){return cot==='A'?'A'+op:'B'+op+ev;}
+function calc(cot,op,ev){
+  var s=S[key(cot,op,ev)], stages=[];
   if(cot==='B') stages.push(['Equipos — 100% anticipado','Antes de la compra: asegura el precio y la disponibilidad de importación.',s.eq,'']);
   stages.push(['Instalación','Se certifica según el avance real del trabajo en la Casa del Estudiante.',s.mo,'Monto de referencia + IVA 21% — se certifica por avance']);
   return {s:s,stages:stages,iva:s.moiva,grand:s.tot};
@@ -1161,15 +1114,13 @@ function ivaTxt(x){return String(x).replace('.',',');}
 function sel(){
   return {cot:document.querySelector('input[name=cot]:checked').value,
           op:document.querySelector('input[name=op]:checked').value,
-          ev:document.querySelector('input[name=ev]:checked').value,
-          up:document.getElementById('upA').checked};
+          ev:document.querySelector('input[name=ev]:checked').value};
 }
 // Inversion: filas desde ITEMS y S. Subtotal de fila = unitario mostrado x cantidad.
 function renderInv(c,r){
   var s=r.s, eqSum=0, html='';
   ITEMS.forEach(function(x){
     if(x.v && x.v!==c.ev) return;
-    if(x.a===(c.up?'base':'up')) return;
     var sub=x.q*x.precio; eqSum+=sub;
     html+='<tr><td>'+x.n+'</td><td class="num">'+x.q+'</td><td class="num">'+fmt(x.precio)
       +'<span class="iva"> · IVA '+ivaTxt(x.iva)+'% incl.</span></td><td class="num">'+fmt(sub)+'</td></tr>';
@@ -1206,17 +1157,16 @@ function stageHtml(st){
     +(st[3]?'<em class="sref">'+st[3]+'</em>':'')+'</span><b>'+fmt(st[2])+'</b></div>';
 }
 function render(){
-  var c=sel(), r=calc(c.cot,c.op,c.ev,c.up), U=c.up?'U':'';
-  ['A','B','O','V','P','E','upA'].forEach(function(k){
+  var c=sel(), r=calc(c.cot,c.op,c.ev);
+  ['A','B','O','V','P','E'].forEach(function(k){
     document.getElementById('oc-'+k).classList.toggle('on',document.querySelector('#oc-'+k+' input').checked);});
   document.getElementById('g-eq').style.display=c.cot==='B'?'':'none';
-  document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,'P',false).grand);
-  document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.ev,c.up).grand);
+  document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,'P').grand);
+  document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.ev).grand);
   ['O','V'].forEach(function(o){
-    document.getElementById('add-'+o).textContent='Cañería '+fmt(S['A'+o].can)+' + IVA · Total '+fmt(calc(c.cot,o,c.ev,c.up).grand);});
+    document.getElementById('add-'+o).textContent='Cañería '+fmt(S['A'+o].can)+' + IVA · Total '+fmt(calc(c.cot,o,c.ev).grand);});
   ['P','E'].forEach(function(e){
-    document.getElementById('add-'+e).textContent='Equipos '+fmt(S['B'+c.op+e+U].eq)+' · Total '+fmt(calc('B',c.op,e,c.up).grand);});
-  document.getElementById('add-upA').textContent='+ '+fmt(S['B'+c.op+c.ev+'U'].eq-S['B'+c.op+c.ev].eq)+' · Total '+fmt(calc('B',c.op,c.ev,true).grand);
+    document.getElementById('add-'+e).textContent='Equipos '+fmt(S['B'+c.op+e].eq)+' · Total '+fmt(calc('B',c.op,e).grand);});
   document.getElementById('fij').innerHTML=FIJ[c.op];
   renderInv(c,r);
   document.getElementById('pay').innerHTML=r.stages.map(stageHtml).join('');
@@ -1224,7 +1174,7 @@ function render(){
   document.getElementById('gt').textContent=fmt(r.grand);
   var desc='Cotización '+c.cot+(c.cot==='A'?' (solo instalación)':' (instalación + equipos)')
     +', cañería '+(c.op==='O'?'oculta':'a la vista')
-    +(c.cot==='B'?', equipos '+(c.ev==='P'?'según pliego':'opción económica')+(c.up?', con upgrade de la cámara A':''):'');
+    +(c.cot==='B'?', equipos '+(c.ev==='P'?'según pliego':'opción económica'):'');
   document.getElementById('cta-sel').innerHTML='Elegido: <b>'+desc+'</b> · '+fmt(r.grand)+' con IVA';
   var t='Hola Nova Domus, revisamos la propuesta '+PY+' de la Casa del Estudiante (UNC). '
     +'Elegimos la '+desc+': '+fmt(r.grand)+' con IVA. Queremos avanzar.';
