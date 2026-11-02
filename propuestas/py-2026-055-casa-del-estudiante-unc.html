@@ -510,9 +510,16 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 .mat div{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 20px}
 .mat h3{color:var(--gold)} .mat ul{margin:8px 0 0;padding-left:20px} .mat li{margin:6px 0}
 .mat1{grid-template-columns:1fr}
+#antipanico .mat1{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+#mon{display:none;margin:4px 0 16px;border:1px solid rgba(20,30,97,.18);border-radius:12px;padding:12px 16px;background:#fff}
+#mon b{color:var(--navy)}
+/* tablas de 2 columnas (concepto + precio) en la capa mobile: la 2a celda es el precio, no la cantidad */
+.rub-body td:nth-child(2):last-child::after{content:none}
+@media(max-width:640px){.rub-body td:nth-child(2):last-child{grid-column:1/-1;font-weight:600;color:var(--navy)}}
 .mat .tagop{display:inline-block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;border:1px solid rgba(200,169,110,.5);color:var(--gold);border-radius:999px;padding:3px 10px;margin-bottom:10px}
 @media(max-width:640px){.opts2,.inout,.mat{grid-template-columns:1fr}.inout div,.mat div{padding:16px}
   .mtx{font-size:13.5px}.mtx th,.mtx td{padding:9px 8px}
+  #antipanico .mat1{grid-template-columns:1fr}
   /* tabla "¿Por que cañeria?" en seccion oscura: tarjetas oscuras, nunca dorado sobre blanco */
   #s02 .tbl tr{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14)}
   #s02 .tbl td:first-child,#s02 .tbl td[data-label]::before{color:var(--cream)}
@@ -553,6 +560,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <li><a href="#plano">Plano</a></li>
   <li><a href="#s01">Cámaras</a></li>
   <li><a href="#s02">Cableado</a></li>
+  <li><a href="#antipanico">Antipánico</a></li>
   <li><a href="#inversion">Inversión</a></li>
   <li><a href="#pago">Pago</a></li>
   <li><a href="#condiciones">Condiciones</a></li>
@@ -591,12 +599,16 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
   <p><b>Lo que queda a cargo del área de Sistemas de la UNC:</b> la instalación del grabador en el
     rack, la configuración del grabador y del software de la PC del Centro de Imágenes, la conexión
     por fibra, el rack y la UPS.</p>
+  <p><b>Adicional: sistema antipánico.</b> Dos botones de emergencia y una sirena exterior, con aviso al
+    celular de los responsables. Es independiente de las cámaras: se suma a cualquier cotización, por
+    U$D 715 con IVA, o no se contrata.</p>
   <p><b>Inversión.</b> Todos los valores con IVA incluido:</p>
-  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 956</td><td class="num">U$D 683</td></tr><tr><td>Cotización B — según pliego<small>Instalación + equipos</small></td><td class="num">U$D 2.259</td><td class="num">U$D 1.986</td></tr><tr><td>Cotización B — opción económica<small>Instalación + equipos</small></td><td class="num">U$D 2.149</td><td class="num">U$D 1.876</td></tr></tbody></table></div>
+  <div class="tw"><table class="mtx"><thead><tr><th></th><th>Cañería oculta</th><th>Cañería a la vista</th></tr></thead><tbody><tr><td>Cotización A<small>Solo instalación</small></td><td class="num">U$D 956</td><td class="num">U$D 683</td></tr><tr><td>Cotización B — según pliego<small>Instalación + equipos</small></td><td class="num">U$D 2.259</td><td class="num">U$D 1.986</td></tr><tr><td>Cotización B — opción económica<small>Instalación + equipos</small></td><td class="num">U$D 2.149</td><td class="num">U$D 1.876</td></tr><tr><td>A + sistema antipánico<small>Adicional + U$D 715 con IVA</small></td><td class="num">U$D 1.671</td><td class="num">U$D 1.398</td></tr><tr><td>B según pliego + antipánico<small>Adicional + U$D 715 con IVA</small></td><td class="num">U$D 2.974</td><td class="num">U$D 2.701</td></tr><tr><td>B económica + antipánico<small>Adicional + U$D 715 con IVA</small></td><td class="num">U$D 2.864</td><td class="num">U$D 2.591</td></tr></tbody></table></div>
   <p class="note">Los materiales de cableado (caño, cable, fichas, cajas) los compra la UNC: están
     listados en la sección Cableado.</p>
   <a class="plano-dl" href="py-2026-055-casa-del-estudiante-unc-presupuesto.pdf" target="_blank" rel="noopener">Descargar el presupuesto en PDF</a>
-  <p><b>Próximo paso.</b> Elegir la cotización y dónde va la cañería en la sección Inversión, y
+  <p><b>Próximo paso.</b> Elegir la cotización, dónde va la cañería y si se suma el sistema antipánico
+    en la sección Inversión, y
     coordinar la visita técnica para confirmar los recorridos.</p>
 </section>
 </div>
@@ -618,6 +630,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
           plano.</li>
         <li>Conexión física de cada cámara a su puerto PoE del grabador, con cada cable etiquetado.</li>
         <li>Plano con los recorridos reales al terminar.</li>
+        <li>Si se suma el sistema antipánico: instalación de la central y de la sirena exterior, y su
+          <b>configuración</b> en Hik-Connect (alta de zonas y usuarios, prueba de botones y sirena). A
+          diferencia del grabador, esta configuración sí está incluida.</li>
       </ul>
     </div>
     <div class="no">
@@ -629,7 +644,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
         <li>Conexión por fibra entre el edificio y el Centro de Imágenes.</li>
         <li>Rack y UPS del grabador.</li>
         <li>Los materiales de cableado, en las dos cotizaciones; y en la Cotización A, también los
-          equipos.</li>
+          equipos de las cámaras.</li>
+        <li>Si se suma el sistema antipánico: el chip 4G de la central y su conexión a la red o al
+          WiFi de la UNC.</li>
       </ul>
     </div>
   </div>
@@ -747,12 +764,52 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 </section>
 </div>
 
+<div class="wrap">
+<section class="sec" id="antipanico">
+  <p class="eyebrow">Adicional</p>
+  <h2>Sistema antipánico</h2>
+  <p class="lead">Dos botones de emergencia y una sirena exterior. Es independiente de las cámaras: se
+    suma a la Cotización A o a la B, con cualquier cañería y opción de equipos, o no se contrata. Los
+    equipos los provee siempre Nova Domus, también en la Cotización A.</p>
+  <h3 style="margin-top:22px">Qué pasa cuando se aprieta el botón</h3>
+  <p>A diferencia de una sirena local, que solo suena en el lugar, al apretar el botón suena la sirena
+    exterior <b>y llega un aviso al celular de los responsables</b> por Hik-Connect, la misma app de las
+    cámaras. El evento queda registrado con fecha y hora, y la central tiene WiFi con respaldo 4G, así
+    que el aviso sale aunque se corte internet. Con el monitoreo opcional, el aviso llega además a una
+    central de monitoreo, que da intervención a la policía.</p>
+  <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
+  <div class="device-grid" id="grid-ap"></div>
+  <p class="note">Los botones son de formato colgante: se fijan en el lugar que indique la UNC o los lleva
+    encima el personal. El sensor de movimiento (PIR) y el magnético que trae el kit quedan disponibles
+    para el ingreso o como repuesto.</p>
+  <div class="mat mat1">
+    <div>
+      <h3>Incluye la configuración</h3>
+      <p style="margin:0">A diferencia del grabador de las cámaras, que configura Sistemas de la UNC, el
+        sistema antipánico se entrega configurado: alta de zonas y usuarios en Hik-Connect y prueba de
+        los botones y de la sirena. Instalación de la central U$D 43 y de la sirena U$D 25,
+        configuración U$D 40, más IVA; los botones no llevan cargo de instalación.</p>
+    </div>
+    <div>
+      <h3>A confirmar en la visita técnica</h3>
+      <ul>
+        <li>Dónde van los dos botones y la sirena exterior: no están en el plano del pliego.</li>
+        <li>La central necesita un tomacorriente y conexión a la red o al WiFi de la UNC; el chip 4G
+          lo provee la UNC.</li>
+        <li>Qué personas reciben los avisos en la app.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
 <div class="section-light">
 <div class="wrap">
 <section class="sec" id="inversion" style="border-top:0">
   <p class="eyebrow">03 — Inversión</p>
   <h2>Detalle de la inversión</h2>
-  <p class="lead">Elegí la cotización, dónde va la cañería y, en la B, los equipos: el detalle y los totales se
+  <p class="lead">Elegí la cotización, dónde va la cañería, en la B los equipos, y si se suma el sistema
+    antipánico: el detalle y los totales se
     recalculan. Los equipos llevan su IVA incluido, según la alícuota real de cada producto; la
     instalación se cotiza más IVA 21%.</p>
   <div class="selg"><p>Cotización</p>
@@ -781,6 +838,12 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       <label class="optc" id="oc-E"><input type="radio" name="ev" value="E" onchange="render()">
         <span><b>Opción económica</b><span>Domos B de línea 1121 y disco de 4TB. La cámara A, la C y el grabador no cambian.</span>
         <span class="add" id="add-E"></span></span></label>
+    </div></div>
+  <div class="selg"><p>Adicional — se suma a cualquier opción</p>
+    <div class="opts2">
+      <label class="optc" id="oc-X"><input type="checkbox" id="ap" onchange="render()">
+        <span><b>Sistema antipánico</b><span>Dos botones de emergencia y sirena exterior, con aviso al celular por Hik-Connect. Equipos de Nova Domus, también en la Cotización A.</span>
+        <span class="add" id="add-X"></span></span></label>
     </div></div>
   <div class="bar" id="bar"></div>
   <ul class="legend" id="legend"></ul>
@@ -812,6 +875,27 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
       </table>
     </div></div>
   </article>
+  <article class="rub" id="rub-ap">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Sistema antipánico<span class="rub-note" id="ap-note"></span></span>
+      <span class="rub-val" id="rv-ap"></span>
+      <span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw">
+      <table>
+        <thead><tr><th>Equipos (IVA incluido)</th><th class="num">Cant.</th>
+          <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+        <tbody id="rb-ap"></tbody>
+      </table>
+      <table>
+        <thead><tr><th>Instalación y configuración (+ IVA 21%)</th><th class="num">Precio</th></tr></thead>
+        <tbody id="rb-apmo"></tbody>
+      </table>
+    </div></div>
+  </article>
+  <p id="mon">Servicio opcional, mensual y aparte: <b>Monitoreo 24 h con aviso a la Policía de la
+    Provincia de Córdoba</b> — abono de ARS 55.000 + IVA 21% por mes (ARS 66.550 con IVA). No suma a ningún
+    total de este presupuesto.</p>
   <div class="totals">
     <div class="trow eqr"><span>Subtotal equipos (Precio Neto)</span><b id="t-neto"></b></div>
     <div class="trow sub eqr"><span>IVA equipos (discriminado por ítem)</span><span id="t-iva"></span></div>
@@ -819,6 +903,9 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <div class="trow sub" id="t-noeq"><span>Equipos: los provee la UNC (Cotización A)</span><span>—</span></div>
     <div class="trow"><span>Instalación (Precio)</span><b id="t-mo"></b></div>
     <div class="trow sub"><span>IVA 21% sobre la instalación</span><span id="t-moiva"></span></div>
+    <div class="trow apr"><span>Sistema antipánico — equipos (IVA incluido)</span><b id="t-apeq"></b></div>
+    <div class="trow apr"><span>Sistema antipánico — instalación y configuración (Precio)</span><b id="t-apmo"></b></div>
+    <div class="trow sub apr"><span>IVA 21% sobre instalación y configuración del antipánico</span><span id="t-apmoiva"></span></div>
     <div class="trow big"><span>Total</span><span id="t-tot"></span></div>
   </div>
   <p class="note">Cifras en dólares, sin centavos. Tipo de cambio de referencia: oficial del Banco de la
@@ -835,7 +922,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     certifica según el avance real del trabajo en la Casa del Estudiante.</p>
   <div class="pay" id="pay"></div>
   <div class="totals" style="border-top-color:var(--gold)">
-    <div class="trow sub" id="pay-iva-row"><span>IVA 21% sobre la instalación</span>
+    <div class="trow sub" id="pay-iva-row"><span id="pay-iva-lbl">IVA 21% sobre la instalación</span>
       <span id="pay-iva"></span></div>
     <div class="trow big" style="color:var(--gold)"><span>Total</span>
       <span id="gt"></span></div>
@@ -856,7 +943,15 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Alcance: instalación física, sin configuración</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Nova Domus instala la cañería con el cableado y las cinco cámaras, y deja cada cámara conectada físicamente a su puerto PoE del grabador. No incluye la instalación del grabador en el rack, su configuración, la configuración del software en la PC del Centro de Imágenes, la conexión por fibra, el rack ni la UPS: quedan a cargo del área de Sistemas de la UNC. Cuadrilla de dos técnicos, unos tres días.</p></div></article>
+      <div class="dev-body"><p>Nova Domus instala la cañería con el cableado y las cinco cámaras, y deja cada cámara conectada físicamente a su puerto PoE del grabador. No incluye la instalación del grabador en el rack, su configuración, la configuración del software en la PC del Centro de Imágenes, la conexión por fibra, el rack ni la UPS: quedan a cargo del área de Sistemas de la UNC. Cuadrilla de dos técnicos, unos tres días. El sistema antipánico, si se suma, sí incluye su configuración.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Sistema antipánico (adicional)</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Se suma a cualquiera de las cotizaciones, con cualquier cañería y opción de equipos. Los equipos —central AXPro, dos botones de emergencia y sirena exterior— los provee siempre Nova Domus, también en la Cotización A. Incluye la instalación de la central y de la sirena y la configuración en Hik-Connect (alta de zonas y usuarios, prueba de botones y sirena); los botones no llevan cargo de instalación. Se confirman en la visita técnica: la ubicación de los dos botones y de la sirena, que no están en el plano del pliego; el tomacorriente y la conexión a la red o al WiFi de la UNC para la central, con el chip 4G a cargo de la UNC; y qué personas reciben los avisos en la app.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Monitoreo (servicio opcional)</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Monitoreo 24 h con aviso a la Policía de la Provincia de Córdoba: abono de ARS 55.000 + IVA 21% por mes (ARS 66.550 con IVA). Es un servicio mensual aparte, solo para el sistema antipánico, y no suma a ningún total de este presupuesto.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cotización B: según pliego u opción económica</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -864,7 +959,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cotización A: equipos provistos por la UNC</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>En la Cotización A, la UNC provee las cámaras, el grabador y el disco, y los entrega en la Casa del Estudiante antes de la instalación. Si los modelos difieren de los de esta propuesta, se revisa que sean compatibles con la alimentación PoE del grabador antes de empezar.</p></div></article>
+      <div class="dev-body"><p>En la Cotización A, la UNC provee las cámaras, el grabador y el disco, y los entrega en la Casa del Estudiante antes de la instalación. Los equipos del sistema antipánico, si se suma, los provee Nova Domus. Si los modelos difieren de los de esta propuesta, se revisa que sean compatibles con la alimentación PoE del grabador antes de empezar.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Materiales de cableado a cargo de la UNC</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -884,7 +979,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Forma de pago</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Cotización B: los equipos se abonan al 100% por anticipado, antes de la compra. En las dos cotizaciones, la instalación se certifica según el avance real del trabajo, con su IVA. Se paga en pesos, al tipo de cambio oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago.</p></div></article>
+      <div class="dev-body"><p>Cotización B: los equipos se abonan al 100% por anticipado, antes de la compra. Sistema antipánico: sus equipos también se abonan al 100% por anticipado, en las dos cotizaciones. La instalación, y la configuración del antipánico si se suma, se certifican según el avance real del trabajo, con su IVA. Se paga en pesos, al tipo de cambio oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Facturación</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -904,7 +999,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Cancelación de equipos</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Cotización B: los equipos son de importación y se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución.</p></div></article>
+      <div class="dev-body"><p>Los equipos de la Cotización B y los del sistema antipánico son de importación y se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Proyecto aproximado</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -916,7 +1011,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Garantía y post-venta</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Doce meses de garantía sobre la instalación desde la entrega documentada: si una cámara deja de conectar por el cableado o el montaje, se resuelve sin costo de mano de obra. En la Cotización B, los equipos mantienen además la garantía de su fabricante, que gestiona Nova Domus. Al terminar se entrega el plano con los recorridos reales y el etiquetado de cada cable.</p></div></article>
+      <div class="dev-body"><p>Doce meses de garantía sobre la instalación desde la entrega documentada: si una cámara deja de conectar por el cableado o el montaje, se resuelve sin costo de mano de obra. Los equipos que provee Nova Domus —los de la Cotización B y los del sistema antipánico— mantienen además la garantía de su fabricante, que gestiona Nova Domus. Al terminar se entrega el plano con los recorridos reales y el etiquetado de cada cable.</p></div></article>
   </div>
 </section>
 </div>
@@ -996,7 +1091,11 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Por qué no incluye la configuración?</span>
       <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Porque el grabador se conecta a la red de la universidad y al Centro de Imágenes, que administra el área de Sistemas de la UNC. Lo más ordenado es que su instalación en el rack y la configuración las haga quien administra esa red. Nosotros dejamos todo instalado, conectado, verificado y documentado.</p></div></article>
+      <div class="dev-body"><p>Porque el grabador se conecta a la red de la universidad y al Centro de Imágenes, que administra el área de Sistemas de la UNC. Lo más ordenado es que su instalación en el rack y la configuración las haga quien administra esa red. Nosotros dejamos todo instalado, conectado, verificado y documentado. El sistema antipánico es distinto: es independiente de esa red y lo entregamos configurado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa cuando se aprieta el botón?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Suena la sirena exterior y llega un aviso al celular de los responsables por Hik-Connect, la misma app de las cámaras. El evento queda registrado con fecha y hora. La central tiene WiFi con respaldo 4G, así que el aviso sale aunque se corte internet. Con el monitoreo opcional, el aviso llega además a una central de monitoreo, que da intervención a la policía.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Por qué cambia la cámara A?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -1024,7 +1123,7 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Hay costos recurrentes?</span>
       <span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>No. Las cámaras graban en el grabador, sin abono de nube ni licencias.</p></div></article>
+      <div class="dev-body"><p>En las cámaras, no: graban en el grabador, sin abono de nube ni licencias. Si se suma el sistema antipánico, el monitoreo 24 h es opcional, con un abono mensual aparte (ver Condiciones).</p></div></article>
   </div>
 </section>
 </div></div>
@@ -1065,19 +1164,27 @@ color:var(--navy);border-radius:999px;padding:1px 7px;margin-left:6px}
 <script>
 var PY='PY-2026-055';
 var ITEMS=[{"n":"Cámara A — Hikvision DS-2CD3341G2-LIUF · turret 4MP, audio bidireccional, detección de personas","q":1,"precio":170,"iva":21,"v":null},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1321G0-I · domo 2MP","q":3,"precio":64,"iva":21,"v":"P"},{"n":"Cámaras B1, B2 y B3 — Hikvision DS-2CD1121G0-I · domo 2MP interior","q":3,"precio":59,"iva":21,"v":"E"},{"n":"Cámara C — Hikvision DS-2CD1043G2-LIUF · bullet 4MP exterior (modelo del pliego)","q":1,"precio":149,"iva":21,"v":null},{"n":"Grabador D — Hikvision DS-7608NI-Q1/8P · NVR 8 canales PoE","q":1,"precio":353,"iva":21,"v":null},{"n":"Disco Seagate SkyHawk 6TB ST6000VX009 · línea videovigilancia","q":1,"precio":439,"iva":10.5,"v":"P"},{"n":"Disco Seagate SkyHawk 4TB ST4000VX016 · línea videovigilancia","q":1,"precio":344,"iva":10.5,"v":"E"}];
-// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{equipos P segun pliego / E economica}.
-var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":956},"BOP":{"eq":1303,"iva":192,"neto":1111,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2259},"BOE":{"eq":1193,"iva":181,"neto":1012,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"tot":2149},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":683},"BVP":{"eq":1303,"iva":192,"neto":1111,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1986},"BVE":{"eq":1193,"iva":181,"neto":1012,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"tot":1876}};
+// Escenarios pre-resueltos (Python): AO/AV = Cotizacion A por cañeria (O oculta, V a la vista); B{cañeria}{equipos P segun pliego / E economica};
+// sufijo X = con sistema antipanico (adicional). El monitoreo es un abono mensual aparte: no entra en S.
+var S={"AO":{"eq":0,"iva":0,"neto":0,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"apeq":0,"apiva":0,"apmo":0,"apmoiva":0,"tot":956},"AOX":{"eq":0,"iva":0,"neto":0,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"apeq":584,"apiva":97,"apmo":108,"apmoiva":23,"tot":1671},"BOP":{"eq":1303,"iva":192,"neto":1111,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"apeq":0,"apiva":0,"apmo":0,"apmoiva":0,"tot":2259},"BOPX":{"eq":1303,"iva":192,"neto":1111,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"apeq":584,"apiva":97,"apmo":108,"apmoiva":23,"tot":2974},"BOE":{"eq":1193,"iva":181,"neto":1012,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"apeq":0,"apiva":0,"apmo":0,"apmoiva":0,"tot":2149},"BOEX":{"eq":1193,"iva":181,"neto":1012,"can":604,"cam":186,"mo":790,"moiva":166,"motot":956,"apeq":584,"apiva":97,"apmo":108,"apmoiva":23,"tot":2864},"AV":{"eq":0,"iva":0,"neto":0,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"apeq":0,"apiva":0,"apmo":0,"apmoiva":0,"tot":683},"AVX":{"eq":0,"iva":0,"neto":0,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"apeq":584,"apiva":97,"apmo":108,"apmoiva":23,"tot":1398},"BVP":{"eq":1303,"iva":192,"neto":1111,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"apeq":0,"apiva":0,"apmo":0,"apmoiva":0,"tot":1986},"BVPX":{"eq":1303,"iva":192,"neto":1111,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"apeq":584,"apiva":97,"apmo":108,"apmoiva":23,"tot":2701},"BVE":{"eq":1193,"iva":181,"neto":1012,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"apeq":0,"apiva":0,"apmo":0,"apmoiva":0,"tot":1876},"BVEX":{"eq":1193,"iva":181,"neto":1012,"can":378,"cam":186,"mo":564,"moiva":119,"motot":683,"apeq":584,"apiva":97,"apmo":108,"apmoiva":23,"tot":2591}};
+var AP={items:[{"n":"Central de alarma AXPro inalámbrica — Hikvision DS-PWA48-Kit-WB(ARG) · kit con central, control, sensor de movimiento (PIR) y magnético; WiFi + 4G","q":1,"precio":415,"iva":21},{"n":"Botón de emergencia inalámbrico — Hikvision DS-PDEBP1-EG2-WB · IP66","q":2,"precio":33,"iva":10.5},{"n":"Sirena exterior inalámbrica — Hikvision DS-PS1-E-WB","q":1,"precio":103,"iva":21}],mo:[["Instalación de la central de alarma",43],["Instalación de la sirena exterior",25],["Configuración: alta de zonas y usuarios en Hik-Connect, prueba de botones y sirena",40]]};
 var DEVICES=[{"n":"Cámara A — turret 4MP con audio bidireccional","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd3341g2-liuf.png","desc":"Para la sala principal. Detecta personas (las distingue de otros movimientos), ve de noche con luz híbrida y tiene audio bidireccional: micrófono y parlante incorporados. Reemplaza a la DS-2CD2443G0-IW del pliego, que Hikvision discontinuó."},{"n":"Cámaras B1, B2 y B3 — domo 2MP interior","q":3,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1321g0-i.png","desc":"Domo compacto de 2MP con visión nocturna, sin audio, como describe el pliego para las tres cámaras interiores. Según pliego, la DS-2CD1321G0-I; en la opción económica, la DS-2CD1121G0-I, de línea más básica. La B2 se reorienta hacia adentro del edificio: en el plano del pliego miraba hacia afuera."},{"n":"Cámara C — bullet 4MP exterior","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-2cd1043g2-liuf.png","desc":"El modelo del pliego. Vigila el acceso exterior por la escalera y la puerta de entrada, con luz híbrida para ver de noche y micrófono incorporado. Su conexión va en caja estanca."},{"n":"Grabador D — NVR de 8 canales PoE","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7608NI-Q1/8P.png","desc":"El modelo del pliego. Las cinco cámaras se conectan directo a sus puertos PoE, que les dan datos y alimentación por el mismo cable: no hacen falta fuentes junto a cada cámara. Quedan tres canales libres para sumar cámaras. Su instalación en el rack y su configuración quedan a cargo de Sistemas de la UNC."},{"n":"Disco Seagate SkyHawk — 6TB o 4TB","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st6000vx009.png","desc":"Disco de línea videovigilancia, pensado para grabar las 24 horas. Según pliego, de 6TB; en la opción económica, de 4TB, con menos días de grabación."}];
+var APDEV=[{"n":"Central de alarma AXPro — kit inalámbrico","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg","desc":"El cerebro del sistema: recibe la señal de los botones, dispara la sirena y avisa al celular por Hik-Connect. Conexión WiFi con respaldo 4G (chip a cargo de la UNC). El kit trae además un control remoto, un sensor de movimiento (PIR) y un magnético de apertura, que quedan disponibles para el ingreso o como repuesto."},{"n":"Botón de emergencia inalámbrico","q":2,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDEBP1-EG2-WB.jpg","desc":"Resistente al agua y al polvo (IP66), con protección contra disparos accidentales. Es de formato colgante: se fija en el lugar que indique la UNC o lo lleva encima el personal."},{"n":"Sirena exterior inalámbrica","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp","desc":"Suena al apretar cualquiera de los botones, para alertar y disuadir. Al ser inalámbrica no necesita cableado hasta la central; su ubicación se define en la visita técnica."}];
 var FIJ={O:'<b>Fijación de la cañería oculta:</b> a las soleras y montantes del cielorraso, con grampas o precintos.',
          V:'<b>Fijación de la cañería a la vista:</b> anclajes para placa de cielorraso (tipo mariposa), no tarugos comunes. Caño blanco recomendado.'};
 function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
 //CALC-START
-function key(cot,op,ev){return cot==='A'?'A'+op:'B'+op+ev;}
-function calc(cot,op,ev){
-  var s=S[key(cot,op,ev)], stages=[];
-  if(cot==='B') stages.push(['Equipos — 100% anticipado','Antes de la compra: asegura el precio y la disponibilidad de importación.',s.eq,'']);
-  stages.push(['Instalación','Se certifica según el avance real del trabajo en la Casa del Estudiante.',s.mo,'Monto de referencia + IVA 21% — se certifica por avance']);
-  return {s:s,stages:stages,iva:s.moiva,grand:s.tot};
+function key(cot,op,ev,ap){return (cot==='A'?'A'+op:'B'+op+ev)+(ap?'X':'');}
+function calc(cot,op,ev,ap){
+  var s=S[key(cot,op,ev,ap)], stages=[], eq=(cot==='B'?s.eq:0)+s.apeq;
+  if(eq) stages.push(['Equipos — 100% anticipado',
+    (cot==='B'?(ap?'Cámaras, grabador, disco y sistema antipánico, antes de la compra':'Antes de la compra')
+              :'Equipos del sistema antipánico, antes de la compra')
+    +': asegura el precio y la disponibilidad de importación.',eq,'']);
+  stages.push([ap?'Instalación y configuración':'Instalación',
+    'Se certifica según el avance real del trabajo en la Casa del Estudiante.',s.mo+s.apmo,
+    'Monto de referencia + IVA 21% — se certifica por avance']);
+  return {s:s,stages:stages,iva:s.moiva+s.apmoiva,grand:s.tot};
 }
 //CALC-END
 function tog(b){
@@ -1096,10 +1203,10 @@ function imgErr(img){
   d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
   img.replaceWith(d);
 }
-function renderDeviceGrid(id){
+function renderDeviceGrid(id,list){
   var el=document.getElementById(id); if(!el) return;
   var isLight=!!el.closest('.section-light');
-  el.innerHTML=DEVICES.map(function(d,i){
+  el.innerHTML=list.map(function(d,i){
     var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
     var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
     return '<article class="dev" id="'+id+'-'+i+'">'
@@ -1114,7 +1221,8 @@ function ivaTxt(x){return String(x).replace('.',',');}
 function sel(){
   return {cot:document.querySelector('input[name=cot]:checked').value,
           op:document.querySelector('input[name=op]:checked').value,
-          ev:document.querySelector('input[name=ev]:checked').value};
+          ev:document.querySelector('input[name=ev]:checked').value,
+          ap:document.getElementById('ap').checked};
 }
 // Inversion: filas desde ITEMS y S. Subtotal de fila = unitario mostrado x cantidad.
 function renderInv(c,r){
@@ -1137,7 +1245,28 @@ function renderInv(c,r){
      '<tr><td>Instalación de las 5 cámaras — fijación, fichas RJ45 y conexión a su puerto PoE del grabador</td><td class="num">'+fmt(s.cam)+'</td></tr>'
     +'<tr><td>'+opTxt+'</td><td class="num">'+fmt(s.can)+'</td></tr>';
   document.getElementById('rv-mo').textContent=fmt(s.mo)+' + IVA';
-  var parts=B?[['Equipos',s.eq],['Instalación con IVA',s.motot]]:[['Instalación con IVA',s.motot]];
+  var apEq=0, apMo=0, apHtml='';
+  AP.items.forEach(function(x){
+    var sub=x.q*x.precio; apEq+=sub;
+    apHtml+='<tr><td>'+x.n+'</td><td class="num">'+x.q+'</td><td class="num">'+fmt(x.precio)
+      +'<span class="iva"> · IVA '+ivaTxt(x.iva)+'% incl.</span></td><td class="num">'+fmt(sub)+'</td></tr>';
+  });
+  document.getElementById('rb-ap').innerHTML=apHtml;
+  document.getElementById('rb-apmo').innerHTML=AP.mo.map(function(m){apMo+=m[1];
+      return '<tr><td>'+m[0]+'</td><td class="num">'+fmt(m[1])+'</td></tr>';}).join('')
+    +'<tr><td>Botones de emergencia — se vinculan a la central, no llevan cargo de instalación</td><td class="num">—</td></tr>';
+  var X=c.ap;
+  if(X && (apEq!==s.apeq || apMo!==s.apmo) && window.console) console.warn('Antipánico no cierra contra S');
+  document.getElementById('rub-ap').classList.toggle('off',!X);
+  document.getElementById('rv-ap').textContent=X?fmt(s.apeq+s.apmo+s.apmoiva)+' con IVA':'No incluido';
+  var sx=S[key(c.cot,c.op,c.ev,true)];
+  document.getElementById('ap-note').textContent=X?'Adicional · equipos IVA incl. + instalación y configuración + IVA':'Adicional sin tildar: '+fmt(sx.apeq+sx.apmo+sx.apmoiva)+' con IVA';
+  document.getElementById('mon').style.display=X?'block':'none';
+  document.querySelectorAll('.apr').forEach(function(e){e.style.display=X?'flex':'none';});
+  document.getElementById('t-apeq').textContent=fmt(s.apeq);
+  document.getElementById('t-apmo').textContent=fmt(s.apmo);
+  document.getElementById('t-apmoiva').textContent=fmt(s.apmoiva);
+  var parts=(B?[['Equipos',s.eq]]:[]).concat(X?[['Sistema antipánico con IVA',s.apeq+s.apmo+s.apmoiva]]:[]).concat([['Instalación con IVA',s.motot]]);
   document.getElementById('bar').innerHTML=parts.map(function(p){
     return '<span class="seg" style="flex:'+p[1]+'" title="'+p[0]+': '+fmt(p[1])+'"></span>';}).join('');
   document.getElementById('legend').innerHTML=parts.map(function(p,k){
@@ -1157,16 +1286,19 @@ function stageHtml(st){
     +(st[3]?'<em class="sref">'+st[3]+'</em>':'')+'</span><b>'+fmt(st[2])+'</b></div>';
 }
 function render(){
-  var c=sel(), r=calc(c.cot,c.op,c.ev);
-  ['A','B','O','V','P','E'].forEach(function(k){
+  var c=sel(), r=calc(c.cot,c.op,c.ev,c.ap);
+  ['A','B','O','V','P','E','X'].forEach(function(k){
     document.getElementById('oc-'+k).classList.toggle('on',document.querySelector('#oc-'+k+' input').checked);});
   document.getElementById('g-eq').style.display=c.cot==='B'?'':'none';
-  document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,'P').grand);
-  document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.ev).grand);
+  document.getElementById('add-A').textContent='Total '+fmt(calc('A',c.op,'P',c.ap).grand);
+  document.getElementById('add-B').textContent='Total '+fmt(calc('B',c.op,c.ev,c.ap).grand);
   ['O','V'].forEach(function(o){
-    document.getElementById('add-'+o).textContent='Cañería '+fmt(S['A'+o].can)+' + IVA · Total '+fmt(calc(c.cot,o,c.ev).grand);});
+    document.getElementById('add-'+o).textContent='Cañería '+fmt(S['A'+o].can)+' + IVA · Total '+fmt(calc(c.cot,o,c.ev,c.ap).grand);});
   ['P','E'].forEach(function(e){
-    document.getElementById('add-'+e).textContent='Equipos '+fmt(S['B'+c.op+e].eq)+' · Total '+fmt(calc('B',c.op,e).grand);});
+    document.getElementById('add-'+e).textContent='Equipos '+fmt(S['B'+c.op+e].eq)+' · Total '+fmt(calc('B',c.op,e,c.ap).grand);});
+  document.getElementById('add-X').textContent='+ '+fmt(calc(c.cot,c.op,c.ev,true).grand-calc(c.cot,c.op,c.ev,false).grand)
+    +' con IVA · Total '+fmt(calc(c.cot,c.op,c.ev,true).grand);
+  document.getElementById('pay-iva-lbl').textContent=c.ap?'IVA 21% sobre la instalación y la configuración':'IVA 21% sobre la instalación';
   document.getElementById('fij').innerHTML=FIJ[c.op];
   renderInv(c,r);
   document.getElementById('pay').innerHTML=r.stages.map(stageHtml).join('');
@@ -1174,7 +1306,8 @@ function render(){
   document.getElementById('gt').textContent=fmt(r.grand);
   var desc='Cotización '+c.cot+(c.cot==='A'?' (solo instalación)':' (instalación + equipos)')
     +', cañería '+(c.op==='O'?'oculta':'a la vista')
-    +(c.cot==='B'?', equipos '+(c.ev==='P'?'según pliego':'opción económica'):'');
+    +(c.cot==='B'?', equipos '+(c.ev==='P'?'según pliego':'opción económica'):'')
+    +(c.ap?', con el sistema antipánico (adicional)':'');
   document.getElementById('cta-sel').innerHTML='Elegido: <b>'+desc+'</b> · '+fmt(r.grand)+' con IVA';
   var t='Hola Nova Domus, revisamos la propuesta '+PY+' de la Casa del Estudiante (UNC). '
     +'Elegimos la '+desc+': '+fmt(r.grand)+' con IVA. Queremos avanzar.';
@@ -1190,7 +1323,8 @@ function marca(i,btn){
   document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
   if(!on){f.classList.add('on'); btn.classList.add('on');}
 }
-renderDeviceGrid('grid-camaras');
+renderDeviceGrid('grid-camaras',DEVICES);
+renderDeviceGrid('grid-ap',APDEV);
 render();
 var io=new IntersectionObserver(function(es){
   es.forEach(function(e){
