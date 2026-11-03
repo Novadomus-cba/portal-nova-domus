@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Edificio Ocaña 130 — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Videoportero IP con app: los 47 departamentos, el local y el encargado atienden y abren desde el celular. PY-2026-056 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-056-edificio-ocana-130.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-056-edificio-ocana-130.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-056">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Edificio Ocaña 130 · PY-2026-056 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Michroma&display=swap">
+<style>
+/* Cuatro láminas oscuras de marca: portada con el frente girando a la izquierda, esquema animado, precio final y opcionales. */
+:root{
+  --deep:#0B132B; --nova:#141E61; --card:#121B57; --cream:#FDFBF0; --body:#EDEAE0; --soft:#B9BBCD; --grey:#8E90A8; --gold:#C8A96E;
+  --line:rgba(253,251,240,.10); --edge:rgba(120,140,255,.18); --wifi:#9AA8F0; --mute:#4D5170;
+  --display:"Michroma",Arial,sans-serif; --text:"Inter",Arial,Helvetica,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--deep);color:var(--cream);font-family:var(--text);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--deep)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+
+.lam{position:relative;border-bottom:1px solid var(--line);scroll-margin-top:0}
+.lam > .wrap{min-height:min(100svh,860px);padding-block:56px;display:flex;flex-direction:column;justify-content:center}
+.tag{font-size:11.5px;font-weight:600;letter-spacing:2.6px;color:var(--grey);margin:0}
+.tag b{color:var(--gold);font-weight:600}
+.h2{font-family:var(--display);font-weight:400;font-size:clamp(22px,3.6vw,32px);letter-spacing:1px;line-height:1.2;margin:12px 0 0;text-wrap:balance}
+.lead{font-size:17px;color:var(--soft);margin:12px 0 0;max-width:60ch}
+.lead b{color:var(--cream);font-weight:600}
+
+/* ---------- 1 · portada ---------- */
+.cover{background:radial-gradient(ellipse 60% 70% at 22% 50%,rgba(20,30,97,.75),rgba(11,19,43,0) 70%),var(--deep)}
+.cover .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px;align-items:stretch}
+.cover-right{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;text-align:right;min-width:0;gap:40px;padding-block:8px}
+.ttl{font-family:var(--display);font-weight:400;font-size:clamp(30px,5vw,50px);line-height:1.1;letter-spacing:1px;margin:14px 0 0;text-wrap:balance}
+.ttl span{display:block;font-size:clamp(13px,1.7vw,17px);color:var(--gold);letter-spacing:2.4px;margin-top:16px;line-height:1.5}
+.facts{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:10px;justify-items:end}
+.facts li{font-size:15px;color:var(--soft)}
+.facts li b{color:var(--cream);font-weight:600}
+.brand{display:flex;align-items:center;gap:16px}
+.brand img{width:64px;height:64px}
+.brand .wm{font-family:var(--display);font-size:22px;letter-spacing:3.5px;line-height:1}
+.brand .ds{font-size:10px;font-weight:600;letter-spacing:2.4px;color:var(--gold);margin-top:8px}
+.brand .sl{font-size:13px;color:var(--grey);margin-top:6px}
+
+/* frente girando */
+.stage{position:relative;display:flex;align-items:center;justify-content:center;perspective:1300px;min-height:540px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.stage.grab{cursor:grabbing}
+.glow{position:absolute;width:min(480px,92vw);height:min(480px,92vw);border-radius:50%;background:radial-gradient(circle,rgba(70,95,235,.5) 0%,rgba(40,60,190,.2) 40%,rgba(11,19,43,0) 70%)}
+.obj{--h:470px;--t:.11;--ar:.3351;position:relative;height:var(--h);width:calc(var(--h) * var(--ar));transform-style:preserve-3d;animation:spin 12s linear infinite}
+.obj > i{position:absolute;inset:0;display:block;border-radius:calc(var(--h) * .008)}
+.ly{transform:translateZ(calc(var(--h) * var(--t) * var(--z)));background:var(--c)}
+.face{background-size:100% 100%;background-repeat:no-repeat;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.ff{background-image:url(data:image/webp;base64,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);transform:translateZ(calc(var(--h) * var(--t) * .5));animation:litF 12s linear infinite}
+.fb{background:linear-gradient(160deg,#2a2d35 0%,#121418 45%,#08090b 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);transform:rotateY(180deg) translateZ(calc(var(--h) * var(--t) * .5));animation:litB 12s linear infinite}
+.fb::after{content:"";position:absolute;left:18%;right:18%;top:6%;bottom:6%;border-radius:6px;border:1px solid rgba(255,255,255,.05);background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 2px,transparent 2px 22px)}
+.floor{position:absolute;left:50%;bottom:4%;width:46%;height:18px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.65),rgba(0,0,0,0));animation:floor 12s linear infinite}
+@keyframes spin{0%,15%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
+@keyframes litF{0%,15%{filter:brightness(1)}36.25%{filter:brightness(.6)}78.75%{filter:brightness(.6)}100%{filter:brightness(1)}}
+@keyframes litB{0%,36.25%{filter:brightness(.6)}57.5%{filter:brightness(1.1)}78.75%,100%{filter:brightness(.6)}}
+@keyframes floor{0%,15%,57.5%,100%{width:46%}36.25%,78.75%{width:22%}}
+.hint{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--grey);white-space:nowrap}
+.model{position:absolute;left:0;top:6px;font-size:11px;font-weight:600;letter-spacing:2px;color:var(--grey);line-height:1.6}
+.model b{display:block;color:var(--cream);font-family:var(--display);font-weight:400;font-size:14px;letter-spacing:1.5px}
+
+/* ---------- 2 · esquema ---------- */
+.board{margin-top:26px;background:linear-gradient(180deg,rgba(20,30,97,.55),rgba(18,27,87,.25));border:1px solid var(--edge);border-radius:20px;padding:10px 10px 4px}
+.board > svg{display:block;width:100%;height:auto}
+.board > svg.v{display:none}
+svg text{font-family:var(--text)}
+.lb{font-family:var(--display);font-size:13px;letter-spacing:1.4px;fill:var(--cream)}
+.ls{font-size:13px;fill:var(--soft)}
+.lg{font-size:12px;fill:var(--grey)}
+.pw{fill:none;stroke:var(--cream);stroke-width:3;stroke-linecap:round;opacity:.8}
+.pwf{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;stroke-dasharray:2 16;animation:flow 1.2s linear infinite}
+.wf{fill:none;stroke:var(--wifi);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:7 9;animation:flow 1.1s linear infinite}
+.op{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:3 7;animation:flow 1.6s linear infinite}
+.opt{fill:none;stroke:var(--grey);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:4 7;opacity:.7}
+@keyframes flow{to{stroke-dashoffset:-36}}
+.ring{animation:ring 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ring{0%,60%,100%{opacity:0}70%,90%{opacity:1}}
+.legend{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;padding:10px 8px 12px;border-top:1px solid var(--line);margin-top:4px}
+.legend span{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--soft)}
+.legend svg{width:42px;height:10px;flex:0 0 auto}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.step{background:var(--card);border:1px solid var(--edge);border-radius:13px;padding:14px 16px;min-width:0}
+.step h4{margin:0;font-size:15px;font-weight:600}
+.step p{margin:5px 0 0;font-size:14px;color:var(--soft)}
+
+/* ---------- 3 · precio ---------- */
+.price-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;margin-top:28px;align-items:start}
+.total{background:var(--card);border:1px solid rgba(200,169,110,.5);border-radius:18px;padding:26px 26px 22px}
+.total p{margin:0}
+.plabel{font-size:11px;font-weight:600;letter-spacing:2.4px;color:var(--gold)}
+.pusd{font-family:var(--display);font-size:clamp(36px,5.6vw,52px);line-height:1;margin-top:16px!important;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pars{font-size:21px;font-weight:500;color:var(--soft);margin-top:10px!important;font-variant-numeric:tabular-nums}
+.pnote{font-size:13.5px;color:var(--grey);margin-top:16px!important;padding-top:14px;border-top:1px solid var(--line);line-height:1.55}
+.pay{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px}
+.pay li{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--soft)}
+.pay li b{color:var(--cream);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row h4{margin:0;font-size:15.5px;font-weight:600}
+.row p{margin:3px 0 0;font-size:13.5px;color:var(--soft)}
+.row .amt{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.row .amt b{display:block;font-family:var(--display);font-weight:400;font-size:16px}
+.row .amt small{display:block;font-size:12.5px;color:var(--grey);margin-top:4px}
+.row.sum{border-bottom:0;padding-top:16px}
+.row.sub h4{color:var(--soft);font-size:13px;font-weight:600;letter-spacing:1px}
+.row.sum h4{color:var(--gold);font-size:12px;letter-spacing:2.2px}
+.excl{margin-top:16px;font-size:13.5px;color:var(--grey);line-height:1.6}
+.excl b{color:var(--soft);font-weight:600}
+
+/* ---------- 4 · opcionales ---------- */
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px}
+.opt{background:var(--card);border:1px solid var(--edge);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.opt-top{display:flex;align-items:center;gap:18px}
+.opt-img{flex:0 0 auto;width:132px;height:112px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:radial-gradient(circle,rgba(70,95,235,.35),rgba(11,19,43,0) 70%)}
+.opt-img img{max-width:120px;max-height:100px}
+.opt-n{font-size:10.5px;font-weight:600;letter-spacing:2px;color:var(--gold);margin:0}
+.opt h3{font-family:var(--display);font-weight:400;font-size:18px;letter-spacing:1px;margin:6px 0 0;line-height:1.3}
+.opt > p{margin:0;font-size:14.5px;color:var(--soft)}
+.opt ul{margin:0;padding-left:18px;font-size:14px;color:var(--soft);display:grid;gap:4px}
+.opt-price{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.opt-price b{font-family:var(--display);font-weight:400;font-size:22px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.opt-price small{display:block;font-size:12.5px;color:var(--grey);margin-top:5px}
+.opt-price .tbd{font-family:var(--text);font-size:15px;font-weight:600;color:var(--cream)}
+.optnote{font-size:13px;color:var(--grey);margin-top:16px}
+
+.foot{border-top:1px solid var(--line)}
+.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:20px 28px;font-size:13px;color:var(--grey)}
+.foot .sl{color:var(--gold)}
+
+/* navegación entre láminas */
+.dots{position:fixed;right:max(18px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{display:flex;align-items:center;justify-content:flex-end;gap:10px;text-decoration:none;color:var(--grey);font-size:11px;font-weight:600;letter-spacing:1.6px}
+.dots a span{opacity:0;transition:opacity .2s}
+.dots a:hover span,.dots a.on span{opacity:1}
+.dots a i{width:9px;height:9px;border-radius:50%;border:1px solid var(--grey);display:block}
+.dots a.on{color:var(--cream)}
+.dots a.on i{background:var(--gold);border-color:var(--gold)}
+.dock{display:none}
+
+
+/* ---------- 5 · cierre ---------- */
+.cgs{margin-top:22px;border-top:1px solid var(--line)}
+.cg{border-bottom:1px solid var(--line)}
+.cg summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 2px;font-size:15.5px;font-weight:600}
+.cg summary::-webkit-details-marker{display:none}
+.cg summary > span:first-child{flex:1 1 auto;min-width:0}
+.cg .arr{color:var(--gold);transition:transform .2s}
+.cg[open] .arr{transform:rotate(180deg)}
+.cg p{margin:0 0 16px;font-size:14.5px;color:var(--body);max-width:72ch}
+.tap-badge{flex:0 0 auto;font-size:11px;font-weight:600;color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;padding:3px 9px;animation:tap 1.8s ease-in-out infinite}
+.cg[open] .tap-badge,.tap-badge.gone{display:none}
+.tap-badge:not(.gone) ~ .arr{animation:bob 1.6s ease-in-out infinite}
+@keyframes tap{50%{opacity:.45}}
+@keyframes bob{50%{transform:translateY(3px)}}
+.cta{margin-top:34px;background:var(--card);border:1px solid rgba(200,169,110,.5);border-radius:18px;padding:26px;text-align:center}
+.cta-t{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:1px;margin:10px 0 8px}
+.cta > p{color:var(--soft);font-size:14.5px;margin:0}
+.chk{display:flex;gap:10px;align-items:flex-start;justify-content:center;text-align:left;max-width:520px;margin:18px auto;font-size:14px;color:var(--body);cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--gold);flex:0 0 auto}
+.btn{display:inline-block;background:var(--gold);color:var(--deep);font-weight:700;font-size:15px;text-decoration:none;padding:13px 26px;border-radius:999px;border:0;appearance:none}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+.tag .py{color:var(--gold)}
+@media (prefers-reduced-motion:reduce){.tap-badge,.tap-badge:not(.gone) ~ .arr{animation:none}}
+@media print{body{background:#fff;color:#000}.dots,.dock,.stage,.cta .chk,.btn,.hint{display:none!important}.cg p{display:block}.lam > .wrap{min-height:0}}
+
+@media (prefers-reduced-motion:reduce){.obj,.ff,.fb,.floor,.pwf,.wf,.op,.ring{animation:none}.ring{opacity:.7}}
+
+@media (max-width:900px){
+  .dots{display:none}
+  .cover .wrap{grid-template-columns:minmax(0,1fr);gap:8px}
+  .cover-right{align-items:flex-start;text-align:left;gap:30px}
+  .facts{justify-items:start}
+  .stage{min-height:430px;order:-1}
+  .model{display:none}
+  .obj{--h:380px}
+  .board > svg.h{display:none}.board > svg.v{display:block}
+  .board{padding:6px 4px 0}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .price-grid{grid-template-columns:minmax(0,1fr)}
+  .opts{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  body{font-size:15px;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .lam > .wrap{min-height:0;padding-block:34px 40px}
+  .stage{min-height:390px}
+  .obj{--h:340px}
+  .ttl{font-size:28px}
+  .ttl span{font-size:12.5px;letter-spacing:1.8px}
+  .lead{font-size:15.5px}
+  .brand img{width:48px;height:48px}
+  .brand .wm{font-size:17px;letter-spacing:2.6px}
+  .brand .ds{font-size:9px;letter-spacing:1.8px}
+  .total{padding:20px 18px}
+  .pars{font-size:18px}
+  .opt{padding:18px}
+  .opt-img{width:104px;height:92px}
+  .opt-img img{max-width:96px;max-height:84px}
+  .opt h3{font-size:16px}
+  .dock{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;gap:5px;background:rgba(11,19,43,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);
+        padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+  .dock a{flex:1 1 0;min-width:0;text-align:center;text-decoration:none;font-size:12px;font-weight:600;color:var(--soft);padding:9px 4px;border-radius:999px;border:1px solid var(--edge);white-space:nowrap}
+  .dock a.on{background:var(--gold);color:var(--deep);border-color:var(--gold)}
+}
+@media (max-width:380px){.dock{gap:3px;padding-left:8px;padding-right:8px}.dock a{font-size:10.5px;padding:9px 0;letter-spacing:0}}
+</style>
+
+</head><body>
+<!-- Íconos de línea reutilizados por los dos esquemas -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <radialGradient id="glw" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5A6FE8" stop-opacity=".42"/><stop offset="1" stop-color="#5A6FE8" stop-opacity="0"/></radialGradient>
+  <symbol id="i-door" viewBox="0 0 90 240">
+    <rect x="3" y="3" width="84" height="234" rx="4" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/>
+    <rect x="14" y="16" width="62" height="96" rx="2" fill="#0B132B" stroke="#4D5170" stroke-width="1.5"/>
+    <rect x="14" y="126" width="62" height="98" rx="2" fill="#0B132B" stroke="#4D5170" stroke-width="1.5"/>
+    <rect x="62" y="112" width="16" height="30" rx="3" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/>
+    <circle cx="70" cy="122" r="2.6" fill="#C8A96E"/>
+  </symbol>
+  <symbol id="i-reja" viewBox="0 0 70 240">
+    <rect x="3" y="3" width="64" height="234" rx="3" fill="none" stroke="#FDFBF0" stroke-width="2"/>
+    <path d="M17 3 V237 M30 3 V237 M43 3 V237 M56 3 V237 M3 40 H67 M3 200 H67" stroke="#B9BBCD" stroke-width="2"/>
+    <rect x="48" y="108" width="16" height="30" rx="3" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/>
+    <circle cx="56" cy="118" r="2.6" fill="#C8A96E"/>
+  </symbol>
+  <symbol id="i-frente" viewBox="0 0 64 196">
+    <rect x="2" y="2" width="60" height="192" rx="4" fill="#B9BBCD" stroke="#FDFBF0" stroke-width="2"/>
+    <rect x="2" y="2" width="60" height="64" rx="4" fill="#0B132B" stroke="#FDFBF0" stroke-width="2"/>
+    <rect x="10" y="22" width="44" height="30" rx="2" fill="#2B3E9E"/>
+    <circle cx="32" cy="35" r="6" fill="none" stroke="#9AA8F0" stroke-width="1.6"/>
+    <circle cx="25" cy="13" r="2" fill="#4D5170"/><circle cx="39" cy="13" r="2" fill="#4D5170"/>
+    <g fill="#FDFBF0" stroke="#6C6F86" stroke-width="1"><circle cx="18" cy="80" r="4.5"/><circle cx="32" cy="80" r="4.5"/><circle cx="46" cy="80" r="4.5"/><circle cx="18" cy="94" r="4.5"/><circle cx="32" cy="94" r="4.5"/><circle cx="46" cy="94" r="4.5"/><circle cx="18" cy="108" r="4.5"/><circle cx="32" cy="108" r="4.5"/><circle cx="46" cy="108" r="4.5"/><circle cx="18" cy="122" r="4.5"/><circle cx="32" cy="122" r="4.5"/><circle cx="46" cy="122" r="4.5"/></g>
+    <circle cx="32" cy="163" r="20" fill="#0B132B"/>
+    <rect x="27" y="158" width="10" height="10" rx="1.5" fill="none" stroke="#B9BBCD" stroke-width="1.4"/>
+  </symbol>
+  <symbol id="i-term" viewBox="0 0 58 116">
+    <rect x="2" y="2" width="54" height="112" rx="5" fill="#0B132B" stroke="#FDFBF0" stroke-width="2"/>
+    <rect x="9" y="16" width="40" height="52" rx="3" fill="#2B3E9E"/>
+    <circle cx="29" cy="37" r="8" fill="none" stroke="#FDFBF0" stroke-width="1.6"/>
+    <path d="M17 60 Q29 46 41 60" fill="none" stroke="#FDFBF0" stroke-width="1.6"/>
+    <path d="M13 22 V18 H17 M45 22 V18 H41 M13 60 V64 H17 M45 60 V64 H41" fill="none" stroke="#C8A96E" stroke-width="1.6"/>
+    <circle cx="22" cy="8" r="1.8" fill="#4D5170"/><circle cx="36" cy="8" r="1.8" fill="#4D5170"/>
+    <rect x="19" y="80" width="20" height="22" rx="3" fill="none" stroke="#B9BBCD" stroke-width="1.4"/>
+    <path d="M24 87 h10 M24 92 h10 M24 97 h6" stroke="#B9BBCD" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="i-router" viewBox="0 0 124 76">
+    <path d="M30 18 L22 2 M94 18 L102 2" stroke="#FDFBF0" stroke-width="2.4" stroke-linecap="round"/>
+    <rect x="2" y="18" width="120" height="50" rx="9" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/>
+    <g fill="#C8A96E"><circle cx="22" cy="43" r="3"/><circle cx="34" cy="43" r="3"/><circle cx="46" cy="43" r="3"/></g>
+    <path d="M66 36 h40 M66 50 h40" stroke="#4D5170" stroke-width="2.4" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-cloud" viewBox="0 0 170 104">
+    <path d="M44 96 H134 A32 32 0 0 0 138 32 A42 42 0 0 0 58 26 A30 30 0 0 0 44 96 Z" fill="#141E61" stroke="#9AA8F0" stroke-width="2.2" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 38 66">
+    <rect x="2" y="2" width="34" height="62" rx="7" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/>
+    <rect x="7" y="10" width="24" height="40" rx="2" fill="#0B132B"/>
+    <rect x="9.5" y="14" width="19" height="15" rx="1.5" fill="#2B3E9E"/>
+    <circle cx="13" cy="43" r="3.4" fill="#3FA06A"/><circle cx="25" cy="43" r="3.4" fill="#C0524A"/>
+    <path d="M15 57 h8" stroke="#FDFBF0" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-screen" viewBox="0 0 112 72">
+    <rect x="2" y="2" width="108" height="68" rx="6" fill="none" stroke="#8E90A8" stroke-width="2" stroke-dasharray="6 5"/>
+    <rect x="12" y="11" width="88" height="44" rx="2" fill="#0B132B" stroke="#4D5170" stroke-width="1.4"/>
+    <path d="M24 33 h20 M24 41 h32" stroke="#4D5170" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="80" cy="33" r="7" fill="none" stroke="#8E90A8" stroke-width="1.6"/>
+  </symbol>
+</defs>
+</svg>
+
+<main>
+<!-- 1 · PORTADA -->
+<section class="lam cover" id="portada" aria-label="Portada">
+<div class="wrap">
+  <div class="stage" id="stage" role="img" aria-label="Frente de videoportero Hikvision DS-KD9203-ME6 girando">
+    <p class="model">FRENTE DE CALLE<b>DS-KD9203-ME6</b></p>
+    <div class="glow"></div>
+    <div class="obj" id="obj"><i class="ly" style="--z:-0.472;--c:#3a3d45"></i><i class="ly" style="--z:-0.417;--c:#1c1f26"></i><i class="ly" style="--z:-0.361;--c:#1c1f26"></i><i class="ly" style="--z:-0.306;--c:#1c1f26"></i><i class="ly" style="--z:-0.250;--c:#1c1f26"></i><i class="ly" style="--z:-0.194;--c:#1c1f26"></i><i class="ly" style="--z:-0.139;--c:#1c1f26"></i><i class="ly" style="--z:-0.083;--c:#1c1f26"></i><i class="ly" style="--z:-0.028;--c:#1c1f26"></i><i class="ly" style="--z:0.028;--c:#1c1f26"></i><i class="ly" style="--z:0.083;--c:#1c1f26"></i><i class="ly" style="--z:0.139;--c:#1c1f26"></i><i class="ly" style="--z:0.194;--c:#1c1f26"></i><i class="ly" style="--z:0.250;--c:#1c1f26"></i><i class="ly" style="--z:0.306;--c:#1c1f26"></i><i class="ly" style="--z:0.361;--c:#1c1f26"></i><i class="ly" style="--z:0.417;--c:#1c1f26"></i><i class="ly" style="--z:0.472;--c:#3a3d45"></i><i class="face ff"></i><i class="face fb"></i></div>
+    <div class="floor" id="floor"></div>
+    <span class="hint">Deslizá para girarlo</span>
+  </div>
+  <div class="cover-right">
+    <div>
+      <p class="tag">PROYECTO DE TECNOLÓGICA INTEGRAL · <b>PY-2026-056</b> · NOVIEMBRE 2026</p>
+      <h1 class="ttl">EDIFICIO OCAÑA 130<span>VIDEOPORTERO IP CON APP</span></h1>
+      <ul class="facts">
+        <li><b>47 departamentos</b>, local y encargado</li>
+        <li>Atienden y abren <b>desde el celular</b></li>
+        <li>Hasta <b>6 celulares</b> por departamento</li>
+        <li>Ingreso con <b>rostro, tarjeta o código</b></li>
+        <li>Reja y puerta con <b>electroimán</b></li>
+      </ul>
+    </div>
+    <div class="brand">
+      <div><div class="wm">NOVA DOMUS</div><div class="ds">INTEGRACIÓN TECNOLÓGICA</div><div class="sl">Del cable a la app</div></div>
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iNTAwLjAwMDAwMHB0IiBoZWlnaHQ9IjUwMC4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDUwMC4wMDAwMDAgNTAwLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgo8bWV0YWRhdGE+CkNyZWF0ZWQgYnkgcG90cmFjZSAxLjE2LCB3cml0dGVuIGJ5IFBldGVyIFNlbGluZ2VyIDIwMDEtMjAxOQo8L21ldGFkYXRhPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCw1MDAuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIgpmaWxsPSIjZmRmYmYwIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNNTAwIDM3ODkgbDAgLTUxNSAxNzQgLTU3IGM5NiAtMzEgMTc5IC01NyAxODUgLTU3IDggMCAxMSAxMjAgMTEKMzg4IGwwIDM4NyAtMTg1IDE4NSAtMTg1IDE4NSAwIC01MTZ6IE0xMTkwIDM4ODMgYzAgLTUgOTMgLTEwMiAyMDggLTIxNiBsMjA3Ci0yMDcgMjM4IDAgYzEzMCAwIDIzNyAyIDIzNyA0IDAgMiAtNDAgOTggLTg5IDIxMyBsLTkwIDIwOCAtMzU1IDMgYy0xOTYgMQotMzU2IC0xIC0zNTYgLTV6IE0yMTMwIDM4NzYgYzAgLTggMzUgLTEwMyA3OSAtMjEzIGw3OSAtMTk4IDI3NSAtMyAyNzUgLTIgNDcKMTIyIGMyNiA2OCA2MyAxNjEgODEgMjA3IDE5IDQ3IDM0IDg5IDM0IDkzIDAgNCAtMTk2IDggLTQzNSA4IC0zNjcgMCAtNDM1IC0yCi00MzUgLTE0eiBNMzIxMSAzODY4IGMtNSAtMTMgLTQ1IC0xMDggLTkwIC0yMTMgbC04MCAtMTkwIDI0MiAtMyAyNDIgLTMgMjAyCjIwOCBjMTEyIDExNCAyMDMgMjExIDIwMyAyMTYgMCA0IC0xNjAgNyAtMzU1IDcgbC0zNTUgMCAtOSAtMjJ6IE0zODU3IDM1MjIKbC0xOTcgLTE5NyAwIC0xNzkgMCAtMTc4IDI4IDcgYzE1IDMgMTA1IDMxIDIwMCA2MiBsMTcyIDU1IDAgMzE0IGMwIDE3MyAtMQozMTQgLTMgMzE0IC0xIDAgLTkxIC04OSAtMjAwIC0xOTh6IE0xNTQwIDI4NzYgbDAgLTIxNSA3OCAtMjMgNzcgLTI0IDMgMTYwIDMKMTU5IC03MyA3NiBjLTQwIDQyIC03NiA3OCAtODAgNzkgLTUgMiAtOCAtOTMgLTggLTIxMnogTTUwMCAyNTc0IGMwIC0zODUgMwotNDg1IDEzIC00ODIgNiAzIDkwIDMxIDE4NSA2MiBsMTcyIDU4IC0yIDM3MCAtMyAzNzAgLTE3MCA1NCBjLTkzIDMwIC0xNzUgNTQKLTE4MiA1NCAtMTAgMCAtMTMgLTEwMiAtMTMgLTQ4NnogTTIwNzYgMjk1OCBjNjkgLTgzIDU2IC03OCAxODIgLTc4IGwxMTQgMAotNiAyNSBjLTMgMTMgLTExIDM2IC0xNiA1MCBsLTEwIDI1IC0xNDEgMCAtMTQyIDAgMTkgLTIyeiBNMjQwMCAyOTc2IGMwIC0yIDkKLTI1IDIwIC01MCBsMTkgLTQ2IDEzOSAwIGMxNTMgMCAxNTMgMCAxNzAgNjMgbDEwIDM3IC0xNzkgMCBjLTk4IDAgLTE3OSAtMgotMTc5IC00eiBNMjgwNyAyOTQ1IGMtMzAgLTYzIC0yOCAtNjUgODIgLTY1IDU1IDAgMTA2IDMgMTE1IDYgOCAzIDMxIDI2IDUxCjUwIGwzNiA0NCAtMTMzIDAgLTEzNCAwIC0xNyAtMzV6IE0zMDg3IDI4ODggbC00OCAtNDMgMyAtMTA2IDMgLTEwNiA0OCAxNCA0NwoxNCAwIDEzNCBjMCA3NCAtMSAxMzUgLTMgMTM1IC0xIDAgLTI0IC0xOSAtNTAgLTQyeiBNMzg0OCAyODE3IGwtMTg4IC02MSAwCi0xNzcgMCAtMTc3IDI4IC0xMCBjNTMgLTIxIDM1NSAtMTIyIDM2MyAtMTIyIDUgMCA5IDEzNyA5IDMwNSAwIDIzOCAtMyAzMDUKLTEyIDMwNCAtNyAtMSAtOTcgLTI5IC0yMDAgLTYyeiBNMjA5MCAyNTgwIGMwIC03OCAyIC05MSAxOSAtMTAwIDM0IC0xOCAzOQotMTIgNDYgNjEgNyA2OCA2IDcyIC0yMSAxMDAgLTE1IDE2IC0zMSAyOSAtMzYgMjkgLTQgMCAtOCAtNDAgLTggLTkweiBNMjMxMAoyNjIyIGMwIC0yMCAzOSAtNDIgNzMgLTQyIDM3IDAgNDIgNSAzMSAzNCAtNCAxMiAtMjAgMTYgLTU1IDE2IC0yNyAwIC00OSAtNAotNDkgLTh6IE0yNDQwIDI2MjEgYzAgLTMzIDE0IC00MSA3MSAtNDEgMzIgMCA1OSA0IDU5IDkgMCA1IDMgMTYgNiAyNSA1IDE0Ci00IDE2IC02NSAxNiAtMzkgMCAtNzEgLTQgLTcxIC05eiBNMjU5MCAyNjExIGMtMTUgLTMwIC0xNCAtMzEgMzggLTMxIDM4IDEKNTAgNSA2NSAyNSBsMTggMjUgLTU1IDAgYy00NCAwIC01NyAtNCAtNjYgLTE5eiBNMjcxNyAyNTgyIGMtMTEgLTEyIC0xNyAtMzYKLTE3IC02NCAwIC00MSAyIC00NiAyMCAtNDEgMTcgNSAyMCAxNCAyMCA2NCAwIDMzIC0yIDU5IC0zIDU5IC0yIDAgLTExIC04Ci0yMCAtMTh6IE0zMDczIDI1ODggbC0zMyAtMTEgMCAtMTAyIDAgLTEwMyAzMSAtMTEgYzY5IC0yNCA2OSAtMjUgNjkgMTE0IDAKMTM4IDIgMTM1IC02NyAxMTN6IE0xNTQwIDIzNjAgYzAgLTIyOSAtOCAtMjE0IDk1IC0xNzcgbDYwIDIyIDAgMTU5IDAgMTYwCi02MCAxOCBjLTEwMyAzMSAtOTUgNDYgLTk1IC0xODJ6IE0yNzEzIDI0NTMgYy0xOSAtNyAtMTcgLTg5IDIgLTk3IDEyIC00IDE1CjUgMTUgNDkgMCAzMCAtMSA1NSAtMiA1NCAtMiAwIC05IC0zIC0xNSAtNnogTTIwOTAgMjM2MCBjMCAtNzIgMiAtODAgMTkgLTgwCjQ1IDAgNTEgOSA1MSA3NiAwIDUyIC0zIDY1IC0xOSA3NCAtNDUgMjQgLTUxIDE1IC01MSAtNzB6IE0yNjkwIDIyOTAgYzAgLTI3CjcgLTUxIDIxIC02OCBsMjAgLTI2IC0zIDY0IGMtMiA1MiAtNiA2NSAtMjAgNjggLTE1IDMgLTE4IC00IC0xOCAtMzh6IE0zMDQwCjIyMTEgbDAgLTEwNyA1MCAtNDkgNTAgLTQ5IDAgMTQwIDAgMTQwIC01MCAxNiAtNTAgMTYgMCAtMTA3eiBNMjExMyAyMjM4CmMtMjEgLTEwIC0yMyAtMTggLTIzIC0xMDAgMCAtNDggNCAtODggOSAtODggNSAwIDIwIDE1IDM1IDM0IDIyIDI5IDI2IDQ1IDI2CjEwMCAwIDcwIC00IDc1IC00NyA1NHogTTM2NzAgMjEwMiBjMCAtNDkgLTIgLTEyOSAtNSAtMTc4IGwtNiAtODkgMjAwIC0yMDUKMjAwIC0yMDUgMSAzMjEgMCAzMjEgLTE4MiA2MSBjLTEwMSAzNCAtMTg5IDYyIC0xOTUgNjIgLTEwIDAgLTEzIC0yNCAtMTMgLTg4egpNMTYxMyAyMDkzIGwtNzMgLTI1IDAgLTIxOSBjMCAtMTIwIDMgLTIxOSA4IC0yMTkgNCAwIDQwIDMzIDgwIDczIGw3MiA3MiAwCjE3MyBjMCA5NCAtMyAxNzIgLTcgMTcxIC01IDAgLTQxIC0xMiAtODAgLTI2eiBNMjE1MSAyMDQ4IGMtMTcgLTE4IC0zMSAtMzUKLTMxIC0zOCAwIC0zIDM4IC00IDg2IC0yIDgwIDMgODYgNSA5NSAyOCAxNSA0MSAxMiA0NCAtNTUgNDQgLTYwIDAgLTY3IC0yCi05NSAtMzJ6IE0yMzQwIDIwNTAgYy03IC0xNyAtMTAgLTMzIC04IC0zNiAzIC0yIDU1IC0zIDExNSAtMiBsMTA5IDMgLTggMzMKLTkgMzIgLTkzIDAgLTk0IDAgLTEyIC0zMHogTTI1NzUgMjA2MyBjNCAtMTAgOSAtMjYgMTIgLTM1IDQgLTE0IDIxIC0xNyA5NAotMjAgNDkgLTIgODkgMSA4OSA1IDAgNSAtMTMgMjIgLTI5IDM4IC0yNyAyNyAtMzUgMjkgLTEwMSAyOSAtNjUgMCAtNzEgLTIKLTY1IC0xN3ogTTY4MSAxOTQyIGwtMTc0IC01NyAyIC00ODggYzEgLTI2OSA1IC00OTUgOCAtNTA0IDQgLTExIDU1IDM0IDE3OQoxNTggbDE3NCAxNzQgMCAzODcgYzAgMjE0IC0zIDM4OCAtNyAzODcgLTUgMCAtODYgLTI2IC0xODIgLTU3eiBNMTY3MyAxNjU0CmMtNDAgLTQyIC03MyAtODAgLTczIC04NSAwIC01IDk1IC05IDIxNSAtOSBsMjE2IDAgMzQgNzYgYzE5IDQyIDM1IDgwIDM1IDg1CjAgNSAtODAgOSAtMTc3IDkgbC0xNzggMCAtNzIgLTc2eiBNMjE4NiAxNzIyIGMtMTUgLTI1IC01NSAtMTQ2IC01MCAtMTUzIDgKLTEzIDU3NCAtMTIgNTc0IDEgMCA2IC0xNCA0NCAtMzEgODUgbC0zMiA3NSAtMjI4IDAgYy0xMjUgMCAtMjMwIC00IC0yMzMgLTh6Ck0yNzM2IDE3MDggYzMgLTEzIDE5IC01MSAzNSAtODUgbDI4IC02MyAyMTUgMCBjMTI4IDAgMjE2IDQgMjE2IDkgMCA2IC0zMCA0NAotNjcgODUgbC02NiA3NiAtMTg0IDAgLTE4NCAwIDcgLTIyeiBNODA0IDg5OCBsLTE3OSAtMTgzIDUxOSAtMyBjMjg2IC0xIDUyMwoxIDUyNiA1IDggMTAgMTUwIDM0NiAxNTAgMzU2IDAgNCAtMTg4IDcgLTQxOCA3IGwtNDE5IDAgLTE3OSAtMTgyeiBNMjAyMQoxMDU4IGMtNSAtMTMgLTQxIC05NSAtODAgLTE4MiAtMzkgLTg4IC02OSAtMTYxIC02OCAtMTYyIDEgLTIgMzEzIC02IDY5MSAtMTAKNjc2IC03IDY4OSAtNyA2ODIgMTIgLTQwIDEwOCAtMTQzIDM0MiAtMTU1IDM1MiAtMTEgOSAtMTM0IDEyIC01MzggMTIgbC01MjMKMCAtOSAtMjJ6IE0zMzAwIDEwNzEgYzAgLTUgMzYgLTg5IDc5IC0xODcgbDgwIC0xNzkgMjMzIC0yIGMxMjggLTIgMzYwIDEgNTE2CjUgbDI4MiA3IC0xNzcgMTgzIC0xNzggMTgyIC00MTcgMCBjLTIzNCAwIC00MTggLTQgLTQxOCAtOXoiLz4KPC9nPgo8L3N2Zz4K" alt="Nova Domus">
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 2 · ESQUEMA -->
+<section class="lam" id="esquema" aria-label="Cómo se entra">
+<div class="wrap">
+  <p class="tag">CÓMO SE ENTRA</p>
+  <h2 class="h2">Así se entra al edificio</h2>
+  <p class="lead">Dos recorridos, de izquierda a derecha: la visita que toca timbre y el vecino que entra solo. El frente es el <b>único equipo a la vista</b>.</p>
+
+  <div class="board">
+    <svg class="h" viewBox="0 0 1100 500" role="img" aria-label="Procedimiento de entrada: la visita marca el departamento en el frente, suena la app del vecino, el vecino abre y se abren reja y puerta. El vecino entra con rostro, tarjeta o código, el frente lo valida y se abren reja y puerta."><line x1="20" y1="252" x2="1080" y2="252" stroke="rgba(253,251,240,.10)"/><text x="20" y="34" text-anchor="start" style="font-size:11.5px;font-weight:600;letter-spacing:2.4px;fill:#C8A96E">LLEGA UNA VISITA</text><circle cx="80" cy="99.5" r="16.2" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/><path d="M47.5 177.0 Q47.5 124.5 80 124.5 Q112.5 124.5 112.5 177.0 Z" fill="#121B57" stroke="#FDFBF0" stroke-width="2" stroke-linejoin="round"/><use href="#i-frente" x="280.0" y="71.0" width="40.0" height="122.0"/><use href="#i-phone" x="518.0" y="94.0" width="44.0" height="76.0"/><path class="ring" d="M506.0 120.0 Q500.0 132.0 506.0 144.0 M574.0 120.0 Q580.0 132.0 574.0 144.0" fill="none" stroke="#9AA8F0" stroke-width="2" stroke-linecap="round"/><path class="ring" d="M496.0 120.0 Q490.0 132.0 496.0 144.0 M584.0 120.0 Q590.0 132.0 584.0 144.0" fill="none" stroke="#9AA8F0" stroke-width="2" stroke-linecap="round"/><use href="#i-phone" x="758.0" y="94.0" width="44.0" height="76.0"/><circle cx="804.0" cy="162.0" r="13" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/><rect x="798.5" y="161.0" width="11" height="8.5" rx="1.5" fill="#C8A96E"/><path d="M800.5 161.0 V157.0 A3.6 3.6 0 0 1 807.6 156.5" fill="none" stroke="#C8A96E" stroke-width="1.9" stroke-linecap="round"/><use href="#i-reja" x="960.0" y="78.0" width="34.0" height="124.0"/><use href="#i-door" x="1000.0" y="78.0" width="40.0" height="124.0"/><circle cx="1000" cy="62.0" r="13" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/><rect x="994.5" y="61.0" width="11" height="8.5" rx="1.5" fill="#C8A96E"/><path d="M996.5 61.0 V57.0 A3.6 3.6 0 0 1 1003.6 56.5" fill="none" stroke="#C8A96E" stroke-width="1.9" stroke-linecap="round"/><path d="M124 132 L264 132" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M124 132 L264 132"/><path d="M256.1 136.3 L264 132 L256.1 127.7" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path class="wf" d="M336 132 L490 132"/><path d="M482.1 136.3 L490 132 L482.1 127.7" fill="none" stroke="#9AA8F0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M590 132 L740 132" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M590 132 L740 132"/><path d="M732.1 136.3 L740 132 L732.1 127.7" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M828 132 L950 132" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M828 132 L950 132"/><path d="M942.1 136.3 L950 132 L942.1 127.7" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><text class="lb" x="80" y="222" text-anchor="middle">VISITA</text><text class="ls" x="80" y="242" text-anchor="middle">Toca timbre</text><text class="lb" x="300" y="222" text-anchor="middle">FRENTE</text><text class="ls" x="300" y="242" text-anchor="middle">Marca el depto.</text><text class="lb" x="540" y="222" text-anchor="middle">SUENA LA APP</text><text class="ls" x="540" y="242" text-anchor="middle">En el celular del vecino</text><text class="lb" x="780" y="222" text-anchor="middle">EL VECINO ABRE</text><text class="ls" x="780" y="242" text-anchor="middle">Lo ve y abre con un toque</text><text class="lb" x="1000" y="222" text-anchor="middle">REJA Y PUERTA</text><text class="ls" x="1000" y="242" text-anchor="middle">Se abren las dos</text><text x="20" y="282" text-anchor="start" style="font-size:11.5px;font-weight:600;letter-spacing:2.4px;fill:#C8A96E">LLEGA UN VECINO</text><circle cx="80" cy="339.5" r="16.2" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/><path d="M47.5 417.0 Q47.5 364.5 80 364.5 Q112.5 364.5 112.5 417.0 Z" fill="#121B57" stroke="#FDFBF0" stroke-width="2" stroke-linejoin="round"/><rect x="97.5" y="374.5" width="27.5" height="18.8" rx="2.5" fill="#0B132B" stroke="#C8A96E" stroke-width="1.8"/><path d="M102.5 385.8 h11.2" stroke="#C8A96E" stroke-width="1.6" stroke-linecap="round"/><use href="#i-frente" x="280.0" y="311.0" width="40.0" height="122.0"/><path class="ring" d="M273.0 313.0 V304.0 H282.0 M318.0 304.0 H327.0 V313.0 M273.0 350.0 V359.0 H282.0 M318.0 359.0 H327.0 V350.0" fill="none" stroke="#C8A96E" stroke-width="2.2"/><rect x="506.2" y="314.4" width="67.6" height="115.2" rx="8" fill="none" stroke="#8E90A8" stroke-width="1.6" stroke-dasharray="5 5"/><use href="#i-term" x="516.2" y="324.4" width="47.6" height="95.2" opacity=".6"/><use href="#i-reja" x="960.0" y="318.0" width="34.0" height="124.0"/><use href="#i-door" x="1000.0" y="318.0" width="40.0" height="124.0"/><circle cx="1000" cy="302.0" r="13" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/><rect x="994.5" y="301.0" width="11" height="8.5" rx="1.5" fill="#C8A96E"/><path d="M996.5 301.0 V297.0 A3.6 3.6 0 0 1 1003.6 296.5" fill="none" stroke="#C8A96E" stroke-width="1.9" stroke-linecap="round"/><path d="M128 372 L262 372" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M128 372 L262 372"/><path d="M254.1 376.3 L262 372 L254.1 367.7" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M340 372 L496 372" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M340 372 L496 372"/><path d="M488.1 376.3 L496 372 L488.1 367.7" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M584 372 L950 372" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M584 372 L950 372"/><path d="M942.1 376.3 L950 372 L942.1 367.7" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><text class="ls" x="780" y="360" text-anchor="middle" style="fill:#C8A96E">Al instante, sin llave</text><text class="lb" x="80" y="462" text-anchor="middle">VECINO</text><text class="ls" x="80" y="482" text-anchor="middle">Con su tarjeta</text><text class="lb" x="300" y="462" text-anchor="middle">FRENTE</text><text class="ls" x="300" y="482" text-anchor="middle">Rostro, tarjeta o código</text><text class="lb" x="540" y="462" text-anchor="middle">VALIDACIÓN</text><text class="ls" x="540" y="482" text-anchor="middle">El frente lo reconoce</text><text class="lb" x="1000" y="462" text-anchor="middle">REJA Y PUERTA</text><text class="ls" x="1000" y="482" text-anchor="middle">Se abren las dos</text></svg>
+    <svg class="v" viewBox="0 0 400 1362" role="img" aria-label="Procedimiento de entrada al edificio, para la visita y para el vecino"><text x="16" y="28" text-anchor="start" style="font-size:11.5px;font-weight:600;letter-spacing:2.4px;fill:#C8A96E">LLEGA UNA VISITA</text><circle cx="78" cy="70.7" r="13.7" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/><path d="M50.7 135.8 Q50.7 91.7 78 91.7 Q105.3 91.7 105.3 135.8 Z" fill="#121B57" stroke="#FDFBF0" stroke-width="2" stroke-linejoin="round"/><text class="lb" x="150" y="96" text-anchor="start" style="font-size:12.5px">VISITA</text><text class="ls" x="150" y="116" text-anchor="start" style="font-size:13px">Toca timbre</text><path d="M78 146 L78 186" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M78 146 L78 186"/><path d="M73.7 178.1 L78 186 L82.3 178.1" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><use href="#i-frente" x="63.6" y="192.1" width="28.8" height="87.8"/><text class="lb" x="150" y="234" text-anchor="start" style="font-size:12.5px">FRENTE</text><text class="ls" x="150" y="254" text-anchor="start" style="font-size:13px">Marca el depto.</text><path class="wf" d="M78 284 L78 324"/><path d="M73.7 316.1 L78 324 L82.3 316.1" fill="none" stroke="#9AA8F0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><use href="#i-phone" x="57.1" y="337.9" width="41.8" height="72.2"/><path class="ring" d="M45.7 362.6 Q40.0 374.0 45.7 385.4 M110.3 362.6 Q116.0 374.0 110.3 385.4" fill="none" stroke="#9AA8F0" stroke-width="2" stroke-linecap="round"/><path class="ring" d="M36.2 362.6 Q30.5 374.0 36.2 385.4 M119.8 362.6 Q125.5 374.0 119.8 385.4" fill="none" stroke="#9AA8F0" stroke-width="2" stroke-linecap="round"/><text class="lb" x="150" y="372" text-anchor="start" style="font-size:12.5px">SUENA LA APP</text><text class="ls" x="150" y="392" text-anchor="start" style="font-size:13px">En el celular del vecino</text><path d="M78 422 L78 462" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M78 422 L78 462"/><path d="M73.7 454.1 L78 462 L82.3 454.1" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><use href="#i-phone" x="57.1" y="475.9" width="41.8" height="72.2"/><circle cx="100.9" cy="540.1" r="12.35" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/><rect x="95.4" y="539.1" width="11" height="8.5" rx="1.5" fill="#C8A96E"/><path d="M97.4 539.1 V535.1 A3.6 3.6 0 0 1 104.5 534.6" fill="none" stroke="#C8A96E" stroke-width="1.9" stroke-linecap="round"/><text class="lb" x="150" y="510" text-anchor="start" style="font-size:12.5px">EL VECINO ABRE</text><text class="ls" x="150" y="530" text-anchor="start" style="font-size:13px">Lo ve y abre con un toque</text><path d="M78 560 L78 600" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M78 560 L78 600"/><path d="M73.7 592.1 L78 600 L82.3 592.1" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><use href="#i-reja" x="42.8" y="607.8" width="23.1" height="84.3"/><use href="#i-door" x="70.0" y="607.8" width="27.2" height="84.3"/><circle cx="115.2" cy="650" r="8.84" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/><rect x="109.7" y="649" width="11" height="8.5" rx="1.5" fill="#C8A96E"/><path d="M111.7 649 V645 A3.6 3.6 0 0 1 118.8 644.5" fill="none" stroke="#C8A96E" stroke-width="1.9" stroke-linecap="round"/><text class="lb" x="150" y="648" text-anchor="start" style="font-size:12.5px">REJA Y PUERTA</text><text class="ls" x="150" y="668" text-anchor="start" style="font-size:13px">Se abren las dos</text><line x1="16" y1="714" x2="384" y2="714" stroke="rgba(253,251,240,.10)"/><text x="16" y="740" text-anchor="start" style="font-size:11.5px;font-weight:600;letter-spacing:2.4px;fill:#C8A96E">LLEGA UN VECINO</text><circle cx="78" cy="782.7" r="13.7" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/><path d="M50.7 847.8 Q50.7 803.7 78 803.7 Q105.3 803.7 105.3 847.8 Z" fill="#121B57" stroke="#FDFBF0" stroke-width="2" stroke-linejoin="round"/><rect x="92.7" y="812.1" width="23.1" height="15.8" rx="2.5" fill="#0B132B" stroke="#C8A96E" stroke-width="1.8"/><path d="M96.9 821.5 h9.5" stroke="#C8A96E" stroke-width="1.6" stroke-linecap="round"/><text class="lb" x="150" y="808" text-anchor="start" style="font-size:12.5px">VECINO</text><text class="ls" x="150" y="828" text-anchor="start" style="font-size:13px">Con su tarjeta</text><path d="M78 858 L78 898" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M78 858 L78 898"/><path d="M73.7 890.1 L78 898 L82.3 890.1" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><use href="#i-frente" x="63.6" y="904.1" width="28.8" height="87.8"/><path class="ring" d="M56.6 906.08 V897.08 H65.6 M90.4 897.08 H99.4 V906.08 M56.6 929.6400000000001 V938.6400000000001 H65.6 M90.4 938.6400000000001 H99.4 V929.6400000000001" fill="none" stroke="#C8A96E" stroke-width="2.2"/><text class="lb" x="150" y="946" text-anchor="start" style="font-size:12.5px">FRENTE</text><text class="ls" x="150" y="966" text-anchor="start" style="font-size:13px">Rostro, tarjeta o código</text><path d="M78 996 L78 1036" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M78 996 L78 1036"/><path d="M73.7 1028.1 L78 1036 L82.3 1028.1" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="50.6" y="1041.3" width="54.7" height="89.4" rx="8" fill="none" stroke="#8E90A8" stroke-width="1.6" stroke-dasharray="5 5"/><use href="#i-term" x="60.6" y="1051.3" width="34.7" height="69.4" opacity=".6"/><text class="lb" x="150" y="1084" text-anchor="start" style="font-size:12.5px">VALIDACIÓN</text><text class="ls" x="150" y="1104" text-anchor="start" style="font-size:13px">El frente lo reconoce</text><path d="M78 1134 L78 1174" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path class="pwf" d="M78 1134 L78 1174"/><path d="M73.7 1166.1 L78 1174 L82.3 1166.1" fill="none" stroke="#C8A96E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><use href="#i-reja" x="42.8" y="1181.8" width="23.1" height="84.3"/><use href="#i-door" x="70.0" y="1181.8" width="27.2" height="84.3"/><circle cx="115.2" cy="1224" r="8.84" fill="#0B132B" stroke="#C8A96E" stroke-width="2"/><rect x="109.7" y="1223" width="11" height="8.5" rx="1.5" fill="#C8A96E"/><path d="M111.7 1223 V1219 A3.6 3.6 0 0 1 118.8 1218.5" fill="none" stroke="#C8A96E" stroke-width="1.9" stroke-linecap="round"/><text class="lb" x="150" y="1222" text-anchor="start" style="font-size:12.5px">REJA Y PUERTA</text><text class="ls" x="150" y="1242" text-anchor="start" style="font-size:13px">Se abren al instante</text></svg>
+    <div class="legend">
+      <span><svg viewBox="0 0 42 10"><path d="M2 5 H40" stroke="#FDFBF0" stroke-width="2" opacity=".35" stroke-linecap="round"/><path d="M2 5 H40" stroke="#C8A96E" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 12"/></svg>Paso siguiente</span>
+      <span><svg viewBox="0 0 42 10"><path d="M2 5 H40" stroke="#9AA8F0" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7 7"/></svg>Llamada por internet</span>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><h4>Desde cualquier lugar</h4><p>La llamada suena en el celular aunque el vecino no esté en el edificio.</p></div>
+    <div class="step"><h4>Local y encargado</h4><p>El local atiende como un departamento. El encargado recibe todas las llamadas del frente.</p></div>
+    <div class="step"><h4>Para salir</h4><p>Pulsador del lado de adentro, exigido por norma. Se abren reja y puerta.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 3 · PRECIO -->
+<section class="lam" id="precio" aria-label="Precio final">
+<div class="wrap">
+  <p class="tag">INVERSIÓN</p>
+  <h2 class="h2">Precio final, instalado y programado</h2>
+  <div class="price-grid">
+    <div class="total">
+      <p class="plabel">TOTAL DEL PROYECTO</p>
+      <p class="pusd">U$S 4.532</p>
+      <p class="pars">$ 7.106.176</p>
+      <ul class="pay">
+        <li>Equipos y licencias · 100% al confirmar <b>U$S 3.677</b></li>
+        <li>Instalación · se certifica por avance (monto de referencia) <b>U$S 443</b></li>
+        <li>Programación · 60% al iniciar <b>U$S 247</b></li>
+        <li>Programación · 40% a la entrega <b>U$S 165</b></li>
+      </ul>
+      <p class="pnote">Equipos con IVA incluido. Instalación y programación sin IVA: con Factura A se suma el 21% sobre esos dos ítems (U$S 180). Pesos al TC BNA oficial de $ 1.568, referenciales. Presupuesto válido hasta el 18/11/2026.</p>
+    </div>
+    <div>
+      <div class="rows"><div class="row"><div><h4>Frente de videoportero DS-KD9203-ME6</h4><p>Metálico, pantalla de 4,3", teclado, cámara y lector de tarjetas. Reconoce rostros y comanda la reja y la puerta · IVA 21% incl.</p></div><div class="amt"><b>U$S 1.072</b><small>Precio con IVA</small></div></div><div class="row"><div><h4>Licencias de app por unidad · HC-Intercom</h4><p>Una por departamento y una para el local, de por vida. Cada una habilita hasta 6 celulares · IVA 21% incl.</p></div><div class="amt"><b>U$S 2.256</b><small>48 × U$S 47</small></div></div><div class="row"><div><h4>Electroimán 280 kg con herraje</h4><p>Uno en la reja y otro en la puerta · IVA 21% incl.</p></div><div class="amt"><b>U$S 156</b><small>2 × U$S 78</small></div></div><div class="row"><div><h4>Pulsador de salida</h4><p>Del lado de adentro, abre reja y puerta. Exigido por norma · IVA 21% incl.</p></div><div class="amt"><b>U$S 23</b><small>1 × U$S 23</small></div></div><div class="row"><div><h4>Cargador con respaldo de baterías</h4><p>Alimenta el frente y los electroimanes, y sigue funcionando en un corte de luz · IVA 21% incl.</p></div><div class="amt"><b>U$S 97</b><small>1 × U$S 97</small></div></div><div class="row"><div><h4>Baterías de gel 12 V 7 Ah</h4><p>Respaldo del cargador · IVA 21% incl.</p></div><div class="amt"><b>U$S 56</b><small>2 × U$S 28</small></div></div><div class="row"><div><h4>Tarjetas de proximidad Mifare Hikvision</h4><p>Pack de 50, para vecinos, local y encargado · IVA 21% incl.</p></div><div class="amt"><b>U$S 17</b><small>1 × U$S 17</small></div></div><div class="row sub"><div><h4>Equipos y licencias</h4></div><div class="amt"><b>U$S 3.677</b><small>IVA incluido</small></div></div><div class="row"><div><h4>Instalación</h4><p>Montaje y conexión del frente, los dos electroimanes, el pulsador y el cargador con sus baterías. Pruebas de llamada y apertura.</p></div><div class="amt"><b>U$S 443</b><small>Sin IVA</small></div></div><div class="row"><div><h4>Programación</h4><p>Alta del edificio en la app, de los 47 departamentos y el local con sus celulares, del encargado, de rostros y tarjetas.</p></div><div class="amt"><b>U$S 412</b><small>Sin IVA</small></div></div>
+        <div class="row sum"><div><h4>TOTAL</h4></div><div class="amt"><b>U$S 4.532</b></div></div>
+      </div>
+      <p class="excl"><b>No incluye:</b> cableado de red y eléctrico hasta el acceso, ni el internet del edificio. Las llamadas a la app viajan por internet: en un corte de luz se sigue entrando con rostro, tarjeta o código, pero para que también lleguen las llamadas el router del edificio necesita su propio respaldo de energía. El tipo de herraje de cada electroimán se confirma en la visita técnica, según cómo abren la reja y la puerta.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 4 · OPCIONALES -->
+<section class="lam" id="opciones" aria-label="Opcionales">
+<div class="wrap">
+  <p class="tag">OPCIONALES</p>
+  <h2 class="h2">Para quien quiera sumar</h2>
+  <p class="lead">No están en el total. Se agregan después, sin tocar lo instalado.</p>
+  <div class="opts">
+    <article class="opt">
+      <div class="opt-top">
+        <div class="opt-img"><img src="data:image/webp;base64,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" alt="Pantalla interior Hikvision DS-KH6320-WTE1"></div>
+        <div><p class="opt-n">OPCIÓN 1 · POR DEPARTAMENTO</p><h3>Pantalla interior de 7"</h3></div>
+      </div>
+      <p>Para quien prefiere atender desde una pantalla en la pared además del celular.</p>
+      <ul><li>Táctil, ve y habla con el visitante</li><li>Abre la puerta desde la pantalla</li><li>Sigue funcionando con la app en paralelo</li></ul>
+      <div class="opt-price"><div><b>U$S 443</b><small>Por unidad, instalada y programada · $ 694.624</small></div><small>Equipo U$S 284 (IVA incl.) + instalación U$S 118 + programación U$S 41</small></div>
+    </article>
+    <article class="opt">
+      <div class="opt-top">
+        <div class="opt-img"><svg viewBox="0 0 120 100" width="104" height="88" aria-hidden="true"><rect x="22" y="44" width="76" height="40" rx="8" fill="#121B57" stroke="#FDFBF0" stroke-width="2"/><path d="M38 44 L32 26 M82 44 L88 26" stroke="#FDFBF0" stroke-width="2.4" stroke-linecap="round"/><g fill="none" stroke="#9AA8F0" stroke-width="2.6" stroke-linecap="round"><path d="M42 22 Q60 8 78 22"/><path d="M49 30 Q60 22 71 30"/></g><g fill="#C8A96E"><circle cx="40" cy="64" r="3"/><circle cx="52" cy="64" r="3"/><circle cx="64" cy="64" r="3"/></g></svg></div>
+        <div><p class="opt-n">OPCIÓN 2 · PALIERES</p><h3>Repetidores de WiFi</h3></div>
+      </div>
+      <p>Como todos atienden por la app, la llamada depende del WiFi de cada departamento. Los repetidores refuerzan la señal donde hoy llega débil.</p>
+      <ul><li>Llamadas sin cortes ni demoras</li><li>Se ubican según una medición de señal</li><li>Se instalan sin obra</li></ul>
+      <div class="opt-price"><div><span class="tbd">Se cotiza si se implementa</span><small>Cantidad según medición en el edificio</small></div></div>
+    </article>
+  </div>
+  <p class="optnote">La app Hik-Connect es gratuita para iOS y Android. La licencia de cada unidad ya está incluida en el total.</p>
+</div>
+</section>
+
+<!-- 5 · CIERRE -->
+<section class="lam" id="cierre" aria-label="Condiciones y aceptación">
+<div class="wrap">
+  <p class="tag">CONDICIONES</p>
+  <h2 class="h2">Condiciones generales</h2>
+  <p class="lead">👆 Tocá cada condición para leerla.</p>
+  <div class="cgs">
+    <details class="cg"><summary><span>Validez y tipo de cambio</span><span class="tap-badge">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></summary><p>Validez de 15 días corridos desde la emisión (hasta el 18/11/2026). Los precios están en dólares estadounidenses. La referencia en pesos es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago (al 03/11/2026: $ 1.568).</p></details><details class="cg"><summary><span>Forma de pago</span><span class="arr" aria-hidden="true">▾</span></summary><p>Equipos y licencias: 100% por anticipado, al confirmar, para asegurar la compra. Programación: 60% al iniciar y 40% contra la entrega documentada. Instalación: se certifica según el avance real del trabajo; el monto indicado es la referencia sobre el total presupuestado.</p></details><details class="cg"><summary><span>Facturación</span><span class="arr" aria-hidden="true">▾</span></summary><p>Los equipos llevan su IVA incluido. La instalación y la programación se cotizan sin IVA: si el edificio necesita Factura A, se suma el 21% sobre esos dos ítems.</p></details><details class="cg"><summary><span>Licencias de app</span><span class="arr" aria-hidden="true">▾</span></summary><p>Cada departamento y el local tienen su licencia, de por vida, que habilita hasta 6 celulares. El encargado se carga en todas para recibir cualquier llamada del frente. Las licencias se activan sobre la plataforma Hik-Connect y funcionan con internet en el edificio.</p></details><details class="cg"><summary><span>Alcance y validación técnica</span><span class="arr" aria-hidden="true">▾</span></summary><p>Antes de instalar se valida en banco el frente con la configuración del edificio: llamada a la app de cada unidad, apertura de reja y puerta y aviso con el celular bloqueado. Si hiciera falta otro modelo de frente para cumplir ese alcance, la diferencia de equipo la asume Nova Domus.</p></details><details class="cg"><summary><span>Herrajes y ubicación</span><span class="arr" aria-hidden="true">▾</span></summary><p>El tipo de herraje de cada electroimán y la ubicación del frente, del pulsador y del cargador se confirman en la visita técnica, según cómo abren la reja y la puerta.</p></details><details class="cg"><summary><span>Instalación eléctrica</span><span class="arr" aria-hidden="true">▾</span></summary><p>Esta propuesta no incluye trabajos eléctricos ni de red, así que no aplica la base de cotización de Boca Completa. El edificio deja un tomacorriente y un punto de red con internet en el acceso.</p></details><details class="cg"><summary><span>Cancelación de equipos</span><span class="arr" aria-hidden="true">▾</span></summary><p>Los equipos son de importación y se compran contra pedido firme. Una vez emitida la orden de compra, no admiten cancelación ni devolución. Las licencias, una vez activadas, tampoco.</p></details><details class="cg"><summary><span>Proyecto aproximado</span><span class="arr" aria-hidden="true">▾</span></summary><p>Este es un proyecto aproximado, armado con la información del edificio. Los supuestos se confirman en la visita técnica antes de empezar.</p></details><details class="cg"><summary><span>Visitas técnicas</span><span class="arr" aria-hidden="true">▾</span></summary><p>Las visitas posteriores a la entrega por causas ajenas a la instalación (cambios hechos por terceros, falta de internet, equipos nuevos a sumar) se cotizan aparte.</p></details><details class="cg"><summary><span>Garantía</span><span class="arr" aria-hidden="true">▾</span></summary><p>12 meses sobre la instalación y la programación. Los equipos tienen la garantía oficial del fabricante.</p></details>
+  </div>
+  <div class="cta">
+    <p class="plabel">PRÓXIMO PASO</p>
+    <h3 class="cta-t">Aceptar la propuesta</h3>
+    <p>Con la conformidad coordinamos la visita técnica y la compra de los equipos.</p>
+    <label class="chk"><input type="checkbox" id="ok"> <span>Leí la propuesta y estoy de acuerdo con el alcance y las condiciones.</span></label>
+    <a class="btn" id="go" href="#" aria-disabled="true" target="_blank" rel="noopener">Aceptar por WhatsApp</a>
+  </div>
+</div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap"><span><b style="color:var(--gold)">PY-2026-056</b> · Edificio Ocaña 130 · Nova Domus · NDWD SAS · Córdoba · 351 864-3455</span><span class="sl">Queda funcionando y documentado</span></div></footer>
+
+<nav class="dots" aria-label="Láminas">
+  <a href="#portada" data-sec="portada"><span>PORTADA</span><i></i></a>
+  <a href="#esquema" data-sec="esquema"><span>ESQUEMA</span><i></i></a>
+  <a href="#precio" data-sec="precio"><span>PRECIO</span><i></i></a>
+  <a href="#opciones" data-sec="opciones"><span>OPCIONALES</span><i></i></a>
+  <a href="#cierre" data-sec="cierre"><span>ACEPTAR</span><i></i></a>
+</nav>
+<nav class="dock" aria-label="Láminas">
+  <a href="#portada" data-sec="portada">Portada</a><a href="#esquema" data-sec="esquema">Esquema</a><a href="#precio" data-sec="precio">Precio</a><a href="#opciones" data-sec="opciones">Opciones</a><a href="#cierre" data-sec="cierre">Aceptar</a>
+</nav>
+
+<script>
+(function(){
+  /* lámina visible */
+  var links=[].slice.call(document.querySelectorAll('.dots a, .dock a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ links.forEach(function(a){ a.classList.toggle('on', a.dataset.sec===e.target.id); }); } });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('.lam').forEach(function(s){ io.observe(s); });
+  }
+  /* girar el frente arrastrando: misma línea de tiempo que la animación (12 s, 15 % quieto) */
+  var DUR=12, HOLD=DUR*.15, TURN=DUR-HOLD;
+  var st=document.getElementById('stage'), obj=document.getElementById('obj');
+  var parts=[obj, st.querySelector('.ff'), st.querySelector('.fb'), document.getElementById('floor')];
+  function angleOf(el){ var t=getComputedStyle(el).transform; if(!t||t==='none') return 0; var m=new DOMMatrix(t); return ((Math.atan2(-m.m13, m.m11)*180/Math.PI)+360)%360; }
+  function setAt(a){ var t=HOLD+(((a%360)+360)%360)/360*TURN; parts.forEach(function(p){ p.style.animationDelay=(-t)+'s'; }); }
+  var x0=null,y0=0,a0=0,mode=null;
+  function start(x,y){ x0=x; y0=y; a0=angleOf(obj); mode=null; }
+  function move(x,y,ev){
+    if(x0===null) return; var dx=x-x0, dy=y-y0;
+    if(mode===null){ if(Math.abs(dx)<6&&Math.abs(dy)<6) return; mode=Math.abs(dx)>Math.abs(dy)?'turn':'scroll';
+      if(mode==='turn'){ st.classList.add('grab'); parts.forEach(function(p){ p.style.animationPlayState='paused'; }); } }
+    if(mode==='turn'){ if(ev.cancelable) ev.preventDefault(); setAt(a0+dx*0.8); }
+  }
+  function end(){ if(mode==='turn'){ st.classList.remove('grab'); parts.forEach(function(p){ p.style.animationPlayState='running'; }); } x0=null; mode=null; }
+  st.addEventListener('touchstart',function(e){var t=e.touches[0];start(t.clientX,t.clientY);},{passive:true});
+  st.addEventListener('touchmove',function(e){var t=e.touches[0];move(t.clientX,t.clientY,e);},{passive:false});
+  st.addEventListener('touchend',end); st.addEventListener('touchcancel',end);
+  st.addEventListener('mousedown',function(e){start(e.clientX,e.clientY);e.preventDefault();});
+  window.addEventListener('mousemove',function(e){move(e.clientX,e.clientY,e);});
+  window.addEventListener('mouseup',end);
+})();
+</script>
+
+<script>
+(function(){
+  var ok=document.getElementById('ok'), go=document.getElementById('go');
+  var msg='Hola Nova Domus, revisamos la propuesta PY-2026-056 del videoportero del Edificio Ocaña 130 '
+    +'(U$S 4.532: equipos y licencias U$S 3.677, instalación U$S 443, programación U$S 412). Queremos avanzar.';
+  go.href='https://wa.me/5493516747513?text='+encodeURIComponent(msg);
+  ok.addEventListener('change',function(){ go.setAttribute('aria-disabled', ok.checked?'false':'true'); });
+  document.querySelectorAll('details.cg').forEach(function(d){
+    d.addEventListener('toggle',function(){ var b=d.querySelector('.tap-badge'); if(b&&d.open) b.classList.add('gone'); });
+  });
+})();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
