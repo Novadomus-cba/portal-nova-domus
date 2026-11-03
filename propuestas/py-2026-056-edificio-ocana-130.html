@@ -135,6 +135,14 @@ svg text{font-family:var(--text)}
 .opt-price b{font-family:var(--display);font-weight:400;font-size:22px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .opt-price small{display:block;font-size:12.5px;color:var(--grey);margin-top:5px}
 .opt-price .tbd{font-family:var(--text);font-size:15px;font-weight:600;color:var(--cream)}
+.opt-split{list-style:none;margin:0;padding:0;width:100%;display:grid;gap:10px}
+.opt-split li{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.opt-split li span{font-size:14px;font-weight:600;color:var(--cream)}
+.opt-split li span small{display:block;font-weight:400;color:var(--grey);margin-top:3px}
+.opt-split li b{font-size:17px}
+.opt-split li.tot{border-top:1px solid var(--line);padding-top:10px}
+.opt-split li.tot span{color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.opt-split li.tot b{font-size:22px}
 .optnote{font-size:13px;color:var(--grey);margin-top:16px}
 
 .foot{border-top:1px solid var(--line)}
@@ -379,7 +387,7 @@ svg text{font-family:var(--text)}
       </div>
       <p>Para quien prefiere atender desde una pantalla en la pared además del celular.</p>
       <ul><li>DS-KH6110-WE1, ve y habla con el visitante</li><li>Abre la puerta desde la pantalla</li><li>Sigue funcionando con la app en paralelo</li></ul>
-      <div class="opt-price"><div><b>U$S 356</b><small>Por unidad, instalada y programada · $ 558.208</small></div><small>Equipo U$S 205 (IVA incl.) + instalación U$S 118 + programación U$S 33</small></div>
+      <div class="opt-price"><ul class="opt-split"><li><span>Equipo <small>IVA incluido</small></span><b>U$S 205</b></li><li><span>Mano de obra <small>instalación U$S 118 + programación U$S 33</small></span><b>U$S 151</b></li><li class="tot"><span>Total por unidad <small>$ 558.208</small></span><b>U$S 356</b></li></ul></div>
     </article>
     <article class="opt">
       <div class="opt-top">
