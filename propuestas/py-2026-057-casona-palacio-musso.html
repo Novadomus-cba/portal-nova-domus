@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Casona Palacio Musso — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Instalación eléctrica, cámaras y red para la casona. PY-2026-057 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-057-casona-palacio-musso.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-057-casona-palacio-musso.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-057">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casona Palacio Musso · PY-2026-057 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+<style>
+.cmd{font-family:var(--font-body);font-weight:600;color:var(--gold)}
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+
+.strike{text-decoration:line-through;opacity:.6;font-weight:400}
+.who{display:inline-block;margin:0 0 10px;padding:5px 12px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-size:12.5px;font-weight:600;letter-spacing:.4px}
+.section-light .who{border-color:var(--navy);color:var(--navy)}
+.parts{display:grid;gap:12px;margin:20px 0}
+.part{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px 18px;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.part b{display:block;font-size:15.5px}
+.part small{color:#EDEAE0;opacity:.8;font-size:13px}
+.part .val{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.part .val span{display:block;font-size:12.5px}
+.pdf-dl{display:inline-block;margin-top:14px;padding:10px 16px;border:1px solid var(--gold);border-radius:999px;color:var(--gold);font-weight:600;font-size:14px;text-decoration:none}
+.section-light .pdf-dl{border-color:var(--navy);color:var(--navy)}
+.payer{margin:26px 0 8px;font-family:var(--font-display);text-transform:uppercase;letter-spacing:2px;font-size:13px;color:var(--gold)}
+.rub{color:var(--navy-deep)}
+#parte1 .totals{border-top-color:var(--gold)}
+#parte1 .trow{color:#EDEAE0}
+#parte1 .trow.sub{color:#b9bccb}
+#parte1 .trow.big{color:var(--gold);border-top-color:rgba(255,255,255,.18)}
+@media(max-width:640px){.part{flex-direction:column;align-items:flex-start}.part .val{text-align:left}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-057 · PROPUESTA COMERCIAL</p>
+    <h1>Casona Palacio Musso</h1>
+    <p class="claim">La casona, lista para la mudanza.</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para la mudanza de la
+      Masonería de Córdoba a la casona: instalación eléctrica rehecha y ampliada, cámaras y red,
+      en un presupuesto dividido en tres partes según quién se hace cargo de cada una.</p>
+    <div class="meta">
+      <span>Córdoba</span><span>Casona en alquiler</span>
+      <span>Electricidad + IT</span><span>Un solo responsable</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#parte1">Parte 1 · Musso</a></li>
+  <li><a href="#parte2">Parte 2 · Electricidad</a></li>
+  <li><a href="#parte3">Parte 3 · IT</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis"><div class="kpi"><span class="figure" data-n="57">57</span><small>bocas eléctricas: 37 existentes que se rehacen y 20 nuevas</small></div><div class="kpi"><span class="figure" data-n="2">2</span><small>tableros nuevos, hechos de cero</small></div><div class="kpi"><span class="figure" data-n="7">7</span><small>cámaras que graban dentro de la casona</small></div><div class="kpi"><span class="figure" data-n="3">3</span><small>access point: WiFi en toda la casona</small></div></div>
+  <p><b>Qué necesita la casona.</b> La instalación eléctrica de la mayor parte de la casa se rehace
+    con cañería embutida nueva y dos tableros hechos de cero, y se suman las bocas nuevas que pidió la
+    Masonería. Los ambientes del fondo que ya están en buen estado se mantienen y se conectan a la
+    instalación nueva. Además, cámaras y una red WiFi para toda la casona, con el rack en el café,
+    donde entra internet.</p>
+  <p><b>Cómo se divide.</b> Lo que es infraestructura del inmueble lo asume la propiedad; lo que pidió
+    la Masonería para su uso, la Masonería.</p>
+  <div class="parts">
+    <a class="part" href="#parte1" style="text-decoration:none;color:inherit"><span><b>Parte 1 · Electricidad de la propiedad</b><small>A cargo de Musso · bocas existentes, tableros, puesta a tierra y troncal</small></span><span class="val">U$D 1.807,21<span class="strike">U$D 2.151,42</span></span></a>
+    <a class="part" href="#parte2" style="text-decoration:none;color:inherit"><span><b>Parte 2 · Electricidad de la Masonería</b><small>A cargo de la Masonería · bocas nuevas, canalización de cámaras y WiFi, certificado</small></span><span class="val">U$D 1.230,86<span class="strike">U$D 1.465,45</span></span></a>
+    <a class="part" href="#parte3" style="text-decoration:none;color:inherit"><span><b>Parte 3 · Cámaras y red</b><small>A cargo de la Masonería · equipos, instalación y puesta en marcha</small></span><span class="val">U$D 2.729</span></a>
+  </div>
+  <p><b>Inversión total.</b> U$D 5.767,07 entre las tres partes: U$D 1.807,21 para Musso y
+    U$D 3.959,86 para la Masonería. Son valores especiales, por debajo de nuestra lista
+    habitual (tachada en cada parte), y no incluyen los materiales eléctricos, que se cotizan aparte.</p>
+  <p><b>Próximo paso.</b> Confirmar la división entre las partes, recibir la cotización de materiales
+    y fijar la fecha de inicio. El armado de las bocas de luz y la colocación de los artefactos son
+    una segunda etapa, prevista para enero o febrero, que se cotiza aparte.</p>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p>Una mudanza con obra eléctrica y tecnología suele terminar con varios proveedores: el
+    electricista, el de las cámaras, el de internet y el del WiFi. Cuando algo no funciona, cada uno
+    señala al otro, y esa coordinación es la fuente real de las demoras.</p>
+  <p><b>Nova Domus es uno solo.</b> Ejecutamos la instalación eléctrica, dejamos canalizado lo de
+    cámaras y WiFi en la misma obra, e instalamos y ponemos en marcha los equipos.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span>Relevamiento y especificación — planos de la casona y pedido de la Masonería</span></div>
+    <div class="step"><b>02</b><span>Electricidad — tableros nuevos, troncal, recanalización y bocas nuevas</span></div>
+    <div class="step"><b>03</b><span>Canalización de señales débiles — cámaras y access point, en la misma obra</span></div>
+    <div class="step"><b>04</b><span>Cámaras y red — rack en el café, grabador, WiFi y puesta en marcha</span></div>
+    <div class="step"><b>05</b><span>Entrega documentada + certificado de instalación + 12 meses de garantía</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th></th><th>Con Nova Domus</th><th>Proveedores separados</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno</td><td data-label="Proveedores separados">Tres o cuatro</td></tr>
+      <tr><td>Canalización de cámaras y WiFi</td><td data-label="Con Nova Domus">Se hace en la misma obra eléctrica</td><td data-label="Proveedores separados">Se vuelve a romper o va a la vista</td></tr>
+      <tr><td>Responsable ante una falla</td><td data-label="Con Nova Domus">Uno, con toda la documentación</td><td data-label="Proveedores separados">Cada uno señala al otro</td></tr>
+      <tr><td>Garantía</td><td data-label="Con Nova Domus">12 meses sobre todo lo ejecutado</td><td data-label="Proveedores separados">Por separado, cada uno lo suyo</td></tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="parte1">
+  <p class="eyebrow">Parte 1 — Electricidad de la propiedad</p>
+  <h2>Instalación existente, tableros y troncal</h2>
+  <span class="who">A cargo de Musso</span>
+  <p class="lead">Se rehace la instalación existente de la casona: cañería embutida nueva con
+    corrugado reglamentario, cableado nuevo, dos tableros hechos de cero con puesta a tierra, y el
+    troncal que une el tablero principal con el secundario. La acometida actual se mantiene.</p>
+  <p>Las bocas de luz se dejan canalizadas y cableadas; el armado y la colocación de los artefactos
+    son la segunda etapa. Mano de obra sin materiales; valores sin IVA.</p>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Recanalización y recableado de bocas existentes</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="rub-val">U$D 1.070,16</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Boca de iluminación existente — canalizado y cableado (sin armado)</td><td class="num">10</td><td class="num">26,46</td><td class="num">264,60</td></tr><tr><td>Boca de llave existente</td><td class="num">3</td><td class="num">29,40</td><td class="num">88,20</td></tr><tr><td>Toma de uso general existente</td><td class="num">22</td><td class="num">29,40</td><td class="num">646,80</td></tr><tr><td>Toma de uso especial existente</td><td class="num">2</td><td class="num">35,28</td><td class="num">70,56</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Tableros y puesta a tierra</span>
+          <span class="rub-val">U$D 563,61</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Tablero seccional nuevo — principal y secundario</td><td class="num">2</td><td class="num">89,41</td><td class="num">178,82</td></tr><tr><td>Módulo de tablero — cabeceras y circuitos existentes</td><td class="num">20</td><td class="num">15,51</td><td class="num">310,20</td></tr><tr><td>Puesta a tierra — jabalina, caja de inspección y conexión a bornera</td><td class="num">1</td><td class="num">74,59</td><td class="num">74,59</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Troncal entre tableros</span>
+          <span class="rub-val">U$D 173,44</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Canalización embutida del troncal entre tableros (metro)</td><td class="num">26</td><td class="num">5,54</td><td class="num">144,04</td></tr><tr><td>Alimentador del tablero secundario</td><td class="num">1</td><td class="num">29,40</td><td class="num">29,40</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+  <div class="totals">
+    <div class="trow sub"><span>Valor de lista</span><span class="strike">U$D 2.151,42</span></div>
+    <div class="trow big"><span>Total Parte 1</span><span>U$D 1.807,21</span></div>
+  </div>
+  <a class="pdf-dl" href="py-2026-057-casona-palacio-musso-parte-1-musso-electricidad.pdf" target="_blank" rel="noopener">Descargar la Parte 1 en PDF</a>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="parte2" style="border-top:0">
+  <p class="eyebrow">Parte 2 — Electricidad de la Masonería</p>
+  <h2>Bocas nuevas y canalización</h2>
+  <span class="who">A cargo de la Masonería</span>
+  <p class="lead">Las bocas que pidió la Masonería (hall, ingreso y templo), la canalización de las
+    siete cámaras y los tres access point dentro de la misma obra, y el certificado de instalación
+    eléctrica apta de toda la casona.</p>
+  <p>Mismo criterio que la Parte 1: bocas de luz canalizadas y cableadas, sin armado. Mano de obra
+    sin materiales; valores sin IVA.</p>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Bocas nuevas</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="rub-val">U$D 611,82</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Boca de iluminación nueva — canalizado y cableado (sin armado)</td><td class="num">15</td><td class="num">26,46</td><td class="num">396,90</td></tr><tr><td>Boca de llave nueva</td><td class="num">4</td><td class="num">29,40</td><td class="num">117,60</td></tr><tr><td>Toma de uso especial nueva (TUE01)</td><td class="num">1</td><td class="num">35,28</td><td class="num">35,28</td></tr><tr><td>Módulo de tablero — circuitos nuevos</td><td class="num">4</td><td class="num">15,51</td><td class="num">62,04</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Canalización de señales débiles</span>
+          <span class="rub-val">U$D 346,60</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Boca de señales débiles — caño y caja para cámara o access point</td><td class="num">10</td><td class="num">34,66</td><td class="num">346,60</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Certificación de la instalación</span>
+          <span class="rub-val">U$D 272,44</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Certificado de instalación eléctrica apta (hasta 20 bocas)</td><td class="num">1</td><td class="num">164,40</td><td class="num">164,40</td></tr><tr><td>Certificado — bocas adicionales</td><td class="num">37</td><td class="num">2,92</td><td class="num">108,04</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+  <div class="totals">
+    <div class="trow sub"><span>Valor de lista</span><span class="strike">U$D 1.465,45</span></div>
+    <div class="trow big"><span>Total Parte 2</span><span>U$D 1.230,86</span></div>
+  </div>
+  <a class="pdf-dl" href="py-2026-057-casona-palacio-musso-parte-2-masoneria-electricidad.pdf" target="_blank" rel="noopener">Descargar la Parte 2 en PDF</a>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="parte3">
+  <p class="eyebrow">Parte 3 — Cámaras y red</p>
+  <h2>IT de la casona</h2>
+  <span class="who">A cargo de la Masonería</span>
+  <p class="lead">Siete cámaras IP que graban dentro de la casona, WiFi en todos los ambientes y el
+    patio, y un rack ordenado en el café, donde entra internet, con UPS para los cortes cortos.</p>
+  <div class="cmp">
+    <div class="sw"><button id="r0" onclick="rcmp(0)">Router de la empresa de internet</button><button id="r1" onclick="rcmp(1)">Con red Nova Domus</button></div>
+    <div class="vbox" id="rbox"></div>
+  </div>
+  <p class="hint">👆 Tocá cada equipo para ver qué hace</p>
+  <div class="device-grid" id="grid-it"></div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="inversion-it" style="border-top:0">
+  <p class="eyebrow">Parte 3 — Inversión</p>
+  <h2>Detalle de cámaras y red</h2>
+  <p class="lead">Valores en dólares, con IVA incluido en cada ítem y rubro según la alícuota real
+    de cada producto. El desglose neto / IVA está en el total, más abajo.</p>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Videovigilancia</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="rub-val">U$D 966</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Cámara IP Hikvision domo 2MP — DS-2CD1121G0-I</td><td class="num">5</td><td class="num">52<span class="iva"> · IVA 21% incl.</span></td><td class="num">260</td></tr><tr><td>Cámara IP Hikvision bullet 2MP exterior — DS-2CD1021G0-I</td><td class="num">2</td><td class="num">51<span class="iva"> · IVA 21% incl.</span></td><td class="num">102</td></tr><tr><td>Grabador Hikvision 8 canales con 8 puertos PoE — DS-7108NI-Q1/8P/M(C)</td><td class="num">1</td><td class="num">301<span class="iva"> · IVA 21% incl.</span></td><td class="num">301</td></tr><tr><td>Disco Seagate SkyHawk 4TB de videovigilancia — ST4000VX016</td><td class="num">1</td><td class="num">303<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">303</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Red</span>
+          <span class="rub-val">U$D 433</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Router TP-Link Omada ER605 — ER605</td><td class="num">1</td><td class="num">61<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">61</td></tr><tr><td>Switch TP-Link Omada 8 puertos PoE+ — TL-SG2210P</td><td class="num">1</td><td class="num">105<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">105</td></tr><tr><td>Access point TP-Link Omada EAP610 WiFi 6 — EAP610</td><td class="num">3</td><td class="num">89<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">267</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Rack y energía</span>
+          <span class="rub-val">U$D 284</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Rack mural GLC 9U — MURAL-9U500</td><td class="num">1</td><td class="num">125<span class="iva"> · IVA 21% incl.</span></td><td class="num">125</td></tr><tr><td>Bandeja GLC 1U — BANDEJA 1U30</td><td class="num">2</td><td class="num">17<span class="iva"> · IVA 21% incl.</span></td><td class="num">34</td></tr><tr><td>Canal de tensión GLC 5 tomas — CT5000</td><td class="num">1</td><td class="num">56<span class="iva"> · IVA 21% incl.</span></td><td class="num">56</td></tr><tr><td>UPS Forza 1000VA — NT-1002A</td><td class="num">1</td><td class="num">69<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">69</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span><b>U$D 1.454,13</b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span>U$D 228,87</span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span><b>U$D 1.683</b></div>
+    <div class="trow sub"><span>Valor de lista de los equipos</span><span class="strike">U$D 1.910</span></div>
+    <div class="trow"><span>Instalación de equipos</span><b>U$D 804</b></div>
+    <div class="trow"><span>Programación y puesta en marcha</span><b>U$D 242</b></div>
+    <div class="trow big"><span>Total Parte 3</span><span>U$D 2.729</span></div>
+  </div>
+  <a class="pdf-dl" href="py-2026-057-casona-palacio-musso-parte-3-masoneria-it.pdf" target="_blank" rel="noopener">Descargar la Parte 3 en PDF</a>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="pago">
+  <p class="eyebrow">Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">La electricidad se certifica cada semana por el avance real de la obra. En cámaras
+    y red, los equipos se pagan por anticipado y la programación en dos partes.</p>
+  <div class="pay" id="pay"></div>
+  <div class="chk">
+    <input type="checkbox" id="fa1" onchange="renderPay()">
+    <label for="fa1">Musso necesita <b>Factura A</b> — suma IVA 21% sobre la Parte 1.</label>
+  </div>
+  <div class="chk">
+    <input type="checkbox" id="fa2" onchange="renderPay()">
+    <label for="fa2">La Masonería necesita <b>Factura A</b> — suma IVA 21% sobre la Parte 2, la
+      instalación y la programación. Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-row" style="display:none">
+      <span>IVA 21% sobre mano de obra (Factura A)</span><span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total del proyecto</span>
+      <span id="gt">U$D 5.767,07</span></div>
+  </div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="condiciones" style="border-top:0">
+  <p class="eyebrow">Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs"><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Validez y tipo de cambio</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (03/11/2026). Los precios están en dólares estadounidenses; la referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina. tipo vendedor. del día del pago (referencia del día de emisión: $ 1.568).</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Materiales eléctricos</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Los materiales eléctricos —cañería, cable, cajas, gabinetes de tablero, protecciones, jabalina y accesorios— no están incluidos y se cotizan aparte, por separado para la propiedad y para la Masonería, con cantidades y especificaciones.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Boca completa (base AAIE)</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Cada boca se cotiza como boca completa: 60% canalización y amurado, 30% cableado reglamentario y 10% conexión de módulos y portalámparas. En esta etapa las bocas de luz se cobran al 90% (canalizado y cableado); el 10% restante se cobra con la colocación del artefacto, en la segunda etapa. Llaves y tomas se cobran completas.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Segunda etapa: armado y artefactos</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>El armado de las bocas de luz y la colocación de los artefactos de iluminación (todos simples) se hacen en una segunda etapa, prevista para enero o febrero, y se cotizan aparte. La tira LED del templo depende del proyecto de iluminación, que se define más adelante.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Forma de pago</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Partes 1 y 2: certificación semanal del avance real de la obra; se paga solo lo certificado. Parte 3: equipos 100% por anticipado, para asegurar la compra; programación 60% al comenzar y 40% contra la entrega documentada; instalación por certificación de avance.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Instalación existente que se mantiene</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Los ambientes del fondo cuya instalación está en buen estado no se rehacen: se conectan a la instalación nueva. Si al conectarlos aparece un problema en esa instalación, se informa y se cotiza aparte antes de ejecutarlo.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Acometida</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>La acometida y el medidor actuales se mantienen. Cualquier trabajo sobre el pilar, el medidor o el servicio de la distribuidora queda fuera de este alcance.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Excedentes</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Toda tarea que se ejecute y no figure en este presupuesto se suma al certificado semanal como excedente, identificada y valorizada aparte.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Cancelación de dispositivos</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Los equipos de la Parte 3 se compran contra pedido firme y, una vez emitida la orden de compra, no admiten cancelación ni devolución.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Responsable de obra y certificación</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Nova Domus designa un responsable único como interlocutor durante toda la obra. Al terminar se entrega el certificado de instalación eléctrica apta y la documentación de la red y las cámaras: equipos, esquema, credenciales y manual de uso.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Actualización</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Vencida la validez, los valores se actualizan por la variación del Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Facturación</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre la mano de obra (Partes 1 y 2, instalación y programación de la Parte 3). Los equipos ya llevan su IVA discriminado por ítem.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">Garantía</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Doce meses de garantía sobre lo ejecutado desde la entrega documentada, cubriendo mano de obra y programación. Los equipos mantienen además la garantía de su fabricante.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá cada marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button><button class="pill" onclick="marca(1,this)">TP-LINK</button>
+  </div>
+  <div class="ficha" id="f0"><h3>HIKVISION</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f1"><h3>TP-LINK</h3><p>Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de domótica/seguridad del de invitados desde un solo controlador.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" title="TP-LINK" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="faq" style="border-top:0">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs"><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Por qué se divide en tres partes?</span><span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Porque las pagan dos responsables distintos. La infraestructura que queda en el inmueble —instalación existente, tableros, puesta a tierra y troncal— es de la propiedad. Las bocas nuevas, la certificación y las cámaras y la red las pidió la Masonería para su uso. Cada parte tiene su propio PDF.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Por qué rehacer la instalación existente y no solo agregar?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Porque se trabaja con muros abiertos para unir los dos tableros nuevos: es el momento de dejar toda la cañería y el cableado reglamentarios, en vez de conectar bocas nuevas a una instalación vieja.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Las cámaras siguen grabando sin internet?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Sí. Graban en el grabador que queda en el rack, dentro de la casona. Internet solo hace falta para verlas desde el celular a distancia.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Y si se corta la luz?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>El rack queda sobre una UPS que mantiene el grabador, las cámaras y el WiFi ante cortes cortos y microcortes.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Hay costos recurrentes?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>No. Las cámaras graban en la casona, sin abono de nube, y la red no requiere licencias.</p></div></article><article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false"><span class="dev-title">¿Qué pasa si algo falla?</span><span class="arr" aria-hidden="true">▾</span></button><div class="dev-body"><p>Durante 12 meses desde la entrega, cualquier falla de lo ejecutado la resuelve Nova Domus sin costo de mano de obra. Los equipos mantienen además la garantía de su fabricante.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu conformidad enviamos la cotización de materiales y
+    coordinamos la fecha de inicio de obra.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y estoy de acuerdo con el alcance y las condiciones.</label>
+  </div>
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-057%20de%20la%20Casona%20Palacio%20Musso%20y%20quiero%20avanzar." aria-disabled="true" target="_blank" rel="noopener">Aceptar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-057</b> · Casona Palacio Musso<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring" stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var T={"p1": 1807.21, "p2": 1230.86, "eq": 1683, "inst": 804, "prog": 242};
+function r2(x){return Math.round(x*100)/100;}
+function fmt(v){var r=r2(v);return 'U$D\u00a0'+r.toLocaleString('es-AR',{minimumFractionDigits:(Math.abs(r-Math.round(r))>1e-9?2:0),maximumFractionDigits:2});}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+function sw2(ids,box,DATA,i){
+  document.getElementById(ids[0]).classList.toggle('on',i===0);
+  document.getElementById(ids[1]).classList.toggle('on',i===1);
+  var b=document.getElementById(box), d=DATA[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+var RCMP=[["Solo el router de internet", false, ["Un único WiFi que no llega bien al S.U.M., al fondo ni al patio", "Las cámaras comparten la red con todos los celulares de las reuniones", "Equipos enchufados donde se puede, sin rack ni orden", "Un corte de luz corto apaga el WiFi y la grabación"]], ["Con red Nova Domus", true, ["Tres access point: WiFi parejo en toda la casona y el patio", "Las cámaras en su propia red, separadas del uso diario", "Rack ordenado en el café, documentado", "UPS: grabador, cámaras y WiFi siguen ante cortes cortos"]]];
+function rcmp(i){sw2(['r0','r1'],'rbox',RCMP,i);}
+var DEVICES={"it": [{"n": "Cámara IP Hikvision domo 2MP", "q": 5, "foto": null, "desc": "Cinco cámaras interiores: ingreso, local del ingreso, hall, pasillo distribuidor y S.U.M. Visión nocturna y alimentación por el mismo cable de red."}, {"n": "Cámara IP Hikvision bullet 2MP exterior", "q": 2, "foto": null, "desc": "Dos cámaras exteriores para el patio y la pileta, aptas intemperie (IP67) con visión nocturna."}, {"n": "Grabador Hikvision 8 canales con 8 puertos PoE", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7108NI-Q1/8P/M(C).png", "desc": "Graba las siete cámaras dentro de la casona, sin abono de nube, y las alimenta por el mismo cable. Se ven desde el celular."}, {"n": "Disco Seagate SkyHawk 4TB de videovigilancia", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png", "desc": "Disco de línea videovigilancia, preparado para grabar las 24 horas. Alrededor de un mes de grabación continua."}, {"n": "Router TP-Link Omada ER605", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png", "desc": "Recibe internet en el café y separa la red de las cámaras de la red de uso diario."}, {"n": "Switch TP-Link Omada 8 puertos PoE+", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/TL-SG2210P.jpg", "desc": "Alimenta por cable los tres access point, sin fuentes sueltas."}, {"n": "Access point TP-Link Omada EAP610 WiFi 6", "q": 3, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/eap610.jpg", "desc": "WiFi en toda la casona: uno en el café, uno en el S.U.M. y uno en el local del fondo que cubre el patio. El celular pasa de uno a otro sin cortarse."}, {"n": "Rack mural GLC 9U", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/115.jpg", "desc": "Gabinete con puerta en el café donde quedan ordenados el router, el switch y el grabador."}, {"n": "UPS Forza 1000VA", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/forza/NT-1002A.jpg", "desc": "Mantiene el grabador, las cámaras y el WiFi funcionando ante cortes de luz cortos y microcortes."}]};
+function imgErr(img){var d=document.createElement('div');d.className='dc-photo-pend';d.innerHTML='Foto<br>pendiente';img.replaceWith(d);}
+function renderDeviceGrid(id,key){
+  var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
+  el.innerHTML=DEVICES[key].map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
+    return '<article class="dev" id="'+id+'-'+i+'"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div></article>';
+  }).join('');
+}
+renderDeviceGrid('grid-it','it');
+//CALC-START
+function calc(fa1,fa2){
+  var p60=Math.round(T.prog*0.6), p40=T.prog-p60;
+  var iva1=fa1?r2(T.p1*0.21):0, iva2=fa2?r2((T.p2+T.inst+T.prog)*0.21):0;
+  var groups=[
+    ['Musso — Parte 1',[['Electricidad de la propiedad','Se certifica cada semana por avance real · monto de referencia sobre el total presupuestado',T.p1]]],
+    ['Masonería — Partes 2 y 3',[
+      ['Electricidad de la Masonería','Se certifica cada semana por avance real · monto de referencia sobre el total presupuestado',T.p2],
+      ['Equipos de cámaras y red','100% por anticipado, para asegurar la compra',T.eq],
+      ['Programación — inicio','60% al comenzar la puesta en marcha',p60],
+      ['Programación — entrega','40% contra la entrega documentada',p40],
+      ['Instalación de equipos','Se certifica por avance · monto de referencia',T.inst]]]
+  ];
+  var grand=r2(T.p1+T.p2+T.eq+T.inst+T.prog+iva1+iva2);
+  return {groups:groups, iva:r2(iva1+iva2), grand:grand};
+}
+//CALC-END
+function renderPay(){
+  var r=calc(document.getElementById('fa1').checked,document.getElementById('fa2').checked);
+  document.getElementById('pay').innerHTML=r.groups.map(function(g){
+    return '<p class="payer">'+g[0]+'</p>'+g[1].map(function(s){
+      return '<div class="stage"><span><b style="display:block">'+s[0]+'</b>'+s[1]+'</span><b>'+fmt(s[2])+'</b></div>';}).join('');
+  }).join('');
+  document.getElementById('pay-iva-row').style.display=r.iva?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(r.iva);
+  document.getElementById('gt').textContent=fmt(r.grand);
+}
+function conf(){document.getElementById('go').setAttribute('aria-disabled',document.getElementById('ok').checked?'false':'true');}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+rcmp(0); renderPay();
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);} e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement, p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){var s=document.querySelector(a.getAttribute('href')); if(s && s.getBoundingClientRect().top<=120) cur=a;});
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({propuesta_codigo: codigo, url_path: location.pathname, referrer: document.referrer || null, user_agent: navigator.userAgent});
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST', keepalive: true,
+      headers: {'Content-Type': 'application/json', 'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP', 'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'},
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
