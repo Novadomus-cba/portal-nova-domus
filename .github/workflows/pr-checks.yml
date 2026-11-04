@@ -1,0 +1,45 @@
+name: PR checks
+
+# Runs on every pull request to main. No path filters on purpose: these jobs are
+# required status checks, and a filtered-out required check never reports and
+# blocks the merge. Each job is a stdlib-only Python script and takes seconds.
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/secret_scan.py
+
+  pricing-leak:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/pricing_leak.py
+
+  rls-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/rls_lint.py
+
+  html-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/html_check.py
