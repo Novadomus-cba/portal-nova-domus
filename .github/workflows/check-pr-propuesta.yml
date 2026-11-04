@@ -1,0 +1,37 @@
+name: Revisar PR de propuesta
+
+on:
+  pull_request:
+    paths:
+      - 'propuestas/**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Tracking y datos internos
+        run: |
+          fail=0
+          base="origin/${{ github.base_ref }}"
+          changed=$(git diff --name-only --diff-filter=AM "$base"...HEAD -- 'propuestas/*.html')
+          for f in $changed; do
+            grep -q 'PY-2026-[0-9]' "$f" || continue
+            echo "Revisando $f"
+            grep -q 'name="py-codigo"' "$f" || { echo "::error file=$f::Falta <meta name=\"py-codigo\">"; fail=1; }
+            grep -q 'propuesta_vistas' "$f" || { echo "::error file=$f::Falta el tracking a propuesta_vistas"; fail=1; }
+            # Nada interno en un documento de cliente
+            for term in 'ingenier' 'remarque' 'margen_' 'Keeper' 'costo_ars' 'tarifa_mo'; do
+              if grep -qi "$term" "$f"; then
+                echo "::error file=$f::Aparece '$term' en un documento de cliente"; fail=1
+              fi
+            done
+          done
+          # Este repo es público: nada interno en el diff
+          if git diff "$base"...HEAD | grep -qE 'voowjwzlkhdknpapkhxc|resumen-interno|escrituras\.sql'; then
+            echo "::error::El PR trae material interno; va en nova-domus-py"; fail=1
+          fi
+          exit $fail
