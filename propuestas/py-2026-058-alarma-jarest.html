@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Vivienda Jarest — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Alarma Hikvision AXPro con doble tecnología, foto de verificación y escenarios pensados para el perro. PY-2026-058 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-058-alarma-jarest.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-058-alarma-jarest.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-058">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vivienda Jarest · PY-2026-058 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+.alert{border:2px solid var(--gold);border-radius:14px;padding:18px 20px;margin:22px 0;background:rgba(200,169,110,.08)}
+.alert h3{color:var(--gold)}
+.section-light .alert{border-color:var(--navy);background:rgba(20,30,97,.05)}
+.section-light .alert h3{color:var(--navy)}
+.sref{display:block;font-style:normal;color:var(--gold);font-size:12.5px;margin-top:4px}
+/* escenarios del perro */
+.esc-box{border:1px solid rgba(20,30,97,.16);border-radius:16px;padding:20px;background:#fff}
+.esc-where{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:16px}
+.esc-where div{background:rgba(20,30,97,.05);border-radius:12px;padding:12px 14px}
+.esc-where small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--navy);opacity:.6}
+.esc-where b{color:var(--navy);font-size:14.5px}
+.zrow{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(20,30,97,.09)}
+.zrow:first-child{border-top:0}
+.zst{flex:0 0 96px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+border-radius:999px;padding:5px 0;margin-top:2px;font-style:normal}
+#perro .sw.esc-tabs{display:grid;grid-template-columns:repeat(5,1fr);width:100%;border-radius:16px;gap:8px}
+#perro .esc-tabs button{border-radius:14px;min-height:56px;padding:8px 10px;line-height:1.3;font-size:13px}
+#perro .esc-tabs button.on{background:rgba(20,30,97,.06);font-weight:600}
+.zst.on{background:var(--navy);color:var(--cream)}
+.zst.part{border:1.5px solid var(--navy);color:var(--navy)}
+.zst.off{background:rgba(120,122,145,.16);color:#5d6078}
+.zrow h3{font-size:14.5px;margin:0 0 2px}
+.zrow p{font-size:13.5px;margin:0}
+.esc-why{margin:14px 0 0;padding:14px 16px;border-left:3px solid var(--navy);background:rgba(20,30,97,.04);border-radius:0 12px 12px 0}
+.zleg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:#5d6078;margin:12px 0 0}
+.zleg span{display:inline-flex;align-items:center;gap:7px}
+.zleg .zst{flex:0 0 auto;padding:3px 10px;margin:0}
+.rule{border:2px solid var(--navy);border-radius:14px;padding:16px 20px;margin:20px 0;background:rgba(20,30,97,.05)}
+.rule h3{color:var(--navy);margin-bottom:4px}
+.section-light .sw{animation-name:glowNavy}
+@keyframes glowNavy{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,0)}50%{box-shadow:0 0 0 7px rgba(20,30,97,.12)}}
+.section-light .sw button{border-color:rgba(20,30,97,.22);color:#5d6078}
+/* monitoreo */
+.mon-card{display:flex;gap:14px;align-items:flex-start;border:1px solid rgba(200,169,110,.45);border-radius:16px;
+padding:18px 20px;margin:20px 0;cursor:pointer;box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.mon-card input{width:22px;height:22px;accent-color:var(--gold);flex:0 0 22px;margin-top:2px}
+.mon-card b.mprice{color:var(--gold);font-weight:600}
+.mon-card.on{border-color:var(--gold);background:rgba(200,169,110,.07);animation:none}
+.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}
+.two>div{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px}
+.two h3{font-size:15px}
+.two ul{margin:6px 0 0;padding-left:18px} .two li{margin:5px 0;font-size:14px}
+.mon-line{border:1px dashed rgba(200,169,110,.55);border-radius:14px;padding:14px 18px;margin-top:12px;
+font-size:13.5px;display:none}
+.mon-line.on{display:block}
+.mon-line b{color:var(--gold)}
+@media(max-width:640px){
+  .rub-head{flex-wrap:wrap}
+  .rub-name{flex:1 1 100%}
+  .rub-head .rub-val{margin-left:auto}
+  .esc-box{padding:16px 14px}
+  #perro .sw.esc-tabs{grid-template-columns:1fr}
+  #perro .esc-tabs button{min-height:48px;text-align:left;padding:8px 16px}
+  .zst{flex:0 0 82px;font-size:10.5px}
+  .mon-card{padding:16px}
+}
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk,.mon-card input{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style></head><body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-058 · PROPUESTA COMERCIAL</p>
+    <h1>Vivienda Jarest</h1>
+    <p class="claim">Una alarma que avisa cuando hay que avisar.</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral de alarma domiciliaria
+      para la vivienda de Adolfo Jarest: Hikvision AXPro con doble tecnología en todos los detectores,
+      foto de verificación en el exterior y escenarios programados para convivir con el perro.</p>
+    <div class="meta">
+      <span>Córdoba</span><span>Vivienda habitada</span>
+      <span>Todo inalámbrico</span><span>Pensada para el perro</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#seguridad">Seguridad</a></li>
+  <li><a href="#perro">El perro</a></li>
+  <li><a href="#monitoreo">Monitoreo</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="14">14</span><small>detectores de movimiento, todos de doble tecnología</small></div>
+    <div class="kpi"><span class="figure" data-n="8">8</span><small>detectores exteriores con foto de verificación</small></div>
+    <div class="kpi"><span class="figure" data-n="4">4</span><small>aberturas con contacto magnético</small></div>
+    <div class="kpi"><span class="figure" data-n="5">5</span><small>escenarios programados para el perro</small></div>
+  </div>
+  <p><b>Qué necesita la casa.</b> Una alarma que no moleste. Con un ovejero alemán adulto y mucha
+    vegetación, una alarma común se dispara sola: el viento mueve las plantas, el sol calienta una
+    pared, el perro cruza el patio. Una alarma que suena de más termina desarmada, y una alarma
+    desarmada no protege.</p>
+  <p><b>Qué proponemos.</b> Priorizamos la eficiencia sobre el precio. Doble tecnología en los 14
+    detectores de movimiento (dos sensores que tienen que coincidir para disparar), foto de
+    verificación en los 8 exteriores y, sobre todo, una programación pensada para el perro: cada
+    detector se arma solo donde el perro no puede llegar en ese momento. Todo inalámbrico, sin obra.</p>
+  <p><b>Inversión.</b> U$D 6.082 (≈ ARS 9.566.986 al tipo de cambio oficial del BNA de hoy):
+    equipos, instalación especializada y programación de los escenarios. Equipos por anticipado,
+    programación 60% al inicio y 40% a la entrega, e instalación certificada por avance.
+    El monitoreo 24 h es opcional y aparte.</p>
+  <p><b>Próximo paso.</b> Una visita técnica para recorrer la casa con vos y definir juntos dónde
+    duerme y anda el perro. Con eso se cierra la ubicación de cada detector.</p>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p>Una alarma no falla por el equipo: falla por cómo se ubica, se ajusta y se programa. Cuando
+    uno vende el equipo, otro lo instala y nadie lo programa para la rutina de la casa, el resultado
+    es el de siempre: falsas alarmas, zonas anuladas a mano y una alarma que se termina dejando
+    desarmada.</p>
+  <p><b>Nova Domus es uno solo.</b> Relevamos, instalamos, programamos los escenarios del perro y
+    entregamos documentado, con 12 meses de garantía. Todo es inalámbrico: no hay obra eléctrica.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span>Visita técnica — aberturas, vegetación, recorrido del perro y
+      prueba de señal</span></div>
+    <div class="step"><b>02</b><span>Instalación — central, teclado, repetidor, detectores y sirenas,
+      sin cables ni obra</span></div>
+    <div class="step"><b>03</b><span>Programación — zonas y los cinco escenarios, listos para elegir
+      con un toque</span></div>
+    <div class="step"><b>04</b><span>Prueba de recorrido con el perro presente — ajuste de altura,
+      orientación y sensibilidad de cada detector</span></div>
+    <div class="step"><b>05</b><span>Entrega documentada + 12 meses de garantía</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th></th><th>Con Nova Domus</th><th>Instalación tradicional</th></tr></thead>
+    <tbody>
+      <tr><td>Quién programa los escenarios</td>
+        <td data-label="Con Nova Domus">Nosotros, para la rutina real de la casa</td>
+        <td data-label="Instalación tradicional">Habitualmente nadie: queda un solo modo de armado</td></tr>
+      <tr><td>Responsable ante una falla</td>
+        <td data-label="Con Nova Domus">Nova Domus</td>
+        <td data-label="Instalación tradicional">A definir entre quien vendió y quien instaló</td></tr>
+      <tr><td>Prueba de recorrido</td>
+        <td data-label="Con Nova Domus">Zona por zona, con el perro presente</td>
+        <td data-label="Instalación tradicional">Prueba de sirena y entrega</td></tr>
+      <tr><td>Garantía</td>
+        <td data-label="Con Nova Domus">12 meses sobre el sistema completo</td>
+        <td data-label="Instalación tradicional">Por equipo, con el fabricante</td></tr>
+      <tr><td>Documentación de entrega</td>
+        <td data-label="Con Nova Domus">Incluida</td>
+        <td data-label="Instalación tradicional">Habitualmente no</td></tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="seguridad">
+  <p class="eyebrow">01 — Sistema</p>
+  <h2>Seguridad</h2>
+  <p class="lead">Alarma inalámbrica Hikvision AXPro: cuatro aberturas, seis detectores interiores y
+    ocho exteriores, todos de doble tecnología, con foto de verificación afuera y dos sirenas.</p>
+  <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el detalle</p>
+  <div class="sw">
+    <button class="on" id="a0" onclick="acmp(0)">Alarma común</button>
+    <button id="a1" onclick="acmp(1)">Con Nova Domus</button>
+  </div>
+  <div class="cmp" id="abox"></div>
+  <div class="vbox">
+    <h3>Las baterías que no hacen falta</h3>
+    <p>Algunos presupuestos de alarma suman decenas de baterías de repuesto. Con AXPro no hace falta:
+      cada equipo viene con sus pilas de fábrica, que duran años, y la app avisa con tiempo cuál hay
+      que cambiar. Se reponen cuando hace falta, una por una, no por adelantado.</p>
+  </div>
+  <div class="device-grid" id="grid-seguridad"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="perro">
+  <p class="eyebrow">02 — Diseño</p>
+  <h2>Escenarios del perro</h2>
+  <p class="lead">La parte del proyecto que más importa, y la que nos diferencia.</p>
+  <p>La doble tecnología elimina las falsas alarmas por plantas que se mueven con el viento, sol,
+    cambios de temperatura, insectos y animales chicos. <b>Pero ningún detector de movimiento distingue
+    a un ovejero alemán adulto de una persona</b>: es un cuerpo grande y caliente que se mueve. La
+    "inmunidad a mascotas" de cualquier marca está pensada para animales chicos o medianos.</p>
+  <p>Por eso la solución no está en un equipo "mágico", sino en <b>dónde y cuándo se arma cada
+    detector</b>.</p>
+  <div class="rule">
+    <h3>Regla de oro</h3>
+    <p style="margin:0">Un detector de movimiento solo se arma en un sector al que el perro no puede
+      llegar en ese momento. Los contactos magnéticos de puertas y ventanas se arman siempre: el perro
+      no abre aberturas.</p>
+  </div>
+  <p class="hint">👆 Tocá cada escenario para ver qué queda armado y qué no</p>
+  <div class="sw esc-tabs" role="tablist"><button class="on" onclick="perro(0,this)">A · Noche en casa</button><button onclick="perro(1,this)">B · Salimos, perro adentro</button><button onclick="perro(2,this)">C · Salimos, perro afuera</button><button onclick="perro(3,this)">D · Perro en sector cerrado</button><button onclick="perro(4,this)">E · Viaje, perro fuera de casa</button></div>
+  <div class="esc-box">
+    <div class="esc-where">
+      <div><small>Dónde está el perro</small><b id="pe-perro"></b></div>
+      <div><small>Modo de armado</small><b id="pe-modo"></b></div>
+    </div>
+    <div id="pe-zonas"></div>
+    <p class="esc-why" id="pe-why"></p>
+    <div class="zleg"><span><i class="zst on">Armado</i> vigila y dispara</span>
+      <span><i class="zst part">Parcial</i> solo los sectores sin perro</span>
+      <span><i class="zst off">Anulado</i> no dispara en este escenario</span></div>
+  </div>
+  <p class="note"><b>Con un toque.</b> Los escenarios quedan programados en la puesta en marcha: elegís
+    el que corresponde desde la app o el teclado, sin anular zonas a mano cada vez.</p>
+  <p class="note"><b>Prueba de recorrido con el perro presente.</b> En la puesta en marcha caminamos cada
+    zona y ajustamos altura, orientación y sensibilidad de cada detector, con el perro moviéndose por
+    sus lugares habituales. Qué detector cubre cada sector se define en la visita técnica.</p>
+  <p class="note"><b>Foto de verificación.</b> Cuando dispara un detector exterior, te llega a la app una
+    foto de ese momento, con infrarrojo de noche. Si fue el perro, lo ves en segundos y atendés la
+    llamada de verificación sabiendo qué pasó.</p>
+  <div class="alert">
+    <h3>Lo definimos juntos</h3>
+    <p style="margin:0">Dónde duerme y anda el perro lo definimos juntos en la visita técnica. Con eso la
+      alarma queda programada para la rutina real de la casa.</p>
+  </div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="monitoreo">
+  <p class="eyebrow">03 — Opcional</p>
+  <h2>Monitoreo 24 h</h2>
+  <p class="lead">Monitoreo 24 h con aviso a la Policía de la Provincia de Córdoba — abono de
+    ARS 55.000 por mes + IVA. Es opcional y no suma al total del proyecto.</p>
+  <p class="hint">👆 Tildalo si lo querés sumar: se agrega aparte en la forma de pago y en el mensaje
+    de aceptación</p>
+  <label class="mon-card" id="mon-card">
+    <input type="checkbox" id="mon" onchange="monChange()">
+    <span><b style="display:block;font-size:15.5px">Sumar el monitoreo 24 h</b>
+      <b class="mprice">ARS 55.000 por mes + IVA</b> · abono mensual, aparte de la inversión del
+      proyecto</span>
+  </label>
+  <div class="two">
+    <div><h3>Qué hace</h3><ul>
+      <li>Atiende la alarma las 24 horas, los 365 días.</li>
+      <li>Ante un disparo, llama a tus contactos (mínimo tres) para verificar.</li>
+      <li>Si corresponde, da aviso a la Policía de la Provincia, que envía un móvil.</li>
+    </ul></div>
+    <div><h3>Qué no hace</h3><ul>
+      <li>No ve las fotos de verificación: llegan solo a tu app.</li>
+      <li>No envía reportes periódicos: solo actúa ante un disparo.</li>
+    </ul></div>
+  </div>
+  <div class="vbox">
+    <h3>Por qué importan los escenarios del perro</h3>
+    <p>El abono incluye 5 avisos por mes; cada aviso adicional se cobra aparte (ARS 2.000). Un
+      disparo provocado por el perro también es un aviso. Por eso el diseño de los escenarios es lo
+      que te protege de llamadas innecesarias y de cargos extra.</p>
+  </div>
+  <p class="note">La central AXPro se enlaza directo con el monitoreo, y el teclado incluido es requisito
+    del servicio. Condiciones completas en Condiciones generales.</p>
+</section>
+</div>
+
+<div class="section-light">
+<div class="wrap">
+<section class="sec" id="inversion" style="border-top:0">
+  <p class="eyebrow">04 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total general, más abajo.</p>
+  <div class="bar"><span class="seg" style="flex:631" title="Central y control: U$D 631"></span><span class="seg" style="flex:939" title="Detección interior: U$D 939"></span><span class="seg" style="flex:3384" title="Detección exterior: U$D 3.384"></span><span class="seg" style="flex:189" title="Aviso: U$D 189"></span></div>
+  <ul class="legend"><li><i class="dot d0"></i>Central y control <b>U$D 631</b></li><li><i class="dot d1"></i>Detección interior <b>U$D 939</b></li><li><i class="dot d2"></i>Detección exterior <b>U$D 3.384</b></li><li><i class="dot d3"></i>Aviso <b>U$D 189</b></li></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Central y control</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="rub-val">U$D 631</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Kit alarma Hikvision AXPro DS-PWA48-Kit-WB — central WiFi + 4G de 48 zonas. control remoto. contacto magnético y detector PIR (este último queda como repuesto)</td><td class="num">1</td><td class="num">421<span class="iva"> · IVA 21% incl.</span></td><td class="num">421</td></tr><tr><td>Teclado AXPro DS-PK1-E-WB</td><td class="num">1</td><td class="num">92<span class="iva"> · IVA 21% incl.</span></td><td class="num">92</td></tr><tr><td>Repetidor AXPro DS-PR1-WB</td><td class="num">1</td><td class="num">118<span class="iva"> · IVA 10.5% incl.</span></td><td class="num">118</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Detección interior</span>
+          <span class="rub-val">U$D 939</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Detector interior doble tecnología AXPro DS-PDD12P-EG2-WB — PIR + microondas. 12 m</td><td class="num">6</td><td class="num">136<span class="iva"> · IVA 21% incl.</span></td><td class="num">816</td></tr><tr><td>Contacto magnético AXPro DS-PDMC-EG2-WB</td><td class="num">3</td><td class="num">41<span class="iva"> · IVA 10.5% incl.</span></td><td class="num">123</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Detección exterior</span>
+          <span class="rub-val">U$D 3.384</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Detector exterior doble tecnología AXPro DS-PDTT15AM-LM-WB — antienmascaramiento. 15 m</td><td class="num">8</td><td class="num">275<span class="iva"> · IVA 21% incl.</span></td><td class="num">2.200</td></tr><tr><td>Módulo de cámara AXPro DS-PDCM15PF-IR — foto de verificación con infrarrojo</td><td class="num">8</td><td class="num">148<span class="iva"> · IVA 21% incl.</span></td><td class="num">1.184</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Aviso</span>
+          <span class="rub-val">U$D 189</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Sirena exterior AXPro DS-PS1-E-WB</td><td class="num">1</td><td class="num">110<span class="iva"> · IVA 21% incl.</span></td><td class="num">110</td></tr><tr><td>Sirena interior AXPro DS-PS1-I-WB</td><td class="num">1</td><td class="num">79<span class="iva"> · IVA 21% incl.</span></td><td class="num">79</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span>
+      <b>U$D 4.269</b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span>
+      <span>U$D 874</span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span>
+      <b>U$D 5.143</b></div>
+    <div class="trow"><span>Mano de obra especializada por punto (central, teclado, repetidor, sirenas y detectores exteriores)</span>
+      <b>U$D 386</b></div>
+    <div class="trow"><span>Programación y comisionado (zonas, escenarios y prueba de recorrido)</span>
+      <b>U$D 553</b></div>
+    <div class="trow big"><span>Total del proyecto</span>
+      <span>U$D 6.082</span></div>
+  </div>
+  <p class="note">El kit de la central incluye un detector infrarrojo simple: no se instala, porque
+    usamos doble tecnología en todos los puntos, y queda como repuesto. El monitoreo opcional no está
+    incluido en este total.</p>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="pago">
+  <p class="eyebrow">05 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Equipos por anticipado, programación en dos partes e instalación certificada según el
+    avance real del trabajo.</p>
+  <div class="pay" id="pay"></div>
+  <div class="chk">
+    <input type="checkbox" id="fa" onchange="renderPay()">
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación e instalación.
+      Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-row" style="display:none">
+      <span>IVA 21% sobre programación e instalación</span>
+      <span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total</span>
+      <span id="gt">U$D 6.082</span></div>
+  </div>
+  <div class="mon-line" id="mon-line"><b>Monitoreo 24 h (opcional):</b> ARS 55.000 por mes + IVA.
+    Abono mensual aparte: no forma parte del total ni de las etapas de pago.</div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="condiciones" style="border-top:0">
+  <p class="eyebrow">06 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (04/11/2026). Todos los precios están expresados en dólares estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago efectivo (referencia al 04/11/2026: $1.573).</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Equipos: 100% por anticipado, antes de instalar, para asegurar el precio y la disponibilidad de importación. Programación y comisionado: 60% al iniciar la programación y 40% contra la entrega final documentada. Instalación: se certifica según el avance real del trabajo; el monto indicado es de referencia sobre el total presupuestado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Alcance — sin instalación eléctrica</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Todo el sistema es inalámbrico, por eso no aplica la base de cotización de Boca Completa ni se presupuestan materiales eléctricos, canalizaciones ni cableado. La central necesita un tomacorriente cercano y conexión a la red WiFi de la casa, cuya configuración y servicio de internet quedan a cargo del cliente y de su proveedor.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Proyecto aproximado — a confirmar en visita técnica</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Este es un proyecto aproximado, no un proyecto cerrado. En la visita técnica se confirman la ubicación de cada detector, qué sector cubre cada uno y la rutina del perro con la que se programan los escenarios. El repetidor se incluye por la vegetación y la distancia de los detectores exteriores: su ubicación y su necesidad se confirman con una prueba de señal, y si no hace falta se descuenta del total.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Monitoreo 24 h (opcional)</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Servicio opcional, aparte de este presupuesto: abono de ARS 55.000 por mes + IVA, por central, que se actualiza por IPC. El alta se abona con un mes por adelantado y tiene una permanencia mínima de 6 meses. Incluye 5 avisos por mes; cada aviso adicional se cobra ARS 2.000. Requiere al menos tres contactos. Ante un disparo, la central de monitoreo llama a los contactos para verificar y, si corresponde, da aviso a la Policía de la Provincia de Córdoba. No ve las fotos de verificación, que llegan solo a la app del cliente, y no envía reportes periódicos. El chip 4G de la central es opcional y queda a cargo del cliente.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Pilas de los equipos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Cada equipo se entrega con sus pilas de fábrica. Su duración depende del uso y del equipo; la app avisa con anticipación cuando alguna se está agotando. El recambio de pilas no está incluido en la garantía de 12 meses.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos son de importación y se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Visitas técnicas</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las visitas posteriores a la entrega que se requieran por causas ajenas al sistema instalado —cambios en la casa o en el jardín, cambios en la rutina del perro que pidan reprogramar escenarios, equipos nuevos a integrar, cambios de alcance— se cotizan aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización, responsable y documentación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por la lista vigente de cada fabricante. Nova Domus designa un responsable único como interlocutor durante toda la ejecución. Al finalizar se entrega la documentación del sistema: inventario de dispositivos, mapa de zonas, escenarios programados y manual de uso.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Facturación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre programación e instalación. Los equipos ya llevan su IVA discriminado por ítem, según la alícuota de cada producto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía y post-venta</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Doce meses de garantía sobre el sistema completo desde la entrega documentada, cubriendo mano de obra y programación. Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">La marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá la marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button>
+  </div>
+  <div class="ficha" id="f0"><h3>HIKVISION</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+  <div class="vbox">
+    <h3>Garantía y post-venta</h3>
+    <p>Doce meses de garantía sobre el sistema completo desde la entrega documentada. Muchas consultas
+      se resuelven a distancia, desde la app, sin ir a la casa.</p>
+  </div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="faq" style="border-top:0">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="lead">Las dudas más comunes sobre esta alarma.</p>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Y si el perro igual dispara la alarma?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Con los escenarios bien elegidos, los detectores que pueden verlo están anulados. Si igual pasa —una puerta que quedó abierta, un cambio de rutina—, la foto de verificación te muestra en segundos que fue él. Y si se repite, ajustamos el escenario: es parte de la garantía durante los primeros 12 meses.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay que romper paredes o pasar cables?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Todos los equipos son inalámbricos y funcionan a pilas. Solo la central va enchufada a un tomacorriente.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Si se corta internet o la luz?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La central tiene batería de respaldo y los detectores funcionan a pilas, así que un corte de luz no la apaga. Si se corta internet, puede seguir avisando por 4G si se le coloca un chip (opcional, a cargo del cliente).</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Cada cuánto hay que cambiar las pilas?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Duran años, según el uso de cada equipo. No hay que llevar la cuenta: la app avisa cuál está por agotarse y se cambia solo esa.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Es obligatorio el monitoreo?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Sin monitoreo, la alarma te avisa a vos y a quien elijas directo en la app, con la foto de verificación. El monitoreo suma a alguien que atiende las 24 horas y da aviso a la Policía si corresponde.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay algún costo recurrente?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No es obligatorio ninguno. Los opcionales son el monitoreo 24 h y el chip 4G de la central.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si algo falla?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Durante los primeros 12 meses, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra. Los equipos mantienen además la garantía del fabricante.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu conformidad coordinamos la visita técnica, compramos
+    los equipos y fijamos la fecha de instalación.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y estoy de acuerdo con el alcance y las condiciones.</label>
+  </div>
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-058%20de%20la%20alarma%20de%20la%20vivienda%20de%20Adolfo%20Jarest%20por%20U%24D%206.082%20y%20quiero%20avanzar." aria-disabled="true" target="_blank"
+     rel="noopener">Aceptar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-058</b> · Vivienda Jarest<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring"
+            stroke-dasharray="163.4" stroke-dashoffset="163.4"
+            stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var T={"eq": 5143, "mo": 386, "prog": 553, "p60": 332, "p40": 221, "tot": 6082};
+var PY="PY-2026-058", MON_ARS=55000;
+function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
+function fmtArs(v){return 'ARS\u00a0'+Math.round(v).toLocaleString('es-AR');}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+function sw2(ids,box,DATA,i){
+  document.getElementById(ids[0]).classList.toggle('on',i===0);
+  document.getElementById(ids[1]).classList.toggle('on',i===1);
+  var b=document.getElementById(box), d=DATA[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
+    return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+var ACMP=[["Alarma común", false, ["Detectores infrarrojos simples: se disparan con el viento sobre las plantas, el sol, un cambio de temperatura, insectos… y con el perro", "Ante un disparo no sabés qué pasó: atendés la llamada a ciegas", "Un lote de baterías de repuesto comprado por adelantado, que se vence en un cajón", "Un solo modo de armado: con el perro, o se deja desarmada o hay que anular zonas a mano cada vez"]], ["Con Nova Domus", true, ["Doble tecnología en los 14 detectores de movimiento: dos sensores distintos que tienen que coincidir para disparar", "Foto de verificación con infrarrojo en cada detector exterior, directo a tu app", "Antienmascaramiento afuera: avisa si alguien tapa o rocía un detector para anularlo", "Cada equipo trae sus pilas de fábrica, duran años y la app avisa cuál cambiar: se reponen cuando hace falta, no por adelantado", "Cinco escenarios programados para la rutina real de la casa y del perro, que se eligen con un toque"]]];
+function acmp(i){sw2(['a0','a1'],'abox',ACMP,i);}
+var ESC=[{"t": "A · Noche en casa", "perro": "Suelto en el patio", "modo": "En casa", "z": [["on", "Aberturas", "Todos los magnéticos armados."], ["off", "Interior", "Anulados: está la familia adentro."], ["part", "Exterior", "Armados solo los sectores a los que el perro no llega. Los del patio donde anda, anulados."]], "why": "Dormís con todas las puertas y ventanas protegidas y con aviso temprano en los sectores de afuera donde no anda el perro, sin que él dispare nada."}, {"t": "B · Salimos, perro adentro", "perro": "Dentro de la casa", "modo": "Ausente, con zonas anuladas", "z": [["on", "Aberturas", "Todos los magnéticos armados."], ["part", "Interior", "Armados los ambientes que quedan cerrados al perro. Anulados los ambientes donde queda él."], ["on", "Exterior", "Todos los detectores exteriores armados."]], "why": "El perímetro completo queda vigilado y el perro se mueve tranquilo por sus ambientes. Si alguien abre una puerta o ventana, la alarma salta igual."}, {"t": "C · Salimos, perro afuera", "perro": "Suelto en el patio", "modo": "Ausente, con zonas anuladas", "z": [["on", "Aberturas", "Todos los magnéticos armados."], ["on", "Interior", "Todos los detectores interiores armados."], ["part", "Exterior", "Armados los sectores sin acceso del perro. Anulados los del patio donde anda."]], "why": "La casa queda cerrada por dentro con protección completa. El perro hace su vida en el patio sin generar avisos."}, {"t": "D · Perro en sector cerrado", "perro": "Confinado (canil o patio cerrado)", "modo": "Ausente", "z": [["on", "Aberturas", "Todos los magnéticos armados."], ["on", "Interior", "Todos los detectores interiores armados."], ["part", "Exterior", "Todo armado, salvo los detectores que miran el sector del perro."]], "why": "Es el escenario de protección casi total: solo queda fuera el rincón donde está el perro."}, {"t": "E · Viaje, perro fuera de casa", "perro": "No está (guardería u otra casa)", "modo": "Ausente total", "z": [["on", "Aberturas", "Todos los magnéticos armados."], ["on", "Interior", "Todos los detectores interiores armados."], ["on", "Exterior", "Todos los detectores exteriores armados."]], "why": "Protección máxima: con la casa vacía, cualquier movimiento es una señal real."}];
+var ZLBL={"on": "Armado", "part": "Parcial", "off": "Anulado"};
+function perro(i,btn){
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  var e=ESC[i];
+  document.getElementById('pe-perro').textContent=e.perro;
+  document.getElementById('pe-modo').textContent=e.modo;
+  document.getElementById('pe-why').textContent=e.why;
+  document.getElementById('pe-zonas').innerHTML=e.z.map(function(z){
+    return '<div class="zrow"><span class="zst '+z[0]+'">'+ZLBL[z[0]]+'</span><div><h3>'+z[1]+'</h3><p>'+z[2]+'</p></div></div>';
+  }).join('');
+}
+var DEVICES=[{"n": "Central de alarma AXPro", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PWA48-Kit-WB/ARne.jpg", "desc": "El corazón del sistema, inalámbrica, con WiFi y lugar para un chip 4G (opcional): si se corta internet, sigue avisando. Viene en kit con control remoto, un contacto magnético y un detector simple que dejamos como repuesto."}, {"n": "Teclado AXPro", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp", "desc": "Para armar, desarmar y elegir el escenario sin sacar el celular. Es además requisito del servicio de monitoreo."}, {"n": "Detector interior de doble tecnología", "q": 6, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDD12P-EG2-WB.jpg", "desc": "Infrarrojo y microondas en el mismo equipo: para disparar, los dos tienen que detectar a la vez. Un golpe de calor, una cortina que se mueve o un insecto no alcanzan. Cubre hasta 12 metros."}, {"n": "Contacto magnético", "q": 3, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdmc-eg2-wb-b.webp", "desc": "Con el que trae el kit, cubren las cuatro aberturas. Quedan armados en todos los escenarios: el perro no abre puertas ni ventanas."}, {"n": "Detector exterior de doble tecnología", "q": 8, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDTT15AM-LM-WB.jpg", "desc": "Hecho para la intemperie y para jardines con plantas: dos sensores que tienen que coincidir, alcance de 15 metros y antienmascaramiento, que avisa si alguien tapa o rocía el detector para anularlo."}, {"n": "Módulo de cámara para verificación", "q": 8, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDCM15PF-IR.jpg", "desc": "Uno en cada detector exterior. Cuando el detector dispara, toma una foto (con infrarrojo de noche) y te llega a la app. Ves en segundos qué pasó."}, {"n": "Repetidor AXPro", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg", "desc": "La vegetación y la distancia debilitan la señal inalámbrica. El repetidor asegura que los ocho detectores exteriores lleguen siempre a la central. Se ubica según la prueba de señal."}, {"n": "Sirena exterior", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp", "desc": "Sonido y luz hacia afuera: disuade y avisa a los vecinos. Inalámbrica, sin cableado."}, {"n": "Sirena interior", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg", "desc": "Suena adentro de la casa: quien entra sabe que fue detectado desde el primer segundo."}];
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
+function renderDeviceGrid(id){
+  var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
+  el.innerHTML=DEVICES.map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
+    return '<article class="dev" id="'+id+'-'+i+'">'
+     +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
+     +'</article>';
+  }).join('');
+}
+renderDeviceGrid('grid-seguridad');
+
+//CALC-START
+// Pago: cada variable de T (eq, mo, prog) aparece en una etapa. El monitoreo NO entra en ninguna suma.
+function calc(fa){
+  var iva=fa?Math.round((T.prog+T.mo)*0.21):0;
+  var rows=[
+    ['Equipos — 100%','Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.',T.eq,''],
+    ['Programación — 60% al inicio','Al arrancar la programación de zonas y escenarios.',T.p60,''],
+    ['Programación — 40% a la entrega','Comisionado: contra la prueba de recorrido y la entrega final documentada.',T.p40,''],
+    ['Instalación especializada por punto','Se certifica según el avance real del trabajo.',T.mo,'Monto de referencia — se certifica por avance']
+  ];
+  return {rows:rows, faIva:iva, grand:T.tot+iva};
+}
+//CALC-END
+function renderPay(){
+  var fa=document.getElementById('fa').checked, r=calc(fa);
+  document.getElementById('pay').innerHTML=r.rows.map(function(s){
+    return '<div class="stage"><span><b style="display:block">'+s[0]+'</b>'+s[1]
+      +(s[3]?'<em class="sref">'+s[3]+'</em>':'')+'</span><b>'+fmt(s[2])+'</b></div>';
+  }).join('');
+  document.getElementById('pay-iva-row').style.display=fa?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(r.faIva);
+  document.getElementById('gt').textContent=fmt(r.grand);
+  waLink();
+}
+function monChange(){
+  var on=document.getElementById('mon').checked;
+  document.getElementById('mon-card').classList.toggle('on',on);
+  document.getElementById('mon-line').classList.toggle('on',on);
+  waLink();
+}
+function waLink(){
+  var fa=document.getElementById('fa').checked, mon=document.getElementById('mon').checked, r=calc(fa);
+  var t='Hola Nova Domus, revisé la propuesta '+PY+' de la alarma de la vivienda de Adolfo Jarest por '
+    +fmt(r.grand).replace('\u00a0',' ')+(fa?' (con Factura A)':'')+' y quiero avanzar.';
+  if(mon) t+='\nAparte, sumo el monitoreo 24 h: '+fmtArs(MON_ARS).replace('\u00a0',' ')+' por mes + IVA.';
+  document.getElementById('go').href='https://wa.me/5493516747513?text='+encodeURIComponent(t);
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled',
+    document.getElementById('ok').checked?'false':'true');
+}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+acmp(0);
+perro(0,document.querySelector('#perro .sw button'));
+renderPay(); monChange();
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
