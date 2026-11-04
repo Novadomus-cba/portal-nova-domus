@@ -1,3 +1,24 @@
-# Toda propuesta necesita la aprobación de Agustín.
-# Verificar que @Novadomus-cba es la cuenta con la que Agustín aprueba en GitHub.
-/propuestas/      @Novadomus-cba
+# Every change below needs approval from the account owner (Agustín).
+# With "Require review from Code Owners" on main, these paths cannot be merged
+# without @Novadomus-cba's review.
+
+# Client proposals
+/propuestas/                @Novadomus-cba
+
+# SQL: RLS policies, grants, data fixes
+*.sql                       @Novadomus-cba
+/scripts/                   @Novadomus-cba
+
+# Pricing logic and internal rules
+/comercial/                 @Novadomus-cba
+/obras/                     @Novadomus-cba
+/gerencial/                 @Novadomus-cba
+/liquidacion/               @Novadomus-cba
+/interno/                   @Novadomus-cba
+/contable.html              @Novadomus-cba
+/finance-utils.js           @Novadomus-cba
+/index.html                 @Novadomus-cba
+/DECISIONES.md              @Novadomus-cba
+
+# CI and repo settings: nobody disables a check without the owner seeing it
+/.github/                   @Novadomus-cba
