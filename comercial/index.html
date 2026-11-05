@@ -653,6 +653,8 @@ textarea{resize:vertical;min-height:60px}
         <li>Al editar un presupuesto, los precios manuales ya no se pierden.</li>
         <li><b>Corregido:</b> guardar los cambios de un presupuesto editado por un comercial duplicaba todas sus líneas. Ahora se guarda todo junto o nada.</li>
         <li>WhatsApp y link del cliente: el precio de lista se muestra siempre neto (sin IVA), igual que el resto del presupuesto.</li>
+        <li>En ítems con promo, WhatsApp y el link muestran el % de la promo y, aparte, el descuento total sobre lista: "Descuento {promo}: 9% (total 14% off lista)".</li>
+        <li><b>Cambio:</b> al editar un presupuesto, cada línea conserva el precio y la lista con que se cotizó, aunque el inventario o el TC hayan cambiado. Para recalcular una línea con el precio de hoy: "Actualizar a precio de hoy" debajo del ítem. Pasar el cliente de B2C a B2B (o al revés) recalcula todo.</li>
       </ul>
     </div>
     <div class="novedad-item">
@@ -972,6 +974,8 @@ async function loadManoObra(){
 // precio_sugerido_manual ya viene en ARS CON IVA incluido: se pasa a USD (÷TC) y
 // recién ahí se le saca el IVA (÷(1+iva)) para tener la base sin_iva.
 function getSugeridoSinIva(item){
+  // Al editar un presupuesto guardado, la lista queda la que se cotizó (ver cargarParaEditar).
+  if(item.sugeridoCotizadoSinIva!=null)return item.sugeridoCotizadoSinIva;
   const costo=parseFloat(item.precio_sin_iva)||0;
   const iva=parseFloat(item.iva)||0.21;
   const rem=parseFloat(item.remarque)||0.35;
@@ -1045,7 +1049,19 @@ function addDaysTo(iso,n){const[y,m,d]=iso.split('-').map(Number);const dt=new D
 function getBaseSinIva(item){
   const iva=parseFloat(item.iva)||0.21;
   if(item.precioOverride!=null)return item.precioOverride/(1+iva);
+  if(item.precioCotizado!=null)return item.precioCotizado;
   return calcPrecio(item).precioFinalSinIva;
+}
+
+// Precio cotizado (edición): la línea conserva el precio y la lista con que se guardó, aunque
+// el inventario o el TC hayan cambiado. Solo cambia lo que el comercial toque.
+function tieneCotizado(item){return item.precioCotizado!=null||item.sugeridoCotizadoSinIva!=null}
+function quitarCotizado(item){item.precioCotizado=null;item.sugeridoCotizadoSinIva=null;item.alertaCotizada=null}
+function actualizarPrecioHoy(id){
+  const item=cart.find(c=>c.id===id);
+  if(!item)return;
+  quitarCotizado(item);
+  renderCart();
 }
 
 function promoActiva(item){
@@ -1468,9 +1484,14 @@ function renderCart(){
     const precioSinIva=getItemPriceSinIva(item);
     const displayPrice=getItemPrice(item);
     const listaNeto=pvp/(1+iva);
+    const cotizado=!override&&item.precioCotizado!=null;
     const displayDesc=promo
-      ?`${listaNeto>0?Math.round((1-precioSinIva/listaNeto)*100):0}% off lista con promo${override?' (sobre precio manual)':''}`
-      :override?'precio editado manualmente':`${descuento}% off lista`;
+      ?`${listaNeto>0?Math.round((1-precioSinIva/listaNeto)*100):0}% off lista con promo${override?' (sobre precio manual)':cotizado?' (sobre precio cotizado)':''}`
+      :override?'precio editado manualmente'
+      :cotizado?`${listaNeto>0?Math.round((1-precioSinIva/listaNeto)*100):0}% off lista · precio cotizado`
+      :`${descuento}% off lista`;
+    const cotizadoHtml=!override&&tieneCotizado(item)
+      ?`<div class="promo-note">Precio y lista como se cotizaron · <a href="#" onclick="actualizarPrecioHoy(${item.id});return false">Actualizar a precio de hoy</a></div>`:'';
     // Markup/comisión siempre contra el precio realmente cobrado (manual o promo) y sobre
     // costo de LISTA — nunca el que hubiera calculado el algoritmo (ver bug Situación 5).
     const displayMarkup=costo>0?(precioSinIva-costo)/costo:0;
@@ -1514,9 +1535,10 @@ function renderCart(){
           ${override?`<button class="btn btn-secondary btn-sm" onclick="clearOverride(${item.id})" title="Restaurar precio calculado">↺</button>`:''}
         </div>
       </div>
+      ${cotizadoHtml}
       ${promoHtml}
       <div class="cart-margin">Markup: <span>${Math.round(displayMarkup*100)}%</span> · Comisión: <span>${fUSD(displayComision*item.qty)}</span></div>
-      ${overrideBajoMinimo?'<div class="cart-alert">⚠️ Precio manual bajo el margen mínimo (20%)</div>':(alertaB2B&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':'')}
+      ${overrideBajoMinimo?'<div class="cart-alert">⚠️ Precio manual bajo el margen mínimo (20%)</div>':((cotizado?item.alertaCotizada:alertaB2B)&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':'')}
       ${!calcMoPrice(item)?'<div class="cart-alert">⚠️ Sin tarifa MO fija — agregá el servicio de instalación manualmente en Servicios si corresponde</div>':''}
     </div>`;
   }).join('');
@@ -1701,8 +1723,15 @@ async function cargarParaEditar(id){
         }
         // Precio manual: antes se perdía al editar (precioOverride:null) y la línea volvía
         // al precio de algoritmo. precioOverride es con IVA.
+        // Sin precio manual: queda el precio cotizado (antes se recalculaba del inventario y
+        // del TC de hoy, y el presupuesto cambiaba sin que nadie lo tocara).
+        const sugLinea=parseFloat(i.precio_sugerido_usd)||0;
+        if(sugLinea>0)it.sugeridoCotizadoSinIva=sugLinea/(1+ivaLinea);
         if((i.notas||'').startsWith('precio manual')&&base!=null){
           it.precioOverride=Math.round(base*(1+ivaLinea)*100)/100;
+        }else if(base!=null&&base>0){
+          it.precioCotizado=base;
+          it.alertaCotizada=!!i.alerta_b2b_imposible;
         }
         cart.push(it);
       }else{
@@ -1905,15 +1934,17 @@ async function guardarPresupuesto(){
         const iva=parseFloat(item.iva)||0.21;
         const costo=parseFloat(item.precio_sin_iva)||0;
         let lineaDescuento=(descuento||0)/100, lineaMargenPct=markup*100, lineaAlerta=alertaB2B||false;
-        if(item.precioOverride!=null){
-          // Precio manual (prerrogativa de Agustín): el margen/alerta se recalculan
+        if(item.precioOverride!=null||item.precioCotizado!=null){
+          // Precio manual (prerrogativa de Agustín) o cotizado: el margen/alerta se recalculan
           // contra el precio realmente cobrado, no contra el que hubiera calculado el
           // algoritmo — antes quedaban en 0/false sin importar el precio manual.
           // descuento_aplicado guarda FRACCIÓN (CHECK -1..1), no porcentaje.
           const sugeridoSinIva=getSugeridoSinIva(item);
           lineaDescuento=sugeridoSinIva>0?Math.round((1-finalPriceSinIva/sugeridoSinIva)*10000)/10000:0;
           lineaMargenPct=costo>0?((finalPriceSinIva-costo)/costo)*100:0;
-          lineaAlerta=costo>0?((finalPriceSinIva-costo)/costo)<MARGEN_MINIMO:false;
+          lineaAlerta=item.precioOverride!=null
+            ?(costo>0?((finalPriceSinIva-costo)/costo)<MARGEN_MINIMO:false)
+            :!!item.alertaCotizada;
         }
         const promo=calcPromo(item);
         if(promo){
@@ -2337,12 +2368,14 @@ _Domótica e Integración Tecnológica_
 `;
       txt+=`  + IVA 21%: \`U$S ${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: U$S ${ceil(total).toLocaleString('es-AR')}*
 `;
-      // Lista siempre NETA, como el resto del mensaje (IVA discriminado). Con promo, el
-      // descuento combinado lleva el nombre de la promo. Nunca costo, costo efectivo ni markup.
+      // Lista siempre NETA, como el resto del mensaje (IVA discriminado). Con promo: el % de
+      // la promo con su nombre y, aparte, el total sobre lista (que la incluye). Nunca costo,
+      // costo efectivo ni markup.
       const pr=i.promocion_id?currentPromoMap[i.promocion_id]:null;
       const listaNeto=(i.precio_sugerido_usd||0)/(1+(parseFloat(i.iva_rate)||0.21));
       const descPct=Math.round((i.descuento_aplicado||0)*100);
-      txt+=`  _Precio lista neto: U$S ${ceil(listaNeto).toLocaleString('es-AR')} | ${pr?`Descuento ${pr.nombre}: ${descPct}%`:`${descPct}% off lista`}_
+      const promoPct=Math.round((parseFloat(i.descuento_promo_pct)||0)*100);
+      txt+=`  _Precio lista neto: U$S ${ceil(listaNeto).toLocaleString('es-AR')} | ${pr?`Descuento ${pr.nombre}: ${promoPct}% (total ${descPct}% off lista)`:`${descPct}% off lista`}_
 
 `;
     });
@@ -2949,9 +2982,10 @@ async function confirmarImportPromo(){
 function setTipo(t){
   // Cambio real B2C↔B2B: B2B nunca lleva promo; B2C la vuelve a consultar (ON por defecto).
   // Llamado con el mismo tipo (edición, backup) no toca las promos ya cargadas.
+  // El precio cotizado era para el otro tipo de cliente: se vuelve a calcular.
   const changed=t!==clienteTipo;
   clienteTipo=t;
-  if(changed)refreshPromos();
+  if(changed){cart.forEach(quitarCotizado);refreshPromos();}
   document.getElementById('btn-b2c').classList.toggle('active',t==='B2C');
   document.getElementById('btn-b2b').classList.toggle('active',t==='B2B');
   renderCart();renderPL();
