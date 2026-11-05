@@ -651,6 +651,8 @@ textarea{resize:vertical;min-height:60px}
         <li>Con al menos un ítem en promo, el presupuesto vence el día que termina la promo si eso es antes de los 15 días. El precio promo vale si el cliente paga hasta esa fecha.</li>
         <li><b>Nuevo:</b> botón "🔥 Aplicar promo vigente" en el detalle de Historial (B2C, BORRADOR o ENVIADO). Pasa la emisión a hoy, toma el TC del día y recalcula los ítems en promo.</li>
         <li>Al editar un presupuesto, los precios manuales ya no se pierden.</li>
+        <li><b>Corregido:</b> guardar los cambios de un presupuesto editado por un comercial duplicaba todas sus líneas. Ahora se guarda todo junto o nada.</li>
+        <li>WhatsApp y link del cliente: el precio de lista se muestra siempre neto (sin IVA), igual que el resto del presupuesto.</li>
       </ul>
     </div>
     <div class="novedad-item">
@@ -1848,8 +1850,8 @@ async function guardarPresupuesto(){
       if(minPromoHasta()||editingHadPromo){
         cabecera.fecha_vencimiento=calcVencimiento(editingFechaEmision||today());
       }
-      await sb(`/rest/v1/presupuestos_comerciales?id=eq.${pid}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(cabecera)});
-      await sb(`/rest/v1/presupuestos_items?presupuesto_id=eq.${pid}`,{method:'DELETE',prefer:'return=minimal'});
+      // Cabecera y líneas se guardan juntas más abajo (guardarEdicion), cuando las líneas
+      // ya están armadas.
     }else{
       cabecera.estado='BORRADOR';
       cabecera.fecha_emision=today();
@@ -1984,7 +1986,9 @@ async function guardarPresupuesto(){
       })
     ];
 
-    if(lineas.length){
+    if(editingPresupuestoId){
+      await guardarEdicion(pid,cabecera,lineas);
+    }else if(lineas.length){
       await sb('/rest/v1/presupuestos_items',{method:'POST',prefer:'return=minimal',body:JSON.stringify(lineas)});
     }
 
@@ -1996,11 +2000,41 @@ async function guardarPresupuesto(){
     editingPresupuestoId=null;editingNumero=null;editingFechaEmision=null;editingHadPromo=false;
     toast(wasEditing?`${numero} actualizado`:`${numero} guardado`,'ok');
   }catch(e){
-    toast('Error: '+e.message,'err');
+    if(!esErrorDeSesion(e))toast('Error: '+errMsg(e),'err');
     console.error(e);
   }finally{
     btn.disabled=false;btn.textContent=editingPresupuestoId?'💾 Guardar cambios en '+editingNumero:'💾 Guardar presupuesto';
   }
+}
+
+// PostgREST responde PGRST202 cuando la función no está en la base (o en su caché).
+function esFuncionFaltante(e,nombre){
+  let code='',msg=e&&e.message||'';
+  try{const j=JSON.parse(msg);code=j.code||'';msg=j.message||msg}catch(_){}
+  return code==='PGRST202'||(msg.includes(nombre)&&/could not find|schema cache/i.test(msg));
+}
+
+// Guardar una EDICIÓN: cabecera + reemplazo de líneas en una sola transacción, en la base
+// (guardar_edicion_presupuesto). Antes era PATCH + DELETE + INSERT desde acá: para un
+// comercial el DELETE no borraba nada (RLS solo admin, sin error) y el INSERT duplicaba
+// todas las líneas del presupuesto.
+async function guardarEdicion(pid,cabecera,lineas){
+  try{
+    await sb('/rest/v1/rpc/guardar_edicion_presupuesto',{method:'POST',body:JSON.stringify({p_presupuesto_id:pid,p_cabecera:cabecera,p_lineas:lineas})});
+    return;
+  }catch(e){
+    if(!esFuncionFaltante(e,'guardar_edicion_presupuesto'))throw e;
+    console.warn('guardar_edicion_presupuesto no está en la base — camino anterior (solo admin)');
+  }
+  // Hasta que la función esté en la base: solo admin, y nunca insertar si quedaron líneas.
+  if(userRole!=='admin'){
+    throw new Error('Guardar cambios de un presupuesto ya guardado todavía no está habilitado para comerciales — avisale a Agustín. No se modificó nada.');
+  }
+  await sb(`/rest/v1/presupuestos_items?presupuesto_id=eq.${pid}`,{method:'DELETE',prefer:'return=minimal'});
+  const quedan=await sb(`/rest/v1/presupuestos_items?presupuesto_id=eq.${pid}&select=id&limit=1`);
+  if(quedan&&quedan.length)throw new Error('No se pudieron borrar las líneas anteriores — no se guardó nada para no duplicarlas.');
+  await sb(`/rest/v1/presupuestos_comerciales?id=eq.${pid}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(cabecera)});
+  if(lineas.length)await sb('/rest/v1/presupuestos_items',{method:'POST',prefer:'return=minimal',body:JSON.stringify(lineas)});
 }
 
 // ─── HISTORIAL ───────────────────────────────────────────────
@@ -2151,9 +2185,9 @@ async function aplicarPromoVigente(){
   }catch(e){
     console.error('aplicarPromoVigente',e);
     if(esErrorDeSesion(e))return;
-    let msg=e.message, code='';
-    try{const j=JSON.parse(e.message);msg=j.message||msg;code=j.code||''}catch(_){}
-    if(code==='PGRST202'||/aplicar_promo_vigente/.test(msg)&&/not find|schema cache/i.test(msg))msg='la función aplicar_promo_vigente todavía no está en la base — avisale a Agustín';
+    const msg=esFuncionFaltante(e,'aplicar_promo_vigente')
+      ?'la función aplicar_promo_vigente todavía no está en la base — avisale a Agustín'
+      :errMsg(e);
     toast('No se pudo aplicar la promo: '+msg,'err');
     if(btn){btn.disabled=false;btn.textContent='🔥 Aplicar promo vigente'}
   }
@@ -2303,19 +2337,14 @@ _Domótica e Integración Tecnológica_
 `;
       txt+=`  + IVA 21%: \`U$S ${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: U$S ${ceil(total).toLocaleString('es-AR')}*
 `;
-      // Con promo: lista NETA y el descuento combinado con el nombre de la promo. Nunca
-      // costo, costo efectivo ni markup.
+      // Lista siempre NETA, como el resto del mensaje (IVA discriminado). Con promo, el
+      // descuento combinado lleva el nombre de la promo. Nunca costo, costo efectivo ni markup.
       const pr=i.promocion_id?currentPromoMap[i.promocion_id]:null;
-      if(pr){
-        const listaNeto=(i.precio_sugerido_usd||0)/(1+(parseFloat(i.iva_rate)||0.21));
-        txt+=`  _Precio lista neto: U$S ${ceil(listaNeto).toLocaleString('es-AR')} | Descuento ${pr.nombre}: ${Math.round((i.descuento_aplicado||0)*100)}%_
+      const listaNeto=(i.precio_sugerido_usd||0)/(1+(parseFloat(i.iva_rate)||0.21));
+      const descPct=Math.round((i.descuento_aplicado||0)*100);
+      txt+=`  _Precio lista neto: U$S ${ceil(listaNeto).toLocaleString('es-AR')} | ${pr?`Descuento ${pr.nombre}: ${descPct}%`:`${descPct}% off lista`}_
 
 `;
-      }else{
-        txt+=`  _Precio lista: U$S ${ceil(i.precio_sugerido_usd||0).toLocaleString('es-AR')} | ${Math.round((i.descuento_aplicado||0)*100)}% off lista_
-
-`;
-      }
     });
   }
   if(svcs.length){
