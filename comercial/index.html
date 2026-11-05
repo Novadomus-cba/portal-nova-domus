@@ -143,6 +143,16 @@ textarea{resize:vertical;min-height:60px}
 .novedad-fecha{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.04em;margin-bottom:6px}
 .novedad-item ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
 .novedad-item li{font-size:12px;color:var(--muted);line-height:1.4}
+/* PROMOCIONES DE PROVEEDOR */
+.promo-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(240,150,90,.12);color:#f0a06a;border:1px solid rgba(240,150,90,.4);white-space:nowrap}
+.promo-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+.promo-switch{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text);cursor:pointer;user-select:none}
+.promo-switch input{width:16px;height:16px;padding:0;appearance:auto;-webkit-appearance:auto;accent-color:var(--accent);cursor:pointer}
+.promo-note{font-size:11px;color:var(--warn);background:var(--warn-bg);border:1px solid var(--warn-border);padding:5px 8px;border-radius:4px;margin-top:6px}
+.promo-table{width:100%;border-collapse:collapse;font-size:12px}
+.promo-table td,.promo-table th{padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
+.promo-table th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.promo-table input{padding:4px 6px;font-size:12px;width:70px}
 
 /* ── Hoja de impresión: lista de precios (identidad Nova Domus, modo claro) ── */
 #pdf-lista-precios{display:none}
@@ -197,6 +207,7 @@ textarea{resize:vertical;min-height:60px}
       <button class="nav-tab" onclick="showPage('historial',this)">Historial</button>
       <button class="nav-tab" onclick="showPage('precios',this)">Precios</button>
       <button class="nav-tab" onclick="showPage('vincular',this)">Vincular obra</button>
+      <button class="nav-tab" id="tab-promos" style="display:none" onclick="showPage('promos',this)">Promociones</button>
     </div>
   </div>
 </div>
@@ -418,6 +429,9 @@ textarea{resize:vertical;min-height:60px}
     <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Ítems</div>
     <div id="mpres-items" style="margin-bottom:14px;font-size:12px"></div>
 
+    <!-- Aplicar promo vigente (solo B2C BORRADOR/ENVIADO con ítems en promo hoy) -->
+    <div id="mpres-promo-action"></div>
+
     <!-- Editar -->
     <button class="btn btn-secondary" style="width:100%;margin-bottom:8px" onclick="cargarParaEditar(currentPres.id)">✏️ Editar precios / ítems</button>
 
@@ -524,6 +538,94 @@ textarea{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<!-- ══ PROMOCIONES (solo admin) ═══════════════════════════════ -->
+<div class="page" id="page-promos">
+  <div class="card">
+    <div class="card-hdr">
+      <span>Promociones de proveedor</span>
+      <button class="btn btn-secondary btn-sm" onclick="nuevaPromo()">+ Nueva</button>
+    </div>
+    <div id="promos-list"><div class="loader"><div class="spinner"></div>Cargando...</div></div>
+  </div>
+
+  <div class="card" id="promo-form-card" style="display:none">
+    <div class="card-hdr">
+      <span id="promo-form-title">Nueva promoción</span>
+      <button onclick="cerrarPromo()" style="background:none;border:none;font-size:18px;color:var(--hint);cursor:pointer;padding:0">×</button>
+    </div>
+    <div class="card-body">
+      <div class="field" style="margin-bottom:10px">
+        <label>Nombre (lo ve el cliente)</label>
+        <input type="text" id="pf-nombre" placeholder="Yale Cyber Week 2026">
+      </div>
+      <div class="row2" style="margin-bottom:10px">
+        <div class="field">
+          <label>Proveedor</label>
+          <select id="pf-proveedor"></select>
+        </div>
+        <div class="field">
+          <label>Canal</label>
+          <select id="pf-canal">
+            <option value="B2C">B2C</option>
+            <option value="B2B">B2B</option>
+            <option value="AMBOS">Ambos</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2" style="margin-bottom:10px">
+        <div class="field">
+          <label>Desde (fecha de pago)</label>
+          <input type="date" id="pf-desde">
+        </div>
+        <div class="field">
+          <label>Hasta (fecha de pago)</label>
+          <input type="date" id="pf-hasta">
+        </div>
+      </div>
+      <div class="row2" style="margin-bottom:10px">
+        <div class="field">
+          <label>Mecanismo</label>
+          <select id="pf-mecanismo">
+            <option value="nota_credito">Nota de crédito</option>
+            <option value="descuento_factura">Descuento en factura</option>
+          </select>
+        </div>
+        <div class="field" style="justify-content:flex-end">
+          <label class="promo-switch" style="padding:9px 0"><input type="checkbox" id="pf-activo" checked> Activa</label>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <label>Notas internas</label>
+        <textarea id="pf-notas" placeholder="(opcional)"></textarea>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" style="flex:1" id="pf-guardar" onclick="guardarPromo()">💾 Guardar</button>
+        <button class="btn btn-secondary" id="pf-eliminar" style="display:none;color:var(--danger)" onclick="eliminarPromo()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="promo-items-card" style="display:none">
+    <div class="card-hdr">
+      <span>Ítems en promo</span>
+      <span id="promo-items-count" class="pill pill-nd">0</span>
+    </div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">
+        Importar el Excel del proveedor (columnas <b>Articulo</b> / <b>Descripcion</b> / <b>%</b>). Se busca cada artículo por SKU del inventario; si ya estaba en la promo, se actualiza el %.
+      </div>
+      <input type="file" id="promo-file" accept=".xlsx,.xls,.csv" onchange="leerExcelPromo(this)" style="margin-bottom:10px">
+      <div id="promo-import-preview"></div>
+      <div style="display:flex;gap:6px;align-items:center;margin:10px 0">
+        <input type="text" id="promo-add-sku" placeholder="SKU" style="flex:1">
+        <input type="number" id="promo-add-pct" placeholder="%" min="0.01" max="99" step="0.01" style="width:80px">
+        <button class="btn btn-secondary btn-sm" onclick="agregarItemPromo()">+ Agregar</button>
+      </div>
+      <div id="promo-items-list"></div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-sesion">
   <div class="modal" id="modal-sesion-body" style="max-width:420px">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
@@ -542,6 +644,15 @@ textarea{resize:vertical;min-height:60px}
     <span class="chevron" id="novedades-chev">▾</span>
   </div>
   <div id="novedades-body" style="display:none;padding:4px 14px 12px">
+    <div class="novedad-item">
+      <div class="novedad-fecha">05/11/2026</div>
+      <ul>
+        <li><b>Nuevo:</b> promociones de proveedor. Al agregar un dispositivo en promo (B2C) aparece el badge 🔥 con el nombre y el %, y el toggle "Aplicar promo" (prendido por defecto).</li>
+        <li>Con al menos un ítem en promo, el presupuesto vence el día que termina la promo si eso es antes de los 15 días. El precio promo vale si el cliente paga hasta esa fecha.</li>
+        <li><b>Nuevo:</b> botón "🔥 Aplicar promo vigente" en el detalle de Historial (B2C, BORRADOR o ENVIADO). Pasa la emisión a hoy, toma el TC del día y recalcula los ítems en promo.</li>
+        <li>Al editar un presupuesto, los precios manuales ya no se pierden.</li>
+      </ul>
+    </div>
     <div class="novedad-item">
       <div class="novedad-fecha">16/07/2026</div>
       <ul>
@@ -599,7 +710,8 @@ const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 
 // State
 let TC=0, inventario=[], comerciales=[], cart=[], servicios=[], clienteTipo='B2C', facturaA=false;
-let editingPresupuestoId=null, editingNumero=null;
+let editingPresupuestoId=null, editingNumero=null, editingFechaEmision=null, editingHadPromo=false;
+let userRole=null;
 const MARGEN_MINIMO=0.20;
 const CART_BACKUP_KEY='nd_comercial_cart_backup_v1';
 let currentBrand='', savedId=null;
@@ -644,6 +756,7 @@ function guardarBackupCarrito(){
   try{
     sessionStorage.setItem(CART_BACKUP_KEY, JSON.stringify({
       cart, servicios, clienteTipo, facturaA, editingPresupuestoId, editingNumero,
+      editingFechaEmision, editingHadPromo,
       cliNombre: document.getElementById('cli-nombre')?.value||'',
       cliEmpresa: document.getElementById('cli-empresa')?.value||'',
       cliEmail: document.getElementById('cli-email')?.value||'',
@@ -664,6 +777,7 @@ function restaurarBackupCarrito(){
     cart=b.cart||[]; servicios=b.servicios||[];
     clienteTipo=b.clienteTipo||'B2C'; facturaA=!!b.facturaA;
     editingPresupuestoId=b.editingPresupuestoId||null; editingNumero=b.editingNumero||null;
+    editingFechaEmision=b.editingFechaEmision||null; editingHadPromo=!!b.editingHadPromo;
     document.getElementById('cli-nombre').value=b.cliNombre||'';
     document.getElementById('cli-empresa').value=b.cliEmpresa||'';
     document.getElementById('cli-email').value=b.cliEmail||'';
@@ -785,6 +899,8 @@ window.onload = async () => {
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
     window.location.href = '../index.html'; return;
   }
+  userRole = profile.role;
+  if (userRole === 'admin') document.getElementById('tab-promos').style.display = '';
   document.getElementById('portal-username').textContent = profile.full_name;
   document.getElementById('app-loading').style.display = 'none';
   document.getElementById('app-header').style.display  = 'block';
@@ -907,6 +1023,86 @@ function calcPrecio(item){
 }
 
 function isService(item){return item.marca==='NOVA DOMUS'}
+
+// ─── PROMOCIONES DE PROVEEDOR (05/11/2026) ────────────────────
+// Por línea, todo sin IVA:
+//   base         = precio sin promo (ya incluye el 5% B2C y el precio manual si lo hay)
+//   precio_promo = base × (1 − pct)
+//   costo_ef     = costo de lista × (1 − pct)
+//   piso         : precio_promo ≥ costo_ef × 1.20 (clamp, sin superar nunca la base)
+// La comisión sigue sobre costo de LISTA: (precio_final − costo) × cant × 0.30.
+// El precio promo vale por FECHA DE PAGO (vence en fecha_hasta de la promo).
+// Mismas reglas que aplicar_promo_vigente() en la base: si se cambia una, cambiar la otra.
+const PROMO_PISO_SOBRE_COSTO_EF=1.20;
+
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function fmtPct(f){return(Math.round((parseFloat(f)||0)*10000)/100).toLocaleString('es-AR',{maximumFractionDigits:2})}
+function addDaysTo(iso,n){const[y,m,d]=iso.split('-').map(Number);const dt=new Date(y,m-1,d+n);return dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate())}
+
+// Precio sin IVA ANTES de la promo.
+function getBaseSinIva(item){
+  const iva=parseFloat(item.iva)||0.21;
+  if(item.precioOverride!=null)return item.precioOverride/(1+iva);
+  return calcPrecio(item).precioFinalSinIva;
+}
+
+function promoActiva(item){
+  return !!(item&&item.promo&&item.promoOn&&clienteTipo==='B2C'&&!isService(item));
+}
+
+// null si la línea no lleva promo; si la lleva, todo lo necesario para mostrar y guardar.
+function calcPromo(item){
+  if(!promoActiva(item))return null;
+  const pct=parseFloat(item.promo.pct)||0;
+  const base=getBaseSinIva(item);
+  const costo=parseFloat(item.precio_sin_iva)||0;
+  const costoEf=costo*(1-pct);
+  const bruto=base*(1-pct);
+  const piso=Math.min(base,costoEf*PROMO_PISO_SOBRE_COSTO_EF);
+  return{pct,base,costoEf,precio:Math.max(bruto,piso),recortada:bruto<piso-1e-9};
+}
+
+// Primera fecha_hasta entre las líneas con promo activa (o null).
+function minPromoHasta(){
+  const hs=cart.filter(promoActiva).map(i=>i.promo.hasta).filter(Boolean).sort();
+  return hs[0]||null;
+}
+
+// Vencimiento = emisión + 15, o el fin de la promo si es antes.
+function calcVencimiento(emision){
+  const v=addDaysTo(emision,15);
+  const h=minPromoHasta();
+  return h&&h<v?h:v;
+}
+
+async function fetchPromo(item,{defaultOn=true}={}){
+  if(clienteTipo!=='B2C'||isService(item)||typeof item.id!=='number'){item.promo=null;item.promoOn=false;return}
+  try{
+    const r=await sb('/rest/v1/rpc/fn_promo_vigente',{method:'POST',body:JSON.stringify({p_inventario_id:item.id,p_fecha:today(),p_canal:clienteTipo})});
+    const row=r&&r[0];
+    if(row){
+      item.promo={id:row.promocion_id,nombre:row.nombre,pct:parseFloat(row.pct_descuento),hasta:row.fecha_hasta};
+      item.promoOn=defaultOn;
+    }else{
+      item.promo=null;item.promoOn=false;
+    }
+  }catch(e){
+    console.error('fn_promo_vigente',e);
+  }
+}
+
+async function refreshPromos(){
+  const devs=cart.filter(i=>!isService(i));
+  await Promise.all(devs.map(i=>fetchPromo(i)));
+  renderCart();
+}
+
+function togglePromo(id,on){
+  const item=cart.find(c=>c.id===id);
+  if(!item)return;
+  item.promoOn=on;
+  renderCart();
+}
 
 // Siempre neto — el IVA (si corresponde por Factura A) se discrimina aparte al mostrar/guardar.
 function calcServicePrice(item){
@@ -1221,11 +1417,18 @@ function addToCart(id){
     renderServicios();
     toast('Cantidad actualizada');
   }else{
-    const newItem={...item,qty:1};
+    const newItem={...item,qty:1,promo:null,promoOn:false};
     cart.push(newItem);
     if(!isService(newItem))addAutoServicioForDevice(newItem);
     renderServicios();
     toast(item.nombre+' agregado','ok');
+    if(!isService(newItem)&&clienteTipo==='B2C'){
+      fetchPromo(newItem).then(()=>{
+        if(!newItem.promo||!cart.includes(newItem))return;
+        renderCart();
+        toast(`🔥 ${newItem.promo.nombre} −${fmtPct(newItem.promo.pct)}% aplicada`,'ok');
+      });
+    }
   }
 }
 
@@ -1255,16 +1458,31 @@ function renderCart(){
 
   document.getElementById('cart-devices-label').style.display=devices.length?'':'none';
   document.getElementById('cart-devices').innerHTML=devices.map(item=>{
-    const{pvp,precioFinal,descuento,alertaB2B,markup,comision}=calcPrecio(item);
+    const{pvp,precioFinal,descuento,alertaB2B}=calcPrecio(item);
     const override=item.precioOverride!=null;
     const costo=parseFloat(item.precio_sin_iva)||0;
-    const displayPrice=override?item.precioOverride:precioFinal;
-    const displayDesc=override?'precio editado manualmente':`${descuento}% off lista`;
-    // Con precio manual, el markup/comisión mostrados acá tienen que reflejar el precio
-    // realmente cobrado, no el que hubiera calculado el algoritmo (ver bug Situación 5).
-    const displayMarkup=override&&costo>0?(getItemPriceSinIva(item)-costo)/costo:markup;
-    const displayComision=override?Math.max(0,(getItemPriceSinIva(item)-costo)*0.30):comision;
-    const overrideBajoMinimo=override&&costo>0&&((getItemPriceSinIva(item)-costo)/costo)<MARGEN_MINIMO;
+    const iva=parseFloat(item.iva)||0.21;
+    const promo=calcPromo(item);
+    const precioSinIva=getItemPriceSinIva(item);
+    const displayPrice=getItemPrice(item);
+    const listaNeto=pvp/(1+iva);
+    const displayDesc=promo
+      ?`${listaNeto>0?Math.round((1-precioSinIva/listaNeto)*100):0}% off lista con promo${override?' (sobre precio manual)':''}`
+      :override?'precio editado manualmente':`${descuento}% off lista`;
+    // Markup/comisión siempre contra el precio realmente cobrado (manual o promo) y sobre
+    // costo de LISTA — nunca el que hubiera calculado el algoritmo (ver bug Situación 5).
+    const displayMarkup=costo>0?(precioSinIva-costo)/costo:0;
+    const displayComision=Math.max(0,(precioSinIva-costo)*0.30);
+    // Con promo el piso es 20% sobre costo efectivo (lo resuelve calcPromo), no sobre lista.
+    const overrideBajoMinimo=override&&!promo&&costo>0&&((precioSinIva-costo)/costo)<MARGEN_MINIMO;
+    const promoVencida=item.promo&&item.promo.hasta&&item.promo.hasta<today();
+    const promoHtml=item.promo?`
+      <div class="promo-row">
+        <span class="promo-badge">🔥 ${esc(item.promo.nombre)} −${fmtPct(item.promo.pct)}%${promoVencida?' · vencida':''}</span>
+        <label class="promo-switch"><input type="checkbox" ${item.promoOn?'checked':''} onchange="togglePromo(${item.id},this.checked)"> Aplicar promo</label>
+      </div>
+      ${promo&&item.promo.hasta?`<div class="promo-note">Precio promo válido si se paga hasta ${formatDate(item.promo.hasta)}</div>`:''}
+      ${promo&&promo.recortada?'<div class="cart-alert">⚠️ Promo recortada: el precio no baja del 20% sobre el costo efectivo</div>':''}`:'';
     return`<div class="cart-item">
       <div class="cart-item-top">
         <div>
@@ -1294,6 +1512,7 @@ function renderCart(){
           ${override?`<button class="btn btn-secondary btn-sm" onclick="clearOverride(${item.id})" title="Restaurar precio calculado">↺</button>`:''}
         </div>
       </div>
+      ${promoHtml}
       <div class="cart-margin">Markup: <span>${Math.round(displayMarkup*100)}%</span> · Comisión: <span>${fUSD(displayComision*item.qty)}</span></div>
       ${overrideBajoMinimo?'<div class="cart-alert">⚠️ Precio manual bajo el margen mínimo (20%)</div>':(alertaB2B&&!override?'<div class="cart-alert">⚠️ No se alcanzó el 25% B2B — aplicado máx. descuento con margen mínimo 20%</div>':'')}
       ${!calcMoPrice(item)?'<div class="cart-alert">⚠️ Sin tarifa MO fija — agregá el servicio de instalación manualmente en Servicios si corresponde</div>':''}
@@ -1356,15 +1575,17 @@ function clearOverride(id){
 
 function getItemPrice(item){
   // GROSS (lo que paga el cliente) — para mostrar en el carrito.
+  const promo=calcPromo(item);
+  if(promo)return promo.precio*(1+(parseFloat(item.iva)||0.21));
   if(item.precioOverride!=null)return item.precioOverride;
   return calcPrecio(item).precioFinal;
 }
 
 function getItemPriceSinIva(item){
-  // NETO — para persistir en subtotal_usd/precio_final_unitario_usd.
-  const iva=parseFloat(item.iva)||0.21;
-  if(item.precioOverride!=null)return item.precioOverride/(1+iva);
-  return calcPrecio(item).precioFinalSinIva;
+  // NETO — para persistir en subtotal_usd/precio_final_unitario_usd. Con promo, el precio promo.
+  const promo=calcPromo(item);
+  if(promo)return promo.precio;
+  return getBaseSinIva(item);
 }
 
 function renderSummary(){
@@ -1378,10 +1599,10 @@ function renderSummary(){
   const totalUSD=totalDevUSD+totalSvcUSD;
   // Margen bruto real de TODOS los dispositivos, incluidos los de precio manual
   // (antes se excluían del todo de la comisión — bug Situación 5).
+  // Con promo, el precio cobrado es el promo y el costo sigue siendo el de lista.
   const totalComision=devices.reduce((s,i)=>{
     const costo=parseFloat(i.precio_sin_iva)||0;
-    const margenUnit=i.precioOverride!=null?(getItemPriceSinIva(i)-costo):calcPrecio(i).markupBrutoUsd;
-    return s+margenUnit*0.30*i.qty;
+    return s+(getItemPriceSinIva(i)-costo)*0.30*i.qty;
   },0);
 
   // IVA discriminado: dispositivos siempre 21%; servicios solo con Factura A.
@@ -1399,10 +1620,15 @@ function renderSummary(){
     <div class="summary-total"><span>Total c/IVA</span><span>${fUSD(totalConIva)}</span></div>
     <div class="summary-row" style="margin-top:4px"><span>Ref. ARS (TC ${fARS(TC)})</span><span>${fARS(totalARS)}</span></div>
     <div class="summary-row" style="margin-top:4px;font-size:11px;color:var(--muted)"><span>Neto (base de comisión)</span><span>${fUSD(totalUSD)}</span></div>`;
+  const promoHasta=minPromoHasta();
+  if(promoHasta){
+    const venc=calcVencimiento(editingPresupuestoId&&editingFechaEmision?editingFechaEmision:today());
+    rows+=`<div class="promo-note" style="margin-top:8px">🔥 Precio promo válido si se paga hasta <b>${formatDate(promoHasta)}</b> · el presupuesto vence el ${formatDate(venc)}</div>`;
+  }
 
   document.getElementById('summary-rows').innerHTML=rows;
   const bajoMinimo=devices.some(i=>{
-    if(i.precioOverride==null)return false;
+    if(i.precioOverride==null||promoActiva(i))return false;
     const costo=parseFloat(i.precio_sin_iva)||0;
     return costo>0&&((getItemPriceSinIva(i)-costo)/costo)<MARGEN_MINIMO;
   });
@@ -1429,11 +1655,20 @@ async function cargarParaEditar(id){
 
     editingPresupuestoId=p.id;
     editingNumero=p.numero;
+    editingFechaEmision=p.fecha_emision||null;
+    editingHadPromo=false;
     cart=[];servicios=[];
 
     clienteTipo=p.cliente_tipo||'B2C';
     facturaA=!!p.cliente_requiere_factura_a;
     TC=parseFloat(p.tc_bna_oficial)||TC;
+
+    const promoIds=[...new Set((items||[]).map(i=>i.promocion_id).filter(Boolean))];
+    const promoMap={};
+    if(promoIds.length){
+      const prs=await sb(`/rest/v1/promociones?id=in.(${promoIds.join(',')})&select=id,nombre,fecha_hasta`);
+      (prs||[]).forEach(x=>promoMap[x.id]=x);
+    }
 
     document.getElementById('cli-nombre').value=p.cliente_nombre||'';
     document.getElementById('cli-empresa').value=p.cliente_empresa||'';
@@ -1446,7 +1681,28 @@ async function cargarParaEditar(id){
       const inv=inventario.find(x=>x.id===i.inventario_id);
       const qty=parseFloat(i.cantidad)||1;
       if(inv){
-        cart.push({...inv,qty,precioOverride:null});
+        const it={...inv,qty,precioOverride:null,promo:null,promoOn:false};
+        const ivaLinea=parseFloat(i.iva_rate)||parseFloat(inv.iva)||0.21;
+        // Precio sin promo guardado en la línea. Si la línea tenía promo, se recupera
+        // dividiendo por (1 − pct); si esa promo había quedado recortada al piso, no es
+        // recuperable y la base vuelve a calcularse.
+        let base=parseFloat(i.precio_final_unitario_usd)||0;
+        if(i.promocion_id){
+          const pct=parseFloat(i.descuento_promo_pct)||0;
+          const cef=parseFloat(i.costo_efectivo_sin_iva_usd);
+          const recortada=cef>0&&base<=cef*PROMO_PISO_SOBRE_COSTO_EF+1e-6;
+          base=(recortada||pct>=1)?null:base/(1-pct);
+          const pr=promoMap[i.promocion_id];
+          it.promo={id:i.promocion_id,nombre:pr?pr.nombre:'Promo',pct,hasta:pr?pr.fecha_hasta:null};
+          it.promoOn=true;
+          editingHadPromo=true;
+        }
+        // Precio manual: antes se perdía al editar (precioOverride:null) y la línea volvía
+        // al precio de algoritmo. precioOverride es con IVA.
+        if((i.notas||'').startsWith('precio manual')&&base!=null){
+          it.precioOverride=Math.round(base*(1+ivaLinea)*100)/100;
+        }
+        cart.push(it);
       }else{
         // Ya no está en inventario (descontinuado/renombrado) — se reconstruye lo
         // mínimo con el snapshot guardado para no perder la línea, fijada como
@@ -1494,6 +1750,17 @@ async function cargarParaEditar(id){
     cerrarModalPres();
     showPage('nuevo',document.querySelector(`.nav-tab[onclick*="showPage('nuevo'"]`));
     toast('Editando '+p.numero,'ok');
+
+    // Ítems B2C sin promo guardada: si hoy tienen una vigente se muestra el badge con el
+    // toggle APAGADO — editar no cambia precios sin que nadie lo decida. Para tomar la
+    // promo con la emisión a hoy está "Aplicar promo vigente".
+    if(clienteTipo==='B2C'){
+      const sinPromo=cart.filter(i=>!isService(i)&&!i.promo&&typeof i.id==='number');
+      if(sinPromo.length){
+        await Promise.all(sinPromo.map(i=>fetchPromo(i,{defaultOn:false})));
+        renderCart();
+      }
+    }
   }catch(e){
     console.error('cargarParaEditar',e);
     toast('Error al cargar para editar','err');
@@ -1501,7 +1768,7 @@ async function cargarParaEditar(id){
 }
 
 function cancelarEdicion(){
-  editingPresupuestoId=null;editingNumero=null;
+  editingPresupuestoId=null;editingNumero=null;editingFechaEmision=null;editingHadPromo=false;
   cart=[];servicios=[];
   document.getElementById('editing-banner').style.display='none';
   document.getElementById('btn-guardar').textContent='💾 Guardar presupuesto';
@@ -1551,10 +1818,10 @@ async function guardarPresupuesto(){
     // "margen_dispositivos_usd guardaba lo mismo que comision_comercial_usd"). Los ítems
     // con precio manual SÍ aportan su margen real (precio override − costo) — antes se
     // excluían del todo y la comisión de ese ítem quedaba en cero (bug Situación 5).
+    // Con promo: precio promo − costo de LISTA.
     const markupBrutoTotal=devices.reduce((s,i)=>{
       const costo=parseFloat(i.precio_sin_iva)||0;
-      const margenUnit=i.precioOverride!=null?(getItemPriceSinIva(i)-costo):calcPrecio(i).markupBrutoUsd;
-      return s+margenUnit*i.qty;
+      return s+(getItemPriceSinIva(i)-costo)*i.qty;
     },0);
     const comisionTotal=markupBrutoTotal*0.30;
 
@@ -1577,12 +1844,16 @@ async function guardarPresupuesto(){
     let pid;
     if(editingPresupuestoId){
       pid=editingPresupuestoId;
+      // Con promo (o si la tenía) el vencimiento se recalcula: min(emisión + 15, fin de promo).
+      if(minPromoHasta()||editingHadPromo){
+        cabecera.fecha_vencimiento=calcVencimiento(editingFechaEmision||today());
+      }
       await sb(`/rest/v1/presupuestos_comerciales?id=eq.${pid}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(cabecera)});
       await sb(`/rest/v1/presupuestos_items?presupuesto_id=eq.${pid}`,{method:'DELETE',prefer:'return=minimal'});
     }else{
       cabecera.estado='BORRADOR';
       cabecera.fecha_emision=today();
-      cabecera.fecha_vencimiento=addDays(15);
+      cabecera.fecha_vencimiento=calcVencimiento(today());
       const inserted=await sb('/rest/v1/presupuestos_comerciales?select=id,numero',{method:'POST',prefer:'return=representation',body:JSON.stringify(cabecera)});
       if(!inserted||!inserted[0])throw new Error('No se pudo recuperar el presupuesto guardado');
       pid=inserted[0].id;
@@ -1617,6 +1888,10 @@ async function guardarPresupuesto(){
         referencia_epac_usd: null,
         horas_estimadas_mo: null,
         horas_estimadas_origen: null,
+        // Promo de proveedor: las tres juntas o ninguna.
+        promocion_id: null,
+        descuento_promo_pct: null,
+        costo_efectivo_sin_iva_usd: null,
         ...overrides
       };
     }
@@ -1638,7 +1913,17 @@ async function guardarPresupuesto(){
           lineaMargenPct=costo>0?((finalPriceSinIva-costo)/costo)*100:0;
           lineaAlerta=costo>0?((finalPriceSinIva-costo)/costo)<MARGEN_MINIMO:false;
         }
-        return buildLinea({inventario_id:item.id,tipo_linea:'DISPOSITIVO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:costo,iva_rate:iva,precio_costo_con_iva_usd:costo*(1+iva),precio_sugerido_usd:pvp,descuento_aplicado:lineaDescuento,precio_final_unitario_usd:finalPriceSinIva,subtotal_usd:finalPriceSinIva*item.qty,margen_porcentaje:lineaMargenPct,alerta_b2b_imposible:lineaAlerta,tipo_dolar:item.tipo_dolar||'oficial',notas:item.precioOverride!=null?'precio manual (director-aprobado)':null});
+        const promo=calcPromo(item);
+        if(promo){
+          // descuento_aplicado = descuento COMBINADO contra lista neta (el único que ve el
+          // cliente); margen sobre costo de lista, como siempre.
+          const listaNeto=pvp/(1+iva);
+          lineaDescuento=listaNeto>0?Math.round((1-finalPriceSinIva/listaNeto)*10000)/10000:0;
+          lineaMargenPct=costo>0?(finalPriceSinIva/costo-1)*100:0;
+          lineaAlerta=false;
+        }
+        return buildLinea({inventario_id:item.id,tipo_linea:'DISPOSITIVO',marca:item.marca,nombre:item.nombre,sku:item.sku||null,cantidad:item.qty,precio_costo_sin_iva_usd:costo,iva_rate:iva,precio_costo_con_iva_usd:costo*(1+iva),precio_sugerido_usd:pvp,descuento_aplicado:lineaDescuento,precio_final_unitario_usd:finalPriceSinIva,subtotal_usd:finalPriceSinIva*item.qty,margen_porcentaje:lineaMargenPct,alerta_b2b_imposible:lineaAlerta,tipo_dolar:item.tipo_dolar||'oficial',notas:item.precioOverride!=null?'precio manual (director-aprobado)':null,
+          promocion_id:promo?item.promo.id:null,descuento_promo_pct:promo?promo.pct:null,costo_efectivo_sin_iva_usd:promo?promo.costoEf:null});
       }),
       ...invServices.map(item=>{
         const sp=calcServicePrice(item);
@@ -1708,7 +1993,7 @@ async function guardarPresupuesto(){
     document.getElementById('save-ok-num').textContent='✓ ' + numero;
     document.getElementById('save-ok-box').style.display='';
     document.getElementById('editing-banner').style.display='none';
-    editingPresupuestoId=null;editingNumero=null;
+    editingPresupuestoId=null;editingNumero=null;editingFechaEmision=null;editingHadPromo=false;
     toast(wasEditing?`${numero} actualizado`:`${numero} guardado`,'ok');
   }catch(e){
     toast('Error: '+e.message,'err');
@@ -1719,7 +2004,7 @@ async function guardarPresupuesto(){
 }
 
 // ─── HISTORIAL ───────────────────────────────────────────────
-let currentPres=null, currentPresItems=[];
+let currentPres=null, currentPresItems=[], currentPromoMap={};
 
 async function cargarHistorial(){
   const cont=document.getElementById('hist-list');
@@ -1758,6 +2043,7 @@ async function abrirModalPres(id){
   document.getElementById('mpres-num').textContent='Cargando...';
   document.getElementById('mpres-items').innerHTML='';
   document.getElementById('mpres-wa').style.display='none';
+  document.getElementById('mpres-promo-action').innerHTML='';
   try{
     const[pres,items]=await Promise.all([
       sb(`/rest/v1/presupuestos_comerciales?id=eq.${id}&select=*&limit=1`),
@@ -1765,6 +2051,13 @@ async function abrirModalPres(id){
     ]);
     const p=pres[0];currentPres=p;currentPresItems=items||[];
     const comMap={};comerciales.forEach(c=>comMap[c.id]=c.nombre);
+    currentPromoMap={};
+    const promoIds=[...new Set(currentPresItems.map(i=>i.promocion_id).filter(Boolean))];
+    if(promoIds.length){
+      const prs=await sb(`/rest/v1/promociones?id=in.(${promoIds.join(',')})&select=id,nombre,fecha_hasta`);
+      (prs||[]).forEach(x=>currentPromoMap[x.id]=x);
+    }
+    const promoHastas=currentPresItems.filter(i=>i.promocion_id&&currentPromoMap[i.promocion_id]).map(i=>currentPromoMap[i.promocion_id].fecha_hasta).sort();
 
     document.getElementById('mpres-num').textContent=p.numero||'Sin número';
     document.getElementById('mpres-meta').textContent=`${comMap[p.comercial_id]||'—'} · ${p.cliente_nombre}${p.cliente_empresa?' · '+p.cliente_empresa:''} · ${p.cliente_tipo}`;
@@ -1783,14 +2076,17 @@ async function abrirModalPres(id){
       <hr class="summary-divider">
       <div class="summary-row"><span>Total USD</span><span style="font-weight:700;color:var(--accent)">${fUSD(p.total_usd||0)}</span></div>
       <div class="summary-row"><span>Ref. ARS</span><span>${fARS(p.total_ars||0)}</span></div>
-      <div class="summary-row"><span>Comisión est.</span><span style="color:var(--info)">${fUSD(p.comision_comercial_usd||0)}</span></div>`;
+      <div class="summary-row"><span>Comisión est.</span><span style="color:var(--info)">${fUSD(p.comision_comercial_usd||0)}</span></div>
+      ${promoHastas.length?`<div class="promo-note">🔥 Precio promo válido si se paga hasta <b>${formatDate(promoHastas[0])}</b></div>`:''}`;
 
     const devices=(items||[]).filter(i=>i.tipo_linea==='DISPOSITIVO');
     const svcs=(items||[]).filter(i=>i.tipo_linea!=='DISPOSITIVO');
     let itHtml='';
     devices.forEach(i=>{
+      const pr=i.promocion_id?currentPromoMap[i.promocion_id]:null;
+      const badge=i.promocion_id?`<br><span class="promo-badge" style="margin-top:4px">🔥 ${esc(pr?pr.nombre:'Promo')} −${fmtPct(i.descuento_promo_pct)}%</span>`:'';
       itHtml+=`<div style="padding:7px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px">
-        <div><b>${i.marca} — ${i.nombre}</b><br><span style="color:var(--muted)">×${i.cantidad} · ${Math.round((i.descuento_aplicado||0)*100)}% off lista</span></div>
+        <div><b>${i.marca} — ${i.nombre}</b><br><span style="color:var(--muted)">×${i.cantidad} · ${Math.round((i.descuento_aplicado||0)*100)}% off lista${i.promocion_id?' (con promo)':''}</span>${badge}</div>
         <div style="text-align:right;white-space:nowrap"><b>${fUSD(i.subtotal_usd||0)}</b></div>
       </div>`;
     });
@@ -1810,7 +2106,57 @@ async function abrirModalPres(id){
     document.getElementById('mpres-link').href=`https://novadomuscba.github.io/presupuestos/?id=${p.id}`;
     document.getElementById('mpres-link').textContent=`novadomuscba.github.io/presupuestos/?id=${p.id}`;
 
+    renderAccionPromo(p,devices);
+
   }catch(e){document.getElementById('mpres-num').textContent='Error al cargar';console.error(e);}
+}
+
+// ─── APLICAR PROMO VIGENTE ────────────────────────────────────
+// Solo B2C en BORRADOR/ENVIADO con al menos un ítem en promo HOY. Corre en la base
+// (aplicar_promo_vigente): el rol comercial no puede reescribir líneas desde el cliente.
+async function renderAccionPromo(p,devices){
+  const cont=document.getElementById('mpres-promo-action');
+  cont.innerHTML='';
+  if(p.cliente_tipo!=='B2C'||!['BORRADOR','ENVIADO'].includes(p.estado))return;
+  const conInv=devices.filter(i=>i.inventario_id);
+  if(!conInv.length)return;
+  let vigentes=[];
+  try{
+    const res=await Promise.all(conInv.map(i=>sb('/rest/v1/rpc/fn_promo_vigente',{method:'POST',body:JSON.stringify({p_inventario_id:i.inventario_id,p_fecha:today(),p_canal:'B2C'})})));
+    vigentes=res.map((r,k)=>r&&r[0]?{linea:conInv[k],promo:r[0]}:null).filter(Boolean);
+  }catch(e){console.error('renderAccionPromo',e);return}
+  if(!vigentes.length||!currentPres||currentPres.id!==p.id)return;
+  const nombres=[...new Set(vigentes.map(v=>v.promo.nombre))].map(esc).join(', ');
+  const hasta=vigentes.map(v=>v.promo.fecha_hasta).sort()[0];
+  const yaAplicada=vigentes.every(v=>v.linea.promocion_id===v.promo.promocion_id&&Math.abs((parseFloat(v.linea.descuento_promo_pct)||0)-parseFloat(v.promo.pct_descuento))<1e-9);
+  cont.innerHTML=`<div class="promo-note" style="margin:0 0 8px;color:var(--text)">
+      🔥 <b>${nombres}</b> — ${vigentes.length} ítem${vigentes.length!==1?'s':''} en promo hasta el ${formatDate(hasta)}${yaAplicada?' · ya aplicada':''}.
+      <div style="color:var(--muted);margin-top:3px">Pasa la emisión a hoy (${formatDate(today())}), el TC a ${fARS(TC)} y recalcula esos ítems.</div>
+      <button class="btn btn-primary" style="width:100%;margin-top:8px" id="btn-aplicar-promo" onclick="aplicarPromoVigente()">🔥 Aplicar promo vigente</button>
+    </div>`;
+}
+
+async function aplicarPromoVigente(){
+  if(!currentPres)return;
+  if(!TC||TC<=0){toast('Falta el tipo de cambio del día','err');return}
+  const p=currentPres;
+  if(!confirm(`¿Aplicar la promo vigente a ${p.numero}?\n\nLa emisión pasa a hoy (${formatDate(today())}), el TC a ${fARS(TC)} y se recalculan los ítems en promo.`))return;
+  const btn=document.getElementById('btn-aplicar-promo');
+  if(btn){btn.disabled=true;btn.textContent='Aplicando...'}
+  try{
+    const r=await sb('/rest/v1/rpc/aplicar_promo_vigente',{method:'POST',body:JSON.stringify({p_presupuesto_id:p.id,p_tc:TC})});
+    toast(`${p.numero}: promo en ${r.aplicadas} ítem${r.aplicadas!==1?'s':''} · vence ${formatDate(r.fecha_vencimiento)}`,'ok');
+    await abrirModalPres(p.id);
+    cargarHistorial();
+  }catch(e){
+    console.error('aplicarPromoVigente',e);
+    if(esErrorDeSesion(e))return;
+    let msg=e.message, code='';
+    try{const j=JSON.parse(e.message);msg=j.message||msg;code=j.code||''}catch(_){}
+    if(code==='PGRST202'||/aplicar_promo_vigente/.test(msg)&&/not find|schema cache/i.test(msg))msg='la función aplicar_promo_vigente todavía no está en la base — avisale a Agustín';
+    toast('No se pudo aplicar la promo: '+msg,'err');
+    if(btn){btn.disabled=false;btn.textContent='🔥 Aplicar promo vigente'}
+  }
 }
 
 function cerrarModalPres(){
@@ -1957,9 +2303,19 @@ _Domótica e Integración Tecnológica_
 `;
       txt+=`  + IVA 21%: \`U$S ${ceil(iva).toLocaleString('es-AR')}\` → *Total c/IVA: U$S ${ceil(total).toLocaleString('es-AR')}*
 `;
-      txt+=`  _Precio lista: U$S ${ceil(i.precio_sugerido_usd||0).toLocaleString('es-AR')} | ${Math.round((i.descuento_aplicado||0)*100)}% off lista_
+      // Con promo: lista NETA y el descuento combinado con el nombre de la promo. Nunca
+      // costo, costo efectivo ni markup.
+      const pr=i.promocion_id?currentPromoMap[i.promocion_id]:null;
+      if(pr){
+        const listaNeto=(i.precio_sugerido_usd||0)/(1+(parseFloat(i.iva_rate)||0.21));
+        txt+=`  _Precio lista neto: U$S ${ceil(listaNeto).toLocaleString('es-AR')} | Descuento ${pr.nombre}: ${Math.round((i.descuento_aplicado||0)*100)}%_
 
 `;
+      }else{
+        txt+=`  _Precio lista: U$S ${ceil(i.precio_sugerido_usd||0).toLocaleString('es-AR')} | ${Math.round((i.descuento_aplicado||0)*100)}% off lista_
+
+`;
+      }
     });
   }
   if(svcs.length){
@@ -2094,6 +2450,7 @@ function showPage(p,el){
   if(p==='historial')cargarHistorial();
   if(p==='precios')renderPL();
   if(p==='vincular')cargarVincular();
+  if(p==='promos')cargarPromosPage();
 }
 
 // ─── VINCULAR OBRA (Aceptar y crear obra) ─────────────────────
@@ -2278,8 +2635,294 @@ async function confirmarVincular(){
   cargarVincular();
 }
 
+// ─── PROMOCIONES — ABM (solo admin; la RLS ya restringe la escritura) ─────
+let promosData=[], proveedoresPromo=null, promoActual=null, promoItemsData=[], promoImportRows=null;
+
+function errMsg(e){try{const j=JSON.parse(e.message);return j.message||e.message}catch(_){return e.message}}
+
+async function cargarPromosPage(){
+  if(userRole!=='admin'){document.getElementById('promos-list').innerHTML='<div class="empty">Solo administración</div>';return}
+  if(!proveedoresPromo){
+    try{
+      proveedoresPromo=await sb('/rest/v1/proveedores?select=id,nombre&activo=eq.true&order=nombre')||[];
+      document.getElementById('pf-proveedor').innerHTML='<option value="">— Proveedor —</option>'+proveedoresPromo.map(p=>`<option value="${p.id}">${esc(p.nombre)}</option>`).join('');
+    }catch(e){console.error('proveedores',e);proveedoresPromo=null}
+  }
+  await cargarPromos();
+}
+
+async function cargarPromos(){
+  const cont=document.getElementById('promos-list');
+  try{
+    promosData=await sb('/rest/v1/promociones?select=*,proveedores(nombre),promociones_items(count)&order=fecha_desde.desc')||[];
+    if(!promosData.length){cont.innerHTML='<div class="empty">Sin promociones cargadas</div>';return}
+    const hoy=today();
+    cont.innerHTML=promosData.map(p=>{
+      const n=(p.promociones_items&&p.promociones_items[0]&&p.promociones_items[0].count)||0;
+      const estado=!p.activo?['pill-gray','Inactiva']:hoy<p.fecha_desde?['pill-info','Próxima']:hoy>p.fecha_hasta?['pill-gray','Terminada']:['pill-ok','Vigente'];
+      return`<div class="product-item" onclick="abrirPromo(${p.id})"${promoActual&&promoActual.id===p.id?' style="background:var(--bg)"':''}>
+        <div><div class="product-name">${esc(p.nombre)}</div><div class="product-meta">${esc(p.proveedores?p.proveedores.nombre:'—')} · ${formatDate(p.fecha_desde)} → ${formatDate(p.fecha_hasta)} · ${p.canal} · ${p.mecanismo==='nota_credito'?'NC':'desc. factura'}</div></div>
+        <div style="text-align:right"><span class="pill ${estado[0]}">${estado[1]}</span><div class="product-sku">${n} ítem${n!==1?'s':''}</div></div>
+      </div>`;
+    }).join('');
+  }catch(e){console.error('cargarPromos',e);cont.innerHTML='<div class="empty">Error al cargar: '+esc(errMsg(e))+'</div>'}
+}
+
+function nuevaPromo(){
+  promoActual=null;
+  document.getElementById('promo-form-title').textContent='Nueva promoción';
+  document.getElementById('pf-nombre').value='';
+  document.getElementById('pf-proveedor').value='';
+  document.getElementById('pf-canal').value='B2C';
+  document.getElementById('pf-desde').value=today();
+  document.getElementById('pf-hasta').value='';
+  document.getElementById('pf-mecanismo').value='nota_credito';
+  document.getElementById('pf-activo').checked=true;
+  document.getElementById('pf-notas').value='';
+  document.getElementById('pf-eliminar').style.display='none';
+  document.getElementById('promo-form-card').style.display='';
+  document.getElementById('promo-items-card').style.display='none';
+  document.getElementById('pf-nombre').focus();
+}
+
+function cerrarPromo(){
+  promoActual=null;
+  document.getElementById('promo-form-card').style.display='none';
+  document.getElementById('promo-items-card').style.display='none';
+  cargarPromos();
+}
+
+async function abrirPromo(id){
+  const p=promosData.find(x=>x.id===id);
+  if(!p)return;
+  promoActual=p;
+  document.getElementById('promo-form-title').textContent='Editar: '+p.nombre;
+  document.getElementById('pf-nombre').value=p.nombre||'';
+  document.getElementById('pf-proveedor').value=p.proveedor_id||'';
+  document.getElementById('pf-canal').value=p.canal||'B2C';
+  document.getElementById('pf-desde').value=p.fecha_desde||'';
+  document.getElementById('pf-hasta').value=p.fecha_hasta||'';
+  document.getElementById('pf-mecanismo').value=p.mecanismo||'nota_credito';
+  document.getElementById('pf-activo').checked=!!p.activo;
+  document.getElementById('pf-notas').value=p.notas||'';
+  document.getElementById('pf-eliminar').style.display='';
+  document.getElementById('promo-form-card').style.display='';
+  document.getElementById('promo-items-card').style.display='';
+  document.getElementById('promo-import-preview').innerHTML='';
+  document.getElementById('promo-file').value='';
+  promoImportRows=null;
+  await cargarPromoItems();
+  document.getElementById('promo-form-card').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function guardarPromo(){
+  const body={
+    nombre:document.getElementById('pf-nombre').value.trim(),
+    proveedor_id:parseInt(document.getElementById('pf-proveedor').value)||null,
+    canal:document.getElementById('pf-canal').value,
+    fecha_desde:document.getElementById('pf-desde').value,
+    fecha_hasta:document.getElementById('pf-hasta').value,
+    mecanismo:document.getElementById('pf-mecanismo').value,
+    activo:document.getElementById('pf-activo').checked,
+    notas:document.getElementById('pf-notas').value.trim()||null,
+  };
+  if(!body.nombre){toast('Poné un nombre','err');return}
+  if(!body.proveedor_id){toast('Elegí el proveedor','err');return}
+  if(!body.fecha_desde||!body.fecha_hasta){toast('Completá las dos fechas','err');return}
+  if(body.fecha_hasta<body.fecha_desde){toast('La fecha hasta es anterior a la fecha desde','err');return}
+  const btn=document.getElementById('pf-guardar');
+  btn.disabled=true;
+  try{
+    let id;
+    if(promoActual){
+      await sb(`/rest/v1/promociones?id=eq.${promoActual.id}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(body)});
+      id=promoActual.id;
+    }else{
+      const ins=await sb('/rest/v1/promociones?select=id',{method:'POST',prefer:'return=representation',body:JSON.stringify(body)});
+      id=ins&&ins[0]&&ins[0].id;
+    }
+    toast('Promoción guardada','ok');
+    await cargarPromos();
+    if(id)await abrirPromo(id);
+  }catch(e){console.error('guardarPromo',e);if(!esErrorDeSesion(e))toast('No se pudo guardar: '+errMsg(e),'err')}
+  finally{btn.disabled=false}
+}
+
+async function eliminarPromo(){
+  if(!promoActual)return;
+  if(!confirm(`¿Eliminar "${promoActual.nombre}" y sus ítems?\n\nSi ya está usada en presupuestos o ventas, mejor desactivarla.`))return;
+  try{
+    await sb(`/rest/v1/promociones?id=eq.${promoActual.id}`,{method:'DELETE',prefer:'return=minimal'});
+    toast('Promoción eliminada','ok');
+    cerrarPromo();
+  }catch(e){console.error('eliminarPromo',e);if(!esErrorDeSesion(e))toast('No se pudo eliminar (¿está usada en presupuestos? desactivala): '+errMsg(e),'err')}
+}
+
+async function cargarPromoItems(){
+  const cont=document.getElementById('promo-items-list');
+  if(!promoActual)return;
+  cont.innerHTML='<div class="loader"><div class="spinner"></div>Cargando...</div>';
+  try{
+    promoItemsData=await sb(`/rest/v1/promociones_items?promocion_id=eq.${promoActual.id}&select=id,inventario_id,pct_descuento,notas`)||[];
+    const invMap={};inventario.forEach(i=>invMap[i.id]=i);
+    promoItemsData.forEach(r=>r._inv=invMap[r.inventario_id]||null);
+    promoItemsData.sort((a,b)=>String(a._inv?.sku||'').localeCompare(String(b._inv?.sku||''),'es',{numeric:true}));
+    document.getElementById('promo-items-count').textContent=promoItemsData.length;
+    if(!promoItemsData.length){cont.innerHTML='<div class="empty">Sin ítems — importá el Excel o agregá por SKU</div>';return}
+    cont.innerHTML=`<div style="overflow-x:auto"><table class="promo-table">
+      <thead><tr><th>SKU</th><th>Producto</th><th>%</th><th></th></tr></thead>
+      <tbody>${promoItemsData.map(r=>`<tr>
+        <td>${esc(r._inv?r._inv.sku:'#'+r.inventario_id)}</td>
+        <td>${esc(r._inv?r._inv.nombre:'(no está en inventario)')}</td>
+        <td><input type="number" min="0.01" max="99" step="0.01" value="${Math.round(r.pct_descuento*10000)/100}" onchange="actualizarPctItemPromo(${r.id},this.value)"></td>
+        <td><button class="btn-remove" onclick="quitarItemPromo(${r.id})">×</button></td>
+      </tr>`).join('')}</tbody></table></div>`;
+  }catch(e){console.error('cargarPromoItems',e);cont.innerHTML='<div class="empty">Error al cargar: '+esc(errMsg(e))+'</div>'}
+}
+
+// "9", 9, "9%", "9,5 %" → 0.09 / 0.095. Valores < 1 se toman como fracción (celda con formato %).
+function parsePctPromo(v){
+  if(v==null||v==='')return null;
+  let n=typeof v==='number'?v:parseFloat(String(v).replace('%','').replace(/\s/g,'').replace(',','.'));
+  if(!isFinite(n)||n<=0)return null;
+  if(n>=1)n=n/100;
+  return n>0&&n<1?Math.round(n*1000000)/1000000:null;
+}
+
+function normSku(s){return String(s??'').trim().toUpperCase()}
+function invPorSku(sku){
+  const k=normSku(sku);
+  if(!k)return null;
+  return inventario.find(i=>normSku(i.sku)===k)
+    ||inventario.find(i=>normSku(i.sku).replace(/^0+/,'')===k.replace(/^0+/,''))
+    ||null;
+}
+
+async function upsertItemsPromo(rows){
+  // Upsert por (promocion_id, inventario_id): si el SKU ya estaba, actualiza el %.
+  await sb('/rest/v1/promociones_items?on_conflict=promocion_id,inventario_id',{method:'POST',prefer:'resolution=merge-duplicates,return=minimal',body:JSON.stringify(rows)});
+}
+
+async function agregarItemPromo(){
+  if(!promoActual)return;
+  const sku=document.getElementById('promo-add-sku').value;
+  const pct=parsePctPromo(document.getElementById('promo-add-pct').value);
+  const inv=invPorSku(sku);
+  if(!inv){toast('Ese SKU no está en el inventario','err');return}
+  if(pct==null){toast('Porcentaje inválido','err');return}
+  try{
+    await upsertItemsPromo([{promocion_id:promoActual.id,inventario_id:inv.id,pct_descuento:pct,notas:null}]);
+    document.getElementById('promo-add-sku').value='';document.getElementById('promo-add-pct').value='';
+    toast(inv.nombre+' en promo','ok');
+    await cargarPromoItems();cargarPromos();
+  }catch(e){console.error('agregarItemPromo',e);if(!esErrorDeSesion(e))toast('No se pudo agregar: '+errMsg(e),'err')}
+}
+
+async function actualizarPctItemPromo(id,val){
+  const pct=parsePctPromo(val);
+  if(pct==null){toast('Porcentaje inválido','err');cargarPromoItems();return}
+  try{
+    await sb(`/rest/v1/promociones_items?id=eq.${id}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify({pct_descuento:pct})});
+    toast('% actualizado','ok');
+  }catch(e){console.error('actualizarPctItemPromo',e);if(!esErrorDeSesion(e))toast('No se pudo actualizar: '+errMsg(e),'err');cargarPromoItems()}
+}
+
+async function quitarItemPromo(id){
+  try{
+    await sb(`/rest/v1/promociones_items?id=eq.${id}`,{method:'DELETE',prefer:'return=minimal'});
+    await cargarPromoItems();cargarPromos();
+  }catch(e){console.error('quitarItemPromo',e);if(!esErrorDeSesion(e))toast('No se pudo quitar: '+errMsg(e),'err')}
+}
+
+// SheetJS se carga solo al importar — nadie más del panel lo necesita.
+function cargarSheetJS(){
+  if(window.XLSX)return Promise.resolve();
+  return new Promise((ok,fail)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload=ok;s.onerror=()=>fail(new Error('No se pudo cargar el lector de Excel'));
+    document.head.appendChild(s);
+  });
+}
+
+function normHeader(h){return String(h??'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim()}
+
+async function leerExcelPromo(input){
+  const file=input.files&&input.files[0];
+  const prev=document.getElementById('promo-import-preview');
+  promoImportRows=null;
+  if(!file||!promoActual){prev.innerHTML='';return}
+  prev.innerHTML='<div class="loader"><div class="spinner"></div>Leyendo...</div>';
+  try{
+    await cargarSheetJS();
+    const wb=XLSX.read(await file.arrayBuffer(),{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:''});
+    // Fila de encabezado: la primera que tenga "Articulo" (el Excel del proveedor puede traer
+    // un título arriba).
+    let hi=-1,cArt=-1,cDesc=-1,cPct=-1;
+    for(let r=0;r<Math.min(rows.length,20)&&hi<0;r++){
+      const hs=rows[r].map(normHeader);
+      const a=hs.findIndex(h=>/^art/.test(h)||h==='codigo'||h==='sku');
+      if(a<0)continue;
+      hi=r;cArt=a;
+      cDesc=hs.findIndex(h=>/^descrip/.test(h));
+      cPct=hs.findIndex(h=>h.includes('%')||/^porc/.test(h)||/^dto/.test(h)||/^descuento/.test(h));
+    }
+    if(hi<0||cPct<0)throw new Error('No encontré las columnas Articulo y % en la primera hoja');
+    const ok=[],sinMatch=[],invalidos=[],vistos=new Map();
+    rows.slice(hi+1).forEach(row=>{
+      const art=String(row[cArt]??'').trim();
+      if(!art)return;
+      const desc=cDesc>=0?String(row[cDesc]??'').trim():'';
+      const pct=parsePctPromo(row[cPct]);
+      if(pct==null){invalidos.push({art,desc,raw:row[cPct]});return}
+      const inv=invPorSku(art);
+      if(!inv){sinMatch.push({art,desc,pct});return}
+      vistos.set(inv.id,{promocion_id:promoActual.id,inventario_id:inv.id,pct_descuento:pct,notas:desc?('Excel proveedor: '+desc).slice(0,300):null,_inv:inv,_art:art});
+    });
+    vistos.forEach(v=>ok.push(v));
+    promoImportRows=ok;
+    const yaEstan=new Set(promoItemsData.map(r=>r.inventario_id));
+    prev.innerHTML=`<div style="background:var(--bg);border-radius:var(--r2);padding:10px 12px;font-size:12px;margin-bottom:8px">
+      <div style="margin-bottom:6px"><b style="color:var(--ok)">${ok.length}</b> coinciden con el inventario (${ok.filter(o=>yaEstan.has(o.inventario_id)).length} ya estaban: se actualiza el %)
+        · <b style="color:${sinMatch.length?'var(--warn)':'var(--muted)'}">${sinMatch.length}</b> sin match
+        ${invalidos.length?` · <b style="color:var(--danger)">${invalidos.length}</b> con % inválido`:''}</div>
+      ${ok.length?`<details style="margin-bottom:6px"><summary style="cursor:pointer;color:var(--muted)">Ver los que coinciden</summary>
+        <table class="promo-table"><tbody>${ok.map(o=>`<tr><td>${esc(o._inv.sku)}</td><td>${esc(o._inv.nombre)}</td><td>${fmtPct(o.pct_descuento)}%</td></tr>`).join('')}</tbody></table></details>`:''}
+      ${sinMatch.length?`<div style="color:var(--warn);font-weight:600;margin:6px 0 4px">No están en el inventario (no se importan):</div>
+        <table class="promo-table"><tbody>${sinMatch.map(o=>`<tr><td>${esc(o.art)}</td><td>${esc(o.desc)}</td><td>${fmtPct(o.pct)}%</td></tr>`).join('')}</tbody></table>`:''}
+      ${invalidos.length?`<div style="color:var(--danger);font-weight:600;margin:6px 0 4px">% inválido:</div>
+        <table class="promo-table"><tbody>${invalidos.map(o=>`<tr><td>${esc(o.art)}</td><td>${esc(o.desc)}</td><td>${esc(o.raw)}</td></tr>`).join('')}</tbody></table>`:''}
+      ${ok.length?`<button class="btn btn-primary" style="width:100%;margin-top:8px" id="btn-importar-promo" onclick="confirmarImportPromo()">Importar ${ok.length} ítem${ok.length!==1?'s':''}</button>`:''}
+    </div>`;
+  }catch(e){console.error('leerExcelPromo',e);prev.innerHTML='<div class="empty" style="color:var(--danger)">'+esc(e.message)+'</div>'}
+}
+
+async function confirmarImportPromo(){
+  if(!promoImportRows||!promoImportRows.length||!promoActual)return;
+  const btn=document.getElementById('btn-importar-promo');
+  if(btn){btn.disabled=true;btn.textContent='Importando...'}
+  try{
+    await upsertItemsPromo(promoImportRows.map(({_inv,_art,...r})=>r));
+    toast(`${promoImportRows.length} ítems importados en ${promoActual.nombre}`,'ok');
+    promoImportRows=null;
+    document.getElementById('promo-import-preview').innerHTML='';
+    document.getElementById('promo-file').value='';
+    await cargarPromoItems();cargarPromos();
+  }catch(e){
+    console.error('confirmarImportPromo',e);
+    if(!esErrorDeSesion(e))toast('No se pudo importar: '+errMsg(e),'err');
+    if(btn){btn.disabled=false;btn.textContent='Importar'}
+  }
+}
+
 function setTipo(t){
+  // Cambio real B2C↔B2B: B2B nunca lleva promo; B2C la vuelve a consultar (ON por defecto).
+  // Llamado con el mismo tipo (edición, backup) no toca las promos ya cargadas.
+  const changed=t!==clienteTipo;
   clienteTipo=t;
+  if(changed)refreshPromos();
   document.getElementById('btn-b2c').classList.toggle('active',t==='B2C');
   document.getElementById('btn-b2b').classList.toggle('active',t==='B2B');
   renderCart();renderPL();
