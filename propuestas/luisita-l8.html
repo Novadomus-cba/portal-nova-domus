@@ -317,7 +317,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión base</div>
-      <div class="rc-value" id="resumen-total">USD 4.072</div>
+      <div class="rc-value" id="resumen-total">USD 4.247</div>
       <div class="rc-sub">Equipo + mano de obra + programación</div>
     </div>
     <div class="resumen-card">
@@ -394,7 +394,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="opt-card">
     <input type="checkbox" id="opt-sensores-extra" onchange="toggleSensoresExtra()">
     <div class="opt-body">
-      <div class="opt-title"><span>Sumar sensor a los 3 accesos de patio de luz cerrado</span><span class="opt-price" id="opt-extra-price">+USD 180</span></div>
+      <div class="opt-title"><span>Sumar sensor a los 3 accesos de patio de luz cerrado</span><span class="opt-price" id="opt-extra-price">+USD 234</span></div>
       <div class="opt-desc">Vestidor, Antebaño y Lavadero dan a patios de luz cerrados por muros — no son accesibles directamente desde la calle ni el fondo, pero técnicamente son aberturas al exterior.</div>
       <div class="opt-utility">Son de prioridad baja frente al resto: alguien tendría que estar ya dentro del perímetro cerrado para llegar a esas puertas. Los dejamos afuera de la base por eso, pero es barato sumarlos y cierra el 100% de las aberturas de la casa — tu decisión.</div>
     </div>
@@ -418,7 +418,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
 
-  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 4.072</span></div>
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 4.247</span></div>
   <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.572 (06/11/2026). Materiales sujetos a cotización del proveedor al momento de la compra.</p>
 </section>
 
@@ -665,31 +665,23 @@ function toggleDevice(id){
 const TC = 1572;
 let extraSensoresOn = false;
 let monitoreoOn = false;
-const MONITOREO_ARS_MES = 55000; // servicios_recurrentes SRV-MON-ALARMA — never added to any total
-
-// Installation labor: tarifario (mano_obra_tarifario via inventario.sku_mo), capped at 30% of equipment incl. VAT, per block.
-// Wireless sensors in a PY carry no installation labor; disk is MO-NA.
-function capLabor(tarifario, equipo){ return Math.min(tarifario, Math.ceil(0.30*equipo)); }
 const sumItems = items => items.reduce((a,i)=>a+i.pu*i.q,0);
-
-function alarmaEquipoMo(){
-  let equipo = sumItems(DEVICES.alarma);
-  if(extraSensoresOn) equipo += sumItems(ALARMA_SENSORES_EXTRA);
-  const tarifario = 85.00 + 53.51 + 27.58*2 + 49.79*2; // panel + keypad + 2 repeaters + 2 sirens
-  return {equipo, mo: capLabor(tarifario, equipo)};
-}
+// Precomputed installation labor per block (USD).
+const LABOR = { alarma: 453.00, alarmaExtra: 502.00, video: 208.70, red: 55.00 };
 
 function getRubros(){
-  const a = alarmaEquipoMo();
-  const vEquipo = sumItems(DEVICES.video);
-  const v = {equipo: vEquipo, mo: capLabor(74.35*2 + 60.00, vEquipo)}; // 2 surface cameras + NVR
-  const rEquipo = sumItems(RED_ITEM);
-  const r = {equipo: rEquipo, mo: capLabor(55.00, rEquipo)};          // MO-RED-RT
+  const aEquipo = sumItems(DEVICES.alarma) + (extraSensoresOn ? sumItems(ALARMA_SENSORES_EXTRA) : 0);
   return [
-    {id:'alarma', label:'Alarma — AXPro', equipo:a.equipo, mo:a.mo, color:'#B5453A'},
-    {id:'video', label:'Videovigilancia — AcuSense perimetral', equipo:v.equipo, mo:v.mo, color:'#8698AE'},
-    {id:'red', label:'Red — TP-Link Deco X80', equipo:r.equipo, mo:r.mo, color:'#e0a458'},
+    {id:'alarma', label:'Alarma — AXPro', equipo:aEquipo, mo: extraSensoresOn ? LABOR.alarmaExtra : LABOR.alarma, color:'#B5453A'},
+    {id:'video', label:'Videovigilancia — AcuSense perimetral', equipo:sumItems(DEVICES.video), mo:LABOR.video, color:'#8698AE'},
+    {id:'red', label:'Red — TP-Link Deco X80', equipo:sumItems(RED_ITEM), mo:LABOR.red, color:'#e0a458'},
   ];
+}
+function extraDelta(){
+  const prev = extraSensoresOn;
+  extraSensoresOn = false; const off = calcularTotales().total;
+  extraSensoresOn = true;  const on  = calcularTotales().total;
+  extraSensoresOn = prev;  return on - off;
 }
 function getRubroItems(id){
   if(id==='alarma') return extraSensoresOn ? [...DEVICES.alarma, ...ALARMA_SENSORES_EXTRA] : DEVICES.alarma;
@@ -750,7 +742,7 @@ function renderInversion(){
 
   document.getElementById('total-final').textContent = fmt(t.total);
   document.getElementById('resumen-total').textContent = fmt(t.total);
-  document.getElementById('opt-extra-price').textContent = '+' + fmt(sumItems(ALARMA_SENSORES_EXTRA)*1.10);
+  document.getElementById('opt-extra-price').textContent = '+' + fmt(extraDelta());
   renderPago(t);
 }
 
