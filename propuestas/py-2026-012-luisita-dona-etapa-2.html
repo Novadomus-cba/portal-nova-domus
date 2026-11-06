@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="La Luisita — Doña · Etapa 2 — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Alarma Hikvision AXPro y videovigilancia, en dos opciones. PY-2026-012 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-012-luisita-dona-etapa-2.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-012-luisita-dona-etapa-2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-012">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Luisita — Doña · Etapa 2 · PY-2026-012 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+.alert{border:2px solid var(--gold);border-radius:14px;padding:18px 20px;margin:22px 0;background:rgba(200,169,110,.08)}
+.alert h3{color:var(--gold)}
+.section-light .alert{border-color:var(--navy);background:rgba(20,30,97,.05)}
+.section-light .alert h3{color:var(--navy)}
+.sref{display:block;font-style:normal;color:var(--gold);font-size:12.5px;margin-top:4px}
+/* monitoreo */
+.mon-card{display:flex;gap:14px;align-items:flex-start;border:1px solid rgba(200,169,110,.45);border-radius:16px;
+padding:18px 20px;margin:20px 0;cursor:pointer;box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.mon-card input{width:22px;height:22px;accent-color:var(--gold);flex:0 0 22px;margin-top:2px}
+.mon-card b.mprice{color:var(--gold);font-weight:600}
+.mon-card.on{border-color:var(--gold);background:rgba(200,169,110,.07);animation:none}
+.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}
+.two>div{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px}
+.two h3{font-size:15px}
+.two ul{margin:6px 0 0;padding-left:18px} .two li{margin:5px 0;font-size:14px}
+.mon-line{border:1px dashed rgba(200,169,110,.55);border-radius:14px;padding:14px 18px;margin-top:12px;
+font-size:13.5px;display:none}
+.mon-line.on{display:block}
+.mon-line b{color:var(--gold)}
+.section-light .sw{animation-name:glowNavy}
+@keyframes glowNavy{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,0)}50%{box-shadow:0 0 0 7px rgba(20,30,97,.12)}}
+.section-light .sw button{border-color:rgba(20,30,97,.22);color:#5d6078}
+
+/* opciones (niveles excluyentes) */
+.tiers{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0;border-radius:999px;width:fit-content;
+animation:glow 2.6s ease-in-out infinite}
+.tiers button{min-height:48px;padding:0 20px;border:1px solid rgba(255,255,255,.2);border-radius:999px;
+font-size:13.5px;color:var(--grey)}
+.tiers button b{font-weight:600}
+.tiers button.on{border-color:var(--gold);color:var(--gold);background:rgba(200,169,110,.08)}
+.section-light .tiers{animation-name:glowNavy}
+.section-light .tiers button{border-color:rgba(20,30,97,.22);color:#5d6078}
+.section-light .tiers button.on{border-color:var(--navy);color:var(--navy);background:rgba(20,30,97,.06)}
+.opts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}
+.opt{border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px 20px;cursor:pointer;text-align:left}
+.opt.on{border-color:var(--gold);background:rgba(200,169,110,.06)}
+.opt small{display:block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--grey)}
+.opt .figure{display:block;color:var(--gold);font-size:22px;margin:6px 0}
+.opt p{font-size:13.5px;margin:0}
+.locs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}
+.locs>div{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px}
+.locs h3{font-size:14.5px;color:var(--gold)}
+.locs ul{margin:6px 0 0;padding-left:18px}.locs li{margin:4px 0;font-size:14px}
+.tier-note{font-size:13px;color:var(--grey);margin-top:6px}
+.section-light .tier-note{color:#5d6078}
+@media(max-width:640px){
+  .rub-head{flex-wrap:wrap}
+  .rub-name{flex:1 1 100%}
+  .rub-head .rub-val{margin-left:auto}
+  .tiers{width:100%}
+  .tiers button{flex:1 1 auto;padding:0 14px}
+  .mon-card{padding:16px}
+}
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk,.tiers,.mon-card input{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style></head><body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-012 · ETAPA 2 · PROPUESTA COMERCIAL</p>
+    <h1>La Luisita — Doña</h1>
+    <p class="claim">La casa protegida por dentro y vigilada por fuera.</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral de alarma y
+      videovigilancia para la vivienda de Pablo Massello. Es la segunda etapa de la obra: se suma a la
+      red, el rack y la iluminación de la Etapa 1, que ya estamos instalando.</p>
+    <div class="meta">
+      <span>La Luisita · Córdoba</span><span>Vivienda en obra</span>
+      <span>Etapa 2 de 3</span><span>Dos opciones</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#opciones">Opciones</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#alarma">Alarma</a></li>
+  <li><a href="#video">Videovigilancia</a></li>
+  <li><a href="#monitoreo">Monitoreo</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="10">10</span><small>detectores de movimiento, uno por ambiente</small></div>
+    <div class="kpi"><span class="figure" data-n="5">5</span><small>aberturas con contacto magnético</small></div>
+    <div class="kpi"><span class="figure" data-n="5">5</span><small>cámaras: dos afuera y tres adentro</small></div>
+    <div class="kpi"><span class="figure" data-n="1">1</span><small>sola app para la alarma y las cámaras</small></div>
+  </div>
+  <p><b>Qué necesita la casa.</b> Saber que está protegida cuando no hay nadie, dormir tranquilos con
+    la planta baja vigilada, y poder mirar qué pasa desde el celular.</p>
+  <p><b>Qué proponemos.</b> Una alarma Hikvision AXPro inalámbrica con un detector por ambiente en las
+    dos plantas, contactos en las aberturas principales y dos sirenas, más cinco cámaras grabando las 24
+    horas. Todo en la misma app, y montado sobre la red y el rack de la Etapa 1: las cámaras se
+    alimentan desde el switch que ya está sobre la UPS, así que siguen grabando en un corte de luz.</p>
+  <p><b>Inversión.</b> Dos opciones, con la misma alarma y distinta videovigilancia:
+    <b>recomendada U$D 4.903</b> o <b>económica U$D 2.843</b> (equipos, instalación
+    especializada y programación). Equipos por anticipado, programación 60% al inicio y 40% a la
+    entrega, e instalación certificada por avance. El monitoreo 24 h es opcional y aparte.</p>
+  <p><b>Próximo paso.</b> Elegir la opción y que el electricista de la obra deje canalizados y
+    cableados los cinco puntos de cámara hasta el rack antes de cerrar paredes.</p>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="opciones">
+  <p class="eyebrow">Dos opciones</p>
+  <h2>Elegí la opción</h2>
+  <p class="lead">La alarma es la misma en las dos. Cambian las cámaras y el grabador.</p>
+  <p class="hint">👆 Tocá una opción: toda la propuesta se actualiza con esa elección</p>
+  <div class="opts">
+    <button class="opt on" data-t="rec" onclick="setTier('rec')"><small>Recomendada</small>
+      <span class="figure">U$D 4.903</span>
+      <p>Cámaras AcuSense con luz dual: avisan solo cuando hay personas o vehículos y graban en color de
+        noche. 4 TB de grabación.</p></button>
+    <button class="opt" data-t="eco" onclick="setTier('eco')"><small>Económica</small>
+      <span class="figure">U$D 2.843</span>
+      <p>Cámaras HiLook (segunda marca de Hikvision) con detección de movimiento común e infrarrojo.
+        2 TB de grabación.</p></button>
+  </div>
+  <table class="tbl">
+    <thead><tr><th></th><th>Recomendada</th><th>Económica</th></tr></thead>
+    <tbody><tr><td>Alarma</td><td data-label="Recomendada">AXPro completa</td><td data-label="Económica">AXPro completa (igual)</td></tr><tr><td>Detección de las cámaras</td><td data-label="Recomendada">AcuSense: personas y vehículos</td><td data-label="Económica">Movimiento común</td></tr><tr><td>Visión nocturna</td><td data-label="Recomendada">Luz dual, imagen en color</td><td data-label="Económica">Infrarrojo, blanco y negro</td></tr><tr><td>Alertas falsas</td><td data-label="Recomendada">Muy pocas</td><td data-label="Económica">Frecuentes (sombras, plantas, autos)</td></tr><tr><td>Grabación</td><td data-label="Recomendada">4 TB · grabador de 2 discos</td><td data-label="Económica">2 TB · grabador de 1 disco</td></tr><tr><td>App</td><td data-label="Recomendada">Hik-Connect, la misma de la alarma</td><td data-label="Económica">Hik-Connect, la misma de la alarma</td></tr></tbody>
+  </table>
+  <p class="note">Las dos usan el mismo cableado, el mismo switch y la misma app. Si arrancás con la
+    económica, más adelante se pueden cambiar cámaras y grabador sin tocar la obra.</p>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p>Una alarma y unas cámaras no fallan por el equipo: fallan por cómo se ubican, cómo se conectan a la
+    red y cómo se programan. Cuando la red la hace uno, la alarma otro y las cámaras un tercero, ante una
+    falla cada uno señala al otro.</p>
+  <p><b>Nova Domus es uno solo.</b> Ya hacemos la red, el rack y la iluminación de esta casa. En esta
+    etapa sumamos la alarma y las cámaras sobre esa misma base, las programamos y entregamos todo
+    documentado, con 12 meses de garantía. El cableado de las cámaras lo deja el electricista de la obra
+    con nuestra indicación, y nosotros lo verificamos antes de instalar.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span>Visita técnica — ubicación final de cada detector y cámara, y prueba
+      de señal entre plantas</span></div>
+    <div class="step"><b>02</b><span>Previsión en obra — el electricista deja caño y cable UTP de cada
+      cámara hasta el rack, con nuestra indicación</span></div>
+    <div class="step"><b>03</b><span>Instalación — central, teclado, repetidor, detectores, sirenas,
+      cámaras y grabador en el rack</span></div>
+    <div class="step"><b>04</b><span>Programación — zonas, modos de armado y cámaras en la misma app</span></div>
+    <div class="step"><b>05</b><span>Entrega documentada + 12 meses de garantía</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th></th><th>Con Nova Domus</th><th>Instalación tradicional</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td>
+        <td data-label="Con Nova Domus">Uno: red, alarma y cámaras</td>
+        <td data-label="Instalación tradicional">Uno por sistema</td></tr>
+      <tr><td>Responsable ante una falla</td>
+        <td data-label="Con Nova Domus">Nova Domus</td>
+        <td data-label="Instalación tradicional">A definir entre quienes intervinieron</td></tr>
+      <tr><td>Integración con la red</td>
+        <td data-label="Con Nova Domus">Pensada desde la Etapa 1</td>
+        <td data-label="Instalación tradicional">Se resuelve en obra, sobre la marcha</td></tr>
+      <tr><td>Garantía</td>
+        <td data-label="Con Nova Domus">12 meses sobre el sistema completo</td>
+        <td data-label="Instalación tradicional">Por equipo, con el fabricante</td></tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="alarma">
+  <p class="eyebrow">01 — Sistema</p>
+  <h2>Alarma</h2>
+  <p class="lead">Hikvision AXPro inalámbrica: diez detectores de movimiento, cinco aberturas con
+    contacto, repetidor para las dos plantas y dos sirenas. Igual en las dos opciones.</p>
+  <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el detalle</p>
+  <div class="sw">
+    <button class="on" id="a0" onclick="acmp(0)">Alarma común</button>
+    <button id="a1" onclick="acmp(1)">Con Nova Domus</button>
+  </div>
+  <div class="cmp" id="abox"></div>
+  <div class="locs">
+    <div><h3>Planta baja</h3><ul>
+      <li>Detectores: estudio, estar, comedor, cocina y galería</li>
+      <li>Contactos: puerta de ingreso y ventanales del estar y la galería</li>
+      <li>Central, teclado y sirena interior</li></ul></div>
+    <div><h3>Planta alta</h3><ul>
+      <li>Detectores: hall, tres dormitorios y gimnasio</li>
+      <li>Repetidor de señal</li></ul></div>
+  </div>
+  <p class="note">Ubicación propuesta sobre el plano de arquitectura. La posición exacta de cada equipo
+    se confirma en la visita técnica.</p>
+  <div class="device-grid" id="grid-alarma"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="video">
+  <p class="eyebrow">02 — Sistema</p>
+  <h2>Videovigilancia</h2>
+  <p class="lead">Cinco cámaras grabando las 24 horas: dos exteriores (frente y galería) y tres
+    interiores (comedor, hall de planta alta y gimnasio).</p>
+  <p class="hint">👆 Tocá para comparar las dos opciones de cámaras</p>
+  <div class="sw">
+    <button class="on" id="v0" onclick="vcmp(0)">Opción económica</button>
+    <button id="v1" onclick="vcmp(1)">Opción recomendada</button>
+  </div>
+  <div class="cmp" id="vbox"></div>
+  <div class="vbox">
+    <h3>Se apoya en la Etapa 1</h3>
+    <p>Las cámaras se alimentan por el mismo cable de red, desde el switch que ya está en el rack, y el
+      grabador va en ese rack sobre una bandeja nueva. Como el switch y el grabador están sobre la UPS,
+      las cámaras siguen grabando en un corte de luz.</p>
+  </div>
+  <p class="hint">👆 Tocá cada equipo para ver el detalle de la opción elegida</p>
+  <div class="tiers" role="tablist"><button class="on" data-t="rec" onclick="setTier('rec')"><b>Recomendada</b> · U$D 4.903</button><button data-t="eco" onclick="setTier('eco')"><b>Económica</b> · U$D 2.843</button></div>
+  <div class="device-grid" id="grid-video"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="monitoreo">
+  <p class="eyebrow">03 — Opcional</p>
+  <h2>Monitoreo 24 h</h2>
+  <p class="lead">Monitoreo 24 h con aviso a la Policía de la Provincia de Córdoba — abono de
+    ARS 55.000 por mes + IVA. Es opcional y no suma al total del proyecto.</p>
+  <p class="hint">👆 Tildalo si lo querés sumar: se agrega aparte en la forma de pago y en el mensaje
+    de aceptación</p>
+  <label class="mon-card" id="mon-card">
+    <input type="checkbox" id="mon" onchange="monChange()">
+    <span><b style="display:block;font-size:15.5px">Sumar el monitoreo 24 h</b>
+      <b class="mprice">ARS 55.000 por mes + IVA</b> · abono mensual, aparte de la inversión del
+      proyecto</span>
+  </label>
+  <div class="two">
+    <div><h3>Qué hace</h3><ul>
+      <li>Atiende la alarma las 24 horas, los 365 días.</li>
+      <li>Ante un disparo, llama a tus contactos (mínimo tres) para verificar.</li>
+      <li>Si corresponde, da aviso a la Policía de la Provincia, que envía un móvil.</li>
+    </ul></div>
+    <div><h3>Qué no hace</h3><ul>
+      <li>No mira las cámaras: las imágenes llegan solo a tu app.</li>
+      <li>No envía reportes periódicos: solo actúa ante un disparo.</li>
+    </ul></div>
+  </div>
+  <p class="note">La central AXPro se enlaza directo con el monitoreo, y el teclado incluido es requisito
+    del servicio. Condiciones completas en Condiciones generales.</p>
+</section>
+</div>
+
+<div class="section-light">
+<div class="wrap">
+<section class="sec" id="inversion" style="border-top:0">
+  <p class="eyebrow">04 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Precios en dólares, con el IVA de cada ítem ya incluido en el precio unitario, en cada
+    rubro y en la barra. El IVA se calcula con la alícuota real de cada producto. El desglose neto / IVA
+    está en el total general, más abajo.</p>
+  <p class="hint">👆 Elegí la opción para ver su detalle</p>
+  <div class="tiers" role="tablist"><button class="on" data-t="rec" onclick="setTier('rec')"><b>Recomendada</b> · U$D 4.903</button><button data-t="eco" onclick="setTier('eco')"><b>Económica</b> · U$D 2.843</button></div>
+  <div class="bar" id="bar"></div>
+  <ul class="legend" id="legend"></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  <div id="rubros"></div>
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span><b id="t-neto"></b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span id="t-iva"></span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span><b id="t-eq"></b></div>
+    <div class="trow"><span>Mano de obra especializada por punto (central, teclado, repetidor, sirenas, cámaras y grabador)</span><b id="t-mo"></b></div>
+    <div class="trow"><span>Programación y comisionado (zonas, modos de armado, cámaras y app)</span><b id="t-prog"></b></div>
+    <div class="trow big"><span>Total del proyecto · <span id="t-name"></span></span><span id="t-tot"></span></div>
+  </div>
+  <p class="note">El monitoreo opcional no está incluido en este total. Esta etapa no incluye cable UTP
+    ni obra eléctrica: la canalización y el cableado de las cámaras los deja el electricista de la obra.</p>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="pago">
+  <p class="eyebrow">05 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Equipos por anticipado, programación en dos partes e instalación certificada según el
+    avance real del trabajo. Montos de la opción <b id="pay-name"></b>.</p>
+  <div class="pay" id="pay"></div>
+  <div class="chk">
+    <input type="checkbox" id="fa" onchange="render()">
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación e instalación.
+      Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-row" style="display:none">
+      <span>IVA 21% sobre programación e instalación</span><span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total</span><span id="gt"></span></div>
+  </div>
+  <div class="mon-line" id="mon-line"><b>Monitoreo 24 h (opcional):</b> ARS 55.000 por mes + IVA.
+    Abono mensual aparte: no forma parte del total ni de las etapas de pago.</div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="condiciones" style="border-top:0">
+  <p class="eyebrow">06 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (06/11/2026). Todos los precios están expresados en dólares estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina. tipo vendedor. del día del pago efectivo (referencia al 06/11/2026: $1.570).</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Equipos: 100% por anticipado, antes de instalar, para asegurar el precio y la disponibilidad de importación. Programación y comisionado: 60% al iniciar la programación y 40% contra la entrega final documentada. Instalación: se certifica según el avance real del trabajo; el monto indicado es de referencia sobre el total presupuestado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Alcance — cableado y obra eléctrica</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Esta etapa no incluye obra eléctrica, canalizaciones ni cable UTP, por eso no aplica la base de cotización de Boca Completa. La canalización y el cableado de cada cámara hasta el rack los ejecuta el electricista de la obra con la indicación de Nova Domus, y Nova Domus los verifica antes de instalar. La alarma es inalámbrica: la central necesita un tomacorriente cercano y conexión a la red de la casa.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Integración con la Etapa 1</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las cámaras se alimentan desde el switch PoE y el grabador se instala en el rack de la Etapa 1, sobre la UPS. Esta etapa suma una bandeja para el grabador; el resto de la infraestructura (rack, switch, UPS y red) es parte de la Etapa 1.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Proyecto aproximado — a confirmar en visita técnica</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Este es un proyecto aproximado, no un proyecto cerrado: surge de los planos de arquitectura. En la visita técnica se confirman la ubicación de cada detector, contacto y cámara. El repetidor se incluye por las dos plantas con losa: su ubicación y su necesidad se confirman con una prueba de señal, y si no hace falta se descuenta del total.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Monitoreo 24 h (opcional)</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Servicio opcional, aparte de este presupuesto: abono de ARS 55.000 por mes + IVA, por central, que se actualiza por IPC. El alta se abona con un mes por adelantado y tiene una permanencia mínima de 6 meses. Incluye 5 avisos por mes; cada aviso adicional se cobra ARS 2.000. Requiere al menos tres contactos. Ante un disparo, la central de monitoreo llama a los contactos para verificar y, si corresponde, da aviso a la Policía de la Provincia de Córdoba. No mira las cámaras y no envía reportes periódicos. El chip 4G de la central es opcional y queda a cargo del cliente.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Pilas de los equipos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Cada equipo de la alarma se entrega con sus pilas de fábrica. Su duración depende del uso y del equipo; la app avisa con anticipación cuando alguna se está agotando. El recambio de pilas no está incluido en la garantía de 12 meses.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos son de importación y se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Visitas técnicas</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las visitas posteriores a la entrega que se requieran por causas ajenas al sistema instalado —cambios en la casa, equipos nuevos a integrar, cambios de alcance— se cotizan aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Excedentes</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Cualquier trabajo o equipo fuera de este alcance se cotiza aparte y se ejecuta solo con aprobación previa.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización, responsable y documentación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por la lista vigente de cada fabricante. Nova Domus designa un responsable único como interlocutor durante toda la ejecución. Al finalizar se entrega la documentación del sistema: inventario de dispositivos, mapa de zonas y cámaras, modos de armado y manual de uso.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Facturación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre programación e instalación. Los equipos ya llevan su IVA discriminado por ítem, según la alícuota de cada producto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía y post-venta</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Doce meses de garantía sobre el sistema completo desde la entrega documentada, cubriendo mano de obra y programación. Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">La marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá la marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button>
+  </div>
+  <div class="ficha" id="f0"><h3>HIKVISION</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+  <div class="vbox">
+    <h3>Garantía y post-venta</h3>
+    <p>Doce meses de garantía sobre el sistema completo desde la entrega documentada. Muchas consultas
+      se resuelven a distancia, desde la app, sin ir a la casa.</p>
+  </div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="faq" style="border-top:0">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="lead">Las dudas más comunes sobre esta etapa.</p>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué diferencia hay entre las dos opciones?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La alarma es exactamente la misma. Cambian las cámaras: la recomendada usa AcuSense, que distingue personas y vehículos y avisa solo cuando importa, y de noche graba en color. La económica avisa por cualquier movimiento —sombras, plantas, autos que pasan— y de noche graba en blanco y negro. Para grabar evidencia, las dos sirven; para recibir alertas confiables en el celular, la diferencia se nota todos los días.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Puedo empezar con la económica y mejorar después?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. El cableado, el switch y la app son los mismos. Más adelante se pueden cambiar cámaras y grabador sin tocar la obra; lo que no se recupera es lo invertido en los equipos que se reemplazan.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Las cámaras graban si se corta la luz?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí, mientras dure la UPS de la Etapa 1: las cámaras se alimentan desde el switch y el switch y el grabador están sobre la UPS. La alarma tiene su propia batería de respaldo y los detectores funcionan a pilas.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Veo la alarma y las cámaras en la misma app?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. Alarma y cámaras quedan en la app Hik-Connect: si se dispara un detector, en segundos mirás la cámara de esa zona.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Si se corta internet?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las cámaras siguen grabando en el grabador, y lo ves cuando vuelve la conexión. La alarma puede seguir avisando por 4G si se le coloca un chip (opcional, a cargo del cliente).</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Es obligatorio el monitoreo?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Sin monitoreo, la alarma te avisa a vos y a quien elijas directo en la app. El monitoreo suma a alguien que atiende las 24 horas y da aviso a la Policía si corresponde.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si algo falla?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Durante los primeros 12 meses, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra. Los equipos mantienen además la garantía del fabricante.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu conformidad coordinamos la visita técnica, le pasamos
+    al electricista la indicación de los puntos de cámara y compramos los equipos.</p>
+  <div class="tiers" role="tablist"><button class="on" data-t="rec" onclick="setTier('rec')"><b>Recomendada</b> · U$D 4.903</button><button data-t="eco" onclick="setTier('eco')"><b>Económica</b> · U$D 2.843</button></div>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y estoy de acuerdo con el alcance y las condiciones.</label>
+  </div>
+  <a class="btn" id="go" href="https://wa.me/5493516747513" aria-disabled="true" target="_blank"
+     rel="noopener">Aceptar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-012</b> · La Luisita — Doña · Etapa 2<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring"
+            stroke-dasharray="163.4" stroke-dashoffset="163.4"
+            stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var T={"rec": {"rubros": [{"name": "Central y control", "items": [["Kit alarma Hikvision AXPro DS-PWA48-Kit-WB(ARG) — central WiFi de 48 zonas, control remoto, un detector de movimiento y un contacto magnético", 1, 415, "21", 415], ["Teclado AXPro DS-PK1-E-WB", 1, 88, "21", 88], ["Repetidor AXPro DS-PR1-WB(B)", 1, 111, "10,5", 111]], "val": 614}, {"name": "Detección", "items": [["Detector de movimiento interior AXPro DS-PDP15P-EG2-WB", 9, 58, "21", 522], ["Contacto magnético delgado AXPro DS-PDMCS-EG2-WB", 4, 30, "10,5", 120]], "val": 642}, {"name": "Aviso", "items": [["Sirena interior AXPro DS-PS1-I-WB", 1, 76, "21", 76], ["Sirena exterior AXPro DS-PS1-E-WB", 1, 103, "21", 103]], "val": 179}, {"name": "Videovigilancia", "items": [["Cámara domo IP 4 MP Hikvision AcuSense con luz dual DS-2CD2343G2-LI2U", 5, 323, "21", 1615], ["Grabador NVR Hikvision AcuSense 8 canales DS-7608NXI-K2 — dos bahías de disco", 1, 357, "21", 357], ["Disco Seagate SkyHawk 4 TB para videovigilancia ST4000VX016", 1, 333, "10,5", 333], ["Bandeja GLC 1U para el grabador, en el rack existente", 1, 19, "21", 19]], "val": 2324}], "neto": 3151, "iva": 608, "eq": 3759, "mo": 698, "prog": 446, "p60": 268, "p40": 178, "tot": 4903}, "eco": {"rubros": [{"name": "Central y control", "items": [["Kit alarma Hikvision AXPro DS-PWA48-Kit-WB(ARG) — central WiFi de 48 zonas, control remoto, un detector de movimiento y un contacto magnético", 1, 415, "21", 415], ["Teclado AXPro DS-PK1-E-WB", 1, 88, "21", 88], ["Repetidor AXPro DS-PR1-WB(B)", 1, 111, "10,5", 111]], "val": 614}, {"name": "Detección", "items": [["Detector de movimiento interior AXPro DS-PDP15P-EG2-WB", 9, 58, "21", 522], ["Contacto magnético delgado AXPro DS-PDMCS-EG2-WB", 4, 30, "10,5", 120]], "val": 642}, {"name": "Aviso", "items": [["Sirena interior AXPro DS-PS1-I-WB", 1, 76, "21", 76], ["Sirena exterior AXPro DS-PS1-E-WB", 1, 103, "21", 103]], "val": 179}, {"name": "Videovigilancia", "items": [["Cámara turret IP 4 MP HiLook IPC-T241H-C", 5, 43, "21", 215], ["Grabador NVR HiLook 8 canales NVR-108H-D", 1, 78, "21", 78], ["Disco Seagate SkyHawk 2 TB para videovigilancia ST2000VX017", 1, 240, "10,5", 240], ["Bandeja GLC 1U para el grabador, en el rack existente", 1, 19, "21", 19]], "val": 552}], "neto": 1679, "iva": 308, "eq": 1987, "mo": 597, "prog": 259, "p60": 155, "p40": 104, "tot": 2843}};
+var DEV_ALARM=[{"n": "Central de alarma AXPro", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg", "desc": "El corazón del sistema: inalámbrica, con WiFi y lugar para un chip 4G opcional, así sigue avisando aunque se corte internet. Viene en kit con control remoto, un detector de movimiento y un contacto magnético."}, {"n": "Teclado", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp", "desc": "Para armar, desarmar y elegir el modo (casa vacía, noche en casa) sin sacar el celular. Es además requisito del servicio de monitoreo."}, {"n": "Repetidor de señal", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg", "desc": "La casa tiene dos plantas con losa: el repetidor asegura que los detectores de arriba y del fondo lleguen siempre a la central."}, {"n": "Detector de movimiento interior", "q": 10, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp", "desc": "Uno por ambiente marcado en el plano: cinco en planta baja (estudio, estar, comedor, cocina y galería) y cinco en planta alta (hall, tres dormitorios y gimnasio). Uno viene con la central."}, {"n": "Contacto magnético", "q": 5, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/1988.jpg", "desc": "En la puerta de ingreso y en los ventanales del estar y la galería: avisa apenas se abre una abertura, antes de que alguien entre. Uno viene con la central."}, {"n": "Sirena interior", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg", "desc": "Dentro de la casa, para que el aviso se escuche en las dos plantas."}, {"n": "Sirena exterior", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp", "desc": "Con luz y sonido hacia afuera: disuade y avisa a los vecinos. Apta para intemperie."}];
+var DEV_VIDEO={"rec": [{"n": "Cámara AcuSense 4 MP con luz dual", "q": 5, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg", "desc": "Distingue personas y vehículos de todo lo demás: te avisa cuando importa, no cada vez que se mueve una planta. De noche enciende luz blanca al detectar a alguien y graba en color."}, {"n": "Grabador AcuSense 8 canales", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-7608nxi-k2-d.jpg", "desc": "Graba las cinco cámaras las 24 horas y deja tres canales libres para sumar más. Tiene lugar para un segundo disco."}, {"n": "Disco de 4 TB para videovigilancia", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/st4000vx016.png", "desc": "Disco hecho para grabar sin parar, todos los días del año."}, {"n": "Bandeja para el rack", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/109.jpg", "desc": "El grabador va en el rack que ya instalamos en la Etapa 1, sobre una bandeja propia."}], "eco": [{"n": "Cámara 4 MP HiLook", "q": 5, "foto": null, "desc": "Imagen de 4 MP con infrarrojo de noche (en blanco y negro). Avisa por detección de movimiento común, sin distinguir personas de otros movimientos."}, {"n": "Grabador HiLook 8 canales", "q": 1, "foto": null, "desc": "Graba las cinco cámaras las 24 horas y deja tres canales libres. Un disco."}, {"n": "Disco de 2 TB para videovigilancia", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/seagate/st2000vx017.jpg", "desc": "Disco hecho para grabar sin parar. Con la mitad de capacidad, guarda menos días de grabación."}, {"n": "Bandeja para el rack", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/109.jpg", "desc": "El grabador va en el rack que ya instalamos en la Etapa 1, sobre una bandeja propia."}]};
+var ACMP=[["Alarma común", false, ["Un solo modo: o armás toda la casa o no armás nada", "Te enterás de un disparo por un vecino o al llegar", "Detectores sueltos sin prueba de señal entre plantas", "Nadie la programa para la rutina de la casa"]], ["Con Nova Domus", true, ["Modos programados: casa vacía, noche en casa (planta alta desarmada) y los que necesites", "Aviso inmediato en la app, con el nombre del ambiente que disparó", "Repetidor para que la planta alta y el fondo lleguen siempre a la central", "Alarma y cámaras en la misma app: ante un disparo, mirás la cámara de esa zona en segundos", "Monitoreo 24 h con aviso a la Policía, opcional"]]];
+var VCMP=[["Opción económica", false, ["Detección de movimiento común: avisa por sombras, plantas, insectos y luces de autos", "De noche, infrarrojo en blanco y negro", "Disco de 2 TB: menos días de grabación guardados", "Grabador de un disco"]], ["Opción recomendada", true, ["AcuSense: distingue personas y vehículos y descarta el resto — muchas menos alertas falsas", "Luz dual: al detectar a alguien enciende luz blanca y graba en color", "Disco de 4 TB: el doble de días de grabación", "Grabador con lugar para un segundo disco"]]];
+var PY="PY-2026-012", MON_ARS=55000, TNAME={"rec":"recomendada","eco":"económica"}, TIER="rec";
+
+function fmt(v){return 'U$D '+Math.round(v).toLocaleString('es-AR');}
+function fmtArs(v){return 'ARS '+Math.round(v).toLocaleString('es-AR');}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+function sw2(ids,box,DATA,i){
+  document.getElementById(ids[0]).classList.toggle('on',i===0);
+  document.getElementById(ids[1]).classList.toggle('on',i===1);
+  var b=document.getElementById(box), d=DATA[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
+    return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+function acmp(i){sw2(['a0','a1'],'abox',ACMP,i);}
+function vcmp(i){sw2(['v0','v1'],'vbox',VCMP,i);}
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
+function renderGrid(id,list){
+  var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
+  el.innerHTML=list.map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
+    return '<article class="dev">'
+     +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
+     +'</article>';
+  }).join('');
+}
+//CALC-START
+// Pago: every variable of T[tier] (eq, mo, prog) appears in a stage. Monitoring never enters any sum.
+function calc(tier,fa){
+  var t=T[tier], iva=fa?Math.round((t.prog+t.mo)*0.21):0;
+  var rows=[
+    ['Equipos — 100%','Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.',t.eq,''],
+    ['Programación — 60% al inicio','Al arrancar la programación de zonas, modos y cámaras.',t.p60,''],
+    ['Programación — 40% a la entrega','Comisionado: contra la prueba del sistema y la entrega final documentada.',t.p40,''],
+    ['Instalación especializada por punto','Se certifica según el avance real del trabajo.',t.mo,'Monto de referencia — se certifica por avance']
+  ];
+  return {rows:rows, faIva:iva, grand:t.tot+iva};
+}
+//CALC-END
+function renderInv(){
+  var t=T[TIER], segs='', leg='', rub='';
+  t.rubros.forEach(function(r,i){
+    segs+='<span class="seg" style="flex:'+r.val+'" title="'+r.name+': '+fmt(r.val)+'"></span>';
+    leg+='<li><i class="dot d'+i+'"></i>'+r.name+' <b>'+fmt(r.val)+'</b></li>';
+    rub+='<article class="rub"><button class="rub-head" onclick="tog(this)" aria-expanded="false">'
+      +'<span class="rub-name">'+r.name+'</span>'+(i===0?'<span class="tap-badge dark">Tocá para abrir</span>':'')
+      +'<span class="rub-val">'+fmt(r.val)+'</span><span class="arr" aria-hidden="true">▾</span></button>'
+      +'<div class="rub-body"><div class="tw"><table><thead><tr><th>Ítem</th><th class="num">Cant.</th>'
+      +'<th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead><tbody>'
+      +r.items.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+x[1]+'</td><td class="num">'
+        +x[2].toLocaleString('es-AR')+'<span class="iva"> · IVA '+x[3]+'% incl.</span></td><td class="num">'
+        +x[4].toLocaleString('es-AR')+'</td></tr>';}).join('')
+      +'</tbody></table></div></div></article>';
+  });
+  document.getElementById('bar').innerHTML=segs;
+  document.getElementById('legend').innerHTML=leg;
+  document.getElementById('rubros').innerHTML=rub;
+  document.getElementById('t-neto').textContent=fmt(t.neto);
+  document.getElementById('t-iva').textContent=fmt(t.iva);
+  document.getElementById('t-eq').textContent=fmt(t.eq);
+  document.getElementById('t-mo').textContent=fmt(t.mo);
+  document.getElementById('t-prog').textContent=fmt(t.prog);
+  document.getElementById('t-name').textContent=TNAME[TIER];
+  document.getElementById('t-tot').textContent=fmt(t.tot);
+}
+function renderPay(){
+  var fa=document.getElementById('fa').checked, r=calc(TIER,fa);
+  document.getElementById('pay').innerHTML=r.rows.map(function(s){
+    return '<div class="stage"><span><b style="display:block">'+s[0]+'</b>'+s[1]
+      +(s[3]?'<em class="sref">'+s[3]+'</em>':'')+'</span><b>'+fmt(s[2])+'</b></div>';
+  }).join('');
+  document.getElementById('pay-name').textContent=TNAME[TIER];
+  document.getElementById('pay-iva-row').style.display=fa?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(r.faIva);
+  document.getElementById('gt').textContent=fmt(r.grand);
+}
+function render(){renderInv(); renderPay(); renderGrid('grid-video',DEV_VIDEO[TIER]); waLink();}
+function setTier(t){
+  TIER=t;
+  document.querySelectorAll('[data-t]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-t')===t);});
+  render();
+}
+function monChange(){
+  var on=document.getElementById('mon').checked;
+  document.getElementById('mon-card').classList.toggle('on',on);
+  document.getElementById('mon-line').classList.toggle('on',on);
+  waLink();
+}
+function waLink(){
+  var fa=document.getElementById('fa').checked, mon=document.getElementById('mon').checked, r=calc(TIER,fa);
+  var t='Hola Nova Domus, revisé la propuesta '+PY+' (Etapa 2: alarma y videovigilancia) de La Luisita — Doña. Elijo la opción '
+    +TNAME[TIER]+' por '+fmt(r.grand).replace(' ',' ')+(fa?' (con Factura A)':'')+' y quiero avanzar.';
+  if(mon) t+='\nAparte, sumo el monitoreo 24 h: '+fmtArs(MON_ARS).replace(' ',' ')+' por mes + IVA.';
+  document.getElementById('go').href='https://wa.me/5493516747513?text='+encodeURIComponent(t);
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled',
+    document.getElementById('ok').checked?'false':'true');
+}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+acmp(0); vcmp(0);
+renderGrid('grid-alarma',DEV_ALARM);
+render(); monChange();
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
