@@ -182,6 +182,13 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   .section{break-inside:avoid;}
 }
 
+/* ===== PRICE UPDATE BANNER ===== */
+.price-update{display:flex; gap:14px; align-items:flex-start; width:100%; max-width:760px; margin:0 0 28px; padding:14px 18px; border:1px solid rgba(200,169,110,.55); border-left:4px solid var(--gold); border-radius:10px; background:rgba(200,169,110,.08);}
+.price-update .pu-icon{flex-shrink:0; width:30px; height:30px; border-radius:50%; border:1.5px solid var(--gold); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:15px; line-height:1;}
+.price-update .pu-kicker{font-family:var(--font-display); color:var(--gold); font-size:11.5px; letter-spacing:2px; text-transform:uppercase;}
+.price-update .pu-text{color:#EDEAE0; font-size:13.5px; line-height:1.55; margin-top:4px;}
+@media(max-width:640px){ .price-update{padding:12px 14px; gap:10px;} .price-update .pu-text{font-size:13px;} }
+@media print{ .price-update{border-color:#C8A96E; background:#fff;} .price-update .pu-text{color:#000;} }
 /* ===== AFFORDANCE ===== */
 @keyframes bounceArrow{0%,100%{transform:translateY(0);}50%{transform:translateY(3px);}}
 .acc-arrow.bounce,.dc-arrow.bounce{animation:bounceArrow 1.6s ease-in-out infinite;}
@@ -270,6 +277,13 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
 
 <!-- HERO -->
 <section id="hero">
+  <div class="price-update" role="note">
+    <div class="pu-icon" aria-hidden="true">↻</div>
+    <div>
+      <div class="pu-kicker">Precios actualizados · Noviembre 2026</div>
+      <div class="pu-text">Esta propuesta se recalculó con las listas de precios de nuestros proveedores vigentes en noviembre de 2026 y reemplaza a la versión anterior. El alcance es el mismo; cambian los importes.</div>
+    </div>
+  </div>
   <div class="logo-plate">
     <div id="heroLogo"></div>
     <div class="lp-word">NOVA DOMUS<small>INTEGRACIÓN TECNOLÓGICA</small></div>
@@ -303,7 +317,7 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
     </div>
     <div class="resumen-card">
       <div class="rc-label">Inversión base</div>
-      <div class="rc-value" id="resumen-total">USD 4.192</div>
+      <div class="rc-value" id="resumen-total">USD 4.072</div>
       <div class="rc-sub">Equipo + mano de obra + programación</div>
     </div>
     <div class="resumen-card">
@@ -380,9 +394,17 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="opt-card">
     <input type="checkbox" id="opt-sensores-extra" onchange="toggleSensoresExtra()">
     <div class="opt-body">
-      <div class="opt-title"><span>Sumar sensor a los 3 accesos de patio de luz cerrado</span><span class="opt-price" id="opt-extra-price">+USD 247</span></div>
+      <div class="opt-title"><span>Sumar sensor a los 3 accesos de patio de luz cerrado</span><span class="opt-price" id="opt-extra-price">+USD 180</span></div>
       <div class="opt-desc">Vestidor, Antebaño y Lavadero dan a patios de luz cerrados por muros — no son accesibles directamente desde la calle ni el fondo, pero técnicamente son aberturas al exterior.</div>
       <div class="opt-utility">Son de prioridad baja frente al resto: alguien tendría que estar ya dentro del perímetro cerrado para llegar a esas puertas. Los dejamos afuera de la base por eso, pero es barato sumarlos y cierra el 100% de las aberturas de la casa — tu decisión.</div>
+    </div>
+  </div>
+  <div class="opt-card">
+    <input type="checkbox" id="opt-monitoreo" onchange="toggleMonitoreo()">
+    <div class="opt-body">
+      <div class="opt-title"><span>Monitoreo 24 h con aviso a la Policía de la Provincia de Córdoba</span><span class="opt-price">ARS 55.000/mes + IVA</span></div>
+      <div class="opt-desc">Servicio mensual de Nova Domus sobre tu alarma AXPro. Ante un disparo, la central llama a tus contactos para verificar y, si corresponde, da aviso a la Policía, que envía un móvil. Funciona las 24 horas, los 365 días.</div>
+      <div class="opt-utility">Es un abono mensual en pesos, aparte de la inversión: <strong>no se suma al total del proyecto</strong> ni a las etapas de pago. Solo avisa ante un disparo de la alarma. Condiciones en "Condiciones generales → Monitoreo".</div>
     </div>
   </div>
 </section>
@@ -396,8 +418,8 @@ footer .foot-logo{width:22px; height:22px; margin:0 auto 10px; display:block; tr
   <div class="barra-segmentada" id="barra-segmentada"></div>
   <div id="accordion-rubros"></div>
 
-  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 4.192</span></div>
-  <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.513. Materiales sujetos a cotización del proveedor al momento de la compra.</p>
+  <div class="totalrow"><span>Total proyecto</span><span id="total-final">USD 4.072</span></div>
+  <p style="font-size:12px; color:var(--grey); margin-top:10px;">Presupuesto válido por 15 días. TC de referencia: BNA oficial $1.572 (06/11/2026). Materiales sujetos a cotización del proveedor al momento de la compra.</p>
 </section>
 
 <!-- FORMA DE PAGO -->
@@ -481,6 +503,7 @@ const CONDICIONES = [
   {t:"Actualización del presupuesto", d:"El presupuesto queda fechado, con el valor de dólar a la fecha para el cálculo en pesos. Si el dólar no se actualiza respecto al peso en los mismos porcentajes que el ICC, se usa este índice como factor de actualización mensual."},
   {t:"Tipo de cambio de referencia", d:"Todos los precios en dólares utilizan la cotización BNA oficial (tipo de cambio unificado — ya no se distingue oficial/blue)."},
   {t:"Formas de cobro", d:"Se reciben pesos en efectivo, transferencia o dólares. E-cheq: consultar factibilidad y financiación, siempre con e-cheqs propios."},
+  {t:"Monitoreo (si se contrata)", d:"Abono de ARS 55.000 por mes + IVA, por central de alarma, actualizable por IPC. Contrato con permanencia mínima de 6 meses; el alta equivale a un abono por adelantado. Requiere al menos 3 contactos de verificación. Incluye hasta 5 avisos a la Policía por mes; por encima de ese número, cada aviso se cobra ARS 2.000. El chip 4G de respaldo es opcional y a cargo del cliente. Solo avisa ante un disparo de la alarma (sin reportes periódicos)."},
   {t:"Facturación", d:"Se puede emitir Factura A. En mano de obra, a los precios indicados se le suma IVA e IIBB."},
 ];
 document.getElementById('condiciones-list').innerHTML = CONDICIONES.map((c,i)=>`
@@ -566,9 +589,9 @@ document.getElementById('footlogo').innerHTML = LOGO_SVG;
 // ===== DEVICES POR SUBSISTEMA =====
 const DEVICES = {
   alarma: [
-    {n:'Kit alarma inalámbrica AXPro WiFi DS-PWA96-Kit-WB', q:1, pu:499.49, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg', desc:'Panel central + control remoto, 96 zonas, comunicación bidireccional real con los sensores.'},
-    {n:'Teclado LED DS-PK1-E-WB', q:1, pu:82.76, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado por código en el ingreso principal.'},
-    {n:'Repetidor de señal DS-PR1-WB(B)', q:2, pu:107.41, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg', desc:'Extiende la cobertura de radio a los sensores más alejados — 2 unidades por las distancias reales de esta vivienda.'},
+    {n:'Kit alarma inalámbrica AXPro WiFi DS-PWA96-Kit-WB', q:1, pu:564.16, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg', desc:'Panel central + control remoto, 96 zonas, comunicación bidireccional real con los sensores.'},
+    {n:'Teclado LED DS-PK1-E-WB', q:1, pu:87.72, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp', desc:'Armado/desarmado por código en el ingreso principal.'},
+    {n:'Repetidor de señal DS-PR1-WB(B)', q:2, pu:121.00, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg', desc:'Extiende la cobertura de radio a los sensores más alejados — 2 unidades por las distancias reales de esta vivienda.'},
     {n:'Sensor shock/tilt — Cocina/Living → Quincho (P1)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Puerta de acceso al quincho, semicubierto y abierto al lote.'},
     {n:'Sensor shock/tilt — Dormitorio Suite → patio (PV3)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Corrediza a terraza/pileta, 2,80m.'},
     {n:'Sensor shock/tilt — Dormitorio 2 → patio (PV2)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Corrediza a terraza/pileta, 2,10m.'},
@@ -577,12 +600,12 @@ const DEVICES = {
     {n:'Sensor shock/tilt — Living/Cocina → Quincho (PV2)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Junto al P1, mismo frente de quincho.'},
     {n:'Sensor shock/tilt — DEP/Lavadero → lateral frente (PV1)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Da al jardín lateral de frente, entre línea de retiro y línea municipal.'},
     {n:'Sensor shock/tilt — DEP → ventilación caldera (V1)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Ventana circular de ventilación, da al jardín de frente.'},
-    {n:'Sirena interior DS-PS1-I-WB', q:1, pu:66.36, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Alerta sonora dentro de la vivienda.'},
-    {n:'Sirena exterior DS-PS1-E-WB — Frente', q:1, pu:98.74, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Alerta sonora y disuasión visible desde la calle.'},
+    {n:'Sirena interior DS-PS1-I-WB', q:1, pu:75.62, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg', desc:'Alerta sonora dentro de la vivienda.'},
+    {n:'Sirena exterior DS-PS1-E-WB — Frente', q:1, pu:102.85, iva:21, foto:'https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp', desc:'Alerta sonora y disuasión visible desde la calle.'},
   ],
   video: [
-    {n:'Cámara AcuSense 1 — Patio, Quincho + mitad sector pileta', q:1, pu:309.28, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg', desc:'Cubre el frente del quincho y arranca la línea virtual del patio.'},
-    {n:'Cámara AcuSense 2 — Patio, mitad restante pileta + Tender', q:1, pu:309.28, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg', desc:'Cierra la línea virtual del patio, cubre las corredizas de los 3 dormitorios y el living.'},
+    {n:'Cámara AcuSense 1 — Patio, Quincho + mitad sector pileta', q:1, pu:322.16, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg', desc:'Cubre el frente del quincho y arranca la línea virtual del patio.'},
+    {n:'Cámara AcuSense 2 — Patio, mitad restante pileta + Tender', q:1, pu:322.16, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-2cd2343g2-li2u.jpg', desc:'Cierra la línea virtual del patio, cubre las corredizas de los 3 dormitorios y el living.'},
     {n:'NVR AcuSense 4 canales PoE DS-7604NXI-K1/4P(D)', q:1, pu:452.24, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/3543.jpg', desc:'Grabador con IA dedicada y 4 puertos PoE: alimenta las cámaras por el mismo cable de datos, sin switch aparte. Quedan 2 canales libres para sumar cámaras en el frente más adelante.'},
     {n:'Disco Seagate SkyHawk 2TB', q:1, pu:239.27, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/seagate/st2000vx017.jpg', desc:'Disco de grado videovigilancia 24/7, alrededor de 3 semanas de grabación continua con 2 cámaras.'},
   ],
@@ -593,7 +616,7 @@ const ALARMA_SENSORES_EXTRA = [
   {n:'Sensor shock/tilt — Lavadero → patio de luz (P2)', q:1, pu:54.45, iva:21, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PDMCK-EG2-WB(B).jpg', desc:'Da a nicho pluvial lateral, cerca de la línea de retiro de frente.'},
 ];
 const RED_ITEM = [
-  {n:'TP-Link Deco X80 AX6000 (kit x2)', q:1, pu:288.25, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/DECO%20X80-2.jpg', desc:'Tope de gama WiFi 6 de la línea Deco — tri-banda, 2 nodos mesh, cubre esta vivienda sin necesidad de un 3er nodo.'},
+  {n:'TP-Link Deco X80 AX6000 (kit x2)', q:1, pu:300.26, iva:10.5, foto:'https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/DECO%20X80-2.jpg', desc:'Tope de gama WiFi 6 de la línea Deco — tri-banda, 2 nodos mesh, cubre esta vivienda sin necesidad de un 3er nodo.'},
 ];
 
 function renderDeviceGrid(containerId, items){
@@ -639,31 +662,34 @@ function toggleDevice(id){
 }
 
 // ===== INVERSION =====
-const TC = 1513;
+const TC = 1572;
 let extraSensoresOn = false;
+let monitoreoOn = false;
+const MONITOREO_ARS_MES = 55000; // servicios_recurrentes SRV-MON-ALARMA — never added to any total
+
+// Installation labor: tarifario (mano_obra_tarifario via inventario.sku_mo), capped at 30% of equipment incl. VAT, per block.
+// Wireless sensors in a PY carry no installation labor; disk is MO-NA.
+function capLabor(tarifario, equipo){ return Math.min(tarifario, Math.ceil(0.30*equipo)); }
+const sumItems = items => items.reduce((a,i)=>a+i.pu*i.q,0);
 
 function alarmaEquipoMo(){
-  const sum = items => items.reduce((a,i)=>a+i.pu*i.q,0);
-  let equipo = sum(DEVICES.alarma);
-  let mo = 85.00+53.51+27.58*2+27.82*8+49.79*2; // panel + keypad + 2 repeaters + 8 shock sensors + 2 sirens
-  if(extraSensoresOn){
-    equipo += sum(ALARMA_SENSORES_EXTRA);
-    mo += 27.82*3;
-  }
-  return {equipo, mo};
+  let equipo = sumItems(DEVICES.alarma);
+  if(extraSensoresOn) equipo += sumItems(ALARMA_SENSORES_EXTRA);
+  const tarifario = 85.00 + 53.51 + 27.58*2 + 49.79*2; // panel + keypad + 2 repeaters + 2 sirens
+  return {equipo, mo: capLabor(tarifario, equipo)};
 }
 
 function getRubros(){
   const a = alarmaEquipoMo();
-  const v = {equipo: DEVICES.video.reduce((s,i)=>s+i.pu*i.q,0), mo: 74.35*2+60.00+12.00};
-  const r = RED_ITEM[0];
-  const moRedUsd = 118960/TC;
-  const rubros = [
+  const vEquipo = sumItems(DEVICES.video);
+  const v = {equipo: vEquipo, mo: capLabor(74.35*2 + 60.00, vEquipo)}; // 2 surface cameras + NVR
+  const rEquipo = sumItems(RED_ITEM);
+  const r = {equipo: rEquipo, mo: capLabor(55.00, rEquipo)};          // MO-RED-RT
+  return [
     {id:'alarma', label:'Alarma — AXPro', equipo:a.equipo, mo:a.mo, color:'#B5453A'},
     {id:'video', label:'Videovigilancia — AcuSense perimetral', equipo:v.equipo, mo:v.mo, color:'#8698AE'},
-    {id:'red', label:'Red — TP-Link Deco X80', equipo:r.pu*r.q, mo:moRedUsd, color:'#e0a458'},
+    {id:'red', label:'Red — TP-Link Deco X80', equipo:r.equipo, mo:r.mo, color:'#e0a458'},
   ];
-  return rubros;
 }
 function getRubroItems(id){
   if(id==='alarma') return extraSensoresOn ? [...DEVICES.alarma, ...ALARMA_SENSORES_EXTRA] : DEVICES.alarma;
@@ -724,7 +750,7 @@ function renderInversion(){
 
   document.getElementById('total-final').textContent = fmt(t.total);
   document.getElementById('resumen-total').textContent = fmt(t.total);
-  document.getElementById('opt-extra-price').textContent = '+' + fmt(54.45*3+27.82*3);
+  document.getElementById('opt-extra-price').textContent = '+' + fmt(sumItems(ALARMA_SENSORES_EXTRA)*1.10);
   renderPago(t);
 }
 
@@ -743,6 +769,9 @@ function renderPago(t){
   }
 }
 
+function toggleMonitoreo(){
+  monitoreoOn = document.getElementById('opt-monitoreo').checked;
+}
 function toggleSensoresExtra(){
   extraSensoresOn = document.getElementById('opt-sensores-extra').checked;
   renderAlarmaGrid();
@@ -830,7 +859,7 @@ const FAQS = [
   {q:"¿Cómo controlo la alarma y las cámaras día a día?", a:"Desde la app oficial Hik-Connect de Hikvision, gratuita — no hace falta un panel de domótica adicional para este alcance."},
   {q:"¿Qué pasa si se corta Internet?", a:"La alarma y la videovigilancia funcionan de forma local — grabación en el NVR propio, no en la nube. Se pierde la notificación remota mientras no haya conexión, pero el sistema sigue activo y grabando."},
   {q:"¿Quién administra el sistema después de instalado?", a:"Se entrega documentado con usuario y clave de administrador para vos. Nosotros quedamos disponibles para soporte, pero no hay dependencia obligatoria de nuestra empresa para el uso diario."},
-  {q:"¿Hay costos recurrentes?", a:"No hay suscripción obligatoria para que la alarma o las cámaras funcionen localmente. Hik-Connect es gratis para lo incluido acá. El monitoreo de alarma con central de terceros es opcional y aparte, solo si se contrata."},
+  {q:"¿Hay costos recurrentes?", a:"No hay suscripción obligatoria para que la alarma o las cámaras funcionen localmente. Hik-Connect es gratis para lo incluido acá. El único costo recurrente es el monitoreo 24 h, opcional: ARS 55.000 por mes + IVA, aparte de la inversión del proyecto."},
   {q:"¿Por qué la alarma lleva 2 repetidores?", a:"Por las distancias entre la central y los sensores más alejados de esta casa en particular — con uno solo podían quedar zonas con señal débil."},
   {q:"¿Puedo sumar domótica o iluminación más adelante?", a:"Sí — se trata como una ampliación aparte cuando lo definas, no como una corrección de esta propuesta."},
 ];
@@ -844,7 +873,7 @@ document.getElementById('faq-list').innerHTML = FAQS.map((f,i)=>`
 function aceptarPropuesta(){
   const t = calcularTotales();
   const extraTxt = extraSensoresOn ? 'Sí (11 aberturas)' : 'No (8 aberturas base)';
-  const msg = `Hola Nova Domus! Quiero avanzar con la propuesta PY-2026-003 (La Luisita L8).%0A%0AAlarma: AXPro%0AVideovigilancia: AcuSense patio (2 cámaras)%0ASensores extra patios de luz: ${extraTxt}%0A%0ATotal: ${fmt(t.total)}`;
+  const msg = `Hola Nova Domus! Quiero avanzar con la propuesta PY-2026-003 (La Luisita L8).%0A%0AAlarma: AXPro%0AVideovigilancia: AcuSense patio (2 cámaras)%0ASensores extra patios de luz: ${extraTxt}%0A%0ATotal: ${fmt(t.total)}${monitoreoOn ? '%0A%2B Monitoreo 24 h: ARS 55.000 por mes %2B IVA' : ''}`;
   window.open(`https://wa.me/5493516747513?text=${msg}`, '_blank');
 }
 
