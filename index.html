@@ -569,6 +569,29 @@
     .propuesta-nombre a:hover { color: var(--accent); text-decoration: underline; }
     .propuesta-numero { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 4px; }
     .propuesta-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .propuesta-links-btn {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      font-size: 11px; border-radius: 6px; padding: 2px 8px; cursor: pointer;
+      font-family: inherit; margin-top: 6px;
+    }
+    .propuesta-links-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .propuesta-links { margin-top: 8px; font-size: 12px; }
+    .propuesta-links form { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .propuesta-links input {
+      flex: 1; min-width: 140px; background: transparent; color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px;
+      font-family: inherit; font-size: 12px;
+    }
+    .propuesta-links button[type="submit"], .propuesta-links .link-copy {
+      background: var(--accent); color: #111; border: none; border-radius: 6px;
+      padding: 5px 10px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .propuesta-links .link-copy { background: none; color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; font-weight: 400; }
+    .destinatario-row { padding: 6px 0; border-top: 1px dashed var(--border); }
+    .destinatario-row:first-of-type { border-top: none; }
+    .destinatario-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .destinatario-nombre { color: var(--text); font-weight: 600; }
+    .destinatario-reenviado { font-size: 10px; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0 4px; }
 
     /* SITIO PÚBLICO (solo Agustín) */
     .sitio-stats {
@@ -1197,10 +1220,122 @@
         <span class="propuesta-dot ${p.estado_seguimiento === 'ACTIVA' ? 'propuesta-dot-activa' : 'propuesta-dot-inactiva'}"></span>
         <div class="propuesta-main">
           <div class="propuesta-nombre">${p.html_url ? `<a href="${p.html_url}" target="_blank" rel="noopener">${p.nombre}</a>` : p.nombre}<span class="propuesta-numero">${p.numero}</span></div>
-          <div class="propuesta-meta">${p.aperturas_totales} ${p.aperturas_totales === 1 ? 'apertura' : 'aperturas'} · ${relativoEs(p.ultima_apertura)}</div>
+          <div class="propuesta-meta">${p.aperturas_totales} ${p.aperturas_totales === 1 ? 'apertura' : 'aperturas'} · ${relativoEs(p.ultima_apertura)}${propuestaDetalleMeta(p)}</div>
+          ${p.html_url ? `<button type="button" class="propuesta-links-btn" data-numero="${escAttr(p.numero)}" data-url="${escAttr(p.html_url)}" onclick="togglePropuestaLinks(this)">🔗 Links por destinatario${p.links_generados ? ` (${p.links_generados})` : ''}</button>
+          <div class="propuesta-links" style="display:none"></div>` : ''}
         </div>
       </div>
     `;
+  }
+
+  function escAttr(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function duracionEs(seg) {
+    if (!seg) return '';
+    if (seg < 60) return `${seg} s`;
+    const min = Math.round(seg / 60);
+    return min < 60 ? `${min} min` : `${Math.floor(min / 60)} h ${min % 60} min`;
+  }
+
+  // Extra columns from tracking v2; absent (undefined) until the migration is applied.
+  function propuestaDetalleMeta(p) {
+    const partes = [];
+    if (p.visitantes_unicos > 1) partes.push(`${p.visitantes_unicos} navegadores`);
+    if (p.segundos_totales) partes.push(`${duracionEs(p.segundos_totales)} de lectura`);
+    if (p.scroll_max_pct) partes.push(`leyó hasta ${p.scroll_max_pct}%`);
+    return partes.length ? ' · ' + partes.join(' · ') : '';
+  }
+
+  async function togglePropuestaLinks(btn) {
+    const box = btn.nextElementSibling;
+    const abrir = box.style.display === 'none';
+    box.style.display = abrir ? 'block' : 'none';
+    if (abrir) await renderPropuestaLinks(box, btn.dataset.numero, btn.dataset.url);
+  }
+
+  async function renderPropuestaLinks(box, numero, url) {
+    box.innerHTML = `
+      <form onsubmit="crearLinkPropuesta(event, this)" data-numero="${escAttr(numero)}" data-url="${escAttr(url)}">
+        <input name="destinatario" placeholder="Destinatario (ej. Claudia, arq. Pérez)" maxlength="120" required>
+        <button type="submit">Generar link</button>
+      </form>
+      <div class="destinatarios-lista">Cargando…</div>
+    `;
+    const lista = box.querySelector('.destinatarios-lista');
+    try {
+      const rows = await cuadrillaGet('v_seguimiento_destinatarios',
+        `?propuesta_codigo=eq.${encodeURIComponent(numero)}&order=creado_en.desc`);
+      lista.innerHTML = rows.length
+        ? rows.map(destinatarioRowHtml).join('')
+        : '<div class="propuesta-meta">Todavía no hay links por destinatario para esta propuesta.</div>';
+    } catch (e) {
+      lista.innerHTML = '<div class="propuesta-meta">No se pudieron cargar los links (¿falta aplicar la migración de tracking v2?).</div>';
+    }
+  }
+
+  function destinatarioRowHtml(d) {
+    const meta = d.aperturas
+      ? `${d.aperturas} ${d.aperturas === 1 ? 'apertura' : 'aperturas'} · ${relativoEs(d.ultima_apertura)}`
+        + (d.segundos_totales ? ` · ${duracionEs(d.segundos_totales)}` : '')
+        + (d.scroll_max_pct ? ` · ${d.scroll_max_pct}%` : '')
+        + (d.ultimo_dispositivo ? ` · ${escAttr(d.ultimo_dispositivo)}` : '')
+      : 'sin abrir todavía';
+    return `
+      <div class="destinatario-row">
+        <div class="destinatario-top">
+          <span class="destinatario-nombre">${escAttr(d.destinatario)}</span>
+          ${d.navegadores > 1 ? `<span class="destinatario-reenviado" title="Se abrió desde ${d.navegadores} navegadores distintos">reenviado</span>` : ''}
+          <button type="button" class="link-copy" data-url="${escAttr(d.url)}" onclick="copiarLinkPropuesta(this)">Copiar link</button>
+        </div>
+        <div class="propuesta-meta">${meta}</div>
+      </div>
+    `;
+  }
+
+  async function crearLinkPropuesta(ev, form) {
+    ev.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const destinatario = form.destinatario.value.trim();
+    if (!destinatario) return;
+    btn.disabled = true;
+    btn.textContent = 'Generando…';
+    try {
+      const { data, error } = await client.rpc('crear_link_propuesta', {
+        p_codigo: form.dataset.numero,
+        p_url: form.dataset.url,
+        p_destinatario: destinatario,
+      });
+      if (error) throw error;
+      const url = data && data[0] && data[0].url;
+      if (url) {
+        try { await navigator.clipboard.writeText(url); } catch (e) {}
+      }
+      const box = form.parentElement;
+      await renderPropuestaLinks(box, form.dataset.numero, form.dataset.url);
+      if (url) {
+        const aviso = document.createElement('div');
+        aviso.className = 'propuesta-meta';
+        aviso.style.color = 'var(--accent)';
+        aviso.textContent = `Link para ${destinatario} copiado al portapapeles: ${url}`;
+        box.insertBefore(aviso, box.querySelector('.destinatarios-lista'));
+      }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Generar link';
+      alert('No se pudo generar el link: ' + (e.message || e));
+    }
+  }
+
+  async function copiarLinkPropuesta(btn) {
+    try {
+      await navigator.clipboard.writeText(btn.dataset.url);
+      btn.textContent = 'Copiado ✓';
+    } catch (e) {
+      prompt('Copiá el link:', btn.dataset.url);
+    }
+    setTimeout(() => { btn.textContent = 'Copiar link'; }, 1800);
   }
 
   function togglePropuestasResto() {
@@ -1750,7 +1885,9 @@
       // no una foto -- se prefiere sobre panel_propuestas_snapshot (el cron
       // panel-propuestas-diario solo la recalcula 1 vez por dia) para que el
       // boton de refresh muestre aperturas reales, no las de ayer.
-      cuadrillaGet('v_seguimiento_propuestas', `?select=numero,nombre,estado,html_url,aperturas_totales,primera_apertura,ultima_apertura,estado_seguimiento&order=ultima_apertura.desc.nullslast`),
+      // select=* so the tracking-v2 columns (visitantes_unicos, segundos_totales, scroll_max_pct,
+      // links_generados) show up when present without breaking before the migration.
+      cuadrillaGet('v_seguimiento_propuestas', `?select=*&order=ultima_apertura.desc.nullslast`),
       cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
       cuentaPrincipal
         ? cuadrillaGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.desc,created_at.desc&limit=1000&select=fecha,importe,saldo`)

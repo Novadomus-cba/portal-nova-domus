@@ -44,8 +44,13 @@ repos clonados uno al lado del otro: este (`portal-nova-domus`, público, el HTM
    `https://<rama-con-guiones>.portalnovadomus.pages.dev/propuestas/<archivo>.html`. Ese link va en
    los dos PR y por WhatsApp a Agustín. No se le manda nada al cliente hasta el merge.
 9. **Después del merge** el link definitivo es el de GitHub Pages; verificar build `built`
-   (propuestas §1) antes de mandárselo al cliente.
-10. **Si Agustín corrige algo**, además de corregirlo, agregar la entrada en
+   (propuestas §1) antes de mandárselo al cliente. Al cliente no se le manda el link pelado: se
+   genera uno **por destinatario** desde el panel ("🔗 Links por destinatario" en Seguimiento de
+   Propuestas), que agrega `?r=<token>`.
+10. **Tracking.** Toda propuesta lleva `<meta name="py-codigo" content="PY-2026-NNN">` y, antes de
+    `</body>`, `<script src="../assets/propuesta-track.js" defer></script>`. Nunca un snippet inline
+    contra `propuesta_vistas`. Detalle en `DECISIONES.md` del repo `nova-domus-skills`, §4, "Tracking de propuestas v2".
+11. **Si Agustín corrige algo**, además de corregirlo, agregar la entrada en
     `references/registro-correcciones.md` de la skill de auditoría (repo `nova-domus-skills`, por PR).
 
 ## 3. Qué no hace nunca una sesión del equipo comercial

@@ -443,7 +443,5 @@ window.addEventListener('resize',()=>document.querySelectorAll('.acc.open .acc-b
 const navL=[...document.querySelectorAll('nav a')];
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){navL.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-40% 0px -55% 0px'});document.querySelectorAll('section[id]').forEach(s=>io.observe(s))}
 </script>
-<script>
-(function(){try{var codigo=document.querySelector('meta[name="py-codigo"]')?.content||'SIN-CODIGO';var payload=JSON.stringify({propuesta_codigo:codigo,url_path:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent});fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json','apikey':'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP','Authorization':'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'},body:payload}).catch(function(){})}catch(e){}})();
-</script>
+<script src="../assets/propuesta-track.js" defer></script>
 </body></html>

@@ -8,6 +8,7 @@
 
 <title>SPA Onas — Informe de Inversión y Excedentes</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="py-codigo" content="PY-2026-037">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -287,7 +288,7 @@ footer{padding:40px 0 56px;}
 
     <div class="timeline">
 
-      <details class="tl-details">
+      <details class="tl-details" data-track="etapa-original">
         <summary>
           <div class="tl-item">
             <div class="tl-stage">Presupuesto<br>original</div>
@@ -303,7 +304,7 @@ footer{padding:40px 0 56px;}
         </summary>
       </details>
 
-      <details class="tl-details">
+      <details class="tl-details" data-track="etapa-v1-v2">
         <summary class="tl-glow">
           <div class="tl-item">
             <div class="tl-stage">Excedentes<br>v1 / v2</div>
@@ -521,7 +522,7 @@ footer{padding:40px 0 56px;}
         </div>
       </details>
 
-      <details class="tl-details">
+      <details class="tl-details" data-track="etapa-v3">
         <summary>
           <div class="tl-item">
             <div class="tl-stage">Excedentes<br>v3</div>
@@ -612,7 +613,7 @@ footer{padding:40px 0 56px;}
         </div>
       </details>
 
-      <details class="tl-details">
+      <details class="tl-details" data-track="etapa-v4">
         <summary>
           <div class="tl-item">
             <div class="tl-stage">Excedentes<br>v4</div>
@@ -697,7 +698,7 @@ footer{padding:40px 0 56px;}
         </div>
       </details>
 
-      <details class="tl-details">
+      <details class="tl-details" data-track="etapa-v5">
         <summary>
           <div class="tl-item">
             <div class="tl-stage">Excedentes<br>v5</div>
@@ -795,7 +796,7 @@ footer{padding:40px 0 56px;}
         </div>
       </details>
 
-      <details class="tl-details" open>
+      <details class="tl-details" data-track="etapa-v6" open>
         <summary>
           <div class="tl-item">
             <div class="tl-stage">Excedentes<br>v6</div>
@@ -1029,5 +1030,6 @@ footer{padding:40px 0 56px;}
 })();
 </script>
 
+<script src="../assets/propuesta-track.js" defer></script>
 </body>
 </html>
