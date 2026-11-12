@@ -267,6 +267,21 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
  p,h1,h2,h3,h4,.lead,.figure{color:#111!important}
  .section-light{background:#fff}
 }
+
+/* folded sections 00-08 */
+details.fold>summary{list-style:none;cursor:pointer;position:relative;padding-right:40px}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary h2{margin-bottom:0}
+details.fold .fold-arr{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--gold);transition:transform .25s}
+details.fold[open] .fold-arr{transform:translateY(-50%) rotate(180deg)}
+details.fold .fold-hint{display:inline-block;margin-top:6px;font-size:12px;color:var(--grey)}
+details.fold[open] .fold-hint{display:none}
+details.fold .fold-in{padding-top:14px}
+.fold-note{padding-top:22px;padding-bottom:4px}
+section:has(>.wrap>details.fold:not([open])){padding-top:22px!important;padding-bottom:22px!important}
+.fold-note p{font-size:14px;color:var(--grey);margin:0;border-left:3px solid var(--gold);padding-left:12px}
+.fold-note a{color:var(--gold)}
+@media print{details.fold .fold-hint,details.fold .fold-arr,.fold-note{display:none}}
 </style></head><body>
 <!-- ===================== HERO ===================== -->
 <header class="hero">
@@ -366,11 +381,13 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 </section>
 <hr class="rule">
 
+<!-- ===================== PLEGADO ===================== -->
+<div class="wrap fold-note"><p>Las secciones 00 a 08 ya las leíste: quedan plegadas para que llegues directo a las órdenes de compra. Tocá cualquier título para volver a abrirla. <a href="#oc">Ir a las órdenes de compra ↓</a></p></div>
 <!-- ===================== TESIS ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">00</span>
-    <h2 style="margin-top:8px">Una casa, no siete aplicaciones</h2>
+    <details class="fold"><summary><span class="sec-num">00</span>
+    <h2 style="margin-top:8px">Una casa, no siete aplicaciones</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">El problema de este proyecto no es la falta de tecnología. Es que la tecnología que ya está no conversa.</p>
     <div class="grid g2" style="margin-top:24px">
       <div class="card">
@@ -388,6 +405,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
       <h4>Por qué el cerebro va adentro de la casa y no en la nube</h4>
       <p style="margin-bottom:0">Los sistemas que dependen de la nube de un fabricante dejan de funcionar cuando se cae internet o cuando esa empresa discontinúa el producto. Home Assistant es de código abierto y corre localmente: si mañana se cae el proveedor de internet, las luces, la calefacción y las escenas siguen andando. Es también la razón por la que podemos integrar seis marcas distintas en vez de obligarte a comprar todo de una.</p>
     </div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -395,8 +413,8 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== 01 ILUMINACION ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">01</span>
-    <h2 style="margin-top:8px">Iluminación</h2>
+    <details class="fold"><summary><span class="sec-num">01</span>
+    <h2 style="margin-top:8px">Iluminación</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">44 efectos de luz en 32 cajas, sin romper una sola pared. El módulo va detrás de la tecla que ya tenés: la llave sigue funcionando a mano, y además responde al celular, a la voz y a las escenas.</p>
 
     <p class="hint" style="margin-top:26px">👆 Tocá cada momento del día para ver cómo responde la casa</p>
@@ -419,6 +437,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
     <h3 style="margin-top:34px">Equipamiento de este sistema</h3>
     <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
     <div id="dev-ilu"></div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -426,8 +445,8 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== 02 CONFORT ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">02</span>
-    <h2 style="margin-top:8px">Confort</h2>
+    <details class="fold"><summary><span class="sec-num">02</span>
+    <h2 style="margin-top:8px">Confort</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">Dos aires acondicionados y seis radiadores que hoy se manejan uno por uno, con control remoto o cabezal manual. Pasan a tener temperatura y horario propios por ambiente.</p>
 
     <p class="hint" style="margin-top:26px">👆 Arrastrá la temperatura objetivo del invierno</p>
@@ -454,6 +473,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
     <h3 style="margin-top:30px">Equipamiento de este sistema</h3>
     <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
     <div id="dev-con"></div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -461,8 +481,8 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== 03 SEGURIDAD ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">03</span>
-    <h2 style="margin-top:8px">Seguridad y accesos</h2>
+    <details class="fold"><summary><span class="sec-num">03</span>
+    <h2 style="margin-top:8px">Seguridad y accesos</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">Las cinco cámaras que ya tenés pasan a una sola vista, con las tres Hikvision grabando en la casa. Las cerraduras se suman al mismo sistema. Y la alarma tiene capítulo propio: te mostramos por qué conviene pasar de AX HOME a AX PRO, con los precios de cada equipo para que la armes vos.</p>
 
     <p class="hint" style="margin-top:26px">👆 Tocá para comparar cámaras sueltas con un grabador local</p>
@@ -537,6 +557,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
       <button type="button" class="accept" id="ax-send">Enviar mi configuración</button>
       <p style="font-size:12px;color:var(--grey);margin-top:12px">Se abre WhatsApp con la lista de lo que elegiste. No compromete ninguna compra.</p>
     </div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -544,8 +565,8 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== 04 ENTRETENIMIENTO ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">04</span>
-    <h2 style="margin-top:8px">Audio</h2>
+    <details class="fold"><summary><span class="sec-num">04</span>
+    <h2 style="margin-top:8px">Audio</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">Los seis parlantes Sonos —cuatro Era 100 y dos Beam— quedan montados en su ubicación definitiva, agrupados por zona y conectados al sistema general.</p>
     <div class="grid g2" style="margin-top:24px">
       <div class="card"><h4>◐ Llegás a la casa</h4><p style="margin-bottom:0">La cerradura le avisa al sistema. Vuelve a sonar lo que venías escuchando en el auto, en el ambiente donde entraste.</p></div>
@@ -557,6 +578,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
       <h4>Sobre los soportes de pared</h4>
       <p style="margin-bottom:0">Los seis parlantes pueden quedar apoyados sobre mueble o fijos a la pared. La versión con soportes libera superficie, oculta el cable y define la posición acústica de una vez. Está más abajo como mejora opcional, no está incluida en la base.</p>
     </div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -564,8 +586,8 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== 05 REDES ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">05</span>
-    <h2 style="margin-top:8px">Red</h2>
+    <details class="fold"><summary><span class="sec-num">05</span>
+    <h2 style="margin-top:8px">Red</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">Todo lo anterior se apoya acá. Una red doméstica común no distingue entre una videollamada y una cámara grabando: reparte el ancho de banda por orden de llegada.</p>
 
     <p class="hint" style="margin-top:26px">👆 Tocá para comparar</p>
@@ -583,6 +605,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
     <h3 style="margin-top:30px">Equipamiento de este sistema</h3>
     <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
     <div id="dev-red"></div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -590,12 +613,13 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== 06 CORE ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">06</span>
-    <h2 style="margin-top:8px">Core</h2>
+    <details class="fold"><summary><span class="sec-num">06</span>
+    <h2 style="margin-top:8px">Core</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">El equipo que orquesta todo lo anterior, y la pantalla desde donde se opera sin buscar el celular.</p>
     <h3 style="margin-top:26px">Equipamiento de este sistema</h3>
     <p class="hint">👆 Tocá cada equipo para ver el detalle</p>
     <div id="dev-core"></div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -603,8 +627,8 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
 <!-- ===================== UN SOLO RESPONSABLE ===================== -->
 <section>
   <div class="wrap">
-    <span class="eyebrow">Por qué Nova Domus</span>
-    <h2>Un solo responsable</h2>
+    <details class="fold"><summary><span class="eyebrow">Por qué Nova Domus</span>
+    <h2>Un solo responsable</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">En esta casa el problema ya pasó una vez: cada equipo se compró por separado, a un proveedor distinto, y nadie se hizo cargo de que hablaran entre sí. Ese es exactamente el costo oculto de trabajar con varios proveedores.</p>
     <p style="margin-top:16px">Cuando una cámara no graba, el que la vendió dice que es la red. El de la red dice que es la cámara. El integrador dice que le entregaron mal las dos. El problema queda en el medio y el que pierde tiempo sos vos.</p>
     <p><b style="color:var(--gold)">Nova Domus es uno solo.</b> Hacemos la instalación, la red y la programación con equipo propio, y nos hacemos cargo del conjunto, incluido el equipamiento que ya estaba en la casa antes de que llegáramos.</p>
@@ -630,25 +654,27 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
       <h4>Lo que en esta obra no hacemos, y lo decimos</h4>
       <p style="margin-bottom:0">La obra eléctrica de la casa existente no es parte de esta propuesta. Nosotros especificamos y certificamos los tendidos de datos que hacen falta, pero el trabajo de canalización lo ejecuta el electricista de la obra según nuestro plano. Somos responsables únicos de todo lo que instalamos y programamos: red, iluminación, confort, seguridad, accesos, audio y automatización. Si además necesitás instalación eléctrica para la ampliación de la casa, es una propuesta aparte — la encontrás en la página principal de este link.</p>
     </div>
+  </div></details>
   </div>
 </section>
 
 <!-- ===================== 07 RESPUESTAS A CONSULTAS ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">07</span>
-    <h2 style="margin-top:8px">Respuestas a tus consultas</h2>
+    <details class="fold"><summary><span class="sec-num">07</span>
+    <h2 style="margin-top:8px">Respuestas a tus consultas</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">Cada punto que planteaste, respondido. Las definiciones que derivan en equipamiento nuevo están cotizadas en la sección siguiente, y las de alarma en la sección 03.</p>
     <p class="hint" style="margin-top:26px">👆 Tocá cada consulta para leer la respuesta</p>
     <div id="consultas"></div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
 <!-- ===================== 08 PROXIMAS COMPRAS ===================== -->
 <section>
   <div class="wrap">
-    <span class="sec-num">08</span>
-    <h2 style="margin-top:8px">Próximas compras</h2>
+    <details class="fold"><summary><span class="sec-num">08</span>
+    <h2 style="margin-top:8px">Próximas compras</h2><span class="fold-arr" aria-hidden="true">▾</span><span class="fold-hint">Tocá para abrir</span></summary><div class="fold-in">
     <p class="lead">Lo que quedó cotizado para después de la primera orden. No está incluido en el total de la propuesta: lo sumás cuando lo decidas.</p>
 
     <p class="hint" style="margin-top:26px">👆 Tocá cada equipo para ver el detalle</p>
@@ -686,6 +712,7 @@ table.ax tr.win td:first-child{border-left:2px solid var(--gold)}
       <p>Los contactos de la puerta de entrada y de las ventanas de arriba, en negro, se compran después de montar y probar la central nueva con tus sensores actuales.</p>
       <p style="margin-bottom:0">El aviso sonoro de alarma y de humo lo probamos primero con los Sonos. Si no funciona como esperamos, sumamos una sirena interior a batería.</p>
     </div>
+  </div></details>
   </div>
 </section>
 <hr class="rule">
@@ -1282,6 +1309,16 @@ const OC_PROG=650;
     document.getElementById('oc3-opt-l').classList.toggle('on',on);
   }
   cb.addEventListener('change',upd); upd();
+})();
+
+
+/* ---------- secciones plegadas: abrir al navegar o imprimir ---------- */
+(function(){
+  const folds=[...document.querySelectorAll('details.fold')];
+  function openFor(h){ if(!h||h.length<2)return; const t=document.querySelector(h); const d=t&&t.closest('details.fold'); if(d)d.open=true; }
+  window.addEventListener('hashchange',()=>openFor(location.hash)); openFor(location.hash);
+  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]'); if(a)openFor(a.getAttribute('href'));});
+  window.addEventListener('beforeprint',()=>folds.forEach(d=>d.open=true));
 })();
 
 /* ---------- condiciones ---------- */
