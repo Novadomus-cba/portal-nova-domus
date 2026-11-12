@@ -233,6 +233,36 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
 .opc-card p + p{margin-top:10px;}
 .opc-nota + .condicion-nota{margin-top:22px;}
 @media(max-width:640px){ .grp-title{font-size:11.5px; letter-spacing:1.2px; margin-top:38px;} }
+
+/* EVOLUCION DEL ALCANCE */
+.sub-h{font-family:var(--font-display); font-size:13.5px; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--gold); margin:34px 0 4px;}
+.delta-kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-top:16px;}
+.dk{background:rgba(200,169,110,.07); border:1px solid rgba(200,169,110,.3); border-radius:10px; padding:16px 18px;}
+.dk-v{font-family:var(--font-display); color:var(--gold); font-size:22px; letter-spacing:1px; font-variant-numeric:tabular-nums;}
+.dk-l{color:#EDEAE0; font-size:13px; margin-top:4px;}
+.delta-grid{display:grid; grid-template-columns:1fr 1.35fr; gap:0; margin-top:16px;
+  border:1px solid rgba(255,255,255,.1); border-radius:10px; overflow:hidden;}
+.delta-col{padding:20px 22px;}
+.delta-col.before{background:rgba(255,255,255,.02); border-right:1px solid rgba(255,255,255,.08);}
+.delta-col.after{background:rgba(200,169,110,.07);}
+.delta-title{font-family:var(--font-display); font-size:12px; letter-spacing:1.4px; text-transform:uppercase; margin-bottom:10px;}
+.delta-col.before .delta-title{color:var(--grey);}
+.delta-col.after .delta-title{color:var(--gold);}
+.delta-grp{color:#fff; font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:1px; margin:14px 0 4px;}
+.delta-col ul{list-style:none;}
+.delta-col li{position:relative; padding:5px 0 5px 20px; font-size:13.5px; color:#EDEAE0; border-bottom:1px solid rgba(255,255,255,.05);}
+.delta-col.before li::before{content:'✓'; position:absolute; left:0; color:var(--grey);}
+.delta-col.after li::before{content:'+'; position:absolute; left:2px; color:var(--gold); font-weight:700;}
+.delta-note{margin-top:14px; font-size:13px; color:#EDEAE0;}
+.delta-note b{color:var(--gold);}
+@media(max-width:640px){
+  .delta-grid{grid-template-columns:1fr;}
+  .delta-col.before{border-right:none; border-bottom:1px solid rgba(255,255,255,.08);}
+  .delta-col{padding:16px;}
+  .dk-v{font-size:19px;}
+  .sub-h{font-size:12px; letter-spacing:1.1px;}
+}
 </style>
 </head>
 <body>
@@ -658,6 +688,60 @@ footer .foot-logo{width:36px; height:36px; margin:0 auto 14px; display:block;}
 <section class="section justificacion">
   <div class="sec-num"><span class="n">08</span><span class="eyebrow" style="margin:0;">Referencia de valor</span></div>
   <h2>¿Por qué USD 800?</h2>
+  <p class="lead">Dos razones: el alcance se multiplicó por más de tres sin que se moviera el honorario, y el
+  valor surge de proyectos equivalentes que Nova Domus ya desarrolló.</p>
+
+  <h3 class="sub-h">El alcance creció, el honorario no</h3>
+  <div class="delta-kpis">
+    <div class="dk"><div class="dk-v">17</div><div class="dk-l">Frentes de trabajo proyectados — la primera propuesta tenía 5</div></div>
+    <div class="dk"><div class="dk-v">+16</div><div class="dk-l">Ítems sumados por el pliego del estudio</div></div>
+    <div class="dk"><div class="dk-v">USD 800</div><div class="dk-l">Honorario, igual que en la primera propuesta</div></div>
+  </div>
+
+  <div class="delta-grid">
+    <div class="delta-col before">
+      <div class="delta-title">Primera propuesta</div>
+      <ul>
+        <li>Instalación eléctrica: circuitos, tomas, fuerza motriz y tableros</li>
+        <li>Redes administradas y WiFi</li>
+        <li>Circuitos de iluminación y coordinación</li>
+        <li>Previsión Home Automation Ready</li>
+        <li>Modelado BIM en Revit</li>
+      </ul>
+      <p class="delta-note">Seguridad, audio y domótica figuraban como capas opcionales,
+      <b>cotizadas por separado</b> al activarse.</p>
+    </div>
+    <div class="delta-col after">
+      <div class="delta-title">Sumado con el pliego del estudio</div>
+      <div class="delta-grp">Instalación eléctrica</div>
+      <ul>
+        <li>Iluminación de fachadas</li>
+        <li>Unifilar del tablero de acometida y medición</li>
+        <li>Topográficos de todos los tableros</li>
+        <li>Diseño completo de la red de puesta a tierra</li>
+        <li>Red de iluminación de emergencia</li>
+        <li>Cálculo de demanda y planilla de potencias</li>
+        <li>Hasta ocho láminas de detalles constructivos</li>
+        <li>Cómputo trifásico en 380 V</li>
+      </ul>
+      <div class="delta-grp">Bajas señales</div>
+      <ul>
+        <li>TV por cable, satelital y canales locales</li>
+        <li>Acometidas aéreas y telefonía</li>
+        <li>Fibra óptica</li>
+        <li>Montante de bajas señales</li>
+      </ul>
+      <div class="delta-grp">Antes opcionales, ahora incluidas</div>
+      <ul>
+        <li>Seguridad: CCTV, alarma, portería e intercomunicación</li>
+        <li>Audio distribuido y home theatre</li>
+        <li>Domótica y control</li>
+        <li>Detección de humo</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub-h next">Contra proyectos anteriores</h3>
   <p class="lead">El monto no sale de una tarifa por metro cuadrado: sale de dos proyectos ejecutivos
   que Nova Domus desarrolló este mismo año, uno por encima y otro por debajo de esta escala.</p>
 
