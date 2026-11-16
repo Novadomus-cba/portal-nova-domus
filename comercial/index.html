@@ -2603,9 +2603,11 @@ async function abrirModalVincular(origen,origenId){
       document.getElementById('mv-nombre').value=row.nombre||'';
       document.getElementById('mv-cliente').value=row.cliente||row.nombre||'';
       document.getElementById('mv-tipo').value=inferirTipoObra(row.alcance,row.perfil);
-      document.getElementById('mv-codigo').value='';
-      document.getElementById('mv-codigo').readOnly=false;
-      document.getElementById('mv-codigo').placeholder='ej: CH4 (3 letras)';
+      // Obra code derived from the PY number: PY-2026-057 → "057-26" (year suffix: codigo_obra is UNIQUE).
+      const pyMatch=/^PY-(\d{4})-(\d+)$/i.exec((row.numero||'').trim());
+      document.getElementById('mv-codigo').value=pyMatch?pyMatch[2].slice(-3).padStart(3,'0')+'-'+pyMatch[1].slice(-2):'';
+      document.getElementById('mv-codigo').readOnly=!!pyMatch;
+      document.getElementById('mv-codigo').placeholder=pyMatch?'':'ej: 057-26';
       document.getElementById('mv-resumen').textContent=`Origen: Proyecto · ${fARS(row.total_ars||0)}`;
       const mvProp=document.getElementById('mv-propuesta');
       mvProp.style.display='block';
