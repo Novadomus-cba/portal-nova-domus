@@ -281,12 +281,12 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
   <div class="topbar-sep"></div>
   <span class="topbar-module-name">Obras</span>
   <div class="nt-scroll">
-    <div class="nt active" onclick="showP('tarifario',this)">💱 Tarifario</div>
-    <div class="nt" id="ntObras" onclick="showP('obras',this)">🏗 Obras</div>
+    <div class="nt active" id="ntObras" onclick="showP('obras',this)">🏗 Obras</div>
     <div class="nt" onclick="showP('seguimiento',this)">📋 Carga Semanal</div>
     <div class="nt" onclick="showP('icc',this)">📈 Actualización</div>
     <div class="nt" onclick="showP('supervisor',this)">📊 Supervisor</div>
     <div class="nt" onclick="showP('cobros',this)">💰 Cobros</div>
+    <div class="nt" onclick="showP('tarifario',this)">💱 Tarifario</div>
   </div>
   <div class="tr">
     <div class="tc-box" id="tcOficialBox">
@@ -310,7 +310,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 </div>
 
 <!-- ══ PANEL: TARIFARIO ═══════════════════════════════════════ -->
-<div class="panel active" id="panel-tarifario">
+<div class="panel" id="panel-tarifario">
   <div class="main">
     <div class="sh">
       <div class="sh-t">Tarifario Base Nova Domus</div>
@@ -331,7 +331,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
 </div>
 
 <!-- ══ PANEL: OBRAS ═══════════════════════════════════════════ -->
-<div class="panel" id="panel-obras">
+<div class="panel active" id="panel-obras">
   <div class="obras-mobile-bar">
     <button class="obras-hamburger" onclick="toggleSidebar()">☰</button>
     <span class="obras-mobile-title" id="obrasMobileTitle">Seleccioná una obra</span>
@@ -644,6 +644,12 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
             <option>DOMOTICA</option><option>SEGURIDAD</option><option>MIXTA</option></select></div>
       </div>
       <div class="fr">
+        <div class="fg" style="max-width:170px"><label>N° de PY *</label>
+          <input type="text" id="oPY" placeholder="PY-2026-057" oninput="updateCodigoPreview()"></div>
+        <div class="fg" style="max-width:140px"><label>Código de obra</label>
+          <input type="text" id="oCod" readonly style="opacity:.75"></div>
+      </div>
+      <div class="fr">
         <div class="fg"><label>Cliente / Razón social *</label><input type="text" id="oCli"></div>
         <div class="fg" style="max-width:170px"><label>CUIT</label><input type="text" id="oCuit"></div>
       </div>
@@ -672,7 +678,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg3)}
     </div>
     <div class="mftr">
       <button class="btn btn-g" onclick="closeM('mObra')">Cancelar</button>
-      <button class="btn btn-p" onclick="guardarObra()">Guardar obra</button>
+      <button class="btn btn-p" id="btnGuardarObra" onclick="guardarObra()">Guardar obra</button>
     </div>
   </div>
 </div>
@@ -988,11 +994,9 @@ window.onload = async () => {
   await loadCachedTC();
   refreshTC(true);
   const deepObraId=new URLSearchParams(location.search).get('obra');
+  showP('obras',document.getElementById('ntObras'));
   if(deepObraId && cache.obras().some(o=>o.id===deepObraId)){
-    showP('obras',document.getElementById('ntObras'));
     await selObra(deepObraId);
-  }else{
-    showP('tarifario',document.querySelector('.nt'));
   }
 };
 
@@ -1529,14 +1533,41 @@ function openMObra(id=null){
   document.getElementById('oFF').value=o?.fecha_fin_estimada||'';
   document.getElementById('oProp').value=o?.es_propia!==false?'true':'false';
   document.getElementById('oNot').value=o?.notas||'';
+  document.getElementById('oPY').value=(/PY-\d{4}-\d+/i.exec(o?.referencia_presupuesto||'')||[''])[0];
+  document.getElementById('oPY').dataset.orig=o?.referencia_presupuesto||'';
+  document.getElementById('oCod').value=o?.codigo_obra||'';
+  document.getElementById('oCod').dataset.locked=o?.codigo_obra?'1':'';
+  if(!o) updateCodigoPreview();
   document.getElementById('mObraT').textContent=o?'Editar obra':'Nueva obra';
   openM('mObra');
 }
 
+// Obra code derived from the PY number: PY-2026-057 → "057-26".
+// The year suffix is required: codigo_obra is UNIQUE and PY numbering restarts every year.
+function codigoFromPY(py){
+  const m=/^PY-(\d{4})-(\d+)$/i.exec((py||'').trim());
+  if(!m) return null;
+  return m[2].slice(-3).padStart(3,'0')+'-'+m[1].slice(-2);
+}
+
+function updateCodigoPreview(){
+  const cod=document.getElementById('oCod');
+  if(cod.dataset.locked) return; // existing obras keep their code (jornadas reference it)
+  cod.value=codigoFromPY(document.getElementById('oPY').value)||'';
+}
+
+let guardandoObra=false;
+
 async function guardarObra(){
+  if(guardandoObra) return;
   const nom=document.getElementById('oNom').value.trim();
   const cli=document.getElementById('oCli').value.trim();
+  const py=document.getElementById('oPY').value.trim().toUpperCase();
+  const id=document.getElementById('oId').value;
   if(!nom||!cli){toast('Completá nombre y cliente','err');return;}
+  const codigoNuevo=codigoFromPY(py);
+  if(!id && !codigoNuevo){toast('Ingresá el N° de PY con formato PY-2026-057','err');return;}
+  if(py && !codigoNuevo){toast('El N° de PY tiene que tener formato PY-2026-057','err');return;}
   const obs={
     nombre:nom,cliente_razon_social:cli,tipo:document.getElementById('oTipo').value,
     cliente_cuit:document.getElementById('oCuit').value,
@@ -1550,22 +1581,39 @@ async function guardarObra(){
     es_propia:document.getElementById('oProp').value==='true',
     notas:document.getElementById('oNot').value||null,
   };
-  const id=document.getElementById('oId').value;
+  // Keep a longer existing reference (e.g. 'PY-2026-040 (aceptado...)') if it already names this PY.
+  if(py && !document.getElementById('oPY').dataset.orig.toUpperCase().includes(py)) obs.referencia_presupuesto=py;
+  if(!id) obs.codigo_obra=codigoNuevo;
+  else if(!document.getElementById('oCod').dataset.locked && codigoNuevo) obs.codigo_obra=codigoNuevo;
+
+  if(!id && cache.obras().some(o=>o.codigo_obra===obs.codigo_obra)){
+    toast(`Ya existe una obra con código ${obs.codigo_obra}`,'err');return;
+  }
+
+  const btn=document.getElementById('btnGuardarObra');
+  guardandoObra=true; btn.disabled=true; btn.textContent='Guardando...';
   try{
     let obraId=id;
     if(id){ await sbPatch('obras',obs,`?id=eq.${id}`); }
     else{
       const r=await sbPost('obras',obs);
       obraId=r[0].id;
-      const tarBase=cache.tarifario();
-      for(const t of tarBase){
-        await sbPost('obras_rubros',{
-          obra_id:obraId,codigo:t.codigo,descripcion:t.nombre,
-          precio_usd_unitario:t.precio_usd||0,
-          precio_usd_obra:null,
-          usa_porcentaje_etapa:t.usa_pct,
-          tarifario_base_id:t.id,orden:t.orden||99
-        });
+      // One bulk insert instead of one request per rubro (239 sequential requests
+      // took long enough that users clicked again and duplicated the obra).
+      const rubros=cache.tarifario().map(t=>({
+        obra_id:obraId,codigo:t.codigo,descripcion:t.nombre,
+        precio_usd_unitario:t.precio_usd||0,
+        precio_usd_obra:null,
+        usa_porcentaje_etapa:t.usa_pct,
+        tarifario_base_id:t.id,orden:t.orden||99
+      }));
+      if(rubros.length) await sbPost('obras_rubros',rubros);
+      // Link the commercial project to the new obra (best effort: role may lack access).
+      if(py){
+        try{
+          await sbPatch('proyectos',{obra_codigo_vinculado:obs.codigo_obra,obra_vinculada_en:new Date().toISOString()},
+            `?numero=eq.${encodeURIComponent(py)}&obra_codigo_vinculado=is.null`);
+        }catch(e){ console.warn('No se pudo vincular el proyecto',e); }
       }
     }
     closeM('mObra');
@@ -1575,6 +1623,8 @@ async function guardarObra(){
     toast('Obra guardada','ok');
   }catch(e){
     toast('Error: '+e.message,'err');
+  }finally{
+    guardandoObra=false; btn.disabled=false; btn.textContent='Guardar obra';
   }
 }
 
