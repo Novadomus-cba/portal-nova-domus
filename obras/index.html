@@ -1381,43 +1381,41 @@ async function renderObraDetalle(id){
     </div>
 
     <div class="card" style="margin-bottom:14px">
-      <div class="ct" style="display:flex;justify-content:space-between;align-items:center">
-        <span>Tarifario de esta obra (vs. base Nova Domus)</span>
-      </div>
-      ${rubros.length?`
-      <div class="tw">
-        <table><thead><tr><th>Código</th><th>Descripción</th>
-          <th>USD Base</th><th>USD Obra</th><th>Delta</th><th>%Etapa</th><th></th></tr></thead>
-        <tbody>
-          ${rubros.map(r=>{
-            const tb=tarBase.find(t=>t.id===r.tarifario_base_id||t.codigo===r.codigo);
-            const usdBase=tb?.precio_usd||null;
-            const usdObra=r.precio_usd_obra||r.precio_usd_unitario||null;
-            let deltaTxt='—',deltaClass='delta-eq';
-            if(usdBase&&usdObra){
-              const d=((usdObra-usdBase)/usdBase*100);
-              deltaTxt=(d>0?'↑ +':d<0?'↓ ':'')+d.toFixed(1)+'%';
-              deltaClass=d>0?'delta-up':d<0?'delta-down':'delta-eq';
-            }
-            const gc=GC[tb?.grupo]||GC['OTRO'];
-            return`<tr>
-              <td><b style="color:${gc}">${r.codigo}</b></td>
-              <td style="font-size:10px">${r.descripcion}</td>
-              <td style="color:var(--text3)">${usdBase?'U$D '+usdBase:'—'}</td>
-              <td style="font-weight:700">${usdObra?'U$D '+usdObra:'<span style="color:var(--text3)">sin precio</span>'}</td>
-              <td class="${deltaClass}" style="font-weight:700;font-size:11px">${deltaTxt}</td>
-              <td>${r.usa_porcentaje_etapa?'<span class="bd b-info">Sí</span>':'<span class="bd b-gray">No</span>'}</td>
-              <td><button class="btn btn-g btn-sm" onclick="editRubro('${r.id}','${id}')">✏</button></td>
-            </tr>`;
-          }).join('')}
-        </tbody></table>
-      </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin rubros cargados para esta obra.</div>'}
+      <div class="ct">Certificados y recibos</div>
       ${analisis&&obra.presupuesto_total_pesos?`
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
         <div class="tbox"><div class="tr2"><span>Certificado acumulado</span></div><div class="tf" style="font-size:12px">${f$(analisis.certificado_acumulado_pesos||0)}</div></div>
         <div class="tbox"><div class="tr2"><span>Excedente acumulado</span></div><div class="tf" style="font-size:12px">${f$(analisis.excedentes_acumulado_pesos||0)}</div></div>
         <div class="tbox"><div class="tr2"><span>Saldo de presupuesto</span></div><div class="tf" style="font-size:12px">${f$(obra.presupuesto_total_pesos-(analisis.certificado_acumulado_pesos||0)-(analisis.excedentes_acumulado_pesos||0))}</div></div>
       </div>`:''}
+    ${certs.length?`
+    <div class="tw">
+      <table><thead><tr><th>Cert.</th><th>Período</th><th>Estado</th><th>Total recibo</th><th>Recibo estado</th><th></th></tr></thead>
+      <tbody>
+        ${certs.map(c=>{
+          // certificado_id -> recibos es 1:N (ver recibo 27 de Los Boulevares): un
+          // certificado puede tener más de un recibo vivo. Cada recibo es su propia
+          // fila; el certificado se repite como columna informativa, no agrupa.
+          const certRecs=recs.filter(r=>r.certificado_id===c.id);
+          const rows=certRecs.length?certRecs:[null];
+          return rows.map(rec=>{
+            const tot=rec?(rec.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0):0;
+            return`<tr>
+              <td><b>N°${c.numero}</b> <span style="color:var(--text3);font-size:10px">${fd(c.fecha_emision)}</span></td>
+              <td style="font-size:10px;color:var(--text2)">${c.periodo_desde?fd(c.periodo_desde)+' → '+fd(c.periodo_hasta):''}</td>
+              <td>${eBadge(c.estado)}</td>
+              <td>${rec?f$(tot):'—'}</td>
+              <td>${rec?`<select style="font-size:10px;padding:2px 5px;width:auto"
+                onchange="cambiarEstRec('${rec.id}',this.value)">
+                ${['BORRADOR','ENVIADO','PAGADO'].map(e=>`<option ${rec.estado===e?'selected':''}>${e}</option>`).join('')}
+              </select>`:'—'}</td>
+              <td><button class="btn btn-g btn-sm" onclick="abrirDetalleCert('${c.id}')">👁 Ver</button></td>
+            </tr>`;
+          }).join('');
+        }).join('')}
+      </tbody></table>
+    </div>`:
+    '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Sin certificados todavía. Usá <b>Carga Semanal</b>.</div>'}
     </div>
 
     <div class="card" style="margin-bottom:14px">
@@ -1473,34 +1471,39 @@ async function renderObraDetalle(id){
       </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin cotizaciones exploratorias para esta obra.</div>'}
     </div>
 
-    ${certs.length?`
-    <div class="tw">
-      <table><thead><tr><th>Cert.</th><th>Período</th><th>Estado</th><th>Total recibo</th><th>Recibo estado</th><th></th></tr></thead>
-      <tbody>
-        ${certs.map(c=>{
-          // certificado_id -> recibos es 1:N (ver recibo 27 de Los Boulevares): un
-          // certificado puede tener más de un recibo vivo. Cada recibo es su propia
-          // fila; el certificado se repite como columna informativa, no agrupa.
-          const certRecs=recs.filter(r=>r.certificado_id===c.id);
-          const rows=certRecs.length?certRecs:[null];
-          return rows.map(rec=>{
-            const tot=rec?(rec.recibos_lineas||[]).reduce((s,l)=>s+(l.monto_pesos||0),0):0;
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Tarifario de esta obra (vs. base Nova Domus)</span>
+      </div>
+      ${rubros.length?`
+      <div class="tw">
+        <table><thead><tr><th>Código</th><th>Descripción</th>
+          <th>USD Base</th><th>USD Obra</th><th>Delta</th><th>%Etapa</th><th></th></tr></thead>
+        <tbody>
+          ${rubros.map(r=>{
+            const tb=tarBase.find(t=>t.id===r.tarifario_base_id||t.codigo===r.codigo);
+            const usdBase=tb?.precio_usd||null;
+            const usdObra=r.precio_usd_obra||r.precio_usd_unitario||null;
+            let deltaTxt='—',deltaClass='delta-eq';
+            if(usdBase&&usdObra){
+              const d=((usdObra-usdBase)/usdBase*100);
+              deltaTxt=(d>0?'↑ +':d<0?'↓ ':'')+d.toFixed(1)+'%';
+              deltaClass=d>0?'delta-up':d<0?'delta-down':'delta-eq';
+            }
+            const gc=GC[tb?.grupo]||GC['OTRO'];
             return`<tr>
-              <td><b>N°${c.numero}</b> <span style="color:var(--text3);font-size:10px">${fd(c.fecha_emision)}</span></td>
-              <td style="font-size:10px;color:var(--text2)">${c.periodo_desde?fd(c.periodo_desde)+' → '+fd(c.periodo_hasta):''}</td>
-              <td>${eBadge(c.estado)}</td>
-              <td>${rec?f$(tot):'—'}</td>
-              <td>${rec?`<select style="font-size:10px;padding:2px 5px;width:auto"
-                onchange="cambiarEstRec('${rec.id}',this.value)">
-                ${['BORRADOR','ENVIADO','PAGADO'].map(e=>`<option ${rec.estado===e?'selected':''}>${e}</option>`).join('')}
-              </select>`:'—'}</td>
-              <td><button class="btn btn-g btn-sm" onclick="abrirDetalleCert('${c.id}')">👁 Ver</button></td>
+              <td><b style="color:${gc}">${r.codigo}</b></td>
+              <td style="font-size:10px">${r.descripcion}</td>
+              <td style="color:var(--text3)">${usdBase?'U$D '+usdBase:'—'}</td>
+              <td style="font-weight:700">${usdObra?'U$D '+usdObra:'<span style="color:var(--text3)">sin precio</span>'}</td>
+              <td class="${deltaClass}" style="font-weight:700;font-size:11px">${deltaTxt}</td>
+              <td>${r.usa_porcentaje_etapa?'<span class="bd b-info">Sí</span>':'<span class="bd b-gray">No</span>'}</td>
+              <td><button class="btn btn-g btn-sm" onclick="editRubro('${r.id}','${id}')">✏</button></td>
             </tr>`;
-          }).join('');
-        }).join('')}
-      </tbody></table>
-    </div>`:
-    '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">Sin certificados todavía. Usá <b>Carga Semanal</b>.</div>'}
+          }).join('')}
+        </tbody></table>
+      </div>` : '<div style="color:var(--text3);font-size:11px;padding:8px">Sin rubros cargados para esta obra.</div>'}
+    </div>
 
     <div style="margin-top:10px;display:flex;justify-content:flex-end">
       <button class="btn btn-g btn-sm" onclick="openImportarFacturas('${id}')">📦 Importar facturas de materiales</button>
