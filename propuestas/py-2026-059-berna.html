@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Casa Berna y Pau — Proyecto de Tecnológica Integral">
+<meta property="og:description" content="Iluminación inteligente, climatización, alarma, cámaras, red WiFi y música en un solo sistema. PY-2026-059 · Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-059-berna.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-059-berna.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-059">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casa Berna y Pau · PY-2026-059 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+<style>
+.cmd{font-family:var(--font-body);font-weight:600;color:var(--gold)}
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+</style>
+<style>
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+.alert{border:2px solid var(--gold);border-radius:14px;padding:18px 20px;margin:22px 0;background:rgba(200,169,110,.08)}
+.alert h3{color:var(--gold)}
+</style><style>
+.cmd{font-family:var(--fb);font-weight:600;color:var(--gold)}
+.note{font-size:13.5px;color:#EDEAE0;opacity:.85;margin-top:12px}
+.section-light .note{color:#3a3d4a}
+.alert{border:2px solid var(--gold);border-radius:14px;padding:18px 20px;margin:22px 0;background:rgba(200,169,110,.08)}
+.alert h3{color:var(--gold)}
+.section-light .alert{border-color:var(--navy);background:rgba(20,30,97,.05)}
+.section-light .alert h3{color:var(--navy)}
+.sref{display:block;font-style:normal;color:var(--gold);font-size:12.5px;margin-top:4px}
+.section-light .sw button{border-color:rgba(20,30,97,.22);color:#5d6078}
+.section-light .scene{border-color:rgba(20,30,97,.16)}
+/* monitoreo */
+.mon-card{display:flex;gap:14px;align-items:flex-start;border:1px solid rgba(200,169,110,.45);border-radius:16px;
+padding:18px 20px;margin:20px 0;cursor:pointer;box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.mon-card input{width:22px;height:22px;accent-color:var(--gold);flex:0 0 22px;margin-top:2px}
+.mon-card b.mprice{color:var(--gold);font-weight:600}
+.mon-card.on{border-color:var(--gold);background:rgba(200,169,110,.07);animation:none}
+.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}
+.two>div{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px}
+.two h3{font-size:15px}
+.two ul{margin:6px 0 0;padding-left:18px} .two li{margin:5px 0;font-size:14px}
+.mon-line{border:1px dashed rgba(200,169,110,.55);border-radius:14px;padding:14px 18px;margin-top:12px;
+font-size:13.5px;display:none}
+.mon-line.on{display:block}
+.mon-line b{color:var(--gold)}
+/* casos de uso (audio) */
+.prev{margin:8px 0 0;padding-left:20px}.prev li{margin:6px 0;color:#3a3d4a}
+.uses{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:20px 0}
+.uses div{border:1px solid rgba(20,30,97,.14);border-radius:14px;padding:16px 18px;background:#fff}
+.uses b{display:block;color:var(--navy);margin-bottom:4px}
+.uses span{font-size:14px;color:#3a3d4a}
+/* planos de distribucion */
+.plano{margin:18px 0 10px;border-radius:14px;overflow:hidden;border:1px solid rgba(20,30,97,.16);background:#fff}
+.plano img{width:100%;height:auto;display:block}
+.plano figcaption{font-size:12.5px;color:#5d6078;padding:10px 14px;border-top:1px solid rgba(20,30,97,.1);background:var(--cream)}
+.plano-dl{display:inline-block;margin-top:8px;padding:10px 16px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font-weight:600;font-size:14px;text-decoration:none}
+.rotulo{display:inline-block;border:1px solid rgba(20,30,97,.3);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--navy);margin:4px 0 6px}
+/* tarifario electrico */
+.rub-body tr.grp td{font-weight:600;color:var(--navy);background:rgba(20,30,97,.04);font-size:12px;text-transform:uppercase;letter-spacing:.8px}
+.elec-note{padding:12px 18px 16px;font-size:13px;color:#5d6078;margin:0}
+.rub-body table.elec{min-width:0}
+.elec .uni{display:block;font-size:12px;color:#7a7d8c}
+.ref-tag{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--navy);opacity:.7;border:1px solid rgba(20,30,97,.3);border-radius:999px;padding:3px 9px;white-space:nowrap}
+@media(max-width:640px){
+  .rub-head{flex-wrap:wrap}
+  .rub-name{flex:1 1 100%}
+  .rub-head .rub-val{margin-left:auto}
+  .mon-card{padding:16px}
+  .sec:not(.section-light) .tbl td:nth-child(3){color:#5d6078}
+  .rub-body table.elec{min-width:0}
+  /* badge "Tocá para abrir" en condiciones y FAQ: baja de línea en vez de aplastar el título */
+  .devs .dev-head{flex-wrap:wrap}
+  .devs .dev-title{flex:1 1 calc(100% - 40px)}
+  .devs .dev-head .arr{order:2}
+  .devs .dev-head .tap-badge{order:3}
+}
+.pill.fixed{display:inline-flex;align-items:center}
+@media print{
+  .mon-card input{display:none!important}
+  .plano-dl{display:none}
+}
+</style></head><body>
+
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-059 · PROPUESTA COMERCIAL</p>
+    <h1>Casa Berna y Pau</h1>
+    <p class="claim">La casa que responde.</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para la refuncionalización
+      de la casa: iluminación inteligente, climatización, alarma y cámaras, una red WiFi profesional,
+      música en la galería y un panel de control, todo en un mismo sistema y una misma app.</p>
+    <div class="meta">
+      <span>Córdoba</span><span>Refuncionalización</span>
+      <span>Una planta</span><span>Un solo sistema</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#plano">Planos</a></li>
+  <li><a href="#s01">Iluminación</a></li>
+  <li><a href="#s02">Confort</a></li>
+  <li><a href="#s03">Seguridad</a></li>
+  <li><a href="#s04">Entretenimiento</a></li>
+  <li><a href="#s05">Redes</a></li>
+  <li><a href="#s06">Core</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="39">39</span>
+      <small>efectos de luz comandados, seis de ellos regulables</small></div>
+    <div class="kpi"><span class="figure" data-n="4">4</span>
+      <small>cámaras exteriores con luz, flash y sirena</small></div>
+    <div class="kpi"><span class="figure" data-n="4">4</span>
+      <small>puntos WiFi 6, uno exterior para galería y pileta</small></div>
+    <div class="kpi"><span class="figure" data-n="1">1</span>
+      <small>app y un panel para luces, clima, alarma, cámaras y música</small></div>
+  </div>
+  <p><b>Qué necesita la casa.</b> Se está refuncionalizando por completo, en una sola planta: es el
+    momento de dejar resuelta la tecnología mientras se rehace la instalación, en vez de sumarla
+    después sobre paredes terminadas.</p>
+  <p><b>Qué proponemos.</b> Un módulo dentro de cada caja de llave, sensores que encienden la luz
+    sola en baños, pasillos y vestidores, válvulas inteligentes en los radiadores de los dormitorios
+    y control de los dos aires, una alarma inalámbrica con cuatro cámaras, una red WiFi profesional,
+    dos parlantes Sonos en la galería y un servidor de automatización que corre dentro de la casa,
+    con una pantalla de control en el ingreso.</p>
+  <p><b>Inversión estimada.</b> U$D 12.901 — equipos, instalación especializada por punto y
+    programación. Equipos por anticipado, programación en dos partes e instalación según el avance
+    real. La instalación eléctrica se presupuesta aparte después de la visita técnica; sus valores
+    de referencia están en Inversión.</p>
+  <p><b>Próximo paso.</b> Una visita técnica para confirmar los efectos de luz de cada ambiente,
+    la ubicación de los equipos y el alcance de la instalación eléctrica.</p>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="plano">
+  <p class="eyebrow">Planos de muestra</p>
+  <h2>Dónde va cada cosa</h2>
+  <p class="lead">Nuestra distribución sugerida sobre la planta de arquitectura, en dos láminas: una con
+    los efectos de luz, los módulos de cada caja de llave y los sensores, y otra con la red, la
+    seguridad, el clima, la música y el panel de control.</p>
+  <span class="rotulo">Distribución sugerida — referencial, no constituye proyecto de luminotecnia</span>
+  <p>Cada código de la leyenda coincide con el plano. Los marcados con borde punteado se confirman en
+    la visita técnica. No indica modelos de luminaria ni cálculo lumínico: muestra dónde iría cada
+    efecto y cada equipo, para conversar la propuesta.</p>
+  <figure class="plano">
+    <a href="planos/py-2026-059-plano-dispositivos-iluminacion.png" target="_blank" rel="noopener">
+      <img src="planos/py-2026-059-plano-dispositivos-iluminacion.png" alt="Lámina de iluminación: efectos de luz, módulos por caja de llave y sensores" loading="lazy"
+           onerror="this.parentElement.parentElement.style.display='none'"></a>
+    <figcaption>Iluminación · tocá la lámina para abrirla en tamaño completo.</figcaption>
+  </figure>
+  <figure class="plano">
+    <a href="planos/py-2026-059-plano-dispositivos-equipos.png" target="_blank" rel="noopener">
+      <img src="planos/py-2026-059-plano-dispositivos-equipos.png" alt="Lámina de equipos: red, cámaras, alarma, clima, música y panel de control" loading="lazy"
+           onerror="this.parentElement.parentElement.style.display='none'"></a>
+    <figcaption>Equipos · tocá la lámina para abrirla en tamaño completo.</figcaption>
+  </figure>
+  <div class="alert">
+    <h3>Previsión en obra</h3>
+    <p>Lo que conviene dejar resuelto ahora, con la casa abierta. Casi no cuesta hacerlo durante la
+      obra y cuesta varias veces más hacerlo después:</p>
+    <ul class="prev">
+      <li>Neutro junto con el retorno en toda caja de llave.</li>
+      <li>Llave partida —dos cajas contiguas— en los seis puntos regulables: estar, comedor, galería,
+        cocina, suite y dormitorio, con tecla tipo pulsador para el efecto regulable.</li>
+      <li>Caño con cable de red (UTP Cat 6) desde el gabinete hasta cada punto de acceso, cada cámara y
+        la pantalla del ingreso.</li>
+      <li>Caño corrugado con tanza desde el ingreso de internet (fibra o satelital) hasta el gabinete.</li>
+      <li>Tomacorriente doble en circuito propio en el gabinete, un toma junto a cada aire
+        acondicionado y junto a cada parlante de la galería, y caja con 220 V para la pantalla.</li>
+      <li>Pileta: lugar en riel DIN en el tablero de la bomba para el módulo de luz y bomba.</li>
+    </ul>
+  </div>
+  <a class="plano-dl" href="planos/py-2026-059-plano-dispositivos.pdf" target="_blank" rel="noopener">Descargar las dos láminas en PDF A3</a>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="s01">
+  <p class="eyebrow">01 — Sistema</p>
+  <h2>Iluminación</h2>
+  <p class="lead">39 efectos de luz —seis de ellos regulables— y la luz y la bomba de la pileta,
+    comandados desde las llaves, el panel, la app y las escenas. Probá el simulador: así se siente la casa según el momento del día.</p>
+  <p class="hint">👆 Tocá cada pestaña para cambiar de escena, y arrastrá el slider — o tocá
+    cada dispositivo para ver el detalle</p>
+  <div class="sw" role="tablist">
+    <button class="on" onclick="esc(0,this)">Mañana</button>
+    <button onclick="esc(1,this)">Llego a casa</button>
+    <button onclick="esc(2,this)">Cena en la galería</button>
+    <button onclick="esc(3,this)">Noche</button>
+  </div>
+  <div class="scene">
+    <div class="scene-view" id="sv"></div>
+    <div class="scene-body">
+      <h3 id="st">Mañana</h3>
+      <p id="sd"></p>
+      <div class="slabel"><span>Brillo</span><span id="bv">60%</span></div>
+      <input class="slider" type="range" min="0" max="100" value="60" id="br"
+             aria-label="Brillo de la escena">
+    </div>
+  </div>
+  <div class="alert">
+    <h3>La llave sigue siendo la llave</h3>
+    <p>Cada módulo va dentro de la caja de la llave y la llave funciona exactamente igual: se suma el
+      control desde el celular, el panel y las escenas. Como la casa se está refuncionalizando,
+      cada caja de llave se deja con neutro junto con el retorno, que es lo que necesita el módulo.
+      En los seis puntos regulables —estar, comedor, galería, cocina, suite y dormitorio— la llave
+      va partida en dos cajas contiguas, un módulo por caja, y la tecla del efecto regulable es tipo
+      pulsador: un toque enciende o apaga, y manteniéndola apretada sube o baja la intensidad.</p>
+  </div>
+  <p class="note">En baños, toilette, lavadero, vestidores, pasillos y cochera la luz se enciende sola
+    al entrar y se apaga al salir, con sensores de movimiento y de puerta. La llave manual sigue
+    estando. La ubicación de cada efecto está en la lámina de iluminación.</p>
+  <div class="device-grid" id="grid-iluminacion"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="s02">
+  <p class="eyebrow">02 — Sistema</p>
+  <h2>Confort</h2>
+  <p class="lead">Válvulas inteligentes en los radiadores del dormitorio y de la suite, y un Sensibo
+    sobre cada uno de sus dos aires acondicionados: cada espacio de descanso a su temperatura, por
+    horario y desde el celular. Movés el slider y mirás el efecto estimado:</p>
+  <p class="hint">👆 Arrastrá el slider y tocá el switch para comparar — o tocá cada dispositivo
+    para ver el detalle</p>
+  <div class="calc-box" id="confort-calc">
+    <div class="slabel"><span>Temperatura objetivo</span><span id="ctv">22°C</span></div>
+    <input class="slider" type="range" min="17" max="26" value="22" id="ct"
+           oninput="confortT(this.value)" aria-label="Temperatura objetivo">
+    <div class="slabel" style="margin-top:16px">
+      <span>Ahorro estimado vs. uso manual sin control</span>
+      <span id="cav" class="cav-val">~20%</span></div>
+    <p style="font-size:12px;color:#5d6078;margin-top:8px">Estimación referencial de
+      consumo, no una promesa de retorno — varía según aislación, uso real y equipo.</p>
+  </div>
+  <div class="sw">
+    <button class="on" id="cf0" onclick="confortView(0)">Sin control</button>
+    <button id="cf1" onclick="confortView(1)">Con Nova Domus</button>
+  </div>
+  <div class="cmp" id="cfbox"></div>
+  <p class="note">El resto de los radiadores sigue con su cabezal manual; si más adelante querés
+    sumarlos, se agregan válvulas sin rehacer nada.</p>
+  <div class="device-grid" id="grid-confort"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="s03">
+  <p class="eyebrow">03 — Sistema</p>
+  <h2>Seguridad</h2>
+  <p class="lead">Alarma inalámbrica Hikvision AXPro en puertas, ventanales y ambientes, cuatro cámaras
+    exteriores que graban dentro de la casa, y el portón que ya tiene motor, comandado desde la app.</p>
+  <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el detalle</p>
+  <div class="sw">
+    <button class="on" id="a0" onclick="acmp(0)">Alarma común</button>
+    <button id="a1" onclick="acmp(1)">Con Nova Domus</button>
+  </div>
+  <div class="cmp" id="abox"></div>
+  <div class="vbox">
+    <h3>Cámaras sin abono, alarma con aviso al celular</h3>
+    <p>Las cuatro cámaras graban en un grabador Hikvision dentro del gabinete de red, sin nube paga, y
+      se revisan desde el celular. Al armar la alarma, el sistema puede encender luces, cerrar el
+      portón o avisarte con la imagen de la cámara.</p>
+  </div>
+  <p class="eyebrow" style="margin-top:30px">Opcional</p>
+  <h3>Monitoreo 24 h con aviso a la Policía</h3>
+  <p>Monitoreo 24 h con aviso a la Policía de la Provincia de Córdoba — abono de ARS 55.000 por mes
+    + IVA. Es un servicio mensual aparte: no suma a la inversión del proyecto; si lo tildás, se agrega
+    aparte en la forma de pago y en el mensaje de aceptación.</p>
+  <label class="mon-card" id="mon-card">
+    <input type="checkbox" id="mon" onchange="monChange()">
+    <span><b style="display:block;font-size:15.5px">Sumar el monitoreo 24 h</b>
+      <b class="mprice">ARS 55.000 por mes + IVA</b> · abono mensual, aparte de la inversión del
+      proyecto</span>
+  </label>
+  <div class="two">
+    <div><h3>Qué hace</h3><ul>
+      <li>Atiende la alarma las 24 horas, los 365 días.</li>
+      <li>Ante un disparo, llama a tus contactos (mínimo tres) para verificar.</li>
+      <li>Si corresponde, da aviso a la Policía de la Provincia, que envía un móvil.</li>
+    </ul></div>
+    <div><h3>Qué no hace</h3><ul>
+      <li>No envía reportes periódicos: solo actúa ante un disparo.</li>
+      <li>No reemplaza los avisos de la app: seguís recibiéndolos vos.</li>
+    </ul></div>
+  </div>
+  <div class="device-grid" id="grid-seguridad"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="s04">
+  <p class="eyebrow">04 — Sistema</p>
+  <h2>Entretenimiento</h2>
+  <p class="lead">Dos parlantes Sonos Era 100 en la galería, en estéreo, integrados a las escenas de la
+    casa. Son parlantes de interior: van bajo el techo de la galería, protegidos de la lluvia y del
+    riego, en la ubicación que se confirma en la visita técnica.</p>
+  <div class="uses">
+    <div><b>☀ Tarde de pileta</b><span>Tu lista de Spotify en la galería desde el celular de
+      cualquiera de la casa, sin cables ni Bluetooth que se corta.</span></div>
+    <div><b>🍽 Cena con amigos</b><span>La escena "Cena en la galería" baja la luz y arranca la
+      música a un volumen pensado para conversar.</span></div>
+    <div><b>🌙 A dormir</b><span>"Buenas noches" apaga la música junto con las luces: nadie
+      tiene que salir a la galería a buscar el parlante.</span></div>
+  </div>
+  <div class="vbox">
+    <h3>Por qué Sonos y no un parlante Bluetooth</h3>
+    <p>Se conectan por WiFi, así que no se cortan cuando el celular se aleja, suenan en estéreo y
+      el sistema los puede encender, bajar y apagar solo. Si más adelante querés música en otro
+      ambiente, se suma otro Sonos a la misma app sin cambiar nada de lo instalado.</p>
+  </div>
+  <div class="device-grid" id="grid-entretenimiento"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="s05">
+  <p class="eyebrow">05 — Sistema</p>
+  <h2>Redes</h2>
+  <p class="lead">El cimiento de todo lo demás: router, switch PoE y cuatro puntos de acceso WiFi 6
+    TP-Link Omada en un gabinete ordenado, con UPS.</p>
+  <p class="hint">👆 Tocá para ver la diferencia — o tocá cada dispositivo para ver el detalle</p>
+  <div class="sw">
+    <button class="on" id="r0" onclick="rcmp(0)">WiFi doméstico</button>
+    <button id="r1" onclick="rcmp(1)">Red Omada</button>
+  </div>
+  <div class="cmp" id="rbox"></div>
+  <div class="device-grid" id="grid-redes"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec section-light" id="s06">
+  <p class="eyebrow">06 — Sistema</p>
+  <h2>Core</h2>
+  <p class="lead">Servidor de automatización local, antena Zigbee / Thread dedicada y una pantalla de
+    control de 10,1" en el ingreso.</p>
+  <p class="hint">👆 Tocá cada dispositivo para ver el detalle</p>
+  <div class="vbox">
+    <h3>Funciona aunque se corte internet</h3>
+    <p>Las llaves, el panel, las escenas de luz, los horarios, la alarma y la grabación de las cámaras
+      corren dentro de la casa. Internet se necesita para manejar la casa desde afuera, para las
+      notificaciones al celular, para la música por streaming y para los aires: los Sensibo se
+      comandan a través de su nube, así que sin internet los aires quedan con su control remoto.</p>
+  </div>
+  <div class="device-grid" id="grid-core"></div>
+</section>
+</div>
+
+<div class="wrap">
+<section class="sec" id="responsable">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p>Una refuncionalización con tecnología suele terminar con cuatro o cinco proveedores: el
+    electricista, el de la alarma, el de las cámaras, el de la red y el que programa la domótica.
+    Cuando algo deja de responder, cada uno señala al otro. Esa coordinación es la fuente real de las
+    fallas y las demoras, más que cualquier equipo defectuoso.</p>
+  <p><b>Nova Domus es uno solo.</b> Instalamos y programamos todo lo que cotiza esta propuesta —
+    iluminación, clima, alarma, cámaras, red, música y automatización— y, si nos encargás la
+    instalación eléctrica, también la ejecutamos con nuestro equipo.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span>Relevamiento y especificación — planos de muestra, visita
+      técnica y confirmación de cada efecto y ubicación</span></div>
+    <div class="step"><b>02</b><span>Redes e iluminación — gabinete, puntos de acceso y módulos en
+      cada caja de llave</span></div>
+    <div class="step"><b>03</b><span>Seguridad y confort — alarma, cámaras, portón, radiadores y
+      aires</span></div>
+    <div class="step"><b>04</b><span>Automatización Home Assistant — escenas, horarios, app y panel
+      de control</span></div>
+    <div class="step"><b>05</b><span>Entrega documentada + 12 meses de garantía</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th></th><th>Con Nova Domus</th><th>Integradores tradicionales</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td>
+        <td data-label="Con Nova Domus">Uno</td>
+        <td data-label="Integradores tradicionales">Cuatro o más</td></tr>
+      <tr><td>Responsable ante una falla</td>
+        <td data-label="Con Nova Domus">Nova Domus</td>
+        <td data-label="Integradores tradicionales">A definir entre las partes</td></tr>
+      <tr><td>Equipo de trabajo</td>
+        <td data-label="Con Nova Domus">Propio: electricistas matriculados y programadores certificados</td>
+        <td data-label="Integradores tradicionales">Subcontratado por rubro</td></tr>
+      <tr><td>Garantía</td>
+        <td data-label="Con Nova Domus">12 meses sobre el sistema completo</td>
+        <td data-label="Integradores tradicionales">Por equipo y por proveedor</td></tr>
+      <tr><td>Documentación de entrega</td>
+        <td data-label="Con Nova Domus">Incluida</td>
+        <td data-label="Integradores tradicionales">Habitualmente no</td></tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+<div class="section-light">
+<div class="wrap">
+<section class="sec" id="inversion" style="border-top:0">
+  <p class="eyebrow">07 — Inversión</p>
+  <h2>Detalle de la inversión</h2>
+  <p class="lead">Todos los valores en dólares, con IVA incluido en cada ítem y rubro según la
+    alícuota real de cada producto. El desglose neto / IVA está en el total general, más abajo.</p>
+  <div class="bar"><span class="seg" style="flex:2391" title="Iluminación: U$D 2.391"></span><span class="seg" style="flex:896" title="Confort: U$D 896"></span><span class="seg" style="flex:2326" title="Seguridad: U$D 2.326"></span><span class="seg" style="flex:700" title="Entretenimiento: U$D 700"></span><span class="seg" style="flex:1106" title="Redes: U$D 1.106"></span><span class="seg" style="flex:1602" title="Core: U$D 1.602"></span></div>
+  <ul class="legend"><li><i class="dot d0"></i>Iluminación <b>U$D 2.391</b></li><li><i class="dot d1"></i>Confort <b>U$D 896</b></li><li><i class="dot d2"></i>Seguridad <b>U$D 2.326</b></li><li><i class="dot d3"></i>Entretenimiento <b>U$D 700</b></li><li><i class="dot d4"></i>Redes <b>U$D 1.106</b></li><li><i class="dot d5"></i>Core <b>U$D 1.602</b></li></ul>
+  <p class="hint">👆 Tocá cada rubro para ver el detalle ítem por ítem</p>
+  
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Iluminación</span><span class="tap-badge dark">Tocá para abrir</span>
+          <span class="rub-val">U$D 2.391</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Shelly Plus 2PM Gen4 — módulo de dos efectos</td><td class="num">13</td><td class="num">54<span class="iva"> · IVA 21% incl.</span></td><td class="num">702</td></tr><tr><td>Shelly Dimmer Gen4 — regulación de intensidad</td><td class="num">7</td><td class="num">77<span class="iva"> · IVA 21% incl.</span></td><td class="num">539</td></tr><tr><td>Shelly 1PM Mini Gen4 — módulo de un efecto</td><td class="num">11</td><td class="num">38<span class="iva"> · IVA 21% incl.</span></td><td class="num">418</td></tr><tr><td>Shelly Pro 2PM (riel DIN) — luz y bomba de la pileta</td><td class="num">1</td><td class="num">196<span class="iva"> · IVA 21% incl.</span></td><td class="num">196</td></tr><tr><td>Kit Shelly Smart Security XL — 5 sensores de movimiento, 5 de puerta y gateway</td><td class="num">2</td><td class="num">248<span class="iva"> · IVA 21% incl.</span></td><td class="num">496</td></tr><tr><td>Shelly BLU Motion — sensor de movimiento</td><td class="num">1</td><td class="num">40<span class="iva"> · IVA 21% incl.</span></td><td class="num">40</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Confort</span>
+          <span class="rub-val">U$D 896</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Shelly BLU TRV con gateway — válvula termostática de radiador</td><td class="num">3</td><td class="num">148<span class="iva"> · IVA 21% incl.</span></td><td class="num">444</td></tr><tr><td>Sensibo Air — control inteligente de aire acondicionado</td><td class="num">2</td><td class="num">226<span class="iva"> · IVA 21% incl.</span></td><td class="num">452</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Seguridad</span>
+          <span class="rub-val">U$D 2.326</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Kit alarma Hikvision AXPro DS-PWA48-Kit-WB — central, control, PIR y magnético</td><td class="num">1</td><td class="num">415<span class="iva"> · IVA 21% incl.</span></td><td class="num">415</td></tr><tr><td>Teclado Hikvision AXPro DS-PK1-E-WB</td><td class="num">1</td><td class="num">88<span class="iva"> · IVA 21% incl.</span></td><td class="num">88</td></tr><tr><td>Detector de movimiento AXPro DS-PDP15P-EG2-WB</td><td class="num">6</td><td class="num">58<span class="iva"> · IVA 21% incl.</span></td><td class="num">348</td></tr><tr><td>Contacto magnético AXPro DS-PDMC-EG2-WB</td><td class="num">5</td><td class="num">44<span class="iva"> · IVA 21% incl.</span></td><td class="num">220</td></tr><tr><td>Sirena interior AXPro DS-PS1-I-WB</td><td class="num">1</td><td class="num">76<span class="iva"> · IVA 21% incl.</span></td><td class="num">76</td></tr><tr><td>Sirena exterior AXPro DS-PS1-E-WB</td><td class="num">1</td><td class="num">103<span class="iva"> · IVA 21% incl.</span></td><td class="num">103</td></tr><tr><td>Cámara Hikvision DS-2CD1043G2-LIU/SL — 4MP, luz, flash y sirena</td><td class="num">4</td><td class="num">141<span class="iva"> · IVA 21% incl.</span></td><td class="num">564</td></tr><tr><td>Grabador Hikvision DS-7604NXI-K1 — 4 canales AcuSense</td><td class="num">1</td><td class="num">233<span class="iva"> · IVA 21% incl.</span></td><td class="num">233</td></tr><tr><td>Disco Seagate SkyHawk 2TB — línea videovigilancia</td><td class="num">1</td><td class="num">240<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">240</td></tr><tr><td>Shelly 1 Gen4 — apertura del portón desde la app</td><td class="num">1</td><td class="num">39<span class="iva"> · IVA 21% incl.</span></td><td class="num">39</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Entretenimiento</span>
+          <span class="rub-val">U$D 700</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Sonos Era 100 — parlante inteligente</td><td class="num">2</td><td class="num">350<span class="iva"> · IVA 21% incl.</span></td><td class="num">700</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Redes</span>
+          <span class="rub-val">U$D 1.106</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Router TP-Link Omada ER605</td><td class="num">1</td><td class="num">68<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">68</td></tr><tr><td>Switch TP-Link Omada TL-SG2218P — 16 puertos PoE+</td><td class="num">1</td><td class="num">256<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">256</td></tr><tr><td>Punto de acceso TP-Link Omada EAP610 — WiFi 6</td><td class="num">3</td><td class="num">101<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">303</td></tr><tr><td>Punto de acceso exterior TP-Link Omada EAP610-Outdoor — WiFi 6</td><td class="num">1</td><td class="num">133<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">133</td></tr><tr><td>Gabinete mural GLC 9U</td><td class="num">1</td><td class="num">142<span class="iva"> · IVA 21% incl.</span></td><td class="num">142</td></tr><tr><td>Bandeja GLC 1U</td><td class="num">1</td><td class="num">19<span class="iva"> · IVA 21% incl.</span></td><td class="num">19</td></tr><tr><td>Canal de tensión GLC CT5000 — 5 tomas</td><td class="num">1</td><td class="num">63<span class="iva"> · IVA 21% incl.</span></td><td class="num">63</td></tr><tr><td>Organizador de cables GLC 1U</td><td class="num">1</td><td class="num">10<span class="iva"> · IVA 21% incl.</span></td><td class="num">10</td></tr><tr><td>UPS Eaton 5E 1500VA</td><td class="num">1</td><td class="num">112<span class="iva"> · IVA 10,5% incl.</span></td><td class="num">112</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+      <article class="rub">
+        <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+          <span class="rub-name">Core</span>
+          <span class="rub-val">U$D 1.602</span>
+          <span class="arr" aria-hidden="true">▾</span>
+        </button>
+        <div class="rub-body"><div class="tw">
+          <table>
+            <thead><tr><th>Ítem</th><th class="num">Cant.</th>
+              <th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead>
+            <tbody><tr><td>Home Assistant Green — servidor de automatización</td><td class="num">1</td><td class="num">548<span class="iva"> · IVA 21% incl.</span></td><td class="num">548</td></tr><tr><td>Home Assistant SkyConnect — antena Zigbee / Thread</td><td class="num">1</td><td class="num">91<span class="iva"> · IVA 21% incl.</span></td><td class="num">91</td></tr><tr><td>Shelly Wall Display XL — panel de control de 10,1&quot;</td><td class="num">1</td><td class="num">963<span class="iva"> · IVA 21% incl.</span></td><td class="num">963</td></tr></tbody>
+          </table>
+        </div></div>
+      </article>
+  <div class="totals">
+    <div class="trow"><span>Subtotal equipos (neto)</span>
+      <b>U$D 7.543</b></div>
+    <div class="trow sub"><span>IVA equipos (discriminado por ítem)</span>
+      <span>U$D 1.478</span></div>
+    <div class="trow"><span>Subtotal equipos (con IVA)</span>
+      <b>U$D 9.021</b></div>
+    <div class="trow"><span>Mano de obra especializada por punto</span>
+      <b>U$D 2.707</b></div>
+    <div class="trow"><span>Programación y comisionado</span>
+      <b>U$D 1.173</b></div>
+    <div class="trow big"><span>Total estimado del proyecto</span>
+      <span>U$D 12.901</span></div>
+  </div>
+  <p class="note">El presupuesto incluye un margen de repuesto en los módulos de iluminación, para
+    absorber lo que aparezca en la obra sin rehacer el presupuesto. Los planos de muestra se
+    incluyen sin cargo.</p>
+
+  <h3 style="margin-top:34px">Instalación eléctrica</h3>
+  <p>La instalación eléctrica no está en el total: se presupuesta aparte, con las cantidades reales,
+    después de la visita técnica. Para que tengas una referencia desde ahora, estos son nuestros
+    valores por unidad.</p>
+  <article class="rub">
+    <button class="rub-head" onclick="tog(this)" aria-expanded="false">
+      <span class="rub-name">Instalación eléctrica — tarifario de referencia</span>
+      <span class="ref-tag">Sin total</span>
+      <span class="arr" aria-hidden="true">▾</span>
+    </button>
+    <div class="rub-body"><div class="tw">
+      <table class="elec">
+        <thead><tr><th>Concepto</th><th class="num">U$D</th></tr></thead>
+        <tbody><tr class="grp"><td colspan="2">Bocas — base Boca Completa</td></tr><tr><td>Boca de iluminación de uso general (IUG)<span class="uni">por boca</span></td><td class="num">35</td></tr><tr><td>Boca de tomacorriente de uso general (TUG)<span class="uni">por boca</span></td><td class="num">35</td></tr><tr><td>Boca de llave de iluminación (LL)<span class="uni">por boca</span></td><td class="num">35</td></tr><tr><td>Circuito<span class="uni">por circuito</span></td><td class="num">35</td></tr><tr><td>Boca de tomacorriente de uso especial (TUE)<span class="uni">por boca</span></td><td class="num">42</td></tr><tr><td>Boca de señales débiles: datos, TV, cámaras (TSD)<span class="uni">por boca</span></td><td class="num">41,26</td></tr><tr><td>Circuito de alimentación de carga única (ACU)<span class="uni">por circuito</span></td><td class="num">41,26</td></tr><tr class="grp"><td colspan="2">Canalización y cableado</td></tr><tr><td>Canalización embutida en Durlock, caño PVC rígido<span class="uni">por boca</span></td><td class="num">32,97</td></tr><tr><td>Recableado sin canalizar, si se reaprovecha la cañería existente<span class="uni">por boca</span></td><td class="num">16,41</td></tr><tr class="grp"><td colspan="2">Tableros y puesta a tierra</td></tr><tr><td>Tablero principal monofásico con disyuntor, térmica y puesta a tierra<span class="uni">por unidad</span></td><td class="num">178,81</td></tr><tr><td>Tablero seccional de 8 a 36 polos<span class="uni">por unidad</span></td><td class="num">402,31</td></tr><tr><td>Módulo bipolar adicional (disyuntor, térmica u otro)<span class="uni">por unidad</span></td><td class="num">37,04</td></tr><tr><td>Puesta a tierra: jabalina, caja de inspección y conexión a bornera<span class="uni">por unidad</span></td><td class="num">88,80</td></tr><tr class="grp"><td colspan="2">Colocación de artefactos</td></tr><tr><td>Spot o artefacto chico embutido en cielorraso<span class="uni">por unidad</span></td><td class="num">11,85</td></tr><tr><td>Aplique de pared interior<span class="uni">por unidad</span></td><td class="num">12,84</td></tr><tr><td>Colgante liviano<span class="uni">por unidad</span></td><td class="num">26,25</td></tr><tr><td>Colgante pesado<span class="uni">mínimo</span></td><td class="num">45,93</td></tr><tr><td>Tira LED en perfil de aluminio embutido<span class="uni">por metro</span></td><td class="num">9,87</td></tr><tr><td>Luminaria exterior amurada a pared<span class="uni">por unidad</span></td><td class="num">28,27</td></tr><tr class="grp"><td colspan="2">Documentación</td></tr><tr><td>Certificado de instalación de la vivienda (hasta 20 bocas)<span class="uni">por certificado</span></td><td class="num">195,71</td></tr><tr><td>Certificado — por boca adicional<span class="uni">por boca</span></td><td class="num">3,48</td></tr></tbody>
+      </table>
+      <p class="elec-note">Valores de referencia en dólares, sujetos a la visita técnica; no suman al
+        total del proyecto. Cada boca se cotiza como Boca Completa: 60% canalización y amurado, 30%
+        cableado reglamentario y 10% conexión de módulos y portalámparas. En una boca de iluminación
+        con artefacto se cobra el 90% de la boca más la colocación del artefacto. Con Factura A se
+        suma IVA 21%.</p>
+    </div></div>
+  </article>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="pago">
+  <p class="eyebrow">08 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Equipos por anticipado, programación en dos partes e instalación certificada según el
+    avance real del trabajo.</p>
+  <div class="pay" id="pay"></div>
+  <div class="chk">
+    <input type="checkbox" id="fa" onchange="renderPay()">
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación e instalación.
+      Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-row" style="display:none">
+      <span>IVA 21% sobre programación e instalación</span>
+      <span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total</span>
+      <span id="gt">U$D 12.901</span></div>
+  </div>
+  <div class="mon-line" id="mon-line"><b>Monitoreo 24 h (opcional):</b> ARS 55.000 por mes + IVA.
+    Abono mensual aparte: no forma parte del total ni de las etapas de pago.</div>
+</section>
+</div>
+
+<div class="section-light"><div class="wrap">
+<section class="sec" id="condiciones" style="border-top:0">
+  <p class="eyebrow">09 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Emitido el 18/11/2026, con validez de 15 días corridos. Todos los precios están expresados en dólares estadounidenses. La referencia de conversión a pesos es la cotización oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago efectivo (referencia al 18/11/2026: $1.580). Los equipos se confirman a la cotización del momento de la compra; sus precios son de canal profesional, ya bonificados por tratarse de un proyecto de obra.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Equipos: 100% por anticipado, antes de instalar, para asegurar el precio y la disponibilidad de importación. Programación y comisionado: 60% al iniciar la programación y 40% contra la entrega final documentada. Instalación: se certifica según el avance real del trabajo, con certificación semanal; el monto indicado es de referencia sobre el total presupuestado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Formas de cobro</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Transferencia bancaria, cheque o e-cheq, o efectivo. Los pagos se hacen en dólares o en pesos, al tipo de cambio oficial del Banco de la Nación Argentina, tipo vendedor, del día del pago efectivo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Instalación eléctrica — Boca Completa</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La instalación eléctrica no forma parte del total de esta propuesta: se presupuesta aparte después de la visita técnica, con los valores de referencia que figuran en Inversión. Cada boca se cotiza como Boca Completa (base AAIE): 60% canalización y amurado, 30% cableado reglamentario y 10% conexión de módulos y portalámparas. Si la ejecuta otro electricista, cada caja de llave tiene que quedar con neutro junto con el retorno, y el gabinete de red, los puntos de acceso, las cámaras y la pantalla con su caño y su cable de red, según las láminas de distribución sugerida.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Proyecto aproximado y planos de muestra</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Este es un proyecto aproximado, no un proyecto cerrado: surge de la planta de arquitectura y de lo que nos contaron, sin plano eléctrico ni de iluminación. Los efectos de luz están estimados por ambiente y se confirman en la visita técnica; un efecto que pasa de llave común a regulable, o al revés, mueve el presupuesto del orden de U$D 30 por punto. Las láminas son una distribución sugerida, referencial: no constituyen proyecto de luminotecnia ni plano de obra, y se incluyen sin cargo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Monitoreo 24 h (opcional)</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Servicio opcional de Nova Domus, aparte de este presupuesto: abono de ARS 55.000 por mes + IVA, por central, que se actualiza por IPC. El alta se abona con un mes por adelantado y tiene una permanencia mínima de 6 meses. Incluye 5 avisos a la Policía por mes; cada aviso adicional se cobra ARS 2.000. Requiere al menos tres contactos de verificación. Ante un disparo, la central de monitoreo llama a los contactos para verificar y, si corresponde, da aviso a la Policía de la Provincia de Córdoba. No envía reportes periódicos. La central se comunica por WiFi; un respaldo por chip 4G no está incluido: si se quiere sumar, se evalúa en la visita y el chip queda a cargo del cliente.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos, repuestos y excedentes</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos son de importación y se compran contra pedido firme. Una vez emitida la orden de compra no admiten cancelación ni devolución. El presupuesto incluye un margen de repuesto en los módulos de iluminación para absorber cambios sin rehacer el presupuesto; los que no se usen, y los excedentes de material, quedan en poder del cliente, ya que fueron facturados como parte del proyecto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Visitas técnicas</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Nova Domus coordina cada visita con el responsable de la obra, según el avance. Si la instalación eléctrica no la ejecuta Nova Domus y una visita no se puede completar porque falta algo de lo indicado (neutro en las cajas, caños o cables de red), la nueva visita se coordina cuando se complete. Las visitas que se requieran por esa falta, por cambios en la instalación hechos por terceros o por cambios de alcance se cotizan aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Calefacción y aires acondicionados</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las válvulas inteligentes van en los radiadores del dormitorio y de la suite, sobre la caldera existente; el resto de los radiadores sigue con su cabezal manual. Las válvulas traen adaptadores para los cuerpos de válvula más comunes; el de cada radiador se confirma en la visita técnica. Los Sensibo controlan los aires acondicionados de esos dos ambientes por infrarrojo, con su control remoto de fábrica como respaldo. La provisión e instalación de los aires y el service de la caldera no forman parte de este alcance.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Grabación de las cámaras</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Las cuatro cámaras graban en el grabador Hikvision, sin abono de nube, en un disco Seagate SkyHawk de 2TB incluido en la propuesta. La cantidad de días de grabación depende de la resolución y del movimiento, y se ajusta con el cliente al poner en marcha el sistema. El grabador admite un disco de hasta 16TB si más adelante se quiere ampliar.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización, responsable de obra y certificación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por variación del Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante. Nova Domus designa un responsable único como interlocutor durante toda la ejecución. La instalación se certifica por avance, con certificación semanal. Al finalizar se entrega la documentación del sistema: inventario de dispositivos, esquema de red, credenciales y manual de uso.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Facturación</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Si se necesita Factura A, se suma IVA 21% sobre programación e instalación. Los equipos ya llevan su IVA discriminado por ítem, según la alícuota de cada producto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía y post-venta</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Doce meses de garantía sobre el sistema completo desde la entrega documentada, cubriendo mano de obra y programación. Los equipos mantienen además la garantía de su fabricante. Durante ese período, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá cada marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">SHELLY</button><button class="pill" onclick="marca(1,this)">HOME ASSISTANT</button><button class="pill" onclick="marca(2,this)">HIKVISION</button><button class="pill" onclick="marca(3,this)">TP-LINK</button><button class="pill" onclick="marca(4,this)">SENSIBO</button><button class="pill" onclick="marca(5,this)">SONOS</button>
+  </div>
+  <div class="ficha" id="f0"><h3>SHELLY</h3><p>Fuimos los primeros en instalar Shelly en la provincia, a fines de 2023. Somos integradores y revendedores — no distribuidores — de estos relés y módulos WiFi/Zigbee pensados para retrofit sobre instalación eléctrica existente, con integración estable a Home Assistant.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/tBUUtSxykeA" loading="lazy" title="SHELLY" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f1"><h3>HOME ASSISTANT</h3><p>Nos especializamos en programar, integrar y escalar Home Assistant en obras complejas. Es un sistema de automatización de código abierto que corre local, en la vivienda, sin depender de la nube de un tercero — no ata al cliente a una sola marca.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/p07oNkemrDk" loading="lazy" title="HOME ASSISTANT" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f2"><h3>HIKVISION</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="HIKVISION" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f3"><h3>TP-LINK</h3><p>Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de domótica/seguridad del de invitados desde un solo controlador.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" title="TP-LINK" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f4"><h3>SENSIBO</h3><p>Fabricante especializado en climatización inteligente para aires acondicionados split ya instalados. Lo elegimos porque suma sensor de presencia real — algo que el control remoto de fábrica del aire no tiene.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/gRa6Vb89U6E" loading="lazy" title="SENSIBO" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div><div class="ficha" id="f5"><h3>SONOS</h3><p>Sonos inventó el audio multiroom inalámbrico y sigue siendo la referencia mundial en sonido para el hogar, con soporte nativo para los principales servicios de streaming. Nova Domus la elige por la solidez de su ecosistema y la facilidad de integrarla en escenas de audio junto al resto de la casa.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/DwIdo-4jwNk" loading="lazy" title="SONOS" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
+  <div class="vbox">
+    <h3>Sin ataduras a un fabricante</h3>
+    <p>El sistema corre sobre Home Assistant, que es de código abierto y soporta dispositivos de
+      miles de fabricantes distintos. Si mañana querés sumar o cambiar un equipo, se integra al
+      mismo sistema sin rehacer la instalación.</p>
+  </div>
+</section>
+</div>
+<div class="section-light"><div class="wrap">
+<section class="sec" id="faq" style="border-top:0">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="lead">Las dudas más comunes sobre sumar tecnología a una casa en refuncionalización.</p>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Por qué la instalación eléctrica no está en el total?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Porque todavía no hay plano eléctrico: cotizarla ahora sería adivinar cantidades. Después de la visita técnica la presupuestamos con las bocas reales, sobre los valores de referencia que ya te mostramos en Inversión.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Si se corta internet, deja de funcionar todo?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Las llaves, el panel, las escenas de luz, los radiadores, la alarma y la grabación de las cámaras corren dentro de la casa y siguen funcionando. Lo que necesita internet es manejar la casa desde afuera, ver las cámaras a distancia, recibir las notificaciones, la música por streaming y los aires acondicionados, que se comandan a través de la nube de Sensibo: sin internet, los aires se usan con su control remoto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Si se corta la luz?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El router, el switch, los puntos de acceso, el grabador y el servidor de automatización están sobre una UPS, que los mantiene ante cortes cortos y microcortes. La central de alarma tiene su propia batería de respaldo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Las llaves de luz cambian?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No hace falta. Cada módulo va dentro de la caja de la llave y la llave sigue funcionando igual. Podés elegir la línea de llaves que más te guste para la refuncionalización, con una condición: en los seis puntos regulables la tecla del efecto regulable tiene que ser tipo pulsador, para subir y bajar la intensidad desde la pared.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay algún costo recurrente?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No es obligatorio ninguno. El sistema de automatización no necesita licencia ni abono, y las cámaras graban en casa, sin nube paga. Lo único opcional es el monitoreo 24 h de la alarma, si lo querés sumar.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Es obligatorio el monitoreo?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Sin monitoreo, la alarma te avisa a vos y a quien elijas directo en la app. El monitoreo suma a alguien que atiende las 24 horas y da aviso a la Policía si corresponde.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Quién administra el sistema?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Vos, desde la app y el panel: escenas, horarios, usuarios, la alarma y las cámaras. Nova Domus hace la configuración inicial, te la entrega documentada y, si lo autorizás, mantiene un acceso remoto para resolver problemas y hacer cambios sin ir a la casa. Las claves y el control quedan siempre en tus manos.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿No queda obsoleto en unos años?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El riesgo existe en cualquier tecnología, y por eso elegimos piezas que lo bajan: Home Assistant es de código abierto y se actualiza todos los meses, los módulos van dentro de las cajas y se cambian uno por uno sin tocar paredes, y la red usa estándares abiertos (WiFi 6, Zigbee, Thread). Si un equipo queda viejo, se reemplaza ese equipo, no el sistema.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si algo falla?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Durante los primeros 12 meses, cualquier falla del sistema la resuelve Nova Domus sin costo de mano de obra. Los equipos mantienen además la garantía de cada fabricante. Muchas cosas se diagnostican y se resuelven a distancia, sin ir a la casa.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Quedo atado a Nova Domus?</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Home Assistant es de código abierto: la configuración queda documentada y es portable. Preferimos que sigas con nosotros porque el servicio funciona, no porque no tengas otra opción.</p></div></article>
+  </div>
+</section>
+</div></div>
+
+<div class="wrap">
+<section class="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Aceptar la propuesta</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu conformidad coordinamos la visita técnica, confirmamos
+    los efectos y las ubicaciones, y compramos los equipos para acompañar el ritmo de la obra.</p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y estoy de acuerdo con el alcance y las condiciones.</label>
+  </div>
+  <a class="btn" id="go" href="https://wa.me/5493516747513?text=Hola%20Nova%20Domus%2C%20revis%C3%A9%20la%20propuesta%20PY-2026-059%20de%20la%20Casa%20Berna%20y%20Pau%20por%20U%24D%2012.901%20y%20quiero%20avanzar." aria-disabled="true" target="_blank"
+     rel="noopener">Aceptar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-059</b> · Casa Berna y Pau<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring"
+            stroke-dasharray="163.4" stroke-dashoffset="163.4"
+            stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><?xml version="1.0" standalone="no"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"> <metadata> Created by potrace 1.16, written by Peter Selinger 2001-2019 </metadata> <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)" fill="#fdfbf0" stroke="none"> <path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11 388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207 -207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1 -356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47 122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2 -435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202 208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522 l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1 314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3 159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3 -485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54 -182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0 -6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9 -25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2 -179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51 50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47 14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0 -177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305 -12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39 -12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310 2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4 -49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14 -4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1 50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36 -17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8 -20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0 138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160 -60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15 5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80 45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27 7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040 2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238 c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26 100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205 200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0 173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35 -31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2 -95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33 -9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94 -20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2 -65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179 158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654 c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85 0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8 -13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44 -67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523 1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021 1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10 676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523 0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516 5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/> </g> </svg></span>
+</button>
+
+<script>
+var T={"eq": 9021, "mo": 2707, "prog": 1173, "p60": 704, "p40": 469, "tot": 12901};
+var PY="PY-2026-059", MON_ARS=55000;
+var ESC=[["Mañana", "linear-gradient(160deg,#e8c98a,#7c86c2 70%)", "La luz de la cocina arranca suave, la válvula del dormitorio ya templó el ambiente antes de levantarte y, al desarmar la alarma, se apagan las luces que quedaron de noche."], ["Llego a casa", "linear-gradient(160deg,#cfe0f5,#a9b0d6 70%)", "Abrís el portón desde el celular, se desarma la alarma y se encienden el ingreso y el recibidor. Si avisaste que volvías, el aire de la suite ya está trabajando."], ["Cena en la galería", "linear-gradient(160deg,#c8a96e,#2b3a86 75%)", "Un toque en el panel: la galería y el comedor bajan a un tono cálido, se encienden la pileta y el parque, y los Sonos arrancan con tu lista."], ["Noche", "linear-gradient(160deg,#2b3a7a,#0B132B 70%)", "\"Buenas noches\" desde el panel: se apagan todas las luces y la música, los radiadores pasan a modo descanso y se arma la alarma. Si una puerta quedó abierta, te avisa antes de armar."]];
+var ACMP=[["Alarma común", false, ["Teclado y sirena, sin aviso al celular", "No sabés qué puerta disparó ni si quedó una abierta", "Las cámaras van por su lado y graban sin avisar", "Cableada: hay que canalizar cada abertura"]], ["Con Nova Domus", true, ["Aviso inmediato al celular, con la zona exacta que se disparó", "Te avisa si querés armar con una puerta abierta", "Las cámaras distinguen personas de animales y pueden disparar luz, flash y sirena", "Inalámbrica: sin canalizar cada abertura"]]];
+var RCMP=[["WiFi doméstico", false, ["Un router del proveedor para toda la casa: no llega bien a la suite ni a la galería", "Celulares, cámaras y domótica en la misma red", "Repetidores con nombres distintos que cortan al moverte", "Si algo falla, nadie lo ve hasta que alguien se queja"]], ["Red Omada", true, ["Cuatro puntos WiFi 6, uno exterior para galería y pileta", "Redes separadas: familia, equipos de la casa e invitados", "Un solo nombre de red: el celular pasa de un punto a otro sin cortes", "Administrada a distancia: vemos y resolvemos sin ir a la casa"]]];
+var CCMP=[["Sin control", false, ["Radiadores a una sola temperatura, se use o no el ambiente", "Aire prendido de más, sin nadie en el ambiente", "Solo con el control remoto, que nunca está donde lo buscás", "No se puede templar antes de llegar"]], ["Con Nova Domus", true, ["Cada dormitorio a su temperatura y con su horario", "Temperatura real del ambiente, no la del equipo", "Lo templás antes de llegar a casa", "Se apaga solo por horario o al armar la alarma"]]];
+var DEVICES={"iluminacion": [{"n": "Shelly Plus 2PM Gen4", "q": 13, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800238070717-4409.jpg", "desc": "Va dentro de la caja de la llave y comanda los dos efectos de esa caja: la llave funciona como siempre y se suma el control desde el celular, el panel y las escenas. Mide el consumo de cada efecto."}, {"n": "Shelly Dimmer Gen4", "q": 7, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-dimmer-gen4.png", "desc": "Regula la intensidad donde importa: estar, comedor, cocina, galería, suite y dormitorio. Luz plena para cocinar o leer, baja para una cena o una película."}, {"n": "Shelly 1PM Mini Gen4", "q": 11, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1pm-mini-gen4.jpg", "desc": "Módulo compacto para las cajas de un solo efecto: vestidores, lavadero, cochera, pasillos y el segundo efecto de los ambientes con dimmer."}, {"n": "Shelly Pro 2PM", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235268018.png", "desc": "Va en riel DIN, en el tablero de la pileta: comanda la luz y la bomba, con horario de filtrado y encendido desde el celular."}, {"n": "Kit de sensores Shelly XL", "q": 2, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/3800235266762.png", "desc": "Cada kit trae 5 sensores de movimiento, 5 de puerta y el gateway. En baños, toilette, lavadero, vestidores, pasillos y cochera la luz se enciende sola al entrar y se apaga al salir, sin perder la llave."}, {"n": "Sensor de movimiento Shelly BLU", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/3800235266700.png", "desc": "Completa los sensores de movimiento de los lugares de paso. A pila: se pega, sin cables."}], "confort": [{"n": "Válvula termostática Shelly BLU TRV", "q": 3, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/shelly/662.png", "desc": "Reemplaza el cabezal de los radiadores del dormitorio y de la suite: cada ambiente a su temperatura y por horario, desde el celular o las escenas."}, {"n": "Sensibo Air", "q": 2, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/sen-air-crl-01-b2b.jpg", "desc": "Uno sobre cada aire acondicionado de los espacios de descanso: lo manejás desde el celular o por horario, y lee la temperatura real del ambiente, no la del equipo."}], "seguridad": [{"n": "Kit de alarma Hikvision AXPro", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/135.jpg", "desc": "Central inalámbrica con comunicación por WiFi, control remoto, detector de movimiento y contacto magnético. Avisa al celular con la zona exacta que se disparó."}, {"n": "Teclado AXPro", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pk1-e-wb.webp", "desc": "En el ingreso, para armar y desarmar sin el celular. También es requisito del monitoreo 24 h, si lo sumás."}, {"n": "Detector de movimiento AXPro", "q": 6, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdp15p-eg2-wb.webp", "desc": "Junto con el del kit cubren comedor, estar, cocina, recibidor, playroom, pasillo de dormitorios y oficina Pau."}, {"n": "Contacto magnético AXPro", "q": 5, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/ds-pdmc-eg2-wb-b.webp", "desc": "Junto con el del kit cubren la puerta principal, la del lavadero, el portón, el ventanal a la galería, la puerta ventana de la suite y la ventana de la oficina Pau. El del portón se confirma en la visita según el tipo de portón: si es corredizo o queda expuesto, lleva un contacto de servicio pesado, que se cotiza aparte."}, {"n": "Sirena interior AXPro", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/203.jpg", "desc": "Inalámbrica, en el recibidor."}, {"n": "Sirena exterior AXPro", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-ps1-e-wb.webp", "desc": "Inalámbrica, en el frente: disuade antes de que alguien entre."}, {"n": "Cámara Hikvision 4MP con luz, flash y sirena", "q": 4, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-2CD1043G2-LIU/SL.jpg", "desc": "Cuatro cámaras exteriores: ingreso peatonal, acceso vehicular, galería y pileta, y lateral. De noche filman en color, y ante una persona pueden encender la luz y disparar flash y sirena."}, {"n": "Grabador Hikvision AcuSense de 4 canales", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-7604NXI-K1(D).png", "desc": "Graba las cuatro cámaras dentro de la casa, sin abono de nube, y distingue personas y vehículos de hojas y animales: menos falsas alarmas."}, {"n": "Disco Seagate SkyHawk 2TB", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/seagate/st2000vx017.jpg", "desc": "Disco de línea videovigilancia, hecho para grabar las 24 horas."}, {"n": "Shelly 1 Gen4", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-1-gen4.png", "desc": "Va en la caja del motor del portón existente: lo abrís desde el celular o el panel, y con el contacto del portón el sistema puede avisarte si quedó abierto."}], "entretenimiento": [{"n": "Sonos Era 100", "q": 2, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/sonos/sonos-era-100.jpg", "desc": "Dos parlantes en la galería, en estéreo, bajo techo y protegidos de la lluvia y del riego: música desde Spotify, AirPlay o la app de Sonos, y escenas que la encienden con la luz de la galería."}], "redes": [{"n": "Router TP-Link Omada ER605", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/er605.png", "desc": "Recibe internet y separa la red de la familia, la de los equipos de la casa y la de invitados. Se administra desde la nube de Omada."}, {"n": "Switch Omada de 16 puertos PoE+", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/tl-sg2218p.png", "desc": "Conecta y alimenta por el mismo cable los puntos de acceso y las cámaras: sin fuentes sueltas en el techo."}, {"n": "Punto de acceso WiFi 6 Omada EAP610", "q": 3, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/eap610.jpg", "desc": "Tres en el interior: estar y cocina, comedor y oficina Berna, dormitorios y playroom. Un solo nombre de red en toda la casa."}, {"n": "Punto de acceso exterior EAP610-Outdoor", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/eap610-out.jpg", "desc": "Lleva el WiFi a la galería y la pileta, con protección para intemperie."}, {"n": "Gabinete mural 9U con accesorios", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/glc/115.jpg", "desc": "Ordena router, switch, grabador, servidor y UPS en un solo lugar, con bandeja, canal de tensión y organizador de cables."}, {"n": "UPS Eaton 5E 1500VA", "q": 1, "foto": null, "desc": "Mantiene la red, el grabador y el servidor andando ante cortes de luz cortos y microcortes."}], "core": [{"n": "Home Assistant Green", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/209.jpg", "desc": "El cerebro del sistema. Corre dentro de la casa, no en la nube de un tercero: escenas y automatismos siguen andando aunque se corte internet."}, {"n": "Antena SkyConnect", "q": 1, "foto": "https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/home-assistant/1.jpg", "desc": "La antena que habla con los dispositivos Zigbee y Thread, una red propia de la domótica que no compite con el WiFi."}, {"n": "Shelly Wall Display XL", "q": 1, "foto": "https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/shelly-wall-display-xl.png", "desc": "Pantalla de 10,1\" en el ingreso: escenas, luces, clima, alarma, cámaras y música con un toque."}]};
+function fmt(v){return 'U$D\u00a0'+Math.round(v).toLocaleString('es-AR');}
+function fmtArs(v){return 'ARS\u00a0'+Math.round(v).toLocaleString('es-AR');}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+window.addEventListener('resize',function(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+});
+function esc(i,btn){
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('sv').style.background=ESC[i][1];
+  document.getElementById('st').textContent=ESC[i][0];
+  document.getElementById('sd').textContent=ESC[i][2];
+}
+var br=document.getElementById('br');
+br.addEventListener('input',function(){
+  document.getElementById('bv').textContent=br.value+'%';
+  document.getElementById('sv').style.opacity=(0.35+br.value/100*0.65).toFixed(2);
+});
+function sw2(ids,box,DATA,i){
+  document.getElementById(ids[0]).classList.toggle('on',i===0);
+  document.getElementById(ids[1]).classList.toggle('on',i===1);
+  var b=document.getElementById(box), d=DATA[i];
+  b.classList.toggle('good',d[1]);
+  b.innerHTML='<h3>'+d[0]+'</h3><ul>'+d[2].map(function(x){
+    return '<li>'+(d[1]?'✓':'✕')+' '+x+'</li>';}).join('')+'</ul>';
+}
+function acmp(i){sw2(['a0','a1'],'abox',ACMP,i);}
+function rcmp(i){sw2(['r0','r1'],'rbox',RCMP,i);}
+function confortView(i){sw2(['cf0','cf1'],'cfbox',CCMP,i);}
+function confortT(v){
+  document.getElementById('ctv').textContent=v+'°C';
+  var ahorro=Math.max(8,20-Math.abs(v-21)*2).toFixed(0);
+  document.getElementById('cav').textContent='~'+ahorro+'%';
+}
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d);
+}
+function renderDeviceGrid(id,key){
+  var el=document.getElementById(id); if(!el) return;
+  var isLight=!!el.closest('.section-light');
+  el.innerHTML=DEVICES[key].map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+d.foto+'" alt="'+d.n+'" loading="lazy" onerror="imgErr(this)">':'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    var badge=i===0?('<span class="tap-badge'+(isLight?' dark':'')+'">Tocá para abrir</span>'):'';
+    return '<article class="dev" id="'+id+'-'+i+'">'
+     +'<button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+     +'<span class="dev-title">'+d.n+'<span class="dc-qty">'+d.q+' unidad'+(d.q>1?'es':'')+'</span></span>'
+     +badge+'<span class="arr" aria-hidden="true">▾</span></button>'
+     +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+d.desc+'</p></div></div>'
+     +'</article>';
+  }).join('');
+}
+['iluminacion','confort','seguridad','entretenimiento','redes','core'].forEach(function(k){renderDeviceGrid('grid-'+k,k);});
+
+//CALC-START
+// Pago: cada variable de T (eq, mo, prog) aparece en una etapa. El monitoreo NO entra en ninguna suma.
+function calc(fa){
+  var iva=fa?Math.round((T.prog+T.mo)*0.21):0;
+  var rows=[
+    ['Equipos — 100%','Por anticipado, antes de instalar. Asegura el precio y la disponibilidad de importación.',T.eq,''],
+    ['Programación — 60% al inicio','Al arrancar la programación de escenas y automatismos.',T.p60,''],
+    ['Programación — 40% a la entrega','Comisionado: contra la entrega final documentada.',T.p40,''],
+    ['Instalación especializada por punto','Se certifica según el avance real del trabajo, con certificación semanal.',T.mo,'Monto de referencia — se certifica por avance']
+  ];
+  return {rows:rows, faIva:iva, grand:T.tot+iva};
+}
+//CALC-END
+function renderPay(){
+  var fa=document.getElementById('fa').checked, r=calc(fa);
+  document.getElementById('pay').innerHTML=r.rows.map(function(s){
+    return '<div class="stage"><span><b style="display:block">'+s[0]+'</b>'+s[1]
+      +(s[3]?'<em class="sref">'+s[3]+'</em>':'')+'</span><b>'+fmt(s[2])+'</b></div>';
+  }).join('');
+  document.getElementById('pay-iva-row').style.display=fa?'flex':'none';
+  document.getElementById('fa-val').textContent=fmt(r.faIva);
+  document.getElementById('gt').textContent=fmt(r.grand);
+  waLink();
+}
+function monChange(){
+  var on=document.getElementById('mon').checked;
+  document.getElementById('mon-card').classList.toggle('on',on);
+  document.getElementById('mon-line').classList.toggle('on',on);
+  waLink();
+}
+function waLink(){
+  var fa=document.getElementById('fa').checked, mon=document.getElementById('mon').checked, r=calc(fa);
+  var t='Hola Nova Domus, revisé la propuesta '+PY+' de la Casa Berna y Pau por '
+    +fmt(r.grand).replace('\u00a0',' ')+(fa?' (con Factura A)':'')+' y quiero avanzar.';
+  if(mon) t+='\n+ Monitoreo 24 h: '+fmtArs(MON_ARS).replace('\u00a0',' ')+' por mes + IVA (aparte del total).';
+  document.getElementById('go').href='https://wa.me/5493516747513?text='+encodeURIComponent(t);
+}
+function conf(){
+  document.getElementById('go').setAttribute('aria-disabled',
+    document.getElementById('ok').checked?'false':'true');
+}
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+esc(0,document.querySelector('#s01 .sw button'));
+confortView(0); rcmp(0); acmp(0); confortT(22);
+renderPay(); monChange();
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n, red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(red){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);}
+      e.target.textContent=c;},34);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement,
+      p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){
+    var s=document.querySelector(a.getAttribute('href'));
+    if(s && s.getBoundingClientRect().top<=120) cur=a;
+  });
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
