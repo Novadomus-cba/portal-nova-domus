@@ -12,10 +12,18 @@ tarifario, proveedores y preguntas de precio van **solo** al repo privado `Novad
 
 Corré `git config user.email` y `gh api user --jq .login`.
 
-- **Agustín Davila** (`admin@nova-domus.com.ar` / cuenta `Novadomus-cba`): flujo de siempre. Puede
-  publicar directo en `main` y escribir en Supabase según las reglas de la maestra.
-- **Cualquier otra persona** (hoy: Lucas Cañete, `l.canete@nova-domus.com.ar`): flujo por pull
-  request de la sección 2, sin excepciones. Si no podés determinar quién es, asumí este flujo.
+- **Agustín Davila** (cuenta `Novadomus-cba`): flujo de siempre. Puede publicar directo en `main`
+  y escribir en Supabase según las reglas de la maestra.
+- **Cualquier otra persona del equipo** (Lucas, Maxi, Mili, Adolfo, Martín, cada una con **su
+  propia cuenta de GitHub** con su mail `@nova-domus.com.ar`, invitada como colaboradora): flujo por
+  pull request de la sección 2, sin excepciones. `main` está protegido: GitHub rechaza un push
+  directo (`GH006`) y solo `@Novadomus-cba` aprueba (CODEOWNERS). Si no podés determinar quién es,
+  asumí este flujo.
+
+**Publicar en GitHub, para todos:** sin tokens, con la app Claude o con el login propio en Claude
+Code. Si no se puede pushear, se para y se avisa con el mensaje exacto. Qué repo y qué URL para
+cada documento, cómo se verifica y la tabla de diagnóstico de errores: skill `nova-domus-maestra`,
+`references/flujo-github.md`.
 
 ## 2. Flujo de un PY para el equipo comercial
 
@@ -28,7 +36,8 @@ repos clonados uno al lado del otro: este (`portal-nova-domus`, público, el HTM
    versión del plugin (maestra §0, regla 7).
 2. **La misma rama en los dos repos, nunca `main`.** `git switch -c py/2026-NNN-nombre-corto` desde
    `main` actualizado, en los dos. Nunca `git push` a `main`, nunca `--force` sobre una rama ajena,
-   nunca el token de deploy de Agustín (si aparece en algún documento, no se usa).
+   nunca un token que aparezca en un documento: se pushea solo con la cuenta propia
+   (`gh auth status`).
 3. **Número de PY.** Próximo libre según `proyectos` en Supabase **y** las ramas `py/*` abiertas
    (`gh pr list --state open` en los dos repos). Agustín lo confirma al aprobar.
 4. **Supabase: solo lectura.** Toda escritura que el PY necesite va como SQL en
@@ -43,8 +52,10 @@ repos clonados uno al lado del otro: este (`portal-nova-domus`, público, el HTM
 8. **Vista previa.** Cloudflare Pages publica cada rama en
    `https://<rama-con-guiones>.portalnovadomus.pages.dev/propuestas/<archivo>.html`. Ese link va en
    los dos PR y por WhatsApp a Agustín. No se le manda nada al cliente hasta el merge.
-9. **Después del merge** el link definitivo es el de GitHub Pages; verificar build `built`
-   (propuestas §1) antes de mandárselo al cliente.
+9. **Después del merge** el link definitivo es el de GitHub Pages,
+   `https://novadomus-cba.github.io/portal-nova-domus/propuestas/<archivo>.html`. Antes de
+   mandárselo al cliente: build `built` y el link abierto mostrando el `PY-2026-NNN`
+   (`flujo-github.md` §6).
 10. **Si Agustín corrige algo**, además de corregirlo, agregar la entrada en
     `references/registro-correcciones.md` de la skill de auditoría (repo `nova-domus-skills`, por PR).
 
