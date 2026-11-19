@@ -72,7 +72,7 @@ order by table_name, privilege_type;
 -- `comerciales` SELECT(id, nombre) YA NO debería aparecer: era un resto
 -- anterior a v_presupuesto_publico (que expone comercial_nombre por
 -- SECURITY DEFINER), verificado el 14/08/2026 contra
--- Novadomuscba/presupuestos/index.html (solo consulta la vista) y revocado
+-- Novadomus-cba/presupuestos/index.html (solo consulta la vista) y revocado
 -- ese mismo día. Si vuelve a aparecer, algo lo regrant.
 
 \echo '== 2c. FUNCIONES SECURITY DEFINER Y QUIEN LAS EJECUTA =='
