@@ -930,7 +930,9 @@
   /* ── Auth ── */
   var AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
   var AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
-  var ALLOWED_ROLES = ['admin', 'supervisor'];
+  var ALLOWED_ROLES = ['admin', 'supervisor', 'contable'];
+  var READ_ONLY_ROLES = ['contable']; // can view the settlement but not edit crew days
+  var canEditJornadas = false;
   var authClient    = supabase.createClient(AUTH_URL, AUTH_KEY);
 
   function handleLogout() {
@@ -1382,7 +1384,7 @@
     h += '<span class="dr-fecha">' + fmtFecha(j.fecha) + (j.es_estimado ? '<span class="est-badge">EST</span>' : '') + '</span>';
     if (j.obra_codigo) h += '<span class="dr-obra">' + esc(j.obra_codigo) + '</span>';
     h += '</div>';
-    h += '<button class="btn-edit" data-jid="' + esc(j.id) + '" title="Editar jornada">✏</button>';
+    if (canEditJornadas) h += '<button class="btn-edit" data-jid="' + esc(j.id) + '" title="Editar jornada">✏</button>';
     h += '</div>';
 
     if (horario) {
@@ -1453,6 +1455,7 @@
   }
 
   function openEditModal(j) {
+    if (!canEditJornadas) return;
     editingJornada = j;
 
     document.getElementById('modal-subtitle').textContent =
@@ -1972,6 +1975,7 @@
     if (!profile || ALLOWED_ROLES.indexOf(profile.role) === -1) {
       window.location.href = '../index.html'; return;
     }
+    canEditJornadas = READ_ONLY_ROLES.indexOf(profile.role) === -1;
     document.getElementById('portal-username').textContent = profile.full_name;
     document.getElementById('app-loading').style.display = 'none';
     return Promise.all([
