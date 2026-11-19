@@ -171,6 +171,7 @@ table.cmp td.bad{color:var(--grey)}
 .bar-leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .grand{margin-top:26px;border-top:2px solid var(--navy);padding-top:16px;display:grid;gap:8px;font-size:14.5px}
 .grand .row{display:flex;justify-content:space-between;gap:12px}
+.grand .row b{white-space:nowrap}
 .grand .row.total{font-family:var(--font-display);font-size:clamp(17px,3vw,22px);color:var(--navy);letter-spacing:1px;margin-top:6px}
 .note-usd{font-size:12px;color:#5d6078;margin-top:10px}
 
@@ -742,13 +743,37 @@ Un botón de un solo toque, chico y liviano, que la persona lleva encima o deja 
           <div class="r"><span class="k">En el baño</span><span class="b"><span class="m">AXHome: </span>el llavero no está pensado para mojarse</span><span class="u"><span class="m">AX Pro: </span>IP66, se puede usar en la ducha</span></div>
           <div class="r"><span class="k">Sin internet o sin luz</span><span class="b"><span class="m">AXHome: </span>avisa por 4G con batería</span><span class="u"><span class="m">AX Pro: </span>avisa por 4G con batería</span></div>
           <div class="r"><span class="k">Capacidad</span><span class="b"><span class="m">AXHome: </span>hasta 16 zonas</span><span class="u"><span class="m">AX Pro: </span>hasta 48 zonas</span></div>
-          <div class="r"><span class="k">Diferencia</span><span class="b"><span class="m">AXHome: </span>incluido en los combos</span><span class="u"><span class="m">AX Pro: </span>+ $ 360.000 por vivienda</span></div>
+          <div class="r"><span class="k">Diferencia</span><span class="b"><span class="m">AXHome: </span>incluido en Nova Domus y Seguridad</span><span class="u"><span class="m">AX Pro: </span>incluido en Completo; en los demás, + $ 360.000 por vivienda</span></div>
         </div>
         <p style="font-size:13px;margin-top:16px">Los combos sugeridos con alarma, con el upgrade aplicado:</p>
         <div class="up-totals">
           <div>Combo Nova Domus ★<b>$ 1.944.900</b></div>
           <div>Combo Seguridad<b>$ 1.068.200</b></div>
-          <div>Combo Completo<b>$ 1.901.700</b></div>
+          <div>Combo Completo<b>ya lo incluye, con teclado</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOVEDAD: TECLADO + MONITOREO -->
+    <div class="up-block" id="monitoreo">
+      <span class="up-badge">NOVEDAD</span>
+      <h2>Alarma lista para monitoreo 24 h con aviso a la Policía</h2>
+      <p class="lead" style="margin-top:8px">Sumamos un servicio nuevo: el monitoreo de la alarma las 24 horas, los 365 días. Si la alarma se dispara o la persona pide ayuda, una central de monitoreo llama a los contactos de la vivienda para verificar y, si corresponde, da aviso a la Policía de la Provincia de Córdoba, que envía un móvil. Así el pedido de ayuda no depende solo de que un familiar vea el aviso en el celular.</p>
+      <div class="pillars" style="margin-top:20px">
+        <div class="pillar">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h.01M12 8h.01M15 8h.01M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></div>
+          <h3>Teclado numérico</h3>
+          <p style="font-size:13px;margin-top:6px">Es el requisito para contratar el monitoreo: permite armar y desarmar con un código personal. El Combo Completo ya lo trae junto con la alarma AX Pro. En los demás combos con alarma se suma desde el armador: $ 170.600 para AX Pro o $ 105.900 para AXHome, por kit.</p>
+        </div>
+        <div class="pillar">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Monitoreo, opcional</h3>
+          <p style="font-size:13px;margin-top:6px">Abono de <b>$ 55.000 por mes + IVA</b> por vivienda (por central de alarma). Es un servicio mensual: no se suma al total de equipos y cada vivienda puede contratarlo o no. Funciona con las alarmas AX Pro y AXHome.</p>
+        </div>
+        <div class="pillar">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Cómo se contrata</h3>
+          <p style="font-size:13px;margin-top:6px">Contrato con permanencia mínima de 6 meses; el alta equivale a un abono por adelantado. Se necesitan al menos 3 contactos de verificación por vivienda. Detalle en las condiciones generales.</p>
         </div>
       </div>
     </div>
@@ -810,7 +835,7 @@ Un equipo compacto, sin pantalla ni ventiladores, que se conecta por cable al ro
       <button class="preset nd" data-p="novadomus"><b>Combo Nova Domus ★</b><span>$ 1.584.900 — nuestra configuración sugerida</span></button>
       <button class="preset" data-p="autonomia"><b>Combo Autonomía</b><span>$ 833.500</span></button>
       <button class="preset" data-p="seguridad"><b>Combo Seguridad</b><span>$ 708.200</span></button>
-      <button class="preset" data-p="completo"><b>Combo Completo</b><span>$ 1.541.700</span></button>
+      <button class="preset" data-p="completo"><b>Combo Completo</b><span>$ 2.189.600 — con alarma AX Pro y teclado</span></button>
       <button class="preset vaciar" data-p="vaciar"><b>Vaciar</b><span>arrancar de cero</span></button>
     </div>
 
@@ -829,13 +854,19 @@ Un equipo compacto, sin pantalla ni ventiladores, que se conecta por cable al ro
 
     <label class="up-toggle off" id="up-wrap"><input type="checkbox" id="up" disabled><span><span class="t">Upgrade recomendado · Alarma AX Pro + botón de pánico portátil</span><span class="d">Reemplaza cada Kit AXHome por el Kit AX Pro ($ 805.900) y suma un botón de pánico portátil ($ 68.900) por kit.</span><span class="p">+ $ 360.000 por kit de alarma</span><span class="n">Disponible cuando el combo incluye el Kit Hikvision AXHome.</span></span></label>
 
+    <label class="up-toggle off" id="kp-wrap"><input type="checkbox" id="kp" disabled><span><span class="t">Teclado numérico · alarma lista para monitoreo</span><span class="d">Suma un teclado por kit de alarma: arma y desarma con código, y es el requisito para contratar el monitoreo 24 h. Viene incluido en el Combo Completo.</span><span class="p">+ $ 170.600 por kit AX Pro · + $ 105.900 por kit AXHome</span><span class="n">Disponible cuando el combo incluye alarma.</span></span></label>
+
+    <label class="up-toggle off" id="mon-wrap"><input type="checkbox" id="mon" disabled><span><span class="t">Opcional · Monitoreo 24 h con aviso a la Policía</span><span class="d">Abono mensual por vivienda. No se suma al total de equipos: se contrata aparte, con permanencia mínima de 6 meses.</span><span class="p">$ 55.000 por mes + IVA, por central de alarma</span><span class="n">Disponible cuando el combo incluye el teclado numérico.</span></span></label>
+
     <label class="up-toggle off" id="ha-wrap"><input type="checkbox" id="ha" disabled><span><span class="t">Upgrade recomendado · Funcionamiento local con Home Assistant</span><span class="d">Suma un Home Assistant Lite por vivienda: la luz nocturna, los horarios y las rutinas siguen funcionando sin internet. Su configuración forma parte del servicio de programación, que se cotiza aparte.</span><span class="p">+ $ 429.300 por vivienda</span><span class="n">Disponible cuando el combo incluye al menos un dispositivo Shelly.</span></span></label>
 
     <div class="grand">
       <div class="row"><span>Equipos (IVA incluido por ítem)</span><b id="s-eq">$ 0</b></div>
       <div class="row" id="row-s-ha" style="display:none"><span>Upgrade Home Assistant (funcionamiento local)</span><b id="s-ha">$ 0</b></div>
-      <div class="row" id="row-s-up" style="display:none"><span>Upgrade AX Pro + botón de pánico</span><b id="s-up">$ 0</b></div>
+      <div class="row" id="row-s-up" style="display:none"><span>Alarma AX Pro + botón de pánico (diferencia)</span><b id="s-up">$ 0</b></div>
+      <div class="row" id="row-s-kp" style="display:none"><span>Teclado numérico</span><b id="s-kp">$ 0</b></div>
                   <div class="row total"><span>Total equipos</span><span id="s-total">$ 0</span></div>
+      <div class="row" id="row-s-mon" style="display:none;font-size:13px;color:#5d6078"><span>Monitoreo 24 h · abono mensual aparte, no incluido en el total</span><b>$ 55.000 / mes + IVA</b></div>
     </div>
     <p class="note-usd">Valores en pesos argentinos, IVA incluido, solo equipos. La instalación, la programación de rutinas y la capacitación al usuario están disponibles a pedido y se cotizan aparte. Presupuesto válido por 45 días.</p>
   </div>
@@ -850,7 +881,8 @@ Un equipo compacto, sin pantalla ni ventiladores, que se conecta por cable al ro
       <div class="c-item"><b>Alcance</b>Esta propuesta cotiza la provisión de los equipos. Si el programa lo requiere, Nova Domus puede instalarlos, programar las rutinas y capacitar a cada usuario: ese servicio se cotiza aparte, por vivienda, dentro de la ciudad de Córdoba; fuera de la ciudad se adicionan viáticos.</div>
       <div class="c-item"><b>Obra eléctrica</b>Esta propuesta no incluye obra eléctrica. Los equipos están pensados para instalarse sobre la instalación existente de cada vivienda; si alguna requiere adecuación eléctrica, conviene resolverla antes de instalar.</div>
       <div class="c-item"><b>Requisito de conectividad</b>Las funciones de voz, avisos al celular y control remoto requieren que la vivienda cuente con internet Wi-Fi. La alarma AXHome —y el AX Pro del upgrade— incluye además chip 4G como vía de respaldo. El upgrade Home Assistant se conecta por cable al router de la vivienda.</div>
-      <div class="c-item"><b>Moneda</b>Todos los precios se expresan en pesos argentinos, con IVA incluido.</div>
+      <div class="c-item"><b>Monitoreo (opcional)</b>Servicio de Nova Domus de monitoreo 24 h con aviso a la Policía de la Provincia de Córdoba, para alarmas Hikvision AX Pro o AXHome con teclado numérico. Abono de $ 55.000 por mes + IVA por central de alarma, actualizable por IPC. Contrato con permanencia mínima de 6 meses; el alta equivale a un abono por adelantado. Incluye hasta 5 avisos a la Policía por mes; cada aviso adicional se cobra $ 2.000. Se requieren al menos 3 contactos de verificación por vivienda. El chip 4G es opcional y queda a cargo de cada vivienda. Solo avisa ante un disparo de la alarma o un pedido de ayuda; no envía reportes periódicos.</div>
+      <div class="c-item"><b>Moneda</b>Todos los precios se expresan en pesos argentinos, con IVA incluido, salvo el abono opcional de monitoreo, que se expresa más IVA.</div>
       <div class="c-item"><b>Forma de pago</b>Las condiciones y etapas de pago se definen junto a la Dirección en la instancia de confirmación de cantidades, según la modalidad de contratación del organismo.</div>
       <div class="c-item"><b>Garantía y post-venta</b>Los equipos cuentan con la garantía de su fabricante, que gestiona Nova Domus. Si la instalación la hace Nova Domus, se suman 12 meses de garantía sobre todo lo instalado, con soporte de equipo propio.</div>
       <div class="c-item"><b>Validez</b>Presupuesto válido por 45 días desde su emisión (19/11/2026): hasta el 03/01/2027. Los equipos quedan sujetos a disponibilidad de importación al momento de la confirmación.</div>
@@ -886,7 +918,7 @@ Un equipo compacto, sin pantalla ni ventiladores, que se conecta por cable al ro
     <div class="faq">
       <div class="faq-item"><button class="faq-q">¿Qué pasa si se corta internet o la luz?<span>▾</span></button><div class="faq-a"><div class="faq-a-in"><b>Si se corta internet:</b> las luces y artefactos siguen funcionando desde sus llaves de siempre, y la alarma AXHome sigue avisando por su chip 4G, incluido el botón de pánico del llavero. Mientras dure el corte no funcionan el control por voz, el aviso del botón Shelly, la luz nocturna automática, las rutinas programadas ni el control desde el celular. Con el upgrade de funcionamiento local (Home Assistant), la luz nocturna, los horarios y las rutinas del botón siguen andando sin internet.<br><br><b>Si se corta la luz:</b> los módulos Shelly, el Echo Dot y el router de la vivienda se apagan junto con el resto de la instalación. La central de alarma sigue funcionando con su batería de respaldo (hasta 12 horas) y avisa por 4G, incluido el llavero de pánico. Esta propuesta no incluye iluminación de emergencia.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿La persona necesita saber usar un celular?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. El uso diario es por voz (Alexa) y por botones físicos de un solo gesto. El celular con la app queda en manos de la familia o el cuidador, para configurar y recibir avisos. Si se contrata la capacitación, definimos junto a la persona cuáles comandos le resultan naturales.</div></div></div>
-      <div class="faq-item"><button class="faq-q">¿Hay abonos o costos mensuales?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. Las apps de Alexa, Shelly y Hik-Connect son gratuitas y no cobran suscripción por las funciones de estos kits. El único servicio recurrente de la vivienda es su conexión a internet, que ya es un requisito previo. El chip 4G de la alarma usa una línea prepaga de bajo consumo.</div></div></div>
+      <div class="faq-item"><button class="faq-q">¿Hay abonos o costos mensuales?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">No. Las apps de Alexa, Shelly y Hik-Connect son gratuitas y no cobran suscripción por las funciones de estos kits. El único servicio recurrente de la vivienda es su conexión a internet, que ya es un requisito previo. El chip 4G de la alarma usa una línea prepaga de bajo consumo. La única excepción es el monitoreo 24 h con aviso a la Policía, que es opcional: $ 55.000 por mes + IVA por vivienda, solo si se contrata.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿Funciona en instalaciones eléctricas viejas?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Sí — es una decisión de diseño de este catálogo: los módulos de iluminación elegidos (línea L de Shelly) funcionan sin cable neutro en la caja de la llave, que es la situación típica de las viviendas construidas hace años. Antes de instalar conviene confirmar dos cosas por vivienda: que haya Wi-Fi y que cada punto esté en condiciones eléctricas.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿Se puede ampliar después a una domótica completa?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Sí, y esa es una decisión de diseño de esta propuesta: los módulos Shelly del combo son exactamente los mismos que usamos en nuestras instalaciones de integración completa. Ampliar significa sumar módulos y programación — no tirar nada de lo ya invertido.</div></div></div>
       <div class="faq-item"><button class="faq-q">¿Quién responde si algo falla?<span>▾</span></button><div class="faq-a"><div class="faq-a-in">Los equipos tienen la garantía de su fabricante y Nova Domus la gestiona. Si la instalación la hace Nova Domus, además respondemos por todo el kit instalado durante 12 meses, con equipo propio: un solo teléfono, sin peloteo entre proveedor, instalador y soporte.</div></div></div>
@@ -997,12 +1029,15 @@ var MO_BASE = 0; /* installation and programming quoted separately on request */
 var UPG = { axpro:805900, pan:68900 };
 /* local-operation upgrade: one Home Assistant Lite per dwelling, installation included in MO_BASE */
 var HA_P = 429300;
+/* keypad per alarm kit (required for monitoring); monitoring fee is monthly, ARS + IVA, never added to totals */
+var KP = { pro:170600, home:105900 };
+var MON = 55000;
 function shellyCount(){ return q.l1+q.l2+q.pm2+q.pm1+q.btn+q.blu; }
 var PRESETS = {
   novadomus:{ echo:1,l1:2,l2:2,pm2:2,pm1:1,btn:1,blu:1,ax:1 },
   autonomia:{ echo:1,l1:0,l2:2,pm2:2,pm1:2,btn:1,blu:0,ax:0 },
   seguridad:{ echo:0,l1:1,l2:0,pm2:0,pm1:0,btn:0,blu:1,ax:1 },
-  completo: { echo:1,l1:1,l2:2,pm2:2,pm1:2,btn:1,blu:1,ax:1 }
+  completo: { echo:1,l1:2,l2:2,pm2:2,pm1:2,btn:1,blu:1,ax:1, up:1, kp:1 }
 };
 var q = { echo:0,l1:0,l2:0,pm2:0,pm1:0,btn:0,blu:0,ax:0 };
 var fmt = function(n){ return '$ ' + Math.ceil(n).toLocaleString('es-AR'); };
@@ -1013,16 +1048,18 @@ function calc(){
   var base = count>0 ? MO_BASE : 0;
   var up = ($('up').checked && q.ax>0) ? q.ax*(UPG.axpro - DEV.ax.p + UPG.pan) : 0;
   var ha = ($('ha').checked && shellyCount()>0) ? HA_P : 0;
-  return { eq:eq, up:up, ha:ha, moDev:moDev, base:base, total:eq+up+ha+moDev+base, count:count };
+  var kp = ($('kp').checked && q.ax>0) ? q.ax*($('up').checked ? KP.pro : KP.home) : 0;
+  return { eq:eq, up:up, ha:ha, kp:kp, moDev:moDev, base:base, total:eq+up+ha+kp+moDev+base, count:count };
 }
 function resumenCombo(){
   var parts=[], k;
   var useUp = $('up').checked && q.ax>0;
   for(k in DEV){
     if(q[k]<=0) continue;
-    if(k==='ax' && useUp){ parts.push(q[k]+'× Kit Hikvision AX Pro + '+q[k]+'× Botón de pánico portátil (upgrade)'); }
+    if(k==='ax' && useUp){ parts.push(q[k]+'× Kit Hikvision AX Pro + '+q[k]+'× Botón de pánico portátil'); }
     else parts.push(q[k]+'× '+DEV[k].n);
   }
+  if($('kp').checked && q.ax>0) parts.push(q.ax+'× Teclado numérico '+(useUp ? 'AX Pro' : 'AXHome'));
   if($('ha').checked && shellyCount()>0) parts.push('1× Home Assistant Lite (upgrade funcionamiento local)');
   return parts.join(' + ');
 }
@@ -1035,6 +1072,14 @@ function render(){
   if(q.ax===0){ upEl.checked = false; }
   upEl.disabled = q.ax===0;
   $('up-wrap').classList.toggle('off', q.ax===0);
+  var kpEl = $('kp');
+  if(q.ax===0){ kpEl.checked = false; }
+  kpEl.disabled = q.ax===0;
+  $('kp-wrap').classList.toggle('off', q.ax===0);
+  var monEl = $('mon'), monOk = kpEl.checked && q.ax>0;
+  if(!monOk){ monEl.checked = false; }
+  monEl.disabled = !monOk;
+  $('mon-wrap').classList.toggle('off', !monOk);
   var haEl = $('ha'), sc = shellyCount();
   if(sc===0){ haEl.checked = false; }
   haEl.disabled = sc===0;
@@ -1047,6 +1092,9 @@ function render(){
   $('s-eq').textContent = fmt(c.eq);
   $('s-up').textContent = fmt(c.up);
   $('row-s-up').style.display = c.up>0 ? '' : 'none';
+  $('s-kp').textContent = fmt(c.kp);
+  $('row-s-kp').style.display = c.kp>0 ? '' : 'none';
+  $('row-s-mon').style.display = monEl.checked ? '' : 'none';
   $('s-ha').textContent = fmt(c.ha);
   $('row-s-ha').style.display = c.ha>0 ? '' : 'none';
   $('s-total').textContent = fmt(c.total);
@@ -1057,7 +1105,8 @@ function render(){
   updateCTA();
   var msg = 'Hola Nova Domus, confirmamos la propuesta PY-2026-020 (combo a medida, precios en pesos ARS): ' +
     (c.count===0 ? 'sin dispositivos' : resumenCombo()) +
-    '. Total equipos: ' + fmt(c.total) + ' (IVA incluido). Instalación y programación: a cotizar aparte si se requieren.';
+    '. Total equipos: ' + fmt(c.total) + ' (IVA incluido). Instalación y programación: a cotizar aparte si se requieren.' +
+    (monEl.checked ? ' + Monitoreo 24 h con aviso a la Policía: ' + fmt(MON) + ' por mes + IVA por central de alarma, aparte del total.' : '');
   $('btn-accept').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
 }
 document.querySelectorAll('.qty button[data-k]').forEach(function(b){
@@ -1072,7 +1121,8 @@ document.querySelectorAll('.preset').forEach(function(p){
   p.addEventListener('click', function(){
     var pr = PRESETS[p.dataset.p], k;
     for(k in q){ q[k] = pr ? (pr[k]||0) : 0; }
-    if(!pr){ $('up').checked = false; $('ha').checked = false; }
+    $('up').checked = !!(pr && pr.up); $('kp').checked = !!(pr && pr.kp);
+    if(!pr){ $('ha').checked = false; $('mon').checked = false; }
     document.querySelectorAll('.preset').forEach(function(x){ x.classList.remove('sel'); });
     if(pr) p.classList.add('sel');
     render();
@@ -1081,6 +1131,8 @@ document.querySelectorAll('.preset').forEach(function(p){
 $('conf').addEventListener('change', updateCTA);
 $('up').addEventListener('change', render);
 $('ha').addEventListener('change', render);
+$('kp').addEventListener('change', render);
+$('mon').addEventListener('change', render);
 
 /* ===== acordeones (scrollHeight) ===== */
 function bindAcc(headSel, cardSel, bodySel){
