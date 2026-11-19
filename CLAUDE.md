@@ -2,7 +2,7 @@
 
 Lo lee toda sesión de Claude Code que se abra en este repo, sea de Agustín o de alguien del equipo.
 Las reglas de negocio no están acá: viven en el plugin `nova-domus` (skills, repo privado) y en
-`DECISIONES.md`.
+`DECISIONES.md` del repo privado `Novadomus-cba/nova-domus-skills`.
 
 ⚠️ **Este repo es público.** Todo lo que entra acá —archivos, commits, pull requests, sus
 descripciones y comentarios— lo puede leer cualquiera. Costos, márgenes, remarque, comisiones,
