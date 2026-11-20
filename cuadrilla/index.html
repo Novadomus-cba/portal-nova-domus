@@ -554,8 +554,12 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
       <div class="card-body">
         <div class="resumen">
           <div class="resumen-row"><span>Horas trabajadas</span><span id="r-horas">—</span></div>
-          <div class="resumen-row"><span>Horas a pagar</span><span id="r-hpago">—</span></div>
-          <div class="resumen-row"><span>Jornal</span><span id="r-jornal">—</span></div>
+          <div class="resumen-row"><span id="r-hpago-lbl">Horas a pagar</span><span id="r-hpago">—</span></div>
+          <!-- Salaried only: contract hours are covered by the monthly salary; only overtime is paid -->
+          <div class="resumen-row mens-only" style="display:none"><span>Horas de contrato</span><span id="r-hcontrato">—</span></div>
+          <div class="resumen-row mens-only" style="display:none"><span>Horas extra</span><span id="r-hextra">—</span></div>
+          <div class="resumen-row mens-only" style="display:none"><span>Jornal extra</span><span id="r-jextra">—</span></div>
+          <div class="resumen-row"><span id="r-jornal-lbl">Jornal</span><span id="r-jornal">—</span></div>
           <div class="resumen-row"><span>Almuerzo</span><span id="r-almuerzo">—</span></div>
           <div class="resumen-row"><span>Traslados</span><span id="r-traslados">—</span></div>
           <div class="resumen-row"><span>Peajes</span><span id="r-peajes">—</span></div>
@@ -797,7 +801,6 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
             <option value="AYUDANTE"></option>
             <option value="AYUDANTE OFICIAL"></option>
             <option value="OFICIAL"></option>
-            <option value="SUPERVISOR"></option>
             <option value="PROGRAMADOR"></option>
           </datalist>
         </div>
@@ -809,7 +812,6 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
             <option value="CUADRILLA 2"></option>
             <option value="CUADRILLA 3"></option>
             <option value="CUADRILLA 4"></option>
-            <option value="SUPERVISIÓN"></option>
           </datalist>
         </div>
       </div>
@@ -840,6 +842,17 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
             <input type="number" id="dtValorKm" min="0" placeholder="0">
           </div>
         </div>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="checkbox" id="dtMensualizado" onchange="dtToggleMensualizado()">
+          <span class="tog-slider"></span>
+        </label>
+        <span class="tog-label">Mensualizado <small style="color:var(--text-muted)">— cobra sueldo; por semana solo horas extra + reintegros</small></span>
+      </div>
+      <div class="field" id="dt-horas-contrato-wrap" style="display:none">
+        <label class="lbl">Horas de contrato por día</label>
+        <input type="number" id="dtHorasContrato" min="1" max="24" step="0.5" placeholder="8">
       </div>
       <div class="toggle-row">
         <label class="toggle">
@@ -976,7 +989,7 @@ async function cargarTecnicos() {
   try {
     const [tecs, tarifas] = await Promise.all([
       supa('/rest/v1/cuadrilla_tecnicos?select=id,nombre,activo&activo=eq.true&order=nombre'),
-      supa(`/rest/v1/cuadrilla_tarifas?select=tecnico_id,categoria,subcuadrilla,valor_hora_ars,almuerzo_ars,traslados_ars,valor_km_ars,fecha_desde,fecha_hasta&fecha_desde=lte.${today}&or=(fecha_hasta.is.null,fecha_hasta.gte.${today})`)
+      supa(`/rest/v1/cuadrilla_tarifas?select=tecnico_id,categoria,subcuadrilla,valor_hora_ars,almuerzo_ars,traslados_ars,valor_km_ars,es_mensualizado,horas_contrato_dia,fecha_desde,fecha_hasta&fecha_desde=lte.${today}&or=(fecha_hasta.is.null,fecha_hasta.gte.${today})`)
     ]);
 
     const tarifaMap = {};
@@ -1013,6 +1026,8 @@ async function cargarTecnicos() {
           traslados_base: t.traslados_ars || 0,
           categoria: t.categoria || '',
           subcuadrilla: sub,
+          mensualizado: !!t.es_mensualizado,
+          horas_contrato: Number(t.horas_contrato_dia) || 0,
         };
         tecOrden.push(t.nombre);
         const opt = document.createElement('option');
@@ -1082,6 +1097,7 @@ function onTecnicoChange() {
   if (t && t.valor_hora) {
     info.className = 'tarifa-info show';
     const parts = [`${t.categoria}`, `${fmt(t.valor_hora)}/hs`];
+    if (t.mensualizado) parts.push(`mensualizado · contrato ${t.horas_contrato} h/día`);
     if (t.almuerzo_ars) parts.push(`almuerzo ${fmt(t.almuerzo_ars)}`);
     if (t.valor_km)     parts.push(`${fmt(t.valor_km)}/km`);
     info.textContent = parts.join(' · ');
@@ -1195,13 +1211,27 @@ function recalcular() {
   const otros    = parseFloat(document.getElementById('inp-otros').value) || 0;
   const adelantos = parseFloat(document.getElementById('inp-adelantos').value) || 0;
 
-  const jornal    = hpago * t.valor_hora;
+  const jornal    = hpago * t.valor_hora;          // all hours (6 h min): job cost
   const almuerzo  = chkAlm && htotal > MIN_HORAS ? t.almuerzo_ars : 0;
   const traslados = km * t.valor_km;
   const peajeVal  = peajes * VALOR_PEAJE;
-  const subtotal  = jornal + almuerzo + traslados + peajeVal + otros;
+  // Salaried: only overtime above the daily contract is paid. Preview only: the DB trigger
+  // computes the real value over ALL rows of the technician that day.
+  const mens      = t.mensualizado;
+  const hextra    = mens ? Math.max(htotal - t.horas_contrato, 0) : 0;
+  const jextra    = hextra * t.valor_hora;
+  const jornalPago = mens ? jextra : jornal;
+  const subtotal  = jornalPago + almuerzo + traslados + peajeVal + otros;
   const neto      = Math.max(subtotal - adelantos, 0);
 
+  document.querySelectorAll('.mens-only').forEach(el => { el.style.display = mens ? '' : 'none'; });
+  document.getElementById('r-hpago-lbl').textContent  = mens ? 'Horas imputadas a obra' : 'Horas a pagar';
+  document.getElementById('r-jornal-lbl').textContent = mens ? 'Imputado a obra (no se paga)' : 'Jornal';
+  if (mens) {
+    document.getElementById('r-hcontrato').textContent = t.horas_contrato + 'hs (sueldo)';
+    document.getElementById('r-hextra').textContent    = htotal ? hextra + 'hs' : '—';
+    document.getElementById('r-jextra').textContent    = htotal ? fmt(jextra) : '—';
+  }
   document.getElementById('r-horas').textContent    = htotal ? htotal + 'hs' : '—';
   document.getElementById('r-hpago').textContent    = hpago
     ? hpago + 'hs' + (hpago > htotal ? ' (mínimo 6hs)' : '') : '—';
@@ -1238,18 +1268,27 @@ function abrirModal() {
       return `${ob ? ob.nombre : o.codigo} · ${o.entrada}–${o.salida} (${o.horas}hs)`;
     }).join('\n');
 
+  const t = TECNICOS[nombre];
+  const mens = !!(t && t.mensualizado);
   const r = {
     jornal:    document.getElementById('r-jornal').textContent,
+    hextra:    document.getElementById('r-hextra').textContent,
+    jextra:    document.getElementById('r-jextra').textContent,
     almuerzo:  document.getElementById('r-almuerzo').textContent,
     traslados: document.getElementById('r-traslados').textContent,
     peajes:    document.getElementById('r-peajes').textContent,
     adelantos: document.getElementById('r-adelantos').textContent,
     total:     document.getElementById('r-total').textContent,
   };
+  const lineas = mens
+    ? [['Horas extra', r.hextra], ['Jornal extra', r.jextra], ['Almuerzo',r.almuerzo], ['Traslados',r.traslados],
+       ['Peajes',r.peajes], ['Adelantos',r.adelantos], ['Imputado a obra (no se paga)', r.jornal]]
+    : [['Jornal',r.jornal],['Almuerzo',r.almuerzo],['Traslados',r.traslados],
+       ['Peajes',r.peajes],['Adelantos',r.adelantos]];
   document.getElementById('modal-resumen').innerHTML = `
     <div style="background:var(--bg);border-radius:8px;padding:12px;font-size:13px">
-      ${[['Jornal',r.jornal],['Almuerzo',r.almuerzo],['Traslados',r.traslados],
-         ['Peajes',r.peajes],['Adelantos',r.adelantos]]
+      ${mens ? `<div style="color:var(--text-muted);font-size:11px;margin-bottom:6px">Mensualizado: contrato ${t.horas_contrato} h/día cubierto por el sueldo. La extra se calcula sobre todas las horas del día.</div>` : ''}
+      ${lineas
         .filter(([, v]) => v !== '—')
         .map(([k, v]) => `<div style="display:flex;justify-content:space-between;padding:3px 0;color:var(--text-muted)">
           <span>${k}</span><span style="color:var(--text);font-weight:500">${v}</span></div>`).join('')}
@@ -1373,7 +1412,7 @@ async function cargarHistorico() {
   const filDesde = document.getElementById('fil-desde').value;
   const filHasta = document.getElementById('fil-hasta').value;
 
-  let params = 'select=id,fecha,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,almuerzo,traslados,peaje,otros,adelantos,compras,costo_nova,detalle,tecnico_id,km,es_estimado&order=fecha.desc&limit=200';
+  let params = 'select=id,fecha,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,horas_extra,jornal_extra,almuerzo,traslados,peaje,otros,adelantos,compras,costo_nova,detalle,tecnico_id,km,es_estimado&order=fecha.desc&limit=200';
   if (filTec)   params += `&tecnico_id=eq.${filTec}`;
   if (filObra)  params += `&obra_codigo=eq.${filObra}`;
   if (filDesde) params += `&fecha=gte.${filDesde}`;
@@ -1429,7 +1468,11 @@ function renderHistorico(data, idToNombre) {
       const totCompras   = tot('compras');
       const totAdelantos = tot('adelantos');
       const totKm        = tot('km');
-      const neto = totJornal + totAlmuerzo + totTraslados + totPeaje + totOtros + totCompras - totAdelantos;
+      // Salaried: overtime (jornal_extra, set by DB trigger) is paid instead of jornal
+      const mensDia      = filas.some(repIsMens);
+      const totHExtra    = filas.reduce((s, j) => s + (Number(j.horas_extra) || 0), 0);
+      const totJPago     = filas.reduce((s, j) => s + (repIsMens(j) ? Number(j.jornal_extra) || 0 : j.jornal || 0), 0);
+      const neto = totJPago + totAlmuerzo + totTraslados + totPeaje + totOtros + totCompras - totAdelantos;
 
       const obrasHtml = filas.map(j => {
         const ob         = OBRAS.find(x => x.codigo_obra === j.obra_codigo);
@@ -1460,7 +1503,10 @@ function renderHistorico(data, idToNombre) {
           <div class="jornada-body" id="body-${uid}">
             <div class="jornada-obras-list">${obrasHtml}</div>
             <div class="jornada-summary-title">Jornal + viáticos del día</div>
-            ${totJornal    ? `<div class="jornada-detail-row"><span>Jornal</span><span>${fmt(totJornal)}</span></div>` : ''}
+            ${mensDia
+              ? `<div class="jornada-detail-row"><span>Jornal extra (${repHoras(totHExtra)} h)</span><span>${fmt(totJPago)}</span></div>
+                 <div class="jornada-detail-row" style="color:var(--text-muted)"><span>Imputado a obra (no se paga)</span><span>${fmt(totJornal)}</span></div>`
+              : (totJornal ? `<div class="jornada-detail-row"><span>Jornal</span><span>${fmt(totJornal)}</span></div>` : '')}
             ${totAlmuerzo  ? `<div class="jornada-detail-row"><span>Almuerzo</span><span>${fmt(totAlmuerzo)}</span></div>` : ''}
             ${totTraslados ? `<div class="jornada-detail-row"><span>Traslados${totKm?' ('+totKm+'km)':''}</span><span>${fmt(totTraslados)}</span></div>` : ''}
             ${totPeaje     ? `<div class="jornada-detail-row"><span>Peajes</span><span>${fmt(totPeaje)}</span></div>` : ''}
@@ -1484,6 +1530,7 @@ function toggleJornada(uid) {
 // image so Lucas can send it by WhatsApp for the technician to validate.
 // Net formula MUST match Liquidación and fn_liquidacion_marcar_pago:
 // jornal + almuerzo + traslados + peaje + otros + compras − adelantos (km is a quantity, not money).
+// Salaried technicians: jornal_extra (set by DB trigger) replaces jornal; NULL = not salaried.
 const REP_WEEK_START_DOW = 5; // Friday
 let repDesde = null;   // 'YYYY-MM-DD'
 let repHasta = null;
@@ -1566,7 +1613,7 @@ async function cargarReporte() {
   cont.innerHTML = '<div class="loader"><div class="spinner"></div> Cargando...</div>';
 
   const tecId = document.getElementById('rep-tecnico').value;
-  let params = `select=fecha,tecnico_id,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,almuerzo,traslados,peaje,otros,compras,adelantos,km,detalle&fecha=gte.${repDesde}&fecha=lte.${repHasta}&order=fecha.asc,hora_entrada.asc`;
+  let params = `select=fecha,tecnico_id,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,horas_extra,jornal_extra,almuerzo,traslados,peaje,otros,compras,adelantos,km,detalle&fecha=gte.${repDesde}&fecha=lte.${repHasta}&order=fecha.asc,hora_entrada.asc`;
   if (tecId) params += `&tecnico_id=eq.${tecId}`;
 
   try {
@@ -1585,10 +1632,15 @@ function repTotals(rows) {
     traslados: sum('traslados'), peaje: sum('peaje'), otros: sum('otros'),
     compras: sum('compras'), adelantos: sum('adelantos'), km: sum('km'),
   };
-  t.neto = t.jornal + t.almuerzo + t.traslados + t.peaje + t.otros + t.compras - t.adelantos;
+  t.mens = rows.some(repIsMens);
+  t.horasExtra = sum('horas_extra');
+  t.jornalPago = rows.reduce((s, j) => s + (repIsMens(j) ? Number(j.jornal_extra) || 0 : Number(j.jornal) || 0), 0);
+  t.neto = t.jornalPago + t.almuerzo + t.traslados + t.peaje + t.otros + t.compras - t.adelantos;
   t.dias = new Set(rows.map(j => j.fecha)).size;
   return t;
 }
+function repIsMens(j) { return j.jornal_extra !== null && j.jornal_extra !== undefined; }
+function repHoras(h) { return String(Math.round(h * 10) / 10).replace('.', ','); }
 
 function renderReporte(rows) {
   const cont = document.getElementById('rep-content');
@@ -1633,8 +1685,10 @@ function buildRepSheet(nombre, rows) {
     return `<tr>
       <td>${repFmtDay(j.fecha)}</td>
       <td>${escHtml(obra)}${extras.length ? `<div class="muted">${extras.join(' · ')}</div>` : ''}${j.detalle ? `<div class="muted">${escHtml(j.detalle)}</div>` : ''}</td>
-      <td class="num">${horario}<div class="muted">${Number(j.horas_trabajadas) || 0} h${dayHours[j.fecha] > 0 && dayHours[j.fecha] < MIN_HORAS ? ` · se paga mín. ${MIN_HORAS} h` : ''}</div></td>
-      <td class="num">${fmt(j.jornal || 0)}</td>
+      <td class="num">${horario}<div class="muted">${Number(j.horas_trabajadas) || 0} h${repIsMens(j)
+        ? (Number(j.horas_extra) > 0 ? ` · ${repHoras(Number(j.horas_extra))} h extra` : '')
+        : (dayHours[j.fecha] > 0 && dayHours[j.fecha] < MIN_HORAS ? ` · se paga mín. ${MIN_HORAS} h` : '')}</div></td>
+      <td class="num">${fmt(repIsMens(j) ? (Number(j.jornal_extra) || 0) : (j.jornal || 0))}</td>
     </tr>`;
   }).join('');
 
@@ -1647,11 +1701,13 @@ function buildRepSheet(nombre, rows) {
     <div class="rep-tec">${escHtml(nombre)}</div>
     <div class="rep-sub">${t.dias} día${t.dias !== 1 ? 's' : ''} · ${Math.round(t.horas * 10) / 10} h cargadas${t.km ? ` · ${t.km} km` : ''}</div>
     <table class="rep-table">
-      <thead><tr><th>Día</th><th>Obra</th><th class="num">Horario</th><th class="num">Jornal</th></tr></thead>
+      <thead><tr><th>Día</th><th>Obra</th><th class="num">Horario</th><th class="num">${t.mens ? 'Jornal extra' : 'Jornal'}</th></tr></thead>
       <tbody>${body}</tbody>
     </table>
     <div class="rep-totals">
-      ${line('Jornales', t.jornal)}
+      ${t.mens
+        ? `<div><span>Jornal extra (${repHoras(t.horasExtra)} h)</span><span>${fmt(t.jornalPago)}</span></div>`
+        : line('Jornales', t.jornal)}
       ${line('Almuerzos', t.almuerzo)}
       ${line('Traslados', t.traslados)}
       ${line('Peajes', t.peaje)}
@@ -1660,6 +1716,7 @@ function buildRepSheet(nombre, rows) {
       ${line('Adelantos', t.adelantos, 'neg')}
       <div class="neto"><span>Neto a cobrar</span><span>${fmt(t.neto)}</span></div>
     </div>
+    ${t.mens ? `<div class="rep-foot" style="margin-top:8px">Las horas de contrato las cubre el sueldo: se liquidan solo las horas extra de cada día, sin compensar días cortos con largos.</div>` : ''}
     <div class="rep-foot">Revisá días, obras y horarios. Si algo no coincide, avisá antes del viernes.</div>`;
 }
 
@@ -1957,7 +2014,7 @@ function renderDatos() {
   cont.innerHTML = TECNICOS_ALL.map(t => {
     const tar = t.tarifa;
     const metaTxt = tar
-      ? `${tar.categoria || '—'} · ${tar.subcuadrilla || '—'} · ${fmt(tar.valor_hora_ars || 0)}/hs`
+      ? `${tar.categoria || '—'} · ${tar.subcuadrilla || '—'} · ${fmt(tar.valor_hora_ars || 0)}/hs${tar.es_mensualizado ? ` · mensualizado ${tar.horas_contrato_dia} h/día` : ''}`
       : 'Sin tarifa cargada';
     return `
       <div class="jornada-card">
@@ -1986,9 +2043,17 @@ function openDatosModal(id = null) {
   document.getElementById('dtAlmuerzo').value     = t?.tarifa?.almuerzo_ars || '';
   document.getElementById('dtTraslados').value    = t?.tarifa?.traslados_ars || '';
   document.getElementById('dtValorKm').value      = t?.tarifa?.valor_km_ars || '';
+  document.getElementById('dtMensualizado').checked = !!t?.tarifa?.es_mensualizado;
+  document.getElementById('dtHorasContrato').value  = t?.tarifa?.horas_contrato_dia || '';
+  dtToggleMensualizado();
   document.getElementById('dtActivo').checked     = t ? !!t.activo : true;
   document.getElementById('dt-tarifa-warning').style.display = id ? 'flex' : 'none';
   document.getElementById('modal-datos').classList.add('open');
+}
+
+function dtToggleMensualizado() {
+  const on = document.getElementById('dtMensualizado').checked;
+  document.getElementById('dt-horas-contrato-wrap').style.display = on ? '' : 'none';
 }
 
 function closeDatosModal() {
@@ -2008,6 +2073,12 @@ async function guardarTecnicoDato() {
   const almuerzo     = parseFloat(document.getElementById('dtAlmuerzo').value) || 0;
   const traslados    = parseFloat(document.getElementById('dtTraslados').value) || 0;
   const valorKm      = parseFloat(document.getElementById('dtValorKm').value) || 0;
+  // Salaried model is independent of categoria (works for OFICIAL or AYUDANTE)
+  const mensualizado = document.getElementById('dtMensualizado').checked;
+  const horasContrato = mensualizado ? (parseFloat(document.getElementById('dtHorasContrato').value) || 0) : null;
+  if (mensualizado && !(horasContrato > 0 && horasContrato <= 24)) {
+    showToast('Cargá las horas de contrato por día', 'error'); return;
+  }
 
   const btn = document.getElementById('btn-datos-save');
   btn.disabled = true; btn.textContent = 'Guardando...';
@@ -2034,25 +2105,36 @@ async function guardarTecnicoDato() {
       || Number(cur.valor_hora_ars  || 0) !== valorHora
       || Number(cur.almuerzo_ars    || 0) !== almuerzo
       || Number(cur.traslados_ars   || 0) !== traslados
-      || Number(cur.valor_km_ars    || 0) !== valorKm;
+      || Number(cur.valor_km_ars    || 0) !== valorKm
+      || !!cur.es_mensualizado !== mensualizado
+      || Number(cur.horas_contrato_dia || 0) !== Number(horasContrato || 0);
 
     if (tarifaChanged && (categoria || valorHora || almuerzo || traslados || valorKm)) {
       const hoy = new Date().toISOString().slice(0, 10);
-      // Cierra la tarifa vigente anterior (si existe) para no alterar el cálculo retroactivo
-      // de jornadas ya liquidadas con esos valores.
-      await supa(`/rest/v1/cuadrilla_tarifas?tecnico_id=eq.${tecnicoId}&fecha_hasta=is.null`, {
-        method: 'PATCH', prefer: 'return=minimal',
-        body: JSON.stringify({ fecha_hasta: addDaysStr(hoy, -1) }),
-      });
-      await supa('/rest/v1/cuadrilla_tarifas', {
-        method: 'POST', prefer: 'return=minimal',
-        body: JSON.stringify([{
-          tecnico_id: tecnicoId, fecha_desde: hoy, fecha_hasta: null,
-          categoria, subcuadrilla,
-          valor_hora_ars: valorHora, almuerzo_ars: almuerzo,
-          traslados_ars: traslados, valor_km_ars: valorKm,
-        }]),
-      });
+      const valores = {
+        categoria, subcuadrilla,
+        valor_hora_ars: valorHora, almuerzo_ars: almuerzo,
+        traslados_ars: traslados, valor_km_ars: valorKm,
+        es_mensualizado: mensualizado, horas_contrato_dia: horasContrato,
+      };
+      if (cur && cur.fecha_desde === hoy && !cur.fecha_hasta) {
+        // Tariff already opened today: correct it in place (closing it at "yesterday" would end it
+        // before it starts and the DB rejects the range).
+        await supa(`/rest/v1/cuadrilla_tarifas?id=eq.${cur.id}`, {
+          method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify(valores),
+        });
+      } else {
+        // Cierra la tarifa vigente anterior (si existe) para no alterar el cálculo retroactivo
+        // de jornadas ya liquidadas con esos valores.
+        await supa(`/rest/v1/cuadrilla_tarifas?tecnico_id=eq.${tecnicoId}&fecha_hasta=is.null`, {
+          method: 'PATCH', prefer: 'return=minimal',
+          body: JSON.stringify({ fecha_hasta: addDaysStr(hoy, -1) }),
+        });
+        await supa('/rest/v1/cuadrilla_tarifas', {
+          method: 'POST', prefer: 'return=minimal',
+          body: JSON.stringify([{ tecnico_id: tecnicoId, fecha_desde: hoy, fecha_hasta: null, ...valores }]),
+        });
+      }
     }
 
     const wasEditing = !!editingTecnicoId;
