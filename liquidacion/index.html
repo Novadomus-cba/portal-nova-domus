@@ -1274,7 +1274,7 @@
     jornadas.forEach(function(j) {
       jornal    += num(j.jornal);
       almuerzo  += num(j.almuerzo);
-      viaticos  += num(j.almuerzo) + num(j.traslados) + num(j.peaje) + num(j.km);
+      viaticos  += num(j.almuerzo) + num(j.traslados) + num(j.peaje); // km is a quantity, already priced in traslados
       adelantos += num(j.adelantos);
       compras   += num(j.compras);
       otros     += num(j.otros);
@@ -1357,7 +1357,7 @@
   }
 
   function buildDayRow(j) {
-    var viaticos = num(j.almuerzo) + num(j.traslados) + num(j.peaje) + num(j.km);
+    var viaticos = num(j.almuerzo) + num(j.traslados) + num(j.peaje);
     var horas    = num(j.horas_trabajadas);
     var bajMin   = horas > 0 && horas < MIN_HORAS;
     var horasLbl = horas > 0 ? horas.toFixed(1) + 'h' : '—';
@@ -1367,7 +1367,7 @@
     if (num(j.almuerzo))  viatParts.push('Alm. '   + fmtMoney(j.almuerzo));
     if (num(j.traslados)) viatParts.push('Trasl. '  + fmtMoney(j.traslados));
     if (num(j.peaje))     viatParts.push('Peaje '   + fmtMoney(j.peaje));
-    if (num(j.km))        viatParts.push('KM '      + fmtMoney(j.km));
+    if (num(j.km))        viatParts.push(num(j.km) + ' km');
 
     var amts = [
       '<div class="amt"><span class="lbl">Jornal</span><span class="val">'    + fmtMoney(j.jornal)   + '</span></div>',
@@ -1911,7 +1911,7 @@
 
       var tecRows = tecIds.map(function(tid) {
         var s = sums[tid];
-        s.neto = s.jornal + s.almuerzo + s.traslados + s.km + s.peaje + s.otros + s.compras - s.adelantos;
+        s.neto = s.jornal + s.almuerzo + s.traslados + s.peaje + s.otros + s.compras - s.adelantos;
         return { tid: tid, nombre: tecnicos[tid] || ('Técnico #' + tid), s: s };
       });
       tecRows.sort(function(a, b){ return a.nombre.localeCompare(b.nombre, 'es'); });
@@ -1938,6 +1938,7 @@
     });
 
     function celda(key, valor) {
+      if (key === 'km') return '<td>' + Math.round(valor) + ' km</td>';
       var neg = key === 'adelantos' && valor > 0;
       return '<td class="' + (neg ? 'neg' : '') + '">' + (neg ? '−' : '') + fmtMoney(valor) + '</td>';
     }
