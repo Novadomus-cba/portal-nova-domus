@@ -275,6 +275,9 @@ select:focus, input:focus, textarea:focus {
 .rep-weeknav .rep-range small { display:block; font-size:11px; font-weight:400; color:var(--text-muted); }
 .rep-navbtn { background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); padding:6px 12px; font-size:16px; cursor:pointer; }
 .rep-navbtn.sm { font-size:12px; padding:7px 10px; }
+/* Date fields: dark color-scheme so the native calendar icon/popup are visible on navy; whole field opens the picker */
+.rep-date { color-scheme: dark; cursor: pointer; }
+.rep-date::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .85; }
 .rep-actions { display:flex; gap:8px; margin:10px 0 18px; }
 .rep-actions button { flex:1; }
 /* The sheet is what gets captured: fixed width so the image looks the same on any phone */
@@ -611,11 +614,11 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
     <div class="hist-filters">
       <div class="field" style="flex:1;margin-bottom:0">
         <label class="lbl">Desde</label>
-        <input type="date" id="rep-desde" onchange="repRangoManual()">
+        <input type="date" id="rep-desde" class="rep-date" onclick="repAbrirCalendario(this)" onchange="repRangoManual()">
       </div>
       <div class="field" style="flex:1;margin-bottom:0">
         <label class="lbl">Hasta</label>
-        <input type="date" id="rep-hasta" onchange="repRangoManual()">
+        <input type="date" id="rep-hasta" class="rep-date" onclick="repAbrirCalendario(this)" onchange="repRangoManual()">
       </div>
     </div>
     <div id="rep-content">
@@ -1540,6 +1543,11 @@ function repMoverSemana(delta) {
   const a = parseIso(repDesde), b = parseIso(repHasta);
   a.setDate(a.getDate() + 7 * delta); b.setDate(b.getDate() + 7 * delta);
   repSetRange(isoDate(a), isoDate(b));
+}
+// Click anywhere on the field opens the calendar (desktop browsers only open it from the icon).
+// showPicker() needs Chrome 99+ / Safari 16+ / Firefox 101+; older browsers keep the default behavior.
+function repAbrirCalendario(el) {
+  try { if (typeof el.showPicker === 'function') el.showPicker(); } catch (e) { /* already open or not allowed */ }
 }
 function repRangoManual() {
   const d = document.getElementById('rep-desde').value;
