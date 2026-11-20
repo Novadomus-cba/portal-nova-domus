@@ -6,6 +6,7 @@
 <title>Nova Domus — Cuadrilla</title>
 <link rel="icon" type="image/svg+xml" href="../assets/logo/nova-domus-isologo-monocromo-navy.svg" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
 
@@ -268,6 +269,36 @@ select:focus, input:focus, textarea:focus {
 .btn-primary:disabled { opacity: .45; cursor: not-allowed; }
 .hist-filters { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 .hist-filters select { flex: 1; min-width: 120px; font-size: 13px; padding: 8px 10px; }
+/* ── REPORTE (imagen para validar con cada técnico) ── */
+.rep-weeknav { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.rep-weeknav .rep-range { flex:1; text-align:center; font-size:13px; font-weight:600; }
+.rep-weeknav .rep-range small { display:block; font-size:11px; font-weight:400; color:var(--text-muted); }
+.rep-navbtn { background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); padding:6px 12px; font-size:16px; cursor:pointer; }
+.rep-navbtn.sm { font-size:12px; padding:7px 10px; }
+.rep-actions { display:flex; gap:8px; margin:10px 0 18px; }
+.rep-actions button { flex:1; }
+/* The sheet is what gets captured: fixed width so the image looks the same on any phone */
+.rep-sheet { width:560px; max-width:none; background:#0B132B; color:#FDFBF0; border:1px solid #2a3468; border-radius:14px; padding:22px; font-family:'Inter',Arial,sans-serif; }
+.rep-scroll { overflow-x:auto; margin-bottom:8px; }
+.rep-head { display:flex; align-items:center; gap:12px; border-bottom:2px solid #C8A96E; padding-bottom:12px; margin-bottom:14px; }
+.rep-head .rep-logo { background:#FDFBF0; border-radius:8px; padding:5px 8px; display:flex; }
+.rep-head img { height:32px; display:block; }
+.rep-head .rep-title { flex:1; text-align:right; }
+.rep-head .rep-title b { display:block; font-family:'Michroma',sans-serif; font-size:13px; letter-spacing:.04em; }
+.rep-head .rep-title span { font-size:11px; color:#9a9cb8; }
+.rep-tec { font-size:18px; font-weight:700; margin-bottom:2px; }
+.rep-sub { font-size:12px; color:#9a9cb8; margin-bottom:14px; }
+.rep-table { width:100%; border-collapse:collapse; font-size:12px; }
+.rep-table th { text-align:left; font-weight:600; color:#C8A96E; font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:6px 4px; border-bottom:1px solid #2a3468; }
+.rep-table td { padding:7px 4px; border-bottom:1px solid #1d2650; vertical-align:top; }
+.rep-table .num { text-align:right; white-space:nowrap; }
+.rep-table .muted { color:#9a9cb8; font-size:11px; }
+.rep-totals { margin-top:14px; background:#131b3d; border-radius:10px; padding:12px 14px; font-size:13px; }
+.rep-totals div { display:flex; justify-content:space-between; padding:3px 0; color:#c9cbe0; }
+.rep-totals .neg { color:#e74c3c; }
+.rep-totals .neto { border-top:1px solid #2a3468; margin-top:6px; padding-top:8px; font-size:16px; font-weight:700; color:#FDFBF0; }
+.rep-totals .neto span:last-child { color:#C8A96E; }
+.rep-foot { margin-top:12px; font-size:11px; color:#9a9cb8; text-align:center; }
 .hist-empty { text-align: center; padding: 3rem 1rem; color: var(--text-hint); font-size: 14px; }
 .jornada-card {
   background: var(--surface); border: 1px solid var(--border);
@@ -423,6 +454,7 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showPage('carga', this)">Carga</button>
       <button class="nav-tab" id="tab-historico" onclick="showPage('historico', this)">Historial</button>
+      <button class="nav-tab" id="tab-reporte" onclick="showPage('reporte', this)">Reporte</button>
       <button class="nav-tab" id="tab-datos" onclick="showPage('datos', this)">Datos</button>
     </div>
   </div>
@@ -560,6 +592,34 @@ textarea { resize: vertical; min-height: 68px; font-family: inherit; line-height
     </div>
     <div id="hist-content">
       <div class="loader"><div class="spinner"></div> Cargando...</div>
+    </div>
+  </div>
+
+  <!-- PÁGINA REPORTE: resumen por técnico para compartir como imagen -->
+  <div class="page" id="page-reporte">
+    <div class="hist-filters">
+      <select id="rep-tecnico" onchange="cargarReporte()">
+        <option value="">Todos los técnicos</option>
+      </select>
+    </div>
+    <div class="rep-weeknav">
+      <button class="rep-navbtn" onclick="repMoverSemana(-1)" title="Semana anterior">&#8249;</button>
+      <div class="rep-range"><span id="rep-range-lbl">—</span><small id="rep-range-sub"></small></div>
+      <button class="rep-navbtn sm" onclick="repSemanaActual()">Hoy</button>
+      <button class="rep-navbtn" onclick="repMoverSemana(1)" title="Semana siguiente">&#8250;</button>
+    </div>
+    <div class="hist-filters">
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label class="lbl">Desde</label>
+        <input type="date" id="rep-desde" onchange="repRangoManual()">
+      </div>
+      <div class="field" style="flex:1;margin-bottom:0">
+        <label class="lbl">Hasta</label>
+        <input type="date" id="rep-hasta" onchange="repRangoManual()">
+      </div>
+    </div>
+    <div id="rep-content">
+      <div class="hist-empty">Elegí el período para ver el resumen.</div>
     </div>
   </div>
 
@@ -969,6 +1029,17 @@ async function cargarTecnicos() {
       filTec.appendChild(o);
     });
 
+    const repTec = document.getElementById('rep-tecnico');
+    const repSel = repTec.value;
+    repTec.innerHTML = '<option value="">Todos los técnicos</option>';
+    tecOrden.forEach(n => {
+      const o = document.createElement('option');
+      o.value = TECNICOS[n].id;
+      o.textContent = n;
+      repTec.appendChild(o);
+    });
+    repTec.value = repSel;
+
   } catch (e) { console.error('Error cargando técnicos', e); }
 }
 
@@ -1287,6 +1358,7 @@ function showPage(p, tab) {
   if (tab) tab.classList.add('active');
   if (p === 'historico') cargarHistorico();
   if (p === 'datos') cargarDatos();
+  if (p === 'reporte') initReporte();
 }
 
 async function cargarHistorico() {
@@ -1402,6 +1474,218 @@ function renderHistorico(data, idToNombre) {
 function toggleJornada(uid) {
   document.getElementById('body-' + uid).classList.toggle('open');
   document.getElementById('chev-' + uid).classList.toggle('open');
+}
+
+// ── REPORTE ───────────────────────────────────────────────────
+// Weekly summary per technician (Fri→Thu, same week as Liquidación) rendered as an
+// image so Lucas can send it by WhatsApp for the technician to validate.
+// Net formula MUST match Liquidación and fn_liquidacion_marcar_pago:
+// jornal + almuerzo + traslados + peaje + otros + compras − adelantos (km is a quantity, not money).
+const REP_WEEK_START_DOW = 5; // Friday
+let repDesde = null;   // 'YYYY-MM-DD'
+let repHasta = null;
+let repInited = false;
+let repObraNames = {}; // codigo_obra → nombre (all obras, not only EN_CURSO)
+let repCards = [];     // [{ tecnicoId, nombre }] in render order
+
+function isoDate(d) { return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
+function parseIso(s) { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); }
+function repWeekStart(d) {
+  const t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  t.setDate(t.getDate() - ((t.getDay() - REP_WEEK_START_DOW + 7) % 7));
+  return t;
+}
+function repFmtDay(iso) {
+  const dias = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const d = parseIso(iso);
+  return `${dias[d.getDay()]} ${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+}
+function repFmtRange() {
+  const a = parseIso(repDesde), b = parseIso(repHasta);
+  return `${pad(a.getDate())}/${pad(a.getMonth() + 1)} al ${pad(b.getDate())}/${pad(b.getMonth() + 1)}/${b.getFullYear()}`;
+}
+function repIsStdWeek() {
+  const a = parseIso(repDesde);
+  return a.getDay() === REP_WEEK_START_DOW && isoDate(new Date(a.getFullYear(), a.getMonth(), a.getDate() + 6)) === repHasta;
+}
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function initReporte() {
+  if (!repInited) {
+    repInited = true;
+    try {
+      const rows = await supa('/rest/v1/obras?select=codigo_obra,nombre&codigo_obra=not.is.null');
+      (rows || []).forEach(o => { repObraNames[o.codigo_obra] = o.nombre; });
+    } catch (e) { console.error('Error cargando obras para reporte', e); }
+    repSemanaActual();
+    return;
+  }
+  cargarReporte();
+}
+
+function repSetRange(desde, hasta) {
+  repDesde = desde; repHasta = hasta;
+  document.getElementById('rep-desde').value = desde;
+  document.getElementById('rep-hasta').value = hasta;
+  cargarReporte();
+}
+function repSemanaActual() {
+  const a = repWeekStart(new Date());
+  repSetRange(isoDate(a), isoDate(new Date(a.getFullYear(), a.getMonth(), a.getDate() + 6)));
+}
+function repMoverSemana(delta) {
+  // Moves by 7 days and keeps the length of a custom range
+  const a = parseIso(repDesde), b = parseIso(repHasta);
+  a.setDate(a.getDate() + 7 * delta); b.setDate(b.getDate() + 7 * delta);
+  repSetRange(isoDate(a), isoDate(b));
+}
+function repRangoManual() {
+  const d = document.getElementById('rep-desde').value;
+  const h = document.getElementById('rep-hasta').value;
+  if (!d || !h) return;
+  if (h < d) { showToast('La fecha "hasta" es anterior a "desde"', 'error'); return; }
+  repDesde = d; repHasta = h;
+  cargarReporte();
+}
+
+async function cargarReporte() {
+  if (!repDesde || !repHasta) return;
+  const cont = document.getElementById('rep-content');
+  document.getElementById('rep-range-lbl').textContent = repFmtRange();
+  document.getElementById('rep-range-sub').textContent = repIsStdWeek() ? 'Semana de liquidación (vie → jue)' : 'Período personalizado';
+  cont.innerHTML = '<div class="loader"><div class="spinner"></div> Cargando...</div>';
+
+  const tecId = document.getElementById('rep-tecnico').value;
+  let params = `select=fecha,tecnico_id,obra_codigo,hora_entrada,hora_salida,horas_trabajadas,jornal,almuerzo,traslados,peaje,otros,compras,adelantos,km,detalle&fecha=gte.${repDesde}&fecha=lte.${repHasta}&order=fecha.asc,hora_entrada.asc`;
+  if (tecId) params += `&tecnico_id=eq.${tecId}`;
+
+  try {
+    const rows = await supa(`/rest/v1/cuadrilla_jornadas?${params}`) || [];
+    renderReporte(rows);
+  } catch (e) {
+    cont.innerHTML = '<div class="hist-empty">Error al cargar. Verificá la conexión.</div>';
+    console.error(e);
+  }
+}
+
+function repTotals(rows) {
+  const sum = f => rows.reduce((s, j) => s + (Number(j[f]) || 0), 0);
+  const t = {
+    horas: sum('horas_trabajadas'), jornal: sum('jornal'), almuerzo: sum('almuerzo'),
+    traslados: sum('traslados'), peaje: sum('peaje'), otros: sum('otros'),
+    compras: sum('compras'), adelantos: sum('adelantos'), km: sum('km'),
+  };
+  t.neto = t.jornal + t.almuerzo + t.traslados + t.peaje + t.otros + t.compras - t.adelantos;
+  t.dias = new Set(rows.map(j => j.fecha)).size;
+  return t;
+}
+
+function renderReporte(rows) {
+  const cont = document.getElementById('rep-content');
+  if (!rows.length) {
+    cont.innerHTML = '<div class="hist-empty">Sin jornadas cargadas en el período.</div>';
+    return;
+  }
+  const idToNombre = {};
+  Object.keys(TECNICOS).forEach(n => { idToNombre[TECNICOS[n].id] = n; });
+
+  const porTec = {};
+  rows.forEach(j => { (porTec[j.tecnico_id] = porTec[j.tecnico_id] || []).push(j); });
+  repCards = Object.keys(porTec)
+    .map(id => ({ tecnicoId: id, nombre: idToNombre[id] || 'Técnico' }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+
+  cont.innerHTML = repCards.map((c, i) => `
+    <div class="rep-scroll"><div class="rep-sheet" id="rep-sheet-${i}">${buildRepSheet(c.nombre, porTec[c.tecnicoId])}</div></div>
+    <div class="rep-actions">
+      <button class="btn-primary" onclick="repCompartir(${i})">📤 Compartir imagen</button>
+      <button class="btn-cancel" onclick="repDescargar(${i})">⬇ Descargar</button>
+    </div>`).join('');
+}
+
+function buildRepSheet(nombre, rows) {
+  const t = repTotals(rows);
+  const dayHours = {};
+  rows.forEach(j => { dayHours[j.fecha] = (dayHours[j.fecha] || 0) + (Number(j.horas_trabajadas) || 0); });
+  const body = rows.map(j => {
+    const extras = [];
+    if (Number(j.almuerzo))  extras.push('Alm. ' + fmt(j.almuerzo));
+    if (Number(j.traslados)) extras.push('Trasl. ' + fmt(j.traslados) + (Number(j.km) ? ` (${j.km} km)` : ''));
+    if (Number(j.peaje))     extras.push('Peaje ' + fmt(j.peaje));
+    if (Number(j.otros))     extras.push('Otros ' + fmt(j.otros));
+    if (Number(j.compras))   extras.push('Compras ' + fmt(j.compras));
+    if (Number(j.adelantos)) extras.push('Adelanto −' + fmt(j.adelantos));
+    const obra = repObraNames[j.obra_codigo] || j.obra_codigo || '—';
+    const horario = (j.hora_entrada && j.hora_salida) ? `${j.hora_entrada.slice(0,5)}–${j.hora_salida.slice(0,5)}` : '';
+    return `<tr>
+      <td>${repFmtDay(j.fecha)}</td>
+      <td>${escHtml(obra)}${extras.length ? `<div class="muted">${extras.join(' · ')}</div>` : ''}${j.detalle ? `<div class="muted">${escHtml(j.detalle)}</div>` : ''}</td>
+      <td class="num">${horario}<div class="muted">${Number(j.horas_trabajadas) || 0} h${dayHours[j.fecha] > 0 && dayHours[j.fecha] < MIN_HORAS ? ` · se paga mín. ${MIN_HORAS} h` : ''}</div></td>
+      <td class="num">${fmt(j.jornal || 0)}</td>
+    </tr>`;
+  }).join('');
+
+  const line = (lbl, v, cls = '') => v ? `<div class="${cls}"><span>${lbl}</span><span>${cls === 'neg' ? '− ' : ''}${fmt(v)}</span></div>` : '';
+  return `
+    <div class="rep-head">
+      <div class="rep-logo"><img src="../assets/logo/nova-domus-isologo-color-transparente.svg" alt="Nova Domus"></div>
+      <div class="rep-title"><b>RESUMEN DE JORNADAS</b><span>${repFmtRange()}</span></div>
+    </div>
+    <div class="rep-tec">${escHtml(nombre)}</div>
+    <div class="rep-sub">${t.dias} día${t.dias !== 1 ? 's' : ''} · ${Math.round(t.horas * 10) / 10} h cargadas${t.km ? ` · ${t.km} km` : ''}</div>
+    <table class="rep-table">
+      <thead><tr><th>Día</th><th>Obra</th><th class="num">Horario</th><th class="num">Jornal</th></tr></thead>
+      <tbody>${body}</tbody>
+    </table>
+    <div class="rep-totals">
+      ${line('Jornales', t.jornal)}
+      ${line('Almuerzos', t.almuerzo)}
+      ${line('Traslados', t.traslados)}
+      ${line('Peajes', t.peaje)}
+      ${line('Otros', t.otros)}
+      ${line('Compras', t.compras)}
+      ${line('Adelantos', t.adelantos, 'neg')}
+      <div class="neto"><span>Neto a cobrar</span><span>${fmt(t.neto)}</span></div>
+    </div>
+    <div class="rep-foot">Revisá días, obras y horarios. Si algo no coincide, avisá antes del viernes.</div>`;
+}
+
+async function repCanvas(i) {
+  if (typeof html2canvas !== 'function') throw new Error('html2canvas no cargó');
+  await document.fonts.ready;
+  return html2canvas(document.getElementById('rep-sheet-' + i), { backgroundColor: '#0B132B', scale: 2, useCORS: true });
+}
+function repFileName(i) {
+  const n = repCards[i].nombre.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-');
+  return `jornadas-${n}-${repDesde}_${repHasta}.png`;
+}
+async function repDescargar(i) {
+  try {
+    const canvas = await repCanvas(i);
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = repFileName(i);
+    a.click();
+  } catch (e) { showToast('No se pudo generar la imagen', 'error'); console.error(e); }
+}
+async function repCompartir(i) {
+  try {
+    const canvas = await repCanvas(i);
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+    const file = new File([blob], repFileName(i), { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: 'Resumen de jornadas', text: `${repCards[i].nombre} — ${repFmtRange()}` });
+    } else {
+      // Desktop without Web Share: fall back to download
+      await repDescargar(i);
+      showToast('Imagen descargada — adjuntala en WhatsApp', 'success');
+    }
+  } catch (e) {
+    if (e && e.name === 'AbortError') return; // user closed the share sheet
+    showToast('No se pudo compartir la imagen', 'error'); console.error(e);
+  }
 }
 
 // ── EDIT JORNADA ──────────────────────────────────────────────
