@@ -1605,11 +1605,14 @@ function renderReporte(rows) {
     .map(id => ({ tecnicoId: id, nombre: idToNombre[id] || 'Técnico' }))
     .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 
+  repBlobCache = {};
   cont.innerHTML = repCards.map((c, i) => `
     <div class="rep-scroll"><div class="rep-sheet" id="rep-sheet-${i}">${buildRepSheet(c.nombre, porTec[c.tecnicoId])}</div></div>
     <div class="rep-actions">
-      <button class="btn-primary" onclick="repCompartir(${i})">📤 Compartir imagen</button>
-      <button class="btn-cancel" onclick="repDescargar(${i})">⬇ Descargar</button>
+      ${repPuedeCompartir()
+        ? `<button class="btn-primary" onclick="repCompartir(${i}, this)">📤 Compartir</button>`
+        : repPuedeCopiar() ? `<button class="btn-primary" onclick="repCopiar(${i}, this)">📋 Copiar imagen</button>` : ''}
+      <button class="${repPuedeCompartir() || repPuedeCopiar() ? 'btn-cancel' : 'btn-primary'}" onclick="repDescargar(${i}, this)">⬇ Descargar</button>
     </div>`).join('');
 }
 
@@ -1669,31 +1672,77 @@ function repFileName(i) {
   const n = repCards[i].nombre.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-');
   return `jornadas-${n}-${repDesde}_${repHasta}.png`;
 }
-async function repDescargar(i) {
-  try {
-    const canvas = await repCanvas(i);
-    const a = document.createElement('a');
-    a.href = canvas.toDataURL('image/png');
-    a.download = repFileName(i);
-    a.click();
-  } catch (e) { showToast('No se pudo generar la imagen', 'error'); console.error(e); }
-}
-async function repCompartir(i) {
-  try {
-    const canvas = await repCanvas(i);
-    const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
-    const file = new File([blob], repFileName(i), { type: 'image/png' });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: 'Resumen de jornadas', text: `${repCards[i].nombre} — ${repFmtRange()}` });
-    } else {
-      // Desktop without Web Share: fall back to download
-      await repDescargar(i);
-      showToast('Imagen descargada — adjuntala en WhatsApp', 'success');
-    }
-  } catch (e) {
-    if (e && e.name === 'AbortError') return; // user closed the share sheet
-    showToast('No se pudo compartir la imagen', 'error'); console.error(e);
+let repBlobCache = {}; // i → Promise<Blob>, reset on every render
+function repBlob(i) {
+  if (!repBlobCache[i]) {
+    repBlobCache[i] = repCanvas(i).then(c => new Promise((res, rej) =>
+      c.toBlob(b => b ? res(b) : rej(new Error('toBlob devolvió null')), 'image/png')));
+    repBlobCache[i].catch(() => { delete repBlobCache[i]; });
   }
+  return repBlobCache[i];
+}
+// Phone/tablet: native share sheet (WhatsApp directly). On PC, Chrome/Edge on Windows also report
+// file sharing, but that opens the Windows share panel, so PC gets "Copy" instead.
+function repPuedeCompartir() {
+  return !!(navigator.canShare && window.matchMedia && matchMedia('(pointer: coarse)').matches);
+}
+function repPuedeCopiar() {
+  return !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem);
+}
+// Busy state while html2canvas renders (~1 s), so the button is not pressed twice
+async function repConBoton(btn, fn) {
+  const txt = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Generando…'; }
+  try { await fn(); } finally { if (btn) { btn.disabled = false; btn.textContent = txt; } }
+}
+function repBajar(blob, i) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = repFileName(i);
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+async function repDescargar(i, btn) {
+  await repConBoton(btn, async () => {
+    try {
+      repBajar(await repBlob(i), i);
+      showToast('Imagen descargada', 'success');
+    } catch (e) { showToast('No se pudo generar la imagen', 'error'); console.error(e); }
+  });
+}
+async function repCopiar(i, btn) {
+  await repConBoton(btn, async () => {
+    // The ClipboardItem gets the Promise (not the awaited blob): Safari only allows the write
+    // inside the click, and the render takes longer than that.
+    const blobP = repBlob(i);
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blobP })]);
+      showToast('Imagen copiada — pegala en WhatsApp con Ctrl+V', 'success');
+    } catch (e) {
+      console.error(e);
+      try { repBajar(await blobP, i); showToast('No se pudo copiar: se descargó la imagen', 'error'); }
+      catch (e2) { showToast('No se pudo generar la imagen', 'error'); console.error(e2); }
+    }
+  });
+}
+async function repCompartir(i, btn) {
+  await repConBoton(btn, async () => {
+    try {
+      const blob = await repBlob(i);
+      const file = new File([blob], repFileName(i), { type: 'image/png' });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'Resumen de jornadas', text: `${repCards[i].nombre} — ${repFmtRange()}` });
+      } else {
+        repBajar(blob, i);
+        showToast('Imagen descargada — adjuntala en WhatsApp', 'success');
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return; // user closed the share sheet
+      // iPhone: the render outlived the tap. The image is cached now, a second tap shares instantly.
+      if (e && e.name === 'NotAllowedError') { showToast('Imagen lista — tocá Compartir de nuevo', 'success'); return; }
+      showToast('No se pudo compartir la imagen', 'error'); console.error(e);
+    }
+  });
 }
 
 // ── EDIT JORNADA ──────────────────────────────────────────────
