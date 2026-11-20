@@ -976,7 +976,10 @@
   // fallaban con 401 sin que nadie se enterara).
   var SUPA_URL = AUTH_URL;
   var MIN_HORAS = 6;
+  // Supervision (Esteban, categoria SUPERVISOR + 3% on the crew) only exists for weeks before 2026-11-20.
+  // From that week he is a salaried OFICIAL: the section shows only if a SUPERVISOR tariff was in force.
   var SUPERVISOR_COMMISSION_RATE = 0.03; // 3%
+  var supLegacy = false;
 
   /* ── State ── */
   var currentStart   = getWeekStartOf(new Date(), 5); // default: viernes
@@ -1315,12 +1318,15 @@
     cards.forEach(function(c) { cardNetos[c.tid] = c.t.neto; });
     document.getElementById('content').innerHTML = cards.map(buildCard).join('');
 
-    // Supervisor section — jornal/viáticos propios (de sus propias filas) + comisión
+    // Supervisor section (legacy, weeks before 2026-11-20 only) — own jornal/viáticos + commission
+    supLegacy = Object.keys(categoriaMap).some(function(k) { return categoriaMap[k].categoria === 'SUPERVISOR'; });
     weekTotalJornalesAlmuerzos = baseJornalesAlmuerzos;
     supervisorTotales = calcTotales(supervisorRows);
-    recalcSupervisor();
-    document.getElementById('supervisor-section').style.display = '';
-    document.getElementById('nd-cost-bar').style.display = '';
+    if (supLegacy) {
+      recalcSupervisor();
+      document.getElementById('supervisor-section').style.display = '';
+      document.getElementById('nd-cost-bar').style.display = '';
+    }
 
     /* Toggle expand */
     document.querySelectorAll('.tc-header').forEach(function(h) {
@@ -1339,10 +1345,18 @@
     });
   }
 
+  // Salaried technicians (tariff es_mensualizado): jornal_extra/horas_extra are set by a DB trigger and
+  // replace jornal in what is paid; jornal (all hours) stays as the cost imputed to the job.
+  // Non-salaried: jornal_extra is NULL and jornal is paid. Same rule as fn_liquidacion_marcar_pago.
+  function isMens(j) { return j.jornal_extra !== null && j.jornal_extra !== undefined; }
+
   function calcTotales(jornadas) {
     var jornal = 0, almuerzo = 0, viaticos = 0, adelantos = 0, compras = 0, otros = 0, horas = 0;
+    var jornalPago = 0, horasExtra = 0, mens = false;
     jornadas.forEach(function(j) {
       jornal    += num(j.jornal);
+      if (isMens(j)) { mens = true; jornalPago += num(j.jornal_extra); horasExtra += num(j.horas_extra); }
+      else           { jornalPago += num(j.jornal); }
       almuerzo  += num(j.almuerzo);
       viaticos  += num(j.almuerzo) + num(j.traslados) + num(j.peaje); // km is a quantity, already priced in traslados
       adelantos += num(j.adelantos);
@@ -1350,15 +1364,23 @@
       otros     += num(j.otros);
       horas     += num(j.horas_trabajadas);
     });
-    var neto = jornal + viaticos + otros + compras - adelantos;
-    return { jornal: jornal, almuerzo: almuerzo, viaticos: viaticos, adelantos: adelantos, compras: compras, otros: otros, horas: horas, neto: neto };
+    var neto = jornalPago + viaticos + otros + compras - adelantos;
+    return { jornal: jornal, almuerzo: almuerzo, viaticos: viaticos, adelantos: adelantos, compras: compras, otros: otros, horas: horas, neto: neto,
+             jornalPago: jornalPago, horasExtra: horasExtra, mens: mens };
   }
+
+  function fmtHoras(h) { return (Math.round(h * 10) / 10).toString().replace('.', ',') + ' h'; }
 
   function buildCard(c) {
     var tid = c.tid, nombre = c.nombre, jornadas = c.jornadas, t = c.t;
     var dias     = jornadas.length;
     var negClass = t.neto < 0 ? ' neg' : '';
-    var chips = [
+    var chips = t.mens ? [
+      '<span class="chip">Horas extra <b>' + fmtHoras(t.horasExtra) + '</b></span>',
+      '<span class="chip">Jornal extra <b>' + fmtMoney(t.jornalPago) + '</b></span>',
+      '<span class="chip">Viáticos <b>' + fmtMoney(t.viaticos) + '</b></span>',
+      '<span class="chip" title="Todas las horas a valor hora: es el costo que se imputa a la obra. Las horas de contrato las cubre el sueldo.">Imputado a obra <b>' + fmtMoney(t.jornal) + '</b></span>'
+    ] : [
       '<span class="chip">Jornal <b>'   + fmtMoney(t.jornal)   + '</b></span>',
       '<span class="chip">Viáticos <b>' + fmtMoney(t.viaticos) + '</b></span>'
     ];
@@ -1399,7 +1421,7 @@
         '<div class="avatar">'   + esc(initials(nombre)) + '</div>' +
         '<div class="tc-info">'  +
           '<div class="tc-name">' + esc(nombre) + '</div>' +
-          '<div class="tc-meta">' + dias + ' día' + (dias !== 1 ? 's' : '') + ' · ' + t.horas.toFixed(1) + 'h</div>' +
+          '<div class="tc-meta">' + dias + ' día' + (dias !== 1 ? 's' : '') + ' · ' + t.horas.toFixed(1) + 'h' + (t.mens ? ' · mensualizado' : '') + '</div>' +
         '</div>' +
         '<div class="tc-neto">' +
           '<div class="neto-amt' + negClass + '">' + fmtMoney(t.neto) + '</div>' +
@@ -1412,7 +1434,10 @@
       '<div class="tc-detail">' +
         jornadas.map(buildDayRow).join('') +
         '<div class="tc-totals">' +
-          '<div class="tf-item"><div class="tf-lbl">Jornal</div><div class="tf-val">'   + fmtMoney(t.jornal)   + '</div></div>' +
+          (t.mens
+            ? '<div class="tf-item"><div class="tf-lbl">Jornal extra (' + fmtHoras(t.horasExtra) + ')</div><div class="tf-val">' + fmtMoney(t.jornalPago) + '</div></div>' +
+              '<div class="tf-item"><div class="tf-lbl">Imputado a obra</div><div class="tf-val" style="color:var(--muted)">' + fmtMoney(t.jornal) + '</div></div>'
+            : '<div class="tf-item"><div class="tf-lbl">Jornal</div><div class="tf-val">'   + fmtMoney(t.jornal)   + '</div></div>') +
           '<div class="tf-item"><div class="tf-lbl">Viáticos</div><div class="tf-val">' + fmtMoney(t.viaticos) + '</div></div>' +
           (t.compras   ? '<div class="tf-item"><div class="tf-lbl">Compras</div><div class="tf-val">'        + fmtMoney(t.compras)   + '</div></div>' : '') +
           (t.otros     ? '<div class="tf-item"><div class="tf-lbl">Otros</div><div class="tf-val">'          + fmtMoney(t.otros)     + '</div></div>' : '') +
@@ -1430,7 +1455,8 @@
   function buildDayRow(j) {
     var viaticos = num(j.almuerzo) + num(j.traslados) + num(j.peaje);
     var horas    = num(j.horas_trabajadas);
-    var bajMin   = horas > 0 && horas < MIN_HORAS;
+    var mens     = isMens(j);
+    var bajMin   = !mens && horas > 0 && horas < MIN_HORAS; // salaried: the 6 h minimum only affects job cost, not pay
     var horasLbl = horas > 0 ? horas.toFixed(1) + 'h' : '—';
     var horario  = (j.hora_entrada && j.hora_salida) ? j.hora_entrada.slice(0,5) + ' – ' + j.hora_salida.slice(0,5) : '';
 
@@ -1440,7 +1466,11 @@
     if (num(j.peaje))     viatParts.push('Peaje '   + fmtMoney(j.peaje));
     if (num(j.km))        viatParts.push(num(j.km) + ' km');
 
-    var amts = [
+    var amts = mens ? [
+      '<div class="amt"><span class="lbl">Extra ' + fmtHoras(num(j.horas_extra)) + '</span><span class="val">' + fmtMoney(j.jornal_extra) + '</span></div>',
+      '<div class="amt"><span class="lbl">Imputado obra</span><span class="val" style="color:var(--muted)">' + fmtMoney(j.jornal) + '</span></div>',
+      '<div class="amt"><span class="lbl">Viáticos</span><span class="val">'  + fmtMoney(viaticos)   + '</span></div>'
+    ] : [
       '<div class="amt"><span class="lbl">Jornal</span><span class="val">'    + fmtMoney(j.jornal)   + '</span></div>',
       '<div class="amt"><span class="lbl">Viáticos</span><span class="val">'  + fmtMoney(viaticos)   + '</span></div>'
     ];
@@ -1753,7 +1783,7 @@
 
   function renderPayStatus() {
     if (!document.getElementById('summary-bar') || document.getElementById('summary-bar').style.display === 'none') return;
-    var supTotal = num(document.getElementById('sup-total-manual').value);
+    var supTotal = supLegacy ? num(document.getElementById('sup-total-manual').value) : 0;
     var aPagar = 0, pagado = 0;
 
     Object.keys(cardNetos).forEach(function(tid) {
@@ -1768,11 +1798,13 @@
       if (row)  row.innerHTML = payRowHTML('tec', tid, p ? p.pagado_en : null, p ? num(p.total_a_pagar) : 0, neto);
     });
 
-    aPagar += supTotal;
-    var supPaid = semanaPago && semanaPago.supervisor_pagado_en;
-    if (supPaid) pagado += num(semanaPago.supervisor_monto_pagado);
-    document.getElementById('sup-pay-row').innerHTML =
-      payRowHTML('sup', 'sup', supPaid || null, supPaid ? num(semanaPago.supervisor_monto_pagado) : 0, supTotal);
+    if (supLegacy) {
+      aPagar += supTotal;
+      var supPaid = semanaPago && semanaPago.supervisor_pagado_en;
+      if (supPaid) pagado += num(semanaPago.supervisor_monto_pagado);
+      document.getElementById('sup-pay-row').innerHTML =
+        payRowHTML('sup', 'sup', supPaid || null, supPaid ? num(semanaPago.supervisor_monto_pagado) : 0, supTotal);
+    }
 
     document.getElementById('pay-total').textContent     = fmtMoney(aPagar);
     document.getElementById('pay-pagado').textContent    = fmtMoney(pagado);
@@ -1922,7 +1954,8 @@
   ══════════════════════════════════════════════ */
 
   var PAGOS_CONCEPTOS = [
-    { key: 'jornal',    label: 'Jornal' },
+    { key: 'jornal',    label: 'Jornal (imputado a obra)' },
+    { key: 'jornal_extra', label: 'Jornal extra (mensualizados)' },
     { key: 'almuerzo',  label: 'Almuerzo' },
     { key: 'traslados', label: 'Traslados' },
     { key: 'km',        label: 'KM' },
@@ -2068,7 +2101,7 @@
       obraFiltro = '&obra_codigo=is.null';
     }
 
-    var q = 'cuadrilla_jornadas?select=tecnico_id,jornal,almuerzo,traslados,km,peaje,otros,compras,adelantos' +
+    var q = 'cuadrilla_jornadas?select=tecnico_id,jornal,jornal_extra,almuerzo,traslados,km,peaje,otros,compras,adelantos' +
       '&fecha=gte.' + from + '&fecha=lte.' + to +
       '&tecnico_id=in.(' + tecIds.join(',') + ')' +
       obraFiltro;
@@ -2076,12 +2109,14 @@
     sbGet(q).then(function(rows) {
       var sums = {};
       tecIds.forEach(function(tid) {
-        sums[tid] = { jornal: 0, almuerzo: 0, traslados: 0, km: 0, peaje: 0, otros: 0, compras: 0, adelantos: 0 };
+        sums[tid] = { jornal: 0, jornal_extra: 0, jornal_pago: 0, almuerzo: 0, traslados: 0, km: 0, peaje: 0, otros: 0, compras: 0, adelantos: 0 };
       });
       rows.forEach(function(j) {
         var s = sums[j.tecnico_id];
         if (!s) return;
         s.jornal    += num(j.jornal);
+        s.jornal_extra += num(j.jornal_extra);
+        s.jornal_pago  += isMens(j) ? num(j.jornal_extra) : num(j.jornal);
         s.almuerzo  += num(j.almuerzo);
         s.traslados += num(j.traslados);
         s.km        += num(j.km);
@@ -2093,7 +2128,8 @@
 
       var tecRows = tecIds.map(function(tid) {
         var s = sums[tid];
-        s.neto = s.jornal + s.almuerzo + s.traslados + s.peaje + s.otros + s.compras - s.adelantos;
+        // Salaried: jornal_extra is paid instead of jornal (see calcTotales)
+        s.neto = s.jornal_pago + s.almuerzo + s.traslados + s.peaje + s.otros + s.compras - s.adelantos;
         return { tid: tid, nombre: tecnicos[tid] || ('Técnico #' + tid), s: s };
       });
       tecRows.sort(function(a, b){ return a.nombre.localeCompare(b.nombre, 'es'); });
