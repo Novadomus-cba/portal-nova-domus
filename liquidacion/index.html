@@ -215,6 +215,21 @@
     .tc-info .tc-name { font-size: 15px; font-weight: 600; }
     .tc-info .tc-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
     .tc-neto { text-align: right; flex-shrink: 0; }
+    /* Payment status */
+    .pay-bar { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+    .pay-bar > div { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:10px 12px; }
+    .pay-bar .pb-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+    .pay-bar .pb-val { font-size:17px; font-weight:800; margin-top:2px; }
+    .pay-bar .pb-val.ok { color:var(--ok); } .pay-bar .pb-val.warn { color:#f1c40f; }
+    .pay-note { font-size:11px; color:var(--muted); margin:-6px 0 14px; }
+    .pay-row { display:flex; align-items:center; gap:10px; padding:8px 14px; border-top:1px solid var(--border); font-size:12px; }
+    .pay-row label { display:flex; align-items:center; gap:7px; font-weight:600; cursor:pointer; }
+    .pay-row input[type=checkbox] { width:17px; height:17px; accent-color:var(--ok); }
+    .pay-row .pay-info { flex:1; text-align:right; color:var(--muted); }
+    .pay-row .pay-adj { color:#f1c40f; font-weight:600; }
+    .pay-row .btn-mini-pay { background:none; border:1px solid #f1c40f; color:#f1c40f; border-radius:6px; padding:3px 8px; font-size:11px; cursor:pointer; }
+    .tech-card.paid .neto-amt { color:var(--muted); text-decoration:line-through; }
+    .tech-card.paid .neto-lbl::after { content:' · pagado'; color:var(--ok); }
     .tc-neto .neto-amt { font-size: 19px; font-weight: 800; color: var(--ok); }
     .tc-neto .neto-amt.neg { color: var(--danger); }
     .tc-neto .neto-lbl { font-size: 10px; color: var(--muted); }
@@ -772,6 +787,14 @@
     </div>
   </div>
 
+  <!-- A pagar / Pagado / Pendiente -->
+  <div id="pay-bar" class="pay-bar" style="display:none;">
+    <div><div class="pb-lbl">A pagar</div><div class="pb-val" id="pay-total">$0</div></div>
+    <div><div class="pb-lbl">Pagado</div><div class="pb-val ok" id="pay-pagado">$0</div></div>
+    <div><div class="pb-lbl">Pendiente</div><div class="pb-val warn" id="pay-pendiente">$0</div></div>
+  </div>
+  <div id="pay-note" class="pay-note" style="display:none;"></div>
+
   <!-- Técnicos -->
   <div id="content">
     <div class="state-box">
@@ -832,6 +855,7 @@
         <div style="font-size:11px; color:var(--muted); margin-top:6px; padding-left:2px;">
           Sugerido = jornal + viáticos propios + comisión. Podés ajustarlo si hace falta.
         </div>
+        <div class="pay-row" id="sup-pay-row" style="margin:12px -14px -14px;"></div>
       </div>
     </div>
   </div>
@@ -965,6 +989,11 @@
   var supervisorTotales = null; // calcTotales() de las jornadas propias del/los técnico(s) categoría SUPERVISOR
   var categoriaMap = {}; // tecnico_id → { categoria, fecha_desde, ... } (tarifa vigente en la semana)
   var reembolsosMap = {}; // tecnico_id → {total, facturas: [...]}
+  var PAY_ROLES = ['admin', 'supervisor']; // can mark/unmark payments (contable: read-only)
+  var canMarkPaid = false;
+  var pagosMap = {};        // tecnico_id → row of v_liquidacion_pagos for the current week
+  var semanaPago = null;    // row of v_liquidacion_semanas for the current week
+  var cardNetos = {};       // tecnico_id → current neto (from jornadas)
 
   /* ══════════════════════════════════════════════
      Date helpers
@@ -1116,6 +1145,23 @@
     });
   }
 
+  function sbRpc(fn, args) {
+    return getAccessToken().then(function(token) {
+      return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+        method: 'POST',
+        headers: sbHeaders(token, { 'Content-Type': 'application/json' }),
+        body: JSON.stringify(args)
+      }).then(function(res) {
+        if (res.status === 401) { manejarSesionExpirada(); throw new Error('SESION_EXPIRADA'); }
+        return res.text().then(function(text) {
+          var data = text ? JSON.parse(text) : null;
+          if (!res.ok) throw new Error((data && data.message) || 'HTTP ' + res.status);
+          return data;
+        });
+      });
+    });
+  }
+
   /* ══════════════════════════════════════════════
      Load
   ══════════════════════════════════════════════ */
@@ -1155,6 +1201,23 @@
     });
   }
 
+  // Payments only exist for standard Fri→Thu weeks (cuadrilla.semanas_liquidacion)
+  function isStdWeek() {
+    return currentStart.getDay() === 5 && toISO(addDays(currentStart, 6)) === toISO(currentEnd);
+  }
+
+  function loadPagos(from) {
+    pagosMap = {}; semanaPago = null;
+    if (!isStdWeek()) return Promise.resolve();
+    return Promise.all([
+      sbGet('v_liquidacion_pagos?fecha_desde=eq.' + from),
+      sbGet('v_liquidacion_semanas?fecha_desde=eq.' + from)
+    ]).then(function(r) {
+      r[0].forEach(function(p) { pagosMap[p.tecnico_id] = p; });
+      semanaPago = r[1][0] || null;
+    }).catch(function(e) { console.warn('No se cargaron pagos:', e.message); });
+  }
+
   // Categoría vigente de cada técnico a la fecha de referencia (fin de semana liquidada).
   // Se usa para excluir a los técnicos categoría SUPERVISOR de la base de comisión.
   function loadCategorias(refDate) {
@@ -1192,8 +1255,11 @@
     var jornadasQ   = sbGet('cuadrilla_jornadas?fecha=gte.' + from + '&fecha=lte.' + to + '&select=*&order=tecnico_id.asc,fecha.asc');
     var reembQ      = loadReembolsos(from, to);
     var categoriasQ = loadCategorias(to);
+    var pagosQ      = loadPagos(from);
+    document.getElementById('pay-bar').style.display  = 'none';
+    document.getElementById('pay-note').style.display = 'none';
 
-    Promise.all([jornadasQ, reembQ, categoriasQ])
+    Promise.all([jornadasQ, reembQ, categoriasQ, pagosQ])
       .then(function(results) {
         var rows = results[0];
         if (!rows.length) { document.getElementById('content').innerHTML = emptyHTML(); return; }
@@ -1245,6 +1311,8 @@
     document.getElementById('s-tecnicos').textContent = String(cards.length);
     document.getElementById('summary-bar').style.display = '';
 
+    cardNetos = {};
+    cards.forEach(function(c) { cardNetos[c.tid] = c.t.neto; });
     document.getElementById('content').innerHTML = cards.map(buildCard).join('');
 
     // Supervisor section — jornal/viáticos propios (de sus propias filas) + comisión
@@ -1258,6 +1326,8 @@
     document.querySelectorAll('.tc-header').forEach(function(h) {
       h.addEventListener('click', function() { h.closest('.tech-card').classList.toggle('open'); });
     });
+
+    renderPayStatus();
 
     /* Edit buttons */
     document.querySelectorAll('.btn-edit').forEach(function(btn) {
@@ -1338,6 +1408,7 @@
         '<span class="chevron">▼</span>' +
       '</div>' +
       '<div class="tc-chips">' + chips.join('') + '</div>' +
+      '<div class="pay-row" data-pay-tid="' + esc(tid) + '"></div>' +
       '<div class="tc-detail">' +
         jornadas.map(buildDayRow).join('') +
         '<div class="tc-totals">' +
@@ -1643,12 +1714,123 @@
     document.getElementById('nd-cost-total').textContent     = fmtMoney(ndTotal);
     document.getElementById('nd-bd-cuadrilla').textContent   = fmtMoney(cuadrillaTotal);
     document.getElementById('nd-bd-supervisor').textContent  = fmtMoney(supTotal);
+    renderPayStatus();
   }
 
   // When user manually changes the total, stop auto-filling
   document.getElementById('sup-total-manual').addEventListener('input', function() {
     this.setAttribute('data-auto', 'false');
     recalcNDCost();
+  });
+
+  /* ══════════════════════════════════════════════
+     Payment status (per technician per Fri→Thu week)
+  ══════════════════════════════════════════════ */
+
+  function fmtPagadoEn(ts) {
+    var d = new Date(ts);
+    return pad(d.getDate()) + '/' + pad(d.getMonth() + 1);
+  }
+
+  function payRowHTML(kind, id, paid, montoPagado, montoActual) {
+    var std = isStdWeek();
+    var disabled = (!canMarkPaid || !std) ? ' disabled' : '';
+    var h = '<label><input type="checkbox" data-pay-kind="' + kind + '" data-pay-id="' + esc(id) + '"' +
+            (paid ? ' checked' : '') + disabled + '> Pagado</label>';
+    var info = '';
+    if (paid) {
+      info = fmtMoney(montoPagado) + ' el ' + fmtPagadoEn(paid);
+      var diff = Math.round(montoActual - montoPagado);
+      if (diff !== 0) {
+        info += ' · <span class="pay-adj">ajuste ' + (diff > 0 ? '+' : '') + fmtMoney(diff) + '</span>';
+        if (canMarkPaid && std) info += ' <button class="btn-mini-pay" data-pay-refresh="' + kind + '" data-pay-id="' + esc(id) + '">Actualizar</button>';
+      }
+    } else if (!std) {
+      info = 'Para marcar pagos, elegí una semana vie → jue';
+    }
+    return h + '<span class="pay-info">' + info + '</span>';
+  }
+
+  function renderPayStatus() {
+    if (!document.getElementById('summary-bar') || document.getElementById('summary-bar').style.display === 'none') return;
+    var supTotal = num(document.getElementById('sup-total-manual').value);
+    var aPagar = 0, pagado = 0;
+
+    Object.keys(cardNetos).forEach(function(tid) {
+      var neto = cardNetos[tid];
+      var p = pagosMap[tid];
+      aPagar += neto;
+      // "Pagado" counts what was actually paid; pending = difference still owed (adjustments included)
+      if (p) pagado += num(p.total_a_pagar);
+      var card = document.querySelector('.tech-card[data-tid="' + tid + '"]');
+      var row  = document.querySelector('[data-pay-tid="' + tid + '"]');
+      if (card) card.classList.toggle('paid', !!p && Math.round(num(p.total_a_pagar)) === Math.round(neto));
+      if (row)  row.innerHTML = payRowHTML('tec', tid, p ? p.pagado_en : null, p ? num(p.total_a_pagar) : 0, neto);
+    });
+
+    aPagar += supTotal;
+    var supPaid = semanaPago && semanaPago.supervisor_pagado_en;
+    if (supPaid) pagado += num(semanaPago.supervisor_monto_pagado);
+    document.getElementById('sup-pay-row').innerHTML =
+      payRowHTML('sup', 'sup', supPaid || null, supPaid ? num(semanaPago.supervisor_monto_pagado) : 0, supTotal);
+
+    document.getElementById('pay-total').textContent     = fmtMoney(aPagar);
+    document.getElementById('pay-pagado').textContent    = fmtMoney(pagado);
+    document.getElementById('pay-pendiente').textContent = fmtMoney(aPagar - pagado);
+    document.getElementById('pay-bar').style.display = '';
+
+    var note = document.getElementById('pay-note');
+    if (!isStdWeek()) {
+      note.textContent = 'Período personalizado: los pagos se registran por semana vie → jue, acá no se suman.';
+      note.style.display = '';
+      document.getElementById('pay-pagado').textContent = '—';
+      document.getElementById('pay-pendiente').textContent = '—';
+    } else {
+      note.style.display = 'none';
+    }
+  }
+
+  function setPago(kind, id, marcar) {
+    var desde = toISO(currentStart);
+    var p;
+    if (kind === 'sup') {
+      p = sbRpc('fn_liquidacion_pago_supervisor', {
+        p_desde: desde,
+        p_monto: marcar ? num(document.getElementById('sup-total-manual').value) : null
+      });
+    } else {
+      p = sbRpc(marcar ? 'fn_liquidacion_marcar_pago' : 'fn_liquidacion_desmarcar_pago',
+                { p_desde: desde, p_tecnico_id: id });
+    }
+    return p.then(function() { return loadPagos(desde); })
+      .then(function() {
+        renderPayStatus();
+        showToast(marcar ? 'Pago registrado ✓' : 'Pago desmarcado', 'success');
+      })
+      .catch(function(e) {
+        showToast('Error: ' + e.message, 'error');
+        renderPayStatus(); // restore checkbox state from server
+      });
+  }
+
+  document.addEventListener('change', function(e) {
+    var el = e.target;
+    if (!el.matches || !el.matches('input[data-pay-kind]')) return;
+    var kind = el.getAttribute('data-pay-kind'), id = el.getAttribute('data-pay-id');
+    if (!el.checked) {
+      var quien = kind === 'sup' ? 'del supervisor' : 'de ' + (tecnicos[id] || 'este técnico');
+      if (!confirm('¿Desmarcar el pago ' + quien + ' de esta semana?')) { el.checked = true; return; }
+    }
+    el.disabled = true;
+    setPago(kind, id, el.checked);
+  });
+
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest && e.target.closest('[data-pay-refresh]');
+    if (!btn) return;
+    e.stopPropagation();
+    btn.disabled = true;
+    setPago(btn.getAttribute('data-pay-refresh'), btn.getAttribute('data-pay-id'), true);
   });
 
   /* ══════════════════════════════════════════════
@@ -1977,6 +2159,7 @@
       window.location.href = '../index.html'; return;
     }
     canEditJornadas = READ_ONLY_ROLES.indexOf(profile.role) === -1;
+    canMarkPaid     = PAY_ROLES.indexOf(profile.role) !== -1;
     document.getElementById('portal-username').textContent = profile.full_name;
     document.getElementById('app-loading').style.display = 'none';
     return Promise.all([
