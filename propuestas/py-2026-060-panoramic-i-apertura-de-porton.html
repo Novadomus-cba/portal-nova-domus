@@ -5,7 +5,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nova Domus">
 <meta property="og:title" content="Panoramic I — Apertura del portón vehicular · PY-2026-060">
-<meta property="og:description" content="Proyecto de Tecnológica Integral: un control remoto por departamento y reconocimiento facial en subsuelo y planta baja para abrir el portón. Dos bloques que se contratan por separado. Nova Domus.">
+<meta property="og:description" content="Proyecto de Tecnológica Integral: control remoto AX PRO para abrir el portón de cocheras, también en moto, sin depender de internet. Opcional: reconocimiento facial con QR para visitas. Nova Domus.">
 <meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-060-panoramic-i-apertura-de-porton.html">
 <meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-060-panoramic-i-apertura-de-porton.png">
 <meta property="og:image:width" content="1200">
@@ -477,6 +477,7 @@ box-shadow:0 0 0 0 rgba(20,30,97,.4)}
   .rub-head{gap:8px 12px}
   .rub-name{flex:1 1 100%}
   .rub-head .rub-val{margin-left:auto}
+  .rub-body .iva{display:block}
   .stg-card{flex-wrap:wrap;padding:14px 15px}
   .stg-card .v{flex:1 1 100%;text-align:right}
   .srcs{padding:8px;gap:8px}
@@ -572,13 +573,14 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <h1>Panoramic I</h1>
     <p class="claim">Apertura del portón vehicular · control remoto y reconocimiento facial</p>
     <p class="tagline">Del cable a la app</p>
-    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para sumar dos formas
-      nuevas de abrir el portón de cocheras, además de la cámara de patentes que ya lo abre hoy: un
-      control remoto por departamento y un lector facial en el subsuelo y otro en planta baja. Son dos
-      bloques independientes: se contratan juntos o por separado.</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para que el portón de
+      cocheras abra también a quien llega en moto, que la cámara de patentes del ingreso no puede
+      leer. La solución principal es un control remoto inalámbrico Hikvision AX PRO, que funciona
+      dentro del edificio sin internet. Como complemento, reconocimiento facial en subsuelo y planta
+      baja, con acceso por QR para visitas. Son dos bloques independientes.</p>
     <div class="meta">
-      <span>Nuevo Malagueño, Córdoba</span><span>41 controles remotos</span>
-      <span>2 lectores faciales</span><span>Para la administración del edificio</span>
+      <span>Nuevo Malagueño, Córdoba</span><span>Control remoto AX PRO</span>
+      <span>Facial con QR, opcional</span><span>Para la administración del edificio</span>
     </div>
   </div>
 </header>
@@ -605,28 +607,31 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   <h2>60 segundos</h2>
   <p class="lead">Lo esencial, si no querés leer el resto.</p>
   <div class="kpis">
-    <div class="kpi"><span class="figure" data-n="41">41</span>
-      <small>controles remotos, uno por departamento</small></div>
+    <div class="kpi"><span class="figure" data-n="48">48</span>
+      <small>controles que admite la central: uno por departamento y de sobra</small></div>
     <div class="kpi"><span class="figure" data-n="2">2</span>
-      <small>lectores faciales, en subsuelo y planta baja</small></div>
-    <div class="kpi"><span class="figure" data-n="3">3</span>
-      <small>maneras de abrir: patente, control o rostro</small></div>
-    <div class="kpi"><span class="figure" data-n="2">2</span>
-      <small>bloques que se contratan por separado</small></div>
+      <small>repetidores: el control responde en las dos puntas de la rampa</small></div>
+    <div class="kpi"><span class="figure" data-n="0">0</span>
+      <small>cables de mando por la rampa: el relé recibe la orden por radio</small></div>
+    <div class="kpi"><span class="figure" data-n="0">0</span>
+      <small>dependencia de internet: todo funciona dentro del edificio</small></div>
   </div>
   <p><b>Qué necesita el edificio.</b> Hoy el portón de cocheras lo abre la cámara de lectura de
-    patentes del ingreso. Funciona bien para el auto registrado, pero no resuelve al residente que
-    llega en otro auto, con la patente sucia o que sale desde el subsuelo.</p>
-  <p><b>Qué proponemos.</b> Dos bloques que se suman, cada uno con su propio contacto sobre la
-    misma entrada de apertura del motor. <b>Bloque A:</b> un control remoto Hikvision por
-    departamento, dado de alta a su nombre, que se da de baja solo si se pierde.
-    <b>Bloque B:</b> dos lectores faciales en tótem, del mismo modelo que los que ya tiene el
-    edificio y cargados con los mismos rostros. Ninguno depende del otro, ni de la cámara de patentes.</p>
-  <p><b>Inversión.</b> Bloque A <span class="cav-val">U$D 2.858,89</span> · Bloque B
-    <span class="cav-val">U$D 1.031,09</span> · los dos <span class="cav-val">U$D 3.889,98</span>, con
-    equipos, mano de obra especializada, programación y comisionado. Como referencia, dividido
-    entre los 41 departamentos son <span class="cav-val">U$D 94,88</span> por departamento
-    (U$D 69,73 si se contrata solo el control remoto).</p>
+    patentes del ingreso. Varios residentes tienen moto, y en Argentina las motos llevan solo patente
+    trasera: la cámara no las puede leer cuando llegan. Además, en la cochera no hay internet, así
+    que abrir desde una app no es una solución confiable.</p>
+  <p><b>Qué proponemos.</b> <b>Bloque A, la solución principal:</b> un control remoto inalámbrico
+    Hikvision AX PRO. La instalación es simple: la central va junto al rack y solo el relé va junto
+    al motor, sin tender un cable de mando por la rampa. Dos repetidores, en planta baja y en el
+    subsuelo, aseguran el alcance. Cada control se da de alta y de baja por separado, funciona sin
+    internet y trabaja en paralelo con la cámara de patentes. <b>Bloque B, complementario:</b> dos
+    lectores faciales en tótem: los residentes abren con su rostro, que carga la administración, y
+    las visitas entran con un código QR desde la app. Ninguno depende del otro.</p>
+  <p><b>Inversión.</b> Bloque A <span class="cav-val">U$D 1.157</span> · Bloque B
+    <span class="cav-val">U$D 1.103</span> · los dos <span class="cav-val">U$D 2.260</span>, con
+    equipos, mano de obra especializada, programación y comisionado. El Bloque A incluye la central
+    con un control; los controles adicionales se piden aparte, a U$D 32 + IVA 21% cada uno, uno por
+    departamento o los que defina la administración.</p>
   <p><b>Próximo paso.</b> Elegir uno o los dos bloques en la sección de Inversión y confirmar.
     Con eso coordinamos la Visita Técnica para verificar la placa del motor y le pasamos a la obra
     la lista de lo que tiene que dejar listo.</p>
@@ -636,23 +641,23 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   <p class="eyebrow">01 — Cómo funciona</p>
   <h2>Cuatro llaves, una cerradura</h2>
   <p class="lead">La placa del motor tiene una entrada de apertura. Hoy le llega un solo contacto,
-    el de la cámara de patentes. Con esta propuesta le llegan hasta cuatro, en paralelo: cualquiera
-    abre y ninguno depende del otro.</p>
+    el de la cámara de patentes, que lee la patente delantera: por eso las motos no abren. Con esta
+    propuesta le llegan hasta cuatro, en paralelo: cualquiera abre y ninguno depende del otro.</p>
   <p class="hint" id="gd-hint">👆 Tocá cada forma de abrir y mirá qué pasa en el motor</p>
   <div class="gd">
     <div>
       <div class="srcs" id="srcs">
         <button class="src" data-k="p" onclick="openBy('p',this)"><span class="tg ex">Existente</span>
-          <span class="t">Cámara de patentes</span><span class="s">Lee la patente en el ingreso y abre si está registrada.</span></button>
+          <span class="t">Cámara de patentes</span><span class="s">Lee la patente delantera en el ingreso y abre si está registrada.</span></button>
         <button class="src" data-k="c" onclick="openBy('c',this)"><span class="tg">Bloque A</span>
           <span class="t">Control remoto</span><span class="s">Control → central junto al rack → relé junto al motor.</span></button>
         <button class="src" data-k="s" onclick="openBy('s',this)"><span class="tg">Bloque B</span>
-          <span class="t">Facial subsuelo</span><span class="s">Tótem del lado del subsuelo, para salir.</span></button>
+          <span class="t">Facial subsuelo</span><span class="s">Tótem del lado del subsuelo: rostro o QR, para salir.</span></button>
         <button class="src" data-k="b" onclick="openBy('b',this)"><span class="tg">Bloque B</span>
-          <span class="t">Facial planta baja</span><span class="s">Tótem del lado de la calle, para entrar.</span></button>
+          <span class="t">Facial planta baja</span><span class="s">Tótem del lado de la calle: rostro o QR, para entrar.</span></button>
       </div>
-      <label class="tgl"><input type="checkbox" id="down" onchange="downTgl()"> <span>Simular que la
-        cámara de patentes está fuera de servicio</span></label>
+      <label class="tgl"><input type="checkbox" id="down" onchange="downTgl()"> <span>Llega una moto
+        (solo tiene patente trasera)</span></label>
     </div>
     <div class="mot">
       <h3>Placa del motor · entrada de apertura</h3>
@@ -694,7 +699,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <div class="dev-body"><p>Cada equipo cierra su propio contacto sobre la entrada de apertura de
         la placa. Si la cámara de patentes, la central de los controles o uno de los lectores se
         desconecta o falla, los demás siguen abriendo el portón igual. No hay un equipo central del
-        que dependan todos. Probalo en el esquema tildando la cámara de patentes fuera de servicio.</p></div></article>
+        que dependan todos. Probalo en el esquema tildando que llega una moto: la cámara no la lee,
+        pero el control y los lectores abren igual.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Por qué la entrada de apertura y no la de paso a paso</span>
       <span class="arr" aria-hidden="true">▾</span></button>
@@ -708,9 +714,19 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 
 <section class="sec" id="control">
   <p class="eyebrow">02 — Bloque A · Control remoto</p>
-  <h2>Un control por departamento</h2>
-  <p class="lead">Una central inalámbrica Hikvision AX PRO junto al rack recibe los 41 controles y
+  <h2>La solución principal</h2>
+  <p class="lead">Una central inalámbrica Hikvision AX PRO junto al rack recibe los controles y
     acciona un relé junto al motor. Dos repetidores llevan la señal a las dos puntas de la rampa.</p>
+  <div class="vbox">
+    <h3>Por qué la proponemos como solución principal</h3>
+    <p>Abre en moto y en auto, con o sin patente delantera. La instalación es simple: todo es
+      inalámbrico, la central va junto al rack y solo el relé va junto al motor, sin tender un cable
+      de mando por la rampa. Funciona dentro del edificio, sin internet, que en la cochera no hay. Y
+      trabaja en paralelo con la cámara de patentes: no reemplaza nada de lo que ya anda.</p>
+    <p style="margin:0"><b>Controles remotos:</b> el kit trae uno. Los demás se piden aparte, a
+      Precio Unitario U$D 32 + IVA 21% cada uno, uno por departamento (40) o los que defina la
+      administración, con el alta de cada control incluida. La central admite hasta 48.</p>
+  </div>
   <p class="hint">👆 Compará con un control de portón común</p>
   <div class="sw" role="tablist">
     <button class="on" onclick="cmp(0,this)">Control de portón común</button>
@@ -729,23 +745,24 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       solo, sin tocar los demás.</li>
     <li>✓ Alcance cubierto hasta las dos puntas de la rampa, con un repetidor en planta baja y otro
       en el subsuelo, probado con autos reales en la entrega.</li>
-    <li>✓ La central admite hasta 48 controles: quedan 7 lugares para sumar sin cambiar nada.</li></ul></div>
+    <li>✓ La central admite hasta 48 controles: alcanza para uno por departamento y deja lugar
+      para sumar.</li></ul></div>
   <p class="hint" style="margin-top:26px">👆 Tocá cada equipo para ver qué hace</p>
   <div class="devs device-grid" id="grid-A"></div>
 </section>
 
 <section class="sec" id="facial">
-  <p class="eyebrow">03 — Bloque B · Reconocimiento facial</p>
-  <h2>Abrir con la cara</h2>
-  <p class="lead">Dos lectores faciales Hikvision MinMoe en tótem: uno del lado del subsuelo, para
-    salir, y otro del lado de planta baja, para entrar. Abren el portón sin control y sin depender
-    de la patente: el conductor se detiene junto al tótem con la ventanilla baja y el lector lo
-    reconoce a menos de un metro y medio.</p>
+  <p class="eyebrow">03 — Bloque B · Reconocimiento facial · complementario</p>
+  <h2>Abrir con la cara o con un QR</h2>
+  <p class="lead">Dos lectores faciales Hikvision MinMoe con lector de QR, en tótem: uno del lado del
+    subsuelo, para salir, y otro del lado de planta baja, para entrar. Abren el portón sin control y
+    sin depender de la patente: el conductor se detiene junto al tótem con la ventanilla baja y el
+    lector lo reconoce a menos de un metro y medio.</p>
   <div class="vbox">
-    <h3>Los rostros ya están cargados</h3>
-    <p style="margin:0">El edificio ya tiene tres lectores faciales del mismo modelo. Los dos nuevos
-      se cargan con los rostros que ya están registrados: el residente que hoy entra caminando con
-      su cara, mañana abre el portón de cocheras con la misma cara, sin volver a registrarse.</p>
+    <h3>Residentes con su rostro, visitas con QR</h3>
+    <p style="margin:0">Los rostros de los residentes los carga la administración en los lectores.
+      Las visitas entran con un código QR desde la app, sin necesidad de un control. El flujo exacto
+      del QR para visitas lo confirmamos en la prueba de banco, antes de instalar.</p>
   </div>
   <p class="hint">👆 Tocá cada equipo para ver qué hace</p>
   <div class="devs device-grid" id="grid-B"></div>
@@ -765,25 +782,27 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       hasta la central, con ayuda de los repetidores.</p></div>
     <div class="sf"><b>2 · Relé</b><p>La central valida el control y le ordena abrir al relé
       inalámbrico que está junto al motor.</p></div>
-    <div class="sf"><b>3 · Facial</b><p>Cada lector reconoce el rostro y cierra su salida de
-      cerradura, cableada con un par de señal hasta la placa del motor.</p></div>
-    <div class="sf"><b>4 · Apertura</b><p>El relé y los dos lectores llegan en paralelo a la entrada
-      de apertura, junto a la cámara de patentes.</p></div>
+    <div class="sf"><b>3 · Facial</b><p>Cada lector reconoce el rostro o el QR y, por su par de
+      señal, activa un relé de interfaz junto al motor. El lector entrega 12 V; el relé los
+      convierte en un contacto seco.</p></div>
+    <div class="sf"><b>4 · Apertura</b><p>El relé del control y los relés de interfaz llegan en
+      paralelo a la entrada de apertura, junto a la cámara de patentes.</p></div>
   </div>
   <div class="who">
     <div class="vbox"><h3>Lo que hace Nova Domus</h3><ul>
       <li>Indicación por escrito de dónde van los tótems, los repetidores y cada cable.</li>
       <li>Montaje de la central junto al rack, los repetidores, el relé con su fuente y su caja,
-        los lectores faciales y el switch.</li>
-      <li>Conexión del relé y de los lectores a la entrada de apertura de la placa del motor.</li>
-      <li>Alta de los 41 controles, cada uno a nombre de su departamento.</li>
-      <li>Carga en los lectores nuevos de los rostros ya registrados en el edificio.</li>
+        los lectores faciales, el switch y los relés de interfaz con su caja.</li>
+      <li>Conexión de los relés a la entrada de apertura de la placa del motor.</li>
+      <li>Alta de cada control remoto a nombre de su departamento.</li>
+      <li>Configuración de los lectores para que la administración cargue los rostros, y del
+        acceso por QR para visitas.</li>
       <li>Prueba de alcance y de apertura en los dos sentidos, y entrega documentada.</li></ul></div>
     <div class="vbox"><h3>Lo que deja lista la obra</h3><ul>
       <li>Los dos tótems, junto a cada carril, con el lector a la altura de la ventanilla del
         conductor.</li>
       <li>Cable de red UTP Cat6 desde cada tótem hasta el switch del rack.</li>
-      <li>Un par de señal desde cada tótem hasta la placa del motor.</li>
+      <li>Un par de señal desde cada tótem hasta la caja de relés junto al motor.</li>
       <li>Toma de 220 V junto al motor y en el lugar de cada repetidor.</li>
       <li>Todo según nuestra indicación, antes de que montemos los equipos.</li></ul></div>
   </div>
@@ -793,20 +812,20 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   <p class="eyebrow">Por qué nosotros</p>
   <h2>Un solo responsable</h2>
   <p class="lead">Coordinar varios proveedores es la fuente real de fallas y demoras. En este
-    edificio ya instalamos la videovigilancia y la cámara de patentes del ingreso: la apertura del
+    edificio estamos instalando la videovigilancia y la cámara de patentes del ingreso: la apertura del
     portón queda en las mismas manos. Los tótems y los cables los deja la obra según nuestra
     indicación; nosotros los especificamos y verificamos que estén listos antes de montar.</p>
   <div class="flow">
     <div class="step"><b>01</b><span><strong>Visita Técnica y especificación.</strong> Placa del motor, ubicación de tótems y repetidores, recorrido de cada cable.</span></div>
     <div class="step"><b>02</b><span><strong>Preparación de obra verificada.</strong> La obra deja tótems, cables y tomas; lo verificamos antes de montar.</span></div>
-    <div class="step"><b>03</b><span><strong>Montaje de equipos.</strong> Central, repetidores, relé, lectores faciales y switch.</span></div>
-    <div class="step"><b>04</b><span><strong>Programación.</strong> 41 controles por departamento y lectores cargados con los rostros existentes.</span></div>
+    <div class="step"><b>03</b><span><strong>Montaje de equipos.</strong> Central, repetidores, relés, lectores faciales y switch.</span></div>
+    <div class="step"><b>04</b><span><strong>Programación.</strong> Controles por departamento, lectores faciales y acceso por QR.</span></div>
     <div class="step"><b>05</b><span><strong>Entrega documentada y 12 meses de garantía.</strong> Prueba con autos reales en los dos sentidos.</span></div>
   </div>
   <table class="tbl">
     <thead><tr><th>Concepto</th><th>Con Nova Domus</th><th>Integrador tradicional</th></tr></thead>
     <tbody>
-      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno: el mismo que instaló la videovigilancia y la cámara de patentes</td><td data-label="Integrador tradicional">El del motor, el de los controles y el de los faciales, por separado</td></tr>
+      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno: el mismo que está instalando la videovigilancia y la cámara de patentes</td><td data-label="Integrador tradicional">El del motor, el de los controles y el de los faciales, por separado</td></tr>
       <tr><td>Responsable ante una falla</td><td data-label="Con Nova Domus">Un único interlocutor, del control y el lector hasta la placa del motor</td><td data-label="Integrador tradicional">Se deriva entre quien instaló el motor y quien conectó cada equipo</td></tr>
       <tr><td>Equipo de trabajo</td><td data-label="Con Nova Domus">Técnicos y programadores propios</td><td data-label="Integrador tradicional">Subcontratado</td></tr>
       <tr><td>Garantía</td><td data-label="Con Nova Domus">12 meses sobre mano de obra y programación, más la del fabricante</td><td data-label="Integrador tradicional">Varía por proveedor, sin responsable común</td></tr>
@@ -839,6 +858,12 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
   <p class="hint">👆 Tocá cada bloque para ver el detalle ítem por ítem</p>
   <div id="rubs"></div>
   <div class="totals" id="tot"></div>
+  <div class="vbox">
+    <h3>Controles remotos adicionales</h3>
+    <p style="margin:0">Precio Unitario U$D 32 + IVA 21% cada uno. Se piden aparte, uno por
+      departamento (40) o los que defina la administración, con el alta de cada control incluida.
+      La central admite hasta 48. No están sumados en ningún total de esta propuesta.</p>
+  </div>
 </section>
 
 </div>
@@ -889,9 +914,9 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <li><b>Central fuera del gabinete.</b> La central va junto al rack, afuera del gabinete
       metálico, para que no le atenúe la señal de radio. Su lugar exacto se confirma en la
       visita.</li>
-    <li><b>Prueba de banco.</b> Antes de instalar verificamos en banco que el relé dé un pulso de
-      apertura y que la salida de cada lector facial funcione como contacto sobre la placa del
-      motor. Si alguno necesita un relé de interfaz, lo suma Nova Domus sin cargo.</li>
+    <li><b>Prueba de banco.</b> Antes de instalar verificamos en banco que el relé de la central dé
+      un pulso de apertura, y el flujo de QR para visitas: con qué app se genera y cómo le llega a
+      la visita.</li>
   </ul>
 </section>
 
@@ -947,7 +972,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">Actualización, responsable de obra y certificación</span><span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>Vencida la validez, los valores se actualizan por variación del
-        Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante.
+        Índice del Costo de la Construcción (ICC) de la Provincia de Córdoba y por la lista vigente
+        de cada fabricante.
         Nova Domus designa un responsable de obra único como interlocutor durante toda la
         ejecución. Al finalizar se entrega la documentación: ubicación de cada equipo, listado de
         controles por departamento, configuración de la central y de los lectores, y los accesos
@@ -1000,28 +1026,26 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <span class="dev-title">¿Qué pasa si un residente pierde el control?</span>
       <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>Se da de baja ese control en la central y deja de abrir en el
-        momento. Los otros 40 siguen funcionando sin tocar nada. Como cada control está dado de
-        alta a nombre de su departamento, se sabe exactamente cuál dar de baja. La baja y el alta
-        del control de reemplazo las hace la administración desde la app; el control nuevo se
-        compra aparte.</p></div></article>
+        momento. Los otros siguen funcionando sin tocar nada. Como cada control está dado de alta a
+        nombre de su departamento, se sabe exactamente cuál dar de baja. El control de reemplazo se
+        compra aparte, a U$D 32 + IVA 21%, con el alta incluida.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Se pueden sumar más controles?</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Sí. La central admite hasta 48 controles: con los 41 de esta
-        propuesta quedan 7 lugares libres, por ejemplo para un segundo control en los departamentos
-        que tengan dos autos. Cada control adicional se cotiza aparte.</p></div></article>
+      <div class="dev-body"><p>Sí. La central admite hasta 48 controles. Cada control adicional
+        cuesta U$D 32 + IVA 21%, con el alta incluida, y se pide aparte: uno por departamento o los
+        que defina la administración.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
-      <span class="dev-title">¿Los lectores nuevos reconocen a los residentes que ya están cargados?</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>Sí. Son del mismo modelo que los tres lectores del edificio y se
-        cargan con los rostros que ya están registrados: nadie se vuelve a registrar. Las altas y
-        bajas posteriores se hacen también en los dos lectores nuevos; en la entrega dejamos
-        documentado cómo.</p></div></article>
+      <span class="dev-title">¿Cómo se cargan los rostros y cómo entran las visitas?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los rostros de los residentes los carga la administración en los
+        lectores; en la entrega dejamos documentado cómo dar altas y bajas. Las visitas entran con
+        un código QR desde la app. Qué app lo genera y cómo le llega a la visita lo confirmamos en la
+        prueba de banco, antes de instalar.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Quién administra los controles y los rostros?</span><span class="arr" aria-hidden="true">▾</span></button>
-      <div class="dev-body"><p>La administración. Los rostros los carga y los da de baja como hoy.
-        Para los controles le damos un usuario administrador de la central: desde la app da de alta
-        el control de reemplazo y de baja el que se perdió, sin tocar ningún cable. Nova Domus se
-        queda con la cuenta de instalador para dar soporte. En la entrega dejamos el listado de
-        controles por departamento.</p></div></article>
+      <div class="dev-body"><p>Los rostros los gestiona la administración. El alta y la baja de los
+        controles las hace Nova Domus, o la administración con el permiso que se configure en la
+        entrega. En cualquier caso no hace falta tocar ningún cable, y en la entrega dejamos el
+        listado de controles por departamento.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Quedo atado a Nova Domus?</span><span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>No. Son equipos estándar de Hikvision y TP-Link, configurados con las
@@ -1036,8 +1060,8 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
       <span class="dev-title">¿Y si se corta internet?</span><span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>El portón se sigue abriendo igual. Los controles hablan por radio con
         la central del edificio y los lectores reconocen el rostro en el propio equipo: nada de eso
-        pasa por internet. Lo que se pierde mientras dure el corte es el acceso remoto desde la
-        app.</p></div></article>
+        pasa por internet. Por eso sirve en la cochera, donde no hay señal. Lo que se pierde mientras
+        dure un corte es la gestión a distancia desde la app.</p></div></article>
     <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
       <span class="dev-title">¿Y si se corta la luz?</span><span class="arr" aria-hidden="true">▾</span></button>
       <div class="dev-body"><p>Sin energía en el motor, el portón no abre por ningún medio, igual que
@@ -1148,15 +1172,15 @@ M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
 </button>
 
 <script>
-var PY='PY-2026-060', TC=1580, DEPTOS=41, WA='5493516747513';
-var S={"A":{"name":"Control remoto","desc":"Un control por departamento: central AX PRO junto al rack, dos repetidores y un relé junto al motor.","eq":243089,"iva":42189,"neto":200900,"mo":16800,"prog":26000,"p60":15600,"p40":10400,"tot":285889,"items":[{"n":"Kit Hikvision AX PRO: central inalámbrica + 1 control remoto (DS-PWA96-Kit-WB)","q":1,"u":46700,"iv":"21%","t":46700},{"n":"Control remoto Hikvision AX PRO (DS-PKF1-WB)","q":40,"u":3200,"iv":"21%","t":128000},{"n":"Repetidor inalámbrico Hikvision AX PRO (DS-PR1-WB)","q":2,"u":10000,"iv":"21%","t":20000},{"n":"Relé inalámbrico Hikvision AX PRO, contacto seco (DS-PM1-O1L-WB)","q":1,"u":3900,"iv":"21%","t":3900},{"n":"Fuente switching 12 V 1 A (Starligh F121000S)","q":1,"u":800,"iv":"21%","t":800},{"n":"Caja estanca IP65 para 4 módulos DIN, de aplicar (Genrod), para el relé y la fuente","q":1,"u":1500,"iv":"21%","t":1500}],"cards":[{"n":"Central inalámbrica Hikvision AX PRO","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg","desc":"Va junto al rack del subsuelo, afuera del gabinete metálico para que no le tape la señal de radio, y conectada a la red. Recibe la señal de los controles y, cuando un control dado de alta pide abrir, le ordena al relé del motor que abra el portón. Tiene batería propia: un corte de luz no le borra nada."},{"n":"Control remoto Hikvision","q":41,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PKF1-WB(B).png","desc":"Uno por departamento (40 más el que trae el kit). Cada control queda dado de alta a nombre de su departamento: si se pierde uno, se da de baja ese solo y los demás siguen funcionando."},{"n":"Repetidor inalámbrico","q":2,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg","desc":"Uno en planta baja y otro en el subsuelo. Llevan la señal entre la central, los controles y el relé hasta las dos puntas de la rampa, para que el control responda desde el auto."},{"n":"Relé inalámbrico","q":1,"foto":null,"desc":"Va junto al motor del portón. Recibe la orden de la central por radio y cierra un contacto sobre la entrada de apertura de la placa del motor, en paralelo con la cámara de patentes que ya abre el portón."},{"n":"Fuente de 12 V","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/F121000S.webp","desc":"Alimenta el relé. Está incluida por si la placa del motor no entrega 12 V continuos; si los entrega, la fuente no hace falta y se descuenta."},{"n":"Caja estanca IP65","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/genrod/caja-ip65-din-4.jpg","desc":"Aloja el relé y la fuente junto al motor, protegidos del polvo y el agua."}]},"B":{"name":"Reconocimiento facial","desc":"Dos lectores faciales en tótem, en subsuelo y planta baja, y un switch PoE propio en el rack.","eq":72709,"iva":6909,"neto":65800,"mo":21000,"prog":9400,"p60":5640,"p40":3760,"tot":103109,"items":[{"n":"Terminal de reconocimiento facial Hikvision MinMoe, mismo modelo que los lectores instalados (DS-K1T323MBFWX-E1)","q":2,"u":27500,"iv":"10,5%","t":55000},{"n":"Switch TP-Link Omada 8 puertos PoE+, gestionable (TL-SG2210P)","q":1,"u":10800,"iv":"10,5%","t":10800}],"cards":[{"n":"Lector facial Hikvision MinMoe","q":2,"foto":null,"desc":"Uno en un tótem del subsuelo y otro en planta baja, junto a cada lado del portón. Es el mismo modelo que los tres lectores del edificio. El conductor se detiene junto al tótem con la ventanilla baja: el lector reconoce el rostro a menos de un metro y medio y abre. Se carga con los rostros ya registrados en los lectores existentes, así que nadie se vuelve a registrar."},{"n":"Switch TP-Link Omada PoE+","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/TL-SG2210P.jpg","desc":"Va en el rack del subsuelo, sobre la UPS existente y en la red de seguridad, separada del resto. Conecta los dos lectores a la red y los alimenta por el mismo cable de red que llega a cada tótem."}]}};
+var PY='PY-2026-060', TC=1580, WA='5493518643455';
+var S={"A":{"name":"Control remoto","desc":"Central AX PRO junto al rack con 1 control incluido, dos repetidores y un relé inalámbrico junto al motor.","eq":883,"iva":154,"neto":729,"mo":168,"prog":106,"p60":64,"p40":42,"fa":58,"tot":1157,"items":[{"n":"Kit Hikvision AX PRO: central inalámbrica + 1 control remoto (DS-PWA96-Kit-WB)","q":1,"u":467,"iv":"21%","t":467},{"n":"Repetidor inalámbrico Hikvision AX PRO (DS-PR1-WB)","q":2,"u":100,"iv":"21%","t":200},{"n":"Relé inalámbrico Hikvision AX PRO, contacto seco (DS-PM1-O1L-WB)","q":1,"u":39,"iv":"21%","t":39},{"n":"Fuente switching 12 V 1 A (Starligh F121000S)","q":1,"u":8,"iv":"21%","t":8},{"n":"Caja estanca IP65 para 4 módulos DIN, de aplicar (Genrod), para el relé y la fuente","q":1,"u":15,"iv":"21%","t":15}],"cards":[{"n":"Central inalámbrica Hikvision AX PRO","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg","desc":"Va junto al rack del subsuelo, afuera del gabinete metálico para que no le tape la señal de radio. Recibe la señal de los controles y, cuando un control dado de alta pide abrir, le ordena al relé del motor que abra el portón. Admite hasta 48 controles y tiene batería propia: un corte de luz no le borra nada."},{"n":"Control remoto Hikvision","q":1,"qt":"1 incluido en el kit","foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PKF1-WB(B).png","desc":"El kit trae uno. Los demás se piden aparte: U$D 32 + IVA 21% cada uno, uno por departamento o los que defina la administración, con el alta incluida. Cada control queda dado de alta a nombre de su departamento: si se pierde uno, se da de baja ese solo y los demás siguen funcionando."},{"n":"Repetidor inalámbrico","q":2,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg","desc":"Uno en planta baja y otro en el subsuelo. Llevan la señal entre la central, los controles y el relé hasta las dos puntas de la rampa, para que el control responda desde el auto o la moto."},{"n":"Relé inalámbrico","q":1,"foto":null,"desc":"Va junto al motor del portón. Recibe la orden de la central por radio, sin tender un cable de mando por la rampa, y cierra un contacto sobre la entrada de apertura de la placa, en paralelo con la cámara de patentes."},{"n":"Fuente de 12 V","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/F121000S.webp","desc":"Alimenta el relé. Está incluida por si la placa del motor no entrega 12 V continuos; si los entrega, la fuente no hace falta y se descuenta."},{"n":"Caja estanca IP65","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/genrod/caja-ip65-din-4.jpg","desc":"Aloja el relé y la fuente junto al motor, protegidos del polvo y el agua."}]},"B":{"name":"Reconocimiento facial","desc":"Dos lectores faciales con QR en tótem (subsuelo y planta baja), switch PoE propio y relés de interfaz junto al motor.","eq":765,"iva":78,"neto":687,"mo":237,"prog":101,"p60":61,"p40":40,"fa":71,"tot":1103,"items":[{"n":"Terminal de reconocimiento facial Hikvision MinMoe con lector de QR (DS-K1T323MBWX-QRE1)","q":2,"u":265,"iv":"10,5%","t":530},{"n":"Switch TP-Link Omada 8 puertos PoE+, gestionable (TL-SG2210P)","q":1,"u":108,"iv":"10,5%","t":108},{"n":"Relé de interfaz Phoenix Contact, bobina 12 VDC, riel DIN (PLC-RSC-12DC/21)","q":2,"u":17,"iv":"21%","t":34},{"n":"Caja estanca IP65 para 4 módulos DIN, de aplicar (Genrod), para los relés de interfaz","q":1,"u":15,"iv":"21%","t":15}],"cards":[{"n":"Lector facial Hikvision MinMoe con QR","q":2,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-k1t323mbwx-qre1.jpg","desc":"Uno en un tótem del subsuelo y otro en planta baja, junto a cada carril. Los residentes abren con su rostro, que carga la administración; las visitas, con un código QR desde la app. El conductor se detiene junto al tótem con la ventanilla baja: el lector reconoce a menos de un metro y medio."},{"n":"Switch TP-Link Omada PoE+","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/TL-SG2210P.jpg","desc":"Va en el rack del subsuelo, sobre la UPS existente y en la red de seguridad, separada del resto. Conecta los dos lectores a la red y los alimenta por el mismo cable de red que llega a cada tótem."},{"n":"Relé de interfaz","q":2,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/phoenix-contact/2966906.jpg","desc":"Uno por lector, junto al motor. La salida de cerradura del lector entrega 12 V: conectada directo a la placa del motor podría dañarla. Esos 12 V activan el relé, y el contacto seco del relé es el que llega a la entrada de apertura, en paralelo con los demás."},{"n":"Caja estanca IP65","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/genrod/caja-ip65-din-4.jpg","desc":"Aloja los dos relés de interfaz junto al motor, protegidos del polvo y el agua."}]}};
 //CALC-START
-// Pure: sums the already-resolved block values (integer cents) of the selected blocks. No pricing logic here.
+// Pure: sums the already-resolved block values (whole USD) of the selected blocks. No pricing logic here.
 function calc(sel,fa){
-  var r={eq:0,iva:0,neto:0,mo:0,prog:0,tot:0,lines:[]};
+  var r={eq:0,iva:0,neto:0,mo:0,prog:0,tot:0,fa:0,lines:[]};
   sel.forEach(function(k){
     var s=S[k];
-    r.eq+=s.eq; r.iva+=s.iva; r.neto+=s.neto; r.mo+=s.mo; r.prog+=s.prog; r.tot+=s.tot;
+    r.eq+=s.eq; r.iva+=s.iva; r.neto+=s.neto; r.mo+=s.mo; r.prog+=s.prog; r.tot+=s.tot; r.fa+=s.fa;
     r.lines.push({k:k,rows:[
       ['Equipos — 100%','Por anticipado. Asegura el precio y la disponibilidad de los equipos.',s.eq,''],
       ['Programación — 60% al inicio','Al arrancar la programación del bloque.',s.p60,''],
@@ -1164,15 +1188,15 @@ function calc(sel,fa){
       ['Instalación por punto','Se certifica por avance real del trabajo, con certificación semanal.',s.mo,'Monto de referencia — se certifica por avance']
     ]});
   });
-  r.faIva=fa?Math.round((r.prog+r.mo)*21/100):0;
+  r.faIva=fa?r.fa:0;
   r.grand=r.tot+r.faIva;
   return r;
 }
 //CALC-END
 function grp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
-function fmt(c){c=Math.round(c); var e=Math.floor(c/100), d=c%100; return 'U$D '+grp(e)+','+(d<10?'0':'')+d;}
+function fmt(v){return 'U$D\u00a0'+grp(Math.round(v));}
 function fmtU(c){return fmt(c);}
-function ars(c){return '$ '+grp(Math.round(c*TC/100));}
+function ars(v){return '$\u00a0'+grp(Math.round(v*TC));}
 function T(id,t){var e=document.getElementById(id); if(e) e.textContent=t;}
 var KEYS=['A','B'];
 function sel(){
@@ -1205,7 +1229,7 @@ function renderDeviceGrid(k){
     var foto=d.foto?'<img class="dc-photo" src="'+esc(d.foto)+'" alt="'+esc(d.n)+'" loading="lazy" onload="refit()" onerror="imgErr(this)">'
                    :'<div class="dc-photo-pend">Foto<br>pendiente</div>';
     return '<article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'
-      +'<span class="dev-title">'+esc(d.n)+'<span class="dc-qty">'+d.q+(d.q===1?' unidad':' unidades')+'</span></span>'
+      +'<span class="dev-title">'+esc(d.n)+'<span class="dc-qty">'+(d.qt?esc(d.qt):d.q+(d.q===1?' unidad':' unidades'))+'</span></span>'
       +(i===0?'<span class="tap-badge">Tocá para abrir</span>':'')
       +'<span class="arr" aria-hidden="true">▾</span></button>'
       +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+esc(d.desc)+'</p></div></div></article>';
@@ -1243,12 +1267,11 @@ function render(){
     return '<li><i class="d'+k+'"></i>Bloque '+k+' — '+esc(S[k].name)+' <b>'+fmt(S[k].tot)+'</b></li>';}).join('');
   document.getElementById('tot').innerHTML=ks.length?(
      '<div class="trow"><span>Subtotal equipos (neto)</span><b>'+fmt(r.neto)+'</b></div>'
-    +'<div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span>'+fmt(r.iva)+'</span></div>'
+    +'<div class="trow sub"><span>IVA equipos (según la alícuota de cada ítem)</span><span>'+fmt(r.iva)+'</span></div>'
     +'<div class="trow"><span>Subtotal equipos (con IVA)</span><b>'+fmt(r.eq)+'</b></div>'
     +'<div class="trow"><span>Mano de obra especializada por punto</span><b>'+fmt(r.mo)+'</b></div>'
     +'<div class="trow"><span>Programación y comisionado</span><b>'+fmt(r.prog)+'</b></div>'
     +'<div class="trow big"><span>Total bloques seleccionados</span><span>'+fmt(r.tot)+'</span></div>'
-    +'<div class="trow sub"><span>Referencia por departamento (total ÷ '+DEPTOS+')</span><span>'+fmt(r.tot/DEPTOS)+'</span></div>'
     +'<div class="trow sub"><span>Referencia en pesos (TC BNA oficial 1.580, 18/11/2026)</span><span>'+ars(r.tot)+'</span></div>')
     :'<p class="note">No hay bloques seleccionados. Tildá al menos uno para ver el total.</p>';
   document.getElementById('pay').innerHTML=r.lines.length?r.lines.map(function(g){
@@ -1266,7 +1289,7 @@ function render(){
   T('cta-sel',txt);
   var go=document.getElementById('go');
   var msg='Hola Nova Domus, revisé la propuesta '+PY+' de Panoramic I (apertura del portón) y quiero avanzar con '
-    +txt.replace(/ /g,' ')+'.';
+    +txt+'.';
   go.setAttribute('href','https://wa.me/'+WA+'?text='+encodeURIComponent(msg));
   go.setAttribute('aria-disabled',(document.getElementById('ok').checked&&ks.length)?'false':'true');
 }
@@ -1314,9 +1337,9 @@ function openBy(k,btn){
   document.getElementById('srcs').classList.add('used');
   var down=document.getElementById('down').checked;
   if(k==='p'&&down){
-    logEv('<b>'+stamp()+'</b> · Cámara de patentes · fuera de servicio, no abre. Los otros tres siguen funcionando.');
+    logEv('<b>'+stamp()+'</b> · Cámara de patentes · moto sin patente delantera, no la lee. El control y los lectores abren igual.');
     if(!document.getElementById('state').classList.contains('busy')){
-      T('stTxt','Portón cerrado'); T('stSub','La cámara de patentes no responde. Probá con otro: control o rostro.');}
+      T('stTxt','Portón cerrado'); T('stSub','La cámara no lee la moto: no tiene patente delantera. Probá con el control o con un lector.');}
     return;
   }
   clearTimeout(gT); clearInterval(cdT); clearLit();
@@ -1332,7 +1355,7 @@ function openBy(k,btn){
 function downTgl(){
   var d=document.getElementById('down').checked;
   document.querySelector('.src[data-k="p"]').classList.toggle('down',d);
-  document.querySelector('.src[data-k="p"] .s').textContent=d?'Fuera de servicio (simulado).':'Lee la patente en el ingreso y abre si está registrada.';
+  document.querySelector('.src[data-k="p"] .s').textContent=d?'La moto solo tiene patente trasera: la cámara no la lee.':'Lee la patente delantera en el ingreso y abre si está registrada.';
 }
 
 var io=new IntersectionObserver(function(es){
