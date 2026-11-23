@@ -739,7 +739,7 @@
 
   <div id="panelPersonal" style="display:none">
     <div class="panel-toolbar">
-      <button class="refresh-btn" id="refreshBtn" onclick="refreshPanelPersonal()" title="Releer agenda, mail, propuestas, financiero y cheques desde Supabase">
+      <button class="refresh-btn" id="refreshBtn" onclick="refreshPanelPersonal()" title="Releer los datos del panel desde Supabase">
         <span class="refresh-icon" id="refreshIcon">🔄</span> Actualizar
       </button>
       <span class="refresh-status" id="refreshStatus"></span>
@@ -853,6 +853,14 @@
 
   const { createClient } = supabase;
   const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Personal panel cards visible per role. Card ids match the <section id="..."> in #panelPersonal.
+  const PANEL_CARDS_BY_ROLE = {
+    admin: ['cardAgenda', 'cardFinanciero', 'cardAgendaDebitos', 'cardCheques', 'cardPropuestas',
+            'cardInbox', 'cardSitioContador', 'cardSitioHeatmap', 'cardSitioVisitas'],
+    contable: ['cardFinanciero', 'cardAgendaDebitos', 'cardCheques'],
+    supervisor: ['cardAgenda', 'cardPropuestas'],
+  };
 
   // Definición de módulos: qué roles tienen acceso a cada uno
   const ALL_MODULES = [
@@ -1049,11 +1057,16 @@
       });
     }
 
-    // Panel Personal: nuevo Home solo para admin. Ningún otro rol cambia de comportamiento.
-    if (role === 'admin') {
+    // Panel Personal: admin, contable y supervisor, cada uno con sus tarjetas
+    // (PANEL_CARDS_BY_ROLE). Los demás roles no ven el panel.
+    const panelCards = PANEL_CARDS_BY_ROLE[role];
+    if (panelCards) {
+      document.querySelectorAll('#panelPersonal .panel-card').forEach(card => {
+        card.style.display = panelCards.includes(card.id) ? '' : 'none';
+      });
       document.getElementById('homeNav').style.display = 'flex';
       showHomeView('panel');
-      initPanelPersonal(); // sin await: no bloquea el primer paint
+      initPanelPersonal(panelCards); // no await: does not block first paint
     }
 
     // Mostrar contenido
@@ -1066,7 +1079,7 @@
     window.location.href = 'login.html';
   }
 
-  // ───────────────────────── Panel Personal (admin) ─────────────────────────
+  // ──────────────── Panel Personal (admin, contable, supervisor) ────────────────
 
   const PRIORIDAD_ORDEN = { CRITICO: 0, ATENCION: 1, OPORTUNIDAD: 2 };
 
@@ -1699,7 +1712,11 @@
     }
   }
 
-  // Vuelve a leer agenda/mail/propuestas/financiero/cheques desde Supabase.
+  // Tarjetas del panel del usuario logueado (PANEL_CARDS_BY_ROLE[role]);
+  // las guarda initPanelPersonal para que el refresh pida lo mismo.
+  let currentPanelCards = [];
+
+  // Vuelve a leer desde Supabase los datos de las tarjetas visibles.
   // No dispara ninguna sincronizacion nueva contra Gmail/Calendar (esa sigue
   // siendo manual, via chat) -- solo repinta el panel con lo que ya este
   // guardado en las tablas al momento del click.
@@ -1711,7 +1728,7 @@
     icon.classList.add('spinning');
     status.textContent = 'Actualizando…';
     try {
-      await initPanelPersonal();
+      await initPanelPersonal(currentPanelCards);
       status.textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
     } catch (e) {
       console.error('refreshPanelPersonal error:', e);
@@ -1722,7 +1739,13 @@
     }
   }
 
-  async function initPanelPersonal() {
+  async function initPanelPersonal(cards) {
+    currentPanelCards = cards;
+    // Solo se consulta lo que se muestra: un rol sin acceso a una tabla
+    // recibiría vacío por RLS y la tarjeta (oculta igual) diría "No se pudo…".
+    const shows = id => cards.includes(id);
+    const showsFinanciero = shows('cardFinanciero');
+
     const hoy = new Date().toISOString().slice(0, 10);
     const hoyMas7 = new Date();
     hoyMas7.setDate(hoyMas7.getDate() + 7);
@@ -1732,65 +1755,96 @@
     // La cuenta principal se necesita antes para poder pedir sus movimientos,
     // no entra en el Promise.allSettled de abajo.
     let cuentaPrincipal = null;
-    try {
-      const cuentas = await cuadrillaGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
-      cuentaPrincipal = cuentas.find(c => c.es_cuenta_principal) || cuentas[0] || null;
-    } catch (e) {
-      console.error('No se pudo cargar cuentas_bancarias:', e);
+    if (showsFinanciero) {
+      try {
+        const cuentas = await cuadrillaGet('cuentas_bancarias', '?order=es_cuenta_principal.desc,banco.asc');
+        cuentaPrincipal = cuentas.find(c => c.es_cuenta_principal) || cuentas[0] || null;
+      } catch (e) {
+        console.error('No se pudo cargar cuentas_bancarias:', e);
+      }
     }
 
     // Se pinta sola (manejo de errores adentro); Confirmar/Rechazar la recarga
     // sin repetir todo el panel.
-    const agendaDebitosPromise = cargarAgendaDebitos();
+    const agendaDebitosPromise = shows('cardAgendaDebitos') ? cargarAgendaDebitos() : Promise.resolve();
 
+    const skip = Promise.resolve(null);
     const [agenda, inbox, propuestas, cheques7d, movimientos, chequesEmitidos, chequesRecibidos, saldoActualResult, sitioSemana, sitioHeatmap] = await Promise.allSettled([
-      cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`),
-      cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`),
+      shows('cardAgenda')
+        ? cuadrillaGet('panel_agenda_snapshot', `?fecha_evento=gte.${hoy}&order=fecha_evento.asc,hora_inicio.asc&limit=10`)
+        : skip,
+      shows('cardInbox')
+        ? cuadrillaGet('panel_inbox_snapshot', `?revisado=is.false&order=fecha_correo.desc&limit=20`)
+        : skip,
       // v_seguimiento_propuestas es una vista en vivo sobre propuesta_vistas,
       // no una foto -- se prefiere sobre panel_propuestas_snapshot (el cron
       // panel-propuestas-diario solo la recalcula 1 vez por dia) para que el
       // boton de refresh muestre aperturas reales, no las de ayer.
-      cuadrillaGet('v_seguimiento_propuestas', `?select=numero,nombre,estado,html_url,aperturas_totales,primera_apertura,ultima_apertura,estado_seguimiento&order=ultima_apertura.desc.nullslast`),
-      cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`),
-      cuentaPrincipal
-        ? cuadrillaGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.desc,created_at.desc&limit=1000&select=fecha,importe,saldo`)
-        : Promise.resolve([]),
-      cuadrillaGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&fecha_efectivo=lte.${hoyMas15Str}&order=fecha_efectivo.asc&select=monto,fecha_efectivo,certeza,beneficiario_librador`),
-      cuadrillaGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`),
-      cuentaPrincipal
-        ? cuadrillaGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`)
-        : Promise.resolve([]),
-      cuadrillaGet('site_hits_semana', ''),
-      cuadrillaGet('site_hits_hora_dia', ''),
+      shows('cardPropuestas')
+        ? cuadrillaGet('v_seguimiento_propuestas', `?select=numero,nombre,estado,html_url,aperturas_totales,primera_apertura,ultima_apertura,estado_seguimiento&order=ultima_apertura.desc.nullslast`)
+        : skip,
+      shows('cardCheques')
+        ? cuadrillaGet('cheques', `?estado=eq.PENDIENTE&fecha_efectivo=gte.${hoy}&fecha_efectivo=lte.${hoyMas7Str}&order=fecha_efectivo.asc`)
+        : skip,
+      !showsFinanciero ? skip
+        : cuentaPrincipal
+          ? cuadrillaGet('movimientos_bancarios', `?cuenta_id=eq.${cuentaPrincipal.id}&order=fecha.desc,created_at.desc&limit=1000&select=fecha,importe,saldo`)
+          : Promise.resolve([]),
+      showsFinanciero
+        ? cuadrillaGet('cheques', `?tipo=eq.EMITIDO&estado=eq.PENDIENTE&fecha_efectivo=lte.${hoyMas15Str}&order=fecha_efectivo.asc&select=monto,fecha_efectivo,certeza,beneficiario_librador`)
+        : skip,
+      showsFinanciero
+        ? cuadrillaGet('cheques', `?tipo=eq.RECIBIDO&estado=eq.PENDIENTE&select=monto,fecha_efectivo`)
+        : skip,
+      !showsFinanciero ? skip
+        : cuentaPrincipal
+          ? cuadrillaGet('v_cuenta_saldo_actual', `?cuenta_id=eq.${cuentaPrincipal.id}&select=fecha_saldo,saldo,limite_descubierto,saldo_a_girar`)
+          : Promise.resolve([]),
+      shows('cardSitioContador') ? cuadrillaGet('site_hits_semana', '') : skip,
+      shows('cardSitioHeatmap') ? cuadrillaGet('site_hits_hora_dia', '') : skip,
     ]);
 
-    if (agenda.status === 'fulfilled') renderAgenda(agenda.value);
-    else document.getElementById('agendaBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la agenda.</div>';
-
-    if (inbox.status === 'fulfilled') renderInbox(inbox.value);
-    else document.getElementById('inboxBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la bandeja.</div>';
-
-    if (propuestas.status === 'fulfilled') {
-      renderPropuestas(propuestas.value);
-      // La vista no trae actualizado_en (es en vivo) -- el sello es el momento
-      // de esta consulta, no el de un recalculo periodico.
-      document.getElementById('propuestasUpdated').textContent = 'Actualizado: ' + fdt(new Date().toISOString());
-    } else {
-      document.getElementById('propuestasBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el seguimiento de propuestas.</div>';
+    if (shows('cardAgenda')) {
+      if (agenda.status === 'fulfilled') renderAgenda(agenda.value);
+      else document.getElementById('agendaBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la agenda.</div>';
     }
 
-    if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
-    else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
+    if (shows('cardInbox')) {
+      if (inbox.status === 'fulfilled') renderInbox(inbox.value);
+      else document.getElementById('inboxBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar la bandeja.</div>';
+    }
+
+    if (shows('cardPropuestas')) {
+      if (propuestas.status === 'fulfilled') {
+        renderPropuestas(propuestas.value);
+        // La vista no trae actualizado_en (es en vivo) -- el sello es el momento
+        // de esta consulta, no el de un recalculo periodico.
+        document.getElementById('propuestasUpdated').textContent = 'Actualizado: ' + fdt(new Date().toISOString());
+      } else {
+        document.getElementById('propuestasBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el seguimiento de propuestas.</div>';
+      }
+    }
+
+    if (shows('cardCheques')) {
+      if (cheques7d.status === 'fulfilled') renderCheques(cheques7d.value);
+      else document.getElementById('chequesBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar cheques.</div>';
+    }
 
     await agendaDebitosPromise;
 
-    if (sitioSemana.status === 'fulfilled') renderSitioContador(sitioSemana.value);
-    else document.getElementById('sitioContadorBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el contador del sitio público.</div>';
+    if (shows('cardSitioContador')) {
+      if (sitioSemana.status === 'fulfilled') renderSitioContador(sitioSemana.value);
+      else document.getElementById('sitioContadorBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el contador del sitio público.</div>';
+    }
 
-    if (sitioHeatmap.status === 'fulfilled') renderSitioHeatmap(sitioHeatmap.value);
-    else document.getElementById('sitioHeatmapBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el mapa de calor del sitio público.</div>';
+    if (shows('cardSitioHeatmap')) {
+      if (sitioHeatmap.status === 'fulfilled') renderSitioHeatmap(sitioHeatmap.value);
+      else document.getElementById('sitioHeatmapBody').innerHTML = '<div class="panel-card-empty">No se pudo cargar el mapa de calor del sitio público.</div>';
+    }
 
-    await cargarUltimasVisitasSitio();
+    if (shows('cardSitioVisitas')) await cargarUltimasVisitasSitio();
+
+    if (!showsFinanciero) return;
 
     if (movimientos.status === 'fulfilled' && chequesEmitidos.status === 'fulfilled' && chequesRecibidos.status === 'fulfilled' && saldoActualResult.status === 'fulfilled') {
       const saldoActualRow = saldoActualResult.value[0] || null;
