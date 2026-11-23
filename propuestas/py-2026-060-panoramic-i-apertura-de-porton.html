@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova Domus">
+<meta property="og:title" content="Panoramic I — Apertura del portón vehicular · PY-2026-060">
+<meta property="og:description" content="Proyecto de Tecnológica Integral: un control remoto por departamento y reconocimiento facial en subsuelo y planta baja para abrir el portón. Dos bloques que se contratan por separado. Nova Domus.">
+<meta property="og:url" content="https://novadomus-cba.github.io/portal-nova-domus/propuestas/py-2026-060-panoramic-i-apertura-de-porton.html">
+<meta property="og:image" content="https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/propuestas/og/py-2026-060-panoramic-i-apertura-de-porton.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="py-codigo" content="PY-2026-060">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panoramic I · Apertura del portón vehicular · PY-2026-060 · Nova Domus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141E61;--navy-deep:#0B132B;--grey:#787A91;--cream:#FDFBF0;--gold:#C8A96E;
+--red:#B5453A;--body:#EDEAE0;
+--fd:'Michroma',Arial,sans-serif;--fb:'Inter',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{margin:0;background:var(--navy-deep);color:var(--body);font-family:var(--fb);
+font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,.eyebrow,.figure{font-family:var(--fd);text-transform:uppercase;letter-spacing:2px;
+font-weight:400}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.15;margin:0}
+h2{font-size:clamp(18px,3.2vw,24px);letter-spacing:2.5px;margin:0 0 6px}
+h3{font-family:var(--fb);font-weight:600;font-size:16px;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+a{color:var(--gold);text-decoration:none}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;margin:0 0 8px}
+.logo-plate{background:var(--cream);border-radius:18px;padding:16px 22px;display:inline-flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo-plate .mark svg{width:52px;height:52px;display:block;transform:none}
+.logo-plate .mark svg *{fill:var(--navy-deep)!important}
+.logo-plate .wordmark{color:var(--navy-deep)!important;font-size:17px}
+.logo-plate .descriptor{color:var(--navy)!important;opacity:.65}
+.lead{color:var(--grey);font-size:15px;max-width:640px}
+.hint{color:var(--gold);font-size:13px;margin:16px 0 10px;opacity:.9}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.sec{padding:64px 0;border-top:1px solid rgba(255,255,255,.08);scroll-margin-top:56px}
+button{background:transparent;appearance:none;-webkit-appearance:none;border:0;
+color:inherit;font:inherit;cursor:pointer}
+
+/* motivo del tunel, textura decorativa (no es el logo) */
+.tunnel{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.16}
+.tunnel i{position:absolute;top:50%;left:50%;border:1px solid var(--gold);
+transform:translate(-50%,-50%)}
+
+/* HERO */
+header{position:relative;padding:86px 0 62px;overflow:hidden;
+background:radial-gradient(120% 90% at 50% 0%,#16205e 0%,var(--navy-deep) 62%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.mark{width:52px;height:52px;flex:0 0 52px}
+.mark svg{width:100%;height:100%;transform:none}
+.wordmark{font-family:var(--fd);font-size:15px;letter-spacing:3px;line-height:1.2}
+.descriptor{display:block;font-size:8.5px;letter-spacing:2.6px;
+color:var(--grey);margin-top:4px;white-space:nowrap}
+.py{color:var(--gold);font-family:var(--fd);font-size:12px;letter-spacing:2.5px;
+margin-bottom:14px}
+.claim{color:var(--gold);font-size:14px;margin-top:18px}
+.tagline{color:var(--grey);font-size:13px;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta span{border:1px solid rgba(200,169,110,.35);border-radius:999px;
+padding:6px 14px;font-size:12px;color:var(--body)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(11,19,43,.94);
+backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0 14px;overflow-x:auto;
+scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;min-height:46px;line-height:46px;padding:0 12px;font-size:12.5px;
+color:var(--grey);white-space:nowrap}
+nav a.on{color:var(--gold);box-shadow:inset 0 -2px 0 var(--gold)}
+
+/* resumen ejecutivo */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+margin:26px 0}
+.kpi{border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:18px}
+.kpi .figure{color:var(--gold);font-size:24px;display:block;margin-bottom:6px}
+.kpi small{color:var(--grey);font-size:12px;line-height:1.4;display:block}
+
+/* dispositivos */
+.devs{display:grid;gap:12px}
+.dev{border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;
+background:rgba(255,255,255,.02)}
+.dev-head,.rub-head{display:flex;align-items:center;gap:12px;width:100%;
+min-height:60px;padding:14px 18px;text-align:left}
+.device-grid .dev-head{flex-wrap:wrap}
+.device-grid .dev-head .arr{margin-left:auto}
+.device-grid .dev-title{min-width:65%}
+.dev-title{flex:1;font-weight:600;font-size:15px}
+.arr{color:var(--gold);font-size:15px;transition:transform .3s}
+.tap-badge:not(.gone)~.arr{animation:bob 1.6s ease-in-out infinite}
+.open .arr{transform:rotate(180deg);animation:none}
+@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+.dev-body,.rub-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.dev-body p{padding:0 18px 16px;margin:0;color:var(--body)}
+.tap-badge{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;
+color:var(--gold);border:1px solid rgba(200,169,110,.5);border-radius:999px;
+padding:3px 9px;animation:pulse 2.6s ease-in-out infinite;white-space:nowrap}
+.tap-badge.dark{color:var(--navy);border-color:rgba(20,30,97,.45)}
+.tap-badge.gone{display:none}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* tira de fotos */
+.strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+margin-top:22px}
+.strip figure{margin:0;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+padding:12px;background:var(--cream);text-align:center}
+.strip img{width:100%;height:104px;object-fit:contain;display:block}
+.strip figcaption{font-size:10.5px;color:#5d6078;margin-top:8px;line-height:1.35}
+
+/* comparativas switch */
+.sw{display:flex;gap:8px;margin:18px 0;box-shadow:0 0 0 0 rgba(200,169,110,.5);
+animation:glow 2.6s ease-in-out infinite;border-radius:999px;width:fit-content}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0)}
+50%{box-shadow:0 0 0 7px rgba(200,169,110,.14)}}
+.sw button{min-height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:13px;color:var(--grey)}
+.sw button.on{border-color:var(--gold);color:var(--gold)}
+.cmp{border:1px solid var(--red);border-left-width:3px;border-radius:14px;padding:20px}
+.cmp.good{border-color:var(--gold);border-left-color:var(--gold)}
+.cmp h3{color:var(--red)} .cmp.good h3{color:var(--gold)}
+.cmp ul{margin:10px 0 0;padding-left:20px} .cmp li{margin:6px 0}
+
+/* escenas */
+.scene{border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden}
+.scene-view{height:170px;transition:background .6s ease;
+background:var(--sc,linear-gradient(160deg,#2b3a7a,#0B132B))}
+.scene-body{padding:18px}
+.slider{width:100%;margin-top:14px;accent-color:var(--gold)}
+.slabel{font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between}
+
+/* inversion */
+.section-light{background:var(--cream);color:var(--navy-deep);padding-left:clamp(24px,5vw,64px);padding-right:clamp(24px,5vw,64px)}
+.sec.section-light{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+padding-left:calc(50vw - 50% + clamp(24px,5vw,64px));padding-right:calc(50vw - 50% + clamp(24px,5vw,64px))}
+.section-light p{color:#3a3d4a}
+.section-light h2,.section-light h3{color:var(--navy)}
+.section-light .eyebrow{color:var(--navy);opacity:.65}
+.section-light .lead{color:#5d6078}
+.section-light .hint{color:var(--navy);opacity:.75}
+.bar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:24px 0 16px;
+background:rgba(20,30,97,.1)}
+.seg{display:block}
+.seg:nth-child(1){background:#141E61} .seg:nth-child(2){background:#2b3a86}
+.seg:nth-child(3){background:#4a5aa8} .seg:nth-child(4){background:#7c86c2}
+.seg:nth-child(5){background:#a9b0d6} .seg:nth-child(6){background:var(--gold)}
+.legend{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:7px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));font-size:13px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:8px}
+.d0{background:#141E61}.d1{background:#2b3a86}.d2{background:#4a5aa8}
+.d3{background:#7c86c2}.d4{background:#a9b0d6}.d5{background:var(--gold)}
+.rub{border:1px solid rgba(20,30,97,.16);border-radius:14px;margin-bottom:10px;
+background:#fff}
+.rub-name{flex:1;font-weight:600}
+.rub-val{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px}
+.section-light .arr{color:var(--navy)}
+/* DEVICE CARDS por sistema - foto visible solo al desplegar */
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0 8px}
+@media(min-width:700px){.device-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.device-grid{grid-template-columns:repeat(3,1fr)}}
+.dc-qty{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-top:3px}
+.section-light .dc-qty{color:var(--navy)}
+.section-light .dev{background:rgba(20,30,97,.045);border-color:rgba(20,30,97,.13)}
+.dev-body-flex{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:0 18px 16px}
+.dc-photo{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;padding:6px}
+.dc-photo-pend{width:84px;height:84px;border-radius:8px;background:rgba(200,169,110,.1);border:1px dashed rgba(200,169,110,.4);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--grey);flex-shrink:0;padding:6px}
+.dc-desc{color:var(--grey);font-size:12.5px;flex:1;min-width:150px;margin:0}
+.section-light .dc-desc{color:#5d6078}
+.calc-box{border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:18px 20px;margin:20px 0;
+box-shadow:0 0 0 0 rgba(200,169,110,.5);animation:glow 2.6s ease-in-out infinite}
+.section-light .calc-box{border-color:rgba(20,30,97,.14)}
+/* overrides de contraste para .step/.tbl/.cmp cuando la seccion pasa a fondo claro */
+.section-light .step{border-left-color:var(--navy)}
+.section-light .step b{color:var(--navy)}
+.section-light .tbl th,.section-light .tbl td{border-bottom-color:rgba(20,30,97,.1)}
+.section-light .tbl th{color:var(--navy);opacity:.65}
+.section-light .tbl td:nth-child(2){color:var(--navy)}
+.section-light .tbl td:nth-child(3){color:#5d6078}
+.section-light .cmp.good{border-color:var(--navy);border-left-color:var(--navy)}
+.section-light .cmp.good h3{color:var(--navy)}
+.section-light .vbox{background:rgba(20,30,97,.05)!important;border-left-color:var(--navy)!important;border-color:rgba(20,30,97,.25)!important}
+.section-light .vbox h3{color:var(--navy)}
+.section-light .sw button.on{border-color:var(--navy);color:var(--navy)}
+.cav-val{color:var(--gold);font-weight:600}
+.section-light .cav-val{color:var(--navy)}
+
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rub-body table{width:100%;min-width:430px;border-collapse:collapse;font-size:13px}
+.rub-body th{text-align:left;font-weight:600;color:var(--navy);font-size:11px;
+text-transform:uppercase;letter-spacing:.8px;padding:10px 18px;
+border-top:1px solid rgba(20,30,97,.1)}
+.rub-body td{padding:10px 18px;border-top:1px solid rgba(20,30,97,.07);color:#3a3d4a}
+.num{text-align:right;white-space:nowrap}
+/* mobile: se oculta la columna Subtotal (es cant x precio, y el total del rubro
+   ya esta en la cabecera) para no dejar una tabla cortada */
+@media(max-width:560px){
+.rub-body table{min-width:0}
+.rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+.rub-body th,.rub-body td{padding:10px 14px}}
+.iva{color:#7a7d8c;font-size:11px}
+.totals{margin-top:30px;border-top:2px solid var(--navy);padding-top:16px}
+.trow{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px}
+.trow.big{border-top:1px solid rgba(20,30,97,.2);margin-top:10px;padding-top:16px;
+font-family:var(--fd);font-size:clamp(15px,3vw,19px);letter-spacing:1.5px;color:var(--navy)}
+.trow.sub{color:#5d6078;font-size:13px}
+
+/* pagos */
+.pay{display:grid;gap:12px}
+.stage{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.stage b{color:var(--gold);font-family:var(--fd);font-size:14px;letter-spacing:1.2px;
+overflow-wrap:anywhere}
+.chk{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13.5px;
+border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 17px}
+.chk input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+
+/* responsable */
+.flow{display:grid;gap:0;margin:22px 0}
+.step{display:flex;gap:14px;align-items:flex-start;border-left:2px solid var(--gold);
+padding:10px 0 10px 16px}
+.step b{color:var(--gold);font-family:var(--fd);font-size:11px;letter-spacing:1.6px;
+flex:0 0 26px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.tbl th,.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.1);
+text-align:left;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);
+font-weight:600}
+.tbl td:nth-child(2){color:var(--gold)}
+.tbl td:nth-child(3){color:var(--grey)}
+
+/* marcas */
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.18);
+border-radius:999px;font-size:12.5px;color:var(--body)}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.pill.fixed{border-color:var(--gold);color:var(--gold);cursor:default;
+background:rgba(200,169,110,.08)}
+.ficha{display:none;border:1px solid rgba(255,255,255,.12);border-radius:14px;
+padding:20px;margin-top:12px}
+.ficha.on{display:block}
+.vid{position:relative;padding-top:56.25%;margin-top:14px;border-radius:12px;
+overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pend{color:var(--grey);font-size:13px;border:1px dashed rgba(255,255,255,.18);
+border-radius:10px;padding:14px;margin:14px 0 0}
+
+/* valor-box */
+.vbox{border:1px solid rgba(200,169,110,.4);border-left:3px solid var(--gold);
+border-radius:14px;padding:20px;margin:22px 0;background:rgba(200,169,110,.05)}
+.vbox h3{color:var(--gold)}
+
+/* cta */
+.cta{text-align:center;padding:70px 0}
+.btn{display:inline-block;min-height:54px;line-height:54px;padding:0 34px;
+border-radius:999px;background:var(--gold);color:var(--navy-deep);font-weight:700;
+font-size:15px;margin-top:8px}
+.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
+
+/* progreso */
+#badge{position:fixed;right:16px;bottom:16px;width:56px;height:56px;z-index:60;
+border-radius:50%;background:rgba(11,19,43,.9);display:grid;place-items:center;
+border:1px solid rgba(200,169,110,.35)}
+.ring-svg{position:absolute;inset:0;width:56px;height:56px;transform:rotate(-90deg)}
+.ring-svg circle{fill:none;stroke-width:2}
+#badge .mark{width:26px;height:26px;flex:0 0 26px}
+
+footer{border-top:1px solid rgba(255,255,255,.1);padding:34px 0;font-size:12.5px;
+color:var(--grey)}
+footer b{color:var(--gold);font-family:var(--fd);letter-spacing:2px;font-size:11.5px}
+
+
+
+/* ============================================================
+   CAPA MOBILE OBLIGATORIA  (28/08/2026)
+   No es mobile-first: es el piso de legibilidad en celular.
+   Solo CSS aditivo — no toca ninguna cifra ni la estructura de datos.
+   ============================================================ */
+@media(max-width:640px){
+
+  /* 4.1 Fin del estrangulamiento de 92px: section-light aporta el aire,
+     el .wrap interno lo anula (antes se sumaban 24+22 por lado). */
+  .sec.section-light{padding-left:calc(50vw - 50% + 18px);padding-right:calc(50vw - 50% + 18px)}
+  .section-light{padding-left:18px;padding-right:18px}
+  .sec.section-light .wrap{padding-left:0;padding-right:0}
+  .wrap{padding:0 18px}
+
+  /* 4.2 Etapas de pago en columna: el monto deja de pelear con el titulo */
+  .stage{flex-direction:column;align-items:flex-start;gap:6px;padding:15px 16px}
+  .stage>span{width:100%}
+  .stage .num,.stage>b{align-self:flex-start}
+
+  /* 4.3 Totales: la cifra baja de linea en vez de comprimir la etiqueta */
+  .trow{flex-wrap:wrap;gap:2px 12px}
+  .trow>span:first-child{flex:1 1 100%}
+  .trow>span:last-child,.trow>b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .trow.big{font-size:16px;letter-spacing:1px;line-height:1.3}
+
+  /* 4.4 Tabla comparativa apilada: cada fila es una tarjeta con sus etiquetas.
+     Requiere data-label en las celdas de columna 2 y 3. */
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border:1px solid rgba(20,30,97,.16);border-radius:12px;padding:12px 14px;
+    margin-bottom:10px;background:#fff}
+  .tbl td{border:0;padding:4px 0}
+  .tbl td:first-child{font-weight:600;color:var(--navy);font-size:13px;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.9px;color:var(--navy);opacity:.55;margin-bottom:1px}
+  .tbl td[data-label="Con Nova Domus"]{color:var(--navy);font-weight:600}
+
+  /* 4.5 Tablas de Inversion: se recupera el scroll horizontal como escape.
+     Se sigue ocultando Subtotal (el total del rubro ya esta en la cabecera). */
+  .rub-body table{min-width:340px;font-size:13.5px}
+  .rub-body th,.rub-body td{padding:9px 12px}
+  .rub-body th:nth-child(4),.rub-body td:nth-child(4){display:none}
+  .tw{overflow-x:auto}
+
+  /* 4.6 Piso de legibilidad. Ningun texto de lectura por debajo de 12px. */
+  body{font-size:15.5px}
+  .descriptor{font-size:9.5px;letter-spacing:1.8px;white-space:normal}
+  .dc-desc,.lead,.iva{font-size:13px}
+  .strip figcaption{font-size:11.5px}
+  .tap-badge{font-size:10.5px}
+  .rub-body th,.tbl th{font-size:11.5px}
+  .kpi small,.slabel,.tagline{font-size:12.5px}
+  footer{font-size:13px}
+
+  /* 4.7 Aire vertical y respiro para el badge fijo */
+  .sec{padding:44px 0}
+  .cta{padding:52px 0}
+  footer{padding:30px 0 90px}
+
+  /* 4.8 Controles: nada de switches al 96% del ancho */
+  .sw{width:100%;flex-wrap:wrap}
+  .sw button{flex:1 1 auto;padding:0 14px;font-size:12.5px}
+  .logo-plate{padding:14px 16px;gap:11px}
+  .logo-plate .mark svg,.mark,.mark svg{width:46px;height:46px}
+  .mark{flex:0 0 46px}
+  .wordmark{font-size:15px;letter-spacing:2.2px}
+
+  /* 4.9 Grillas que no deben partirse en columnas de 80px */
+  .kpis{grid-template-columns:1fr 1fr;gap:11px}
+  .kpi{padding:15px}
+  .legend{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .dev-body-flex{gap:12px}
+  .step{padding:9px 0 9px 14px}
+
+  /* 4.10 Red de seguridad: ninguna palabra larga rompe el layout */
+  h1,h2,h3,.figure,.rub-name,.rub-val,.dev-title{overflow-wrap:anywhere}
+}
+
+/* Pantallas muy angostas (iPhone SE / 320px) */
+@media(max-width:360px){
+  .kpis{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .wordmark{font-size:13.5px;letter-spacing:1.8px}
+}
+
+
+@media (prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}}
+@media print{
+body{background:#fff;color:#111}
+nav,#badge,.sw,.slider,.tap-badge,.hint,.btn,.chk{display:none!important}
+.dev-body,.rub-body{max-height:none!important}
+.ficha{display:block!important} .vid{display:none}
+header{background:#fff;color:#111} h1,h2,.eyebrow,.py{color:#141E61!important}
+p,.lead{color:#333!important} .sec{padding:22px 0;break-inside:avoid}
+.dev,.rub,.kpi{break-inside:avoid}
+.tbl,.tbl tbody{display:table} .tbl tr{display:table-row} .tbl td{display:table-cell}
+.tbl thead{position:static;width:auto;height:auto;clip-path:none}
+.tbl td[data-label]::before{display:none}
+*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+
+
+/* ===== PY-2026-060 ===== */
+.rub-val{white-space:nowrap}
+.rub-name{min-width:0}
+.note{font-size:13px;color:#5d6078;margin:12px 0 0}
+/* demo: cuatro contactos en paralelo sobre la entrada de apertura */
+.gd{display:grid;gap:18px;margin-top:20px}
+@media(min-width:900px){.gd{grid-template-columns:minmax(0,1.25fr) minmax(280px,1fr);align-items:start}}
+.srcs{display:grid;gap:10px;grid-template-columns:1fr 1fr;padding:12px;border:1px solid rgba(255,255,255,.14);
+border-radius:16px;background:#0f1a3d;animation:glow 2.6s ease-in-out infinite}
+.srcs.used{animation:none}
+.src{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-height:104px;padding:14px;
+border:1px solid rgba(255,255,255,.18);border-radius:12px;text-align:left;transition:border-color .2s,background .2s,opacity .2s}
+.src .t{font-weight:600;font-size:14.5px;color:var(--body);line-height:1.3}
+.src .s{font-size:12.5px;color:#9aa0bd;line-height:1.4}
+.src .tg{font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;border-radius:999px;padding:2px 8px;
+border:1px solid rgba(200,169,110,.5);color:var(--gold)}
+.src .tg.ex{border-color:rgba(154,160,189,.5);color:#9aa0bd}
+.src.on{border-color:var(--gold);background:rgba(200,169,110,.1)}
+.src.down{opacity:.42}
+.mot{border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:16px 16px 12px;background:#0f1a3d}
+.mot h3{font-size:14px;margin:0 0 2px}
+.mot small{color:#9aa0bd;font-size:12.5px;display:block}
+.terms{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:12px 0 10px}
+.term{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#9aa0bd}
+.term i{width:12px;height:12px;border-radius:50%;border:2px solid #9aa0bd;flex:0 0 12px;transition:all .2s}
+.term.on{color:var(--gold)}
+.term.on i{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,169,110,.25)}
+#gatesvg{display:block;width:100%;height:auto;max-width:360px;margin:4px auto 0}
+#gate{transition:transform 1.4s ease}
+#gatesvg.open #gate{transform:translateX(-176px)}
+.gtxt{font-family:Inter,Arial,sans-serif;font-size:10.5px;fill:#9aa0bd}
+.tgl{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:12px 0 4px;color:var(--body)}
+.tgl input{width:20px;height:20px;accent-color:var(--gold);flex:0 0 20px;margin-top:1px}
+.state{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;margin-top:12px}
+.state .st{font-family:var(--fd);font-size:12px;letter-spacing:1.6px;color:var(--grey);display:block}
+.state.busy{border-color:var(--gold)}
+.state.busy .st{color:var(--gold)}
+.state p{font-size:14px;margin:6px 0 0}
+.log{list-style:none;margin:12px 0 0;padding:0;font-size:13px;max-height:170px;overflow:auto}
+.log li{border-top:1px solid rgba(255,255,255,.08);padding:7px 0;color:var(--body)}
+.log li b{color:var(--gold);font-weight:600}
+.plate{display:inline-block;background:#fff;color:#0B132B;border:2px solid #0B132B;border-radius:4px;
+font-family:Arial,sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;padding:0 6px}
+/* flujo de señal */
+.sigflow{display:grid;gap:10px;margin:22px 0 6px}
+@media(min-width:820px){.sigflow{grid-template-columns:repeat(4,1fr)}}
+.sf{border:1px solid rgba(20,30,97,.16);border-radius:14px;padding:14px 16px;background:#fff}
+.sf b{display:block;font-family:var(--fd);font-size:11px;letter-spacing:1.6px;color:var(--navy);margin-bottom:6px}
+.sf p{font-size:13.5px;margin:0}
+.who{display:grid;gap:12px;margin-top:20px}
+@media(min-width:760px){.who{grid-template-columns:1fr 1fr}}
+.who .vbox{margin:0}
+.who ul{margin:8px 0 0;padding-left:20px}
+.who li{margin:5px 0;font-size:14px}
+.section-light .who li{color:#3a3d4a}
+/* supuestos a confirmar (fondo oscuro) */
+.asum{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.asum li{border:1px dashed rgba(200,169,110,.45);border-radius:12px;padding:12px 14px 12px 42px;position:relative;
+font-size:14px;color:var(--body)}
+.asum li::before{content:"?";position:absolute;left:13px;top:12px;width:18px;height:18px;border-radius:50%;
+background:var(--gold);color:var(--navy-deep);font-size:11px;font-weight:700;text-align:center;line-height:18px}
+.asum li b{color:var(--gold);font-weight:600}
+/* selector de bloques que se suman */
+.stg-list{display:grid;gap:12px;margin:22px 0 8px}
+.stg-card{display:flex;gap:14px;align-items:flex-start;border:1.5px solid rgba(20,30,97,.18);border-radius:14px;
+padding:16px 18px;background:#fff;cursor:pointer;min-height:48px;transition:opacity .2s,border-color .2s;
+box-shadow:0 0 0 0 rgba(20,30,97,.4)}
+.stg-card.on{border-color:var(--navy)}
+.stg-card:not(.on){opacity:.62}
+.stg-card.glow{animation:glown 2.6s ease-in-out infinite}
+@keyframes glown{0%,100%{box-shadow:0 0 0 0 rgba(20,30,97,0)}50%{box-shadow:0 0 0 7px rgba(20,30,97,.10)}}
+.stg-card input{width:22px;height:22px;accent-color:var(--navy);flex:0 0 22px;margin-top:2px}
+.stg-card .txt{flex:1;min-width:0}
+.stg-card .t{font-weight:600;color:var(--navy);font-size:15px;display:block}
+.stg-card .d{font-size:13px;color:#5d6078;display:block;margin-top:2px}
+.stg-card .v{font-family:var(--fd);font-size:13px;color:var(--navy);letter-spacing:1.2px;white-space:nowrap}
+.stg-sub{display:flex;flex-wrap:wrap;gap:6px 18px;padding:10px 18px 14px;font-size:13px;color:#5d6078;border-top:1px solid rgba(20,30,97,.07)}
+.stg-sub b{color:var(--navy);font-weight:600}
+.rub.off{opacity:.45}
+.rub .rub-tag{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#5d6078;margin-right:6px}
+.seg.sA{background:#141E61}.seg.sB{background:#7c86c2}
+.dA{background:#141E61}.dB{background:#7c86c2}
+.pay-group{margin-top:18px}
+.pay-group h3{color:var(--gold);font-size:14px;letter-spacing:.4px;margin:0 0 10px}
+.pay-empty{border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:18px;color:var(--grey)}
+.stage .ref{display:block;font-style:normal;color:var(--gold);font-size:12.5px;margin-top:4px}
+@media(max-width:640px){
+  .dev-head,.rub-head{flex-wrap:wrap}
+  .dev-head .tap-badge,.rub-head .tap-badge{order:9}
+  .rub-head{gap:8px 12px}
+  .rub-name{flex:1 1 100%}
+  .rub-head .rub-val{margin-left:auto}
+  .stg-card{flex-wrap:wrap;padding:14px 15px}
+  .stg-card .v{flex:1 1 100%;text-align:right}
+  .srcs{padding:8px;gap:8px}
+  .src{padding:12px;min-height:0}
+  .src .t{font-size:14px}
+}
+@media(max-width:360px){.srcs,.terms{grid-template-columns:1fr}}
+@media print{.stg-card input,.tgl,#gd-hint{display:none!important}.srcs{animation:none}}
+</style>
+<script>
+function imgErr(img){
+  var d=document.createElement('div');
+  d.className='dc-photo-pend'; d.innerHTML='Foto<br>pendiente';
+  img.replaceWith(d); if(window.refit) refit();
+}
+</script>
+</head><body>
+<header>
+  <div class="tunnel" aria-hidden="true">
+    <i style="width:120vw;height:120vw;border-radius:34%"></i>
+    <i style="width:86vw;height:86vw;border-radius:34%"></i>
+    <i style="width:54vw;height:54vw;border-radius:34%"></i>
+  </div>
+  <div class="wrap" style="position:relative">
+    <div class="brand logo-plate">
+      <span class="mark"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="#0b132b" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g>
+</svg></span>
+      <span><span class="wordmark">NOVA DOMUS</span>
+        <span class="descriptor">INTEGRACIÓN TECNOLÓGICA</span></span>
+    </div>
+    <p class="py">PY-2026-060 · PROPUESTA COMERCIAL</p>
+    <h1>Panoramic I</h1>
+    <p class="claim">Apertura del portón vehicular · control remoto y reconocimiento facial</p>
+    <p class="tagline">Del cable a la app</p>
+    <p class="lead" style="margin-top:16px">Proyecto de Tecnológica Integral para sumar dos formas
+      nuevas de abrir el portón de cocheras, además de la cámara de patentes que ya lo abre hoy: un
+      control remoto por departamento y un lector facial en el subsuelo y otro en planta baja. Son dos
+      bloques independientes: se contratan juntos o por separado.</p>
+    <div class="meta">
+      <span>Nuevo Malagueño, Córdoba</span><span>41 controles remotos</span>
+      <span>2 lectores faciales</span><span>Para la administración del edificio</span>
+    </div>
+  </div>
+</header>
+
+<nav><ul>
+  <li><a href="#resumen" class="on">Resumen</a></li>
+  <li><a href="#funciona">Cómo funciona</a></li>
+  <li><a href="#control">Control remoto</a></li>
+  <li><a href="#facial">Facial</a></li>
+  <li><a href="#conexion">Conexión</a></li>
+  <li><a href="#responsable">Un solo responsable</a></li>
+  <li><a href="#inversion">Inversión</a></li>
+  <li><a href="#pago">Pago</a></li>
+  <li><a href="#supuestos">Supuestos</a></li>
+  <li><a href="#condiciones">Condiciones</a></li>
+  <li><a href="#respaldo">Respaldo</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul></nav>
+
+<div class="wrap">
+
+<section class="sec" id="resumen" style="border-top:0">
+  <p class="eyebrow">Resumen ejecutivo</p>
+  <h2>60 segundos</h2>
+  <p class="lead">Lo esencial, si no querés leer el resto.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="figure" data-n="41">41</span>
+      <small>controles remotos, uno por departamento</small></div>
+    <div class="kpi"><span class="figure" data-n="2">2</span>
+      <small>lectores faciales, en subsuelo y planta baja</small></div>
+    <div class="kpi"><span class="figure" data-n="3">3</span>
+      <small>maneras de abrir: patente, control o rostro</small></div>
+    <div class="kpi"><span class="figure" data-n="2">2</span>
+      <small>bloques que se contratan por separado</small></div>
+  </div>
+  <p><b>Qué necesita el edificio.</b> Hoy el portón de cocheras lo abre la cámara de lectura de
+    patentes del ingreso. Funciona bien para el auto registrado, pero no resuelve al residente que
+    llega en otro auto, con la patente sucia o que sale desde el subsuelo.</p>
+  <p><b>Qué proponemos.</b> Dos bloques que se suman, cada uno con su propio contacto sobre la
+    misma entrada de apertura del motor. <b>Bloque A:</b> un control remoto Hikvision por
+    departamento, dado de alta a su nombre, que se da de baja solo si se pierde.
+    <b>Bloque B:</b> dos lectores faciales en tótem, del mismo modelo que los que ya tiene el
+    edificio y cargados con los mismos rostros. Ninguno depende del otro, ni de la cámara de patentes.</p>
+  <p><b>Inversión.</b> Bloque A <span class="cav-val">U$D 2.858,89</span> · Bloque B
+    <span class="cav-val">U$D 1.031,09</span> · los dos <span class="cav-val">U$D 3.889,98</span>, con
+    equipos, mano de obra especializada, programación y comisionado. Como referencia, dividido
+    entre los 41 departamentos son <span class="cav-val">U$D 94,88</span> por departamento
+    (U$D 69,73 si se contrata solo el control remoto).</p>
+  <p><b>Próximo paso.</b> Elegir uno o los dos bloques en la sección de Inversión y confirmar.
+    Con eso coordinamos la Visita Técnica para verificar la placa del motor y le pasamos a la obra
+    la lista de lo que tiene que dejar listo.</p>
+</section>
+
+<section class="sec" id="funciona">
+  <p class="eyebrow">01 — Cómo funciona</p>
+  <h2>Cuatro llaves, una cerradura</h2>
+  <p class="lead">La placa del motor tiene una entrada de apertura. Hoy le llega un solo contacto,
+    el de la cámara de patentes. Con esta propuesta le llegan hasta cuatro, en paralelo: cualquiera
+    abre y ninguno depende del otro.</p>
+  <p class="hint" id="gd-hint">👆 Tocá cada forma de abrir y mirá qué pasa en el motor</p>
+  <div class="gd">
+    <div>
+      <div class="srcs" id="srcs">
+        <button class="src" data-k="p" onclick="openBy('p',this)"><span class="tg ex">Existente</span>
+          <span class="t">Cámara de patentes</span><span class="s">Lee la patente en el ingreso y abre si está registrada.</span></button>
+        <button class="src" data-k="c" onclick="openBy('c',this)"><span class="tg">Bloque A</span>
+          <span class="t">Control remoto</span><span class="s">Control → central junto al rack → relé junto al motor.</span></button>
+        <button class="src" data-k="s" onclick="openBy('s',this)"><span class="tg">Bloque B</span>
+          <span class="t">Facial subsuelo</span><span class="s">Tótem del lado del subsuelo, para salir.</span></button>
+        <button class="src" data-k="b" onclick="openBy('b',this)"><span class="tg">Bloque B</span>
+          <span class="t">Facial planta baja</span><span class="s">Tótem del lado de la calle, para entrar.</span></button>
+      </div>
+      <label class="tgl"><input type="checkbox" id="down" onchange="downTgl()"> <span>Simular que la
+        cámara de patentes está fuera de servicio</span></label>
+    </div>
+    <div class="mot">
+      <h3>Placa del motor · entrada de apertura</h3>
+      <small>Cuatro contactos en paralelo sobre la misma entrada</small>
+      <div class="terms">
+        <span class="term" id="tm-p"><i></i>Patentes</span>
+        <span class="term" id="tm-c"><i></i>Control remoto</span>
+        <span class="term" id="tm-s"><i></i>Facial subsuelo</span>
+        <span class="term" id="tm-b"><i></i>Facial planta baja</span>
+      </div>
+      <svg id="gatesvg" viewBox="0 0 240 132" role="img" aria-label="Portón corredizo de cocheras">
+        <defs><clipPath id="gclip"><rect x="24" y="0" width="216" height="132"/></clipPath></defs>
+        <rect x="0" y="104" width="240" height="4" fill="#2b3a86"/>
+        <g clip-path="url(#gclip)"><g id="gate">
+          <rect x="26" y="26" width="194" height="76" rx="2" fill="none" stroke="#C8A96E" stroke-width="3"/>
+          <g stroke="#C8A96E" stroke-width="2" opacity=".8">
+            <line x1="46" y1="26" x2="46" y2="102"/><line x1="66" y1="26" x2="66" y2="102"/>
+            <line x1="86" y1="26" x2="86" y2="102"/><line x1="106" y1="26" x2="106" y2="102"/>
+            <line x1="126" y1="26" x2="126" y2="102"/><line x1="146" y1="26" x2="146" y2="102"/>
+            <line x1="166" y1="26" x2="166" y2="102"/><line x1="186" y1="26" x2="186" y2="102"/>
+            <line x1="206" y1="26" x2="206" y2="102"/></g>
+        </g></g>
+        <rect x="14" y="16" width="10" height="92" fill="#787A91"/>
+        <rect x="222" y="16" width="10" height="92" fill="#787A91"/>
+        <text class="gtxt" x="120" y="126" text-anchor="middle">portón de cocheras</text>
+      </svg>
+      <div class="state" id="state"><span class="st" id="stTxt">Portón cerrado</span>
+        <p id="stSub">Esperando una orden de apertura.</p></div>
+      <ul class="log" id="log" aria-live="polite"></ul>
+    </div>
+  </div>
+  <p class="note" style="color:var(--grey);margin-top:12px">Esquema ilustrativo. El portón cierra
+    solo, como hoy, según el tiempo programado en la placa del motor y con sus fotocélulas.</p>
+
+  <div class="devs" style="margin-top:28px">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Por qué en paralelo y no en serie</span>
+      <span class="tap-badge">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Cada equipo cierra su propio contacto sobre la entrada de apertura de
+        la placa. Si la cámara de patentes, la central de los controles o uno de los lectores se
+        desconecta o falla, los demás siguen abriendo el portón igual. No hay un equipo central del
+        que dependan todos. Probalo en el esquema tildando la cámara de patentes fuera de servicio.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Por qué la entrada de apertura y no la de paso a paso</span>
+      <span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>En la entrada de paso a paso, cada pulso alterna: abre, frena, cierra.
+        Si un residente toca el control mientras otro auto pasa, el portón podría frenarse o empezar a
+        cerrar. En la entrada de apertura, cualquier pulso solo abre o mantiene abierto: el cierre lo
+        decide la placa con su temporizador y las fotocélulas. Por eso verificamos en la Visita
+        Técnica que la placa la tenga y que las fotocélulas funcionen.</p></div></article>
+  </div>
+</section>
+
+<section class="sec" id="control">
+  <p class="eyebrow">02 — Bloque A · Control remoto</p>
+  <h2>Un control por departamento</h2>
+  <p class="lead">Una central inalámbrica Hikvision AX PRO junto al rack recibe los 41 controles y
+    acciona un relé junto al motor. Dos repetidores llevan la señal a las dos puntas de la rampa.</p>
+  <p class="hint">👆 Compará con un control de portón común</p>
+  <div class="sw" role="tablist">
+    <button class="on" onclick="cmp(0,this)">Control de portón común</button>
+    <button onclick="cmp(1,this)">Con Nova Domus</button>
+  </div>
+  <div class="cmp" id="cmp0"><h3>Control de portón común</h3><ul>
+    <li>✕ Los de código fijo se copian con un duplicador de controles de venta libre.</li>
+    <li>✕ En muchos receptores, para anular un control perdido hay que borrar la memoria y volver
+      a grabar todos.</li>
+    <li>✕ No queda registrado a qué departamento corresponde cada control.</li>
+    <li>✕ Un solo receptor junto al motor: el alcance desde la otra punta de la rampa no está
+      asegurado.</li></ul></div>
+  <div class="cmp good" id="cmp1" style="display:none"><h3>Con Nova Domus</h3><ul>
+    <li>✓ Comunicación inalámbrica cifrada entre el control y la central.</li>
+    <li>✓ Cada control dado de alta a nombre de su departamento. Si se pierde, se da de baja ese
+      solo, sin tocar los demás.</li>
+    <li>✓ Alcance cubierto hasta las dos puntas de la rampa, con un repetidor en planta baja y otro
+      en el subsuelo, probado con autos reales en la entrega.</li>
+    <li>✓ La central admite hasta 48 controles: quedan 7 lugares para sumar sin cambiar nada.</li></ul></div>
+  <p class="hint" style="margin-top:26px">👆 Tocá cada equipo para ver qué hace</p>
+  <div class="devs device-grid" id="grid-A"></div>
+</section>
+
+<section class="sec" id="facial">
+  <p class="eyebrow">03 — Bloque B · Reconocimiento facial</p>
+  <h2>Abrir con la cara</h2>
+  <p class="lead">Dos lectores faciales Hikvision MinMoe en tótem: uno del lado del subsuelo, para
+    salir, y otro del lado de planta baja, para entrar. Abren el portón sin control y sin depender
+    de la patente: el conductor se detiene junto al tótem con la ventanilla baja y el lector lo
+    reconoce a menos de un metro y medio.</p>
+  <div class="vbox">
+    <h3>Los rostros ya están cargados</h3>
+    <p style="margin:0">El edificio ya tiene tres lectores faciales del mismo modelo. Los dos nuevos
+      se cargan con los rostros que ya están registrados: el residente que hoy entra caminando con
+      su cara, mañana abre el portón de cocheras con la misma cara, sin volver a registrarse.</p>
+  </div>
+  <p class="hint">👆 Tocá cada equipo para ver qué hace</p>
+  <div class="devs device-grid" id="grid-B"></div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="conexion">
+  <p class="eyebrow">04 — Conexión</p>
+  <h2>Cómo llega la orden al motor</h2>
+  <p class="lead">Todo funciona en forma local, dentro del edificio. No depende de internet ni de
+    una app para abrir.</p>
+  <div class="sigflow">
+    <div class="sf"><b>1 · Control</b><p>El residente toca el control. La señal viaja por radio, cifrada,
+      hasta la central, con ayuda de los repetidores.</p></div>
+    <div class="sf"><b>2 · Relé</b><p>La central valida el control y le ordena abrir al relé
+      inalámbrico que está junto al motor.</p></div>
+    <div class="sf"><b>3 · Facial</b><p>Cada lector reconoce el rostro y cierra su salida de
+      cerradura, cableada con un par de señal hasta la placa del motor.</p></div>
+    <div class="sf"><b>4 · Apertura</b><p>El relé y los dos lectores llegan en paralelo a la entrada
+      de apertura, junto a la cámara de patentes.</p></div>
+  </div>
+  <div class="who">
+    <div class="vbox"><h3>Lo que hace Nova Domus</h3><ul>
+      <li>Indicación por escrito de dónde van los tótems, los repetidores y cada cable.</li>
+      <li>Montaje de la central junto al rack, los repetidores, el relé con su fuente y su caja,
+        los lectores faciales y el switch.</li>
+      <li>Conexión del relé y de los lectores a la entrada de apertura de la placa del motor.</li>
+      <li>Alta de los 41 controles, cada uno a nombre de su departamento.</li>
+      <li>Carga en los lectores nuevos de los rostros ya registrados en el edificio.</li>
+      <li>Prueba de alcance y de apertura en los dos sentidos, y entrega documentada.</li></ul></div>
+    <div class="vbox"><h3>Lo que deja lista la obra</h3><ul>
+      <li>Los dos tótems, junto a cada carril, con el lector a la altura de la ventanilla del
+        conductor.</li>
+      <li>Cable de red UTP Cat6 desde cada tótem hasta el switch del rack.</li>
+      <li>Un par de señal desde cada tótem hasta la placa del motor.</li>
+      <li>Toma de 220 V junto al motor y en el lugar de cada repetidor.</li>
+      <li>Todo según nuestra indicación, antes de que montemos los equipos.</li></ul></div>
+  </div>
+</section>
+
+<section class="sec section-light" id="responsable" style="border-top:0">
+  <p class="eyebrow">Por qué nosotros</p>
+  <h2>Un solo responsable</h2>
+  <p class="lead">Coordinar varios proveedores es la fuente real de fallas y demoras. En este
+    edificio ya instalamos la videovigilancia y la cámara de patentes del ingreso: la apertura del
+    portón queda en las mismas manos. Los tótems y los cables los deja la obra según nuestra
+    indicación; nosotros los especificamos y verificamos que estén listos antes de montar.</p>
+  <div class="flow">
+    <div class="step"><b>01</b><span><strong>Visita Técnica y especificación.</strong> Placa del motor, ubicación de tótems y repetidores, recorrido de cada cable.</span></div>
+    <div class="step"><b>02</b><span><strong>Preparación de obra verificada.</strong> La obra deja tótems, cables y tomas; lo verificamos antes de montar.</span></div>
+    <div class="step"><b>03</b><span><strong>Montaje de equipos.</strong> Central, repetidores, relé, lectores faciales y switch.</span></div>
+    <div class="step"><b>04</b><span><strong>Programación.</strong> 41 controles por departamento y lectores cargados con los rostros existentes.</span></div>
+    <div class="step"><b>05</b><span><strong>Entrega documentada y 12 meses de garantía.</strong> Prueba con autos reales en los dos sentidos.</span></div>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>Concepto</th><th>Con Nova Domus</th><th>Integrador tradicional</th></tr></thead>
+    <tbody>
+      <tr><td>Proveedores a coordinar</td><td data-label="Con Nova Domus">Uno: el mismo que instaló la videovigilancia y la cámara de patentes</td><td data-label="Integrador tradicional">El del motor, el de los controles y el de los faciales, por separado</td></tr>
+      <tr><td>Responsable ante una falla</td><td data-label="Con Nova Domus">Un único interlocutor, del control y el lector hasta la placa del motor</td><td data-label="Integrador tradicional">Se deriva entre quien instaló el motor y quien conectó cada equipo</td></tr>
+      <tr><td>Equipo de trabajo</td><td data-label="Con Nova Domus">Técnicos y programadores propios</td><td data-label="Integrador tradicional">Subcontratado</td></tr>
+      <tr><td>Garantía</td><td data-label="Con Nova Domus">12 meses sobre mano de obra y programación, más la del fabricante</td><td data-label="Integrador tradicional">Varía por proveedor, sin responsable común</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec section-light" id="inversion" style="border-top:0">
+  <p class="eyebrow">05 — Inversión</p>
+  <h2>Elegí qué contratar</h2>
+  <p class="lead">Dos bloques que se suman. Tildá los que quieras: el total, la forma de pago y el
+    mensaje de confirmación se recalculan en vivo. Los precios unitarios son netos, con la alícuota
+    de IVA de cada producto; el IVA de los equipos se discrimina en el total.</p>
+  <div class="stg-list">
+    <label class="stg-card on glow" data-s="A">
+      <input type="checkbox" checked onchange="pick()" aria-label="Sumar Bloque A">
+      <span class="txt"><span class="t">Bloque A — Control remoto</span>
+        <span class="d" id="d-A"></span></span>
+      <span class="v" id="v-A"></span>
+    </label>
+    <label class="stg-card on" data-s="B">
+      <input type="checkbox" checked onchange="pick()" aria-label="Sumar Bloque B">
+      <span class="txt"><span class="t">Bloque B — Reconocimiento facial</span>
+        <span class="d" id="d-B"></span></span>
+      <span class="v" id="v-B"></span>
+    </label>
+  </div>
+  <div class="bar" id="bar"></div>
+  <ul class="legend" id="legend"></ul>
+  <p class="hint">👆 Tocá cada bloque para ver el detalle ítem por ítem</p>
+  <div id="rubs"></div>
+  <div class="totals" id="tot"></div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="pago">
+  <p class="eyebrow">06 — Ejecución</p>
+  <h2>Forma de pago</h2>
+  <p class="lead">Cada bloque se paga con el mismo esquema: los equipos antes de comprar, la
+    programación en dos partes y la instalación contra el avance real del trabajo.</p>
+  <div id="pay"></div>
+  <div class="chk">
+    <input type="checkbox" id="fa" onchange="render()">
+    <label for="fa">Necesito <b>Factura A</b> — suma IVA 21% sobre programación e instalación.
+      Los equipos ya llevan su IVA discriminado por ítem.</label>
+  </div>
+  <div class="totals" style="border-top-color:var(--gold)">
+    <div class="trow sub" id="pay-iva-row" style="display:none">
+      <span>IVA 21% sobre programación e instalación</span><span id="fa-val"></span></div>
+    <div class="trow big" style="color:var(--gold)"><span>Total bloques seleccionados</span>
+      <span id="gt"></span></div>
+  </div>
+</section>
+
+<section class="sec" id="supuestos">
+  <p class="eyebrow">07 — Condiciones particulares</p>
+  <h2>Lo que da por supuesto</h2>
+  <p class="lead">Esta propuesta surge de lo que sabemos del edificio. Estos puntos se confirman en
+    la Visita Técnica, antes de comprar los equipos.</p>
+  <div class="pay">
+    <div class="stage"><span><b style="display:block">Propuesta independiente</b>
+      Es una propuesta nueva, aparte de los contratos vigentes de la obra: no modifica sus montos,
+      su alcance ni sus condiciones.</span></div>
+    <div class="stage"><span><b style="display:block">Nova Domus no cablea</b>
+      Instalamos los equipos y los programamos. Los tótems, los cables de red, los pares de señal
+      al motor y las tomas de 220 V los deja la obra, con sus herreros y electricistas, según
+      nuestra indicación.</span></div>
+  </div>
+  <ul class="asum">
+    <li><b>Entrada de apertura.</b> La placa del motor tiene entrada de apertura (no solo de paso
+      a paso) y las fotocélulas del portón funcionan.</li>
+    <li><b>Fuente del relé.</b> Está incluida por si la placa no entrega 12 V continuos. Si los
+      entrega, la fuente se quita y se descuenta.</li>
+    <li><b>Ubicaciones.</b> Tótems y repetidores van donde lo permita la arquitectura, con el
+      recorrido de cable de red de cada tótem hasta el rack por debajo de 90 metros. Cada tótem va
+      junto a su carril, con el lector a la altura de la ventanilla del conductor.</li>
+    <li><b>Central fuera del gabinete.</b> La central va junto al rack, afuera del gabinete
+      metálico, para que no le atenúe la señal de radio. Su lugar exacto se confirma en la
+      visita.</li>
+    <li><b>Prueba de banco.</b> Antes de instalar verificamos en banco que el relé dé un pulso de
+      apertura y que la salida de cada lector facial funcione como contacto sobre la placa del
+      motor. Si alguno necesita un relé de interfaz, lo suma Nova Domus sin cargo.</li>
+  </ul>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="condiciones">
+  <p class="eyebrow">08 — Condiciones</p>
+  <h2>Condiciones generales</h2>
+  <p class="hint">👆 Tocá cada condición para leerla</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Validez del presupuesto y tipo de cambio</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Validez de 15 días corridos desde la fecha de emisión (23/11/2026),
+        es decir hasta el 08/12/2026. Todos los precios están expresados en dólares estadounidenses.
+        La conversión a pesos se hace a la cotización oficial del Banco de la Nación Argentina, tipo
+        vendedor, del día del pago efectivo. El monto en pesos de esta propuesta es solo una
+        referencia, a U$D 1 = $ 1.580 (BNA oficial, 18/11/2026).</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Contratación por bloques</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los Bloques A y B se pueden contratar juntos o por separado, y ninguno
+        depende del otro. Un bloque que se contrata vencida la validez se actualiza por la lista
+        vigente de cada fabricante y la cotización del momento, con el mismo criterio de esta
+        propuesta.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Forma de pago y facturación</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Por cada bloque: equipos 100% por anticipado, para asegurar precio y
+        disponibilidad. Programación y comisionado: 60% al iniciar la programación y 40% contra la
+        entrega final documentada. Instalación: se certifica por avance real del trabajo, con
+        certificación semanal; el monto indicado es de referencia, sin montos ni fechas fijos por
+        etapa. Si se necesita Factura A, se suma IVA 21% sobre programación e instalación; los
+        equipos ya llevan su IVA discriminado por ítem. Se aceptan transferencia bancaria y
+        efectivo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Alcance — obra eléctrica y herrería a cargo de la obra</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Esta propuesta no incluye obra eléctrica ni de herrería por parte de
+        Nova Domus: los tótems, el cableado y las tomas los ejecuta la obra según nuestra
+        indicación, por eso no aplica la base de cotización de boca completa (AAIE). Cualquier
+        trabajo eléctrico adicional que surja se cotiza aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Visitas técnicas y logística</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La obra está en el área de Córdoba, por lo que no se cobran viáticos.
+        Si una visita no se puede completar porque los tótems, los cables o las tomas no están
+        listos según la indicación, la nueva visita se coordina una vez que la obra los
+        complete.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Cancelación de dispositivos y excedentes</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Los dispositivos se compran contra pedido firme. Una vez emitida la
+        orden de compra no admiten cancelación ni devolución. Los excedentes de material quedan en
+        poder del cliente, ya que fueron facturados como parte del presupuesto.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Actualización, responsable de obra y certificación</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Vencida la validez, los valores se actualizan por variación del
+        Índice del Costo de la Construcción del INDEC y por la lista vigente de cada fabricante.
+        Nova Domus designa un responsable de obra único como interlocutor durante toda la
+        ejecución. Al finalizar se entrega la documentación: ubicación de cada equipo, listado de
+        controles por departamento, configuración de la central y de los lectores, y los accesos
+        de administración.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">Garantía y post-venta</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Doce meses de garantía desde la entrega documentada, cubriendo mano
+        de obra y programación. Los equipos mantienen además la garantía de su fabricante. Durante
+        ese período, cualquier falla de lo instalado la resuelve Nova Domus sin costo de mano de
+        obra.</p></div></article>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec" id="respaldo">
+  <p class="eyebrow">Respaldo</p>
+  <h2>Con qué trabajamos</h2>
+  <p class="lead">Cada marca está elegida por un motivo concreto, no por catálogo.</p>
+  <p class="hint">👆 Tocá la marca para ver por qué la elegimos</p>
+  <div class="pills">
+    <span class="pill fixed">NOVA DOMUS</span>
+    <span class="pill fixed">CEDIA MEMBER</span>
+    <button class="pill" onclick="marca(0,this)">HIKVISION</button>
+    <button class="pill" onclick="marca(1,this)">TP-LINK</button>
+  </div>
+  <div class="ficha" id="f0"><h3>Hikvision</h3><p>Hikvision Certified Partner desde 2025 — uno de los logros más grandes del año para Nova Domus. Trabajamos su línea AcuSense (detección inteligente) y AXPro/AXHome (alarma) por la relación estabilidad/precio y el soporte de repuestos en Argentina.</p>
+    <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/J3ermaYlDv4" loading="lazy" title="Hikvision" allowfullscreen></iframe></div></div>
+  <div class="ficha" id="f1"><h3>TP-Link</h3><p>Línea profesional Omada de TP-Link para redes gestionadas centralizadamente. La usamos como estándar de red porque permite segmentar el tráfico de domótica/seguridad del de invitados desde un solo controlador.</p>
+    <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/bj3jae3osRo" loading="lazy" title="TP-Link Omada" allowfullscreen></iframe></div></div>
+  <div class="vbox">
+    <h3>Sin abonos obligatorios</h3>
+    <p>La apertura del portón funciona en forma local, entre los controles, los lectores y el
+      motor, sin licencias ni abonos de Nova Domus y sin depender de internet.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="wrap">
+
+<section class="sec section-light" id="faq">
+  <p class="eyebrow">FAQ</p>
+  <h2>Antes de que preguntes</h2>
+  <p class="hint">👆 Tocá cada pregunta para ver la respuesta</p>
+  <div class="devs">
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si un residente pierde el control?</span>
+      <span class="tap-badge dark">Tocá para abrir</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Se da de baja ese control en la central y deja de abrir en el
+        momento. Los otros 40 siguen funcionando sin tocar nada. Como cada control está dado de
+        alta a nombre de su departamento, se sabe exactamente cuál dar de baja. La baja y el alta
+        del control de reemplazo las hace la administración desde la app; el control nuevo se
+        compra aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Se pueden sumar más controles?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. La central admite hasta 48 controles: con los 41 de esta
+        propuesta quedan 7 lugares libres, por ejemplo para un segundo control en los departamentos
+        que tengan dos autos. Cada control adicional se cotiza aparte.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Los lectores nuevos reconocen a los residentes que ya están cargados?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. Son del mismo modelo que los tres lectores del edificio y se
+        cargan con los rostros que ya están registrados: nadie se vuelve a registrar. Las altas y
+        bajas posteriores se hacen también en los dos lectores nuevos; en la entrega dejamos
+        documentado cómo.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Quién administra los controles y los rostros?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>La administración. Los rostros los carga y los da de baja como hoy.
+        Para los controles le damos un usuario administrador de la central: desde la app da de alta
+        el control de reemplazo y de baja el que se perdió, sin tocar ningún cable. Nova Domus se
+        queda con la cuenta de instalador para dar soporte. En la entrega dejamos el listado de
+        controles por departamento.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Quedo atado a Nova Domus?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Son equipos estándar de Hikvision y TP-Link, configurados con las
+        herramientas del fabricante. En la entrega dejamos documentada la configuración y los
+        accesos, para que cualquier técnico idóneo pueda trabajar sobre el sistema.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Qué pasa si un equipo se discontinúa?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Son líneas vigentes de fabricantes con representación y repuestos en
+        Argentina. Si dentro de unos años un control o un lector se discontinúa, se reemplaza por el
+        modelo vigente de la misma línea, sin cambiar el resto de lo instalado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Y si se corta internet?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>El portón se sigue abriendo igual. Los controles hablan por radio con
+        la central del edificio y los lectores reconocen el rostro en el propio equipo: nada de eso
+        pasa por internet. Lo que se pierde mientras dure el corte es el acceso remoto desde la
+        app.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Y si se corta la luz?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sin energía en el motor, el portón no abre por ningún medio, igual que
+        hoy. La central tiene batería propia y el switch queda sobre la UPS del rack, así que al
+        volver la luz todo sigue funcionando sin reprogramar nada.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Puedo contratar un solo bloque?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>Sí. Cada bloque tiene sus propios equipos y su propio contacto sobre
+        el motor, y no depende del otro. Si hoy se contrata uno y más adelante el otro, se suma sin
+        cambiar nada de lo instalado.</p></div></article>
+    <article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">
+      <span class="dev-title">¿Hay costos recurrentes?</span><span class="arr" aria-hidden="true">▾</span></button>
+      <div class="dev-body"><p>No. Nova Domus no cobra licencia ni abono, y el sistema no necesita
+        internet para abrir el portón.</p></div></article>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <p class="eyebrow">Próximo paso</p>
+  <h2 style="margin-bottom:14px">Avancemos con el portón</h2>
+  <p class="lead" style="margin:0 auto 8px">Con tu confirmación coordinamos la Visita Técnica y le
+    pasamos a la obra la lista de lo que tiene que dejar listo.</p>
+  <p class="cav-val" id="cta-sel" style="margin:14px 0 0"></p>
+  <div class="chk" style="max-width:520px;margin:22px auto;text-align:left">
+    <input type="checkbox" id="ok" onchange="conf()">
+    <label for="ok">Leí la propuesta y quiero avanzar con los bloques seleccionados.</label>
+  </div>
+  <a class="btn" id="go" href="#" aria-disabled="true" rel="noopener">Avanzar por WhatsApp</a>
+  <p style="margin-top:24px;color:var(--grey);font-size:13px">Queda funcionando y documentado.</p>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>PY-2026-060</b> · Panoramic I — Apertura del portón vehicular · Para Premus, administración del edificio<br>
+  Nova Domus — NDWD S.A.S. · Integración Tecnológica · Córdoba, Argentina<br>
+  Del cable a la app.
+</div></footer>
+
+<button id="badge" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+  <svg class="ring-svg" viewBox="0 0 56 56" aria-hidden="true">
+    <circle cx="28" cy="28" r="26" stroke="rgba(255,255,255,.12)"></circle>
+    <circle cx="28" cy="28" r="26" stroke="#C8A96E" id="ring" stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round"></circle>
+  </svg>
+  <span class="mark"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="500.000000pt" height="500.000000pt" viewBox="0 0 500.000000 500.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
+fill="#fdfbf0" stroke="none">
+<path d="M500 3789 l0 -515 174 -57 c96 -31 179 -57 185 -57 8 0 11 120 11
+388 l0 387 -185 185 -185 185 0 -516z M1190 3883 c0 -5 93 -102 208 -216 l207
+-207 238 0 c130 0 237 2 237 4 0 2 -40 98 -89 213 l-90 208 -355 3 c-196 1
+-356 -1 -356 -5z M2130 3876 c0 -8 35 -103 79 -213 l79 -198 275 -3 275 -2 47
+122 c26 68 63 161 81 207 19 47 34 89 34 93 0 4 -196 8 -435 8 -367 0 -435 -2
+-435 -14z M3211 3868 c-5 -13 -45 -108 -90 -213 l-80 -190 242 -3 242 -3 202
+208 c112 114 203 211 203 216 0 4 -160 7 -355 7 l-355 0 -9 -22z M3857 3522
+l-197 -197 0 -179 0 -178 28 7 c15 3 105 31 200 62 l172 55 0 314 c0 173 -1
+314 -3 314 -1 0 -91 -89 -200 -198z M1540 2876 l0 -215 78 -23 77 -24 3 160 3
+159 -73 76 c-40 42 -76 78 -80 79 -5 2 -8 -93 -8 -212z M500 2574 c0 -385 3
+-485 13 -482 6 3 90 31 185 62 l172 58 -2 370 -3 370 -170 54 c-93 30 -175 54
+-182 54 -10 0 -13 -102 -13 -486z M2076 2958 c69 -83 56 -78 182 -78 l114 0
+-6 25 c-3 13 -11 36 -16 50 l-10 25 -141 0 -142 0 19 -22z M2400 2976 c0 -2 9
+-25 20 -50 l19 -46 139 0 c153 0 153 0 170 63 l10 37 -179 0 c-98 0 -179 -2
+-179 -4z M2807 2945 c-30 -63 -28 -65 82 -65 55 0 106 3 115 6 8 3 31 26 51
+50 l36 44 -133 0 -134 0 -17 -35z M3087 2888 l-48 -43 3 -106 3 -106 48 14 47
+14 0 134 c0 74 -1 135 -3 135 -1 0 -24 -19 -50 -42z M3848 2817 l-188 -61 0
+-177 0 -177 28 -10 c53 -21 355 -122 363 -122 5 0 9 137 9 305 0 238 -3 305
+-12 304 -7 -1 -97 -29 -200 -62z M2090 2580 c0 -78 2 -91 19 -100 34 -18 39
+-12 46 61 7 68 6 72 -21 100 -15 16 -31 29 -36 29 -4 0 -8 -40 -8 -90z M2310
+2622 c0 -20 39 -42 73 -42 37 0 42 5 31 34 -4 12 -20 16 -55 16 -27 0 -49 -4
+-49 -8z M2440 2621 c0 -33 14 -41 71 -41 32 0 59 4 59 9 0 5 3 16 6 25 5 14
+-4 16 -65 16 -39 0 -71 -4 -71 -9z M2590 2611 c-15 -30 -14 -31 38 -31 38 1
+50 5 65 25 l18 25 -55 0 c-44 0 -57 -4 -66 -19z M2717 2582 c-11 -12 -17 -36
+-17 -64 0 -41 2 -46 20 -41 17 5 20 14 20 64 0 33 -2 59 -3 59 -2 0 -11 -8
+-20 -18z M3073 2588 l-33 -11 0 -102 0 -103 31 -11 c69 -24 69 -25 69 114 0
+138 2 135 -67 113z M1540 2360 c0 -229 -8 -214 95 -177 l60 22 0 159 0 160
+-60 18 c-103 31 -95 46 -95 -182z M2713 2453 c-19 -7 -17 -89 2 -97 12 -4 15
+5 15 49 0 30 -1 55 -2 54 -2 0 -9 -3 -15 -6z M2090 2360 c0 -72 2 -80 19 -80
+45 0 51 9 51 76 0 52 -3 65 -19 74 -45 24 -51 15 -51 -70z M2690 2290 c0 -27
+7 -51 21 -68 l20 -26 -3 64 c-2 52 -6 65 -20 68 -15 3 -18 -4 -18 -38z M3040
+2211 l0 -107 50 -49 50 -49 0 140 0 140 -50 16 -50 16 0 -107z M2113 2238
+c-21 -10 -23 -18 -23 -100 0 -48 4 -88 9 -88 5 0 20 15 35 34 22 29 26 45 26
+100 0 70 -4 75 -47 54z M3670 2102 c0 -49 -2 -129 -5 -178 l-6 -89 200 -205
+200 -205 1 321 0 321 -182 61 c-101 34 -189 62 -195 62 -10 0 -13 -24 -13 -88z
+M1613 2093 l-73 -25 0 -219 c0 -120 3 -219 8 -219 4 0 40 33 80 73 l72 72 0
+173 c0 94 -3 172 -7 171 -5 0 -41 -12 -80 -26z M2151 2048 c-17 -18 -31 -35
+-31 -38 0 -3 38 -4 86 -2 80 3 86 5 95 28 15 41 12 44 -55 44 -60 0 -67 -2
+-95 -32z M2340 2050 c-7 -17 -10 -33 -8 -36 3 -2 55 -3 115 -2 l109 3 -8 33
+-9 32 -93 0 -94 0 -12 -30z M2575 2063 c4 -10 9 -26 12 -35 4 -14 21 -17 94
+-20 49 -2 89 1 89 5 0 5 -13 22 -29 38 -27 27 -35 29 -101 29 -65 0 -71 -2
+-65 -17z M681 1942 l-174 -57 2 -488 c1 -269 5 -495 8 -504 4 -11 55 34 179
+158 l174 174 0 387 c0 214 -3 388 -7 387 -5 0 -86 -26 -182 -57z M1673 1654
+c-40 -42 -73 -80 -73 -85 0 -5 95 -9 215 -9 l216 0 34 76 c19 42 35 80 35 85
+0 5 -80 9 -177 9 l-178 0 -72 -76z M2186 1722 c-15 -25 -55 -146 -50 -153 8
+-13 574 -12 574 1 0 6 -14 44 -31 85 l-32 75 -228 0 c-125 0 -230 -4 -233 -8z
+M2736 1708 c3 -13 19 -51 35 -85 l28 -63 215 0 c128 0 216 4 216 9 0 6 -30 44
+-67 85 l-66 76 -184 0 -184 0 7 -22z M804 898 l-179 -183 519 -3 c286 -1 523
+1 526 5 8 10 150 346 150 356 0 4 -188 7 -418 7 l-419 0 -179 -182z M2021
+1058 c-5 -13 -41 -95 -80 -182 -39 -88 -69 -161 -68 -162 1 -2 313 -6 691 -10
+676 -7 689 -7 682 12 -40 108 -143 342 -155 352 -11 9 -134 12 -538 12 l-523
+0 -9 -22z M3300 1071 c0 -5 36 -89 79 -187 l80 -179 233 -2 c128 -2 360 1 516
+5 l282 7 -177 183 -178 182 -417 0 c-234 0 -418 -4 -418 -9z"/>
+</g>
+</svg></span>
+</button>
+
+<script>
+var PY='PY-2026-060', TC=1580, DEPTOS=41, WA='5493516747513';
+var S={"A":{"name":"Control remoto","desc":"Un control por departamento: central AX PRO junto al rack, dos repetidores y un relé junto al motor.","eq":243089,"iva":42189,"neto":200900,"mo":16800,"prog":26000,"p60":15600,"p40":10400,"tot":285889,"items":[{"n":"Kit Hikvision AX PRO: central inalámbrica + 1 control remoto (DS-PWA96-Kit-WB)","q":1,"u":46700,"iv":"21%","t":46700},{"n":"Control remoto Hikvision AX PRO (DS-PKF1-WB)","q":40,"u":3200,"iv":"21%","t":128000},{"n":"Repetidor inalámbrico Hikvision AX PRO (DS-PR1-WB)","q":2,"u":10000,"iv":"21%","t":20000},{"n":"Relé inalámbrico Hikvision AX PRO, contacto seco (DS-PM1-O1L-WB)","q":1,"u":3900,"iv":"21%","t":3900},{"n":"Fuente switching 12 V 1 A (Starligh F121000S)","q":1,"u":800,"iv":"21%","t":800},{"n":"Caja estanca IP65 para 4 módulos DIN, de aplicar (Genrod), para el relé y la fuente","q":1,"u":1500,"iv":"21%","t":1500}],"cards":[{"n":"Central inalámbrica Hikvision AX PRO","q":1,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pwa96-kit-wb.jpg","desc":"Va junto al rack del subsuelo, afuera del gabinete metálico para que no le tape la señal de radio, y conectada a la red. Recibe la señal de los controles y, cuando un control dado de alta pide abrir, le ordena al relé del motor que abra el portón. Tiene batería propia: un corte de luz no le borra nada."},{"n":"Control remoto Hikvision","q":41,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/hikvision/DS-PKF1-WB(B).png","desc":"Uno por departamento (40 más el que trae el kit). Cada control queda dado de alta a nombre de su departamento: si se pierde uno, se da de baja ese solo y los demás siguen funcionando."},{"n":"Repetidor inalámbrico","q":2,"foto":"https://raw.githubusercontent.com/Novadomus-cba/portal-nova-domus/main/assets/inventario/ds-pr1-wb-b.jpg","desc":"Uno en planta baja y otro en el subsuelo. Llevan la señal entre la central, los controles y el relé hasta las dos puntas de la rampa, para que el control responda desde el auto."},{"n":"Relé inalámbrico","q":1,"foto":null,"desc":"Va junto al motor del portón. Recibe la orden de la central por radio y cierra un contacto sobre la entrada de apertura de la placa del motor, en paralelo con la cámara de patentes que ya abre el portón."},{"n":"Fuente de 12 V","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/starligh/F121000S.webp","desc":"Alimenta el relé. Está incluida por si la placa del motor no entrega 12 V continuos; si los entrega, la fuente no hace falta y se descuenta."},{"n":"Caja estanca IP65","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/genrod/caja-ip65-din-4.jpg","desc":"Aloja el relé y la fuente junto al motor, protegidos del polvo y el agua."}]},"B":{"name":"Reconocimiento facial","desc":"Dos lectores faciales en tótem, en subsuelo y planta baja, y un switch PoE propio en el rack.","eq":72709,"iva":6909,"neto":65800,"mo":21000,"prog":9400,"p60":5640,"p40":3760,"tot":103109,"items":[{"n":"Terminal de reconocimiento facial Hikvision MinMoe, mismo modelo que los lectores instalados (DS-K1T323MBFWX-E1)","q":2,"u":27500,"iv":"10,5%","t":55000},{"n":"Switch TP-Link Omada 8 puertos PoE+, gestionable (TL-SG2210P)","q":1,"u":10800,"iv":"10,5%","t":10800}],"cards":[{"n":"Lector facial Hikvision MinMoe","q":2,"foto":null,"desc":"Uno en un tótem del subsuelo y otro en planta baja, junto a cada lado del portón. Es el mismo modelo que los tres lectores del edificio. El conductor se detiene junto al tótem con la ventanilla baja: el lector reconoce el rostro a menos de un metro y medio y abre. Se carga con los rostros ya registrados en los lectores existentes, así que nadie se vuelve a registrar."},{"n":"Switch TP-Link Omada PoE+","q":1,"foto":"https://vvwnyszcfindtuvojqgs.supabase.co/storage/v1/object/public/productos/tp-link/TL-SG2210P.jpg","desc":"Va en el rack del subsuelo, sobre la UPS existente y en la red de seguridad, separada del resto. Conecta los dos lectores a la red y los alimenta por el mismo cable de red que llega a cada tótem."}]}};
+//CALC-START
+// Pure: sums the already-resolved block values (integer cents) of the selected blocks. No pricing logic here.
+function calc(sel,fa){
+  var r={eq:0,iva:0,neto:0,mo:0,prog:0,tot:0,lines:[]};
+  sel.forEach(function(k){
+    var s=S[k];
+    r.eq+=s.eq; r.iva+=s.iva; r.neto+=s.neto; r.mo+=s.mo; r.prog+=s.prog; r.tot+=s.tot;
+    r.lines.push({k:k,rows:[
+      ['Equipos — 100%','Por anticipado. Asegura el precio y la disponibilidad de los equipos.',s.eq,''],
+      ['Programación — 60% al inicio','Al arrancar la programación del bloque.',s.p60,''],
+      ['Programación — 40% a la entrega','Comisionado: contra la prueba con autos reales y la entrega documentada.',s.p40,''],
+      ['Instalación por punto','Se certifica por avance real del trabajo, con certificación semanal.',s.mo,'Monto de referencia — se certifica por avance']
+    ]});
+  });
+  r.faIva=fa?Math.round((r.prog+r.mo)*21/100):0;
+  r.grand=r.tot+r.faIva;
+  return r;
+}
+//CALC-END
+function grp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function fmt(c){c=Math.round(c); var e=Math.floor(c/100), d=c%100; return 'U$D '+grp(e)+','+(d<10?'0':'')+d;}
+function fmtU(c){return fmt(c);}
+function ars(c){return '$ '+grp(Math.round(c*TC/100));}
+function T(id,t){var e=document.getElementById(id); if(e) e.textContent=t;}
+var KEYS=['A','B'];
+function sel(){
+  return [].slice.call(document.querySelectorAll('.stg-card[data-s]')).filter(function(c){
+    return c.querySelector('input').checked;}).map(function(c){return c.dataset.s;});
+}
+function tog(b){
+  var a=b.parentElement, p=b.nextElementSibling, open=a.classList.toggle('open');
+  p.style.maxHeight = open ? p.scrollHeight+'px' : '0px';
+  b.setAttribute('aria-expanded', open?'true':'false');
+  var t=b.querySelector('.tap-badge'); if(t) t.classList.add('gone');
+}
+function refit(){
+  document.querySelectorAll('.open').forEach(function(a){
+    var p=a.querySelector('.dev-body,.rub-body'); if(p) p.style.maxHeight=p.scrollHeight+'px';
+  });
+}
+window.addEventListener('resize',refit);
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+function pick(){
+  document.querySelectorAll('.stg-card[data-s]').forEach(function(c){
+    c.classList.toggle('on',c.querySelector('input').checked);
+    c.classList.remove('glow');
+  });
+  render();
+}
+function renderDeviceGrid(k){
+  var el=document.getElementById('grid-'+k); if(!el) return;
+  el.innerHTML=S[k].cards.map(function(d,i){
+    var foto=d.foto?'<img class="dc-photo" src="'+esc(d.foto)+'" alt="'+esc(d.n)+'" loading="lazy" onload="refit()" onerror="imgErr(this)">'
+                   :'<div class="dc-photo-pend">Foto<br>pendiente</div>';
+    return '<article class="dev"><button class="dev-head" onclick="tog(this)" aria-expanded="false">'
+      +'<span class="dev-title">'+esc(d.n)+'<span class="dc-qty">'+d.q+(d.q===1?' unidad':' unidades')+'</span></span>'
+      +(i===0?'<span class="tap-badge">Tocá para abrir</span>':'')
+      +'<span class="arr" aria-hidden="true">▾</span></button>'
+      +'<div class="dev-body"><div class="dev-body-flex">'+foto+'<p class="dc-desc">'+esc(d.desc)+'</p></div></div></article>';
+  }).join('');
+}
+function renderRubs(){
+  // built once; blocks not selected are dimmed, not removed, so the client keeps seeing what each costs
+  document.getElementById('rubs').innerHTML=KEYS.map(function(k,i){
+    var s=S[k];
+    var rows=s.items.map(function(it){
+      return '<tr><td>'+esc(it.n)+'</td><td class="num">'+it.q+'</td><td class="num">'+fmtU(it.u)
+        +'<span class="iva"> + IVA '+it.iv+'</span></td><td class="num">'+fmt(it.t)+'</td></tr>';
+    }).join('');
+    return '<article class="rub" id="rub-'+k+'">'
+      +'<button class="rub-head" onclick="tog(this)" aria-expanded="false">'
+      +'<span class="rub-name"><span class="rub-tag">Bloque '+k+'</span>'+esc(s.name)+'</span>'
+      +(i===0?'<span class="tap-badge dark">Tocá para abrir</span>':'')
+      +'<span class="rub-val">'+fmt(s.tot)+'</span><span class="arr" aria-hidden="true">▾</span></button>'
+      +'<div class="rub-body"><div class="tw"><table><thead><tr><th>Ítem</th><th class="num">Cant.</th>'
+      +'<th class="num">Precio unitario</th><th class="num">Subtotal</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+      +'<div class="stg-sub"><span>Equipos (neto) <b>'+fmt(s.neto)+'</b></span><span>IVA equipos <b>'+fmt(s.iva)+'</b></span>'
+      +'<span>Equipos (con IVA) <b>'+fmt(s.eq)+'</b></span><span>Mano de obra <b>'+fmt(s.mo)+'</b></span>'
+      +'<span>Programación <b>'+fmt(s.prog)+'</b></span><span>Total bloque <b>'+fmt(s.tot)+'</b></span></div>'
+      +'</div></article>';
+  }).join('');
+  KEYS.forEach(function(k){T('d-'+k,S[k].desc); T('v-'+k,fmt(S[k].tot));});
+}
+function render(){
+  var ks=sel(), fa=document.getElementById('fa').checked, r=calc(ks,fa);
+  var has=function(k){return ks.indexOf(k)>=0;};
+  KEYS.forEach(function(k){document.getElementById('rub-'+k).classList.toggle('off',!has(k));});
+  document.getElementById('bar').innerHTML=ks.map(function(k){
+    return '<span class="seg s'+k+'" style="flex:'+S[k].tot+'" title="Bloque '+k+': '+fmt(S[k].tot)+'"></span>';}).join('');
+  document.getElementById('legend').innerHTML=ks.map(function(k){
+    return '<li><i class="d'+k+'"></i>Bloque '+k+' — '+esc(S[k].name)+' <b>'+fmt(S[k].tot)+'</b></li>';}).join('');
+  document.getElementById('tot').innerHTML=ks.length?(
+     '<div class="trow"><span>Subtotal equipos (neto)</span><b>'+fmt(r.neto)+'</b></div>'
+    +'<div class="trow sub"><span>IVA equipos (discriminado por ítem)</span><span>'+fmt(r.iva)+'</span></div>'
+    +'<div class="trow"><span>Subtotal equipos (con IVA)</span><b>'+fmt(r.eq)+'</b></div>'
+    +'<div class="trow"><span>Mano de obra especializada por punto</span><b>'+fmt(r.mo)+'</b></div>'
+    +'<div class="trow"><span>Programación y comisionado</span><b>'+fmt(r.prog)+'</b></div>'
+    +'<div class="trow big"><span>Total bloques seleccionados</span><span>'+fmt(r.tot)+'</span></div>'
+    +'<div class="trow sub"><span>Referencia por departamento (total ÷ '+DEPTOS+')</span><span>'+fmt(r.tot/DEPTOS)+'</span></div>'
+    +'<div class="trow sub"><span>Referencia en pesos (TC BNA oficial 1.580, 18/11/2026)</span><span>'+ars(r.tot)+'</span></div>')
+    :'<p class="note">No hay bloques seleccionados. Tildá al menos uno para ver el total.</p>';
+  document.getElementById('pay').innerHTML=r.lines.length?r.lines.map(function(g){
+    return '<div class="pay-group"><h3>Bloque '+g.k+' — '+esc(S[g.k].name)+'</h3><div class="pay">'
+      +g.rows.map(function(s){
+        return '<div class="stage"><span><b style="display:block">'+s[0]+'</b>'+s[1]
+          +(s[3]?'<em class="ref">'+s[3]+'</em>':'')+'</span><b>'+fmt(s[2])+'</b></div>';
+      }).join('')+'</div></div>';
+  }).join(''):'<div class="pay-empty">Elegí al menos un bloque en la sección de Inversión.</div>';
+  document.getElementById('pay-iva-row').style.display=fa&&ks.length?'flex':'none';
+  T('fa-val',fmt(r.faIva));
+  T('gt',fmt(r.grand));
+  var names={A:'Bloque A (control remoto)',B:'Bloque B (reconocimiento facial)'};
+  var txt=ks.length?(ks.map(function(k){return names[k];}).join(' y ')+' · '+fmt(r.grand)+(fa?' con Factura A':'')):'';
+  T('cta-sel',txt);
+  var go=document.getElementById('go');
+  var msg='Hola Nova Domus, revisé la propuesta '+PY+' de Panoramic I (apertura del portón) y quiero avanzar con '
+    +txt.replace(/ /g,' ')+'.';
+  go.setAttribute('href','https://wa.me/'+WA+'?text='+encodeURIComponent(msg));
+  go.setAttribute('aria-disabled',(document.getElementById('ok').checked&&ks.length)?'false':'true');
+}
+function conf(){ render(); }
+function marca(i,btn){
+  var f=document.getElementById('f'+i), on=f.classList.contains('on');
+  document.querySelectorAll('.ficha').forEach(function(x){x.classList.remove('on');});
+  btn.parentElement.querySelectorAll('.pill:not(.fixed)').forEach(function(x){x.classList.remove('on');});
+  if(!on){f.classList.add('on'); btn.classList.add('on');}
+}
+function cmp(i,btn){
+  btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('cmp0').style.display=i?'none':'block';
+  document.getElementById('cmp1').style.display=i?'block':'none';
+}
+
+/* ===== portón demo: four parallel contacts on the opening input ===== */
+var RED=matchMedia('(prefers-reduced-motion:reduce)').matches, OPEN_MS=5000, gT=null, cdT=null;
+var PLATES=['AE 482 KT','AF 091 RZ','AD 733 LM','AG 215 PB','AC 960 SN'];
+var DEPTS=['1A','2B','3C','4A','5D','6B','7C','8A'];
+var SRC={
+  p:{n:'Cámara de patentes', ev:function(){return 'patente <span class="plate">'+PLATES[Math.floor(Math.random()*PLATES.length)]+'</span> registrada';}},
+  c:{n:'Control remoto', ev:function(){return 'control del depto '+DEPTS[Math.floor(Math.random()*DEPTS.length)]+' · central → relé';}},
+  s:{n:'Facial subsuelo', ev:function(){return 'residente reconocido al salir';}},
+  b:{n:'Facial planta baja', ev:function(){return 'residente reconocido al entrar';}}
+};
+function stamp(){var h=new Date(); return ('0'+h.getHours()).slice(-2)+':'+('0'+h.getMinutes()).slice(-2)+':'+('0'+h.getSeconds()).slice(-2);}
+function logEv(html){
+  var li=document.createElement('li'); li.innerHTML=html;
+  var ul=document.getElementById('log'); ul.insertBefore(li,ul.firstChild);
+  while(ul.children.length>6) ul.removeChild(ul.lastChild);
+}
+function clearLit(){
+  document.querySelectorAll('.src.on').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.term.on').forEach(function(x){x.classList.remove('on');});
+}
+function closeGate(){
+  clearInterval(cdT); clearLit();
+  document.getElementById('gatesvg').classList.remove('open');
+  document.getElementById('state').classList.remove('busy');
+  T('stTxt','Portón cerrado'); T('stSub','Esperando una orden de apertura.');
+}
+function openBy(k,btn){
+  document.getElementById('srcs').classList.add('used');
+  var down=document.getElementById('down').checked;
+  if(k==='p'&&down){
+    logEv('<b>'+stamp()+'</b> · Cámara de patentes · fuera de servicio, no abre. Los otros tres siguen funcionando.');
+    if(!document.getElementById('state').classList.contains('busy')){
+      T('stTxt','Portón cerrado'); T('stSub','La cámara de patentes no responde. Probá con otro: control o rostro.');}
+    return;
+  }
+  clearTimeout(gT); clearInterval(cdT); clearLit();
+  btn.classList.add('on'); document.getElementById('tm-'+k).classList.add('on');
+  document.getElementById('gatesvg').classList.add('open');
+  document.getElementById('state').classList.add('busy');
+  var left=OPEN_MS/1000;
+  T('stTxt','Abriendo · '+SRC[k].n); T('stSub','Contacto cerrado sobre la entrada de apertura. El portón cierra solo con su temporizador.');
+  logEv('<b>'+stamp()+'</b> · '+SRC[k].n+' · '+SRC[k].ev()+' · abre');
+  cdT=setInterval(function(){left--; if(left>0) T('stTxt','Abierto · cierra en '+left+' s');},1000);
+  gT=setTimeout(closeGate,OPEN_MS);
+}
+function downTgl(){
+  var d=document.getElementById('down').checked;
+  document.querySelector('.src[data-k="p"]').classList.toggle('down',d);
+  document.querySelector('.src[data-k="p"] .s').textContent=d?'Fuera de servicio (simulado).':'Lee la patente en el ingreso y abre si está registrada.';
+}
+
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting||e.target.dataset.done) return;
+    e.target.dataset.done=1;
+    var n=+e.target.dataset.n;
+    if(RED||n===0){e.target.textContent=n; return;}
+    var c=0, st=Math.max(1,Math.round(n/28));
+    var t=setInterval(function(){c+=st; if(c>=n){c=n; clearInterval(t);} e.target.textContent=c;},60);
+  });
+},{threshold:.5});
+document.querySelectorAll('.figure[data-n]').forEach(function(x){io.observe(x);});
+var ring=document.getElementById('ring'), L=163.4;
+var links=[].slice.call(document.querySelectorAll('nav a'));
+function onScroll(){
+  var h=document.documentElement, p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  ring.setAttribute('stroke-dashoffset',(L*(1-Math.min(1,Math.max(0,p)))).toFixed(1));
+  var cur=null;
+  links.forEach(function(a){var s=document.querySelector(a.getAttribute('href')); if(s&&s.getBoundingClientRect().top<=120) cur=a;});
+  links.forEach(function(a){a.classList.toggle('on',a===cur);});
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+renderDeviceGrid('A'); renderDeviceGrid('B'); renderRubs(); render();
+</script>
+<script>
+(function(){
+  try{
+    var codigo = document.querySelector('meta[name="py-codigo"]')?.content || 'SIN-CODIGO';
+    var payload = JSON.stringify({
+      propuesta_codigo: codigo,
+      url_path: location.pathname,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+    fetch('https://vvwnyszcfindtuvojqgs.supabase.co/rest/v1/propuesta_vistas', {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP',
+        'Authorization': 'Bearer sb_publishable_zLCL1igTj-30B0THXMQqvQ_qXwgJBEP'
+      },
+      body: payload
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body></html>
