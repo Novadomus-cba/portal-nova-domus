@@ -353,7 +353,11 @@ const AUTH_URL      = 'https://vvwnyszcfindtuvojqgs.supabase.co';
 const AUTH_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2d255c3pjZmluZHR1dm9qcWdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ0OTYsImV4cCI6MjA5NzA1MDQ5Nn0.m88xRQjifgPayIBY8Y98fP4jQ1AzyrBJidZDyTamWxE';
 const ALLOWED_ROLES = ['admin', 'supervisor', 'programacion', 'tecnico'];
 const RELEVANT_ESTADOS = ['ACEPTADO', 'EN_OBRA'];
+// Presupuestos/licitaciones (ENTREGADO) solo aparecen si ya tienen un plano cargado
+// (ej. plano de referencia + relevamiento previo a cotizar, PY-2026-061).
+const PRESALE_ESTADOS = ['ENTREGADO'];
 const ESTADO_PILL = {
+  ENTREGADO:       'pill-gray',
   ACEPTADO:        'pill-info',
   EN_OBRA:         'pill-warn',
   OBRA_ENTREGADA:  'pill-ok',
@@ -447,7 +451,7 @@ async function cargarTodo() {
     const [{ data: proys, error: errP }, { data: planos, error: errM }, { data: revObras }] = await Promise.all([
       authClient.from('proyectos')
         .select('id,numero,nombre,cliente,estado,fecha_aceptacion,obra_codigo_vinculado')
-        .in('estado', RELEVANT_ESTADOS)
+        .in('estado', [...RELEVANT_ESTADOS, ...PRESALE_ESTADOS])
         .order('fecha_aceptacion', { ascending: false }),
       authClient.from('v_planos_instalacion_listado')
         .select('id,proyecto_id,codigo,titulo,version,vigente,obsoleto_motivo,generado_en,notas,tiene_html,tiene_storage')
@@ -462,12 +466,13 @@ async function cargarTodo() {
     revisionesPorObra = {};
     (revObras || []).forEach(o => { if (o.codigo_obra && o.abiertas > 0) revisionesPorObra[o.codigo_obra] = o.abiertas; });
 
-    proyectos = proys || [];
     planosPorProyecto = {};
     (planos || []).forEach(m => {
       if (!planosPorProyecto[m.proyecto_id]) planosPorProyecto[m.proyecto_id] = [];
       planosPorProyecto[m.proyecto_id].push(m);
     });
+    proyectos = (proys || []).filter(p =>
+      RELEVANT_ESTADOS.includes(p.estado) || (planosPorProyecto[p.id] || []).length > 0);
 
     render();
   } catch (e) {
